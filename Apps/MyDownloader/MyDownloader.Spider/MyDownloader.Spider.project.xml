@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<AssemblyProject>
+	<Target                                    value = "library" /> <!-- exe (exe console default), library (dll), module (.netmodule), winexe (exe windows) -->
+	<Output                                    value = "bin32\MyDownloader.Spider.dll" />
+	<NameSpace                                 value = "MyDownloader.Spider" />
+	<CompilerOptions                           value = "/platform:anycpu" />  <!-- x86, Itanium, x64, or anycpu (default). -->
+<!--<GenerateExecutable                        value = "true" />-->
+  <Source                                    value = "Properties\AssemblyInfo.cs" />
+  <Source                                    value = "Parsers\Html\HtmlParser.cs" />
+  <Source                                    value = "Parsers\Html\UrlType.cs" />
+  <Source                                    value = "Spider\IAsyncRetriver.cs" />
+  <Source                                    value = "Spider\INamingRule.cs" />
+  <Source                                    value = "Spider\ISpiderResource.cs" />
+  <Source                                    value = "Spider\ISpiderResourceFactory.cs" />
+  <Source                                    value = "Spider\Spider.cs" />
+  <Source                                    value = "Spider\SpiderContext.cs" />
+  <Source                                    value = "UI\StartAutoDownloadsForm.cs" />
+  <Source                                    value = "UI\StartAutoDownloadsForm.Designer.cs" />
+  <Source                                    value = "UI\StartAutoDownloadsForm.resx" namespace = "MyDownloader.Spider.UI" />
+  <Source                                    value = "UI\WebSpider.cs" />
+  <Source                                    value = "UI\WebSpider.Designer.cs" />
+  <Source                                    value = "UI\WebSpider.resx" namespace = "MyDownloader.Spider.UI" />
+  <Source                                    value = "Web\DownloaderAsyncRetrive.cs" />
+  <Source                                    value = "Web\WebSpiderResource.cs" />
+  <Source                                    value = "Web\WebSpiderResourceFactory.cs" />
+  <Source                                    value = "Web\Rules\BaseLocationNamingRule.cs" />
+  <Source                                    value = "Web\Rules\ExcludeExtensionNamingRule.cs" />
+  <Source                                    value = "Web\Rules\ExcludeNameNamingRule.cs" />
+  <Source                                    value = "Web\Rules\MaxDepthNamingRule.cs" />
+  <Assembly                                  value = "System.dll" />
+	<Assembly                                  value = "System.Data.dll" />
+	<Assembly                                  value = "System.Drawing.dll" />
+  <Assembly                                  value = "System.Web.dll" />
+	<Assembly                                  value = "System.Windows.Forms.dll" />
+	<Assembly                                  value = "System.Xml.dll" />
+  <!--<Assembly                                  value = "..\bin\bin32\MyDownloader.Service.dll" />-->
+  <!--<Assembly                                  value = "..\bin\bin32\MyDownloader.Core.dll" />-->
+  <Assembly                                  value = "..\MyDownloader.Core\bin32\MyDownloader.Core.dll" />
+  <!--<Assembly                                  value = "..\bin\bin32\MyDownloader.Extension.dll" />-->
+  <Assembly                                  value = "..\MyDownloader.Extension\bin32\MyDownloader.Extension.dll" />
+  <Assembly                                  value = "..\..\..\RuntimeLibrary\TabStrip\TabStrip.dll" />
+	<DebugInformation                          value = "true" />
+	<!--<CopyOutput                                value = "..\bin\bin32" />-->
+</AssemblyProject>

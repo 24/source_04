@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<AssemblyProject>
+	<Target                                    value = "library" /> <!-- exe (exe console default), library (dll), module (.netmodule), winexe (exe windows) -->
+	<Output                                    value = "bin32\MyDownloader.Extension.dll" />
+	<NameSpace                                 value = "MyDownloader.Extension" />
+	<CompilerOptions                           value = "/platform:anycpu" />  <!-- x86, Itanium, x64, or anycpu (default). -->
+<!--<GenerateExecutable                        value = "true" />-->
+  <Source                                    value = "app.config" />
+	<Source                                    value = "AntiVirus\AntiVirusExtension.cs" />
+	<Source                                    value = "AntiVirus\AntiVirusParametersSettingsProxy.cs" />
+	<Source                                    value = "AntiVirus\AntiVirusUIExtension.cs" />
+	<Source                                    value = "AntiVirus\IAntiVirusParameters.cs" />
+	<Source                                    value = "AntiVirus\Settings.Designer.cs" />
+	<Source                                    value = "AntiVirus\UI\AVOptions.cs" />
+	<Source                                    value = "AntiVirus\UI\AVOptions.Designer.cs" />
+	<Source                                    value = "AntiVirus\UI\AVOptions.resx" namespace = "MyDownloader.Extension.AntiVirus.UI" />
+	<Source                                    value = "AutoDownloads\AutoDownloadsExtension.cs" />
+	<Source                                    value = "AutoDownloads\AutoDownloadsParametersSettingsProxy.cs" />
+	<Source                                    value = "AutoDownloads\AutoDownloadsUIExtension.cs" />
+	<Source                                    value = "AutoDownloads\DayHourMatrix.cs" />
+	<Source                                    value = "AutoDownloads\IAutoDownloadsParameters.cs" />
+	<Source                                    value = "AutoDownloads\Settings.Designer.cs" />
+	<Source                                    value = "AutoDownloads\UI\Jobs.cs" />
+	<Source                                    value = "AutoDownloads\UI\Jobs.Designer.cs" />
+	<Source                                    value = "AutoDownloads\UI\Jobs.resx" namespace = "MyDownloader.Extension.AutoDownloads.UI" />
+	<Source                                    value = "AutoDownloads\UI\ScheduledDownloadEnabler.cs" />
+	<Source                                    value = "AutoDownloads\UI\ScheduledDownloadEnabler.Designer.cs" />
+	<Source                                    value = "AutoDownloads\UI\ScheduledDownloadEnabler.resx" namespace = "MyDownloader.Extension.AutoDownloads.UI" />
+	<Source                                    value = "AutoDownloads\UI\TimeGrid.cs" />
+	<Source                                    value = "AutoDownloads\UI\TimeGrid.Designer.cs" />
+	<Source                                    value = "AutoDownloads\UI\TimeGrid.resx" namespace = "MyDownloader.Extension.AutoDownloads.UI" />
+	<Source                                    value = "Notifications\INotificationsExtensionParameters.cs" />
+	<Source                                    value = "Notifications\NotificationsExtension.cs" />
+	<Source                                    value = "Notifications\NotificationsExtensionParametersSettingsProxy.cs" />
+	<Source                                    value = "Notifications\NotificationsUIExtension.cs" />
+	<Source                                    value = "Notifications\Settings.Designer.cs" />
+	<Source                                    value = "Notifications\Helpers\BalloonHelper.cs" />
+	<Source                                    value = "Notifications\Helpers\SoundHelper.cs" />
+	<Source                                    value = "Notifications\UI\SoundChooser.cs" />
+	<Source                                    value = "Notifications\UI\SoundChooser.Designer.cs" />
+	<Source                                    value = "Notifications\UI\SoundChooser.resx" namespace = "MyDownloader.Extension.Notifications.UI" />
+	<Source                                    value = "Notifications\UI\SoundsOptions.cs" />
+	<Source                                    value = "Notifications\UI\SoundsOptions.Designer.cs" />
+	<Source                                    value = "Notifications\UI\SoundsOptions.resx" namespace = "MyDownloader.Extension.Notifications.UI" />
+	<Source                                    value = "Notifications\UI\XPBalloonOptions.cs" />
+	<Source                                    value = "Notifications\UI\XPBalloonOptions.Designer.cs" />
+	<Source                                    value = "Notifications\UI\XPBalloonOptions.resx" namespace = "MyDownloader.Extension.Notifications.UI" />
+	<Source                                    value = "PersistedList\PersistedListExtension.cs" />
+	<Source                                    value = "PersistedList\SerializableDictionary.cs" />
+	<Source                                    value = "Properties\AssemblyInfo.cs" />
+	<Source                                    value = "Protocols\BaseProtocolProvider.cs" />
+	<Source                                    value = "Protocols\FtpProtocolProvider.cs" />
+	<Source                                    value = "Protocols\HttpFtpProtocolExtension.cs" />
+	<Source                                    value = "Protocols\HttpFtpProtocolParametersSettingsProxy.cs" />
+	<Source                                    value = "Protocols\HttpFtpProtocolUIExtension.cs" />
+	<Source                                    value = "Protocols\HttpProtocolProvider.cs" />
+	<Source                                    value = "Protocols\IHttpFtpProtocolParameters.cs" />
+	<Source                                    value = "Protocols\Settings.Designer.cs" />
+	<Source                                    value = "Protocols\UI\Proxy.cs" />
+	<Source                                    value = "Protocols\UI\Proxy.Designer.cs" />
+	<Source                                    value = "Protocols\UI\Proxy.resx" namespace = "MyDownloader.Extension.Protocols.UI" />
+	<Source                                    value = "SpeedLimit\ISpeedLimitParameters.cs" />
+	<Source                                    value = "SpeedLimit\LimitedRateStreamProxy.cs" />
+	<Source                                    value = "SpeedLimit\ProtocolProviderProxy.cs" />
+	<Source                                    value = "SpeedLimit\Settings.Designer.cs" />
+	<Source                                    value = "SpeedLimit\SpeedLimitExtension.cs" />
+	<Source                                    value = "SpeedLimit\SpeedLimitParametersSettingProxy.cs" />
+	<Source                                    value = "SpeedLimit\SpeedLimitUIExtension.cs" />
+	<Source                                    value = "SpeedLimit\UI\LimitCfg.cs" />
+	<Source                                    value = "SpeedLimit\UI\LimitCfg.Designer.cs" />
+	<Source                                    value = "SpeedLimit\UI\LimitCfg.resx" namespace = "MyDownloader.Extension.SpeedLimit.UI" />
+	<Source                                    value = "SpeedLimit\UI\SetSpeedLimitDialog.cs" />
+	<Source                                    value = "SpeedLimit\UI\SetSpeedLimitDialog.Designer.cs" />
+	<Source                                    value = "SpeedLimit\UI\SetSpeedLimitDialog.resx" namespace = "MyDownloader.Extension.SpeedLimit.UI" />
+	<Source                                    value = "Video\TextUtil.cs" />
+	<Source                                    value = "Video\VideoConverter.cs" />
+	<Source                                    value = "Video\VideoDownloadExtension.cs" />
+	<Source                                    value = "Video\VideoDownloadHandler.cs" />
+	<Source                                    value = "Video\VideoDownloadUIExtension.cs" />
+	<Source                                    value = "Video\Impl\BaseVideoDownloader.cs" />
+	<Source                                    value = "Video\Impl\BreakVideoDownloader.cs" />
+	<Source                                    value = "Video\Impl\GoogleVideoDownloader.cs" />
+	<Source                                    value = "Video\Impl\MetaCafeVideoDownloader.cs" />
+	<Source                                    value = "Video\Impl\PutfileVideoDownloader.cs" />
+	<Source                                    value = "Video\Impl\YouTubeDownloader.cs" />
+	<Source                                    value = "Video\UI\NewVideoDownload.cs" />
+	<Source                                    value = "Video\UI\NewVideoDownload.Designer.cs" />
+	<Source                                    value = "Video\UI\NewVideoDownload.resx" namespace = "MyDownloader.Extension.Video.UI" />
+	<Source                                    value = "Video\UI\SupportedVideoSitesForm.cs" />
+	<Source                                    value = "Video\UI\SupportedVideoSitesForm.Designer.cs" />
+	<Source                                    value = "Video\UI\SupportedVideoSitesForm.resx" namespace = "MyDownloader.Extension.Video.UI" />
+	<Source                                    value = "Video\UI\VideoFormatCtrl.cs" />
+	<Source                                    value = "Video\UI\VideoFormatCtrl.Designer.cs" />
+	<Source                                    value = "Video\UI\VideoFormatCtrl.resx" namespace = "MyDownloader.Extension.Video.UI" />
+	<Source                                    value = "WindowsIntegration\Settings.Designer.cs" />
+	<Source                                    value = "WindowsIntegration\WindowsIntegrationExtension.cs" />
+	<Source                                    value = "WindowsIntegration\WindowsIntegrationUI.cs" />
+	<Source                                    value = "WindowsIntegration\WindowsIntegrationUI.Designer.cs" />
+	<Source                                    value = "WindowsIntegration\WindowsIntegrationUI.resx" namespace = "MyDownloader.Extension.WindowsIntegration.UI" />
+	<Source                                    value = "WindowsIntegration\WindowsIntegrationUIExtension.cs" />
+	<Source                                    value = "WindowsIntegration\WindowsStartupUtility.cs" />
+	<Source                                    value = "WindowsIntegration\ClipboardMonitor\ClipboardMonitor.cs" />
+	<Source                                    value = "WindowsIntegration\ClipboardMonitor\IClipboardDataHandler.cs" />
+	<Source                                    value = "Zip\NoCloseSubStream.cs" />
+	<Source                                    value = "Zip\PartialInputStream.cs" />
+	<Source                                    value = "Zip\StreamHelper.cs" />
+	<Source                                    value = "Zip\ZipOutputStream.cs" />
+	<Source                                    value = "Zip\ZipProtocolProvider.cs" />
+	<Source                                    value = "Zip\ZipRemoteFile.cs" />
+  <Assembly                                  value = "System.dll" />
+	<Assembly                                  value = "System.Data.dll" />
+	<Assembly                                  value = "System.Drawing.dll" />
+  <Assembly                                  value = "System.Web.dll" />
+	<Assembly                                  value = "System.Windows.Forms.dll" />
+	<Assembly                                  value = "System.Xml.dll" />
+  <!--<Assembly                                  value = "..\bin\bin32\MyDownloader.Service.dll" />-->
+  <!--<Assembly                                  value = "..\bin\bin32\MyDownloader.Core.dll" />-->
+  <Assembly                                  value = "..\MyDownloader.Core\bin32\MyDownloader.Core.dll" />
+  <Assembly                                  value = "..\..\..\RuntimeLibrary\ICSharpCode\ICSharpCode.SharpZipLib.dll" />
+	<DebugInformation                          value = "true" />
+	<!--<CopyOutput                                value = "..\bin\bin32" />-->
+</AssemblyProject>

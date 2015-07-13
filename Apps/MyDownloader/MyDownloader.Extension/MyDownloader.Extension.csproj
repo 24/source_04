@@ -1,0 +1,309 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{4FA580CC-3169-467D-AA3B-50401A93C32E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MyDownloader.Extension</RootNamespace>
+    <AssemblyName>MyDownloader.Extension</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>..\..\..\..\RuntimeLibrary\ICSharpCode\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AntiVirus\AntiVirusExtension.cs" />
+    <Compile Include="AntiVirus\AntiVirusParametersSettingsProxy.cs" />
+    <Compile Include="AntiVirus\AntiVirusUIExtension.cs" />
+    <Compile Include="AntiVirus\IAntiVirusParameters.cs" />
+    <Compile Include="AntiVirus\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="AntiVirus\UI\AVOptions.cs">
+      <SubType>usercontrol</SubType>
+    </Compile>
+    <Compile Include="AntiVirus\UI\AVOptions.Designer.cs">
+      <DependentUpon>AVOptions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AutoDownloads\AutoDownloadsExtension.cs" />
+    <Compile Include="AutoDownloads\AutoDownloadsParametersSettingsProxy.cs" />
+    <Compile Include="AutoDownloads\AutoDownloadsUIExtension.cs" />
+    <Compile Include="AutoDownloads\DayHourMatrix.cs" />
+    <Compile Include="AutoDownloads\IAutoDownloadsParameters.cs" />
+    <Compile Include="AutoDownloads\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="AutoDownloads\UI\Jobs.cs">
+      <SubType>usercontrol</SubType>
+    </Compile>
+    <Compile Include="AutoDownloads\UI\Jobs.Designer.cs">
+      <DependentUpon>Jobs.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AutoDownloads\UI\ScheduledDownloadEnabler.cs">
+      <SubType>usercontrol</SubType>
+    </Compile>
+    <Compile Include="AutoDownloads\UI\ScheduledDownloadEnabler.Designer.cs">
+      <DependentUpon>ScheduledDownloadEnabler.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AutoDownloads\UI\TimeGrid.cs">
+      <SubType>usercontrol</SubType>
+    </Compile>
+    <Compile Include="AutoDownloads\UI\TimeGrid.Designer.cs">
+      <DependentUpon>TimeGrid.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Notifications\Helpers\BalloonHelper.cs" />
+    <Compile Include="Notifications\Helpers\SoundHelper.cs" />
+    <Compile Include="Notifications\INotificationsExtensionParameters.cs" />
+    <Compile Include="Notifications\NotificationsExtension.cs" />
+    <Compile Include="Notifications\NotificationsExtensionParametersSettingsProxy.cs" />
+    <Compile Include="Notifications\NotificationsUIExtension.cs" />
+    <Compile Include="Notifications\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Notifications\UI\SoundChooser.cs">
+      <SubType>usercontrol</SubType>
+    </Compile>
+    <Compile Include="Notifications\UI\SoundChooser.Designer.cs">
+      <DependentUpon>SoundChooser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Notifications\UI\SoundsOptions.cs">
+      <SubType>usercontrol</SubType>
+    </Compile>
+    <Compile Include="Notifications\UI\SoundsOptions.Designer.cs">
+      <DependentUpon>SoundsOptions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Notifications\UI\XPBalloonOptions.cs">
+      <SubType>usercontrol</SubType>
+    </Compile>
+    <Compile Include="Notifications\UI\XPBalloonOptions.Designer.cs">
+      <DependentUpon>XPBalloonOptions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PersistedList\PersistedListExtension.cs" />
+    <Compile Include="PersistedList\SerializableDictionary.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Protocols\BaseProtocolProvider.cs" />
+    <Compile Include="Protocols\FtpProtocolProvider.cs" />
+    <Compile Include="Protocols\HttpFtpProtocolExtension.cs" />
+    <Compile Include="Protocols\HttpFtpProtocolParametersSettingsProxy.cs" />
+    <Compile Include="Protocols\HttpFtpProtocolUIExtension.cs" />
+    <Compile Include="Protocols\HttpProtocolProvider.cs" />
+    <Compile Include="Protocols\IHttpFtpProtocolParameters.cs" />
+    <Compile Include="Protocols\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Protocols\UI\Proxy.cs">
+      <SubType>usercontrol</SubType>
+    </Compile>
+    <Compile Include="Protocols\UI\Proxy.Designer.cs">
+      <DependentUpon>Proxy.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SpeedLimit\ISpeedLimitParameters.cs" />
+    <Compile Include="SpeedLimit\LimitedRateStreamProxy.cs" />
+    <Compile Include="SpeedLimit\ProtocolProviderProxy.cs" />
+    <Compile Include="SpeedLimit\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="SpeedLimit\SpeedLimitExtension.cs" />
+    <Compile Include="SpeedLimit\SpeedLimitParametersSettingProxy.cs" />
+    <Compile Include="SpeedLimit\SpeedLimitUIExtension.cs" />
+    <Compile Include="SpeedLimit\UI\LimitCfg.cs">
+      <SubType>usercontrol</SubType>
+    </Compile>
+    <Compile Include="SpeedLimit\UI\LimitCfg.Designer.cs">
+      <DependentUpon>LimitCfg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SpeedLimit\UI\SetSpeedLimitDialog.cs">
+      <SubType>form</SubType>
+    </Compile>
+    <Compile Include="SpeedLimit\UI\SetSpeedLimitDialog.Designer.cs">
+      <DependentUpon>SetSpeedLimitDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Video\Impl\BaseVideoDownloader.cs" />
+    <Compile Include="Video\Impl\BreakVideoDownloader.cs" />
+    <Compile Include="Video\Impl\GoogleVideoDownloader.cs" />
+    <Compile Include="Video\Impl\MetaCafeVideoDownloader.cs" />
+    <Compile Include="Video\Impl\PutfileVideoDownloader.cs" />
+    <Compile Include="Video\Impl\YouTubeDownloader.cs" />
+    <Compile Include="Video\TextUtil.cs" />
+    <Compile Include="Video\UI\NewVideoDownload.cs">
+      <SubType>form</SubType>
+    </Compile>
+    <Compile Include="Video\UI\NewVideoDownload.Designer.cs">
+      <DependentUpon>NewVideoDownload.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Video\UI\SupportedVideoSitesForm.cs">
+      <SubType>form</SubType>
+    </Compile>
+    <Compile Include="Video\UI\SupportedVideoSitesForm.Designer.cs">
+      <DependentUpon>SupportedVideoSitesForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Video\UI\VideoFormatCtrl.cs">
+      <SubType>usercontrol</SubType>
+    </Compile>
+    <Compile Include="Video\UI\VideoFormatCtrl.Designer.cs">
+      <DependentUpon>VideoFormatCtrl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Video\VideoConverter.cs" />
+    <Compile Include="Video\VideoDownloadExtension.cs" />
+    <Compile Include="Video\VideoDownloadHandler.cs" />
+    <Compile Include="Video\VideoDownloadUIExtension.cs" />
+    <Compile Include="WindowsIntegration\ClipboardMonitor\ClipboardMonitor.cs" />
+    <Compile Include="WindowsIntegration\ClipboardMonitor\IClipboardDataHandler.cs" />
+    <Compile Include="WindowsIntegration\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="WindowsIntegration\WindowsIntegrationExtension.cs" />
+    <Compile Include="WindowsIntegration\WindowsIntegrationUI.cs">
+      <SubType>usercontrol</SubType>
+    </Compile>
+    <Compile Include="WindowsIntegration\WindowsIntegrationUI.Designer.cs">
+      <DependentUpon>WindowsIntegrationUI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WindowsIntegration\WindowsIntegrationUIExtension.cs" />
+    <Compile Include="WindowsIntegration\WindowsStartupUtility.cs" />
+    <Compile Include="Zip\NoCloseSubStream.cs" />
+    <Compile Include="Zip\PartialInputStream.cs" />
+    <Compile Include="Zip\StreamHelper.cs" />
+    <Compile Include="Zip\ZipOutputStream.cs" />
+    <Compile Include="Zip\ZipProtocolProvider.cs" />
+    <Compile Include="Zip\ZipRemoteFile.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="AntiVirus\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="app.config" />
+    <None Include="AutoDownloads\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Notifications\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Protocols\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="SpeedLimit\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="WindowsIntegration\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="AntiVirus\UI\AVOptions.resx">
+      <DependentUpon>AVOptions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AutoDownloads\UI\Jobs.resx">
+      <DependentUpon>Jobs.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AutoDownloads\UI\ScheduledDownloadEnabler.resx">
+      <DependentUpon>ScheduledDownloadEnabler.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AutoDownloads\UI\TimeGrid.resx">
+      <DependentUpon>TimeGrid.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Notifications\UI\SoundChooser.resx">
+      <DependentUpon>SoundChooser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Notifications\UI\SoundsOptions.resx">
+      <DependentUpon>SoundsOptions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Notifications\UI\XPBalloonOptions.resx">
+      <DependentUpon>XPBalloonOptions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Protocols\UI\Proxy.resx">
+      <DependentUpon>Proxy.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SpeedLimit\UI\LimitCfg.resx">
+      <DependentUpon>LimitCfg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SpeedLimit\UI\SetSpeedLimitDialog.resx">
+      <DependentUpon>SetSpeedLimitDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Video\UI\NewVideoDownload.resx">
+      <DependentUpon>NewVideoDownload.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Video\UI\SupportedVideoSitesForm.resx">
+      <DependentUpon>SupportedVideoSitesForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Video\UI\VideoFormatCtrl.resx">
+      <DependentUpon>VideoFormatCtrl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WindowsIntegration\WindowsIntegrationUI.resx">
+      <DependentUpon>WindowsIntegrationUI.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="MyDownloader.Extension.project.xml" />
+    <Content Include="Video\Impl\Logos\BreakVideoDownloader.png" />
+    <Content Include="Video\Impl\Logos\GoogleVideoDownloader.png" />
+    <Content Include="Video\Impl\Logos\MetaCafeVideoDownloader.png" />
+    <Content Include="Video\Impl\Logos\PutfileVideoDownloader.PNG" />
+    <Content Include="Video\Impl\Logos\YouTubeDownloader.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MyDownloader.Core\MyDownloader.Core.csproj">
+      <Project>{ff9189b9-5f9a-488e-8281-7fc227091617}</Project>
+      <Name>MyDownloader.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

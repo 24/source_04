@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<AssemblyProject>
+	<Target                                    value = "library" /> <!-- exe (exe console default), library (dll), module (.netmodule), winexe (exe windows) -->
+	<Output                                    value = "bin32\runsource.irunsource.dll" />
+	<NameSpace                                 value = "pb" />
+	<CompilerOptions                           value = "/platform:x86" />  <!-- x86, Itanium, x64, or anycpu (default). -->
+  <Source                                    value = "Properties\AssemblyInfo.cs" />
+  <Source                                    value = "..\..\..\..\Lib\Source\pb\_pb\Application.cs" />
+  <Source                                    value = "..\..\..\..\Lib\Source\pb\_pb\IChrono.cs" />
+  <Source                                    value = "..\..\..\..\Lib\Source\pb\_pb\ITrace.cs" />
+  <Source                                    value = "..\..\..\..\Lib\Source\pb\_pb\ITraceError.cs" />
+  <Source                                    value = "..\..\..\..\Lib\Source\pb\_pb\ITraceToFile.cs" />
+  <Source                                    value = "..\..\..\..\Lib\Source\pb\Compiler\ICompiler.cs" />
+  <Source                                    value = "..\..\..\..\Lib\Source\pb\Compiler\IGenerateAndExecute.cs" />
+  <Source                                    value = "..\..\..\..\Lib\Source\pb\Compiler\IRunSource.cs" />
+  <Source                                    value = "..\..\..\..\Lib\Source\pb\IO\FileOption.cs" />
+  <Assembly                                  value = "System.dll" />
+	<Assembly                                  value = "System.Core.dll" />
+	<Assembly                                  value = "System.Data.dll" />
+	<Assembly                                  value = "System.Xml.dll" />
+	<Assembly                                  value = "System.Xml.Linq.dll" />
+  <DebugInformation                          value = "true" />
+</AssemblyProject>
+

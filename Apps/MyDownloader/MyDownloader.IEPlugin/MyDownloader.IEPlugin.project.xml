@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<AssemblyProject>
+	<Target                                    value = "library" /> <!-- exe (exe console default), library (dll), module (.netmodule), winexe (exe windows) -->
+	<Output                                    value = "bin32\MyDownloader.IEPlugin.dll" />
+	<NameSpace                                 value = "MyDownloader.IEPlugin" />
+	<CompilerOptions                           value = "/platform:anycpu" />  <!-- x86, Itanium, x64, or anycpu (default). -->
+<!--<GenerateExecutable                        value = "true" />-->
+  <KeyFile                                   value = "MyDownloader.IEPlugin.snk" />
+  <Source                                    value = "Properties\AssemblyInfo.cs" />
+  <Source                                    value = "BandObjectLib\Attributes.cs" />
+  <Source                                    value = "BandObjectLib\BandObject.cs" />
+  <Source                                    value = "BandObjectLib\ComInterop.cs" />
+  <Source                                    value = "IEPlugin\IEMD.cs" />
+  <Source                                    value = "IEPlugin\IEMD.resx" namespace = "MyDownloader.IEPlugin" />
+  <Source                                    value = "IEPlugin\Settings.cs" />
+  <Source                                    value = "IEPlugin\VideoSitesRepository.cs" />
+  <Assembly                                  value = "System.dll" />
+	<Assembly                                  value = "System.Data.dll" />
+	<Assembly                                  value = "System.Drawing.dll" />
+	<Assembly                                  value = "System.Windows.Forms.dll" />
+	<Assembly                                  value = "System.Xml.dll" />
+  <Assembly                                  value = "..\..\..\RuntimeLibrary\Interop.SHDocVw\Interop.SHDocVw.dll" />
+	<DebugInformation                          value = "true" />
+	<!--<CopyOutput                                value = "..\bin\bin32" />-->
+</AssemblyProject>

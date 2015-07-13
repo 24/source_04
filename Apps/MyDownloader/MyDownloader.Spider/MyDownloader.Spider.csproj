@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{2A396061-D263-4E49-846D-A1D6AD21F656}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MyDownloader.Spider</RootNamespace>
+    <AssemblyName>MyDownloader.Spider</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="TabStrip">
+      <HintPath>..\..\..\..\RuntimeLibrary\TabStrip\TabStrip.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Parsers\Html\HtmlParser.cs" />
+    <Compile Include="Parsers\Html\UrlType.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Spider\IAsyncRetriver.cs" />
+    <Compile Include="Spider\INamingRule.cs" />
+    <Compile Include="Spider\ISpiderResource.cs" />
+    <Compile Include="Spider\ISpiderResourceFactory.cs" />
+    <Compile Include="Spider\Spider.cs" />
+    <Compile Include="Spider\SpiderContext.cs" />
+    <Compile Include="UI\StartAutoDownloadsForm.cs">
+      <SubType>form</SubType>
+    </Compile>
+    <Compile Include="UI\StartAutoDownloadsForm.Designer.cs">
+      <DependentUpon>StartAutoDownloadsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\WebSpider.cs">
+      <SubType>usercontrol</SubType>
+    </Compile>
+    <Compile Include="UI\WebSpider.Designer.cs">
+      <DependentUpon>WebSpider.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Web\DownloaderAsyncRetrive.cs" />
+    <Compile Include="Web\Rules\BaseLocationNamingRule.cs" />
+    <Compile Include="Web\Rules\ExcludeExtensionNamingRule.cs" />
+    <Compile Include="Web\Rules\ExcludeNameNamingRule.cs" />
+    <Compile Include="Web\Rules\MaxDepthNamingRule.cs" />
+    <Compile Include="Web\WebSpiderResource.cs" />
+    <Compile Include="Web\WebSpiderResourceFactory.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="UI\StartAutoDownloadsForm.resx">
+      <DependentUpon>StartAutoDownloadsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\WebSpider.resx">
+      <DependentUpon>WebSpider.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="MyDownloader.Spider.project.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MyDownloader.Core\MyDownloader.Core.csproj">
+      <Project>{ff9189b9-5f9a-488e-8281-7fc227091617}</Project>
+      <Name>MyDownloader.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyDownloader.Extension\MyDownloader.Extension.csproj">
+      <Project>{4fa580cc-3169-467d-aa3b-50401a93c32e}</Project>
+      <Name>MyDownloader.Extension</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

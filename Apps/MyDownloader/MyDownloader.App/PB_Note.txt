@@ -1,0 +1,52 @@
+﻿from http://www.codeproject.com/Articles/21053/MyDownloader-A-Multi-thread-C-Segmented-Download-M
+
+
+Settings.settings
+custom tool : PublicSettingsSingleFileGenerator
+
+
+Error 438 Interop type 'SHDocVw.WebBrowserClass' cannot be embedded. Use the applicable interface instead. C:\pib\dropbox\pbeuz\Dropbox\dev\project\Source\MyDownloader\IEPlugin\BandObjectLib\BandObject.cs 35 19 MyDownloader
+Interop type cannot be embedded http://stackoverflow.com/questions/2483659/interop-type-cannot-be-embedded
+open the Properties tab for the assembly in Visual Studio 2010 and set "Embed Interop Types" to "False".
+
+
+
+C:\pib\dropbox\pbeuz\Dropbox\dev\project\Source\Source_01\Source\DownloadManager\
+App\UI\DownloadList.resx(122,5): error RG0000: Type System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a 
+in the data at line 120, position 4 cannot be located. Line 122, position 5.
+
+C:\pib\dropbox\pbeuz\Dropbox\dev\project\Source\Source_01\Source\DownloadManager\
+App\UI\MainForm.resx(122,5): error RG0000: Type System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a 
+in the data at line 120, position 4 cannot be located. Line 122, position 5.
+
+
+
+resx(122,5) error RG0000 Type System.Drawing.Point, System.Drawing, Version=4.0.0.0 in the data at line 120, position 4 cannot be located
+
+
+Form1.resx(122,5): error RG0000: Type System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a in the data at line 120, position 4 cannot be located. Line 122, position 5.
+
+ResGen.exe Form1.resx(122,5) error RG0000 Type System.Drawing.Point, System.Drawing, Version=4.0.0.0 in the data at line 120, position 4 cannot be located
+ResGen.exe error Type System.Drawing.Point Version=4.0.0.0 cannot be located
+
+
+
+Could not find any resources appropriate for the specified culture or the neutral culture.
+Make sure \"MyDownloader.Core.UI.WaitControl.resources\" was correctly embedded or linked into assembly \"MyDownloader.Core\"
+at compile time, or that all the satellite assemblies required are loadable and fully signed.
+
+
+HTTP could not register URL http://+:8019/WCFDownloadManager/ your process does not have access rights to this namespace
+Configuring HTTP and HTTPS http://msdn.microsoft.com/en-us/library/ms733768.aspx
+    use HttpCfg.exe on Windows Server 2003 or Windows XP
+    use Netsh.exe on Windows Vista or Windows
+    netsh http add urlacl http://+:8703/ user=\Everyone      (c:\pib\dropbox\pbeuz\Dropbox\dev\project\Source\Source_01\Source\Test\Test_wcf\Test_wcf_03\Service\Test_wcf_03\Service\open_port.bat)
+    netsh http show urlacl
+    netsh http delete urlacl http://+:8703/
+
+
+exemple utilisation du service DownloadManager_f.cs (Source\Source_01\Source\Download\Print\download\DownloadManager)
+
+
+Extension\PersistedList\PersistedListExtension.cs
+class DownloadManager in Core\Core\DownloadManager.cs

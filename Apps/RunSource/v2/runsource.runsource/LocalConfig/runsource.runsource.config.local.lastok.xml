@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+    <DataDir                                       value = "c:\pib\dev_data\exe\runsource" />
+    <Log                                           value = "$DataDir$\log\_log.txt" />
+<!--<CreateRunSourceDomain                         value = "true" />-->      <!-- default = false, true, attention si CreateRunSourceDomain = true runsource.launch.exe ne peut pas mettre à jour runsource.runsourced32.exe -->
+	<AbortThreadExecutionTimeout                   value = "10" />
+<!-- attention CompilerDefaultValues and ProjectDefaultValues dont work in _local.xml -->
+	<ProjectDefaultValues>
+        <WarningLevel                              value = "1" />
+	</ProjectDefaultValues>
+</configuration>

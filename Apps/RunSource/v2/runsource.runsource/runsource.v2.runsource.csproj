@@ -1,0 +1,196 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{4A9C538E-37E2-46C9-9186-A8C42F45FFAC}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>runsourced</RootNamespace>
+    <AssemblyName>runsource.runsource</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DevExpress.Data, Version=1.2.7.0, Culture=neutral, PublicKeyToken=79868b8147b5eae4">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\RuntimeLibrary\DevExpress\DevExpress 2.4.7.0\.NET\DevExpress.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Utils, Version=2.1.7.0, Culture=neutral, PublicKeyToken=79868b8147b5eae4">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\RuntimeLibrary\DevExpress\DevExpress 2.4.7.0\.NET\DevExpress.Utils.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraEditors, Version=2.1.7.0, Culture=neutral, PublicKeyToken=79868b8147b5eae4">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\RuntimeLibrary\DevExpress\DevExpress 2.4.7.0\.NET\DevExpress.XtraEditors.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraGrid, Version=2.4.7.0, Culture=neutral, PublicKeyToken=79868b8147b5eae4">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\RuntimeLibrary\DevExpress\DevExpress 2.4.7.0\.NET\DevExpress.XtraGrid.dll</HintPath>
+    </Reference>
+    <Reference Include="ScintillaNET">
+      <HintPath>..\..\..\..\RuntimeLibrary\ScintillaNET\ScintillaNET v2.6\ScintillaNET.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\..\..\Lib\Source\pb\Compiler\RemoteRunSource.cs">
+      <Link>SourceLnk\Lib\pb\Compiler\RemoteRunSource.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Lib\Source\pb\Data\Image.cs">
+      <Link>SourceLnk\Lib\pb\Data\Image.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Lib\Source\pb\Data\Xml\Xml.cs">
+      <Link>SourceLnk\Lib\pb\Data\Xml\Xml.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Lib\Source\pb\Data\Xml\XmlConfig.cs">
+      <Link>SourceLnk\Lib\pb\Data\Xml\XmlConfig.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Lib\Source\pb\Data\Xml\XmlSerialize.cs">
+      <Link>SourceLnk\Lib\pb\Data\Xml\XmlSerialize.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Lib\Source\pb\Data\Xml\XmlSerializer.cs">
+      <Link>SourceLnk\Lib\pb\Data\Xml\XmlSerializer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Lib\Source\pb\IO\File.cs">
+      <Link>SourceLnk\Lib\pb\IO\File.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Lib\Source\pb\IO\Path.cs">
+      <Link>SourceLnk\Lib\pb\IO\Path.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Lib\Source\pb\IO\WriteToFile.cs">
+      <Link>SourceLnk\Lib\pb\IO\WriteToFile.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Lib\Source\pb\IO\WriteToFileCreate.cs">
+      <Link>SourceLnk\Lib\pb\IO\WriteToFileCreate.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Lib\Source\pb\Text\Regex.cs">
+      <Link>SourceLnk\Lib\pb\Text\Regex.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Lib\Source\pb\Text\Split.cs">
+      <Link>SourceLnk\Lib\pb\Text\Split.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Lib\Source\pb\Text\String.cs">
+      <Link>SourceLnk\Lib\pb\Text\String.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Lib\Source\pb\Text\StringZones.cs">
+      <Link>SourceLnk\Lib\pb\Text\StringZones.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Lib\Source\pb\Windows\Forms\cGrid.cs">
+      <Link>SourceLnk\Lib\pb\Windows\Forms\cGrid.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Lib\Source\pb\Windows\Forms\XtraGrid.cs">
+      <Link>SourceLnk\Lib\pb\Windows\Forms\XtraGrid.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Lib\Source\pb\Windows\Forms\zerrf.cs">
+      <Link>SourceLnk\Lib\pb\Windows\Forms\zerrf.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Lib\Source\pb\_pb\Convert.cs">
+      <Link>SourceLnk\Lib\pb\_pb\Convert.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Lib\Source\pb\_pb\Date.cs">
+      <Link>SourceLnk\Lib\pb\_pb\Date.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Lib\Source\pb\_pb\Error.cs">
+      <Link>SourceLnk\Lib\pb\_pb\Error.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Lib\Source\pb\_pb\FormatInfo.cs">
+      <Link>SourceLnk\Lib\pb\_pb\FormatInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Lib\Source\pb\_pb\ParseAs.cs">
+      <Link>SourceLnk\Lib\pb\_pb\ParseAs.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Lib\Source\pb\_pb\PBException.cs">
+      <Link>SourceLnk\Lib\pb\_pb\PBException.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Lib\Source\pb\_pb\Reflection.cs">
+      <Link>SourceLnk\Lib\pb\_pb\Reflection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Lib\Source\pb\_pb\TextSerializer.cs">
+      <Link>SourceLnk\Lib\pb\_pb\TextSerializer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Lib\Source\pb\_pb\Trace.cs">
+      <Link>SourceLnk\Lib\pb\_pb\Trace.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Lib\Source\pb\_pb\TraceError.cs">
+      <Link>SourceLnk\Lib\pb\_pb\TraceError.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Lib\Source\pb\_pb\TraceSetWriter.cs">
+      <Link>SourceLnk\Lib\pb\_pb\TraceSetWriter.cs</Link>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Source\Program.cs" />
+    <Compile Include="Source\RunSourceForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Source\RunSourceForm.designer.cs">
+      <DependentUpon>RunSourceForm.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <EmbeddedResource Include="Source\RunSourceForm.resx">
+      <DependentUpon>RunSourceForm.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\runsource.irunsource\runsource.v2.irunsource.csproj">
+      <Project>{69eeca69-aaba-40b4-b8a0-f830303a831f}</Project>
+      <Name>runsource.v2.irunsource</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="LocalConfig\runsource.runsource.config.local.lastok.xml" />
+    <Content Include="LocalConfig\runsource.runsource.config.local.xml" />
+    <Content Include="Properties\app.ico" />
+    <Content Include="runsource.runsource.config.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="runsource.runsource.project.xml" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

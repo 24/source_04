@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<AssemblyProject>
+	<Target                                    value = "winexe" /> <!-- exe (exe console default), library (dll), module (.netmodule), winexe (exe windows) -->
+	<Output                                    value = "bin32\runsource.runsource.exe" />
+	<Icon                                      value = "Properties\app.ico" />
+	<NameSpace                                 value = "runsourced" />
+	<CompilerOptions                           value = "/platform:x86" />  <!-- x86, Itanium, x64, or anycpu (default). -->
+  <File                                      value = "runsource.runsource.config.xml" />
+  <Source                                    value = "Properties\AssemblyInfo.cs" />
+  <Source                                    value = "Properties\Resources.resx" namespace = "runsourced.Properties" />
+  <Source                                    value = "Properties\Resources.Designer.cs" />
+  <Source                                    value = "Source\Program.cs" />
+	<Source                                    value = "Source\RunSourceForm.cs" />
+	<Source                                    value = "Source\RunSourceForm.Designer.cs" />
+	<Source                                    value = "Source\RunSourceForm.resx" namespace = "runsourced" />
+
+  <Source                                    value = "..\..\..\..\Lib\Source\pb\_pb\Convert.cs" />
+  <Source                                    value = "..\..\..\..\Lib\Source\pb\_pb\Date.cs" />
+  <Source                                    value = "..\..\..\..\Lib\Source\pb\_pb\Error.cs" />
+  <Source                                    value = "..\..\..\..\Lib\Source\pb\_pb\FormatInfo.cs" />
+  <Source                                    value = "..\..\..\..\Lib\Source\pb\_pb\ParseAs.cs" />
+  <Source                                    value = "..\..\..\..\Lib\Source\pb\_pb\PBException.cs" />
+  <Source                                    value = "..\..\..\..\Lib\Source\pb\_pb\Reflection.cs" />
+  <Source                                    value = "..\..\..\..\Lib\Source\pb\_pb\TextSerializer.cs" />
+  <Source                                    value = "..\..\..\..\Lib\Source\pb\_pb\Trace.cs" />
+  <Source                                    value = "..\..\..\..\Lib\Source\pb\_pb\TraceError.cs" />
+  <Source                                    value = "..\..\..\..\Lib\Source\pb\_pb\TraceSetWriter.cs" />
+  <Source                                    value = "..\..\..\..\Lib\Source\pb\Compiler\RemoteRunSource.cs" />
+  <Source                                    value = "..\..\..\..\Lib\Source\pb\Data\Image.cs" />
+  <Source                                    value = "..\..\..\..\Lib\Source\pb\Data\Xml\Xml.cs" />
+  <Source                                    value = "..\..\..\..\Lib\Source\pb\Data\Xml\XmlConfig.cs" />
+  <Source                                    value = "..\..\..\..\Lib\Source\pb\Data\Xml\XmlSerialize.cs" />
+  <Source                                    value = "..\..\..\..\Lib\Source\pb\Data\Xml\XmlSerializer.cs" />
+  <Source                                    value = "..\..\..\..\Lib\Source\pb\IO\File.cs" />
+  <Source                                    value = "..\..\..\..\Lib\Source\pb\IO\Path.cs" />
+  <Source                                    value = "..\..\..\..\Lib\Source\pb\IO\WriteToFile.cs" />
+  <Source                                    value = "..\..\..\..\Lib\Source\pb\IO\WriteToFileCreate.cs" />
+  <Source                                    value = "..\..\..\..\Lib\Source\pb\Text\Regex.cs" />
+  <Source                                    value = "..\..\..\..\Lib\Source\pb\Text\Split.cs" />
+  <Source                                    value = "..\..\..\..\Lib\Source\pb\Text\String.cs" />
+  <Source                                    value = "..\..\..\..\Lib\Source\pb\Text\StringZones.cs" />
+  <!--<Source                                    value = "..\..\..\..\Lib\Source\pb\Windows\Forms\cf.cs" />-->
+  <!--<Source                                    value = "..\..\..\..\Lib\Source\pb\Windows\Forms\cf2.cs" />-->
+  <Source                                    value = "..\..\..\..\Lib\Source\pb\Windows\Forms\cGrid.cs" />
+  <Source                                    value = "..\..\..\..\Lib\Source\pb\Windows\Forms\XtraGrid.cs" />
+  <Source                                    value = "..\..\..\..\Lib\Source\pb\Windows\Forms\zerrf.cs" />
+  
+  <Assembly                                  value = "System.dll" />
+	<Assembly                                  value = "System.Core.dll" />
+	<Assembly                                  value = "System.Data.dll" />
+	<Assembly                                  value = "System.Drawing.dll" />
+	<Assembly                                  value = "System.Windows.Forms.dll" />
+	<Assembly                                  value = "System.Xml.dll" />
+	<Assembly                                  value = "System.Xml.Linq.dll" />
+  <Assembly                                  value = "DevExpress.Data.dll" />
+  <Assembly                                  value = "DevExpress.Utils.dll" />
+  <Assembly                                  value = "DevExpress.XtraEditors.dll" />
+  <Assembly                                  value = "DevExpress.XtraGrid.dll" />
+  <Assembly                                  value = "..\..\..\..\..\RuntimeLibrary\ScintillaNET\ScintillaNET v2.6\ScintillaNET.dll" />
+  <File                                      value = "..\..\..\..\..\RuntimeLibrary\ScintillaNET\ScintillaNET v2.6\SciLexer.dll" />
+  <File                                      value = "..\..\..\..\..\RuntimeLibrary\ScintillaNET\ScintillaNET v2.6\SciLexer64.dll" />
+  <File                                      value = "..\..\..\..\..\RuntimeLibrary\ScintillaNET\ScintillaNET v2.6\ScintillaNET.xml" />
+  <Assembly                                  value = "..\runsource.irunsource\bin32\runsource.irunsource.dll" />
+  <DebugInformation                          value = "true" />
+</AssemblyProject>

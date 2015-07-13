@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<AssemblyProject>
+	<Target                                    value = "library" /> <!-- exe (exe console default), library (dll), module (.netmodule), winexe (exe windows) -->
+	<Output                                    value = "bin32\MyDownloader.Core.dll" />
+<!--<Icon                                      value = "app.ico" />-->
+	<NameSpace                                 value = "MyDownloader.Core" />
+	<CompilerOptions                           value = "/platform:anycpu" />  <!-- x86, Itanium, x64, or anycpu (default). -->
+<!--<GenerateExecutable                        value = "true" />-->
+<!--<File                                      value = "wrun_config_std.xml" />-->
+  <Source                                    value = "app.config" />
+	<Source                                    value = "Settings.Designer.cs" />
+	<Source                                    value = "Properties\AssemblyInfo.cs" />
+	<Source                                    value = "Common\BoolFormatter.cs" />
+	<Source                                    value = "Common\ByteFormatter.cs" />
+	<Source                                    value = "Common\PathHelper.cs" />
+	<Source                                    value = "Common\TimeSpanFormatter.cs" />
+	<Source                                    value = "Concurrency\ObjectLocker.cs" />
+	<Source                                    value = "Concurrency\ReaderWriterObjectLocker.cs" />
+	<Source                                    value = "Core\CalculatedSegment.cs" />
+	<Source                                    value = "Core\Downloader.cs" />
+<!--<Source                                    value = "Core\DownloaderState.cs" />-->
+	<Source                                    value = "Core\DownloadManager.cs" />
+	<Source                                    value = "Core\EventArgs.cs" />
+	<Source                                    value = "Core\IMirrorSelector.cs" />
+	<Source                                    value = "Core\IProtocolProvider.cs" />
+	<Source                                    value = "Core\ISegmentCalculator.cs" />
+	<Source                                    value = "Core\Log.cs" />
+	<Source                                    value = "Core\MinSizeSegmentCalculator.cs" />
+	<Source                                    value = "Core\ProtocolProviderFactory.cs" />
+	<Source                                    value = "Core\RemoteFileInfo.cs" />
+	<Source                                    value = "Core\ResourceLocation.cs" />
+	<Source                                    value = "Core\Segment.cs" />
+	<Source                                    value = "Core\SegmentState.cs" />
+	<Source                                    value = "Core\SequentialMirrorSelector.cs" />
+	<Source                                    value = "Extensions\IExtension.cs" />
+	<Source                                    value = "Extensions\IExtensionParameters.cs" />
+	<Source                                    value = "Extensions\IInitializable.cs" />
+	<Source                                    value = "Extensions\IUIExtension.cs" />
+	<Source                                    value = "Instrumentation\MyStopwatch.cs" />
+	<Source                                    value = "UI\ApplicationSettings.cs" />
+	<Source                                    value = "UI\ApplicationSettings.Designer.cs" />
+	<Source                                    value = "UI\ApplicationSettings.resx" namespace = "MyDownloader.Core.UI" />
+	<Source                                    value = "UI\AppManager.cs" />
+	<Source                                    value = "UI\ClipboardHelper.cs" />
+	<Source                                    value = "UI\Connection.cs" />
+	<Source                                    value = "UI\Connection.Designer.cs" />
+	<Source                                    value = "UI\Connection.resx" namespace = "MyDownloader.Core.UI" />
+	<Source                                    value = "UI\CoreExtention.cs" />
+	<Source                                    value = "UI\CoreUIExtention.cs" />
+	<Source                                    value = "UI\DownloadFolder.cs" />
+	<Source                                    value = "UI\DownloadFolder.Designer.cs" />
+	<Source                                    value = "UI\DownloadFolder.resx" namespace = "MyDownloader.Core.UI" />
+	<Source                                    value = "UI\IApp.cs" />
+	<Source                                    value = "UI\Location.cs" />
+	<Source                                    value = "UI\Location.Designer.cs" />
+	<Source                                    value = "UI\Location.resx" namespace = "MyDownloader.Core.UI" />
+	<Source                                    value = "UI\WaitControl.cs" />
+	<Source                                    value = "UI\WaitControl.Designer.cs" />
+	<Source                                    value = "UI\WaitControl.resx" namespace = "MyDownloader.Core.UI" />
+	<Source                                    value = "Service\DownloaderState.cs" />
+	<Source                                    value = "Service\DownloadManagerService.cs" />
+	<Source                                    value = "Service\IDownloadManagerService.cs" />
+  <Assembly                                  value = "System.dll" />
+	<Assembly                                  value = "System.Data.dll" />
+	<Assembly                                  value = "System.Drawing.dll" />
+  <Assembly                                  value = "System.Runtime.Remoting.dll" />
+  <Assembly                                  value = "System.ServiceModel.dll" />
+	<Assembly                                  value = "System.Windows.Forms.dll" />
+	<Assembly                                  value = "System.Xml.dll" />
+  <!--<Assembly                                  value = "..\bin\bin32\MyDownloader.Service.dll" />-->
+  <DebugInformation                          value = "true" />
+	<!--<CopyOutput                                value = "..\bin\bin32" />-->
+</AssemblyProject>

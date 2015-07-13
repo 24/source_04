@@ -1,0 +1,209 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{091991C2-AA3F-4B55-9C95-C22A906D7FE1}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MyDownloader.App</RootNamespace>
+    <AssemblyName>MyDownloader.App</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>..\..\..\RuntimeLibrary\ICSharpCode\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Remoting" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="TabStrip">
+      <HintPath>..\..\..\..\RuntimeLibrary\TabStrip\TabStrip.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App\App.cs" />
+    <Compile Include="App\Program.cs" />
+    <None Include="compile.cs" />
+    <Compile Include="Controls\Block.cs" />
+    <Compile Include="Controls\BlockedProgressBar.cs">
+      <SubType>component</SubType>
+    </Compile>
+    <Compile Include="Controls\BlockedProgressBar.designer.cs">
+      <DependentUpon>BlockedProgressBar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\BlockList.cs" />
+    <Compile Include="Controls\CheckableTreeView.cs">
+      <SubType>component</SubType>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resource.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="SingleInstancing\ISingleInstanceEnforcer.cs" />
+    <Compile Include="SingleInstancing\MessageEventArgs.cs" />
+    <Compile Include="SingleInstancing\SingleInstanceException.cs" />
+    <Compile Include="SingleInstancing\SingleInstanceProxy.cs" />
+    <Compile Include="SingleInstancing\SingleInstanceTracker.cs" />
+    <Compile Include="UI\AboutForm.cs">
+      <SubType>form</SubType>
+    </Compile>
+    <Compile Include="UI\AboutForm.Designer.cs">
+      <DependentUpon>AboutForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\CreateBatchDownloadForm.cs">
+      <SubType>form</SubType>
+    </Compile>
+    <Compile Include="UI\CreateBatchDownloadForm.Designer.cs">
+      <DependentUpon>CreateBatchDownloadForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\DownloadList.cs">
+      <SubType>usercontrol</SubType>
+    </Compile>
+    <Compile Include="UI\DownloadList.Designer.cs">
+      <DependentUpon>DownloadList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\FileTypeImageList.cs" />
+    <Compile Include="UI\IconReader.cs" />
+    <Compile Include="UI\ImportFromFileForm.cs">
+      <SubType>form</SubType>
+    </Compile>
+    <Compile Include="UI\ImportFromFileForm.Designer.cs">
+      <DependentUpon>ImportFromFileForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\ImportFromFilePreviewForm.cs">
+      <SubType>form</SubType>
+    </Compile>
+    <Compile Include="UI\ImportFromFilePreviewForm.Designer.cs">
+      <DependentUpon>ImportFromFilePreviewForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\MainForm.cs">
+      <SubType>form</SubType>
+    </Compile>
+    <Compile Include="UI\MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\NewDownloadForm.cs">
+      <SubType>form</SubType>
+    </Compile>
+    <Compile Include="UI\NewDownloadForm.Designer.cs">
+      <DependentUpon>NewDownloadForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\OptionsForm.cs">
+      <SubType>form</SubType>
+    </Compile>
+    <Compile Include="UI\OptionsForm.Designer.cs">
+      <DependentUpon>OptionsForm.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Controls\BlockedProgressBar.bmp" />
+    <Content Include="DONE.txt" />
+    <Content Include="dragon_fly.ico" />
+    <Content Include="MyDownloader.App.project.xml" />
+    <Content Include="PB_Note.txt" />
+    <Content Include="TODO.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="UI\About.rtf" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\AboutForm.resx">
+      <DependentUpon>AboutForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\CreateBatchDownloadForm.resx">
+      <DependentUpon>CreateBatchDownloadForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\DownloadList.resx">
+      <DependentUpon>DownloadList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\ImportFromFileForm.resx">
+      <DependentUpon>ImportFromFileForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\ImportFromFilePreviewForm.resx">
+      <DependentUpon>ImportFromFilePreviewForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\NewDownloadForm.resx">
+      <DependentUpon>NewDownloadForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\OptionsForm.resx">
+      <DependentUpon>OptionsForm.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MyDownloader.Core\MyDownloader.Core.csproj">
+      <Project>{ff9189b9-5f9a-488e-8281-7fc227091617}</Project>
+      <Name>MyDownloader.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyDownloader.Extension\MyDownloader.Extension.csproj">
+      <Project>{4fa580cc-3169-467d-aa3b-50401a93c32e}</Project>
+      <Name>MyDownloader.Extension</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyDownloader.Spider\MyDownloader.Spider.csproj">
+      <Project>{2a396061-d263-4e49-846d-a1d6ad21f656}</Project>
+      <Name>MyDownloader.Spider</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Service\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

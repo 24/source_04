@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<AssemblyProject>
+	<Target                                    value = "winexe" /> <!-- exe (exe console default), library (dll), module (.netmodule), winexe (exe windows) -->
+	<Output                                    value = "bin32\MyDownloader.App.exe" />
+	<Icon                                      value = "dragon_fly.ico" />
+	<NameSpace                                 value = "MyDownloader.App" />
+	<CompilerOptions                           value = "/platform:anycpu" />  <!-- x86, Itanium, x64, or anycpu (default). -->
+<!--<GenerateExecutable                        value = "true" />-->
+  <Source                                    value = "App.config" />
+  <Source                                    value = "Settings.Designer.cs" />
+  <Source                                    value = "Resource.resx" namespace = "MyDownloader.App" />
+  <Source                                    value = "Resource.Designer.cs" />
+  <Source                                    value = "Properties\AssemblyInfo.cs" />
+  <Source                                    value = "App\App.cs" />
+  <Source                                    value = "App\Program.cs" />
+  <Source                                    value = "Controls\Block.cs" />
+  <Source                                    value = "Controls\BlockedProgressBar.cs" />
+  <Source                                    value = "Controls\BlockedProgressBar.designer.cs" />
+  <Source                                    value = "Controls\BlockList.cs" />
+  <Source                                    value = "Controls\CheckableTreeView.cs" />
+  <Source                                    value = "SingleInstancing\ISingleInstanceEnforcer.cs" />
+  <Source                                    value = "SingleInstancing\MessageEventArgs.cs" />
+  <Source                                    value = "SingleInstancing\SingleInstanceException.cs" />
+  <Source                                    value = "SingleInstancing\SingleInstanceProxy.cs" />
+  <Source                                    value = "SingleInstancing\SingleInstanceTracker.cs" />
+  <Source                                    value = "UI\AboutForm.cs" />
+  <Source                                    value = "UI\AboutForm.Designer.cs" />
+  <Source                                    value = "UI\AboutForm.resx" namespace = "MyDownloader.App.UI" />
+  <Source                                    value = "UI\CreateBatchDownloadForm.cs" />
+  <Source                                    value = "UI\CreateBatchDownloadForm.Designer.cs" />
+  <Source                                    value = "UI\CreateBatchDownloadForm.resx" namespace = "MyDownloader.App.UI" />
+  <Source                                    value = "UI\DownloadList.cs" />
+  <Source                                    value = "UI\DownloadList.Designer.cs" />
+  <Source                                    value = "UI\DownloadList.resx" namespace = "MyDownloader.App.UI" />
+  <Source                                    value = "UI\FileTypeImageList.cs" />
+  <Source                                    value = "UI\IconReader.cs" />
+  <Source                                    value = "UI\ImportFromFileForm.cs" />
+  <Source                                    value = "UI\ImportFromFileForm.Designer.cs" />
+  <Source                                    value = "UI\ImportFromFileForm.resx" namespace = "MyDownloader.App.UI" />
+  <Source                                    value = "UI\ImportFromFilePreviewForm.cs" />
+  <Source                                    value = "UI\ImportFromFilePreviewForm.Designer.cs" />
+  <Source                                    value = "UI\ImportFromFilePreviewForm.resx" namespace = "MyDownloader.App.UI" />
+  <Source                                    value = "UI\MainForm.cs" />
+  <Source                                    value = "UI\MainForm.Designer.cs" />
+  <Source                                    value = "UI\MainForm.resx" namespace = "MyDownloader.App.UI" />
+  <Source                                    value = "UI\NewDownloadForm.cs" />
+  <Source                                    value = "UI\NewDownloadForm.Designer.cs" />
+  <Source                                    value = "UI\NewDownloadForm.resx" namespace = "MyDownloader.App.UI" />
+  <Source                                    value = "UI\OptionsForm.cs" />
+  <Source                                    value = "UI\OptionsForm.Designer.cs" />
+  <Source                                    value = "UI\OptionsForm.resx" namespace = "MyDownloader.App.UI" />
+<!--<Source                                    value = "WCF\IWCFDownloadManager.cs" />-->
+  <!--<Source                                    value = "Service\DownloadManagerService.cs" />-->
+  <Assembly                                  value = "System.dll" />
+	<Assembly                                  value = "System.Data.dll" />
+  <Assembly                                  value = "System.Design.dll" />
+	<Assembly                                  value = "System.Drawing.dll" />
+  <Assembly                                  value = "System.Runtime.Remoting.dll" />
+  <Assembly                                  value = "System.ServiceModel.dll" />
+  <Assembly                                  value = "System.Web.dll" />
+	<Assembly                                  value = "System.Windows.Forms.dll" />
+	<Assembly                                  value = "System.Xml.dll" />
+  <!--<Assembly                                  value = "..\bin\bin32\MyDownloader.Service.dll" />-->
+  <!--<Assembly                                  value = "..\bin\bin32\MyDownloader.Core.dll" />-->
+  <Assembly                                  value = "..\MyDownloader.Core\bin32\MyDownloader.Core.dll" />
+  <!--<Assembly                                  value = "..\bin\bin32\MyDownloader.Extension.dll" />-->
+  <Assembly                                  value = "..\MyDownloader.Extension\bin32\MyDownloader.Extension.dll" />
+  <!--<Assembly                                  value = "..\bin\bin32\MyDownloader.Spider.dll" />-->
+  <Assembly                                  value = "..\MyDownloader.Spider\bin32\MyDownloader.Spider.dll" />
+  <Assembly                                  value = "..\..\..\RuntimeLibrary\ICSharpCode\ICSharpCode.SharpZipLib.dll" />
+  <Assembly                                  value = "..\..\..\RuntimeLibrary\TabStrip\TabStrip.dll" />
+	<DebugInformation                          value = "true" />
+	<!--<CopyOutput                                value = "..\bin\bin32" />-->
+	<!--<CopyOutput                                value = "c:\pib\prog\tools\DownloadManager\new" />-->
+</AssemblyProject>

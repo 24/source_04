@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+<!--<RootDir                                       value = ".." />-->
+<!--<GenerateAssemblyDirectory                     value = "" />-->  <!-- default = "run" -->
+  <Log                                           value = "log.txt" />  <!-- option = "None" -->
+<!--<TraceDir                                      value = "Log\Trace" />-->
+<!--<RunsourceTitle                              value = "" />-->  <!-- default = "Run source" -->
+  <RunsourceDllFilename                        value = "runsource.dll" />
+  <RunsourceClassName                          value = "pb.Compiler.RunSource" />
+  <TraceClassName                              value = "pb.TTrace" />
+<!--<RunSourceDomainName                           value = "RunSource" />-->  <!-- default: "RunSource" -->
+<!--<CreateRunSourceDomain                         value = "true" />-->      <!-- default = false, true, attention si CreateRunSourceDomain = true runsource.launch.exe ne peut pas mettre à jour runsource.runsourced32.exe -->
+  <UpdateRunSource>
+    <UpdateDirectory                           value = "..\update" />
+    <!--<ProjectDirectory                          value = "c:\pib\dropbox\pbeuz\Dropbox\dev\project\Source\Source_01\Source\runsource" />-->
+    <!--<ProjectDirectory                          value = "c:\pib\dropbox\pbeuz\Dropbox\dev\project\Source\RunSource\Source" />-->
+    <!--<Project                                   value = "runsource_dll\irunsource_project.xml" />-->
+    <!--<Project                                   value = "runsource_dll\runsource_common_dll_project.xml" />-->
+    <!--<Project                                   value = "runsource_dll\runsource_dll_project.xml" />-->
+    <!--<Project                                   value = "runsource_domain\runsourced32_project.xml" />-->
+    <!--<ProjectRunSourceLaunch                    value = "runsource_domain\runsource_launch_project.xml" />-->
+    <ProjectDirectory                          value = "c:\pib\drive\google\dev\project\Source\Apps\RunSource\v2" />  <!-- c:\pib\drive\google\dev\project\Source\RunSource\v2 -->
+    <Project                                   value = "runsource.irunsource\runsource.irunsource.project.xml" />
+    <Project                                   value = "runsource.dll\runsource.dll.project.xml" copyOutput = "..\new" />
+    <Project                                   value = "runsource.runsource\runsource.runsource.project.xml" copyOutput = "..\new" />
+    <ProjectRunSourceLaunch                    value = "runsource.launch\runsource.launch.project.xml" copyOutput = "..\new" />
+  </UpdateRunSource>
+	<CompilerDefaultValues> <!-- attention CompilerDefaultValues and ProjectDefaultValues dont work in _local.xml -->
+    <Language                                  value = "CSharp" />  <!-- CSharp, JScript -->
+<!--<ProviderOption                            name  = "CompilerVersion" value = "v3.5" />-->
+		<ProviderOption                            name  = "CompilerVersion" value = "v4.0" />
+		<ResourceCompiler                          value = "c:\Program Files\Microsoft SDKs\Windows\v7.1\Bin\ResGen.exe"/>
+	</CompilerDefaultValues>
+	<ProjectDefaultValues> <!-- attention CompilerDefaultValues and ProjectDefaultValues dont work in _local.xml -->
+		<Using                                     value = "System" />
+		<Using                                     value = "System.Collections" />
+		<Using                                     value = "System.Collections.Generic" />
+		<Using                                     value = "System.Data" />
+		<Using                                     value = "System.Globalization" />
+		<Using                                     value = "System.IO" />
+		<Using                                     value = "System.Text" />
+		<Using                                     value = "System.Text.RegularExpressions" />
+		<Using                                     value = "System.Windows.Forms" />
+		<Using                                     value = "System.Xml" />
+    <Using                                     value = "pb" />
+    <Using                                     value = "pb.Compiler" />
+    <Using                                     value = "pb.Data" />
+    <Using                                     value = "pb.Data.Xml" />
+    <Using                                     value = "pb.IO" />
+    <Using                                     value = "pb.Text" />
+    <Using                                     value = "pb.Web" />
+    <Using                                     value = "pb.Windows.Win32" />
+    <Assembly                                  value = "System.dll" />
+		<Assembly                                  value = "System.Core.dll" />
+		<Assembly                                  value = "System.Data.dll" />
+		<Assembly                                  value = "System.Windows.Forms.dll" />
+		<Assembly                                  value = "System.Xml.dll" />
+    <!--<Assembly                                  value = "runsource.common.dll" />-->
+    <Assembly                                  value = "runsource.dll" />
+    <Assembly                                  value = "runsource.irunsource.dll" />
+		<GenerateInMemory                          value = "false" />
+<!--<GenerateExecutable                        value = "false" />-->
+		<DebugInformation                          value = "true" />
+    <WarningLevel                              value = "4" />  <!-- 0 no warning, 1 severe warning, 2 + less-severe warnings 1, 3 + less-severe warnings 2, 4 all warning -->
+    <CompilerOptions                           value = "/define:DEBUG;TRACE" />
+    <!--<Source                                    value = "" />-->
+	</ProjectDefaultValues>
+	<AbortThreadExecutionTimeout                   value = "2" />
+	<ForceAbortThreadExecutionTimeout              value = "30" />
+	<ProgressMinimumMillisecondsBetweenMessage     value = "50" />
+  <GridMaxWidth                                  value = "800" />
+  <GridMaxHeight                                 value = "200" />
+  <DataTableMaxImageWidth                        value = "0" />
+  <DataTableMaxImageHeight                       value = "200" />
+</configuration>

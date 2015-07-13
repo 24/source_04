@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<AssemblyProject>
+	<Target                                    value = "library" /> <!-- exe (exe console default), library (dll), module (.netmodule), winexe (exe windows) -->
+	<Output                                    value = "PB_Library.dll" />
+<!--<Icon                                      value = "Resource\ladybug.ico" />-->
+	<NameSpace                                 value = "PB_Library" />
+<!--<GenerateExecutable                        value = "true" />-->
+<!--<File                                      value = "Pib_config.xml" />-->
+	<Source                                    value = "PB_Library_AssemblyInfo.cs" />
+  <Source                                    value = "CradleOfRomeWatcher.cs" />
+	<Source                                    value = "Task.cs" />
+	<Source                                    value = "PagesJaunes.cs" />
+	<Source                                    value = "Rapidshare.cs" />
+	<Source                                    value = "WR_Tools.cs" />
+	<Source                                    value = "Xml2Data.cs" />
+	<Assembly                                  value = "System.dll" />
+	<Assembly                                  value = "System.Core.dll" />
+	<Assembly                                  value = "System.Data.dll" />
+	<Assembly                                  value = "System.Data.Linq.dll" />
+<!--<Assembly                                  value = "System.Drawing.dll" />-->
+<!--<Assembly                                  value = "System.ServiceProcess.dll" />-->
+	<Assembly                                  value = "System.Windows.Forms.dll" />
+	<Assembly                                  value = "System.Xml.dll" />
+	<Assembly                                  value = "System.Xml.Linq.dll" />
+<!--<Assembly                                  value = "DevExpress.XtraEditors.dll" />-->
+<!--<Assembly                                  value = "DevExpress.Utils.dll" />-->
+<!--<Assembly                                  value = "c:\Dev\Projet\WRun\WRunSource\Dll\Ionic.Zip.dll" />-->
+<!--<Assembly                                  value = "c:\Dev\Projet\Tools\edtFTPnet\bin\edtFTPnet.dll" />-->
+<!--<Assembly                                  value = "c:\Dev\Projet\Tools\Chilkat\ChilkatDotNet2.dll" />-->
+	<Assembly                                  value = "..\..\..\Tools\Chilkat\ChilkatDotNet2.dll" />
+	<Assembly                                  value = "..\..\..\Tools\DotNetZip\DotNetZipLib-Runtime-v1.8\DotNetZip-v1.8\Ionic.Zip.dll" />
+	<Assembly                                  value = "..\..\..\Tools\PB_Ado\PB_Ado\bin\Debug\PB_Ado.dll" />
+<!--<Assembly                                  value = "c:\Dev\Projet\Tools\Win32\bin\Debug\Win32.dll" />-->
+	<DebugInformation                          value = "true" />
+</AssemblyProject>
+

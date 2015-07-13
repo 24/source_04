@@ -1,0 +1,338 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{ACEB52CD-35E3-40C4-A945-5583857BD739}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>pb</RootNamespace>
+    <AssemblyName>Lib</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DevExpress.Data, Version=1.2.7.0, Culture=neutral, PublicKeyToken=79868b8147b5eae4">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\RuntimeLibrary\DevExpress\DevExpress 2.4.7.0\.NET\DevExpress.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Utils, Version=2.1.7.0, Culture=neutral, PublicKeyToken=79868b8147b5eae4">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\RuntimeLibrary\DevExpress\DevExpress 2.4.7.0\.NET\DevExpress.Utils.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraEditors, Version=2.1.7.0, Culture=neutral, PublicKeyToken=79868b8147b5eae4">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\RuntimeLibrary\DevExpress\DevExpress 2.4.7.0\.NET\DevExpress.XtraEditors.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraGrid, Version=2.4.7.0, Culture=neutral, PublicKeyToken=79868b8147b5eae4">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\RuntimeLibrary\DevExpress\DevExpress 2.4.7.0\.NET\DevExpress.XtraGrid.dll</HintPath>
+    </Reference>
+    <Reference Include="Ionic.Zip">
+      <HintPath>..\..\RuntimeLibrary\Ionic\Ionic.Zip.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.JScript" />
+    <Reference Include="MongoDB.Bson">
+      <HintPath>..\..\..\..\..\..\..\prog\dev\mongodb\driver\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Bson.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Driver">
+      <HintPath>..\..\..\..\..\..\..\prog\dev\mongodb\driver\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Driver.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpCompress">
+      <HintPath>..\..\RuntimeLibrary\SharpCompress\SharpCompress0.10.3\Full\SharpCompress.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="Source\Other\compile.cs" />
+    <Compile Include="Source\Other\CradleOfRomeWatcher.cs" />
+    <None Include="Source\Other\PagesJaunes.cs" />
+    <None Include="Source\Other\PB_Library_AssemblyInfo.cs" />
+    <None Include="Source\Other\Rapidshare.cs" />
+    <Compile Include="Source\Other\Task.cs" />
+    <None Include="Source\Other\WR_Tools.cs" />
+    <None Include="Source\Other\Xml2Data.cs" />
+    <Compile Include="Source\pb\Compiler\CompilerProject.cs" />
+    <Compile Include="Source\pb\Compiler\GenerateAndExecute.cs" />
+    <Compile Include="Source\pb\Compiler\GenerateCSharpCode.cs" />
+    <Compile Include="Source\pb\Compiler\ICompilerExtension.cs" />
+    <Compile Include="Source\pb\Compiler\IGenerateAndExecute.cs" />
+    <Compile Include="Source\pb\Data\DataTable.cs" />
+    <Compile Include="Source\pb\Data\DataTable2.cs" />
+    <Compile Include="Source\pb\Data\IDocumentStore.cs" />
+    <Compile Include="Source\pb\Data\Mongo\BsonDocumentComparator.cs" />
+    <Compile Include="Source\pb\Data\Mongo\BsonDocumentsToDataTable.cs" />
+    <Compile Include="Source\pb\Data\Mongo\EnumerateBsonDocumentElements.cs" />
+    <Compile Include="Source\pb\Data\Mongo\Mongo.cs" />
+    <Compile Include="Source\pb\Data\Mongo\MongoCollectionManager.cs" />
+    <Compile Include="Source\pb\Data\Mongo\MongoCommand.cs" />
+    <Compile Include="Source\pb\Data\Mongo\MongoCursorCache.cs" />
+    <Compile Include="Source\pb\Data\Mongo\MongoDocumentStore.cs" />
+    <Compile Include="Source\pb\Data\Mongo\MongoIdGenerator.cs" />
+    <Compile Include="Source\pb\Data\Mongo\MongoLog.cs" />
+    <Compile Include="Source\pb\Data\Mongo\PBBsonEnumerateValues.cs" />
+    <Compile Include="Source\pb\Data\Mongo\PBBsonReader.cs" />
+    <Compile Include="Source\pb\Data\Mongo\PBBsonWriter.cs" />
+    <Compile Include="Source\pb\Data\Mongo\Serializers\BsonPBSerializationProvider.cs" />
+    <Compile Include="Source\pb\Data\Mongo\Serializers\DateSerializer.cs" />
+    <Compile Include="Source\pb\Data\Mongo\Serializers\DefaultMongoSerializer.cs" />
+    <Compile Include="Source\pb\Data\Mongo\Serializers\NameValueCollectionSerializer.cs" />
+    <Compile Include="Source\pb\Data\Mongo\Serializers\PBDictionarySerializer.cs" />
+    <Compile Include="Source\pb\Data\Mongo\Serializers\PBKeyValuePairSerializer.cs" />
+    <Compile Include="Source\pb\Data\Mongo\Serializers\UrlImageSerializer.cs" />
+    <Compile Include="Source\pb\Data\Mongo\Serializers\ZIntSerializer.cs" />
+    <Compile Include="Source\pb\Data\Mongo\Serializers\ZStringArraySerializer.cs" />
+    <Compile Include="Source\pb\Data\Mongo\Serializers\ZStringSerializer.cs" />
+    <Compile Include="Source\pb\Data\Mongo\Serializers\ZValueSerializer.cs" />
+    <Compile Include="Source\pb\Data\Mongo\_old\MongoDocumentStore_v1.cs" />
+    <Compile Include="Source\pb\Data\Mongo\_old\MongoDocumentStore_v2.cs" />
+    <Compile Include="Source\pb\Data\Mongo\_old\MongoDocumentStore_v3.cs" />
+    <Compile Include="Source\pb\Data\Xml\Xml.cs" />
+    <Compile Include="Source\pb\Data\Xml\Xml1.cs" />
+    <Compile Include="Source\pb\Data\Xml\XmlConfig.cs" />
+    <Compile Include="Source\pb\Data\Xml\XmlDescendant.cs" />
+    <Compile Include="Source\pb\Data\Xml\XmlDocumentStore.cs" />
+    <Compile Include="Source\pb\Data\Xml\XmlSerializer.cs" />
+    <Compile Include="Source\pb\Data\Xml\XmlSelect.cs" />
+    <Compile Include="Source\pb\Data\Xml\XmlSerialize.cs" />
+    <Compile Include="Source\pb\Data\Xml\XmlWrite.cs" />
+    <Compile Include="Source\pb\Data\Xml\XXElement.cs" />
+    <Compile Include="Source\pb\Data\Xml\_old\Xml.cs" />
+    <Compile Include="Source\pb\Data\_old\IDocumentStore_v1.cs" />
+    <Compile Include="Source\pb\IO\CompressBaseManager.cs" />
+    <Compile Include="Source\pb\IO\CompressManager.cs" />
+    <Compile Include="Source\pb\IO\FilenameNumberInfo.cs" />
+    <Compile Include="Source\pb\IO\FileOption.cs" />
+    <Compile Include="Source\pb\IO\SharpCompressManager.cs" />
+    <Compile Include="Source\pb\IO\UncompressManager.cs" />
+    <Compile Include="Source\pb\IO\WriteToFile.cs" />
+    <Compile Include="Source\pb\IO\WriteToFileCreate.cs" />
+    <Compile Include="Source\pb\IO\ZipManager.cs" />
+    <Compile Include="Source\pb\IO\zlib\Adler32.cs" />
+    <Compile Include="Source\pb\IO\zlib\Deflate.cs" />
+    <Compile Include="Source\pb\IO\zlib\InfBlocks.cs" />
+    <Compile Include="Source\pb\IO\zlib\InfCodes.cs" />
+    <Compile Include="Source\pb\IO\zlib\Inflate.cs" />
+    <Compile Include="Source\pb\IO\zlib\InfTree.cs" />
+    <Compile Include="Source\pb\IO\zlib\JZlib.cs" />
+    <Compile Include="Source\pb\IO\zlib\StaticTree.cs" />
+    <Compile Include="Source\pb\IO\zlib\Tree.cs" />
+    <Compile Include="Source\pb\IO\zlib\ZInflaterInputStream.cs" />
+    <Compile Include="Source\pb\IO\zlib\ZStream.cs" />
+    <Compile Include="Source\pb\Linq\Linq.cs" />
+    <Compile Include="Source\pb\Text\Crypt.cs" />
+    <Compile Include="Source\pb\Text\FindDateManager.cs" />
+    <Compile Include="Source\pb\Text\FindNumberManager.cs" />
+    <Compile Include="Source\pb\Web\Data\Debrider.cs" />
+    <Compile Include="Source\pb\Web\Data\DebriderAlldebrid.cs" />
+    <Compile Include="Source\pb\Web\Data\DebriderDebridLinkFr.cs" />
+    <Compile Include="Source\pb\Web\Data\DebridLinkFr.cs" />
+    <Compile Include="Source\pb\Web\Data\DownloadFileServerInfo.cs" />
+    <Compile Include="Source\pb\Web\Data\ProtectLink.cs" />
+    <Compile Include="Source\pb\Web\Data\WebDataManager.cs" />
+    <Compile Include="Source\pb\Web\Data\WebDataPageManager.cs" />
+    <Compile Include="Source\pb\Web\Data\WebHeaderDetailManager.cs" />
+    <Compile Include="Source\pb\Web\Data\WebImage.cs" />
+    <Compile Include="Source\pb\Web\Data\WebImageCacheManager.cs" />
+    <Compile Include="Source\pb\Web\Data\WebImageFileCacheManager.cs" />
+    <Compile Include="Source\pb\Web\Data\WebImageMongoCacheManager.cs" />
+    <Compile Include="Source\pb\Web\Data\WebLoadDataManager.cs" />
+    <Compile Include="Source\pb\Web\Data\WebLoadManager.cs" />
+    <Compile Include="Source\pb\Web\Data\_old\HeaderDetailWebDocumentStore_v1.cs" />
+    <Compile Include="Source\pb\Web\Data\_old\LoadDataFromWeb_v1.cs" />
+    <Compile Include="Source\pb\Web\Data\_old\LoadDataFromWeb_v2.cs" />
+    <Compile Include="Source\pb\Web\Data\_old\LoadDataFromWeb_v3.cs" />
+    <Compile Include="Source\pb\Web\Data\_old\LoadFromWebManager_v4.cs" />
+    <Compile Include="Source\pb\Web\Data\_old\LoadFromWeb_v1.cs" />
+    <Compile Include="Source\pb\Web\Data\_old\LoadFromWeb_v2.cs" />
+    <Compile Include="Source\pb\Web\Data\_old\LoadWebDataPages_v1.cs" />
+    <Compile Include="Source\pb\Web\Data\_old\LoadWebDataPages_v2.cs" />
+    <Compile Include="Source\pb\Web\Data\_old\LoadWebData_v1.cs" />
+    <Compile Include="Source\pb\Web\Data\_old\LoadWebData_v2.cs" />
+    <Compile Include="Source\pb\Web\Data\_old\LoadWebData_v3.cs" />
+    <Compile Include="Source\pb\Web\Data\_old\LoadWebEnumDataPagesManager_v3.cs" />
+    <Compile Include="Source\pb\Web\Data\_old\LoadWebEnumDataPages_v1.cs" />
+    <Compile Include="Source\pb\Web\Data\_old\LoadWebEnumDataPages_v2.cs" />
+    <Compile Include="Source\pb\Web\Data\_old\WebDocumentStore_v1.cs" />
+    <Compile Include="Source\pb\Web\Data\_old\WebImageCacheManager_v1.cs" />
+    <Compile Include="Source\pb\Web\Data\_old\WebImageMongoCacheManager_v1.cs" />
+    <Compile Include="Source\pb\Web\Html\HtmlCharCodes.cs" />
+    <Compile Include="Source\pb\Web\Html\HtmlReader.cs" />
+    <Compile Include="Source\pb\Web\Html\HtmlRun.cs" />
+    <Compile Include="Source\pb\Web\Html\HtmlTag.cs" />
+    <Compile Include="Source\pb\Web\Html\HtmlToXml.cs" />
+    <Compile Include="Source\pb\Web\Html\_old\HtmlToXml_v1.cs" />
+    <Compile Include="Source\pb\Web\Http\Cookies.cs" />
+    <Compile Include="Source\pb\Web\Http\Http.cs" />
+    <Compile Include="Source\pb\Web\Http\HttpArchive.cs" />
+    <Compile Include="Source\pb\Web\Http\HttpRequest.cs" />
+    <Compile Include="Source\pb\Web\Http\HttpRun.cs" />
+    <Compile Include="Source\pb\Web\Http\HttpXml.cs" />
+    <Compile Include="Source\pb\Web\Http\PBUriBuilder.cs" />
+    <Compile Include="Source\pb\Web\Http\Url.cs" />
+    <Compile Include="Source\pb\Web\Http\UrlCache.cs" />
+    <Compile Include="Source\pb\Web\Http\XmlDocumentSourceType.cs" />
+    <Compile Include="Source\pb\Web\Http\_old\Http_v3.cs" />
+    <Compile Include="Source\pb\Web\Http\_old\UrlCache_v1.cs" />
+    <Compile Include="Source\pb\Web\MailSender.cs" />
+    <Compile Include="Source\pb\Windows\Forms\Menu.cs" />
+    <Compile Include="Source\pb\Windows\Forms\ProgressControl.cs" />
+    <Compile Include="Source\pb\_pb\AsyncManager.cs" />
+    <Compile Include="Source\pb\_pb\Convert.cs" />
+    <Compile Include="Source\pb\_pb\GlobalExtension.cs" />
+    <Compile Include="Source\pb\_pb\ITrace.cs" />
+    <Compile Include="Source\pb\_pb\ITraceError.cs" />
+    <Compile Include="Source\pb\_pb\ITraceToFile.cs" />
+    <Compile Include="Source\pb\_pb\NamedValue.cs" />
+    <Compile Include="Source\pb\_pb\ParseAs.cs" />
+    <Compile Include="Source\pb\_pb\PBException.cs" />
+    <Compile Include="Source\pb\_pb\PBTraceListener.cs" />
+    <Compile Include="Source\pb\_pb\Reflection.cs" />
+    <Compile Include="Source\pb\_pb\TaskManager.cs" />
+    <Compile Include="Source\pb\_pb\TextSerializer.cs" />
+    <Compile Include="Source\pb\_pb\TraceError.cs" />
+    <Compile Include="Source\pb\_pb\TraceLevel.cs" />
+    <Compile Include="Source\pb\_pb\TraceSetWriter.cs" />
+    <Compile Include="Source\pb\_pb\Trace.cs" />
+    <Compile Include="Source\pb\_pb\TypeView.cs" />
+    <Compile Include="Source\pb\_pb\ztrace.cs" />
+    <Compile Include="Source\pb\Windows\Forms\cf.cs" />
+    <Compile Include="Source\pb\Windows\Forms\cf2.cs" />
+    <Compile Include="Source\pb\Windows\Forms\cGrid.cs" />
+    <Compile Include="Source\pb\Windows\Forms\fMainBase.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Source\pb\Windows\Forms\fMainBase.Designer.cs">
+      <DependentUpon>fMainBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Source\pb\Windows\Forms\Hook.cs" />
+    <Compile Include="Source\pb\Windows\Forms\LogForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Source\pb\Windows\Forms\LogForm.designer.cs">
+      <DependentUpon>LogForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Source\pb\Windows\Forms\TrayIcon.cs" />
+    <Compile Include="Source\pb\Windows\Forms\TreeView.cs" />
+    <Compile Include="Source\pb\Windows\Forms\WinProc.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Source\pb\Windows\Forms\XtraGrid.cs" />
+    <Compile Include="Source\pb\Windows\Forms\zerrf.cs" />
+    <Compile Include="Source\pb\Data\Pdf\PdfDataReader.cs" />
+    <Compile Include="Source\pb\Data\Pdf\PdfReader.cs" />
+    <Compile Include="Source\pb\Data\Pdf\PdfWriter.cs" />
+    <Compile Include="Source\pb\_pb\Application.cs" />
+    <Compile Include="Source\pb\Compiler\AssemblyResolve.cs" />
+    <Compile Include="Source\pb\_pb\Chrono.cs" />
+    <Compile Include="Source\pb\Compiler\Compiler.cs" />
+    <Compile Include="Source\pb\_old\Cookie.cs" />
+    <None Include="Source\pb\_old\cu.cs" />
+    <None Include="Source\pb\_old\cu3.cs" />
+    <Compile Include="Source\pb\_pb\Date.cs" />
+    <Compile Include="Source\pb\_pb\Date2.cs" />
+    <Compile Include="Source\pb\IO\Directory.cs" />
+    <Compile Include="Source\pb\_pb\Error.cs" />
+    <Compile Include="Source\pb\Data\FieldList.cs" />
+    <Compile Include="Source\pb\IO\File.cs" />
+    <Compile Include="Source\pb\IO\FileReader.cs" />
+    <Compile Include="Source\pb\_pb\FormatInfo.cs" />
+    <Compile Include="Source\pb\Data\GClass.cs" />
+    <Compile Include="Source\pb\_pb\IChrono.cs" />
+    <Compile Include="Source\pb\Compiler\ICompiler.cs" />
+    <Compile Include="Source\pb\Data\Image.cs" />
+    <None Include="Source\pb\_old\img.cs" />
+    <Compile Include="Source\pb\Compiler\IRunSource.cs" />
+    <Compile Include="Source\pb\_pb\ITrace_v1.cs" />
+    <Compile Include="Source\pb\_old\LinqWhereSelect.cs" />
+    <Compile Include="Source\pb\_old\LoadFromXml.cs" />
+    <Compile Include="Source\pb\Data\NamedValues.cs" />
+    <Compile Include="Source\pb\IO\Path.cs" />
+    <Compile Include="Source\pb\_old\PB_Util_Exception.cs" />
+    <Compile Include="Source\pb\_pb\Process.cs" />
+    <Compile Include="Source\pb\Text\Regex.cs" />
+    <Compile Include="Source\pb\Text\RegexValues.cs" />
+    <Compile Include="Source\pb\Compiler\RemoteRunSource.cs" />
+    <Compile Include="Source\pb\Compiler\RunSource.cs" />
+    <Compile Include="Source\pb\Compiler\RunSourceExtension.cs" />
+    <Compile Include="Source\pb\_pb\SpecialDays.cs" />
+    <Compile Include="Source\pb\Text\Split.cs" />
+    <Compile Include="Source\pb\IO\Stream.cs" />
+    <Compile Include="Source\pb\IO\StreamTransfer.cs" />
+    <Compile Include="Source\pb\Text\String.cs" />
+    <Compile Include="Source\pb\Text\StringZones.cs" />
+    <Compile Include="Source\pb\_pb\Progress.cs" />
+    <Compile Include="Source\pb\_old\TextVariables.cs" />
+    <Compile Include="Source\pb\_pb\Trace_v1.cs" />
+    <Compile Include="Source\pb\Data\Xml\XmlData.cs" />
+    <Compile Include="Source\pb\Data\Xml\XmlParameters_v1.cs" />
+    <Compile Include="Source\pb\Data\ZValue.cs" />
+    <Compile Include="Source\pb\_old\HTMLReader_v1.cs" />
+    <Compile Include="Source\pb\_old\HtmlXmlReader.cs" />
+    <Compile Include="Source\pb\_old\HttpLoad.cs" />
+    <Compile Include="Source\pb\_old\Http_v1.cs" />
+    <Compile Include="Source\pb\_old\Http_v2.cs" />
+    <Compile Include="Source\pb\_old\ImageHtml.cs" />
+    <Compile Include="Source\pb\_old\Tools.cs" />
+    <Compile Include="Source\pb\_old\Xml.cs" />
+    <Compile Include="Source\pb\_old\Xml2.cs" />
+    <Compile Include="Source\pb\_old\XmlLinq.cs" />
+    <Compile Include="Source\pb\_old\XmlSelect.cs" />
+    <Compile Include="Source\pb\_old\XXNode.cs" />
+    <Compile Include="Source\pb\Windows\Win32\GDI.cs" />
+    <Compile Include="Source\pb\Windows\Win32\Kernel.cs" />
+    <Compile Include="Source\pb\Windows\Win32\Messages.cs" />
+    <Compile Include="Source\pb\Windows\Win32\User.Const.cs" />
+    <Compile Include="Source\pb\Windows\Win32\User.cs" />
+    <Compile Include="Source\pb\Windows\Win32\User.Struct.cs" />
+    <Compile Include="Source\pb\Windows\Win32\Windows.cs" />
+    <Compile Include="Source\pb\Windows\Win32\Windows2.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Source\Other\PB_Library_project.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Source\pb\Windows\Forms\LogForm.resx">
+      <DependentUpon>LogForm.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

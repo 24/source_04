@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<AssemblyProject>
+	<Target                                    value = "library" /> <!-- exe (exe console default), library (dll), module (.netmodule), winexe (exe windows) -->
+	<Output                                    value = "bin32\runsource.dll" />
+	<Icon                                      value = "app.ico" />
+	<NameSpace                                 value = "PB_Util" />
+	<CompilerOptions                           value = "/platform:x86" />  <!-- x86, Itanium, x64, or anycpu (default). -->
+<!--<GenerateExecutable                        value = "true" />-->
+<!--<File                                      value = "wrun_config_std.xml" />-->
+  <Source                                    value = "Properties\AssemblyInfo.cs" />
+
+  <Source                                    value = "..\..\..\PB_Library\Source\pb\Web\Html\HtmlCharCodes.cs" />
+  <Source                                    value = "..\..\..\PB_Library\Source\pb\Web\Html\HtmlReader.cs" />
+  <Source                                    value = "..\..\..\PB_Library\Source\pb\Web\Html\HtmlTag.cs" />
+  <Source                                    value = "..\..\..\PB_Library\Source\pb\Web\Html\HtmlToXml.cs" />
+  <Source                                    value = "..\..\..\PB_Library\Source\pb\Web\Http\Http.cs" />
+  <Source                                    value = "..\..\..\PB_Library\Source\pb\Web\Http\HttpRequest.cs" />
+  <Source                                    value = "..\..\..\PB_Library\Source\pb\Web\Http\HttpRun.cs" />
+  <Source                                    value = "..\..\..\PB_Library\Source\pb\Web\Http\HttpXml.cs" />
+  <Source                                    value = "..\..\..\PB_Library\Source\pb\Web\Http\Url.cs" />
+  <Source                                    value = "..\..\..\PB_Library\Source\pb\Web\Http\XmlDocumentSourceType.cs" />
+<!--<Source                                    value = "..\..\PB_Library\pb\Web\old\HtmlToXml_old.cs" />-->
+
+  <Source                                    value = "..\..\..\PB_Library\Source\PB_Tools\PB_Util\AssemblyResolve.cs" />
+	<Source                                    value = "..\..\..\PB_Library\Source\PB_Tools\PB_Util\Chrono.cs" />
+	<Source                                    value = "..\..\..\PB_Library\Source\PB_Tools\PB_Util\Cookie.cs" />
+	<Source                                    value = "..\..\..\PB_Library\Source\PB_Tools\PB_Util\Compiler.cs" />
+	<!--<Source                                    value = "..\..\PB_Tools\PB_Util\Enumerable.cs" />-->
+	<Source                                    value = "..\..\..\PB_Library\Source\PB_Tools\PB_Util\GClass.cs" />
+<!--<Source                                    value = "..\..\PB_Tools\PB_Util\HTMLReader.cs" />-->
+<!--<Source                                    value = "..\..\PB_Tools\PB_Util\HtmlXmlReader.cs" />-->
+<!--<Source                                    value = "..\..\PB_Tools\PB_Util\Http_Html.cs" />-->
+  <!--
+	<Source                                    value = "..\..\PB_Tools\PB_Util\NamedValues.cs" />
+	<Source                                    value = "..\..\PB_Tools\PB_Util\ZValue.cs" />
+-->
+	<Source                                    value = "..\..\..\PB_Library\Source\PB_Tools\PB_Util\Process.cs" />
+<!--<Source                                    value = "..\..\PB_Tools\PB_Util\Regex.cs" />-->
+	<Source                                    value = "..\..\..\PB_Library\Source\PB_Tools\PB_Util\RunSource.cs" />
+	<Source                                    value = "..\..\..\PB_Library\Source\PB_Tools\PB_Util\StreamTransfer.cs" />
+	<Source                                    value = "..\..\..\PB_Library\Source\PB_Tools\PB_Util\Task.cs" />
+<!--<Source                                    value = "..\..\PB_Tools\PB_Util\Xml.cs" />-->
+<!--<Source                                    value = "..\..\PB_Tools\PB_Util\XmlSelect.cs" />-->
+	<Source                                    value = "..\..\..\PB_Library\Source\PB_Tools\Win32\GDI.cs" />
+	<Source                                    value = "..\..\..\PB_Library\Source\PB_Tools\Win32\Kernel.cs" />
+	<Source                                    value = "..\..\..\PB_Library\Source\PB_Tools\Win32\User.cs" />
+	<Source                                    value = "..\..\..\PB_Library\Source\PB_Tools\Win32\User.Const.cs" />
+	<Source                                    value = "..\..\..\PB_Library\Source\PB_Tools\Win32\User.Struct.cs" />
+	<Source                                    value = "..\..\..\PB_Library\Source\PB_Tools\Win32\Windows.cs" />
+  <Assembly                                  value = "System.dll" />
+	<Assembly                                  value = "System.Core.dll" />
+	<Assembly                                  value = "System.Data.dll" />
+	<Assembly                                  value = "System.Drawing.dll" />
+	<Assembly                                  value = "System.Web.dll" />
+	<Assembly                                  value = "System.Windows.Forms.dll" />
+	<Assembly                                  value = "System.Xml.dll" />
+	<Assembly                                  value = "System.Xml.Linq.dll" />
+	<Assembly                                  value = "Microsoft.JScript.dll" />
+  <Assembly                                  value = "..\runsource.irunsource\bin32\runsource.irunsource.dll" />
+  <Assembly                                  value = "..\runsource.common\bin32\runsource.common.dll" />
+  <DebugInformation                          value = "true" />
+	<!--<CopyOutput                                value = "c:\pib\prog\tools\runsource\new" />-->
+<!--<CopyOutput                                value = "$AppDirectory$\..\new" />-->
+</AssemblyProject>

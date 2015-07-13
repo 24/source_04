@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A795814A-A8C6-42A7-87A8-777486D02E7C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>runsource.irunsource</RootNamespace>
+    <AssemblyName>runsource.irunsource</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>app.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\..\PB_Library\Source\pb\Data\Xml\Xml.cs">
+      <Link>Source\pb\Data\Xml\Xml.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\PB_Library\Source\pb\_pb\Convert.cs">
+      <Link>Source\pb\_pb\Convert.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\PB_Library\Source\pb\_pb\PBException.cs">
+      <Link>Source\pb\_pb\PBException.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\PB_Library\Source\pb\_pb\Reflection.cs">
+      <Link>Source\pb\_pb\Reflection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\PB_Library\Source\PB_Tools\PB_Util\Application.cs">
+      <Link>Source\PB_Util\Application.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\PB_Library\Source\PB_Tools\PB_Util\Error.cs">
+      <Link>Source\PB_Util\Error.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\PB_Library\Source\PB_Tools\PB_Util\File.cs">
+      <Link>Source\PB_Util\File.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\PB_Library\Source\PB_Tools\PB_Util\Format.cs">
+      <Link>Source\PB_Util\Format.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\PB_Library\Source\PB_Tools\PB_Util\IChrono.cs">
+      <Link>Source\PB_Util\IChrono.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\PB_Library\Source\PB_Tools\PB_Util\ICompiler.cs">
+      <Link>Source\PB_Util\ICompiler.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\PB_Library\Source\PB_Tools\PB_Util\IRunSource.cs">
+      <Link>Source\PB_Util\IRunSource.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\PB_Library\Source\PB_Tools\PB_Util\ITrace.cs">
+      <Link>Source\PB_Util\ITrace.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\PB_Library\Source\PB_Tools\PB_Util\LinqWhereSelect.cs">
+      <Link>Source\PB_Util\LinqWhereSelect.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\PB_Library\Source\PB_Tools\PB_Util\Path.cs">
+      <Link>Source\PB_Util\Path.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\PB_Library\Source\PB_Tools\PB_Util\Regex.cs">
+      <Link>Source\PB_Util\Regex.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\PB_Library\Source\PB_Tools\PB_Util\Split.cs">
+      <Link>Source\PB_Util\Split.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\PB_Library\Source\PB_Tools\PB_Util\String.cs">
+      <Link>Source\PB_Util\String.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\PB_Library\Source\PB_Tools\PB_Util\StringZones.cs">
+      <Link>Source\PB_Util\StringZones.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\PB_Library\Source\PB_Tools\PB_Util\Trace.cs">
+      <Link>Source\PB_Util\Trace.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\PB_Library\Source\PB_Tools\PB_Util\XmlParameters.cs">
+      <Link>Source\PB_Util\XmlParameters.cs</Link>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="app.ico" />
+    <Content Include="runsource.irunsource.project.xml" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

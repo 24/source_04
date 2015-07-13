@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<AssemblyProject>
+	<Target                                    value = "library" /> <!-- exe (exe console default), library (dll), module (.netmodule), winexe (exe windows) -->
+	<Output                                    value = "bin32\runsource.common.dll" />
+	<Icon                                      value = "app.ico" />
+	<NameSpace                                 value = "PB_Util" />
+	<CompilerOptions                           value = "/platform:x86" />  <!-- x86, Itanium, x64, or anycpu (default). -->
+<!--<GenerateExecutable                        value = "true" />-->
+<!--<File                                      value = "wrun_config_std.xml" />-->
+  <Source                                    value = "Properties\AssemblyInfo.cs" />
+  <!--<Source                                    value = "..\..\PB_Tools\PB_Util\cdt.cs" />-->
+<!--<Source                                    value = "..\..\PB_Tools\PB_Util\Date.cs" />-->
+<!--<Source                                    value = "..\..\PB_Tools\PB_Util\FieldList.cs" />-->
+<!--<Source                                    value = "..\..\PB_Tools\PB_Util\File.cs" />-->
+<!--<Source                                    value = "..\..\PB_Tools\PB_Util\FileReader.cs" />-->
+<!--<Source                                    value = "..\..\PB_Tools\PB_Util\GlobalExtension.cs" />-->
+  <Source                                    value = "..\..\..\PB_Library\Source\PB_Tools\PB_Util\Image.cs" />
+<!--<Source                                    value = "..\..\PB_Tools\PB_Util\Path.cs" />-->
+<!--<Source                                    value = "..\..\PB_Tools\PB_Util\Reflection.cs" />-->
+<!--<Source                                    value = "..\..\PB_Tools\PB_Util\TextVariables.cs" />-->
+<!--<Source                                    value = "..\..\PB_Tools\PB_Util\Trace.cs" />-->
+  <Source                                    value = "..\..\..\PB_Library\Source\pb\_pb\ParseAs.cs" />
+  <Source                                    value = "..\..\..\PB_Library\Source\pb\Data\Xml\XmlConfig.cs" />
+  <!--<Source                                    value = "..\..\PB_Library\pb\_pb\PBException.cs" />-->
+  <Assembly                                  value = "System.dll" />
+	<Assembly                                  value = "System.Core.dll" />
+	<Assembly                                  value = "System.Data.dll" />
+	<Assembly                                  value = "System.Drawing.dll" />
+	<Assembly                                  value = "System.Xml.dll" />
+	<Assembly                                  value = "System.Xml.Linq.dll" />
+  <Assembly                                  value = "..\runsource.irunsource\bin32\runsource.irunsource.dll" />
+	<DebugInformation                          value = "true" />
+	<!--<CopyOutput                                value = "c:\pib\prog\tools\runsource\new" />-->
+  <!--<CopyOutput                                value = "$AppDirectory$\..\new" />-->
+</AssemblyProject>

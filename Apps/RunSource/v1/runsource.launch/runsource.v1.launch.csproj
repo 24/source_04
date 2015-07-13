@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{D47189C7-1C0C-422A-8EB7-82FDC5229000}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>runsource.launch</RootNamespace>
+    <AssemblyName>runsource.launch</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Properties\app.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\..\PB_Library\Source\PB_Tools\PB_Form\zerrf.cs">
+      <Link>PB_Form\zerrf.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\PB_Library\Source\PB_Tools\PB_Util\Application.cs">
+      <Link>PB_Util\Application.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\PB_Library\Source\PB_Tools\PB_Util\Error.cs">
+      <Link>PB_Util\Error.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\PB_Library\Source\PB_Tools\PB_Util\File.cs">
+      <Link>PB_Util\File.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\PB_Library\Source\PB_Tools\PB_Util\ITrace.cs">
+      <Link>PB_Util\ITrace.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\PB_Library\Source\PB_Tools\PB_Util\Path.cs">
+      <Link>PB_Util\Path.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\PB_Library\Source\PB_Tools\PB_Util\Regex.cs">
+      <Link>PB_Util\Regex.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\PB_Library\Source\PB_Tools\PB_Util\Trace.cs">
+      <Link>PB_Util\Trace.cs</Link>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="runsource.launch.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Properties\app.ico" />
+    <Content Include="runsource.launch.project.xml" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

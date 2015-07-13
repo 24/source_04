@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<AssemblyProject>
+	<Target                                    value = "library" /> <!-- exe (exe console default), library (dll), module (.netmodule), winexe (exe windows) -->
+	<Output                                    value = "bin32\runsource.irunsource.dll" />
+	<NameSpace                                 value = "PB_Util" />
+	<CompilerOptions                           value = "/platform:x86" />  <!-- x86, Itanium, x64, or anycpu (default). -->
+  <Source                                    value = "Properties\AssemblyInfo.cs" />
+  <Source                                    value = "..\..\..\PB_Library\Source\PB_Tools\PB_Util\Application.cs" />
+  <Source                                    value = "..\..\..\PB_Library\Source\PB_Tools\PB_Util\Error.cs" />
+  <Source                                    value = "..\..\..\PB_Library\Source\PB_Tools\PB_Util\File.cs" />
+  <Source                                    value = "..\..\..\PB_Library\Source\PB_Tools\PB_Util\Format.cs" />
+	<Source                                    value = "..\..\..\PB_Library\Source\PB_Tools\PB_Util\IChrono.cs" />
+  <Source                                    value = "..\..\..\PB_Library\Source\PB_Tools\PB_Util\ICompiler.cs" />
+	<Source                                    value = "..\..\..\PB_Library\Source\PB_Tools\PB_Util\IRunSource.cs" />
+  <Source                                    value = "..\..\..\PB_Library\Source\PB_Tools\PB_Util\ITrace.cs" />
+	<Source                                    value = "..\..\..\PB_Library\Source\PB_Tools\PB_Util\LinqWhereSelect.cs" />
+  <Source                                    value = "..\..\..\PB_Library\Source\PB_Tools\PB_Util\Path.cs" />
+  <Source                                    value = "..\..\..\PB_Library\Source\PB_Tools\PB_Util\Regex.cs" />
+	<Source                                    value = "..\..\..\PB_Library\Source\PB_Tools\PB_Util\Split.cs" />
+	<Source                                    value = "..\..\..\PB_Library\Source\PB_Tools\PB_Util\String.cs" />
+	<Source                                    value = "..\..\..\PB_Library\Source\PB_Tools\PB_Util\StringZones.cs" />
+  <Source                                    value = "..\..\..\PB_Library\Source\PB_Tools\PB_Util\Trace.cs" />
+	<Source                                    value = "..\..\..\PB_Library\Source\PB_Tools\PB_Util\XmlParameters.cs" />
+  <Source                                    value = "..\..\..\PB_Library\Source\pb\_pb\Convert.cs" />
+  <Source                                    value = "..\..\..\PB_Library\Source\pb\_pb\PBException.cs" />
+  <Source                                    value = "..\..\..\PB_Library\Source\pb\_pb\Reflection.cs" />
+  <Source                                    value = "..\..\..\PB_Library\Source\pb\Data\Xml\Xml.cs" />
+  <Assembly                                  value = "System.dll" />
+	<Assembly                                  value = "System.Core.dll" />
+	<Assembly                                  value = "System.Data.dll" />
+	<Assembly                                  value = "System.Xml.dll" />
+	<Assembly                                  value = "System.Xml.Linq.dll" />
+  <DebugInformation                          value = "true" />
+</AssemblyProject>
+

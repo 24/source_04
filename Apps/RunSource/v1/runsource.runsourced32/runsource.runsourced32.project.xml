@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<AssemblyProject>
+	<Target                                    value = "winexe" /> <!-- exe (exe console default), library (dll), module (.netmodule), winexe (exe windows) -->
+	<Output                                    value = "bin32\runsource.runsourced32.exe" />
+	<Icon                                      value = "Properties\app.ico" />
+	<NameSpace                                 value = "runsourced" />
+	<CompilerOptions                           value = "/platform:x86" />  <!-- x86, Itanium, x64, or anycpu (default). -->
+  <File                                      value = "runsource.runsourced32.config.xml" />
+  <File                                      value = "ScintillaNET.xml" />
+  <Source                                    value = "Properties\AssemblyInfo.cs" />
+  <Source                                    value = "Properties\Resources.resx" namespace = "runsourced.Properties" />
+  <Source                                    value = "Properties\Resources.Designer.cs" />
+  <!--<Source                                    value = "Resource.resx" namespace = "runsourced" />-->
+  <Source                                    value = "Source\Program.cs" />
+	<Source                                    value = "Source\RunSourceForm.cs" />
+	<Source                                    value = "Source\RunSourceForm.Designer.cs" />
+	<Source                                    value = "Source\RunSourceForm.resx" namespace = "runsourced" />
+	<Source                                    value = "..\..\..\PB_Library\Source\PB_Tools\PB_Form\cf.cs" />
+	<Source                                    value = "..\..\..\PB_Library\Source\PB_Tools\PB_Form\cf2.cs" />
+	<Source                                    value = "..\..\..\PB_Library\Source\PB_Tools\PB_Form\cGrid.cs" />
+<!--<Source                                    value = "..\..\PB_Tools\PB_Form\TreeView.cs" />-->
+	<Source                                    value = "..\..\..\PB_Library\Source\PB_Tools\PB_Form\XtraGrid.cs" />
+	<Source                                    value = "..\..\..\PB_Library\Source\PB_Tools\PB_Form\zerrf.cs" />
+<!--
+	<Source                                    value = "..\..\PB_Tools\PB_Util\NamedValues.cs" />
+-->
+	<Source                                    value = "..\..\..\PB_Library\Source\PB_Tools\PB_Util\RemoteRunSource.cs" />
+  <Source                                    value = "..\..\..\PB_Library\Source\pb\Data\Xml\XmlSerialize.cs" />
+
+  <Assembly                                  value = "System.dll" />
+	<Assembly                                  value = "System.Core.dll" />
+	<Assembly                                  value = "System.Data.dll" />
+	<Assembly                                  value = "System.Drawing.dll" />
+	<Assembly                                  value = "System.Windows.Forms.dll" />
+	<Assembly                                  value = "System.Xml.dll" />
+	<Assembly                                  value = "System.Xml.Linq.dll" />
+  <Assembly                                  value = "DevExpress.Data.dll" />
+  <Assembly                                  value = "DevExpress.Utils.dll" />
+  <Assembly                                  value = "DevExpress.XtraEditors.dll" />
+  <Assembly                                  value = "DevExpress.XtraGrid.dll" />
+  <!-- resolve = "true" resolveName = "ScintillaNET, Version=2.6.0.0, Culture=neutral, PublicKeyToken=948d6c9751444115" -->
+  <!--<Assembly                                  value = "c:\pib\dropbox\pbeuz\Dropbox\dev\project\Tools\ScintillaNET\ScintillaNET v2.6\ScintillaNET.dll" />-->
+  <!--<Assembly                                  value = "c:\pib\dropbox\pbeuz\Dropbox\dev\project\RuntimeLibrary\ScintillaNET\ScintillaNET v2.6\ScintillaNET.dll" />-->
+  <Assembly                                  value = "..\..\..\..\RuntimeLibrary\ScintillaNET\ScintillaNET v2.6\ScintillaNET.dll" />
+  <!--<Assembly                                  value = "..\runsource.irunsource\bin\Debug\runsource.irunsource.dll" />  --><!-- "..\runsource.irunsource\bin32\irunsource.dll" -->
+  <Assembly                                  value = "..\runsource.irunsource\bin32\runsource.irunsource.dll" />
+  <!--<Assembly                                  value = "..\runsource.common\bin\Debug\runsource.common.dll" />    --><!-- "..\runsource.common\bin32\runsource_common.dll" -->
+  <Assembly                                  value = "..\runsource.common\bin32\runsource.common.dll" />
+  <DebugInformation                          value = "true" />
+  <!--<CopyOutput                                value = "$AppDirectory$\..\new" >-->
+  <!--<CopyOutput                                value = "c:\pib\prog\tools\runsource\new" />-->
+  <!--<CopyOutput                                value = "c:\pib\prog\tools\runsource\new" >
+    <File                                      value = "runsource.runsourced32.config.xml" />
+    <File                                      value = "ScintillaNET.xml" />
+  </CopyOutput>-->
+</AssemblyProject>
+

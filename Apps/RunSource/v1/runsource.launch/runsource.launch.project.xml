@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<AssemblyProject>
+	<Target                                    value = "winexe" /> <!-- exe (exe console default), library (dll), module (.netmodule), winexe (exe windows) -->
+	<Output                                    value = "bin32\runsource.launch.exe" />
+	<Icon                                      value = "Properties\app.ico" />
+	<NameSpace                                 value = "runsource_launch" />
+	<CompilerOptions                           value = "/platform:x86" />  <!-- x86, Itanium, x64, or anycpu (default). -->
+  <!--<File                                      value = "runsourced32_config_std.xml" />-->
+	<Source                                    value = "Properties\AssemblyInfo.cs" />
+	<Source                                    value = "runsource.launch.cs" />
+	<Source                                    value = "..\..\..\PB_Library\Source\PB_Tools\PB_Form\zerrf.cs" />
+  <Source                                    value = "..\..\..\PB_Library\Source\PB_Tools\PB_Util\Application.cs" />
+  <!--<Source                                    value = "..\..\PB_Tools\PB_Util\Directory.cs" />-->
+  <Source                                    value = "..\..\..\PB_Library\Source\PB_Tools\PB_Util\Error.cs" />
+	<Source                                    value = "..\..\..\PB_Library\Source\PB_Tools\PB_Util\File.cs" />
+	<Source                                    value = "..\..\..\PB_Library\Source\PB_Tools\PB_Util\ITrace.cs" />
+	<Source                                    value = "..\..\..\PB_Library\Source\PB_Tools\PB_Util\Path.cs" />
+	<Source                                    value = "..\..\..\PB_Library\Source\PB_Tools\PB_Util\Regex.cs" />
+  <!--<Source                                    value = "..\..\PB_Tools\PB_Util\String.cs" />-->
+  <Source                                    value = "..\..\..\PB_Library\Source\PB_Tools\PB_Util\Trace.cs" />
+  <Assembly                                  value = "System.dll" />
+  <Assembly                                  value = "System.Core.dll" />
+  <Assembly                                  value = "System.Windows.Forms.dll" />
+<!--
+	<Source                                    value = "..\..\PB_Tools\PB_Util\Application.cs" />
+	<Source                                    value = "..\..\PB_Tools\PB_Util\Path.cs" />
+  <Assembly                                  value = "System.Core.dll" />
+	<Assembly                                  value = "System.Data.dll" />
+	<Assembly                                  value = "System.Drawing.dll" />
+	<Assembly                                  value = "System.Xml.dll" />
+	<Assembly                                  value = "System.Xml.Linq.dll" />
+  <Assembly                                  value = "DevExpress.Data.dll" />
+  <Assembly                                  value = "DevExpress.Utils.dll" />
+  <Assembly                                  value = "DevExpress.XtraEditors.dll" />
+  <Assembly                                  value = "DevExpress.XtraGrid.dll" />
+  <Assembly                                  value = "..\runsource_dll\bin32\irunsource.dll" />
+-->
+  <DebugInformation                          value = "true" />
+<!--
+	<CopyOutput                                value = "c:\pib\prog\tools\runsource\new" >
+    <File                                      value = "runsourced32_config_std.xml" destinationFile = "runsourced32_config.xml" />
+  </CopyOutput>
+-->
+  <!--<CopyOutput                                value = "c:\pib\prog\tools\runsource\new" />-->
+  <!--<CopyOutput                                value = "$AppDirectory$\..\new" />-->
+</AssemblyProject>
+

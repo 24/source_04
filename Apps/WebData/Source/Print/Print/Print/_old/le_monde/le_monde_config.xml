@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Test>
+	<Log                                                       value = "c:\pib\dev_data\exe\wrun\test\log\log.txt" />
+</Test>

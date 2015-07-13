@@ -1,0 +1,1506 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- remplacement de TextValue par XmlVariable le 20/09/2013 -->
+<pt>
+	<Log                                                       value = "pt_log.txt" /> <!-- option = "None"  log\log.txt c:\pib\dev_data\exe\pt\log\log.txt -->
+	<Trace                                                     value = "c:\pib\dev_data\exe\pt\http" />
+	<DataDir                                                   value = "c:\pib\dev_data\exe\pt" />
+  <PrintConfig                                               value = "c:\pib\dropbox\pbeuz\Dropbox\dev\project\Source\Source_01\Source\Download\Print\pt\pt_config.xml" />
+  <Print>
+    <Directory                                               value = "c:\pib\media\print" />
+    <Prints>
+
+<!-- ********************************************************************************************************************************************************************** -->
+<!-- ********                                   .01_quotidien                                                                                                      ******** -->
+<!-- ********************************************************************************************************************************************************************** -->
+
+      <Print>
+	      <Name               value = "la_croix" />
+	      <Title              value = "La croix" />
+	      <Frequency          value = "daily" />
+        <Directory          value = ".01_quotidien\La croix" />
+	      <DateReference      value = "2013-05-02" />
+	      <NumberReference    value = "39571" />
+        <NoPrintDate        value = "Sunday" />
+        <NoPrintDate        value = "MayFirst" />
+        <NoPrintDate        value = "VictoryInEuropeDay" />
+        <NoPrintDate        value = "AscensionThursday" />
+        <NoPrintDate        value = "PentecostMonday" />
+        <!-- la Croix du Lundi 15 Juillet 2013.pdf -->
+        <!-- Croy$09.pdf $Cro$06$07$.pdf Croy12.pdf $Croi$18$.pdf  Croy\$|\$Cro\$ -->
+        <Filename regex="(?:croix|^\$Cro[yi]?)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "le_figaro" />
+	      <Title              value = "Le figaro" />
+	      <Frequency          value = "daily" />
+        <Directory          value = ".01_quotidien\Le figaro" />
+	      <DateReference      value = "2013-04-25" />
+	      <NumberReference    value = "21376" />
+        <NoPrintDate        value = "Sunday" />
+        <NoPrintDate        value = "MayFirst" />
+        <!-- Le Figaro du Jeudi 30 Mai 2013.pdf -->
+        <!-- lfg_20130523.pdf  lfg_2013052526.pdf lfgr_20130522.pdf FI_28.03.2013.pdf -->
+        <!-- £Fyg£30£.pdf  £Fyg$01&02$.pdf $Fyg$14$.pdf Fyg$09.pdf Fig12.pdf $Fig.13&14.pdf $Fig$17$.pdf Figa20.pdf -->
+        <Filename regex="(?:Figaro|F[iy]ga?|^lfg_|^FI_)(?!.*histoire)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "le_figaro_histoire" />
+	      <Title              value = "Le figaro histoire" />
+	      <Frequency          value = "Bimonthly" />
+        <Directory          value = ".01_quotidien\Le figaro\Le figaro histoire" />
+	      <DateReference      value = "2013-04" />
+	      <NumberReference    value = "7" />
+        <!-- Le_Cigaro_Histoire_9.pdf -->
+        <Filename regex="(?:le\s*figaro\s*histoire|Le_Cigaro_Histoire)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "le_monde" />
+	      <Class              value = "LeMonde" />
+	      <Title              value = "Le monde" />
+	      <Frequency          value = "daily" />
+        <Directory          value = ".01_quotidien\Le monde" />
+	      <DateReference      value = "2012-12-02" />
+	      <NumberReference    value = "21110" />
+        <!--<XmlVariable name="le_monde_code" value="quo|arg|arh|aut|dos|edu|liv|mag|mde|mdv|nyt|peh|sch|scq|sph|sty|tel" />-->
+        <!--<XmlVariable name="le_monde_type_sup" value="argent|culture|dossier|éco|eco|édu|edu|festival|géo|geo|livres|mag|mode|science|sport|style|nyt|tv|document|élection|hebdo|sup" />-->
+        <le_monde_code      value="quo|arg|arh|aut|dos|edu|liv|mag|mde|mdv|nyt|peh|sch|scq|sph|sty|tel" />
+        <le_monde_type_sup  value="argent|culture|dossier|éco|eco|édu|edu|festival|géo|geo|livres|mag|mode|science|sport|style|nyt|tv|document|élection|hebdo|sup" />
+        <!-- Le monde - 2013-03-01 - no 21186 _quo.pdf -->
+        <NormalizedFilename model="name_day_number" v_title="le monde" v_sup=" ((_quo)(?:\+($le_monde_type_sup$))*|-($le_monde_type_sup$))" v_sup_values="type, type_quo, types_quo_sup[], type_sup," />
+        <!-- le_monde 2 : 20130315_QUO.pdf 20130315_LIV.pdf -->
+        <Filename regex="_($le_monde_code$)\.pdf" options="IgnoreCase" values="type_code" />
+        <!-- mond_eco -->
+        <Filename regex="mond_eco" values="fix_type_eco" />
+        <!-- mond_tv -->
+        <Filename regex="mond_tv" values="fix_type_tv" />
+        <!-- $Mond$16$17$.pdf $Mond$16$17$_2.pdf $M0nd9&10£.pdf $M0ndW$15$.pdf $Mond$W$29$.pdf $Mon$03$&+$.pdf $LeMonde$5$.pdf MondW13.pdf mde.280613.pdf lmnd_20130606.pdf LMWESA.030813.pdf -->
+        <Filename regex="(?:^\$M[o0]nd|^\$Mon|^(?:le[\s_]*)?Monde|^mde|^lmnd|^LMWESA)(?!\s*de)" options="IgnoreCase" values="fix_type_quo" />
+      </Print>
+      <Print>
+	      <Name               value = "le_parisien" />
+	      <Class              value = "LeParisien" />
+	      <Title              value = "Le parisien" />
+	      <Frequency          value = "daily" />
+        <Directory          value = ".01_quotidien\Le parisien" />
+	      <DateReference      value = "2013-05-09" />
+	      <NumberReference    value = "21356" />
+        <NoPrintDate        value = "Sunday" />
+        <NoPrintDate        value = "MayFirst" />
+        <NormalizedFilename model="name_day_number" v_title="le parisien" v_sup="(?: bis)?( -(éco|mag))?" v_sup_values=",type_code," />
+        <!-- $ParEco$1$.pdf $Pary$upp$Econom$17$.pdf -->
+        <Filename regex="pary?(?:eco|\$upp\$econom)" options="IgnoreCase" values="eco" />
+        <!-- £Pary10£eco$.pdf Par$9.pdf -->
+        <Filename regex="pary?.*eco" options="IgnoreCase" values="eco" />
+        <!-- Le Parisien + cahier Paris du lundi 15 juillet 2013.pdf -->
+        <!-- $Pary$14$.pdf $Pary$Cahier£17£.pdf $Par$17$.pdf $Pari$18$.pdf LPay23.pdf lprs_20130712.pdf LPar22.pdf LePary25.pdf -->
+        <Filename regex="(?&lt;![a-z])(?:parisien|par[iy]?|LPay|LPar|^lprs_|LePary)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "l_equipe" />
+	      <Title              value = "L'équipe" />
+	      <Frequency          value = "daily" />
+        <Directory          value = ".01_quotidien\L'équipe" />
+	      <DateReference      value = "2013-04-01" />
+	      <NumberReference    value = "21444" />          <!-- attention le numéro du journal du 17-02-2012 donne 21036 au lieu de 21038, le numéro du journal du 04-11-2012 donne 21296 qui est exact -->
+        <NoPrintDate        value = "MayFirst" />
+        <!-- L 'Equipe  du dimanche 07 juillet 2013.pdf L' Equipe  du lundi 15 juillet 2013.pdf -->
+        <!-- $Ek$01$.pdf Eq09.pdf $Eq$17$.pdf Ek19.pdf TorchonDD07072013.pdf LEk09.pdf -->
+        <Filename regex="(?:[ée]quipe|^\$?E[qk]|^torchon|^LEk)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "les_echos" />
+	      <Title              value = "Les échos" />
+	      <Frequency          value = "daily" />
+        <Directory          value = ".01_quotidien\Les échos" />
+	      <DateReference      value = "2013-04-02" />
+	      <NumberReference    value = "21408" />
+        <NoPrintDate        value = "Saturday" />
+        <NoPrintDate        value = "Sunday" />
+        <NoPrintDate        value = "NewYearDay" />          <!-- 1er janvier -->
+        <NoPrintDate        value = "EasterMonday" />        <!-- lundi de Pâques -->
+        <NoPrintDate        value = "MayFirst" />            <!-- 1er mai -->
+        <NoPrintDate        value = "VictoryInEuropeDay" />  <!-- 8 mai -->
+        <NoPrintDate        value = "AscensionThursday" />   <!-- jeudi de l'Ascension -->
+        <NoPrintDate        value = "PentecostMonday" />     <!-- lundi de Pentecôte -->
+        <NoPrintDate        value = "FrenchRevolutionDay" /> <!-- 14 juillet -->
+        <NoPrintDate        value = "AssumptionDay" />       <!-- 15 aout Assomption -->
+        <NoPrintDate        value = "AllSaintsDay" />        <!-- 1 novembre Toussaint -->
+        <NoPrintDate        value = "ArmisticeDay" />        <!-- 11 novembre Armistice -->
+        <NoPrintDate        value = "ChristmasDay" />        <!-- 25 décembre jour de Noël -->
+        <!-- Les Echos  du Lundi 15 Juillet 2013.pdf ECHOS du mardi 23 juillet 2013.pdf -->
+        <!-- $Ec0$11$c.pdf $Ec0$11$c.pdf $Ec0$09.pdf $Ech$11$.pdf VENKO14062013.pdf lseh_2013071213.pdf EcO025.pdf EC0.2&3.pdf -->
+        <Filename regex="(?:[ée]chos|^venko|^lseh_|^EcO0|^\$ec[o0h]?|^EC0)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "liberation" />
+	      <Title              value = "Libération" />
+	      <Frequency          value = "daily" />
+        <Directory          value = ".01_quotidien\Libération" />
+	      <DateReference      value = "2013-04-01" />
+	      <NumberReference    value = "9917" />
+        <NoPrintDate        value = "Sunday" />
+        <NoPrintDate        value = "NewYearDay" />          <!-- 1er janvier -->
+        <NoPrintDate        value = "MayFirst" />            <!-- 1er mai -->
+        <!--<NoPrintDate       value = "AscensionThursday" />-->   <!-- jeudi de l'Ascension -->
+        <NoPrintDate        value = "2013-05-09" />          <!-- jeudi de l'Ascension 2013 -->
+        <NoPrintDate        value = "ChristmasDay" />        <!-- 25 décembre jour de Noël -->
+        <!-- $£yb$12$.pdf $Lib$29$30$.pdf $Lyb$15$16.pdf Lyb$9.pdf $Lyb13.14.pdf Libe$20$21.pdf libe_20130712.pdf merlib.240713.pdf Li1b31.pdf -->
+        <Filename regex="(?:lib[ée]ration|[l£][iy]be?|merlib|^Li1b)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "mediapart" />
+	      <Title              value = "Médiapart" />
+	      <Frequency          value = "daily" />
+        <Directory          value = ".01_quotidien\Médiapart" />
+	      <Option             value = "NoNumber" />
+        <!-- $Medya$01$.pdf £MedyaP£09D£.pdf $MedyaP$11$.pdf $Medya$P$12$.pdf $Medya$Par15$.pdf $Medya$Pt$17$.pdf $Medya$4$_.pdf Medi$8$.pdf MEDPRT.310713.pdf -->
+        <Filename regex="(?:m[ée]diapart|med[iy]a?|^MEDPRT)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "dernieres_nouvelles_d_alsace" />
+	      <Title              value = "Dernières nouvelles d'Alsace" />
+	      <Frequency          value = "daily" />
+        <Directory          value = ".04_autre\Dernières nouvelles d'Alsace" />
+	      <DateReference      value = "2013-07-10" />
+	      <NumberReference    value = "47009" />
+        <!-- $Dna$tra10$.pdf Dnnaa09.pdf DDNnaA10.pdf -->
+        <Filename regex="(?:dernières nouvelles d'alsace|^\$?dna|^Dnnaa|^DDNna)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "l_humanite" />
+	      <Title              value = "L'humanité" />
+	      <Frequency          value = "daily" />
+        <Directory          value = ".04_autre\L'humanité" />
+	      <DateReference      value = "2013-07-05" />
+	      <NumberReference    value = "21204" />
+        <NoPrintDate        value = "Saturday" />
+        <NoPrintDate        value = "Sunday" />
+        <!-- L'Humanite du Lundi 15 Juillet 2013.pdf -->
+        <!-- huma $Huma12.13.14.pdf $Uma$17$.pdf Hum22.pdf luhm_201307121314.pdf -->
+        <Filename regex="(?:humanit[ée]|h?uma|hum|^luhm_)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "la_provence" />
+	      <Title              value = "La provence" />
+	      <Frequency          value = "daily" />
+        <Directory          value = ".04_autre\La provence" />
+	      <DateReference      value = "2013-07-10" />
+	      <NumberReference    value = "5870" />
+        <NoPrintDate        value = "Sunday" />
+        <!-- La Provence   Marseille Du lundi 15 Juillet 2013.pdf -->
+        <!-- $Prov$10$.pdf $Pro$17$.pdf $Pr0$16$.pdf lpm_20130712.pdf -->
+        <Filename regex="(?:provence|pr[o0]v?|^lpm_)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "la_voix_du_nord" />
+	      <Title              value = "La voix du nord" />
+	      <Frequency          value = "daily" />
+        <Directory          value = ".04_autre\La voix du nord" />
+	      <DateReference      value = "2013-07-17" />
+	      <NumberReference    value = "21744" />
+        <NoPrintDate        value = "Saturday" />
+        <NoPrintDate        value = "Sunday" />
+        <!-- $VdN17$.pdf vdnlille20.pdf VdN$ill21.pdf -->
+        <Filename regex="(?:voix\s+du\s+nord|vdn)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "midi_olympique" />
+	      <Title              value = "Midi olympique" />
+	      <Frequency          value = "daily" />
+        <Directory          value = ".04_autre\Midi olympique" />
+	      <DateReference      value = "2013-07-05" />
+	      <NumberReference    value = "389" />
+        <NoPrintDate        value = "Saturday" />
+        <NoPrintDate        value = "Sunday" />
+        <!-- $Mydol$5$7$.pdf $Mid0L$12$14$.pdf -->
+        <Filename regex="(?:midi\s+olympique|m[yi]d[o0]l)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "sud_ouest" />
+	      <Title              value = "Sud ouest" />
+	      <Frequency          value = "daily" />
+        <Directory          value = ".04_autre\Sud ouest" />
+	      <DateReference      value = "2013-07-06" />
+	      <NumberReference    value = "1389" />
+        <NoPrintDate        value = "Sunday" />
+        <!-- Sud Ouest du Lundi 15 Juillet 2013.pdf -->
+        <!-- $ud$uest$6$.pdf $ud$0ue7$.pdf $ud$0ues$10$.pdf $ud$0uest11$.pdf $ud0uest12.pdf $ud$0ues13$.pdf $ud0est$16$.pdf Zud0uest10.pdf -->
+        <Filename regex="(?:sud\s+ouest|[\$s]ud\$?[\$0]u?es?t?|sud|Zud0uest)" options="IgnoreCase" />
+      </Print>
+
+<!-- ********************************************************************************************************************************************************************** -->
+<!-- ********                                   .02_hebdo                                                                                                          ******** -->
+<!-- ********************************************************************************************************************************************************************** -->
+
+      <Print>
+	      <Name               value = "01_net" />
+	      <Title              value = "01 net" />
+	      <Frequency          value = "EveryTwoWeek" />
+	      <Weekday            value = "Thursday" />
+        <Directory          value = ".02_hebdo\01 net" />
+	      <DateReference      value = "2013-05-30" />
+	      <NumberReference    value = "775" />
+        <!-- 01Net N°778 Du 11 Juillet au 07 Aout 2013.pdf -->
+        <!-- 01net778 01Net_777_Juin_Juillet_2013.pdf -->
+        <!-- 01.o1NNeettsept79.pdf -->
+        <Filename regex="(?:01\s*net|o1NNeett)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "challenges" />
+	      <Title              value = "Challenges" />
+	      <Frequency          value = "weekly" />
+	      <Weekday            value = "Thursday" />
+        <Directory          value = ".02_hebdo\Challenges" />
+	      <DateReference      value = "2013-05-30" />
+	      <NumberReference    value = "347" />
+        <NoPrintDate        value = "2013-07-25" />
+        <NoPrintDate        value = "2013-08-01" />
+        <NoPrintDate        value = "2013-08-22" />
+        <!-- CHA349.130613.pdf CHL353.110713.pdf 36Soallenges..353.pdf 33658.Challet.347.pdf -->
+        <Filename regex="(?:challenges|^CHL|^CHA|Soallenges|Challet)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "courrier_international" />
+	      <Title              value = "Courrier international" />
+	      <Frequency          value = "weekly" />
+	      <Weekday            value = "Thursday" />
+        <Directory          value = ".02_hebdo\Courrier international" />
+	      <DateReference      value = "2013-05-30" />
+	      <NumberReference    value = "1178" />
+        <!-- $CI$1181$.pdf $C$Ynterna$1182$.pdf $Cou$inter$13.19$1180$.pdf CCII1183CCII.pdf CI-N1179.pdf 35528C.Y.i.1181.pdf 38CI1186.pdf ZzCiZz1187.1188.1189zZ.pdf -->
+        <!-- courrier int 1193.pdf -->
+        <!-- Courrier International n° 1180 du 13 au 19 juin 2013.pdf -->
+        <!-- elm.COURRIER INTERNATIONAL N.1184 du 11 au 17 juillet 2013.pdf -->
+        <Filename regex="(?:courrier[_\s]*int(?:ernational)?|(?&lt;![a-z])CI(?![a-z])|^\$CI\$|\$C\$Ynterna\$|\$Cou\$inter\$|^CCII|C\.Y\.i\.|^ZzCiZz)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "france_football" />
+	      <Title              value = "France football" />
+	      <Frequency          value = "weekly" />
+	      <Weekday            value = "Tuesday" />
+        <Directory          value = ".02_hebdo\France football" />
+	      <DateReference      value = "2013-05-07" />
+	      <NumberReference    value = "3500" />
+        <!-- "$Ball$18$petar$.pdf", "33913Ball3504.pdf", "France Football N°3504 Du 04 Juin 2013.pdf" -->
+        <Filename regex="(?:france\s+football|^[0-9\$]*Ball)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "le_journal_du_dimanche" />
+	      <Title              value = "Le journal du dimanche" />
+	      <Frequency          value = "weekly" />
+	      <Weekday            value = "Sunday" />
+        <Directory          value = ".02_hebdo\Le journal du dimanche" />
+	      <DateReference      value = "2013-05-19" />
+	      <NumberReference    value = "3462" />
+        <!-- JDD28.pdf -->
+        <Filename regex="(?:le\s+journal\s+du\s+dimanche|^jdd)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "le_nouvel_observateur" />
+	      <Title              value = "Le nouvel observateur" />
+	      <Frequency          value = "weekly" />
+	      <Weekday            value = "Thursday" />
+        <Directory          value = ".02_hebdo\Le nouvel observateur" />
+	      <DateReference      value = "2013-05-02" />
+	      <NumberReference    value = "2530" />
+        <!-- elm..Le Nouvel Observateur N°2540 (11 juillet 2013)-1.pdf 000000000000NOB 2531.pdf LeNouvelObservateur2539.pdf 11__.0b532.pdf -->
+        <Filename regex="(?:nouvel\s+observateur|NOB|Observateur|obs)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "le_point" />
+	      <Title              value = "Le point" />
+	      <Frequency          value = "weekly" />
+	      <Weekday            value = "Thursday" />
+        <Directory          value = ".02_hebdo\Le point" />
+	      <DateReference      value = "2013-05-30" />
+	      <NumberReference    value = "2124" />
+        <!-- 36oint2130.pdf elm..LE POINT N.2130 du 11 au 17 juillet 2013-1.pdf Le Point N°2125 Du 06 au 12 Juin 2013.pdf lpn_N2127.pdf Le_Point_2128_Juin_27_2013.pdf Le_Point_N_2126_13_au_26_Juin_2013.pdf -->
+        <!-- LPT134.080813.pdf -->
+        <Filename regex="(?:le\s+point|P?oint|^lpn_|^LPT)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "les_inrockuptibles" />
+	      <Title              value = "Les inrockuptibles" />
+	      <Frequency          value = "weekly" />
+	      <Weekday            value = "Wednesday" />
+        <Directory          value = ".02_hebdo\Les inrockuptibles" />
+	      <DateReference      value = "2013-05-29" />
+	      <NumberReference    value = "913" />
+	      <Option             value = "SpecialNoDate" />
+        <!-- 35483Inro.916.pdf Les Inrockuptibles N°914 Du 05 au 11 Juin 2013.pdf 919_LesInr0ckptbl919bkf.pdf Les_inRocK_917_Juin_Juillet_2013.pdf -->
+        <Filename regex="(?:les\s+inrockuptibles|inroc?|Inrockuptibles|Inr0ckptbl|inRocK)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "les_cahiers_de_l_express" />
+	      <Title              value = "Les cahiers de l'express" />
+	      <Frequency          value = "Monthly" />
+        <Directory          value = ".02_hebdo\L'express" />
+        <Filename regex="(?:les\s+cahiers\s+de\s+l'express)" options="IgnoreCase" />
+        <Filenames>
+          <Filename model="name_month_number"              v_title="Les cahiers de l'express" />
+          <!-- elm...Les Cahiers de L'Express N°19-1.pdf -->
+          <Filename model="code_month_number"              v_code="(?:caex)" />
+          <Filename model="code_year_month_number"         v_code="(?:caex)" />
+        </Filenames>
+      </Print>
+      <Print>
+	      <Name               value = "l_express" />
+	      <Class              value = "LExpress" />
+	      <Title              value = "L'express" />
+	      <Frequency          value = "weekly" />
+	      <Weekday            value = "Wednesday" />
+        <Directory          value = ".02_hebdo\L'express" />
+	      <DateReference      value = "2013-05-22" />
+	      <NumberReference    value = "3229" />
+        <NormalizedFilename model="name_day_number"                v_title="L'express" v_sup="( -(es|styles))?" v_sup_values=",type_code," />
+        <!-- L Express N°3232 Du 12 au 18 Juin 2013.pdf 3236_Leqsprss3236bkf.pdf  33784Zpress0.3230B.pdf ZZExpres3237.pdf XPS239.310713.pdf 39Zxprezz3239.pdf 05.ZExpre3240.pdf -->
+        <Filename regex="(?&lt;!(?:Cahiers|vif).*)(?:E?xpress|Leqsprss|Zpress|ZZExpres|^XPS|Zxprezz|ZExpre)" options="IgnoreCase" />
+        <!-- 34068ZStyl.3xpr3231.pdf -->
+        <Filename regex="ZStyl\.3xpr" options="IgnoreCase" values="styles" />
+      </Print>
+      <Print>
+	      <Name               value = "le_vif_express" />
+	      <Class              value = "LeVifExpress" />
+	      <Title              value = "Le vif - l'express" />
+	      <Frequency          value = "weekly" />
+	      <Weekday            value = "Friday" />
+        <Directory          value = ".02_hebdo\L'express" />
+	      <DateReference      value = "2013-04-05" />
+	      <NumberReference    value = "3222" />
+        <NormalizedFilename model="name_day_number"                v_title="Le vif - l'express" v_sup="( -(we|extra|focus))?" v_sup_values=",type_code," />
+        <Filenames>
+          <Filename model="name_day_number"                v_title="Le vif - l'express" v_sup="( -(we|extra|focus))?" v_sup_values=",type_code," />
+          <!-- L Express N°3232 Du 12 au 18 Juin 2013.pdf -->
+          <Filename model="code_number"                    v_code="(?:vif.*Express[\sN°]*)" />
+          <!-- LeVifWeekEnd20130607.pdf -->
+          <Filename model="code_date2"      v_code1="(?:levifweekend)" v_values=", we" />
+        </Filenames>
+      </Print>
+      <Print>
+	      <Name               value = "marianne" />
+	      <Title              value = "Marianne" />
+	      <Frequency          value = "weekly" />
+	      <Weekday            value = "Saturday" />
+        <Directory          value = ".02_hebdo\Marianne" />
+	      <DateReference      value = "2013-06-01" />
+	      <NumberReference    value = "841" />
+        <!-- 000_Mriann842bkf.pdf MAR843.150613.pdf Marianne N°844 Du 22 au 28 Juin 2013.pdf Marianne_845_29_Juin_05_Juillet_2013.pdf elm..marianne_n__846_du_6_au_12_juillet_2013.pdf -->
+        <Filename regex="(?:marianne|Mriann|^MAR)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "valeurs_actuelles" />
+	      <Title              value = "Valeurs actuelles" />
+	      <Frequency          value = "weekly" />
+	      <Weekday            value = "Thursday" />
+        <Directory          value = ".02_hebdo\Valeurs actuelles" />
+	      <DateReference      value = "2013-05-30" />
+	      <NumberReference    value = "3992" />
+        <!-- 3993_ValActl3993bkf.pdf elm..VALEURS ACTUELLES N.3998 du 11 au 17 juillet 2013-1.pdf 00._Actu3995Valeur.pdf 36089V._Actu.3996.pdf VAT999.180713.pdf -->
+        <!-- ValeurActuell40024003.pdf -->
+        <Filename regex="(?:valeurs\s+actuelles|ValActl|Actu|^VAT|ValeurActuell)" options="IgnoreCase" />
+      </Print>
+
+<!-- ********************************************************************************************************************************************************************** -->
+<!-- ********                                   .03_mensuel                                                                                                        ******** -->
+<!-- ********************************************************************************************************************************************************************** -->
+
+      <Print>
+	      <Name               value = "60_millions_de_consommateurs" />
+	      <Title              value = "60 millions de consommateurs" />
+	      <Frequency          value = "Monthly" />
+        <Directory          value = ".03_mensuel\60 millions de consommateurs" />
+	      <DateReference      value = "2013-05" />
+	      <NumberReference    value = "482" />
+        <NoPrintDate        value = "August" />
+        <!-- 60mC_N483_J2013.pdf -->
+        <Filename regex="(?:60[\s_]*millions[\s_]*de[\s_]*consommateurs|^60mC)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "alternatives_economiques" />
+	      <Title              value = "Alternatives économiques" />
+	      <Frequency          value = "Monthly" />
+        <Directory          value = ".03_mensuel\Alternatives économiques" />
+	      <DateReference      value = "2013-01" />
+	      <NumberReference    value = "320" />
+        <NoPrintDate        value = "August" />
+        <Filenames>
+          <Filename model="name_month_number" v_title="alternatives économiques" />
+          <!-- 325_AltertvEc0nomik325bkf.pdf Alternatives économiques N°324 (Mai 2013).pdf el..alternatives___conomiques_n__326_juillet___ao__t_2013.pdf -->
+          <Filename model="code_number"       v_code="(?:AltertvEc0nomik|Alternatives[\s_]*[ée]?conomiques\s*[_N°]*)" />
+        </Filenames>
+      </Print>
+      <Print>
+	      <Name               value = "beaux_arts_magazine" />
+	      <Title              value = "Beaux arts magazine" />
+	      <Frequency          value = "Monthly" />
+        <Directory          value = ".03_mensuel\Beaux arts magazine" />
+	      <DateReference      value = "2013-06" />
+	      <NumberReference    value = "348" />
+        <!-- B0ArMag349.pdf -->
+        <Filename regex="(?:beaux[\s_]*arts(?:\s*magazine)?|B0ArMag)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "capital" />
+	      <Title              value = "Capital" />
+	      <Frequency          value = "Monthly" />
+        <Directory          value = ".03_mensuel\Capital" />
+	      <DateReference      value = "2013-05" />
+	      <NumberReference    value = "260" />
+        <!-- Capital N°263 Aout 2013.pdf Capital261.pdf -->
+        <Filename regex="(?:capital)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "cerveau_et_psycho" />
+	      <Title              value = "Cerveau et psycho" />
+	      <Frequency          value = "Bimonthly" />
+        <Directory          value = ".03_mensuel\Cerveau et psycho" />
+	      <DateReference      value = "2013-01" />
+	      <NumberReference    value = "55" />
+        <!-- 36571Ccervv0.PPssyycc0.58.pdf CP_N58.pdf -->
+        <Filename regex="(?:^cerveau\s*et\s*psycho|Ccervv0\.PPssyycc0|^CP_)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "ciel_et_espace" />
+	      <Title              value = "Ciel et espace" />
+	      <Frequency          value = "Monthly" />
+        <Directory          value = ".03_mensuel\Ciel et espace" />
+	      <DateReference      value = "2013-06" />
+	      <NumberReference    value = "517" />
+        <!-- CES520.092013.pdf -->
+        <Filename regex="(?:ciel[\s_]*(?:et|26|-|&amp;)?[\s_]*espace|^CES)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "classica" />
+	      <Title              value = "Classica" />
+	      <Frequency          value = "Monthly" />
+        <Directory          value = ".03_mensuel\Classica" />
+	      <DateReference      value = "2013-05" />
+	      <NumberReference    value = "152" />
+        <NoPrintDate        value = "January" />
+        <NoPrintDate        value = "August" />
+        <!--  -->
+        <Filename regex="(?:Classica)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "connaissance_des_arts" />
+	      <Title              value = "Connaissance des arts" />
+	      <Frequency          value = "Monthly" />
+        <Directory          value = ".03_mensuel\Connaissance des arts" />
+	      <DateReference      value = "2013-05" />
+	      <NumberReference    value = "715" />
+        <NoPrintDate        value = "August" />
+        <!-- 31_C0nncncArF0t031bkf.pdf 34452ConnaissAr.716.pdf -->
+        <Filename regex="(?:connaissance\s*des\s*arts|ConnaissAr)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "dbd" />
+	      <Title              value = "dBd" />
+	      <Frequency          value = "Monthly" />
+        <Directory          value = ".03_mensuel\dBd" />
+	      <DateReference      value = "2013-05" />
+	      <NumberReference    value = "73" />
+        <NoPrintDate        value = "January" />
+        <NoPrintDate        value = "August" />
+        <!-- 34461dBD.74.pdf -->
+        <Filename regex="(?:dBd)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "f1_racing" />
+	      <Title              value = "F1 racing" />
+	      <Frequency          value = "Monthly" />
+        <Directory          value = ".03_mensuel\F1 racing" />
+	      <DateReference      value = "2013-05" />
+	      <NumberReference    value = "171" />
+        <!-- 34612F1Racin172BIS.pdf -->
+        <Filename regex="(?:f1\s*racing?)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "geo" />
+	      <Title              value = "Géo" />
+	      <Frequency          value = "Monthly" />
+        <Directory          value = ".03_mensuel\Géo" />
+	      <DateReference      value = "2013-05" />
+	      <NumberReference    value = "411" />
+        <!-- Geo414.pdf -->
+        <Filename regex="(?:g[ée]o(?!.*histoire))" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "geo_histoire" />
+	      <Title              value = "Géo histoire" />
+	      <Frequency          value = "Bimonthly" />
+        <Directory          value = ".03_mensuel\Géo\Géo histoire" />
+	      <DateReference      value = "2013-06" />
+	      <NumberReference    value = "9" />
+        <NoPrintDate        value = "January" />
+        <!-- 34461dBD.74.pdf GEHI10.082013.pdf -->
+        <Filename regex="(?:g[ée]o\s*histoire|^GEHI)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "jeux_video_magazine" />
+	      <Title              value = "Jeux vidéo magazine" />
+	      <Frequency          value = "Monthly" />
+        <Directory          value = ".03_mensuel\Jeux vidéo magazine" />
+	      <DateReference      value = "2013-04" />
+	      <NumberReference    value = "147" />
+        <NoPrintDate        value = "January" />
+        <NoPrintDate        value = "2012-08" />
+        <!-- 37575JeuxVid150.pdf Jeux_Vid_o_Magazine_N_148_Mai_2013.pdf -->
+        <Filename regex="(?:jeux[_\s]*vid[ée_]o[_\s]*magazine|JeuxVid)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "l_art_de_l_aquarelle" />
+	      <Title              value = "L'art de l'aquarelle" />
+	      <Frequency          value = "Quarterly" />
+        <Directory          value = ".03_mensuel\L'art de l'aquarelle" />
+	      <DateReference      value = "2013-03" />
+	      <NumberReference    value = "16" />
+        <!--  -->
+        <Filename regex="(?:l['\s]?art[\s_]*de[\s_]*l['\s]?aquarelle)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "l_essentiel_cerveau_et_psycho" />
+	      <Title              value = "L'essentiel cerveau et psycho" />
+	      <Frequency          value = "Quarterly" />
+        <Directory          value = ".03_mensuel\Cerveau et psycho" />
+	      <DateReference      value = "2013-05" />
+	      <NumberReference    value = "14" />
+        <!-- 36571Ccervv0.PPssyycc0.58.pdf CP_N58.pdf -->
+        <Filename regex="(?:^l'?essentiel\s*cerveau\s*(?:et)?\s*psycho)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "national_geographic" />
+	      <Title              value = "National geographic" />
+	      <Frequency          value = "Monthly" />
+        <Directory          value = ".03_mensuel\National geographic" />
+	      <DateReference      value = "2013-06" />
+	      <NumberReference    value = "165" />
+        <!-- National_Geographic_Fr_07_2013.pdf National_Geographic_Fr_Aout_2013.pdf -->
+        <Filename regex="(?:national[\s_]*geographic)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "national_geographic_histoire" />
+	      <Title              value = "National geographic histoire" />
+	      <Frequency          value = "Monthly" />
+        <Directory          value = ".03_mensuel\National geographic\National geographic histoire" />
+	      <DateReference      value = "2013-08" />
+	      <NumberReference    value = "5" />
+        <!-- 39.-HistoireNationalGeographiN5.pdf -->
+        <Filename regex="(?:national[\s_]*geographic[\s_]*histoire|HistoireNationalGeographi)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "pianiste" />
+	      <Title              value = "Pianiste" />
+	      <Frequency          value = "Bimonthly" />
+        <Directory          value = ".03_mensuel\Pianiste" />
+	      <DateReference      value = "2013-05" />
+	      <NumberReference    value = "80" />
+        <!--  -->
+        <Filename regex="(?:pianiste)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "pour_la_science" />
+	      <Title              value = "Pour la science" />
+	      <Frequency          value = "Monthly" />
+        <Directory          value = ".03_mensuel\Pour la science" />
+	      <DateReference      value = "2013-06" />
+	      <NumberReference    value = "428" />
+        <!-- Pour_la_Science_429_Juillet_2013.pdf -->
+        <Filename regex="(?:pour[\s+_]*la[\s+_]*science|^pls)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "dossier_pour_la_science" />
+	      <Title              value = "Dossier pour la science" />
+	      <Frequency          value = "Quarterly" />
+        <Directory          value = ".03_mensuel\Pour la science" />
+	      <DateReference      value = "2013-04" />
+	      <NumberReference    value = "79" />
+        <!-- DossierPourlaScience80.pdf 36DossPolaScien_80.pdf -->
+        <Filename regex="(?:dossier[\s+_]*pour[\s+_]*la[\s+_]*science|^dpls|DossPolaScien)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "premiere" />
+	      <Title              value = "Première" />
+	      <Frequency          value = "Monthly" />
+        <Directory          value = ".03_mensuel\Première" />
+	      <DateReference      value = "2013-05" />
+	      <NumberReference    value = "435" />
+        <!-- 34683SecondePremier436.pdf PIRJ436.pdf PremiE.437-438.pdf Prmire437-438bkf.pdf -->
+        <Filename regex="(?:première|Premier|^PIRJ|PremiE|Prmire)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "les_cahiers_de_science_et_vie" />
+	      <Title              value = "Les cahiers de science et vie" />
+	      <Frequency          value = "Monthly" />
+        <Directory          value = ".03_mensuel\Science et vie" />
+	      <DateReference      value = "2013-01" />
+	      <NumberReference    value = "134" />
+        <NoPrintDate        value = "2013-03" />
+        <NoPrintDate        value = "2013-06" />
+        <!-- "Les Cahiers Science & Vie N°139 Aout 2013.pdf", "Les Cahiers Science & Vie Hs N°02.pdf" -->
+        <Filename regex="(?:les\s+cahiers\s+de\s+science\s+et\s+vie|les\s+cahiers\s+science\s+&amp;\s+vie)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "pirate_informatique" />
+	      <Title              value = "Pirate informatique" />
+	      <Frequency          value = "Bimonthly" />
+        <Directory          value = ".03_mensuel\Pirate informatique" />
+	      <DateReference      value = "2009-09" />
+	      <NumberReference    value = "1" />
+        <NoPrintDate        value = "2009-11" />
+        <NoPrintDate        value = "2009-12" />
+        <NoPrintDate        value = "2011-01" />
+        <NoPrintDate        value = "2011-04" />
+        <NoPrintDate        value = "2011-07" />
+        <NoPrintDate        value = "2011-10" />
+        <NoPrintDate        value = "2012-01" />
+        <NoPrintDate        value = "2012-04" />
+        <NoPrintDate        value = "2012-07" />
+        <NoPrintDate        value = "2012-10" />
+        <NoPrintDate        value = "2013-05" />
+        <NoPrintDate        value = "2013-06" />
+        <NoPrintDate        value = "2013-07" />
+        <!-- 18_Pir@tInformtik18bkf.pdf -->
+        <Filename regex="(?:pirate\s*informatique|Pir@tInformtik)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "que_choisir" />
+	      <Title              value = "Que choisir" />
+	      <Frequency          value = "Monthly" />
+        <Directory          value = ".03_mensuel\Que choisir" />
+	      <DateReference      value = "2012-03" />
+	      <NumberReference    value = "501" />
+        <NoPrintDate        value = "August" />
+        <!--  -->
+        <Filename regex="(?:que\s*choisir)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "science_et_vie" />
+	      <Title              value = "Science et vie" />
+	      <Frequency          value = "Monthly" />
+        <Directory          value = ".03_mensuel\Science et vie" />
+	      <DateReference      value = "2013-07" />
+	      <NumberReference    value = "1150" />
+        <!-- SciencVi1151.pdf -->
+        <Filename regex="(?:science[\s-_]*(?:et|&amp;)?[\s-_]*vie|SciencVi)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "science_et_vie_hors_série" />
+	      <Title              value = "Science et vie - hors-série" />
+	      <Frequency          value = "Quarterly" />
+        <Directory          value = ".03_mensuel\Science et vie" />
+	      <DateReference      value = "2013-03" />
+	      <NumberReference    value = "262" />
+        <Filenames>
+          <Filename model="name_month_number" v_title="Science et vie - hors-série" />
+          <!-- 34346ScienViHS263B.pdf -->
+          <Filename model="code_number"       v_code="ScienViHS" />
+        </Filenames>
+      </Print>
+      <Print>
+	      <Name               value = "sciences_et_avenir" />
+	      <Title              value = "Sciences et avenir" />
+	      <Frequency          value = "Monthly" />
+        <Directory          value = ".03_mensuel\Sciences et avenir" />
+	      <DateReference      value = "2013-06" />
+	      <NumberReference    value = "796" />
+        <!-- Sciences & Avenir N°798 Aout 2013.pdf -->
+        <Filename regex="(?:sciences\s+et\s+avenir|Sciences\s+&amp;\s+Avenir)" options="IgnoreCase" />
+      </Print>
+
+<!-- ********************************************************************************************************************************************************************** -->
+<!-- ********                                   .04_autre                                                                                                          ******** -->
+<!-- ********************************************************************************************************************************************************************** -->
+
+      <Print>
+	      <Name               value = "01_business" />
+	      <Title              value = "01 Business" />
+	      <Frequency          value = "EveryTwoWeek" />
+	      <Weekday            value = "Thursday" />
+        <Directory          value = ".04_autre\01 Business" />
+	      <DateReference      value = "2013-05-23" />
+	      <NumberReference    value = "2168" />
+        <!-- 01 Business N°2169 Du 06 au 19 Juin 2013.pdf 37887.0IBusine.2171.pdf -->
+        <Filename regex="(?:01[_\s]*business|0IBusine)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "air_et_cosmos" />
+	      <Title              value = "Air et cosmos" />
+	      <Frequency          value = "Weekly" />
+	      <Weekday            value = "Friday" />
+        <Directory          value = ".04_autre\Air et cosmos" />
+	      <DateReference      value = "2013-05-24" />
+	      <NumberReference    value = "2360" />
+        <!-- Air & Cosmos N°2368 Du 19 au 25 Juillet 2013.pdf AEC362.070613.pdf 37922AiCosmos.2368-.pdf -->
+        <Filename regex="(?:air?[\s_]*(?:et|&amp;)?[\s_]*cosmos|^AEC)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "archeothema" />
+	      <Title              value = "Archéothéma" />
+	      <Frequency          value = "Bimonthly" />
+        <Directory          value = ".04_autre\Archéothéma" />
+	      <DateReference      value = "2013-05" />
+	      <NumberReference    value = "28" />
+        <!-- ARTH29.072013.pdf -->
+        <Filename regex="(?:Archéo\s*théma|^ARTH)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "art_actuel" />
+	      <Title              value = "Art actuel" />
+	      <Frequency          value = "Monthly" />
+        <Directory          value = ".04_autre\Art actuel" />
+	      <DateReference      value = "2013-07" />
+	      <NumberReference    value = "87" />
+        <NoPrintDate        value = "August" />
+        <!-- 37ArActu.87.pdf -->
+        <Filename regex="(?:art\s*actuel|ArActu)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "artension" />
+	      <Title              value = "Artension" />
+	      <Frequency          value = "Bimonthly" />
+        <Directory          value = ".04_autre\Artension" />
+	      <DateReference      value = "2013-05" />
+	      <NumberReference    value = "119" />
+        <!--  -->
+        <Filename regex="(?:artension)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "bateaux" />
+	      <Title              value = "Bateaux" />
+	      <Frequency          value = "Monthly" />
+        <Directory          value = ".04_autre\Bateaux" />
+	      <DateReference      value = "2013-08" />
+	      <NumberReference    value = "663" />
+        <!-- 662_Bat0662bkf.pdf -->
+        <Filename regex="(?&lt;!mer.*)(?:bateaux|_Bat)(?![a-z])" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "bike" />
+	      <Title              value = "Bike" />
+	      <Frequency          value = "Monthly" />
+        <Directory          value = ".04_autre\Bike" />
+	      <DateReference      value = "2012-12" />
+	      <NumberReference    value = "117" />
+        <!-- 19598Bik117.pdf -->
+        <Filename regex="(?:bike?)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "books" />
+	      <Title              value = "Books" />
+	      <Frequency          value = "Monthly" />
+        <Directory          value = ".04_autre\Books" />
+	      <DateReference      value = "2013-04" />
+	      <NumberReference    value = "42" />
+        <NoPrintDate        value = "August" />
+        <!--  -->
+        <Filename regex="(?&lt;!vos)(?:books)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "ca_m_intéresse_histoire" />
+	      <Title              value = "Ca m'intéresse histoire" />
+	      <Frequency          value = "Bimonthly" />
+        <Directory          value = ".04_autre\Ca m'intéresse" />
+	      <DateReference      value = "2013-05" />
+	      <NumberReference    value = "18" />
+        <!-- 37Za.intressYstoir.19.pdf -->
+        <Filename regex="(?:ca\s*m'?int[ée]resse\s*histoire|Za\.intressYstoir)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "causette" />
+	      <Title              value = "Causette" />
+	      <Frequency          value = "Monthly" />
+        <Directory          value = ".04_autre\Causette" />
+	      <DateReference      value = "2013-05" />
+	      <NumberReference    value = "35" />
+        <NoPrintDate        value = "August" />
+        <!--  -->
+        <Filename regex="(?:causette)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "cinema_teaser" />
+	      <Title              value = "Cinéma teaser" />
+	      <Frequency          value = "Monthly" />
+        <Directory          value = ".04_autre\Cinéma teaser" />
+	      <DateReference      value = "2013-05" />
+	      <NumberReference    value = "24" />
+        <NoPrintDate        value = "January" />
+        <NoPrintDate        value = "August" />
+        <!-- CinemTease26.pdf Cineam Teaser 21 - Février 2013.pdf -->
+        <Filename regex="(?:cin[ée]ma[\s_]*teaser|CinemTease|Cineam\s*Teaser)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "Création d'entreprise" />
+	      <Title              value = "Création d'entreprise" />
+	      <Frequency          value = "Bimonthly" />
+        <Directory          value = ".04_autre\Création d'entreprise" />
+	      <DateReference      value = "2013-05" />
+	      <NumberReference    value = "41" />
+        <!-- 35470Creation.Entrepri.41.pdf -->
+        <Filename regex="(?:Cr[ée]ation\s*d'entreprise|Creation\.Entrepri)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "detours_en_france" />
+	      <Title              value = "Détours en france" />
+	      <Frequency          value = "Monthly" />
+        <Directory          value = ".04_autre\Détours en france" />
+	      <DateReference      value = "2013-06" />
+	      <NumberReference    value = "168" />
+        <NoPrintDate        value = "January" />
+        <NoPrintDate        value = "August" />
+        <!-- 168_DtoursFranc168bkf.pdf -->
+        <Filename regex="(?:D[ée_]tours[_\s]*en[_\s]*france|DtoursFranc)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "Détours en histoire" />
+	      <Title              value = "Détours en histoire" />
+	      <Frequency          value = "Monthly" />
+        <Directory          value = ".04_autre\Détours en histoire" />
+	      <DateReference      value = "2013-08" />
+	      <NumberReference    value = "1" />
+        <!-- DEHI01.082013.pdf -->
+        <Filename regex="(?:D[ée_]tours[_\s]*en[_\s]*histoire|^DEHI)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "ere_numerique" />
+	      <Title              value = "Ere numérique" />
+	      <Frequency          value = "Bimonthly" />
+        <Directory          value = ".04_autre\Ere numérique" />
+	      <DateReference      value = "2013-05" />
+	      <NumberReference    value = "51" />
+        <!-- 37ErNumrique52.pdf ERNU53.092013.pdf -->
+        <Filename regex="(?:ere[_\s]*num[ée_]rique|ErNumrique|^ERNU)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "gavroche" />
+	      <Title              value = "Gavroche" />
+	      <Frequency          value = "Monthly" />
+        <Directory          value = ".04_autre\Gavroche" />
+	      <DateReference      value = "2013-05" />
+	      <NumberReference    value = "223" />
+        <!-- 38Gavroch225.pdf -->
+        <Filename regex="(?:gavroche?)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "grands_reportages" />
+	      <Title              value = "Grands reportages" />
+	      <Frequency          value = "Monthly" />
+        <Directory          value = ".04_autre\Grands reportages" />
+	      <DateReference      value = "2013-05" />
+	      <NumberReference    value = "381" />
+        <!-- 33818GrndsReport382.pdf Grands_Reportages_N_382_-_Juin_2013.pdf -->
+        <Filename regex="(?:grands[_\s]*reportages|GrndsReport)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "grimper" />
+	      <Title              value = "Grimper" />
+	      <Frequency          value = "Monthly" />
+        <Directory          value = ".04_autre\Grimper" />
+	      <DateReference      value = "2013-06" />
+	      <NumberReference    value = "148" />
+        <NoPrintDate        value = "2013-05" />
+        <!--  -->
+        <Filename regex="(?:grimper?)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "histomag" />
+	      <Title              value = "Histomag" />
+	      <Frequency          value = "Bimonthly" />
+        <Directory          value = ".04_autre\Histomag" />
+	      <DateReference      value = "2012-05" />
+	      <NumberReference    value = "77" />
+        <!-- hm77.pdf -->
+        <Filename regex="(?:histomag|^hm)" options="IgnoreCase" />
+      </Print>
+<!--
+      <Print>
+	      <Name               value = "imagf1" />
+	      <Title              value = "iMagF1" />
+	      <Frequency          value = "NoPeriod" />
+        <Directory          value = ".04_autre\iMagF1" />
+        <Filename regex="(?:imagf1)" options="IgnoreCase" />
+      </Print>
+-->
+      <Print>
+	      <Name               value = "investir" />
+	      <Title              value = "Investir" />
+	      <Frequency          value = "weekly" />
+	      <Weekday            value = "Saturday" />
+        <Directory          value = ".04_autre\Investir" />
+	      <DateReference      value = "2013-06-08" />
+	      <NumberReference    value = "2057" />
+        <!-- $Inves$2058$.pdf $Invest.2062.pdf Investir_2038.pdf -->
+        <Filename regex="(?:Investir|Investi|Invest|^Inves|^Inve?)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "joggeur" />
+	      <Title              value = "Joggeur" />
+	      <Frequency          value = "Bimonthly" />
+        <Directory          value = ".04_autre\Joggeur" />
+	      <DateReference      value = "2013-08" />
+	      <NumberReference    value = "2" />
+        <!-- 2_J0ggeur2bkf.pdf -->
+        <Filename regex="(?:j[o0]ggeur)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "jogging" />
+	      <Title              value = "Jogging" />
+	      <Frequency          value = "Monthly" />
+        <Directory          value = ".04_autre\Jogging" />
+	      <DateReference      value = "2013-06" />
+	      <NumberReference    value = "344" />
+        <!--  -->
+        <Filename regex="(?:jogging)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "la_revue_française_de_genealogie" />
+	      <Title              value = "La revue française de généalogie" />
+	      <Frequency          value = "Bimonthly" />
+        <Directory          value = ".04_autre\La revue française de généalogie" />
+	      <DateReference      value = "2013-04" />
+	      <NumberReference    value = "205" />
+        <!-- Genealogie206.pdf -->
+        <Filename regex="(?:la\s*revue\s*fran[çc]aise\s*de\s*g[ée]n[ée]alogie|Genealogie)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "lanfeust_mag" />
+	      <Title              value = "Lanfeust mag" />
+	      <Frequency          value = "Monthly" />
+        <Directory          value = ".04_autre\Lanfeust mag" />
+	      <DateReference      value = "2013-04" />
+	      <NumberReference    value = "163" />
+        <NoPrintDate        value = "August" />
+        <!-- 34529Lanfeus.-165.pdf -->
+        <Filename regex="(?:lanfeust\s*mag|Lanfeus)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "le_cycle" />
+	      <Title              value = "Le cycle" />
+	      <Frequency          value = "Monthly" />
+        <Directory          value = ".04_autre\Le cycle" />
+	      <DateReference      value = "2013-06" />
+	      <NumberReference    value = "436" />
+        <!-- LCY437.072013.pdf -->
+        <Filename regex="(?:le\s*cycle|^LCY)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "le_journal_des_psychologues" />
+	      <Title              value = "Le journal des psychologues" />
+	      <Frequency          value = "Monthly" />
+        <Directory          value = ".03_mensuel\Le journal des psychologues" />
+	      <DateReference      value = "2013-05" />
+	      <NumberReference    value = "307" />
+        <NoPrintDate        value = "January" />
+        <NoPrintDate        value = "August" />
+        <Filename regex="(?:le\s*journal\s*des\s*psychologues|^Psycho)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "le_monde_de_l_intelligence" />
+	      <Title              value = "Le monde de l'intelligence" />
+	      <Frequency          value = "Bimonthly" />
+        <Directory          value = ".04_autre\Le monde de l'intelligence" />
+	      <DateReference      value = "2013-04" />
+	      <NumberReference    value = "30" />
+        <NoPrintDate        value = "2013-06" /> <!-- June -->
+        <!-- 34665IntelligenceMonde31.pdf -->
+        <Filename regex="(?:le\s*monde\s*de\s*l'intelligence|IntelligenceMonde)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "le_monde_des_sciences" />
+	      <Title              value = "Le monde des sciences" />
+	      <Frequency          value = "Bimonthly" />
+        <Directory          value = ".04_autre\Le monde des sciences" />
+	      <DateReference      value = "2013-04" />
+	      <NumberReference    value = "8" />
+        <NoPrintDate        value = "2013-06" /> <!-- June -->
+        <!-- LeMondedesSciences9.pdf -->
+        <Filename regex="(?:le\s*monde\s*des\s*sciences)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "le_revenu" />
+	      <Title              value = "Le revenu" />
+	      <Frequency          value = "weekly" />
+	      <Weekday            value = "Friday" />
+        <Directory          value = ".04_autre\Le revenu" />
+	      <DateReference      value = "2013-03-15" />
+	      <NumberReference    value = "1217" />
+        <!--  -->
+        <Filename regex="(?:le[\s_]+revenu)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "le_spectacle_du_monde" />
+	      <Title              value = "Le spectacle du monde" />
+	      <Frequency          value = "Monthly" />
+        <Directory          value = ".04_autre\Le spectacle du monde" />
+	      <DateReference      value = "2013-06" />
+	      <NumberReference    value = "601" />
+        <NoPrintDate        value = "August" />
+        <!-- 34983SpectacMon.601.pdf pectaclMond602.pdf -->
+        <Filename regex="(?:le\s*spectacle\s*du\s*monde|SpectacMon|pectaclMond)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "l_entreprise" />
+	      <Title              value = "L'entreprise" />
+	      <Frequency          value = "Monthly" />
+        <Directory          value = ".04_autre\L'entreprise" />
+	      <DateReference      value = "2013-05" />
+	      <NumberReference    value = "322" />
+        <!--  -->
+        <Filename regex="(?:L'entreprise)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "les_afriques" />
+	      <Title              value = "Les afriques" />
+	      <Frequency          value = "weekly" />
+	      <Weekday            value = "Thursday" />
+        <Directory          value = ".04_autre\Les afriques" />
+	      <DateReference      value = "2013-05-16" />
+	      <NumberReference    value = "244" />
+        <!--  -->
+        <Filename regex="(?:les[\s_]*afriques)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "l_expansion" />
+	      <Title              value = "L'expansion" />
+	      <Frequency          value = "Monthly" />
+        <Directory          value = ".04_autre\L'expansion" />
+	      <DateReference      value = "2013-05" />
+	      <NumberReference    value = "784" />
+        <NoPrintDate        value = "January" />
+        <NoPrintDate        value = "August" />
+        <Filenames>
+          <Filename model="name_month_number" v_title="l'expansion" />
+          <!-- LExpansion786.pdf L_Expansion_N_785_Juin_2013.pdf -->
+          <Filename model="code_number"       v_code="(?:Expansion[_N]*)" />
+        </Filenames>
+      </Print>
+      <Print>
+	      <Name               value = "l_informaticien" />
+	      <Title              value = "L'informaticien" />
+	      <Frequency          value = "Monthly" />
+        <Directory          value = ".04_autre\L'informaticien" />
+	      <DateReference      value = "2013-01" />
+	      <NumberReference    value = "109" />
+        <NoPrintDate        value = "August" />
+        <!-- 114_Linf0rmticien114bkf.pdf L_Informaticien_115_Juillet_Aout_2013.pdf -->
+        <Filename regex="(?:L[_']?inf[o0]rma?ticien)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "linux_journal" />
+	      <Title              value = "Linux journal" />
+	      <Frequency          value = "Bimonthly" />
+        <Directory          value = ".04_autre\Linux journal" />
+	      <DateReference      value = "2013-06" />
+	      <NumberReference    value = "230" />
+        <!-- LIJ224.122012.pdf LXJ230.062013.pdf -->
+        <Filename regex="(?:linux\s*journal|^LIJ|^LXJ)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "linux_user_developer" />
+	      <Title              value = "Linux user &amp; developer" />
+	      <Frequency          value = "Monthly" />
+        <Directory          value = ".04_autre\Linux user &amp; developer" />
+	      <DateReference      value = "2013-07" />
+	      <NumberReference    value = "127" />
+        <!-- LUD127.072013.pdf -->
+        <Filename regex="(?:Linux\s*user\s*&amp;\s*developer|^LUD)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "management" />
+	      <Title              value = "Management" />
+	      <Frequency          value = "Monthly" />
+        <Directory          value = ".04_autre\Management" />
+	      <DateReference      value = "2013-05" />
+	      <NumberReference    value = "208" />
+        <NoPrintDate        value = "August" />
+        <Filename regex="(?:management?)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "micro_pratique" />
+	      <Title              value = "Micro pratique" />
+	      <Frequency          value = "Monthly" />
+        <Directory          value = ".04_autre\Micro pratique" />
+	      <DateReference      value = "2013-05" />
+	      <NumberReference    value = "200" />
+        <!-- MIP203.082013.pdf 39MirroTrestPratic204.pdf -->
+        <Filename regex="(?:micro\s*pratique|^MIP|MirroTrestPratic)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "montagnes_magazine" />
+	      <Title              value = "Montagnes magazine" />
+	      <Frequency          value = "Monthly" />
+        <Directory          value = ".04_autre\Montagnes magazine" />
+	      <DateReference      value = "2013-04" />
+	      <NumberReference    value = "389" />
+        <NoPrintDate        value = "2012-09" />
+        <NoPrintNumber      value = "380" />
+        <NoPrintNumber      value = "393" />
+        <!-- 34935Montag_390.pdf 37929Montagne391..pdf -->
+        <Filename regex="(?:montagnes?\s*magazine|montagnes?|montag)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "mx_magazine" />
+	      <Title              value = "Mx magazine" />
+	      <Frequency          value = "Monthly" />
+        <Directory          value = ".04_autre\Mx magazine" />
+	      <DateReference      value = "2013-08" />
+	      <NumberReference    value = "187" />
+        <!-- MXMag187.pdf -->
+        <Filename regex="(?:mx\s*magazine|MXMag)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "pc_update" />
+	      <Title              value = "PC update" />
+	      <Frequency          value = "Bimonthly" />
+        <Directory          value = ".04_autre\PC update" />
+	      <DateReference      value = "2013-07" />
+	      <NumberReference    value = "66" />
+        <!-- PCUP66.072013.pdf -->
+        <Filename regex="(?:pc\s*update|^PCUP)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "photo" />
+	      <Title              value = "Photo" />
+	      <Frequency          value = "Monthly" />
+        <Directory          value = ".04_autre\Photo" />
+	      <DateReference      value = "2013-05" />
+	      <NumberReference    value = "499" />
+        <NoPrintDate        value = "August" />
+        <NoPrintDate        value = "2013-02" />
+        <!-- 36Foto501.pdf -->
+        <Filename regex="(?&lt;!p[o0]nses.*)(?:photo|Foto)(?!plus)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "pratique_des_arts" />
+	      <Title              value = "Pratique des arts" />
+	      <Frequency          value = "Bimonthly" />
+        <Directory          value = ".04_autre\Pratique des arts" />
+	      <DateReference      value = "2013-04" />
+	      <NumberReference    value = "109" />
+        <Filename regex="(?:pratique[\s_]*des[\s_]*arts)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "psychologies_magazine" />
+	      <Title              value = "Psychologies magazine" />
+	      <Frequency          value = "Monthly" />
+        <Directory          value = ".03_mensuel\Psychologies magazine" />
+	      <DateReference      value = "2013-05" />
+	      <NumberReference    value = "329" />
+        <NoPrintDate        value = "August" />
+        <Filename regex="(?:PsyMag|Psychologies.*Magazine)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "questions_internationales" />
+	      <Title              value = "Questions internationales" />
+	      <Frequency          value = "Bimonthly" />
+        <Directory          value = ".04_autre\Questions internationales" />
+	      <DateReference      value = "2013-06" />
+	      <NumberReference    value = "61" />
+        <NoPrintDate        value = "2013-08" />
+        <!--  -->
+        <Filename regex="(?:questions[\s_]*internationales)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "reponses_photo" />
+	      <Title              value = "Réponses photo" />
+	      <Frequency          value = "Monthly" />
+        <Directory          value = ".04_autre\Réponses photo" />
+	      <DateReference      value = "2013-05" />
+	      <NumberReference    value = "254" />
+        <NoPrintDate        value = "2013-08" />
+        <!-- 35193QuestionFoto256.pdf R_ponses_Photo_N_255_Juin_2013.pdf Rep0nses_Photo_253_Avril_2013.pdf Rep_Ph0to_252_Mars_2013.pdf Rep_D0_BEns_D0_B5s_Photo_Decembre_249_2012.pdf -->
+        <Filename regex="(?:r[ée_]p[o0]nses[\s_]*photo|QuestionFoto|Rep_Ph0to)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "rock_folk" />
+	      <Title              value = "Rock &amp; folk" />
+	      <Frequency          value = "Monthly" />
+        <Directory          value = ".04_autre\Rock &amp; folk" />
+	      <DateReference      value = "2013-05" />
+	      <NumberReference    value = "549" />
+        <Filenames>
+          <Filename model="name_month_number"              v_title="Rock &amp; folk" />
+          <!-- 552_R0kAndF0lk552bkf.pdf Rock Et Folk N°550 Juin 2013.pdf -->
+          <Filename model="code_number"                    v_code="(?:R0kAndF0lk|Rock\s+Et\s+Folk\s+N°)" />
+        </Filenames>
+      </Print>
+      <Print>
+	      <Name               value = "runners" />
+	      <Title              value = "Runner's" />
+	      <Frequency          value = "Monthly" />
+        <Directory          value = ".04_autre\Runner's" />
+	      <DateReference      value = "2013-07" />
+	      <NumberReference    value = "37" />
+        <NoPrintDate        value = "September" />
+        <!-- Runn.wfr080913.pdf -->
+        <Filename regex="(?:runner'?s|Runn\.wfr)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "secrets_d_histoire" />
+	      <Title              value = "Secrets d'histoire" />
+	      <Frequency          value = "Monthly" />
+        <Directory          value = ".04_autre\Secrets d'histoire" />
+	      <DateReference      value = "2013-07" />
+	      <NumberReference    value = "4" />
+        <NoPrintDate        value = "August" />
+        <!-- 4_ScretsDhist0ire4bkf.pdf -->
+        <Filename regex="(?:secrets\s*d['\s]?histoire|ScretsDhist0ire)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "ski_magazine" />
+	      <Title              value = "Ski magazine" />
+	      <Frequency          value = "Quarterly" />
+        <Directory          value = ".04_autre\Ski magazine" />
+	      <DateReference      value = "2013-02" />
+	      <NumberReference    value = "417" />
+        <!-- SkiMag417.pdf -->
+        <Filename regex="(?:ski\s*magazine|SkiMag)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "studio_cine_live" />
+	      <Title              value = "Studio ciné live" />
+	      <Frequency          value = "Monthly" />
+        <Directory          value = ".04_autre\Studio ciné live" />
+	      <DateReference      value = "2013-05" />
+	      <NumberReference    value = "49" />
+        <NoPrintDate        value = "August" />
+        <!-- 36511StudCinochLiveHS24.pdf -->
+        <Filename regex="(?:studio\s*cin[ée]\s*live|StudCinochLive)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "technikart" />
+	      <Title              value = "Technikart" />
+	      <Frequency          value = "Monthly" />
+        <Directory          value = ".04_autre\Technikart" />
+	      <DateReference      value = "2013-05" />
+	      <NumberReference    value = "172" />
+        <NoPrintDate        value = "August" />
+        <!-- 173_Teknikar173bkf.pdf -->
+        <Filename regex="(?:technikart|Teknikar)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "timbres_de_l_orthographe" />
+	      <Title              value = "Timbrés de l'orthographe" />
+	      <Frequency          value = "Bimonthly" />
+        <Directory          value = ".04_autre\Timbrés de l'orthographe" />
+	      <DateReference      value = "2013-07" />
+	      <NumberReference    value = "4" />
+        <!--  -->
+        <Filename regex="(?:timbr[ée]s\s*de\s*l'?orthographe)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "timbres_de_l_histoire_de_france" />
+	      <Title              value = "Timbrés de l'histoire de France" />
+	      <Frequency          value = "Bimonthly" />
+        <Directory          value = ".04_autre\Timbrés de l'histoire de France" />
+	      <DateReference      value = "2013-04" />
+	      <NumberReference    value = "2" />
+        <NoPrintDate        value = "2013-06" />
+        <!-- 38Timbr0istoireFr3.pdf -->
+        <Filename regex="(?:timbr[ée]s\s*de\s*l'?histoire\s*de\s*france|Timbr0istoireFr)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "top_500_sites" />
+	      <Title              value = "Top 500 sites" />
+	      <Frequency          value = "Quarterly" />
+        <Directory          value = ".04_autre\Top 500 sites" />
+	      <DateReference      value = "2013-02" />
+	      <NumberReference    value = "15" />
+        <NoPrintDate        value = "2013-05" />
+        <NoPrintDate        value = "2013-06" />
+        <!-- 37.500Zites16.pdf -->
+        <Filename regex="(?:Top\s*500\s*sites|500Zites)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "trek_magazine" />
+	      <Title              value = "Trek magazine" />
+	      <Frequency          value = "Bimonthly" />
+        <Directory          value = ".04_autre\Trek magazine" />
+	      <DateReference      value = "2013-04" />
+	      <NumberReference    value = "148" />
+        <!--  -->
+        <Filename regex="(?:trek\s*magazine)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "velo_magazine" />
+	      <Title              value = "Vélo magazine" />
+	      <Frequency          value = "Monthly" />
+        <Directory          value = ".04_autre\Vélo magazine" />
+	      <DateReference      value = "2013-05" />
+	      <NumberReference    value = "507" />
+        <!-- 508_VloMag508bkf.pdf -->
+        <Filename regex="(?:v[ée]lo\s*magazine|VloMag)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "video_gamer" />
+	      <Title              value = "Vidéo gamer" />
+	      <Frequency          value = "Monthly" />
+        <Directory          value = ".04_autre\Vidéo gamer" />
+	      <DateReference      value = "2013-01" />
+	      <NumberReference    value = "1" />
+        <NoPrintDate        value = "August" />
+        <!-- VG6.pdf -->
+        <Filename regex="(?:vidéo\s*gamer|^VG)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "vous_et_votre_mac" />
+	      <Title              value = "Vous et votre mac" />
+	      <Frequency          value = "Monthly" />
+        <Directory          value = ".04_autre\Vous et votre mac" />
+	      <DateReference      value = "2013-06" />
+	      <NumberReference    value = "90" />
+        <!-- VEVM90.062013.pdf -->
+        <Filename regex="(?:vous\s*et\s*votre\s*mac|^VEVM)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "what_hifi" />
+	      <Title              value = "What hifi" />
+	      <Frequency          value = "Monthly" />
+        <Directory          value = ".04_autre\What hifi" />
+	      <DateReference      value = "2013-01" />
+	      <NumberReference    value = "104" />
+        <!-- WHF112.092013.pdf -->
+        <Filename regex="(?:what\s*hi-?fi|^WHF)" options="IgnoreCase" />
+      </Print>
+      <Print>
+	      <Name               value = "windows_et_internet_pratique" />
+	      <Title              value = "Windows et internet pratique" />
+	      <Frequency          value = "Monthly" />
+        <Directory          value = ".04_autre\Windows et internet pratique" />
+	      <DateReference      value = "2013-03" />
+	      <NumberReference    value = "1" />
+        <!-- WIndows & Internet Pratique N°05 Juillet 2013.pdf WindInterPratique7.pdf -->
+        <Filename regex="(?:windows\s*(?:et|&amp;)\s*internet\s*pratique|WindInterPratique)" options="IgnoreCase" />
+      </Print>
+    </Prints>
+
+<!-- ********************************************************************************************************************************************************************** -->
+<!-- ********                                   FilenameInfos                                                                                                      ******** -->
+<!-- ********************************************************************************************************************************************************************** -->
+
+    <FilenameInfos>
+      <!--<XmlVariable name="weekdays" value="lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche" />-->
+      <!--<XmlVariable name="months" value="janvier|f[eé]vrier|mars|avril|mai|juin|juillet|juill|a[o0][uû]t?|septembre|octobre|novembre|d[eé]cembre" />-->
+      <weekdays             value="lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche" />
+      <months               value="janvier|f[eé]vrier|mars|avril|mai|juin|juillet|juill|a[o0][uû]t?|septembre|octobre|novembre|d[eé]cembre" />
+
+      <!-- $v_title$ - 2013-05-02 - no 39571.pdf -->
+      <FilenameModel name="name_day_number" regex="^$v_title$ - ([0-9]{4})-([0-9]{2})-([0-9]{2}) - no ([0-9]+)$v_sup$_?([0-9])?\.pdf$" options="IgnoreCase" values="$v_title_values$ year, month, day, number, $v_sup_values$ index" />
+      <!-- $v_title$ - 2013-05-02.pdf -->
+      <FilenameModel name="name_day" regex="^$v_title$ - ([0-9]{4})-([0-9]{2})-([0-9]{2})\.pdf$" options="IgnoreCase" values="year, month, day" />
+      <!-- $v_title$ - 2013-05 - no 39571.pdf -->
+      <FilenameModel name="name_month_number" regex="^$v_title$ - ([0-9]{4})-([0-9]{2}) - no ([0-9]+)(?: - )?([^_]*)_?([0-9])?\.pdf$" options="IgnoreCase" values="year, month, number, label, index" />
+      <!-- $v_title$ - hors-série - 2013-05 - no 39571.pdf -->
+      <FilenameModel name="special_name_month_number" regex="^$v_title$ - hors-série - ([0-9]{4})-([0-9]{2}) - no ([0-9]+)(?: - )?(.*)_?([0-9])?\.pdf$" options="IgnoreCase" values="year, month, number, label, index, special_month" />
+      <!-- $v_title$ - hors-série - no 39571.pdf -->
+      <FilenameModel name="special_name_number" regex="^$v_title$ - hors-série - no ([0-9]+)(?: - )?(.*)(_[0-9])?\.pdf$" options="IgnoreCase" values="number, label, index, special" />
+
+      <!-- "du vendredi 24 Mai 2013", "du Vendredi 19 & Samedi 20 & Dimanche 21 Juillet 2013", "Du 25 au 31 Juillet 2013" -->
+      <!-- <FilenameDate regex="du\s+(?:$weekdays$)?\s*([0-9]{1,2})\s+(?:&amp;\s+(?:$weekdays$)\s*(?:[0-9]{1,2})\s+)*($months$)\s+(?:au\s+(?:$weekdays$\s+)?(?:[0-9]{1,2})\s+(?:$months$)?\s*)?([0-9]{4})" options="IgnoreCase" values="day, month, year" /> -->
+      <!-- du\s+ -->
+      <FilenameDate regex="(?:$weekdays$)?[_\s]*([0-9]{1,2})[_\s]+(?:&amp;[_\s]+(?:$weekdays$)[_\s]*(?:[0-9]{1,2})[_\s]+)*(?:au[_\s]+(?:(?:$weekdays$)[_\s]+)?(?:[0-9]{1,2})[_\s]+)?($months$)[_\s]+(?:au[_\s]+(?:$weekdays$[_\s]+)?(?:[0-9]{1,2})[_\s]+(?:$months$)?[_\s]*)?([0-9]{4})" options="IgnoreCase" values="day, month, year" />
+      <!-- Juillet_Aout_Septembre_2013 -->
+      <FilenameDate regex="($months$)[_\s]*(?:(?:$months$)[_\s]*)*([0-9]{4})" options="IgnoreCase" values="month, year" />
+      <!-- 27Juill02A0u -->
+      <FilenameDate regex="([0-9]{2})[_\s]*($months$)" options="IgnoreCase" values="day, month" />
+      <!-- "20130523" -->
+      <FilenameDate regex="(?&lt;![0-9])([0-9]{4})([0-9]{2})([0-9]{2})(?![0-9])" options="IgnoreCase" values="year, month, day" />
+      <!-- "14062013", "28.03.2013", "09_03_2011" -->
+      <FilenameDate regex="(?&lt;![0-9])([0-9]{2})[\._]?([0-9]{2})[\._]?([0-9]{4})(?![0-9])" options="IgnoreCase" values="day, month, year" />
+      <!-- "07_2013" -->
+      <FilenameDate regex="(?&lt;![0-9])([0-9]{2})[_]?([0-9]{4})(?![0-9])" options="IgnoreCase" values="month, year" />
+      <!-- "240713"-->
+      <FilenameDate regex="(?&lt;![0-9])([0-9]{2})[\._]?([0-9]{2})[\._]?([0-9]{2})(?![0-9])" options="IgnoreCase" values="day, month, year" />
+
+      <!-- "29", "30", "01&02", "10", "16$17", "03" -->
+      <FilenameDay regex="(?&lt;![0-9o])([0-9o]{1,2})(?![0-9o])" options="IgnoreCase" values="day_near_current_date" />
+
+      <FilenameNumber regex="([0-9]{1,6})" options="IgnoreCase" values="number" />
+      <!-- N_22 N° -->
+      <FilenameNumber regex="n[_°\.\s]*([0-9]{1,6})" options="IgnoreCase" values="number" />
+
+      <!-- Hors_S_rie -->
+      <FilenameSpecial regex="(?:Hors[-_\s]*S[ée_]r?ie|(?&lt;![a-z])Hs(?![a-z]))" options="IgnoreCase" values="special" />
+    </FilenameInfos>
+
+<!-- ********************************************************************************************************************************************************************** -->
+<!-- ********                                   FilenamesModel                                                                                                     ******** -->
+<!-- ********************************************************************************************************************************************************************** -->
+
+    <FilenamesModel>
+      <weekdays             value="lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche" />
+      <months               value="janvier|f[eé]vrier|mars|avril|mai|juin|juillet|juill|a[o0][uû]t?|septembre|octobre|novembre|d[eé]cembre" />
+
+      <!-- $v_title$ - 2013-05-02 - no 39571.pdf -->
+      <FilenameModel name="name_day_number" regex="^$v_title$ - ([0-9]{4})-([0-9]{2})-([0-9]{2}) - no ([0-9]+)$v_sup$_?([0-9])?\.pdf$" options="IgnoreCase" values="$v_title_values$ year, month, day, number, $v_sup_values$ index" />
+      <!-- $v_title$ - 2013-05-02.pdf -->
+      <FilenameModel name="name_day" regex="^$v_title$ - ([0-9]{4})-([0-9]{2})-([0-9]{2})\.pdf$" options="IgnoreCase" values="year, month, day" />
+      <!-- $v_title$ - 2013-05 - no 39571.pdf -->
+      <FilenameModel name="name_month_number" regex="^$v_title$ - ([0-9]{4})-([0-9]{2}) - no ([0-9]+)(?: - )?(.*)_?([0-9])?\.pdf$" options="IgnoreCase" values="year, month, number, label, index" />
+      <!-- $v_title$ - hors-série - 2013-05 - no 39571.pdf -->
+      <FilenameModel name="special_name_month_number" regex="^$v_title$ - hors-série - ([0-9]{4})-([0-9]{2}) - no ([0-9]+)(?: - )?(.*)_?([0-9])?\.pdf$" options="IgnoreCase" values="year, month, number, label, special_month, index" />
+      <!-- $v_title$ - hors-série - no 39571.pdf -->
+      <FilenameModel name="special_name_number" regex="^$v_title$ - hors-série - no ([0-9]+)(?: - )?(.*)(_[0-9])?\.pdf$" options="IgnoreCase" values="number, label, special, index" />
+      <!-- $print_title$ du vendredi 24 Mai 2013.pdf L'Humanite du Vendredi 19 & Samedi 20 & Dimanche 21 Juillet 2013.pdf -->
+      <!-- <FilenameModel name="code_date4" regex="$v_code$\s+du\s+(?:$weekdays$)?\s*([0-9]{1,2})\s+($months$)\s+([0-9]{4})" options="IgnoreCase" values="day, month, year $v_values$" /> -->
+      <FilenameModel name="code_date1" regex="$v_code$\s+du\s+(?:$weekdays$)?\s*([0-9]{1,2})\s+(?:&amp;\s+(?:$weekdays$)\s*(?:[0-9]{1,2})\s+)*($months$)\s+(?:au\s+(?:$weekdays$\s+)?(?:[0-9]{1,2})\s+(?:$months$)?\s*)?([0-9]{4})" options="IgnoreCase" values="day, month, year $v_values$" />
+      <!-- $v_code1$20130523$v_code2$.pdf -->
+      <FilenameModel name="code_date2" regex="$v_code1$([0-9]{4})([0-9]{2})([0-9]{2})$v_code2$" options="IgnoreCase" values="$v_code1_values$ year, month, day $v_code2_values$ $v_values$" />
+      <!-- $v_code$14062013.pdf FI_28.03.2013.pdf -->
+      <FilenameModel name="code_date3" regex="$v_code$([0-9]{2})\.?([0-9]{2})\.?([0-9]{4})" options="IgnoreCase" values="day, month, year $v_values$" />
+      <!-- $v_print_code1$29.pdf  $v_print_code1$30£.pdf  $v_print_code1$01&02$.pdf £Pary10£eco$.pdf $v_print_code1$16$17$_2.pdf $Mon$03$&+$.pdf -->
+      <!-- <FilenameModel name="print5" regex="^$v_print_code1$([0-9o]{1,2})(?:[&amp;£\$+][0-9o]{1,2})?$v_print_code2$[£\$+&amp;]*(?:_[0-9])?\.pdf$" options="IgnoreCase" values="day_near_current_date" /> -->
+      <!-- <FilenameModel name="print52" regex="^$v_print_code1$([0-9o]{1,2})" options="IgnoreCase" values="day_near_current_date" /> -->
+      <FilenameModel name="code_day" regex="$v_code$([0-9o]{1,2})" options="IgnoreCase" values="day_near_current_date $v_values$" />
+      <FilenameModel name="code_day2" regex="$v_code1$([0-9o]{1,2})$v_code2$" options="IgnoreCase" values="day_near_current_date $v_values$" />
+      <!-- $CI$1181$.pdf $C$Ynterna$1182$.pdf $Cou$inter$13.19$1180$.pdf CCII1183CCII.pdf -->
+      <!-- <FilenameModel name="print6" regex="^$v_print_code1$([0-9o]{1,6})$v_print_code2$[£\$+&amp;]*(?:_[0-9])?\.pdf$" options="IgnoreCase" values="number" /> -->
+      <FilenameModel name="code_number" regex="$v_code$([0-9o]{1,6})" options="IgnoreCase" values="number" />
+      <FilenameModel name="code_month_number" regex="$v_code$([0-9]{2})-([0-9]{1,6})" options="IgnoreCase" values="month, number" />
+      <FilenameModel name="code_year_month_number" regex="$v_code$([0-9]{2})([0-9]{2})-([0-9]{1,6})" options="IgnoreCase" values="year, month, number" />
+      <FilenameModel name="special_code_number" regex="$v_code$([0-9]{1,6})" options="IgnoreCase" values="number, special" />
+      <FilenameModel name="special_code_month_number" regex="$v_code$([0-9]{2})-([0-9]{1,6})" options="IgnoreCase" values="month, number, special_month" />
+      <!-- $v_code$19_Octobre_Novembre_2012.pdf -->
+      <FilenameModel name="special_code_number_month" regex="$v_code$([0-9]{1,6})[\s_]*($months$)[\s_]*(?:$months$)?[\s_]*([0-9]{4})" options="IgnoreCase" values="number, month, year, special_month" />
+    </FilenamesModel>
+    <Filenames>
+      <!-- le_monde 1-3 : Le monde - 2013-03-01 - no 21186 _quo.pdf -->
+      <Filename key="le_monde1" name="le_monde" regex="^Le monde - ([0-9]{4})-([0-9]{2})-([0-9]{2}) - no ([0-9]+) ((_quo)(?:\+(argent|culture|dossier|éco|eco|édu|edu|festival|géo|geo|livres|mag|mode|science|sport|style|nyt|tv|document|élection|hebdo|sup))*|-(argent|culture|dossier|éco|eco|édu|edu|festival|géo|geo|livres|mag|mode|science|sport|style|nyt|tv|document|élection|hebdo|sup))\.pdf$" options="IgnoreCase" values="year, month, day, number, type, type_quo,, types_quo_sup[], type_sup" />
+      <!-- le_monde 2 : 20130315_QUO.pdf 20130315_LIV.pdf -->
+      <Filename key="le_monde2" name="le_monde" regex="^([0-9]{4})([0-9]{2})([0-9]{2})_(quo|arg|arh|aut|dos|edu|liv|mag|mde|mdv|nyt|peh|sch|scq|sph|sty|tel)\.pdf$" options="IgnoreCase" values="year, month, day, type_code" />
+      <!-- le_monde 3 : -->
+      <!-- Le Monde du dimanche et lundi 17 et 18.03.2013.pdf -->
+      <!-- Le monde culture et idees du 16.03.2013.pdf -->
+      <!-- Le monde geo politique 17 - 18.03.2013.pdf -->
+      <!-- Le monde magazine du 16.03.2013.pdf -->
+      <!-- Le monde science et technologie du 16.03 (1).pdf -->
+      <!-- Le monde science et technologie du 16.03 (2).pdf -->
+      <!-- Le monde sport et forme du 16.03.2013.pdf -->
+      <!-- Le monde televisions du 19 au 24.03.2013.pdf -->
+      <!-- date === 19 au 24.03.2013 === 17 et 18.03.2013 === 17 - 18.03.2013 === 16.03 === 16.03.2013 -->                                                                                                                                                             
+      <Filename key="le_monde3" name="le_monde" regex="^le\s+monde\s*(culture et idees|geo politique|magazine|science et technologie|sport et forme|televisions)?(?:\s+(?:du|et|lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche))*\s+([0-9]{1,2})(?:\s+(?:au|et|-)\s+[0-9]{1,2})?\.([0-9]{1,2})\.?([0-9]{4})?(?:\s*\([0-9]+\))?\.pdf$" options="IgnoreCase" values="type, day, month, year" />
+      <!-- le_monde 4 : LM_20.03.2013.pdf -->
+      <Filename key="le_monde4" name="le_monde" regex="^lm[_ ]([0-9]{2})[ _\.]([0-9]{2})[ _\.]([0-9]{4})\.pdf$" options="IgnoreCase" values="day, month, year, force_type_quo" />
+
+      <!-- La croix - 2013-05-02 - no 39571.pdf -->
+      <Filename key="la_croix1" name="la_croix" regex="^la croix - ([0-9]{4})-([0-9]{2})-([0-9]{2}) - no ([0-9]+)\.pdf$" options="IgnoreCase" values="year, month, day, number" />
+      <!-- La Croix du vendredi 24 Mai 2013.pdf -->
+      <Filename key="la_croix2" name="la_croix" regex="^la\s+croix\s+du\s+(?:lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche)\s+([0-9]{1,2})\s+(janvier|f[eé]vrier|mars|avril|mai|juin|juillet|ao[uû]t|septembre|octobre|novembre|d[eé]cembre)\s+([0-9]{4})\.pdf$" options="IgnoreCase" values="day, month, year" />
+      <!-- £Croi£29.pdf  £Croy£28.pdf  £Croy£30£.pdf  £Croy$01&02$.pdf -->
+      <Filename key="la_croix3" name="la_croix" regex="^£Cro[iy][£\$]([0-9]{1,2})(?:&amp;[0-9]{1,2})?[£\$]?\.pdf$" options="IgnoreCase" values="day_near_current_date" />
+
+      <!-- Le figaro - 2013-04-26 - no 21377.pdf -->
+      <Filename key="le_figaro1" name="le_figaro" regex="^le figaro - ([0-9]{4})-([0-9]{2})-([0-9]{2}) - no ([0-9]+)\.pdf$" options="IgnoreCase" values="year, month, day, number" />
+      <!-- Le Figaro du Jeudi 30 Mai 2013.pdf -->
+      <Filename key="le_figaro2" name="le_figaro" regex="^le\s+figaro\s+du\s+(?:lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche)\s+([0-9]{1,2})\s+(janvier|f[eé]vrier|mars|avril|mai|juin|juillet|ao[uû]t|septembre|octobre|novembre|d[eé]cembre)\s+([0-9]{4})\.pdf$" options="IgnoreCase" values="day, month, year" />
+      <!-- lfg_20130523.pdf  lfg_2013052526.pdf lfgr_20130522.pdf -->
+      <Filename key="le_figaro3" name="le_figaro" regex="^lfgr?_([0-9]{4})([0-9]{2})([0-9]{2})(?:[0-9]{2})?\.pdf$" options="IgnoreCase" values="year, month, day" />
+      <!-- £Fyg£30£.pdf  £Fyg$01&02$.pdf -->
+      <Filename key="le_figaro4" name="le_figaro" regex="^£fyg[£\$]([0-9]{1,2})(?:&amp;[0-9]{1,2})?[£\$]?\.pdf$" options="IgnoreCase" values="day_near_current_date" />
+      <!-- FI_28.03.2013.pdf -->
+      <Filename key="le_figaro5" name="le_figaro" regex="^fi_([0-9]{2}).([0-9]{2}).([0-9]{4})\.pdf$" options="IgnoreCase" values="day, month, year" />
+
+      <!-- Courrier International N°1167 Du 14 au 20 Mars 2013.pdf -->
+      <Filename key="courrier_international1" name="courrier_international" regex="^courrier\s+international\s+n.?([0-9]{4})\s+du\s+([0-9]{1,2})\s+au\s+([0-9]{1,2})\s+(janvier|f[eé]vrier|mars|avril|mai|juin|juillet|ao[uû]t|septembre|octobre|novembre|d[eé]cembre)\s+([0-9]{4})\.pdf$" options="IgnoreCase" values="number, day1, day2, month, year" />
+    </Filenames>
+  </Print>
+</pt>

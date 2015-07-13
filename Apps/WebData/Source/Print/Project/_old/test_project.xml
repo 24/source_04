@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+	<Project>
+    <NameSpace                        value = "Download.Print" />    <!-- Print.download -->
+    <Using                            value = "System.Linq" />
+    <Using                            value = "System.Xml.XPath" />
+    <Using                            value = "pb" />
+    <Using                            value = "pb.Web" />
+    <!--
+    <Using                            value = "pb.Data" />
+    <Using                            value = "pb.Data.Mongo" />
+    <Using                            value = "System.Xml.Linq" />
+		<Using                            value = "System.Linq" />
+		<Using                            value = "System.Xml.Linq" />
+		<Using                            value = "System.Xml.XPath" />
+		<Using                            value = "MongoDB.Bson" />
+		<Using                            value = "MongoDB.Driver" />
+    -->
+    <Assembly                         value = "System.Xml.Linq.dll" />
+    <Source                           value = "..\..\..\PB_Library\pb\Data\Xml\XmlSelect.cs" />
+    <Source                           value = "..\..\..\PB_Library\pb\Web\HtmlRun.cs" />
+  </Project>
+</configuration>

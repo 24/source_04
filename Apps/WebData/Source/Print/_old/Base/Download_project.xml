@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<AssemblyProject>
+	<Target                                    value = "winexe" /> <!-- exe (exe console default), library (dll), module (.netmodule), winexe (exe windows) -->
+	<Output                                    value = "Download.exe" />
+	<Icon                                      value = "Resource\Twitter_bird.ico" />
+	<NameSpace                                 value = "Download" />
+<!--<GenerateExecutable                        value = "true" />-->
+	<File                                      value = "Download_config.xml" />
+	<File                                      value = "Test.xml" />
+	<Source                                    value = "Download_resource.resx" namespace = "WRunSource.Class.Download" />
+	<Source                                    value = "Download_resource.Designer.cs" />
+	<Source                                    value = "Download_AssemblyInfo.cs" />
+	<Source                                    value = "Download_Main.cs" />
+<!--<Source                                    value = "Download_TrayIcon.cs" />-->
+	<Source                                    value = "MainForm.cs" />
+	<Source                                    value = "MainForm.Designer.cs" />
+<!--<Source                                    value = "MainForm.resx" />-->
+	<Assembly                                  value = "System.dll" />
+	<Assembly                                  value = "System.Core.dll" />
+	<Assembly                                  value = "System.Data.dll" />
+	<Assembly                                  value = "System.Data.Linq.dll" />
+	<Assembly                                  value = "System.Drawing.dll" />
+	<Assembly                                  value = "System.ServiceProcess.dll" />
+	<Assembly                                  value = "System.Windows.Forms.dll" />
+	<Assembly                                  value = "System.Xml.dll" />
+	<Assembly                                  value = "System.Xml.Linq.dll" />
+	<DebugInformation                          value = "true" />
+</AssemblyProject>
+

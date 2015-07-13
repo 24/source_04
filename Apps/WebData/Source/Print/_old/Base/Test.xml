@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<xml>
+    <data_enter>
+        <data_enter_tree>
+            <level val="Saisie">
+                <level val="download" key="download" />
+                <level val="tmp_download" key="tmp_download" />
+            </level>
+        </data_enter_tree>
+        <data_enter_def>
+            <def def="download" Caption="download" Cmd="select * from download" Option="ReadOnly">
+                <col Name="download_id" Option="ReadOnly, Hide"/>
+                <col Name="ts" FormatDate="dd/MM/yyyy HH:mm:ss" />
+            </def>
+            <def def="tmp_download" Caption="tmp_download" Cmd="select * from tmp_download" Option="ReadOnly">
+                <col Name="download_id" Option="ReadOnly, Hide"/>
+            </def>
+        </data_enter_def>
+    </data_enter>
+</xml>
+

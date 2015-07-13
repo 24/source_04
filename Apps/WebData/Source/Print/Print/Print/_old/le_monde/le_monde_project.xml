@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+	<Project>
+		<NameSpace                        value = "Print.le_monde" />
+		<Using                            value = "System.Diagnostics" />
+		<Using                            value = "System.Linq" />
+		<Assembly                         value = "PB_Util_f.dll" />
+		<Source                           value = "le_monde_f.cs" />
+		<Source                           value = "le_monde_f2.cs" />
+	</Project>
+</configuration>

@@ -1,0 +1,974 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Download>
+  <PrintDirectories>
+    <Directory                                                    value = ".01_quotidien" />
+    <Directory                                                    value = ".02_hebdo" />
+    <Directory                                                    value = ".03_mensuel" />
+    <Directory                                                    value = ".04_autre" />
+    <Directory                                                    value = ".05_new_print" />
+    <Directory                                                    value = ".06_unknow_print" />
+    <Directory                                                    value = ".07_lettres" />
+  </PrintDirectories>
+  <FindPrints>
+    <Prints>
+      <!-- .01_quotidien, .02_hebdo, .03_mensuel, .04_autre -->
+      <!--  -->
+      <!-- \s*(?:&amp;|et)\s* -->
+      <!--  -->
+      <!--  -->
+      <!-- 
+      <Print                                                name = ""                                           title = ""                                                          regex = "^\s*$" options="IgnoreCase" />
+      <Print                                                name = ""                                           title = ""                                                          regex = "^\s*$" options="IgnoreCase" />
+      <Print                                                name = ""                                           title = ""                                                          regex = "^\s*$" options="IgnoreCase" />
+      <Print                                                name = ""                                           title = ""                                                          regex = "^\s*$" options="IgnoreCase" />
+      <Print                                                name = ""                                           title = ""                                                          regex = "^\s*$" options="IgnoreCase" />
+      <Print                                                name = ""                                           title = ""                                                          regex = "^\s*$" options="IgnoreCase" />
+      <Print                                                name = ""                                           title = ""                                                          regex = "^\s*$" options="IgnoreCase" />
+      -->
+      <!--  -->
+      <!-- Cuisine a & d No.31 - Octobre-Novembre 2014 -->
+      <!-- LA DERNIERE HEURE DU 10-09-2014 -->
+      <!--<Print                                                name = "la_derniere_heure_du"                       title = "La dernière heure du"                                      regex = "^\s*la\s*derni[eè]re\s*heure\s*du\s" options="IgnoreCase" />-->
+      <!--  -->
+      <!--  -->
+      <!--  -->
+      <!--  -->
+
+
+
+      <!-- Le Monde de l'Image N 89 -->
+      <Print                                                name = "le_monde_de_l_image"                        title = "Le monde de l'image"                                       regex = "^\s*le\s*monde\s*de\s*l['\s]*image$" options="IgnoreCase" />
+      <!-- Le Monde de l'Intelligence N 38 - Septembre-Octobre 2014 -->
+      <Print                                                name = "le_monde_de_l_intelligence"                                                                                     regex = "^\s*le\s*monde\s*de\s*l['\s]*intelligence$" options="IgnoreCase" />
+      <!-- Les Cahiers du Monde de l'Intelligence N 5 - Juillet-Aout-Septembre 2014 -->
+      <Print                                                name = "les_cahiers_du_monde_de_l_intelligence"     title = "Les cahiers du monde de l'intelligence"                    regex = "^\s*les\s*cahiers\s*du\s*monde\s*de\s*l['\s]*intelligence$" options="IgnoreCase" />
+      <!-- Le Monde des Sciences No.15 - Septembre-Octobre 2014 -->
+      <Print                                                name = "le_monde_des_sciences"                                                                                          regex = "^\s*le\s*monde\s*des\s*sciences$" options="IgnoreCase" />
+      <!-- MEDIAPART 25-07-2014 -->
+      <Print                                                name = "mediapart"                                  title = "Mediapart"                directory = ".01_quotidien"      regex = "^\s*m[eé]diapart$" options="IgnoreCase" />
+      <!-- Aujourd'hui en France, du Mardi 12 Août 2014 -->
+      <Print                                                name = "aujourd_hui_en_france"                      title = "Aujourd'hui en France"    directory = ".01_quotidien"      regex = "^\s*aujourd['\s]*hui\s*en\s*france$" options="IgnoreCase" />
+      <!-- DNA Strasbourg 30.07.2014 -->
+      <!-- DNA Strasbourg, du Mercredi 06 Août 2014 -->
+      <Print                                                name = "dna_strasbourg"                             title = "DNA Strasbourg"           directory = ".01_quotidien"      regex = "^\s*dna\s*strasbourg$" options="IgnoreCase" />
+      <!-- Courrier international 1246 du 18 au 24 septembre 2014 -->
+      <!-- COURRIER INTERNATIONAL N.1239 du 31 juillet au 6 aout 2014 -->
+      <!-- Courrier International No.1236, du 10 au 16 Juillet 2014 -->
+      <Print                                                name = "courrier_international"                     title = "Courrier international"   directory = ".02_hebdo"          regex = "^\s*courrier\s*international$" options="IgnoreCase" />
+
+      <!-- Action Commerciale No.342 - Juin / Août 2014 -->
+      <Print                                                name = "action_commerciale"                         title = "Action commerciale"                                        regex = "^\s*action\s*commerciale$" options="IgnoreCase" />
+      <!-- Afrique Magazine N° 347-348 - Août-Septembre 2014 -->
+      <Print                                                name = "afrique_magazine"                           title = "Afrique magazine"         directory = ".03_mensuel"        regex = "^\s*afrique\s*magazine$" options="IgnoreCase" />
+      <!-- Archeo Thema N°35 - Juillet-Août 2014 -->
+      <Print                                                name = "archeo_thema"                               title = "Archéothéma"              directory = ".04_autre"          regex = "^\s*arch[eé]o\s*th[eé]ma$" options="IgnoreCase" />
+      <!-- archicréé N 365 - Avril-Mai 2014 -->
+      <!-- archicréé N 366 - Juin-Juillet 2014 -->
+      <!-- archicréé N 367 - Aout-Septembre 2014 -->
+      <Print                                                name = "archicree"                                  title = "Archicréé"                                                 regex = "^\s*archicr[eé][eé]$" options="IgnoreCase" />
+      <!-- Architecture Canada No.17 2014 -->
+      <Print                                                name = "architecture_canada"                        title = "Architecture Canada"                                       regex = "^\s*architecture\s*canada$" options="IgnoreCase" />
+      <!-- Art Absolument N°60 -->
+      <Print                                                name = "art_absolument"                             title = "Art absolument"           directory = ".04_autre"          regex = "^\s*art\s*absolument$" options="IgnoreCase" />
+      <!-- Arte Magazine No.35 - 23 Août 2014 -->
+      <Print                                                name = "arte_magazine"                              title = "Arte magazine"                                             regex = "^\s*arte\s*magazine$" options="IgnoreCase" />
+      <!-- Auto Moto No.225 - Septembre 2014 -->
+      <Print                                                name = "auto_moto"                                  title = "Auto moto"                                                 regex = "^\s*auto\s*moto$" options="IgnoreCase" />
+      <!-- Auto Pratique N°20 - Septembre-Novembre 2014 -->
+      <Print                                                name = "auto_pratique"                              title = "Auto pratique"                                             regex = "^\s*auto\s*pratique$" options="IgnoreCase" />
+      <!-- AutoMoBelle No.4 - Été 2014 -->
+      <Print                                                name = "automobelle"                                title = "Automobelle"                                               regex = "^\s*automobelle$" options="IgnoreCase" />
+      <!-- Automobile Revue N° 46 - Juillet-Août-Septembre 2014 -->
+      <!-- Automobile Revue N°46 Juillet Août Septembre 2014 -->
+      <Print                                                name = "automobile_revue"                           title = "Automobile revue"                                          regex = "^\s*automobile\s*revue$" options="IgnoreCase" />
+      <!-- Big Bike Hors-série N 4 - Été 2014 -->
+      <Print                                                name = "big_bike"                                   title = "Big bike"                                                  regex = "^\s*big\s*bike$" options="IgnoreCase" />
+      <!-- Bretagne Magazine N°65 - Avril à Juin 2012 -->
+      <Print                                                name = "bretagne_magazine"                          title = "Bretagne magazine"                                         regex = "^\s*bretagne\s*magazine$" options="IgnoreCase" />
+      <!-- Btorrent Magazine N 6 -->
+      <!-- BTorrent Magazine N°2 - Le Guide Pratique Bittorrent -->
+      <Print                                                name = "btorrent_magazine"                          title = "BTorrent magazine"                                         regex = "^\s*btorrent\s*magazine$" options="IgnoreCase" />
+      <!-- Budo International - Juillet-Aout 2014 -->
+      <Print                                                name = "budo_international"                         title = "Budo international"                                        regex = "^\s*budo\s*international$" options="IgnoreCase" />
+      <!-- Canard PC Hardware N°21 - Juillet/Aout 2014 -->
+      <Print                                                name = "canard_pc_hardware"                         title = "Canard PC hardware"         directory = ".03_mensuel"      regex = "^\s*canard\s*pc\s*hardware$" options="IgnoreCase" />
+      <!-- Causeur N°15 - Juillet-Aout 2014 -->
+      <Print                                                name = "causeur"                                    title = "Causeur"                                                   regex = "^\s*causeur$" options="IgnoreCase" />
+      <!-- Cnes Mag N°62 - Juillet / Août / Septembre 2014 -->
+      <Print                                                name = "cnes_mag"                                   title = "Cnes mag"                                                  regex = "^\s*cnes\s*mag$" options="IgnoreCase" />
+      <!-- Compétence Mac N 34 - Mars-Avril 2014 -->
+      <Print                                                name = "competence_mac"                             title = "Compétence mac"                                            regex = "^\s*compétence\s*mac$" options="IgnoreCase" />
+      <!-- Création d'Entreprise No.49 - Octobre-Novembre 2014 -->
+      <Print                                                name = "creation_d_entreprise"                      title = "Création d'entreprise"                                     regex = "^\s*cr[eé]ation\s*d['\s]*entreprise$" options="IgnoreCase" />
+      <!-- Dossier Pour La Science No.84 - Juillet/Septembre 2014 -->
+      <Print                                                name = "dossier_pour_la_science"                    title = "Dossier pour la science"                                   regex = "^\s*dossier\s*pour\s*la\s*science$" options="IgnoreCase" />
+      <!-- GEEK France No.2 - 2014 -->
+      <!-- GEEK No.3 - 2014 -->
+      <Print                                                name = "geek_france"                                title = "Geek France"                                               regex = "^\s*geek(?:\s*france)?$" options="IgnoreCase" />
+      <!-- Guide d'Achat Numérique N 7 - Été 2014 -->
+      <Print                                                name = "guide_d_achat_numerique"                    title = "Guide d'achat numérique"                                   regex = "^\s*guide\s*d['\s]*achat\s*num[eé]rique$" options="IgnoreCase" />
+      <!-- Hacker News Magazine N 32 -->
+      <!-- Hacker News Magazine N.20 -->
+      <!-- Hacker News Magazine N°24 -->
+      <!-- Hacker News Magazine N°26 -->
+      <!-- Hacker News Magazine N°27 -->
+      <!-- Hacker News Magazine N°29 -->
+      <Print                                                name = "hacker_news_magazine"                       title = "Hacker news magazine"                                      regex = "^\s*hacker\s*news\s*magazine$" options="IgnoreCase" />
+      <!-- Hifi Video Home Cinema N°419 - Septembre-Octobre 2014 -->
+      <Print                                                name = "hifi_video_home_cinema"                     title = "Hifi video home cinema"                                    regex = "^\s*hifi\s*vid[eé]o\s*home\s*cin[eé]ma$" options="IgnoreCase" />
+      <!-- Images Magazine N 65 - Juillet-Aout 2014 -->
+      <Print                                                name = "images_magazine"                            title = "Images magazine"                                           regex = "^\s*images\s*magazine$" options="IgnoreCase" />
+      <!-- Jazz Magazine N 663 - Été 2014 -->
+      <Print                                                name = "jazz_magazine"                              title = "Jazz magazine"                                             regex = "^\s*jazz\s*magazine$" options="IgnoreCase" />
+      <!-- Keyboard Recording N 297 - Juillet-Aout 2014 -->
+      <Print                                                name = "keyboard_recording"                         title = "Keyboard recording"                                        regex = "^\s*keyboard\s*recording$" options="IgnoreCase" />
+      <!-- L'Eléphant Hors-Série Jeux - Juin 2014 -->
+      <Print                                                name = "l_elephant"                                 title = "L'eléphant"                                                regex = "^\s*l['\s]*[eé]l[eé]phant$" options="IgnoreCase" />
+      <!-- L'Essentiel Cerveau & Psycho N 19 - Aout-Septembre-Octobre 2014 -->
+      <Print                                                name = "l_essentiel_cerveau_et_psycho"              title = "L'essentiel cerveau et psycho"                             regex = "^\s*l['\s]*essentiel\s*cerveau\s*(?:&amp;|et)\s*psycho$" options="IgnoreCase" />
+      <!-- La Voix De France N° 557 - Juin-Juillet-Août 2014 -->
+      <Print                                                name = "la_voix_de_france"                          title = "La voix de france"                                         regex = "^\s*la\s*voix\s*de\s*france$" options="IgnoreCase" />
+      <!-- Lanfeust Mag N°177 Juillet Aout 2014 -->
+      <Print                                                name = "lanfeust_mag"                               title = "Lanfeust mag"                                              regex = "^\s*lanfeust\s*mag$" options="IgnoreCase" />
+      <!-- Le Devoir - Samedi 09 & Dimanche 10 Août 2014 -->
+      <!-- Le Devoir du 26-27 Juillet 2014 -->
+      <Print                                                name = "le_devoir"                                  title = "Le devoir"                                                 regex = "^\s*le\s*devoir$" options="IgnoreCase" />
+      <!-- Le Guide du Pirate N° 01 - Août/Octobre 2014 -->
+      <Print                                                name = "le_guide_du_pirate"                         title = "Le guide du pirate"                                        regex = "^\s*le\s*guide\s*du\s*pirate$" options="IgnoreCase" />
+      <!-- Les Cahiers Techniques du Bâtiment N 334 - Juin-Juillet 2014 -->
+      <Print                                                name = "les_cahiers_techniques_du_batiment"         title = "Les cahiers techniques du bâtiment"                        regex = "^\s*les\s*cahiers\s*techniques\s*du\s*b[aâ]timent$" options="IgnoreCase" />
+      <!-- Les Trésors de Picsou No.28 - Automne 2014 -->
+      <Print                                                name = "les_tr[eé]sors_de_picsou"                   title = "Les trésors de picsou"                                     regex = "^\s*les\s*tr[eé]sors\s*de\s*picsou$" options="IgnoreCase" />
+      <!-- MacLife USA - August 2014 -->
+      <Print                                                name = "maclife_usa"                                title = "Maclife USA"                                               regex = "^\s*maclife\s*usa$" options="IgnoreCase" />
+      <!-- Macro Photographie No.05 - Juillet/Octobre 2014 -->
+      <Print                                                name = "macro_photographie"                         title = "Macro photographie"                                        regex = "^\s*macro\s*photographie$" options="IgnoreCase" />
+      <!-- Metro de paris - Edition Nationale, du Jeudi 03 Juillet 2014 -->
+      <Print                                                name = "metro_de_paris"                             title = "Metro de Paris"                                            regex = "^\s*m[eé]tro\s*de\s*paris$" options="IgnoreCase" />
+      <!-- PC COMPARATIF n1 - 2014 -->
+      <Print                                                name = "pc_comparatif"                              title = "PC comparatif"                                             regex = "^\s*pc\s*comparatif$" options="IgnoreCase" />
+      <!-- PC magazine US - Août 2014 -->
+      <Print                                                name = "pc_magazine_us"                             title = "PC magazine US"                                            regex = "^\s*pc\s*magazine\s*us$" options="IgnoreCase" />
+      <!-- Petit Fute N°38 – Mai-Juin 2012 -->
+      <Print                                                name = "petit_fute"                                 title = "Petit futé"                                                regex = "^\s*petit\s*fut[eé]$" options="IgnoreCase" />
+      <!-- Première N 449 - Juillet-Aout 2014 -->
+      <!-- Première N°452 - Octobre 2014 -->
+      <Print                                                name = "premiere"                                   title = "Première"                                                  regex = "^\s*premi[eè]re$" options="IgnoreCase" />
+      <Print                                                name = "pirate_informatique"                                                                                            regex = "^\s*pirate\s*informatique$" options="IgnoreCase" />
+      <!-- Que choisir N°510 -->
+      <!-- Que choisir N°510 - Dépannage à domicile ? -->
+      <Print                                                name = "que_choisir"                                title = "Que choisir"                                               regex = "^\s*que\s*choisir$" options="IgnoreCase" />
+      <!-- Rolling Stone N 67 - Septembre 2014 -->
+      <Print                                                name = "rolling_stone"                              title = "Rolling Stone"                                             regex = "^\s*rolling\s*stone$" options="IgnoreCase" />
+      <!-- Santé Revue N 64 - Septembre/Octobre/Novembre 2014 -->
+      <Print                                                name = "sante_revue"                                title = "Santé revue"                                               regex = "^\s*sant[eé]\s*revue$" options="IgnoreCase" />
+      <!-- Science revue No.59 - Avril-Mai-Juin 2014 -->
+      <!-- Science Revue N°45 -->
+      <Print                                                name = "science_revue"                              title = "Science revue"                                             regex = "^\s*science\s*revue$" options="IgnoreCase" />
+      <!-- Skippers, Voile & Océan N 53 - Septembre-Novembre 2014 -->
+      <Print                                                name = "skippers_voile_et_océan"                    title = "Skippers voile et océan"                                   regex = "^\s*skippers[,\s]*voile\s*(?:&amp;|et)\s*oc[eé]an$" options="IgnoreCase" />
+      <!-- Stop Arnaques N°99 - Juin-Juillet 2014 -->
+      <Print                                                name = "stop_arnaques"                              title = "Stop arnaques"                                             regex = "^\s*stop\s*arnaques$" options="IgnoreCase" />
+      <!-- The Chess Observer N°1 - juillet 2014 -->
+      <Print                                                name = "the_chess_observer"                         title = "The chess observer"                                        regex = "^\s*the\s*chess\s*observer$" options="IgnoreCase" />
+      <!-- The Game N 01 - Aout-Septembre 2014 -->
+      <!-- The Game No.2 - Octobre-Novembre 2014 -->
+      <Print                                                name = "the_game"                                   title = "The game"                                                  regex = "^\s*the\s*game$" options="IgnoreCase" />
+      <!-- The Red Bulletin Aout 2014 -->
+      <!-- The Red Bulletin France - Juillet 2014 -->
+      <Print                                                name = "the_red_bulletin"                           title = "The red bulletin"                                          regex = "^\s*the\s*red\s*bulletin$" options="IgnoreCase" />
+      <!-- Timbrés de l'Orthographe No.7 - Été 2014 -->
+      <Print                                                name = "timbres_de_l_orthographe"                   title = "Timbrés de l'orthographe"                                  regex = "^\s*timbr[eé]s\s*de\s*l['\s]*orthographe$" options="IgnoreCase" />
+      <!-- URBANIA - Automne 2003 Numéro 02 -->
+      <!-- URBANIA - Hiver 2003 Numéro 03 -->
+      <!-- URBANIA - Été 2003 Numéro 01 -->
+      <Print                                                name = "urbania"                                    title = "Urbania"                                                   regex = "^\s*urbania$" options="IgnoreCase" />
+      <!-- Vital N°9 - Septembre-Octobre 2014 -->
+      <Print                                                name = "vital"                                      title = "Vital"                                                     regex = "^\s*vital$" options="IgnoreCase" />
+      <!-- Voile Magazine No.225 - Septembre 2014 -->
+      <Print                                                name = "voile_magazine"                             title = "Voile magazine"                                            regex = "^\s*voile\s*magazine$" options="IgnoreCase" />
+      <!-- Windows 7 Help & Advice - Août 2014 -->
+      <!-- Windows 7 Help & Advice - Septembre 2014 -->
+      <Print                                                name = "windows_7_help_and_advice"                  title = "Windows 7 help and advice"                                 regex = "^\s*windows\s*7\s*help\s*(?:&amp;|et|and)\s*advice$" options="IgnoreCase" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <!-- Investissement Conseils N°773 - Octobre 2014 -->
+      <Print                                                name = "investissement_conseils"                    title = "Investissement conseils"                                   regex = "^\s*investissement\s*conseils$" options="IgnoreCase" />
+      <!-- Science Magazine N° 43 - Aout-Octobre 2014 -->
+      <Print                                                name = "science_magazine"                           title = "Science magazine"                                          regex = "^\s*science\s*magazine$" options="IgnoreCase" />
+      <!-- Design@Home Magazine No.56 - 2014 / France -->
+      <Print                                                name = "design_at_home_magazine"                    title = "Design@home magazine"                                      regex = "^\s*design@home\s*magazine$" options="IgnoreCase" />
+      <!-- IDEAT Hors-Série Architecture N 4 - Octobre 2014 -->
+      <Print                                                name = "ideat"                                      title = "Ideat"                                                     regex = "^\s*ideat$" options="IgnoreCase" />
+      <!-- Tout sur l'Histoire No.2 - Septembre-Octobre 2014 -->
+      <Print                                                name = "tout_sur_l_histoire"                        title = "Tout sur l'histoire"                                       regex = "^\s*tout\s*sur\s*l['\s]*histoire$" options="IgnoreCase" />
+      <!-- Les Idées de ma Maison - Septembre 2014 -->
+      <Print                                                name = "les_idees_de_ma_maison"                     title = "Les idées de ma maison"                                    regex = "^\s*les\s*id[eé]es\s*de\s*ma\s*maison$" options="IgnoreCase" />
+      <!-- Les Dossiers de La Recherche N° 11 - Août-Septembre 2014 -->
+      <Print                                                name = "les_dossiers_de_la_recherche"               title = "Les dossiers de la recherche"    directory = ".03_mensuel" regex = "^\s*les\s*dossiers\s*de\s*la\s*recherche$" options="IgnoreCase" />
+      <!-- Petit Futé mag N°48 - Octobre-Décembre 2014 -->
+      <Print                                                name = "petit_fute_mag"                             title = "Petit futé mag"                                            regex = "^\s*petit\s*fut[eé]\s*mag$" options="IgnoreCase" />
+      <!-- ArtPassions N°39 - Septembre 2014 -->
+      <Print                                                name = "artpassions"                                title = "ArtPassions"                                               regex = "^\s*artpassions$" options="IgnoreCase" />
+      <!-- Gazoline N 215 - Octobre 2014 -->
+      <Print                                                name = "gazoline"                                   title = "Gazoline"                                                  regex = "^\s*gazoline$" options="IgnoreCase" />
+      <!-- 01 Informatique - Business et Techno N?2141 -->
+      <Print                                                name = "01_informatique_business_et_techno"         title = "01 informatique - business et techno"                      regex = "^\s*01\s*informatique[\-\s]*business\s*(?:&amp;|et)\s*techno$" options="IgnoreCase" />
+      <!-- 750g Le mag No.9 - Octobre-Novembre 2014 -->
+      <Print                                                name = "750g_le_mag"                                title = "750g le mag"                                               regex = "^\s*750g\s*le\s*mag$" options="IgnoreCase" />
+      <!-- Autoretro No.390 - Octobre 2014 -->
+      <Print                                                name = "autoretro"                                  title = "Autoretro"                                                 regex = "^\s*autoretro$" options="IgnoreCase" />
+      <!-- Ca m'intèresse Histoire Hors-Série N 1 -->
+      <Print                                                name = "ca_m_interesse_histoire"                    title = "Ca m'intéresse histoire"                                   regex = "^\s*[cç]a\s*m['\s]*int[eéè]resse\s*histoire$" options="IgnoreCase" />
+      <!-- Collect Arts Antiques Auctions N° 447 - Septembre 2014 -->
+      <Print                                                name = "collect_arts_antiques_auctions"             title = "Collect arts antiques auctions"                            regex = "^\s*collect\s*arts\s*antiques\s*auctions$" options="IgnoreCase" />
+      <!-- Conseils des Notaires No.440 - Septembre 2014 -->
+      <Print                                                name = "conseils_des_notaires"                      title = "Conseils des notaires"                                     regex = "^\s*conseils\s*des\s*notaires$" options="IgnoreCase" />
+      <!-- Côté Famille No.59 - Septembre 2014 -->
+      <Print                                                name = "cote_famille"                               title = "Côté famille"                                              regex = "^\s*c[oô]t[eé]\s*famille$" options="IgnoreCase" />
+      <!-- DAF Magazine No.19 - Septembre-Octobre 2014 -->
+      <Print                                                name = "daf_magazine"                               title = "DAF magazine"                                              regex = "^\s*daf\s*magazine$" options="IgnoreCase" />
+      <!-- Dynamique Entrepreneuriale No.51 - Septembre 2014 -->
+      <Print                                                name = "dynamique_entrepreneuriale"                 title = "Dynamique entrepreneuriale"                                regex = "^\s*dynamique\s*entrepreneuriale$" options="IgnoreCase" />
+      <!-- Entreprendre No.283 - Septembre 2014 -->
+      <Print                                                name = "entreprendre"                               title = "Entreprendre"                                              regex = "^\s*entreprendre$" options="IgnoreCase" />
+      <!-- Fémina n° 37 du 07 septembre 2014 -->
+      <Print                                                name = "femina"                                     title = "Fémina"                                                    regex = "^\s*f[eé]mina$" options="IgnoreCase" />
+      <!-- GQ France No.80 - Octobre 2014 -->
+      <Print                                                name = "gq_france"                                  title = "GQ France"                                                 regex = "^\s*gq\s*france$" options="IgnoreCase" />
+      <!-- Grande Galerie N° 27 - Mars-Avril-Mai 2014 -->
+      <Print                                                name = "grande_galerie"                             title = "Grande galerie"                                            regex = "^\s*grande\s*galerie$" options="IgnoreCase" />
+      <!-- Généalogie No.340-341 - Septembre-Octobre 2014 -->
+      <Print                                                name = "genealogie"                                 title = "Généalogie"                                                regex = "^\s*g[eé]n[eé]alogie$" options="IgnoreCase" />
+      <!-- It For Business No.2187 - Septembre 2014 -->
+      <Print                                                name = "it_for_business"                            title = "It for business"                                           regex = "^\s*it\s*for\s*business$" options="IgnoreCase" />
+      <!-- Jeux Vidéo News No.2 - Septembre 2014 -->
+      <Print                                                name = "jeux_video_news"                            title = "Jeux vidéo news"                                           regex = "^\s*jeux\s*vid[eé]o\s*news$" options="IgnoreCase" />
+      <!-- Jogging International N° 360 - Octobre 2014 -->
+      <Print                                                name = "jogging_international"                      title = "Jogging international"                                     regex = "^\s*jogging\s*international$" options="IgnoreCase" />
+      <!-- L'Ami des Jardins et de la Maison Hors-Série No.181 - 2014 -->
+      <Print                                                name = "l_ami_des_jardins_et_de_la_maison"          title = "L'ami des jardins et de la maison"                         regex = "^\s*l['\s]*ami\s*des\s*jardins\s*et\s*de\s*la\s*maison$" options="IgnoreCase" />
+      <!-- L'Histoire No.403 - Septembre 2014 -->
+      <Print                                                name = "l_histoire"                                 title = "L'histoire"                                                regex = "^\s*l['\s]*histoire$" options="IgnoreCase" />
+      <!-- L'Officiel de la Franchise No.144 - Septembre 2014 -->
+      <Print                                                name = "l_officiel_de_la_franchise"                 title = "L'officiel de la franchise"                                regex = "^\s*l['\s]*officiel\s*de\s*la\s*franchise$" options="IgnoreCase" />
+      <!-- L'Étudiant No.383 - Septembre 2014 -->
+      <Print                                                name = "l_etudiant"                                 title = "L'étudiant"                                                regex = "^\s*l['\s]*[eé]tudiant$" options="IgnoreCase" />
+      <!-- LA CROIX DU LUNDI 8 SEPTEMBRE 2014 -->
+      <!-- La Croix Du Mercredi 10 Septembre 2014 -->
+      <Print                                                name = "la_croix"                                                                                                       regex = "^\s*la\s*croix$" options="IgnoreCase" />
+      <!-- La Parisienne - Septembre 2014 -->
+      <Print                                                name = "la_parisienne"                              title = "La parisienne"                                             regex = "^\s*la\s*parisienne$" options="IgnoreCase" />
+      <!-- La Recherche N° 491 - Septembre 2014 -->
+      <Print                                                name = "la_recherche"                               title = "La recherche"                                              regex = "^\s*la\s*recherche$" options="IgnoreCase" />
+      <!-- La Revue Nationale de la Chasse No.805 - Octobre 2014 -->
+      <Print                                                name = "la_revue_nationale_de_la_chasse"            title = "La revue nationale de la chasse"                           regex = "^\s*la\s*revue\s*nationale\s*de\s*la\s*chasse$" options="IgnoreCase" />
+      <!-- Le Bouvet N° 167 - Juillet-Août 2014 -->
+      <!-- Le Bouvet N° 168 - Septembre-Octobre 2014 -->
+      <Print                                                name = "le_bouvet"                                  title = "Le bouvet"                                                 regex = "^\s*le\s*bouvet$" options="IgnoreCase" />
+      <!-- Le Journal de la Maison No.469 - Octobre 2014 -->
+      <Print                                                name = "le_journal_de_la_maison"                    title = "Le journal de la maison"                                   regex = "^\s*le\s*journal\s*de\s*la\s*maison$" options="IgnoreCase" />
+      <!-- Le Marin Hors-Série No.126 - Spécial Yachts - Septembre 2014 -->
+      <Print                                                name = "le_marin"                                   title = "Le marin"                                                  regex = "^\s*le\s*marin$" options="IgnoreCase" />
+      <!-- Le Telegramme (4 Editions) Du Mercredi 10 Septembre 2014 -->
+      <Print                                                name = "le_telegramme"                              title = "Le télégramme"                                             regex = "^\s*le\s*t[eé]l[eé]gramme(?:\s*\(4\s*editions\))?$" options="IgnoreCase" />
+      <!-- Maisons Côté Est No.71 - Septembre-Décembre 2014 -->
+      <Print                                                name = "maisons_cote_est"                           title = "Maisons côté est"                                          regex = "^\s*maisons\s*c[oô]t[eé]\s*est$" options="IgnoreCase" />
+      <!-- Marketing No.178 - Septembre 2014 -->
+      <Print                                                name = "marketing"                                  title = "Marketing"                                                 regex = "^\s*marketing$" options="IgnoreCase" />
+      <!-- Mickey Parade Géant N 342 - Octobre 2014 -->
+      <Print                                                name = "mickey_parade_geant"                        title = "Mickey parade géant"                                       regex = "^\s*mickey\s*parade\s*g[eé]ant$" options="IgnoreCase" />
+      <!-- Micro Pratique No.217 - Octobre 2014 -->
+      <Print                                                name = "micro_pratique"                             title = "Micro pratique"                                            regex = "^\s*micro\s*pratique$" options="IgnoreCase" />
+      <!-- Mon Jardin & Ma Maison No.657 - Octobre 2014 -->
+      <Print                                                name = "mon_jardin_et_ma_maison"                    title = "Mon jardin et ma maison"                                   regex = "^\s*mon\s*jardin\s*(?:&amp;|et)\s*ma\s*maison$" options="IgnoreCase" />
+      <!-- Moto Revue No.3986 - Septembre 2014 -->
+      <Print                                                name = "moto_revue"                                 title = "Moto revue"                                                regex = "^\s*moto\s*revue$" options="IgnoreCase" />
+      <!-- Moto Verte No.486 - Octobre 2014 -->
+      <Print                                                name = "moto_verte"                                 title = "Moto verte"                                                regex = "^\s*moto\s*verte$" options="IgnoreCase" />
+      <!-- Parents No.545 - Octobre 2014 -->
+      <Print                                                name = "parents"                                    title = "Parents"                                                   regex = "^\s*parents$" options="IgnoreCase" />
+      <!-- Pointure No.40 - Automne-Hiver 2014 -->
+      <Print                                                name = "pointure"                                   title = "Pointure"                                                  regex = "^\s*pointure$" options="IgnoreCase" />
+      <!-- Réponses Photo No.271 - Octobre 2014 -->
+      <Print                                                name = "reponses_photo"                             title = "Réponses photo"                                            regex = "^\s*r[eé]ponses\s*photo$" options="IgnoreCase" />
+      <!-- Studio Ciné Live No.62 - Septembre 2014 -->
+      <Print                                                name = "studio_cine_live"                           title = "Studio ciné live"                                          regex = "^\s*studio\s*cin[eé]\s*live$" options="IgnoreCase" />
+      <!-- Tennis Magazine No.457 - Octobre 2014 -->
+      <Print                                                name = "tennis_magazine"                            title = "Tennis magazine"                                           regex = "^\s*tennis\s*magazine$" options="IgnoreCase" />
+      <!-- Terre de Vins N 31 - Septembre-Octobre 2014 -->
+      <Print                                                name = "terre_de_vins"                              title = "Terre de vins"                                             regex = "^\s*terre\s*de\s*vins$" options="IgnoreCase" />
+      <!-- The Good Life N° 16 - Septembre-Octobre 2014 -->
+      <Print                                                name = "the_good_life"                              title = "The good life"                                             regex = "^\s*the\s*good\s*life$" options="IgnoreCase" />
+      <!-- Têtu N 202 - Septembre 2014 -->
+      <Print                                                name = "tetu"                                       title = "Têtu"                                                      regex = "^\s*T[eèê]tu$" options="IgnoreCase" />
+      <!-- Vie Pratique Santé No.65 - Août-Septembre 2014 -->
+      <Print                                                name = "vie_pratique"                               title = "Vie pratique"                                              regex = "^\s*vie\s*pratique$" options="IgnoreCase" />
+      <!-- Viva Jardin No.3 - Septembre-Octobre-Novembre 2014 -->
+      <Print                                                name = "viva_jardin"                                title = "Viva jardin"                                               regex = "^\s*viva\s*jardin$" options="IgnoreCase" />
+      <!-- Vos Droits N°2 - Septembre-Octobre 2014 -->
+      <Print                                                name = "vos_droits"                                 title = "Vos droits"                                                regex = "^\s*vos\s*droits$" options="IgnoreCase" />
+      <!-- Windows PC Trucs & Astuces N° 13 - Avril-Juin 2014 -->
+      <!-- Windows PC Trucs et Astuces No.15 - Octobre/Décembre 2014 -->
+      <Print                                                name = "windows_pc_trucs_et_astuces"                title = "Windows PC trucs et astuces"                               regex = "^\s*windows\s*pc\s*trucs\s*(?:&amp;|et)\s*astuces$" options="IgnoreCase" />
+      <!-- Yachts by Neptune Hors-Série No.1 - Septembre/Novembre 2014 -->
+      <Print                                                name = "yachts_by_neptune"                          title = "Yachts by neptune"                                         regex = "^\s*yachts\s*by\s*neptune$" options="IgnoreCase" />
+      <!-- DownLoad No.9 - Octobre-Novembre-Décembre 2014 -->
+      <Print                                                name = "download"                                   title = "DownLoad"                      directory = ".03_mensuel"   regex = "^\s*download$" options="IgnoreCase" />
+      <!-- E-Commerce No.53 - Septembre-Octobre 2014 -->
+      <Print                                                name = "e-commerce"                                 title = "E-Commerce"                                                regex = "^\s*e[\-\s]*commerce$" options="IgnoreCase" />
+      <!-- Génération 4x4 No.8 - Octobre 2014 -->
+      <Print                                                name = "generation_4x4"                             title = "Génération 4x4"                                            regex = "^\s*g[eé]n[eé]ration\s*4x4$" options="IgnoreCase" />
+      <!-- L'art de l'Aquarelle No.21 - Juin/Juillet/Août 2014 -->
+      <Print                                                name = "l_art_de_l_aquarelle"                       title = "L'art de l'aquarelle"                                      regex = "^\s*l['\s]*art\s*de\s*l['\s]*aquarelle$" options="IgnoreCase" />
+      <!-- Moteur Boat No.298 - Octobre 2014 -->
+      <Print                                                name = "moteur_boat"                                title = "Moteur boat"                                               regex = "^\s*moteur\s*boat$" options="IgnoreCase" />
+      <!-- Moto Revue N° 3987 - Octobre 2014 -->
+      <Print                                                name = "moto_revue"                                 title = "Moto revue"                                                regex = "^\s*moto\s*revue$" options="IgnoreCase" />
+      <!-- Sud Ouest Gourmand No.22 - Septembre 2014 -->
+      <Print                                                name = "sud_ouest_gourmand"                         title = "Sud ouest gourmand"                                        regex = "^\s*sud\s*ouest\s*gourmand$" options="IgnoreCase" />
+      <!-- Histoire National Geographic N 17 - Septembre 2014 -->
+      <Print                                                name = "national_geographic_histoire"                                                                                   regex = "^\s*histoire\s*national\s*geographic$" options="IgnoreCase" />
+      <Print                                                name = "national_geographic_histoire"                                                                                   regex = "^\s*national\s*geographic\s*histoire$" options="IgnoreCase" />
+      <!--  -->
+      <!--  -->
+      <!--  -->
+      <!--  -->
+      <!--  -->
+      <!-- LES JOURNAUX - MERCREDI 20 / 21 AOUT 2014 & + [PDF][Lien Direct] -->
+      <!-- LES JOURNAUX -  JEUDI 21 / 22 AOUT 2014 & + [PDF][Lien Direct] -->
+      <Print                                                name = "journaux"                                   title = "Journaux"                    directory = ".01_quotidien"   regex = "^\s*les\s*journaux$" options="IgnoreCase" />
+      <!-- L'Equipe Magazine N° 1677 du samedi 06 septembre 2014 -->
+      <!-- L'Equipe Magazine N° 1676 du samedi 30 août 2014 -->
+      <!-- L'Equipe Magazine N° 1673 - Samedi 16 Aout 2014 -->
+      <Print                                                name = "l_equipe_magazine"                          title = "L'équipe magazine"           directory = ".01_quotidien"   regex = "^\s*(?:l\s*)?(?:'\s*)?[eé]quipe\s*magazine$" options="IgnoreCase" />
+      <!-- L'Equipe du samedi 23 août 2014 -->
+      <!-- L'Equipe du Mercredi 20 Août 2014 -->
+      <Print                                                name = "l_equipe"                                                                                                       regex = "^\s*(?:l\s*)?(?:'\s*)?[eé]quipe$" options="IgnoreCase" />
+      <!-- Le Parisien Economie Magazine du lundi 08 septembre 2014 -->
+      <Print                                                name = "le_parisien_magazine_economie"              title = "Le parisien magazine économie"   directory = ".01_quotidien"    regex = "^\s*le\s*parisien\s*[eé]conomie\s*magazine$" options="IgnoreCase" />
+      <!-- Le Parisien Magazine du vendredi 05 septembre 2014 -->
+      <!-- Le Magazine du Parisien - Vendredi 08 Août 2014 -->
+      <Print                                                name = "le_parisien_magazine"                       title = "Le parisien magazine"        directory = ".01_quotidien"   regex = "^\s*(?:le\s*parisien\s*magazine|le\s*magazine\s*du\s*parisien)$" options="IgnoreCase" />
+      <!-- Le Parisien + Journal de Paris du Mercredi 20 Août 2014 -->
+      <!-- Le Parisien + Guide de Vos Loisirs du dimanche 31 août 2014 -->
+      <!-- Le Parisien + Votre été du dimanche 24 août 2014 -->
+      <Parisien_sep                                         value = "(?:\+|et)" />
+      <!-- "cahier paris", "cahier" -->
+      <Parisien_cahier                                      value = "(?:cahier(?:\s*paris)?)" />
+      <!-- "economie", "supp. economie", "supp economie", "supplément economie", "suppl la parisienne", "supp votre eté", "votre été (la france en fête)" -->
+      <Parisien_supp                                        value = "(?:(?:(?:supp\.?l?|suppl[eé]ment)\s*)?(?:[eé]conomie|la\s*parisienne|votre\s*[eé]t[eé]))" />
+      <!-- "magazine", "mgazine" -->
+      <Parisien_magazine                                    value = "(?:ma?gazine)" />
+      <!-- "guide", "guide de vos loisirs", "guide de vo loisirs", "guide des loisirs", "le guide de vos loisirs" -->
+      <!-- "guide de votre", "guide de votre dimanche", "guide du dimanche", "le guide du dimanche" -->
+      <!--<Parisien_guide1                                      value = "(?:(?:le\s*)?guide(?:des?\s*(?:vos?\s*)?loisirs|de\s*votre|de\s*votre\s*dimanche|du\s*dimanche)?)" />-->
+      <Parisien_guide                                       value = "(?:(?:le\s*)?guide\s*(?:des?\s*(?:vos?\s*)?loisirs|de\s*votre|de\s*votre\s*dimanche|du\s*dimanche)?)" />
+      <!-- "journal de paris", "le journal de paris" -->
+      <Parisien_journal                                     value = "(?:(?:le\s*)?journal\s*de\s*paris)" />
+      <!--<Print                                                name = "le_parisien"                                                                                                    regex = "^\s*le\s*parisien(?:\s*\+\s*journal\s*de\s*paris)?(?:\s*\+\s*guide\s*de\s*vos\s*loisirs)?(?:\s*\+\s*votre\s*[eé]t[eé])?$" options="IgnoreCase" />-->
+      <Print                                                name = "le_parisien"                                                                                                    regex = "^\s*le\s*parisien\s*(?:(?:$Parisien_sep$\s*)?(?:$Parisien_cahier$|$Parisien_supp$|$Parisien_magazine$|$Parisien_guide$|$Parisien_journal$)\s*)*$" options="IgnoreCase" />
+      <!-- Enjeux Les Echos N 313 - Septembre 2014 -->
+      <Print                                                name = "enjeux_les_echos"                           title = "Enjeux les échos"                                          regex = "^\s*enjeux\s*les\s*[eé]chos$" options="IgnoreCase" />
+      <!-- Les Echos du lundi 18 août 2014 -->
+      <Print                                                name = "les_echos"                                                                                                      regex = "^\s*les\s*[eé]chos$" options="IgnoreCase" />
+      <!-- Libération du Jeudi 21 Août 2014 -->
+      <Print                                                name = "liberation"                                                                                                     regex = "^\s*lib[eé]ration$" options="IgnoreCase" />
+      <!-- Le Figaro Magazine - Vendredi 22 et Samedi 23 Aout 2014 -->
+      <Print                                                name = "le_figaro_magazine"                         title = "Le figaro magazine"                                        regex = "^\s*le\s*figaro\s*magazine$" options="IgnoreCase" />
+      <!-- Madame Figaro - Vendredi 22 et Samedi 23 Aout 2014 -->
+      <Print                                                name = "madame_figaro"                              title = "Madame figaro"                                             regex = "^\s*madame\s*figaro$" options="IgnoreCase" />
+      <!-- Le Figaro du mardi 19 août 2014 -->
+      <Print                                                name = "le_figaro"                                                                                                      regex = "^\s*le\s*figaro$" options="IgnoreCase" />
+      <!-- Le Monde des Ados N 323 - Aout 2014 -->
+      <Print                                                name = "le_monde_des_ados"                          title = "Le monde des ados"                                         regex = "^\s*(?:journal\s*)?le\s*monde\s*des\s*ados$" options="IgnoreCase" />
+      <!-- Le Monde + Eco&Entreprise du jeudi 28 août 2014 -->
+      <!-- Le Monde week-end + Magazine + 3 suppléments du samedi 30 aout 2014 -->
+      <!-- Le Monde Week-end + Magazine + 3 suppléments du samedi 06 septembre 2014 -->
+      <!-- Le Monde + Eco&Entreprise +Monde des Livres + dossier Festival du vendredi 05 septembre 2014 -->
+      <!-- Le Monde + Eco&Entreprise + Science&Médecine du mercredi 03 septembre 2014 -->
+      <!-- Le Monde week-end + Magazine + 3 suppléments du samedi 30 aout 2014 -->
+      <!-- Le Monde + Eco&Entreprise du jeudi 28 août 2014 -->
+      <!-- - + , ; et -->
+      <!--<LeMonde_sep                                          value = "(?:[\-+,;\s]*|\s*et\s*\+?)" />-->
+      <LeMonde_sep                                          value = "[\-+,;\s]*|et|le|de" />
+      <!-- "2 supp", "2 suppléments", "3 suppléments", "les supp", "supplément", "suppléments", "suppléments su" -->
+      <LeMonde_supp                                         value = "(?:[1-4]\s*)?(?:supp|les\s*supp|suppl[eé]ments?|suppl[eé]ments\s*su)" />
+      <!-- "argent", "colloque", "decine", "diplomatique", "dosier", "dossier", "eco", "economique", "entreprise", "festival", "geo", "géopolotique", -->
+      <!-- "livres", "le monde des livres", "monde des livres", "m", "mag", "magazine", "le magazine", "medecine", "monde", "placement", "politique", -->
+      <!-- "science", "monde tv", "monde télévision", "télé", "supp télé", "univ", "week end", "brésil", "journal", "1994" -->
+      <!--<LeMonde_words                                        value = "argent|colloque|decine|diplomatique|dosier|dossier|[eé]co|[eé]conomique|entreprise|festival|g[eé]o|g[eé]opol[io]tique|livres|le\s*monde\s*des\s*livres|monde\s*des\s*livres|m|mag|magazine|le\s*magazine|m[eé]decine|monde|placement|politique|science|monde\s*tv|monde\s*t[eé]l[eé]vision|t[eé]l[eé]|supp\s*t[eé]l[eé]|univ|week[\-\s]*end|monde\s*br[eé]sil|le\s*monde\s*br[eé]sil" />-->
+      <LeMonde_words                                        value = "argent|colloque|decine|diplomatique|dosier|dossier|[eé]co|[eé]conomique|entreprise|festival|g[eé]o|g[eé]opol[io]tique|livres|le\s*monde\s*des\s*livres|monde\s*des\s*livres|m|mag|magazine|le\s*magazine|m[eé]decine|monde|placement|politique|science|monde\s*tv|monde\s*t[eé]l[eé]vision|t[eé]l[eé]|supp\s*t[eé]l[eé]|univ|week[\-\s]*end|br[eé]sil|journal|[0-9]{4}" />
+      <!--<Print                                                name = "le_monde"                                                                                                       regex = "^\s*(?:journal\s*)?le\s*monde$" options="IgnoreCase" />-->
+      <!--<Print                                                name = "le_monde"                                                                                                       regex = "^\s*(?:journal\s*)?le\s*monde(?:$LeMonde_sep$(?:$LeMonde_supp$|$LeMonde_words$)*)*$" options="IgnoreCase" />-->
+      <Print                                                name = "le_monde"                                                                                                       regex = "^\s*(?:journal\s*)?le\s*monde(?:$LeMonde_sep$|$LeMonde_supp$|$LeMonde_words$)*$" options="IgnoreCase" />
+      <!-- La Provence Marseille du jeudi 04 septembre 2014 -->
+      <Print                                                name = "la_provence"                                                                                                    regex = "^\s*la\s*provence(?:\s*marseille)?$" options="IgnoreCase" />
+      <!-- Dernières Nouvelles d'Alsace du Jeudi 4 septembre 2014 -->
+      <Print                                                name = "dernieres_nouvelles_d_alsace"                                                                                   regex = "^\s*derni[eè]res\s*nouvelles\s*d['\s]*alsace$" options="IgnoreCase" />
+      <!-- SUD OUEST bassin d'Arcachon Jeudi 4 septembre 2014 -->
+      <!-- Sud Ouest (Rive Gauche) Du Mercredi 10 Septembre 2014 -->
+      <Print                                                name = "sud_ouest"                                                                                                      regex = "^\s*sud\s*ouest(?:\s*bassin\s*d['\s]*arcachon|\s*\(\s*rive\s*gauche\s*\))?$" options="IgnoreCase" />
+
+
+
+
+      <!-- Le Journal du Dimanche No.3529 - Dimanche 31 Août 2014 -->
+      <Print                                                name = "le_journal_du_dimanche"                                                                                         regex = "^\s*le\s*journal\s*du\s*dimanche$" options="IgnoreCase" />
+      <!-- Marianne N 905 - 22 au 28 Aout 2014 -->
+      <Print                                                name = "marianne"                                                                                                       regex = "^\s*marianne$" options="IgnoreCase" />
+      <!-- Le Point No.2189 - 28 Août au 3 Septembre 2014 -->
+      <Print                                                name = "le_point"                                                                                                       regex = "^\s*le\s*point$" options="IgnoreCase" />
+      <!-- Le Nouvel Observateur N°2598 - 21 au 27 Août 2014 -->
+      <Print                                                name = "le_nouvel_observateur"                                                                                          regex = "^\s*le\s*nouvel\s*observateur$" options="IgnoreCase" />
+      <!-- Les inRocKuptibles No.977 - 20 au 26 Août 2014 -->
+      <Print                                                name = "les_inrockuptibles"                                                                                             regex = "^\s*les\s*inrockuptibles$" options="IgnoreCase" />
+      <!-- L'Express Histoire No.26 - Septembre-Octobre 2014 -->
+      <Print                                                name = "l_express_histoire"                         title = "L'express histoire"                                        regex = "^\s*(?:l\s*)?(?:'\s*)?express\s*histoire$" options="IgnoreCase" />
+      <!-- L'Express Styles N 3296 Du 3 au 9 Septembre 2014 -->
+      <Print                                                name = "l_express_styles"                           title = "L'express styles"                                          regex = "^\s*(?:l\s*)?(?:'\s*)?express\s*styles$" options="IgnoreCase" />
+      <!-- L'Express No.3294 - 20 au 26 Août 2014 -->
+      <!-- L'Express Hors-Série Réussir No.27 - Septembre-Octobre 2014 -->
+      <Print                                                name = "l_express"                                                                                                      regex = "^\s*(?:l\s*)?(?:'\s*)?express$" options="IgnoreCase" />
+      <!-- Investir N° 2120 - Du 23 au 29 Août 2014 -->
+      <Print                                                name = "investir"                                                                                                       regex = "^\s*investir$" options="IgnoreCase" />
+      <!-- 01Net No.803 - 4 au 17 Septembre 2014 -->
+      <Print                                                name = "01_net"                                                                                                         regex = "^\s*01\s*net$" options="IgnoreCase" />
+      <!-- Air & Cosmos No.2417 - 22 au 28 Août 2014 -->
+      <Print                                                name = "air_et_cosmos"                                                                                                  regex = "^\s*air\s*(?:&amp;|et)\s*cosmos$" options="IgnoreCase" />
+      <!-- Valeurs Actuelles No.4057 - 28 Août au 3 Septembre 2014 -->
+      <!-- Valeurs Actuelles N° 4056 - Du 21 au 27 Août 2014 -->
+      <Print                                                name = "valeurs_actuelles"                                                                                              regex = "^\s*valeurs\s*actuelles$" options="IgnoreCase" />
+
+
+
+
+      <!-- .01_quotidien, .02_hebdo, .03_mensuel, .04_autre -->
+      <!-- 01 Informatique - Business et Techno N?2141 -->
+      <Print                                                name = "01_informatique"                            title = "01 informatique"                                           regex = "^\s*01^\s*informatique$" options="IgnoreCase" />
+      <!-- 100 Idées Jardin N°8 - Septembre-Octobre-Novembre 2014 -->
+      <Print                                                name = "100_idees_jardin"                           title = "100 idées jardin"                                          regex = "^\s*100\s*id[eé]es\s*jardin$" options="IgnoreCase" />
+      <!-- 60 Millions de Consommateurs N°460 -->
+      <Print                                                name = "60_millions_de_consommateurs"                                                                                   regex = "^\s*60\s*millions\s*de\s*consommateurs$" options="IgnoreCase" />
+      <!-- Advanced Creation Photoshop Magazine No.68 -->
+      <Print                                                name = "advanced_creation_photoshop_magazine"       title = "Advanced creation photoshop"                               regex = "^\s*advanced\s*creation\s*photoshop\s*magazine$" options="IgnoreCase" />
+      <!-- Alternatives Économiques No.338 - Septembre 2014 -->
+      <Print                                                name = "alternatives_economiques"                                                                                       regex = "^\s*alternatives\s*[eé]conomiques$" options="IgnoreCase" />
+      <!-- Android Mobiles & Tablettes N°25 -->
+      <Print                                                name = "android_mobiles_tablettes"                  title = "Android mobiles et tablettes"   directory = ".03_mensuel"  regex = "^\s*android\s*mobiles\s*(?:&amp;|et)\s*tablettes$" options="IgnoreCase" />
+      <!-- Best-Of Android Mobiles & Tablettes N° 2 - -->
+      <!-- Best-Of Android Mobiles & Tablettes N°3 - Août-Septembre-Octobre 2014 -->
+      <Print                                                name = "best-of_android_mobiles_tablettes"          title = "Best-of android mobiles et tablettes"                      regex = "^\s*best[\s\-]*of\s*android\s*mobiles\s*(?:&amp;|et)\s*tablettes$" options="IgnoreCase" />
+      <!-- Animal Magazine - September 2014 -->
+      <Print                                                name = "animal_magazine"                            title = "Animal magazine"                                           regex = "^\s*animal\s*magazine$" options="IgnoreCase" />
+      <!-- Archistorm No.68 - Septembre-Octobre 2014 -->
+      <Print                                                name = "archistorm"                                 title = "Archistorm"                                                regex = "^\s*archistorm$" options="IgnoreCase" />
+      <!-- Architectural Digest France No.125 - Août/Septembre 2014 -->
+      <Print                                                name = "architectural_digest_france"                title = "architectural_digest_france"                               regex = "^\s*architectural\s*digest\s*france$" options="IgnoreCase" />
+      <!-- Architectures à Vivre No.80 - Septembre-Octobre 2014 -->
+      <Print                                                name = "architectures_a_vivre"                      title = "Architectures à vivre"                                     regex = "^\s*architectures\s*[aà]\s*vivre$" options="IgnoreCase" />
+      <!-- Art & Décoration N° 499 - Septembre 2014 -->
+      <Print                                                name = "art_decoration"                             title = "Art et décoration"                                         regex = "^\s*art\s*(?:&amp;|et)\s*d[eé]coration$" options="IgnoreCase" />
+      <!-- Art Actuel N°94 - Septembre/Octobre 2014 -->
+      <Print                                                name = "art_actuel"                                                                                                     regex = "^\s*art\s*actuel$" options="IgnoreCase" />
+      <!-- Artension N 127 - Septembre-Octobre 2014 -->
+      <Print                                                name = "artension"                                                                                                      regex = "^\s*artension$" options="IgnoreCase" />
+      <!-- Artravel N°58 - Août-Septembre 2014 -->
+      <Print                                                name = "artravel"                                   title = "Artravel"                                                  regex = "^\s*artravel$" options="IgnoreCase" />
+      <!-- Arts Magazine N°90 - Septembre 2014 -->
+      <Print                                                name = "arts_magazine"                              title = "Arts magazine"                                             regex = "^\s*arts\s*magazine$" options="IgnoreCase" />
+      <!-- Auto Plus Occasions No.12 - Automne 2014 -->
+      <Print                                                name = "auto_plus_occasions"                        title = "Auto plus occasions"                                       regex = "^\s*auto\s*plus\s*occasions$" options="IgnoreCase" />
+      <!-- Auto Plus No.1355 - 22 au 28 Août 2014 -->
+      <!-- Auto Plus N°1218 et Micro Hebdo N° 717 -->
+      <Print                                                name = "auto_plus"                                  title = "Auto plus"                                                 regex = "^\s*auto\s*plus$" options="IgnoreCase" />
+      <!-- Automobiles Classiques N°242 - Septembre 2014 -->
+      <Print                                                name = "automobiles_classiques"                     title = "Automobiles classiques"                                    regex = "^\s*automobiles\s*classiques$" options="IgnoreCase" />
+      <!-- Avantages No.313 - Octobre 2014 -->
+      <Print                                                name = "avantages"                                  title = "Avantages"                                                 regex = "^\s*avantages$" options="IgnoreCase" />
+      <!-- Be N 151 - Octobre 2014 -->
+      <Print                                                name = "be"                                         title = "Be"                                                        regex = "^\s*be$" options="IgnoreCase" />
+      <!-- Beaux Arts N°363 - Septembre 2014 -->
+      <Print                                                name = "beaux_arts_magazine"                                                                                            regex = "^\s*beaux\s*arts$" options="IgnoreCase" />
+      <!-- BIKE France - Septembre 2014 -->
+      <Print                                                name = "bike_france"                                title = "Bike france"                                               regex = "^\s*bike\s*france$" options="IgnoreCase" />
+      <!-- Books N° 57 - Septembre 2014 -->
+      <Print                                                name = "books"                                                                                                          regex = "^\s*books$" options="IgnoreCase" />
+      <!-- Ça M'Intéresse Histoire N°26 - Septembre/Octobre 2014 -->
+      <Print                                                name = "ca_m_intéresse_histoire"                    title = "Ca m'intéresse histoire"                                   regex = "^\s*[cç]a\s*m['\s]*intéresse\s*histoire$" options="IgnoreCase" />
+      <!-- Ça M'Intéresse No.403 - Septembre 2014 -->
+      <Print                                                name = "ca_m_intéresse"                             title = "Ca m'intéresse"                                            regex = "^\s*[cç]a\s*m['\s]*intéresse$" options="IgnoreCase" />
+      <!-- Campagne Décoration N°89 - Septembre-Octobre 2014 -->
+      <Print                                                name = "campagne_decoration"                        title = "Campagne décoration"                                       regex = "^\s*campagne\s*d[eé]coration$" options="IgnoreCase" />
+      <!-- Camping-Car Magazine N 266 - Aout-Septembre 2014 -->
+      <Print                                                name = "camping-car_magazine"                       title = "Camping-car magazine"                                      regex = "^\s*camping[\-\s]*car\s*magazine$" options="IgnoreCase" />
+      <!-- Capital Hors-Série N°11 -->
+      <!-- Capital N°276 - Septembre 2014 -->
+      <Print                                                name = "capital"                                                                                                        regex = "^\s*capital$" options="IgnoreCase" />
+      <!-- Causette N°48 - Septembre 2014 -->
+      <Print                                                name = "causette"                                                                                                       regex = "^\s*Causette$" options="IgnoreCase" />
+      <!-- Cerveau & Psycho No.65 - Septembre/Octobre 2014 -->
+      <Print                                                name = "cerveau_et_psycho"                                                                                              regex = "^\s*cerveau\s*(?:&amp;|et)\s*psycho$" options="IgnoreCase" />
+      <!-- Challenges No.398 - 28 Août au 3 Septembre 2014 -->
+      <Print                                                name = "challenges"                                                                                                     regex = "^\s*challenges$" options="IgnoreCase" />
+      <!-- Chasseur d'Images N 367 - Octobre 2014 -->
+      <Print                                                name = "chasseur_d_images"                          title = "Chasseur d'images"                                         regex = "^\s*chasseur\s*d['\s]*images$" options="IgnoreCase" />
+      <!-- Chez-Soi - Septembre 2014 -->
+      <Print                                                name = "chez-soi"                                   title = "Chez-soi"                                                  regex = "^\s*chez[\-\s]*soi$" options="IgnoreCase" />
+      <!-- Ciel & Espace N°532 - Septembre 2014 -->
+      <Print                                                name = "ciel_et_espace"                                                                                                 regex = "^\s*ciel\s*(?:&amp;|et)\s*espace$" options="IgnoreCase" />
+      <!-- Cinema Teaser N 37 - Septembre 2014 -->
+      <Print                                                name = "cinema_teaser"                                                                                                  regex = "^\s*cinema\s*teaser$" options="IgnoreCase" />
+      <!-- Classic & Sports Car No.24 - Septembre 2014 -->
+      <Print                                                name = "classic_et_sports_car"                      title = "Classic et sports car"                                     regex = "^\s*classic\s*(?:&amp;|et)\s*sports\s*car$" options="IgnoreCase" />
+      <!-- Classica N°165 - Septembre 2014 -->
+      <Print                                                name = "classica"                                                                                                       regex = "^\s*classica$" options="IgnoreCase" />
+      <!-- Closer C'est leur Histoire N°19 - Août-Septembre 2014 -->
+      <Print                                                name = "closer_c_est_leur_histoire"                 title = "Closer c'est leur histoire"                                regex = "^\s*closer\s*c['\s]*est\s*leur\s*histoire$" options="IgnoreCase" />
+      <!-- Closer N 480 - 22 au 28 Aout 2014 -->
+      <!-- Closer N°481 - 29 Aout / 04 Septembre 2014 [Lien Direct] -->
+      <Print                                                name = "closer"                                     title = "Closer"                                                    regex = "^\s*closer$" options="IgnoreCase" />
+      <!-- Comment Ça Marche N°51 - Septembre 2014 -->
+      <Print                                                name = "comment_ca_marche"                          title = "Comment ça marche"                                         regex = "^\s*comment\s*[cç]a\s*marche$" options="IgnoreCase" />
+      <!-- Competence Mac - Septembre/Octobre 2014 -->
+      <Print                                                name = "competence_mac"                             title = "Compétence mac"                                            regex = "^\s*competence\s*mac$" options="IgnoreCase" />
+      <!-- Connaissance des Arts Hors-Série Patrimoine N 634 - Septembre 2014 -->
+      <Print                                                name = "connaissance_des_arts"                                                                                          regex = "^\s*connaissance\s*des\s*arts$" options="IgnoreCase" />
+      <!-- Cosmopolitan N 491 - Octobre 2014 -->
+      <Print                                                name = "cosmopolitan"                               title = "Cosmopolitan"                                              regex = "^\s*cosmopolitan$" options="IgnoreCase" />
+      <!-- Coup de Pouce - Octobre 2014 -->
+      <Print                                                name = "coup_de_pouce"                              title = "Coup de pouce"                                             regex = "^\s*coup\s*de\s*pouce$" options="IgnoreCase" />
+      <!-- Courrier Cadres & Dirigeants N°84 - Septembre 2014 -->
+      <Print                                                name = "courrier_cadres_dirigeants"                 title = "Courrier cadres dirigeants"                                regex = "^\s*courrier\s*cadres\s*(?:&amp;|et)\s*dirigeants$" options="IgnoreCase" />
+      <!-- Cuisine Actuelle Hors-S?rie No.112 - Septembre-Octobre 2014 -->
+      <!-- Cuisine Actuelle N° 285 - Septembre 2014 -->
+      <Print                                                name = "cuisine_actuelle"                           title = "Cuisine actuelle"                                          regex = "^\s*cuisine\s*actuelle$" options="IgnoreCase" />
+      <!-- Cuisine et Vins de France Hors Série N 30 - Septembre/Octobre 2014 -->
+      <!-- Cuisine et Vins de France No.159 - Septembre/Octobre 2014 -->
+      <Print                                                name = "cuisine_et_vins_de_france"                  title = "Cuisine et vins de france"                                 regex = "^\s*cuisine\s*(?:&amp;|et)\s*vins\s*de\s*france$" options="IgnoreCase" />
+      <!-- Declic Car N° 28 - Juillet 2014 -->
+      <Print                                                name = "declic_car"                                 title = "Declic car"                                                regex = "^\s*declic\s*car$" options="IgnoreCase" />
+      <!-- Diapason N°627 - Septembre 2014 -->
+      <Print                                                name = "diapason"                                   title = "diapason"                                                  regex = "^\s*diapason$" options="IgnoreCase" />
+      <!-- Dofus Mag N°41 - Aout-Septembre 2014 -->
+      <Print                                                name = "dofus_mag"                                  title = "Dofus mag"                                                 regex = "^\s*dofus\s*mag$" options="IgnoreCase" />
+      <!-- Dreams N°69 - Automne 2014 -->
+      <Print                                                name = "dreams"                                     title = "Dreams"                                                    regex = "^\s*dreams$" options="IgnoreCase" />
+      <!-- Décormag - Octobre 2014 -->
+      <Print                                                name = "decormag"                                   title = "Décormag"                                                  regex = "^\s*d[eé]cormag$" options="IgnoreCase" />
+      <!-- Détours en France Hors-Série N°30 - 2014 -->
+      <!-- Détours en France No.178 - Septembre-Octobre 2014 -->
+      <Print                                                name = "detours_en_france"                                                                                              regex = "^\s*d[eé]tours\s*en\s*france$" options="IgnoreCase" />
+      <!-- Détours en Histoire N° 6 - Septembre 2014 -->
+      <Print                                                name = "detours_en_histoire"                        title = "Détours en histoire"                                       regex = "^\s*d[eé]tours\s*en\s*histoire$" options="IgnoreCase" />
+      <!-- Droit & Patrimoine No.239 - Septembre 2014 -->
+      <Print                                                name = "droit_et_patrimoine"                        title = "Droit et patrimoine"                                       regex = "^\s*droit\s*(?:&amp;|et)\s*patrimoine$" options="IgnoreCase" />
+      <!-- EK N°40 - Aout-Septembre 2014 -->
+      <Print                                                name = "ek"                                         title = "EK"                                                        regex = "^\s*ek$" options="IgnoreCase" />
+      <!-- Elle Belgique N°132 - Aout 2014 -->
+      <Print                                                name = "elle_belgique"                              title = "Elle belgique"                                             regex = "^\s*elle\s*belgique$" options="IgnoreCase" />
+      <!-- Elle Québec - Septembre 2014 -->
+      <Print                                                name = "elle_quebec"                                title = "Elle quebec"                                               regex = "^\s*elle\s*qu[eé]bec$" options="IgnoreCase" />
+      <!-- Elle à Table No.96 - Septembre-Octobre 2014 -->
+      <Print                                                name = "elle_a_table"                               title = "Elle à table"                                              regex = "^\s*elle\s*[aà]\s*table$" options="IgnoreCase" />
+      <!-- ELLE France - 29 Aout 2014 -->
+      <!-- ELLE N 3582 - 22 au 28 Aout 2014 -->
+      <Print                                                name = "elle_france"                                title = "Elle france"                                               regex = "^\s*elle(?:\s*france)?$" options="IgnoreCase" />
+      <!-- Enduro Magazine No.75 - Septembre-Octobre 2014 -->
+      <Print                                                name = "enduro_magazine"                            title = "Enduro magazine"                                           regex = "^\s*enduro\s*magazine$" options="IgnoreCase" />
+      <!-- Entrevue N°266 - Septembre 2014 [Lien Direct] -->
+      <Print                                                name = "entrevue"                                   title = "Entrevue"                                                  regex = "^\s*Entrevue$" options="IgnoreCase" />
+      <!-- Ère Numérique No.59 - Septembre/Octobre 2014 -->
+      <Print                                                name = "ere_numérique"                              title = "Ere numérique"                                             regex = "^\s*[eè]re\s*num[eé]rique$" options="IgnoreCase" />
+      <!-- Esprit Yoga N°20 - Juillet-Aout 2014 -->
+      <Print                                                name = "esprit_yoga"                                title = "Esprit yoga"                                               regex = "^\s*esprit\s*yoga$" options="IgnoreCase" />
+      <!-- Extérieurs Design No.41 - 2014 -->
+      <Print                                                name = "exterieurs_design"                          title = "Exterieurs design"                                         regex = "^\s*extérieurs\s*design$" options="IgnoreCase" />
+      <!-- F1 Racing N° 186 - Septembre 2014 -->
+      <Print                                                name = "f1_racing"                                                                                                      regex = "^\s*f1\s*racing$" options="IgnoreCase" />
+      <!-- Famili Hors-Série N°20 - Août 2014 -->
+      <Print                                                name = "famili"                                     title = "Famili"                                                    regex = "^\s*famili$" options="IgnoreCase" />
+      <!-- Femme Actuelle N°1561 - 25 au 31 Août 2014 -->
+      <!-- Femme Actuelle N°1562 - 1 au 7 Septembre 2014 -->
+      <Print                                                name = "femme_actuelle"                             title = "Femme actuelle"                                            regex = "^\s*femme\s*actuelle$" options="IgnoreCase" />
+      <!-- Femme etc... - Aout 2014 -->
+      <!-- [Multi]  Femme etc... - Aout 2014 -->
+      <Print                                                name = "femme_etc"                                  title = "Femme etc"                                                 regex = "^\s*femme\s*etc\.*$" options="IgnoreCase" />
+      <!-- FHM N 11 - Décembre 2010-Janvier 2011 -->
+      <!-- FHM France - Juillet-Août 2014 -->
+      <!-- FHM France - Septembre 2014 -->
+      <Print                                                name = "fhm"                                        title = "FHM"                                                       regex = "^\s*fhm(\s*france)?$" options="IgnoreCase" />
+      <!-- Fight Sport N° 103 - Septembre 2014 -->
+      <Print                                                name = "fight_sport"                                title = "Fight sport"                                               regex = "^\s*fight\s*sport$" options="IgnoreCase" />
+      <!-- France Dimanche No.3548 Du 29 Août au 4 Septembre 2014 -->
+      <!-- France Dimanche N°3547 - 22 au 28 Août 2014 -->
+      <Print                                                name = "france_dimanche"                            title = "France dimanche"                                           regex = "^\s*france\s*dimanche$" options="IgnoreCase" />
+      <!-- France Football N° 3566 - Mardi 19 Août 2014 -->
+      <Print                                                name = "france_football"                                                                                                regex = "^\s*france\s*football$" options="IgnoreCase" />
+      <!-- France Terres d'Histoire N° 4 - Septembre 2014 -->
+      <Print                                                name = "france_terres_d_histoire"                   title = "France terres d'histoire"                                  regex = "^\s*france\s*terres\s*d['\s]*histoire$" options="IgnoreCase" />
+      <!-- Gala No.1106 - 20 au 26 Août 2014 -->
+      <!-- Gala No.1108 - 3 Septembre au 9 Septembre 2014 -->
+      <!-- [Multi]  Gala No.1108 - 3 Septembre au 9 Septembre 2014 -->
+      <!-- Gala N°1107 - 27 Aout au 2 Septembre 2014 -->
+      <Print                                                name = "gala"                                       title = "Gala"                                                      regex = "^\s*gala$" options="IgnoreCase" />
+      <!-- Gault & Millau No.68 - Septembre/Octobre 2014 -->
+      <Print                                                name = "gault_et_millau"                            title = "Gault et Millau"                                           regex = "^\s*gault\s*(?:&amp;|et)\s*millau$" options="IgnoreCase" />
+      <!-- Gavroche N°239 - Septembre 2014 -->
+      <Print                                                name = "gavroche"                                                                                                       regex = "^\s*gavroche$" options="IgnoreCase" />
+      <!-- Géo Voyage France No.21 - Septembre-Octobre 2014 -->
+      <!-- Géo Voyage N°2 - New York -->
+      <Print                                                name = "geo_voyage"                                 title = "Géo voyage"                                                regex = "^\s*g[eé]o\s*voyage(?:\s*france)?$" options="IgnoreCase" />
+      <!-- Géo N°381 -->
+      <!-- Geo Hors-Serie N°34 -->
+      <!-- Geo No.427 - Septembre 2014 -->
+      <!-- Géo France Hors Série Best-Seller No.1 - Août/Septembre 2014 -->
+      <Print                                                name = "geo"                                        title = "Géo"                                                       regex = "^\s*g[eé]o(?:\s*france)?$" options="IgnoreCase" />
+      <!-- Glamour N°127 - Octobre 2014 -->
+      <Print                                                name = "glamour"                                    title = "Glamour"                                                   regex = "^\s*glamour$" options="IgnoreCase" />
+      <!-- Golf Magazine N° 293 - Septembre 2014 -->
+      <Print                                                name = "golf_magazine"                              title = "Golf magazine"                                             regex = "^\s*golf\s*magazine$" options="IgnoreCase" />
+      <!-- Gourmand No.301 - 4 au 17 Septembre 2014 -->
+      <!-- Gourmand N°300 - 21 Août au 3 Septembre 2014 -->
+      <Print                                                name = "gourmand"                                   title = "Gourmand"                                                  regex = "^\s*gourmand$" options="IgnoreCase" />
+      <!-- Grands Reportages No.398 - Septembre 2014 -->
+      <Print                                                name = "grands_reportages"                                                                                              regex = "^\s*grands\s*reportages$" options="IgnoreCase" />
+      <!-- Grazia N 256 - 22 au 28 Aout 2014 -->
+      <!-- Grazia N 257 Du 29 Août au 4 Septembre 2014 -->
+      <Print                                                name = "grazia"                                     title = "Grazia"                                                    regex = "^\s*grazia$" options="IgnoreCase" />
+      <!-- Grimper No.159 - Septembre 2014 -->
+      <Print                                                name = "grimper"                                    title = "Grimper"                                                   regex = "^\s*grimper$" options="IgnoreCase" />
+      <!-- Histoire National Geographic N 12 - Mars 2014 -->
+      <Print                                                name = "national_geographic_histoire"                                                                                   regex = "^\s*histoire\s*national\s*geographic$" options="IgnoreCase" />
+      <!-- Historia Spécial No.19 - Septembre-Octobre 2014 -->
+      <Print                                                name = "historia"                                   title = "Historia"                                                  regex = "^\s*historia$" options="IgnoreCase" />
+      <!-- Homme - Été 2014 -->
+      <Print                                                name = "homme"                                      title = "Homme"                                                     regex = "^\s*homme$" options="IgnoreCase" />
+      <!-- Ici Paris No.3609 - 3 au 9 Septembre 2014 -->
+      <!-- Ici Paris N°3606 - 13 Au 19 Août 2014 -->
+      <!-- Ici Paris N°3607 - 20 au 26 Août 2014 -->
+      <!-- Ici Paris N°3608 - 27 Aout au 2 Septembre 2014 -->
+      <Print                                                name = "ici_paris"                                  title = "Ici Paris"                                                 regex = "^\s*ici\s*paris$" options="IgnoreCase" />
+      <!-- Image & Nature No.74 - Septembre-Octobre 2014 -->
+      <Print                                                name = "image_nature"                               title = "Image nature"                                              regex = "^\s*image\s*(?:&amp;|et)\s*nature$" options="IgnoreCase" />
+      <!-- Intramuros Magazine No.174 - Septembre-Octobre 2014 -->
+      <Print                                                name = "intramuros_magazine"                        title = "Intramuros magazine"                                       regex = "^\s*intramuros\s*magazine$" options="IgnoreCase" />
+      <!-- Irresistible Auto - Juillet/Août 2014 -->
+      <Print                                                name = "irresistible_auto"                          title = "Irresistible auto"                                         regex = "^\s*irresistible\s*auto$" options="IgnoreCase" />
+      <!-- Jeux Vidéo Magazine No.164 - Septembre 2014 -->
+      <Print                                                name = "jeux_video_magazine"                                                                                            regex = "^\s*jeux\s*vid[eé]o\s*magazine$" options="IgnoreCase" />
+      <!-- Joggeur No.9 - Octobre-Novembre 2014 -->
+      <Print                                                name = "joggeur"                                    title = "Joggeur"                                                   regex = "^\s*joggeur$" options="IgnoreCase" />
+      <!-- Keyboard Recordings Home Studio N°299 - Septembre 2014 -->
+      <Print                                                name = "keyboard_recordings_home_studio"            title = "Keyboard recordings home studio"                           regex = "^\s*keyboard\s*recordings(?:\s*home\s*studio)?$" options="IgnoreCase" />
+      <!-- L'Aktu Freebox N 56 - Eté 2014 -->
+      <Print                                                name = "l_aktu_freebox"                             title = "L'aktu freebox"                                            regex = "^\s*l['\s]*aktu\s*freebox$" options="IgnoreCase" />
+      <!-- l'Auto Journal No.914 - Du 21 Août au 3 Septembre 2014 -->
+      <Print                                                name = "l_auto_journal"                             title = "L'auto journal"                                            regex = "^\s*l['\s]*auto\s*journal$" options="IgnoreCase" />
+      <!-- L'automobile Canada - Juin-Juillet 2014 -->
+      <Print                                                name = "l_automobile_canada"                        title = "L'automobile Canada"                                       regex = "^\s*l['\s]*automobile\s*canada$" options="IgnoreCase" />
+      <!-- L'Automobile Hors Série N° 50 - 2014 -->
+      <Print                                                name = "l_automobile"                               title = "L'automobile"                                              regex = "^\s*l['\s]*automobile$" options="IgnoreCase" />
+      <!-- L'Essentiel de l'Auto No.102 - Septembre-Octobre-Novembre 2014 -->
+      <Print                                                name = "l_essentiel_de_l_auto"                      title = "L'essentiel de l'auto"                                     regex = "^\s*l['\s]*essentiel\s*de\s*l['\s]*auto$" options="IgnoreCase" />
+      <!-- L'Essentiel de la Science N° 25 - Février-Mars-Avril 2014 -->
+      <Print                                                name = "l_essentiel_de_la_science"                  title = "L'essentiel de la science"                                 regex = "^\s*l['\s]*essentiel\s*de\s*la\s*science$" options="IgnoreCase" />
+      <!-- L'Expansion N 797 - Septembre 2014 -->
+      <Print                                                name = "l_expansion"                                                                                                    regex = "^\s*l['\s]*expansion$" options="IgnoreCase" />
+      <!-- L'Humanite Dimanche N° 424 - Du 7 au 27 Août 2014 -->
+      <Print                                                name = "l_humanite_dimanche"                        title = "L'humanité dimanche"                                       regex = "^\s*l['\s]*humanite(?:\s*dimanche)?$" options="IgnoreCase" />
+      <!-- L'Informaticien N°127 - Septembre 2014 -->
+      <Print                                                name = "l_informaticien"                                                                                                regex = "^\s*l['\s]*informaticien$" options="IgnoreCase" />
+      <!-- L'Officiel Paris - Septembre 2014 -->
+      <Print                                                name = "l_officiel_paris"                           title = "L'officiel Paris"                                          regex = "^\s*l['\s]*officiel\s*paris$" options="IgnoreCase" />
+      <!-- La Pêche au Coup Magazine N°32 - Août 2014 -->
+      <Print                                                name = "la_peche_au_coup_magazine"                  title = "La pêche au coup magazine"                                 regex = "^\s*la\s*p[eê]che\s*au\s*coup\s*magazine$" options="IgnoreCase" />
+      <!-- La Revue des Montres Magazine July/August 2014 -->
+      <Print                                                name = "la_revue_des_montres_magazine"              title = "La revue des montres magazine"                             regex = "^\s*la\s*revue\s*des\s*montres\s*magazine$" options="IgnoreCase" />
+      <!-- La Revue du Vin de France No.584 - Septembre 2014 [Lien Direct] -->
+      <Print                                                name = "la_revue_du_vin_de_france"                  title = "La revue du vin de France"                                 regex = "^\s*la\s*revue\s*du\s*vin\s*de\s*france$" options="IgnoreCase" />
+      <!-- Le Chef N° 251 - Aout-Sptembre 2014 -->
+      <Print                                                name = "le_chef"                                    title = "Le chef"                                                   regex = "^\s*le\s*chef$" options="IgnoreCase" />
+      <!-- Le Cycle N°451 - Septembre 2014 -->
+      <Print                                                name = "le_cycle"                                   title = "Le cycle"                                                  regex = "^\s*le\s*cycle$" options="IgnoreCase" />
+      <!-- Le Fana de l'Aviation N° 538 - Septembre 2014 -->
+      <Print                                                name = "le_fana_de_l_aviation"                      title = "Le fana de l'aviation"                                     regex = "^\s*le\s*fana\s*de\s*l['\s]*aviation$" options="IgnoreCase" />
+      <!-- Le Guide de l'auto N° 31 - Hiver/ Eté 2014 -->
+      <Print                                                name = "le_guide_de_l_auto"                         title = "Le guide de l'auto"                                        regex = "^\s*le\s*guide\s*de\s*l['\s]*auto$" options="IgnoreCase" />
+      <!-- Le Journal de Mickey No.3245-3246 - 27 Août 2014 -->
+      <Print                                                name = "le_journal_de_mickey"                       title = "Le journal de mickey"                                      regex = "^\s*le\s*journal\s*de\s*mickey$" options="IgnoreCase" />
+      <!-- Le Journal de Spirou No.3984 - 20 au 26 Août 2014 -->
+      <!-- Le Journal de Spirou No.3986 Du 3 au 9 Septembre 2014 -->
+      <!-- Le Journal de Spirou N°3985 - 27 Août au 2 Septembre 2014 -->
+      <Print                                                name = "le_journal_de_spirou"                       title = "Le journal de spirou"                                      regex = "^\s*le\s*journal\s*de\s*spirou$" options="IgnoreCase" />
+      <!-- Le Magazine de L'Afrique N 39 - Aout-Septembre 2014 -->
+      <Print                                                name = "le_magazine_de_l_afrique"                   title = "Le magazine de l'afrique"                                  regex = "^\s*le\s*magazine\s*de\s*l['\s]*afrique$" options="IgnoreCase" />
+      <!-- Le Particulier N° 1100 - Septembre 2014 -->
+      <Print                                                name = "le_particulier"                             title = "Le particulier"                                            regex = "^\s*le\s*particulier$" options="IgnoreCase" />
+      <!-- Le Revenu Placements No.209 - Septembre 2014 -->
+      <Print                                                name = "le_revenu_placements"                       title = "Le revenu placements"                                      regex = "^\s*le\s*revenu\s*placements$" options="IgnoreCase" />
+      <!-- Les Affaires Plus - Septembre 2014 -->
+      <Print                                                name = "les_affaires_plus"                          title = "Les affaires plus"                                         regex = "^\s*les\s*affaires\s*plus$" options="IgnoreCase" />
+      <!-- Les Cahiers de Science et Vie N°119 -->
+      <Print                                                name = "les_cahiers_de_science_et_vie"                                                                                  regex = "^\s*les\s*cahiers\s*de\s*science\s*(?:&amp;|et)\s*vie$" options="IgnoreCase" />
+      <!-- Les Collections de L'Histoire N° 64 - Juillet-Septembre 2014 -->
+      <Print                                                name = "les_collections_de_l_histoire"              title = "Les collections de l'histoire"                             regex = "^\s*les\s*collections\s*de\s*l['\s]*histoire$" options="IgnoreCase" />
+      <!-- Lire N°428 - Septembre 2014 -->
+      <Print                                                name = "lire"                                       title = "Lire"                                                      regex = "^\s*lire$" options="IgnoreCase" />
+      <!-- Lui N 10 - Septembre 2014 -->
+      <Print                                                name = "lui"                                        title = "Lui"                                                       regex = "^\s*lui$" options="IgnoreCase" />
+      <!-- M Comme Maison N17 Septembre-Octobre 2014 -->
+      <Print                                                name = "m_comme_maison"                             title = "M comme maison"                                            regex = "^\s*m\s*comme\s*maison$" options="IgnoreCase" />
+      <!-- Maison & Aménagements No.1 - Février-Mars 2014 -->
+      <Print                                                name = "maison_et_amenagements"                     title = "Maison et aménagements"                                    regex = "^\s*maison\s*(?:&amp;|et)\s*am[eé]nagements$" options="IgnoreCase" />
+      <!-- Maison & Travaux No.259 - Septembre 2014 -->
+      <Print                                                name = "maison_et_travaux"                          title = "Maison et travaux"                                         regex = "^\s*maison\s*(?:&amp;|et)\s*travaux$" options="IgnoreCase" />
+      <!-- Maison Créative N 83 - Septembre-Octobre 2014 -->
+      <Print                                                name = "maison_creative"                            title = "Maison creative"                                           regex = "^\s*maison\s*cr[eé]ative$" options="IgnoreCase" />
+      <!-- Maison Française Magazine No.7 - Septembre-Octobre 2014 -->
+      <Print                                                name = "maison_française_magazine"                  title = "Maison française magazine"                                 regex = "^\s*maison\s*française\s*magazine$" options="IgnoreCase" />
+      <!-- Maisons de Campagne N° 90 - Septembre-Octobre 2014 -->
+      <Print                                                name = "maisons_de_campagne"                        title = "Maisons de campagne"                                       regex = "^\s*maisons\s*de\s*campagne$" options="IgnoreCase" />
+      <!-- Maisons du Fenua N 37 -->
+      <Print                                                name = "maisons_du_fenua"                           title = "Maisons du fenua"                                          regex = "^\s*maisons\s*du\s*fenua$" options="IgnoreCase" />
+      <!-- Management No.222 - Septembre 2014 -->
+      <Print                                                name = "management"                                                                                                     regex = "^\s*management$" options="IgnoreCase" />
+      <!-- Mariages N 278 - Septembre / Novembre 2014 -->
+      <Print                                                name = "mariages"                                   title = "Mariages"                                                  regex = "^\s*mariages$" options="IgnoreCase" />
+      <!-- Marie Claire Enfants N°9 - Septembre-Octobre 2014 -->
+      <Print                                                name = "marie_claire_enfants"                       title = "Marie claire enfants"                                      regex = "^\s*marie\s*claire\s*enfants$" options="IgnoreCase" />
+      <!-- Marie Claire Idées N° 104 - Septembre-Octobre 2014 -->
+      <Print                                                name = "marie_claire_idees"                         title = "Marie claire idées"                                        regex = "^\s*marie\s*claire\s*id[eé]es$" options="IgnoreCase" />
+      <!-- Marie Claire N 746 - Octobre 2014 -->
+      <Print                                                name = "marie_claire"                               title = "Marie claire"                                              regex = "^\s*marie\s*claire$" options="IgnoreCase" />
+      <!-- Marie France - Septembre 2014 -->
+      <Print                                                name = "marie_france"                               title = "Marie france"                                              regex = "^\s*marie\s*france$" options="IgnoreCase" />
+      <!-- Mariée Magazine N°94 - Septembre-Octobre-Novembre 2014 -->
+      <Print                                                name = "mariee_magazine"                            title = "Mariée magazine"                                           regex = "^\s*mari[eé]e\s*magazine$" options="IgnoreCase" />
+      <!-- Marmiton N°19 - Septembre-Octobre 2014 -->
+      <Print                                                name = "marmiton"                                   title = "Marmiton"                                                  regex = "^\s*marmiton$" options="IgnoreCase" />
+      <!-- Maxi Cuisine N 92 - Septembre 2014 -->
+      <Print                                                name = "maxi_cuisine"                               title = "Maxi cuisine"                                              regex = "^\s*maxi\s*cuisine$" options="IgnoreCase" />
+      <!-- Maximoto N 143 - Septembre 2014 -->
+      <Print                                                name = "maximoto"                                   title = "Maximoto"                                                  regex = "^\s*maximoto$" options="IgnoreCase" />
+      <!-- Men's Health No.67 - Septembre 2014 / France -->
+      <Print                                                name = "men_s_health"                               title = "Men's health"                                              regex = "^\s*men['\s]*s\s*health$" options="IgnoreCase" />
+      <!-- Mer & Bateaux N° 190 - Automne 2014 -->
+      <Print                                                name = "mer_et_bateaux"                             title = "Mer et bateaux"                                            regex = "^\s*mer\s*(?:&amp;|et)\s*bateaux$" options="IgnoreCase" />
+      <!-- micro hebdo hors serie n 75 septembre octobre 2013 -->
+      <!-- Micro Hebdo N 733 du 10 au 16 Mai 2012 -->
+      <!-- Micro Hebdo N 758 -->
+      <!-- Micro Hebdo N° 744 Du 23 Aout Au 5 Septembre 2012 -->
+      <Print                                                name = "micro_hebdo"                                title = "Micro hebdo"                                               regex = "^\s*micro\s*hebdo$" options="IgnoreCase" />
+      <!-- Midi Gourmand N 13 -->
+      <Print                                                name = "midi_gourmand"                              title = "Midi gourmand"                                             regex = "^\s*midi\s*gourmand$" options="IgnoreCase" />
+      <!-- Mieux vivre votre argent No.392 - Septembre 2014 -->
+      <Print                                                name = "mieux_vivre_votre_argent"                   title = "Mieux vivre votre argent"                                  regex = "^\s*mieux\s*vivre\s*votre\s*argent$" options="IgnoreCase" />
+      <!-- Milk Décoration N°8 - Juin-Juillet-Aout 2014 -->
+      <Print                                                name = "milk_decoration"                            title = "Milk décoration"                                           regex = "^\s*milk\s*d[eé]coration$" options="IgnoreCase" />
+      <!-- Modes & Travaux N 1367 - Octobre 2014 -->
+      <Print                                                name = "modes_et_travaux"                           title = "Modes et travaux"                                          regex = "^\s*modes\s*(?:&amp;|et)\s*travaux$" options="IgnoreCase" />
+      <!-- Monsieur Magazine N° 108 - Septembre-Octobre 2014 -->
+      <Print                                                name = "monsieur_magazine"                          title = "Monsieur magazine"                                         regex = "^\s*monsieur\s*magazine$" options="IgnoreCase" />
+      <!-- Montres Magazine N° 94 - Automne 2014 -->
+      <Print                                                name = "montres_magazine"                           title = "Montres magazine"                                          regex = "^\s*montres\s*magazine$" options="IgnoreCase" />
+      <!-- Moto Journal No.2109 Du 21 au 27 Août 2014 -->
+      <!-- Moto Journal No.2111 - 4 au 10 Septembre 2014 -->
+      <Print                                                name = "moto_journal"                               title = "Moto journal"                                              regex = "^\s*moto\s*journal$" options="IgnoreCase" />
+      <!-- Moto Magazine No.309 - Juillet-Août 2014 -->
+      <Print                                                name = "moto_magazine"                              title = "Moto magazine"                                             regex = "^\s*moto\s*magazine$" options="IgnoreCase" />
+      <!-- Moto Revue Classic N° 76 - Septembre-Octobre 2014 -->
+      <Print                                                name = "moto_revue_classic"                         title = "Moto revue classic"                                        regex = "^\s*moto\s*revue\s*classic$" options="IgnoreCase" />
+      <!-- Motor Sport N° 59 - Août-Septembre 2014 -->
+      <Print                                                name = "motor_sport"                                title = "Motor sport"                                               regex = "^\s*motor\s*sport$" options="IgnoreCase" />
+      <!-- Mr.Bricolage - Du 31 Juillet au 24 Août 2014 -->
+      <Print                                                name = "mr_bricolage"                               title = "Mr bricolage"                                              regex = "^\s*mr[\.\s]*bricolage$" options="IgnoreCase" />
+      <!-- Mx Magazine N° 200 - Septembre 2014 -->
+      <Print                                                name = "mx_magazine"                                title = "Mx magazine"                                               regex = "^\s*mx\s*magazine$" options="IgnoreCase" />
+      <!-- Mémento No.442 - Septembre 2014 -->
+      <Print                                                name = "memento"                                    title = "Mémento"                                                   regex = "^\s*m[eé]mento$" options="IgnoreCase" />
+      <!-- National Géographic Hors Série Sciences No.4 - 2014 / France -->
+      <!-- National Geographic N°162 - Mars 2013 -->
+      <Print                                                name = "national_geographic"                                                                                            regex = "^\s*national\s*g[eé]ographic$" options="IgnoreCase" />
+      <!-- Nature en France N° 15 - Juillet/Août 2014 -->
+      <Print                                                name = "nature_en_france"                           title = "Nature en france"                                          regex = "^\s*nature\s*en\s*france$" options="IgnoreCase" />
+      <!-- Néon N°22 - Septembre 2014 -->
+      <Print                                                name = "neon"                                       title = "Néon"                                                      regex = "^\s*n[eé]on$" options="IgnoreCase" />
+      <!-- Numéro N°156 - Septembre 2014 -->
+      <Print                                                name = "numero"                                     title = "Numéro"                                                    regex = "^\s*num[eé]ro$" options="IgnoreCase" />
+      <!-- Objectif News No.35 - Septembre-Octobre 2014 -->
+      <Print                                                name = "objectif_news"                              title = "Objectif news"                                             regex = "^\s*objectif\s*news$" options="IgnoreCase" />
+      <!-- Papilles N°23 - Septembre 2014 -->
+      <Print                                                name = "papilles"                                   title = "Papilles"                                                  regex = "^\s*papilles$" options="IgnoreCase" />
+      <!-- Paris Match N 3407 - 3 au 9 Septembre 2014 -->
+      <!-- Paris Match No.3406 - 28 Août au 3 Septembre 2014 -->
+      <Print                                                name = "paris_match"                                title = "Paris match"                                               regex = "^\s*paris\s*match$" options="IgnoreCase" />
+      <!-- PC Trucs et Astuces N°03 -->
+      <Print                                                name = "pc_trucs_et_astuces"                        title = "PC trucs et astuces"                                       regex = "^\s*pc\s*trucs\s*(?:&amp;|et)\s*astuces$" options="IgnoreCase" />
+      <!-- PC Update N° 72 - Juillet-Aout 2014 -->
+      <Print                                                name = "pc_update"                                  title = "PC update"                                                 regex = "^\s*pc\s*update$" options="IgnoreCase" />
+      <!-- Photo No.509 - Juillet/Août 2014 -->
+      <!-- Photo N°510 - Septembre 2014 -->
+      <Print                                                name = "photo"                                                                                                          regex = "^\s*photo$" options="IgnoreCase" />
+      <!-- Pianiste N 88 - Septembre-Octobre 2014 -->
+      <Print                                                name = "pianiste"                                                                                                       regex = "^\s*pianiste$" options="IgnoreCase" />
+      <!-- Picsou Magazine No.504 - Septembre 2014 -->
+      <Print                                                name = "picsou_magazine"                            title = "Picsou magazine"                                           regex = "^\s*picsou\s*magazine$" options="IgnoreCase" />
+      <Print                                                name = "plume"                                      title = "Plume"                         directory = ".03_mensuel"   regex = "^\s*plume$" options="IgnoreCase" />
+      <!-- Point de Vue Histoire N° 21 - Septembre 2014 -->
+      <Print                                                name = "point_de_vue_histoire"                      title = "Point de vue histoire"                                     regex = "^\s*point\s*de\s*vue\s*histoire$" options="IgnoreCase" />
+      <!-- Point de Vue No.3449 - 27 Août au 2 Septembre 2014 -->
+      <!-- Point de Vue No.3450 - 3 au 9 Septembre 2014 -->
+      <!-- Point de Vue N° 3448 - Du 20 au 26 Août 2014 -->
+      <Print                                                name = "point_de_vue"                               title = "Point de vue"                                              regex = "^\s*point\s*de\s*vue$" options="IgnoreCase" />
+      <!-- Pour la Science N° 443 - Septembre 2014 -->
+      <!-- Pour la science N°397 -->
+      <!-- Pour La Science N°443 - Septembre 2014 [Lien Direct] -->
+      <Print                                                name = "pour_la_science"                                                                                                regex = "^\s*pour\s*la\s*science$" options="IgnoreCase" />
+      <!-- Pratique des Arts N° 116 - Juin/Juillet 2014 -->
+      <Print                                                name = "pratique_des_arts"                                                                                              regex = "^\s*pratique\s*des\s*arts$" options="IgnoreCase" />
+      <!-- Prima Maison No.66 - Septembre-Octobre 2014 -->
+      <Print                                                name = "prima_maison"                               title = "Prima maison"                                              regex = "^\s*prima\s*maison$" options="IgnoreCase" />
+      <!-- Psychologies N° 343 - Septembre 2014 / France -->
+      <Print                                                name = "psychologies_magazine"                                                                                          regex = "^\s*psychologies$" options="IgnoreCase" />
+      <!-- Public N 580 - 22 au 28 Aout 2014 -->
+      <!-- Public №581 - 29 Aout 2014 -->
+      <Print                                                name = "public"                                     title = "Public"                                                    regex = "^\s*public$" options="IgnoreCase" />
+      <!-- Quadrature n 7 - Revue de math?matiques -->
+      <Print                                                name = "quadrature"                                 title = "Quadrature"                                                regex = "^\s*quadrature$" options="IgnoreCase" />
+      <!-- Question Pratique No.47 - Avril-Mai-Juin 2014 -->
+      <Print                                                name = "question_pratique"                          title = "Question pratique"                                         regex = "^\s*question\s*pratique$" options="IgnoreCase" />
+      <!-- Questions Internationales No.69 - Septembre-Octobre 2014 -->
+      <Print                                                name = "questions_internationales"                                                                                      regex = "^\s*questions\s*internationales$" options="IgnoreCase" />
+      <!-- Rebondir N°216 - Septembre 2014 -->
+      <Print                                                name = "rebondir"                                   title = "Rebondir"                                                  regex = "^\s*rebondir$" options="IgnoreCase" />
+      <!-- Revue MRB N°609 - Aout 2014 -->
+      <Print                                                name = "revue_mrb"                                  title = "Revue MRB"                                                 regex = "^\s*revue\s*mrb$" options="IgnoreCase" />
+      <!-- Rock'n Folk No.565 - Septembre 2014 -->
+      <Print                                                name = "rock_n_folk"                                title = "Rock'n folk"                                               regex = "^\s*rock['\s]*n\s*folk$" options="IgnoreCase" />
+      <!-- Runner's World France - Octobre 2014 -->
+      <Print                                                name = "runner_s_world_france"                      title = "Runner's world France"                                     regex = "^\s*runner['\s]*s\s*world\s*france$" options="IgnoreCase" />
+      <!-- Rustica N 2331 - 29 Aout au 4 Septembre 2014 -->
+      <!-- Rustica No.2330 - 22 au 28 Août 2014 -->
+      <Print                                                name = "rustica"                                    title = "Rustica"                                                   regex = "^\s*rustica$" options="IgnoreCase" />
+      <!-- Régal N°61 - Septembre-Octobre 2014 -->
+      <Print                                                name = "regal"                                      title = "Régal"                                                     regex = "^\s*r[eé]gal$" options="IgnoreCase" />
+      <!-- Réponse à Tout ! No.291 - Septembre 2014 -->
+      <Print                                                name = "reponse_a_tout"                             title = "Réponse à tout"                                            regex = "^\s*r[eé]ponse\s*[aà]\s*tout[\s!]*$" options="IgnoreCase" />
+      <!-- Santé Magazine N 144 - Octobre 2014 -->
+      <Print                                                name = "sante_magazine"                             title = "Santé magazine"                                            regex = "^\s*sant[eé]\s*magazine$" options="IgnoreCase" />
+      <!-- Santé+ N° 20 - Septembre 2014 -->
+      <Print                                                name = "sante_plus"                                 title = "Santé+"                                                    regex = "^\s*sant[eé]\s*\+$" options="IgnoreCase" />
+      <!-- Science & Vie Découvertes No.190 - Octobre 2014 -->
+      <Print                                                name = "science_et_vie_découvertes"                 title = "Science et vie découvertes"                                regex = "^\s*science\s*(?:&amp;|et)\s*vie\s*d[eé]couvertes$" options="IgnoreCase" />
+      <!-- Science & Vie Junior Hors-Série No.107 - Août 2014 -->
+      <Print                                                name = "science_et_vie_junior"                      title = "Science et vie junior"                                     regex = "^\s*science\s*(?:&amp;|et)\s*vie\s*junior$" options="IgnoreCase" />
+      <!-- Science & Vie Hors Série No.268 - Septembre 2014 -->
+      <!-- Science et Vie N 1109 -->
+      <!-- Science et Vie N°1117 -->
+      <Print                                                name = "science_et_vie"                                                                                                 regex = "^\s*science\s*(?:&amp;|et)\s*vie$" options="IgnoreCase" />
+      <!-- Sciences et Avenir No.811 - Septembre 2014 -->
+      <Print                                                name = "sciences_et_avenir"                                                                                             regex = "^\s*sciences\s*(?:&amp;|et)\s*avenir$" options="IgnoreCase" />
+      <!-- Secrets d'Histoire de Détours en France N 2 - Septembre 2014 -->
+      <Print                                                name = "secrets_d_histoire_de_detours_en_france"    title = "Secrets d'histoire de détours en france"                   regex = "^\s*secrets\s*d['\s]*histoire\s*de\s*d[eé]tours\s*en\s*france$" options="IgnoreCase" />
+      <!-- Solution Scooters N° 30 - Juillet/Août 2014 -->
+      <Print                                                name = "solution_scooters"                          title = "Solution scooters"                                         regex = "^\s*solution\s*scooters$" options="IgnoreCase" />
+      <!-- Sport Auto No.632 - Septembre 2014 -->
+      <Print                                                name = "sport_auto"                                 title = "Sport auto"                                                regex = "^\s*sport\s*auto$" options="IgnoreCase" />
+      <!-- Star Systeme - 29 Août 2014 -->
+      <Print                                                name = "star_systeme"                               title = "Star systeme"                                              regex = "^\s*star\s*systeme$" options="IgnoreCase" />
+      <!-- Stratégies No.1779 - 4 Septembre 2014 -->
+      <Print                                                name = "strategies"                                 title = "Stratégies"                                                regex = "^\s*strat[eé]gies$" options="IgnoreCase" />
+      <!-- Stuff No.149 - Septembre 2014 -->
+      <Print                                                name = "stuff"                                      title = "Stuff"                                                     regex = "^\s*stuff$" options="IgnoreCase" />
+      <!-- Surf Session Hors-Série Technique N 88 - Été 2014 -->
+      <Print                                                name = "surf_session"                               title = "Surf session"                                              regex = "^\s*surf\s*session$" options="IgnoreCase" />
+      <!-- Système D Bricothèmes No.18 - Septembre 2014 -->
+      <Print                                                name = "systeme_d_bricothemes"                      title = "Système D bricothèmes"                                     regex = "^\s*syst[eè]me\s*d\s*bricoth[eè]mes$" options="IgnoreCase" />
+      <!-- Système D No.824 - Septembre 2014 -->
+      <Print                                                name = "systeme_d"                                  title = "Système D"                                                 regex = "^\s*syst[eè]me\s*d$" options="IgnoreCase" />
+      <!-- Tatouage Magazine N°100 - Septembre - Octobre 2014 -->
+      <Print                                                name = "tatouage_magazine"                          title = "Tatouage magazine"                                         regex = "^\s*tatouage\s*magazine$" options="IgnoreCase" />
+      <!-- Technikart N°185 - Septembre 2014 -->
+      <Print                                                name = "technikart"                                                                                                     regex = "^\s*technikart$" options="IgnoreCase" />
+      <!-- Terra Éco N°60 - Septembre 2014 -->
+      <Print                                                name = "terra_eco"                                  title = "Terra éco"                                                 regex = "^\s*terra\s*[eé]co$" options="IgnoreCase" />
+      <!-- Top Santé N°289 - Octobre 2014 -->
+      <Print                                                name = "top_sante"                                  title = "Top santé"                                                 regex = "^\s*top\s*sant[eé]$" options="IgnoreCase" />
+      <!-- Top's Cars Magazine No.571 - Septembre 2014 -->
+      <Print                                                name = "top_cars_magazine"                          title = "Top cars magazine"                                         regex = "^\s*top['\s]*s\s*cars\s*magazine$" options="IgnoreCase" />
+      <!-- Tout Comprendre N°24 - Septembre 2014 -->
+      <Print                                                name = "tout_comprendre"                            title = "Tout comprendre"                                           regex = "^\s*tout\s*comprendre$" options="IgnoreCase" />
+      <!-- Télé 7 Jeux N°416 - Septembre 2014 -->
+      <Print                                                name = "tele_7_jeux"                                title = "Télé 7 jeux"                                               regex = "^\s*t[eé]l[eé]\s*7\s*jeux$" options="IgnoreCase" />
+      <!-- Télé 7 Jours N°2830 - 23 au 29 Aout 2014 -->
+      <!-- Télé 7 Jours N°2831 - 30 Août au 5 Septembre 2014 -->
+      <!-- Télé 7 Jours N°2832 - 6 au 12 Septembre 2014 -->
+      <Print                                                name = "tele_7_jours"                               title = "Télé 7 jours"                                              regex = "^\s*t[eé]l[eé]\s*7\s*jours$" options="IgnoreCase" />
+      <!-- Télé Star N 1977 - 23 au 29 Aout 2014 -->
+      <Print                                                name = "tele_star"                                  title = "Télé star"                                                 regex = "^\s*t[eé]l[eé]\s*star$" options="IgnoreCase" />
+      <!-- Vanity Fair France N 15 - Septembre 2014 -->
+      <Print                                                name = "vanity_fair"                                title = "Vanity fair"                                               regex = "^\s*vanity\s*fair(?:\s*france)$" options="IgnoreCase" />
+      <!-- Video Gamer No.21 - Septembre 2014 -->
+      <Print                                                name = "video_gamer"                                                                                                    regex = "^\s*vid[eé]o\s*gamer$" options="IgnoreCase" />
+      <!-- Vivre Côté Paris N°34 - Août-Septembre 2014 -->
+      <Print                                                name = "vivre_cote_paris"                           title = "Vivre coté Paris"                                          regex = "^\s*vivre\s*c[oô]t[eé]\s*paris$" options="IgnoreCase" />
+      <!-- Voici N°1398 - Vendredi 22/ 28 Août 2014 [Lien Direct] -->
+      <Print                                                name = "voici"                                      title = "Voici"                                                     regex = "^\s*voici$" options="IgnoreCase" />
+      <!-- Votre Beauté N?868 Juin-Juillet-Août 2014 -->
+      <!-- Votre Beauté N°869 - Septembre-Octobre 2014 -->
+      <Print                                                name = "votre_beaute"                               title = "Votre beauté"                                              regex = "^\s*votre\s*beauté$" options="IgnoreCase" />
+      <!-- Voyages et Hôtels de Rêve N° 25 - Automne 2014 -->
+      <Print                                                name = "voyages_et_hotels_de_reve"                  title = "Voyages et hôtels de rêve"                                 regex = "^\s*voyages\s*(?:&amp;|et)\s*h[oô]tels\s*de\s*r[eê]ve$" options="IgnoreCase" />
+      <!-- VSD No.1924 - 10 au 16 Juillet 2014 -->
+      <!-- VSD N°1930 - 21 au 27 Aout 2014 -->
+      <Print                                                name = "vsd"                                        title = "VSD"                                                       regex = "^\s*vsd$" options="IgnoreCase" />
+      <!-- Vélo Magazine N° 522 - Septembre 2014 -->
+      <Print                                                name = "velo_magazine"                              title = "Vélo magazine"                                             regex = "^\s*v[eé]lo\s*magazine$" options="IgnoreCase" />
+      <!-- Web Design Magazine No.61 -->
+      <Print                                                name = "web_design_magazine"                        title = "Web design magazine"                                       regex = "^\s*web\s*design\s*magazine$" options="IgnoreCase" />
+      <!-- What Hi-Fi No.125 - Octobre 2014 -->
+      <Print                                                name = "what_hifi"                                                                                                      regex = "^\s*what\s*hi[\-\s]*fi$" options="IgnoreCase" />
+      <!-- Windows & Internet Pratique N°21 - Septembre 2014 -->
+      <Print                                                name = "windows_et_internet_pratique"                                                                                   regex = "^\s*windows\s*(?:&amp;|et)\s*internet\s*pratique$" options="IgnoreCase" />
+      <!--  -->
+      <!--  -->
+      <!--  -->
+      <!--  -->
+      <!-- [Multi]  Gala No.1108 - 3 Septembre au 9 Septembre 2014 -->
+      <!-- [Multi]  Femme etc... - Aout 2014 -->
+      <!-- 
+      <Print                                                name = ""                                           title = ""                                                          regex = "^\s*$" options="IgnoreCase" />
+      <Print                                                name = ""                                           title = ""                                                          regex = "^\s*$" options="IgnoreCase" />
+      <Print                                                name = ""                                           title = ""                                                          regex = "^\s*$" options="IgnoreCase" />
+      <Print                                                name = ""                                           title = ""                                                          regex = "^\s*$" options="IgnoreCase" />
+      <Print                                                name = ""                                           title = ""                                                          regex = "^\s*$" options="IgnoreCase" />
+      <Print                                                name = ""                                           title = ""                                                          regex = "^\s*$" options="IgnoreCase" />
+      <Print                                                name = ""                                           title = ""                                                          regex = "^\s*$" options="IgnoreCase" />
+      <Print                                                name = ""                                           title = ""                                                          regex = "^\s*$" options="IgnoreCase" />
+      <Print                                                name = ""                                           title = ""                                                          regex = "^\s*$" options="IgnoreCase" />
+      <Print                                                name = ""                                           title = ""                                                          regex = "^\s*$" options="IgnoreCase" />
+      <Print                                                name = ""                                           title = ""                                                          regex = "^\s*$" options="IgnoreCase" />
+      <Print                                                name = ""                                           title = ""                                                          regex = "^\s*$" options="IgnoreCase" />
+      <Print                                                name = ""                                           title = ""                                                          regex = "^\s*$" options="IgnoreCase" />
+      -->
+    </Prints>
+  </FindPrints>
+</Download>

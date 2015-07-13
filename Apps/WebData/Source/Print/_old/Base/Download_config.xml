@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Download>
+<!--<AlternateConfigDirectory                                  value = ".." />-->
+	
+<!--<Log                                                       value = "c:\_Data\_PibLink\Log\PibLink_log.txt" />-->
+	<Log                                                       value = "Log\Download_log.txt" />
+<!--<LogKeepOutputOpen                                         value = "true" />-->
+<!--<WinProcTrace                                              value = "true" />-->
+<!--<DBConnection                                              value = "MsSql, pierre1, test, sa, beuzserv" />-->
+	<DBConnection                                              value = "MySql, localhost, download, root, beuzserv" />
+	<InputBddXml                                               value = "Test.xml" />
+</Download>

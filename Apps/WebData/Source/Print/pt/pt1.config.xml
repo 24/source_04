@@ -1,0 +1,855 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<pt>
+	<Log                                                       value = "log\_log.txt" option = "IndexedFile" /> <!-- c:\pib\dev_data\exe\pt\log\log.txt -->
+	<Trace                                                     value = "c:\pib\dev_data\exe\pt\http" />
+	<DataDir                                                   value = "c:\pib\dev_data\exe\pt" />
+  <Print>
+    <Directory                                               value = "c:\pib\media\print" />
+    <Prints>
+
+<!-- ********************************************************************************************************************************************************************** -->
+<!-- ********                                   .01_quotidien                                                                                                      ******** -->
+<!-- ********************************************************************************************************************************************************************** -->
+
+      <Print>
+	      <Name               value = "la_croix" />
+	      <Title              value = "La croix" />
+	      <Frequency          value = "daily" />
+        <Directory          value = ".01_quotidien\La croix" />
+	      <DateReference      value = "2013-05-02" />
+	      <NumberReference    value = "39571" />
+        <NoPrintDays>
+          <NoPrintDay       value = "Sunday" />
+          <NoPrintDay       value = "MayFirst" />
+          <NoPrintDay       value = "VictoryInEuropeDay" />
+          <NoPrintDay       value = "AscensionThursday" />
+          <NoPrintDay       value = "PentecostMonday" />
+        </NoPrintDays>
+        <!-- la Croix du Lundi 15 Juillet 2013.pdf -->
+        <!-- Croy$09.pdf $Cro$06$07$.pdf Croy12.pdf $Croi$18$.pdf  Croy\$|\$Cro\$ -->
+        <Filename regex="(?:croix|Cro[yi]?)" options="IgnoreCase" />
+        <Filenames>
+          <Filename model="name_day_number" v_title="la croix" />
+          <!-- la Croix du Lundi 15 Juillet 2013.pdf -->
+          <Filename model="code_date1"      v_code="la\s+croix" />
+          <!-- Croy$09.pdf $Cro$06$07$.pdf Croy12.pdf $Croi$18$.pdf  Croy\$|\$Cro\$ -->
+          <Filename model="code_day"        v_code="(?:Cro[yi]?\$?)" />
+        </Filenames>
+      </Print>
+      <Print>
+	      <Name               value = "le_figaro" />
+	      <Title              value = "Le figaro" />
+	      <Frequency          value = "daily" />
+        <Directory          value = ".01_quotidien\Le figaro" />
+	      <DateReference      value = "2013-04-25" />
+	      <NumberReference    value = "21376" />
+        <NoPrintDays>
+          <NoPrintDay       value = "Sunday" />
+          <NoPrintDay       value = "MayFirst" />
+        </NoPrintDays>
+        <!-- Le Figaro du Jeudi 30 Mai 2013.pdf -->
+        <!-- lfg_20130523.pdf  lfg_2013052526.pdf lfgr_20130522.pdf FI_28.03.2013.pdf -->
+        <!-- £Fyg£30£.pdf  £Fyg$01&02$.pdf $Fyg$14$.pdf Fyg$09.pdf Fig12.pdf $Fig.13&14.pdf $Fig$17$.pdf Figa20.pdf -->
+        <Filename regex="(?:Figaro|F[iy]ga?|^lfg_|^FI_)" options="IgnoreCase" />
+        <Filenames>
+          <!-- Le figaro - 2013-04-26 - no 21377.pdf -->
+          <Filename model="name_day_number" v_title="le figaro" />
+          <!-- Le Figaro du Jeudi 30 Mai 2013.pdf -->
+          <Filename model="code_date1"      v_code="figaro" />
+          <!-- lfg_20130523.pdf  lfg_2013052526.pdf lfgr_20130522.pdf -->
+          <Filename model="code_date2"      v_code1="lfgr?_" />
+          <!-- FI_28.03.2013.pdf -->
+          <Filename model="code_date3"      v_code="fi_" />
+          <!-- £Fyg£30£.pdf  £Fyg$01&02$.pdf $Fyg$14$.pdf Fyg$09.pdf Fig12.pdf $Fig.13&14.pdf $Fig$17$.pdf Figa20.pdf -->
+          <Filename model="code_day"        v_code="(?:F[iy]ga?[£\$\.]?)" />
+        </Filenames>
+      </Print>
+      <Print>
+	      <Name               value = "le_monde" />
+	      <Class              value = "LeMonde" />
+	      <Title              value = "Le monde" />
+	      <Frequency          value = "daily" />
+        <Directory          value = ".01_quotidien\Le monde" />
+	      <DateReference      value = "2012-12-02" />
+	      <NumberReference    value = "21110" />
+        <TextValue name="le_monde_code" value="quo|arg|arh|aut|dos|edu|liv|mag|mde|mdv|nyt|peh|sch|scq|sph|sty|tel" />
+        <TextValue name="le_monde_type_sup" value="argent|culture|dossier|éco|eco|édu|edu|festival|géo|geo|livres|mag|mode|science|sport|style|nyt|tv|document|élection|hebdo|sup" />
+        <!-- Le monde - 2013-03-01 - no 21186 _quo.pdf -->
+        <NormalizedFilename model="name_day_number" v_title="le monde" v_sup=" ((_quo)(?:\+($le_monde_type_sup$))*|-($le_monde_type_sup$))" v_sup_values="type, type_quo, types_quo_sup[], type_sup," />
+        <!-- le_monde 2 : 20130315_QUO.pdf 20130315_LIV.pdf -->
+        <Filename regex="_($le_monde_code$)\.pdf" options="IgnoreCase" values="type_code" />
+        <!-- mond_eco -->
+        <Filename regex="mond_eco" values="fix_type_eco" />
+        <!-- mond_tv -->
+        <Filename regex="mond_tv" values="fix_type_tv" />
+        <!-- $Mond$16$17$.pdf $Mond$16$17$_2.pdf $M0nd9&10£.pdf $M0ndW$15$.pdf $Mond$W$29$.pdf $Mon$03$&+$.pdf $LeMonde$5$.pdf MondW13.pdf -->
+        <Filename regex="(?:M[o0]nd\$?W?\$?|Mon\$?|(?:le[\s_]*)?Monde\$?)" options="IgnoreCase" values="fix_type_quo" />
+        <Filenames>
+<!--
+          <TextValue name="le_monde_code" value="quo|arg|arh|aut|dos|edu|liv|mag|mde|mdv|nyt|peh|sch|scq|sph|sty|tel" />
+          <TextValue name="le_monde_type_sup" value="argent|culture|dossier|éco|eco|édu|edu|festival|géo|geo|livres|mag|mode|science|sport|style|nyt|tv|document|élection|hebdo|sup" />
+-->
+          <!-- le_monde 1-3 : Le monde - 2013-03-01 - no 21186 _quo.pdf -->
+          <!-- <Filename regex="^Le monde - ([0-9]{4})-([0-9]{2})-([0-9]{2}) - no ([0-9]+) ((_quo)(?:\+($le_monde_type_sup$))*|-($le_monde_type_sup$))\.pdf$" options="IgnoreCase" values="year, month, day, number, type, type_quo, types_quo_sup[], type_sup" /> -->
+          <!-- <Filename model="name_day_number" v_title="le monde" v_sup=" ((_quo)(?:\+($le_monde_type_sup$))*|-($le_monde_type_sup$))" values="type, type_quo, types_quo_sup[], type_sup" /> -->
+          <Filename model="name_day_number" v_title="le monde" v_sup=" ((_quo)(?:\+($le_monde_type_sup$))*|-($le_monde_type_sup$))" v_sup_values="type, type_quo, types_quo_sup[], type_sup," />
+          <!-- le_monde 2 : 20130315_QUO.pdf 20130315_LIV.pdf -->
+          <!-- <Filename regex="^([0-9]{4})([0-9]{2})([0-9]{2})_($le_monde_code$)\.pdf$" options="IgnoreCase" values="year, month, day, type_code" /> -->
+          <Filename model="code_date2"      v_code2="_($le_monde_code$)" v_code2_values=", type_code" />
+          <!-- $Mond$16$17$.pdf $Mond$16$17$_2.pdf $M0nd9&10£.pdf $M0ndW$15$.pdf $Mond$W$29$.pdf $Mon$03$&+$.pdf $LeMonde$5$.pdf MondW13.pdf -->
+          <Filename model="code_day"        v_code="(?:M[o0]nd\$?W?\$?|Mon\$?|Monde\$?)" v_values=", fix_type_quo" />
+          <!-- mond_eco -->
+          <Filename model="code_day"        v_code="mond_eco" v_values=", fix_type_eco" />
+          <!-- mond_tv -->
+          <Filename model="code_day"        v_code="mond_tv" v_values=", fix_type_tv" />
+
+<!--
+          <!- $Mond$Ec0$2$ juillet 2013.pdf ->
+          <!- le_monde 1-3 : Le monde - 2013-03-01 - no 21186 _quo.pdf ->
+          <!- <Filename key="le_monde1" name="le_monde" regex="^Le monde - ([0-9]{4})-([0-9]{2})-([0-9]{2}) - no ([0-9]+) ((_quo)(?:\+(argent|culture|dossier|éco|eco|édu|edu|festival|géo|geo|livres|mag|mode|science|sport|style|nyt|tv|document|élection|hebdo|sup))*|-(argent|culture|dossier|éco|eco|édu|edu|festival|géo|geo|livres|mag|mode|science|sport|style|nyt|tv|document|élection|hebdo|sup))\.pdf$" options="IgnoreCase" values="year, month, day, number, type, type_quo,, types_quo_sup[], type_sup" /> ->
+          <!- ** le_monde 2 : 20130315_QUO.pdf 20130315_LIV.pdf ->
+          <!- ** <Filename key="le_monde2" name="le_monde" regex="^([0-9]{4})([0-9]{2})([0-9]{2})_(quo|arg|arh|aut|dos|edu|liv|mag|mde|mdv|nyt|peh|sch|scq|sph|sty|tel)\.pdf$" options="IgnoreCase" values="year, month, day, type_code" /> ->
+          <!- le_monde 3 : ->
+          <!- Le Monde du dimanche et lundi 17 et 18.03.2013.pdf ->
+          <!- Le monde culture et idees du 16.03.2013.pdf ->
+          <!- Le monde geo politique 17 - 18.03.2013.pdf ->
+          <!- Le monde magazine du 16.03.2013.pdf ->
+          <!- Le monde science et technologie du 16.03 (1).pdf ->
+          <!- Le monde science et technologie du 16.03 (2).pdf ->
+          <!- Le monde sport et forme du 16.03.2013.pdf ->
+          <!- Le monde televisions du 19 au 24.03.2013.pdf ->
+          <!- date === 19 au 24.03.2013 === 17 et 18.03.2013 === 17 - 18.03.2013 === 16.03 === 16.03.2013 ->
+          <!- <Filename key="le_monde3" name="le_monde" regex="^le\s+monde\s*(culture et idees|geo politique|magazine|science et technologie|sport et forme|televisions)?(?:\s+(?:du|et|lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche))*\s+([0-9]{1,2})(?:\s+(?:au|et|-)\s+[0-9]{1,2})?\.([0-9]{1,2})\.?([0-9]{4})?(?:\s*\([0-9]+\))?\.pdf$" options="IgnoreCase" values="type, day, month, year" /> ->
+          <!- le_monde 4 : LM_20.03.2013.pdf ->
+          <!- <Filename key="le_monde4" name="le_monde" regex="^lm[_ ]([0-9]{2})[ _\.]([0-9]{2})[ _\.]([0-9]{4})\.pdf$" options="IgnoreCase" values="day, month, year, force_type_quo" /> ->
+-->
+        </Filenames>
+      </Print>
+      <Print>
+	      <Name               value = "le_parisien" />
+	      <Class              value = "LeParisien" />
+	      <Title              value = "Le parisien" />
+	      <Frequency          value = "daily" />
+        <Directory          value = ".01_quotidien\Le parisien" />
+	      <DateReference      value = "2013-05-09" />
+	      <NumberReference    value = "21356" />
+        <NoPrintDays>
+          <NoPrintDay       value = "Sunday" />
+          <NoPrintDay       value = "MayFirst" />
+        </NoPrintDays>
+        <NormalizedFilename model="name_day_number" v_title="le parisien" v_sup="(?: bis)?( -(éco|mag))?" v_sup_values=",type_code," />
+        <!-- $ParEco$1$.pdf $Pary$upp$Econom$17$.pdf -->
+        <Filename regex="pary?(?:eco|\$upp\$econom)" options="IgnoreCase" values="eco" />
+        <!-- £Pary10£eco$.pdf Par$9.pdf -->
+        <Filename regex="pary?.*eco" options="IgnoreCase" values="eco" />
+        <!-- Le Parisien + cahier Paris du lundi 15 juillet 2013.pdf -->
+        <!-- $Pary$14$.pdf $Pary$Cahier£17£.pdf $Par$17$.pdf $Pari$18$.pdf LPay23.pdf lprs_20130712.pdf LPar22.pdf LePary25.pdf -->
+        <Filename regex="(?&lt;![a-z])(?:parisien|par[iy]?|LPay|LPar|^lprs_|LePary)" options="IgnoreCase" />
+        <Filenames>
+          <Filename model="name_day_number" v_title="le parisien" v_sup="(?: bis)?( -(éco|mag))?" v_sup_values=",type_code," />
+          <!-- Le Parisien + cahier Paris du lundi 15 juillet 2013.pdf -->
+          <Filename model="code_date1"      v_code="le\s+parisien(?:\s+\+\s+cahier\s+paris)" />
+          <!-- lprs_20130712.pdf -->
+          <Filename model="code_date2"      v_code1="(?:lprs_)" />
+          <!-- $Pary$14$.pdf $Pary$Cahier£17£.pdf $Par$17$.pdf $Pari$18$.pdf LPay23.pdf -->
+          <Filename model="code_day"        v_code="(?:par[iy]?|LPay)\$?(?:[£\$+]cahier)?" />
+          <!-- $ParEco$1$.pdf $Pary$upp$Econom$17$.pdf -->
+          <Filename model="code_day"        v_code="pary?(?:eco|\$upp\$econom)" v_values=", eco" />
+          <!-- £Pary10£eco$.pdf Par$9.pdf -->
+          <Filename model="code_day2"       v_code1="pary?" v_code2="[£\$+]eco" v_values=", eco" />
+        </Filenames>
+      </Print>
+      <Print>
+	      <Name               value = "l_equipe" />
+	      <Title              value = "L'équipe" />
+	      <Frequency          value = "daily" />
+        <Directory          value = ".01_quotidien\L'équipe" />
+	      <DateReference      value = "2013-04-01" />
+	      <NumberReference    value = "21444" />          <!-- attention le numéro du journal du 17-02-2012 donne 21036 au lieu de 21038, le numéro du journal du 04-11-2012 donne 21296 qui est exact -->
+        <NoPrintDays>
+          <NoPrintDay       value = "MayFirst" />
+        </NoPrintDays>
+        <!-- L 'Equipe  du dimanche 07 juillet 2013.pdf L' Equipe  du lundi 15 juillet 2013.pdf -->
+        <!-- $Ek$01$.pdf Eq09.pdf $Eq$17$.pdf Ek19.pdf -->
+        <Filename regex="(?:[ée]quipe|E[qk])" options="IgnoreCase" />
+        <Filenames>
+          <Filename model="name_day_number" v_title="l'équipe" />
+          <!-- L 'Equipe  du dimanche 07 juillet 2013.pdf L' Equipe  du lundi 15 juillet 2013.pdf -->
+          <Filename model="code_date1"      v_code="equipe" />
+          <!-- $Ek$01$.pdf Eq09.pdf $Eq$17$.pdf Ek19.pdf -->
+          <Filename model="code_day"        v_code="(?:E[qk]\$?)" />
+        </Filenames>
+      </Print>
+      <Print>
+	      <Name               value = "les_echos" />
+	      <Title              value = "Les échos" />
+	      <Frequency          value = "daily" />
+        <Directory          value = ".01_quotidien\Les échos" />
+	      <DateReference      value = "2013-04-02" />
+	      <NumberReference    value = "21408" />
+        <NoPrintDays>
+          <NoPrintDay       value = "Saturday" />
+          <NoPrintDay       value = "Sunday" />
+          <NoPrintDay       value = "NewYearDay" />          <!-- 1er janvier -->
+          <NoPrintDay       value = "EasterMonday" />        <!-- lundi de Pâques -->
+          <NoPrintDay       value = "MayFirst" />            <!-- 1er mai -->
+          <NoPrintDay       value = "VictoryInEuropeDay" />  <!-- 8 mai -->
+          <NoPrintDay       value = "AscensionThursday" />   <!-- jeudi de l'Ascension -->
+          <NoPrintDay       value = "PentecostMonday" />     <!-- lundi de Pentecôte -->
+          <NoPrintDay       value = "FrenchRevolutionDay" /> <!-- 14 juillet -->
+          <NoPrintDay       value = "AssumptionDay" />       <!-- 15 aout Assomption -->
+          <NoPrintDay       value = "AllSaintsDay" />        <!-- 1 novembre Toussaint -->
+          <NoPrintDay       value = "ArmisticeDay" />        <!-- 11 novembre Armistice -->
+          <NoPrintDay       value = "ChristmasDay" />        <!-- 25 décembre jour de Noël -->
+        </NoPrintDays>
+        <!-- Les Echos  du Lundi 15 Juillet 2013.pdf ECHOS du mardi 23 juillet 2013.pdf -->
+        <!-- $Ec0$11$c.pdf $Ec0$11$c.pdf $Ec0$09.pdf $Ech$11$.pdf VENKO14062013.pdf lseh_2013071213.pdf EcO025.pdf -->
+        <Filename regex="(?:[ée]chos|^venko|^lseh_|EcO0|ec[o0h]?)" options="IgnoreCase" />
+        <Filenames>
+          <Filename model="name_day_number" v_title="les échos" />
+          <!-- Les Echos  du Lundi 15 Juillet 2013.pdf ECHOS du mardi 23 juillet 2013.pdf -->
+          <Filename model="code_date1"      v_code="echos" />
+          <!-- VENKO14062013.pdf -->
+          <Filename model="code_date3"      v_code="venko" />
+          <!-- lseh_2013071213.pdf -->
+          <Filename model="code_date2"      v_code1="(?:lseh_)" />
+          <!-- $Ec0$11$c.pdf $Ec0$11$c.pdf $Ec0$09.pdf $Ech$11$.pdf -->
+          <!-- <Filename name="les_echos3" model="print5"          v_print_code1="[£\$]?ec[o0]?[£\$+]*" v_print_code2 = "(?:\$c)?" /> -->
+          <!-- <Filename model="print52"          v_print_code1="[£\$]?ec[o0h]?[£\$+]*" /> -->
+          <Filename model="code_day"        v_code="ec[o0h]?[£\$+]*" />
+        </Filenames>
+      </Print>
+      <Print>
+	      <Name               value = "liberation" />
+	      <Title              value = "Libération" />
+	      <Frequency          value = "daily" />
+        <Directory          value = ".01_quotidien\Libération" />
+	      <DateReference      value = "2013-04-01" />
+	      <NumberReference    value = "9917" />
+        <NoPrintDays>
+          <NoPrintDay       value = "Sunday" />
+          <NoPrintDay       value = "NewYearDay" />          <!-- 1er janvier -->
+          <NoPrintDay       value = "MayFirst" />            <!-- 1er mai -->
+          <!--<NoPrintDay       value = "AscensionThursday" />-->   <!-- jeudi de l'Ascension -->
+          <NoPrintDay       value = "2013-05-09" />          <!-- jeudi de l'Ascension 2013 -->
+          <NoPrintDay       value = "ChristmasDay" />        <!-- 25 décembre jour de Noël -->
+        </NoPrintDays>
+        <!-- $£yb$12$.pdf $Lib$29$30$.pdf $Lyb$15$16.pdf Lyb$9.pdf $Lyb13.14.pdf Libe$20$21.pdf libe_20130712.pdf merlib.240713.pdf -->
+        <Filename regex="(?:lib[ée]ration|[l£][iy]be?|merlib)" options="IgnoreCase" />
+        <Filenames>
+          <Filename model="name_day_number" v_title="Libération" />
+          <!-- libe_20130712.pdf -->
+          <Filename model="code_date2"      v_code1="(?:libe_)" />
+          <!-- $£yb$12$.pdf $Lib$29$30$.pdf $Lyb$15$16.pdf Lyb$9.pdf $Lyb13.14.pdf Libe$20$21.pdf -->
+          <Filename model="code_day"        v_code="(?:[l£][iy]be?\$?)" />
+        </Filenames>
+      </Print>
+      <Print>
+	      <Name               value = "mediapart" />
+	      <Title              value = "Médiapart" />
+	      <Frequency          value = "daily" />
+        <Directory          value = ".01_quotidien\Médiapart" />
+	      <Option             value = "NoNumber" />
+        <!-- $Medya$01$.pdf £MedyaP£09D£.pdf $MedyaP$11$.pdf $Medya$P$12$.pdf $Medya$Par15$.pdf $Medya$Pt$17$.pdf $Medya$4$_.pdf Medi$8$.pdf -->
+        <Filename regex="(?:m[ée]diapart|med[iy]a?)" options="IgnoreCase" />
+        <Filenames>
+          <Filename model="name_day"        v_title="Médiapart" />
+          <!-- $Medya$01$.pdf £MedyaP£09D£.pdf $MedyaP$11$.pdf $Medya$P$12$.pdf $Medya$Par15$.pdf $Medya$Pt$17$.pdf $Medya$4$_.pdf Medi$8$.pdf -->
+          <!-- <Filename model="print5"           v_print_code1="[\$£]?med[iy]a?(?:\$?(?:p|par|pt))?[\$£]?" v_print_code2 = "[d£_\$]*" /> -->
+          <Filename model="code_day"        v_code="med[iy]a?(?:\$?(?:p|par|pt))?[\$£]?" />
+        </Filenames>
+      </Print>
+      <Print>
+	      <Name               value = "dernieres_nouvelles_d_alsace" />
+	      <Title              value = "Dernières nouvelles d'Alsace" />
+	      <Frequency          value = "daily" />
+        <Directory          value = ".04_autre\Dernières nouvelles d'Alsace" />
+	      <DateReference      value = "2013-07-10" />
+	      <NumberReference    value = "47009" />
+        <!-- $Dna$tra10$.pdf -->
+        <Filename regex="(?:dernières nouvelles d'alsace|dna)" options="IgnoreCase" />
+        <Filenames>
+          <Filename model="name_day_number" v_title="dernières nouvelles d'alsace" />
+          <!-- $Dna$tra10$.pdf -->
+          <!-- <Filename model="print5"          v_print_code1="[£\$]?dna\$tra[£\$]?" /> -->
+          <Filename model="code_day"        v_code="(?:dna\$tra[£\$]?|dna)" />
+        </Filenames>
+      </Print>
+      <Print>
+	      <Name               value = "l_humanite" />
+	      <Title              value = "L'humanité" />
+	      <Frequency          value = "daily" />
+        <Directory          value = ".04_autre\L'humanité" />
+	      <DateReference      value = "2013-07-05" />
+	      <NumberReference    value = "21204" />
+        <NoPrintDays>
+          <NoPrintDay       value = "Saturday" />
+          <NoPrintDay       value = "Sunday" />
+        </NoPrintDays>
+        <!-- L'Humanite du Lundi 15 Juillet 2013.pdf -->
+        <!-- huma $Huma12.13.14.pdf $Uma$17$.pdf Hum22.pdf luhm_201307121314.pdf -->
+        <Filename regex="(?:humanit[ée]|h?uma|hum|^luhm_)" options="IgnoreCase" />
+        <Filenames>
+          <Filename model="name_day_number" v_title="L'humanité" />
+          <!-- L'Humanite du Lundi 15 Juillet 2013.pdf -->
+          <Filename model="code_date1"      v_code="humanite" />
+          <!-- luhm_201307121314.pdf -->
+          <Filename model="code_date2"      v_code1="(?:luhm_)" />
+          <!-- huma $Huma12.13.14.pdf $Uma$17$.pdf Hum22.pdf -->
+          <Filename model="code_day"        v_code="(?:h?uma|hum)[£\$]?" />
+        </Filenames>
+      </Print>
+      <Print>
+	      <Name               value = "la_provence" />
+	      <Title              value = "La provence" />
+	      <Frequency          value = "daily" />
+        <Directory          value = ".04_autre\La provence" />
+	      <DateReference      value = "2013-07-10" />
+	      <NumberReference    value = "5870" />
+        <NoPrintDays>
+          <NoPrintDay       value = "Sunday" />
+        </NoPrintDays>
+        <!-- La Provence   Marseille Du lundi 15 Juillet 2013.pdf -->
+        <!-- $Prov$10$.pdf $Pro$17$.pdf $Pr0$16$.pdf lpm_20130712.pdf -->
+        <Filename regex="(?:provence|pr[o0]v?|^lpm_)" options="IgnoreCase" />
+        <Filenames>
+          <Filename model="name_day_number" v_title="la provence" />
+          <!-- La Provence   Marseille Du lundi 15 Juillet 2013.pdf -->
+          <Filename model="code_date1"      v_code="la\s+provence\s+marseille" />
+          <!-- lpm_20130712.pdf -->
+          <Filename model="code_date2"      v_code1="(?:lpm_)" />
+          <!-- $Prov$10$.pdf $Pro$17$.pdf $Pr0$16$.pdf -->
+          <Filename model="code_day"        v_code="pr[o0]v?[£\$]?" />
+        </Filenames>
+      </Print>
+      <Print>
+	      <Name               value = "la_voix_du_nord" />
+	      <Title              value = "La voix du nord" />
+	      <Frequency          value = "daily" />
+        <Directory          value = ".04_autre\La voix du nord" />
+	      <DateReference      value = "2013-07-17" />
+	      <NumberReference    value = "21744" />
+        <NoPrintDays>
+          <NoPrintDay       value = "Saturday" />
+          <NoPrintDay       value = "Sunday" />
+        </NoPrintDays>
+        <!-- $VdN17$.pdf vdnlille20.pdf VdN$ill21.pdf -->
+        <Filename regex="(?:voix\s+du\s+nord|vdn)" options="IgnoreCase" />
+        <Filenames>
+          <Filename model="name_day_number" v_title="la voix du nord" />
+          <!-- $VdN17$.pdf vdnlille20.pdf VdN$ill21.pdf -->
+          <Filename model="code_day"        v_code="(?:vdn\$?(?:l?ille?)?[£\$]?)" />
+        </Filenames>
+      </Print>
+      <Print>
+	      <Name               value = "midi_olympique" />
+	      <Title              value = "Midi olympique" />
+	      <Frequency          value = "daily" />
+        <Directory          value = ".04_autre\Midi olympique" />
+	      <DateReference      value = "2013-07-05" />
+	      <NumberReference    value = "389" />
+        <NoPrintDays>
+          <NoPrintDay       value = "Saturday" />
+          <NoPrintDay       value = "Sunday" />
+        </NoPrintDays>
+        <!-- $Mydol$5$7$.pdf $Mid0L$12$14$.pdf -->
+        <Filename regex="(?:midi\s+olympique|m[yi]d[o0]l)" options="IgnoreCase" />
+        <Filenames>
+          <Filename model="name_day_number" v_title="midi olympique" />
+          <!-- $Mydol$5$7$.pdf $Mid0L$12$14$.pdf -->
+          <Filename model="code_day"        v_code="(?:m[yi]d[o0]l[£\$]?)" />
+        </Filenames>
+      </Print>
+      <Print>
+	      <Name               value = "sud_ouest" />
+	      <Title              value = "Sud ouest" />
+	      <Frequency          value = "daily" />
+        <Directory          value = ".04_autre\Sud ouest" />
+	      <DateReference      value = "2013-07-06" />
+	      <NumberReference    value = "1389" />
+        <NoPrintDays>
+          <NoPrintDay       value = "Sunday" />
+        </NoPrintDays>
+        <!-- Sud Ouest du Lundi 15 Juillet 2013.pdf -->
+        <!-- $ud$uest$6$.pdf $ud$0ue7$.pdf $ud$0ues$10$.pdf $ud$0uest11$.pdf $ud0uest12.pdf $ud$0ues13$.pdf $ud0est$16$.pdf -->
+        <Filename regex="(?:sud\s+ouest|[\$s]ud\$?[\$0]u?es?t?|sud)" options="IgnoreCase" />
+        <Filenames>
+          <Filename model="name_day_number" v_title="sud ouest" />
+          <!-- Sud Ouest du Lundi 15 Juillet 2013.pdf -->
+          <Filename model="code_date1"      v_code="sud\s*ouest" />
+          <!-- $ud$uest$6$.pdf $ud$0ue7$.pdf $ud$0ues$10$.pdf $ud$0uest11$.pdf $ud0uest12.pdf $ud$0ues13$.pdf $ud0est$16$.pdf -->
+          <!-- |\$ud\$0ue|\$ud\$0ues\$|\$ud\$0uest|\$ud\$uest\$ -->
+          <Filename model="code_day"        v_code="(?:[\$s]ud\$?[\$0]u?es?t?\$?|sud)" />
+        </Filenames>
+      </Print>
+
+<!-- ********************************************************************************************************************************************************************** -->
+<!-- ********                                   .02_hebdo                                                                                                          ******** -->
+<!-- ********************************************************************************************************************************************************************** -->
+
+      <Print>
+	      <Name               value = "01_net" />
+	      <Title              value = "01 net" />
+	      <Frequency          value = "EveryTwoWeek" />
+	      <Weekday            value = "Thursday" />
+        <Directory          value = ".02_hebdo\01 net" />
+	      <DateReference      value = "2013-05-30" />
+	      <NumberReference    value = "775" />
+        <Filenames>
+          <Filename model="name_day_number"                v_title="01 net" />
+          <Filename model="special_name_month_number"      v_title="01 net" />
+          <!-- 01Net N°778 Du 11 Juillet au 07 Aout 2013.pdf -->
+          <!-- 01net778 01Net_777_Juin_Juillet_2013.pdf -->
+          <Filename model="code_number"                    v_code="01net_?" />
+          <Filename model="special_code_month_number"      v_code="01net-hs" />
+        </Filenames>
+      </Print>
+      <Print>
+	      <Name               value = "courrier_international" />
+	      <Title              value = "Courrier international" />
+	      <Frequency          value = "weekly" />
+	      <Weekday            value = "Thursday" />
+        <Directory          value = ".02_hebdo\Courrier international" />
+	      <DateReference      value = "2013-05-30" />
+	      <NumberReference    value = "1178" />
+        <!-- $CI$1181$.pdf $C$Ynterna$1182$.pdf $Cou$inter$13.19$1180$.pdf CCII1183CCII.pdf CI-N1179.pdf 35528C.Y.i.1181.pdf 38CI1186.pdf -->
+        <!-- Courrier International n° 1180 du 13 au 19 juin 2013.pdf -->
+        <!-- elm.COURRIER INTERNATIONAL N.1184 du 11 au 17 juillet 2013.pdf -->
+        <Filename regex="(?:courrier\s+international|(?&lt;![a-z])CI(?![a-z])|^\$CI\$|\$C\$Ynterna\$|\$Cou\$inter\$|^CCII|C\.Y\.i\.)" options="IgnoreCase" />
+        <Filenames>
+          <Filename model="name_day_number" v_title="courrier international" />
+          <!-- $CI$11$17$.pdf -->
+          <!-- <Filename model="print52"          v_print_code1="[£\$]?(?:ci|c\$ynterna|cou\$inter|ccii)[£\$]?" /> -->
+          <Filename model="code_day"        v_code="(?:\$CI\$)" />
+          <!-- $CI$1181$.pdf $C$Ynterna$1182$.pdf $Cou$inter$13.19$1180$.pdf CCII1183CCII.pdf CI-N1179.pdf 35528C.Y.i.1181.pdf -->
+          <!-- Courrier International n° 1180 du 13 au 19 juin 2013.pdf -->
+          <!-- elm.COURRIER INTERNATIONAL N.1184 du 11 au 17 juillet 2013.pdf -->
+          <!-- <Filename name="courrier_international2" model="print6"          v_print_code1="[£\$]?(?:ci|c\$ynterna|cou\$inter|ccii)(?:\$[0-9]{1,2}\.[0-9]{1,2})?[£\$]?" v_print_code2="(?:ccii)?" /> -->
+          <!-- <Filename name="courrier_international3" model="code_number"     v_code="[£\$]?(?:ci|c\$ynterna|cou\$inter|ccii)(?:\$[0-9]{1,2}\.[0-9]{1,2})?[£\$]?" /> -->
+          <Filename model="code_number"          v_code="(?:CI-N|\$CI\$|\$C\$Ynterna\$|\$Cou\$inter\$[0-9]{2}\.[0-9]{2}\$|CCII|C\.Y\.i\.|Courrier\s+International\s+n[°\.]\s*)" />
+        </Filenames>
+      </Print>
+      <Print>
+	      <Name               value = "le_nouvel_observateur" />
+	      <Title              value = "Le nouvel observateur" />
+	      <Frequency          value = "weekly" />
+	      <Weekday            value = "Thursday" />
+        <Directory          value = ".02_hebdo\Le nouvel observateur" />
+	      <DateReference      value = "2013-05-02" />
+	      <NumberReference    value = "2530" />
+        <!-- elm..Le Nouvel Observateur N°2540 (11 juillet 2013)-1.pdf 000000000000NOB 2531.pdf LeNouvelObservateur2539.pdf 11__.0b532.pdf -->
+        <Filename regex="(?:nouvel\s+observateur|NOB|Observateur|obs)" options="IgnoreCase" />
+        <Filenames>
+          <Filename model="name_day_number"                v_title="le nouvel observateur" />
+          <!-- elm..Le Nouvel Observateur N°2540 (11 juillet 2013)-1.pdf 000000000000NOB 2531.pdf LeNouvelObservateur2539.pdf 11__.0b532.pdf -->
+          <Filename model="code_number"                    v_code="(?:Nouvel\s+Observateur\s+N°|NOB\s*|Observateur|obs)" />
+        </Filenames>
+      </Print>
+      <Print>
+	      <Name               value = "le_point" />
+	      <Title              value = "Le point" />
+	      <Frequency          value = "weekly" />
+	      <Weekday            value = "Thursday" />
+        <Directory          value = ".02_hebdo\Le point" />
+	      <DateReference      value = "2013-05-30" />
+	      <NumberReference    value = "2124" />
+        <!-- 36oint2130.pdf elm..LE POINT N.2130 du 11 au 17 juillet 2013-1.pdf Le Point N°2125 Du 06 au 12 Juin 2013.pdf lpn_N2127.pdf Le_Point_2128_Juin_27_2013.pdf Le_Point_N_2126_13_au_26_Juin_2013.pdf -->
+        <Filename regex="(?:le\s+point|P?oint|^lpn_)" options="IgnoreCase" />
+        <Filenames>
+          <Filename model="name_day_number"                v_title="le point" />
+          <!-- 36oint2130.pdf elm..LE POINT N.2130 du 11 au 17 juillet 2013-1.pdf Le Point N°2125 Du 06 au 12 Juin 2013.pdf lpn_N2127.pdf Le_Point_2128_Juin_27_2013.pdf Le_Point_N_2126_13_au_26_Juin_2013.pdf -->
+          <Filename model="code_number"                    v_code="(?:oint|POINT\s+N[\.°]|lpn_N|Point_|Point_N_)" />
+        </Filenames>
+      </Print>
+      <Print>
+	      <Name               value = "les_inrockuptibles" />
+	      <Title              value = "Les inrockuptibles" />
+	      <Frequency          value = "weekly" />
+	      <Weekday            value = "Wednesday" />
+        <Directory          value = ".02_hebdo\Les inrockuptibles" />
+	      <DateReference      value = "2013-05-29" />
+	      <NumberReference    value = "913" />
+	      <Option             value = "SpecialNoDate" />
+        <!-- 35483Inro.916.pdf Les Inrockuptibles N°914 Du 05 au 11 Juin 2013.pdf 919_LesInr0ckptbl919bkf.pdf Les_inRocK_917_Juin_Juillet_2013.pdf -->
+        <Filename regex="(?:les\s+inrockuptibles|inroc?|Inrockuptibles|Inr0ckptbl|inRocK)" options="IgnoreCase" />
+        <Filenames>
+          <Filename model="name_day_number"                v_title="les inrockuptibles" />
+          <Filename model="special_name_number"            v_title="les inrockuptibles" />
+          <!-- 35483Inro.916.pdf Les Inrockuptibles N°914 Du 05 au 11 Juin 2013.pdf 919_LesInr0ckptbl919bkf.pdf Les_inRocK_917_Juin_Juillet_2013.pdf -->
+          <Filename model="code_number"                    v_code="(?:inroc?\.?|Inrockuptibles\s+N°|Inr0ckptbl|inRocK_)" />
+          <Filename model="special_code_number"            v_code="inroc-hs" />
+        </Filenames>
+      </Print>
+      <Print>
+	      <Name               value = "les_cahiers_de_l_express" />
+	      <Title              value = "Les cahiers de l'express" />
+	      <Frequency          value = "Monthly" />
+        <Directory          value = ".02_hebdo\L'express" />
+        <Filenames>
+          <Filename model="name_month_number"              v_title="Les cahiers de l'express" />
+          <!-- elm...Les Cahiers de L'Express N°19-1.pdf -->
+          <Filename model="code_month_number"              v_code="(?:caex)" />
+          <Filename model="code_year_month_number"         v_code="(?:caex)" />
+        </Filenames>
+      </Print>
+      <Print>
+	      <Name               value = "l_express" />
+	      <Title              value = "L'express" />
+	      <Frequency          value = "weekly" />
+	      <Weekday            value = "Wednesday" />
+        <Directory          value = ".02_hebdo\L'express" />
+	      <DateReference      value = "2013-05-22" />
+	      <NumberReference    value = "3229" />
+        <!-- L Express N°3232 Du 12 au 18 Juin 2013.pdf 3236_Leqsprss3236bkf.pdf  33784Zpress0.3230B.pdf ZZExpres3237.pdf -->
+        <Filename regex="(?&lt;!(?:Cahiers|vif).*)(?:Express|Leqsprss|Zpress|ZZExpres)" options="IgnoreCase" />
+        <Filenames>
+          <Filename model="name_day_number"                v_title="l'express" />
+          <Filename model="special_name_month_number"      v_title="l'express" />
+          <!-- L Express N°3232 Du 12 au 18 Juin 2013.pdf 3236_Leqsprss3236bkf.pdf  33784Zpress0.3230B.pdf ZZExpres3237.pdf -->
+          <Filename model="code_number"                    v_code="(?&lt;!(?:Cahiers|vif).*)(?:Express[\sN°]*|Leqsprss|Zpress0\.|ZZExpres)" />
+          <Filename model="special_code_month_number"      v_code="express-hs" />
+        </Filenames>
+      </Print>
+      <Print>
+	      <Name               value = "le_vif_express" />
+	      <Class              value = "LeVifExpress" />
+	      <Title              value = "Le vif - l'express" />
+	      <Frequency          value = "weekly" />
+	      <Weekday            value = "Friday" />
+        <Directory          value = ".02_hebdo\L'express" />
+	      <DateReference      value = "2013-04-05" />
+	      <NumberReference    value = "3222" />
+        <NormalizedFilename model="name_day_number"                v_title="Le vif - l'express" v_sup="( -(we|extra|focus))?" v_sup_values=",type_code," />
+        <Filenames>
+          <Filename model="name_day_number"                v_title="Le vif - l'express" v_sup="( -(we|extra|focus))?" v_sup_values=",type_code," />
+          <!-- L Express N°3232 Du 12 au 18 Juin 2013.pdf -->
+          <Filename model="code_number"                    v_code="(?:vif.*Express[\sN°]*)" />
+          <!-- LeVifWeekEnd20130607.pdf -->
+          <Filename model="code_date2"      v_code1="(?:levifweekend)" v_values=", we" />
+        </Filenames>
+      </Print>
+      <Print>
+	      <Name               value = "marianne" />
+	      <Title              value = "Marianne" />
+	      <Frequency          value = "weekly" />
+	      <Weekday            value = "Saturday" />
+        <Directory          value = ".02_hebdo\Marianne" />
+	      <DateReference      value = "2013-06-01" />
+	      <NumberReference    value = "841" />
+        <!-- 000_Mriann842bkf.pdf MAR843.150613.pdf Marianne N°844 Du 22 au 28 Juin 2013.pdf Marianne_845_29_Juin_05_Juillet_2013.pdf elm..marianne_n__846_du_6_au_12_juillet_2013.pdf -->
+        <Filename regex="(?:marianne|Mriann|MAR)" options="IgnoreCase" />
+        <Filenames>
+          <Filename model="name_day_number" v_title="marianne" />
+          <!-- 000_Mriann842bkf.pdf MAR843.150613.pdf Marianne N°844 Du 22 au 28 Juin 2013.pdf Marianne_845_29_Juin_05_Juillet_2013.pdf elm..marianne_n__846_du_6_au_12_juillet_2013.pdf -->
+          <Filename model="code_number"          v_code="(?:Mriann|MAR|Marianne[\sn°_]*)" />
+        </Filenames>
+      </Print>
+      <Print>
+	      <Name               value = "valeurs_actuelles" />
+	      <Title              value = "Valeurs actuelles" />
+	      <Frequency          value = "weekly" />
+	      <Weekday            value = "Thursday" />
+        <Directory          value = ".02_hebdo\Valeurs actuelles" />
+	      <DateReference      value = "2013-05-30" />
+	      <NumberReference    value = "3992" />
+        <!-- 3993_ValActl3993bkf.pdf elm..VALEURS ACTUELLES N.3998 du 11 au 17 juillet 2013-1.pdf 00._Actu3995Valeur.pdf 36089V._Actu.3996.pdf VAT999.180713.pdf -->
+        <Filename regex="(?:valeurs\s+actuelles|ValActl|Actu|^VAT)" options="IgnoreCase" />
+        <Filenames>
+          <Filename model="name_day_number" v_title="valeurs actuelles" />
+          <!-- 3993_ValActl3993bkf.pdf elm..VALEURS ACTUELLES N.3998 du 11 au 17 juillet 2013-1.pdf 00._Actu3995Valeur.pdf 36089V._Actu.3996.pdf -->
+          <Filename model="code_number"          v_code="(?:ValActl|VALEURS ACTUELLES N\.|Actu\.?)" />
+        </Filenames>
+      </Print>
+
+<!-- ********************************************************************************************************************************************************************** -->
+<!-- ********                                   .03_mensuel                                                                                                        ******** -->
+<!-- ********************************************************************************************************************************************************************** -->
+
+      <Print>
+	      <Name               value = "alternatives_economiques" />
+	      <Title              value = "Alternatives économiques" />
+	      <Frequency          value = "Monthly" />
+        <Directory          value = ".03_mensuel\Alternatives économiques" />
+	      <DateReference      value = "2013-01" />
+	      <NumberReference    value = "320" />
+        <NoPrintMonths>
+          <NoPrintMonth     value = "August" />
+        </NoPrintMonths>
+        <Filenames>
+          <Filename model="name_month_number" v_title="alternatives économiques" />
+          <!-- 325_AltertvEc0nomik325bkf.pdf Alternatives économiques N°324 (Mai 2013).pdf el..alternatives___conomiques_n__326_juillet___ao__t_2013.pdf -->
+          <Filename model="code_number"       v_code="(?:AltertvEc0nomik|Alternatives[\s_]*[ée]?conomiques\s*[_N°]*)" />
+        </Filenames>
+      </Print>
+      <Print>
+	      <Name               value = "pour_la_science" />
+	      <Title              value = "Pour la science" />
+	      <Frequency          value = "Monthly" />
+        <Directory          value = ".03_mensuel\Pour la science" />
+	      <DateReference      value = "2013-06" />
+	      <NumberReference    value = "428" />
+        <Filenames>
+          <Filename model="name_month_number" v_title="pour la science" />
+          <!-- Pour_la_Science_429_Juillet_2013.pdf -->
+          <Filename model="code_number"       v_code="Pour_la_Science_" />
+        </Filenames>
+      </Print>
+      <Print>
+	      <Name               value = "dossier_pour_la_science" />
+	      <Title              value = "Dossier pour la science" />
+	      <Frequency          value = "Quarterly" />
+        <Directory          value = ".03_mensuel\Pour la science" />
+	      <DateReference      value = "2013-04" />
+	      <NumberReference    value = "79" />
+        <Filenames>
+          <Filename model="name_month_number" v_title="dossier pour la science" />
+          <!-- DossierPourlaScience80.pdf -->
+          <Filename model="code_number"       v_code="DossierPourlaScience" />
+        </Filenames>
+      </Print>
+      <Print>
+	      <Name               value = "les_cahiers_de_science_et_vie" />
+	      <Title              value = "Les cahiers de science et vie" />
+	      <Frequency          value = "Monthly" />
+        <Directory          value = ".03_mensuel\Science et vie" />
+	      <DateReference      value = "2013-01" />
+	      <NumberReference    value = "134" />
+        <!-- "Les Cahiers Science & Vie N°139 Aout 2013.pdf", "Les Cahiers Science & Vie Hs N°02.pdf" -->
+        <Filename regex="(?:les\s+cahiers\s+de\s+science\s+et\s+vie|les\s+cahiers\s+science\s+&amp;\s+vie)" options="IgnoreCase" />
+        <Filenames>
+          <Filename model="name_month_number" v_title="Les cahiers de science et vie" />
+          <!-- Pour_la_Science_429_Juillet_2013.pdf -->
+          <Filename model="code_month_number" v_code="ca-sc" />
+        </Filenames>
+      </Print>
+      <Print>
+	      <Name               value = "science_et_vie" />
+	      <Title              value = "Science et vie" />
+	      <Frequency          value = "Monthly" />
+        <Directory          value = ".03_mensuel\Science et vie" />
+	      <DateReference      value = "2013-07" />
+	      <NumberReference    value = "1150" />
+        <!-- SciencVi1151.pdf -->
+        <Filename regex="(?:science\s+et\s+vie|SciencVi)" options="IgnoreCase" />
+        <Filenames>
+          <Filename model="name_month_number" v_title="Science et vie" />
+        </Filenames>
+      </Print>
+      <Print>
+	      <Name               value = "science_et_vie_hors_série" />
+	      <Title              value = "Science et vie - hors-série" />
+	      <Frequency          value = "Quarterly" />
+        <Directory          value = ".03_mensuel\Science et vie" />
+	      <DateReference      value = "2013-03" />
+	      <NumberReference    value = "262" />
+        <Filenames>
+          <Filename model="name_month_number" v_title="Science et vie - hors-série" />
+          <!-- 34346ScienViHS263B.pdf -->
+          <Filename model="code_number"       v_code="ScienViHS" />
+        </Filenames>
+      </Print>
+
+<!-- ********************************************************************************************************************************************************************** -->
+<!-- ********                                   .04_autre                                                                                                          ******** -->
+<!-- ********************************************************************************************************************************************************************** -->
+
+      <Print>
+	      <Name               value = "01_business" />
+	      <Title              value = "01 Business" />
+	      <Frequency          value = "EveryTwoWeek" />
+	      <Weekday            value = "Thursday" />
+        <Directory          value = ".04_autre\01 Business" />
+	      <DateReference      value = "2013-05-23" />
+	      <NumberReference    value = "2168" />
+        <Filenames>
+          <Filename model="name_day_number"                v_title="01 Business" />
+          <!-- 01 Business N°2169 Du 06 au 19 Juin 2013.pdf -->
+          <Filename model="code_number"                    v_code="01 Business N°" />
+        </Filenames>
+      </Print>
+      <Print>
+	      <Name               value = "investir" />
+	      <Title              value = "Investir" />
+	      <Frequency          value = "weekly" />
+	      <Weekday            value = "Saturday" />
+        <Directory          value = ".04_autre\Investir" />
+	      <DateReference      value = "2013-06-08" />
+	      <NumberReference    value = "2057" />
+        <Filenames>
+          <Filename model="name_day_number" v_title="Investir" />
+          <!-- $Inves$2058$.pdf $Invest.2062.pdf Investir_2038.pdf -->
+          <Filename model="code_number"     v_code="(?:Inves?t?i?r?[n\s_\.\$\-]*)" />
+        </Filenames>
+      </Print>
+      <Print>
+	      <Name               value = "l_expansion" />
+	      <Title              value = "L'expansion" />
+	      <Frequency          value = "Monthly" />
+        <Directory          value = ".04_autre\L'expansion" />
+	      <DateReference      value = "2013-05" />
+	      <NumberReference    value = "784" />
+        <NoPrintMonths>
+          <NoPrintMonth     value = "January" />
+          <NoPrintMonth     value = "August" />
+        </NoPrintMonths>
+        <Filenames>
+          <Filename model="name_month_number" v_title="l'expansion" />
+          <!-- LExpansion786.pdf L_Expansion_N_785_Juin_2013.pdf -->
+          <Filename model="code_number"       v_code="(?:Expansion[_N]*)" />
+        </Filenames>
+      </Print>
+      <Print>
+	      <Name               value = "psychologies_magazine" />
+	      <Title              value = "Psychologies magazine" />
+	      <Frequency          value = "Monthly" />
+        <Directory          value = ".04_autre\Psychologies magazine" />
+	      <DateReference      value = "2013-05" />
+	      <NumberReference    value = "329" />
+        <NoPrintMonths>
+          <NoPrintMonth     value = "August" />
+        </NoPrintMonths>
+        <Filename regex="(?:PsyMag|Psychologies.*Magazine)" options="IgnoreCase" />
+        <Filenames>
+          <Filename model="name_month_number"              v_title="psychologies magazine" />
+          <Filename model="special_name_month_number"      v_title="psychologies magazine" />
+          <!-- 330_PsyMag330bkf.pdf Psychologies_Magazine_N_331_Juillet_2013.pdf -->
+          <Filename model="code_number"                    v_code="(?:PsyMag|Psychologies_Magazine[_N]*)" />
+          <!-- Psychologies_Magazine_Hors_S_C3_A9rie_Sant_C3_A9_19_Octobre_Novembre_2012.pdf -->
+          <Filename model="special_code_number_month"      v_code="Psychologies_Magazine_Hors_S_C3_A9rie.*?" />
+        </Filenames>
+      </Print>
+      <Print>
+	      <Name               value = "rock_folk" />
+	      <Title              value = "Rock &amp; folk" />
+	      <Frequency          value = "Monthly" />
+        <Directory          value = ".04_autre\Rock &amp; folk" />
+	      <DateReference      value = "2013-05" />
+	      <NumberReference    value = "549" />
+        <Filenames>
+          <Filename model="name_month_number"              v_title="Rock &amp; folk" />
+          <!-- 552_R0kAndF0lk552bkf.pdf Rock Et Folk N°550 Juin 2013.pdf -->
+          <Filename model="code_number"                    v_code="(?:R0kAndF0lk|Rock\s+Et\s+Folk\s+N°)" />
+        </Filenames>
+      </Print>
+    </Prints>
+
+<!-- ********************************************************************************************************************************************************************** -->
+<!-- ********                                   FilenameInfos                                                                                                      ******** -->
+<!-- ********************************************************************************************************************************************************************** -->
+
+    <FilenameInfos>
+      <!-- $v_title$ - 2013-05-02 - no 39571.pdf -->
+      <FilenameModel name="name_day_number" regex="^$v_title$ - ([0-9]{4})-([0-9]{2})-([0-9]{2}) - no ([0-9]+)$v_sup$_?([0-9])?\.pdf$" options="IgnoreCase" values="$v_title_values$ year, month, day, number, $v_sup_values$ index" />
+      <!-- $v_title$ - 2013-05-02.pdf -->
+      <FilenameModel name="name_day" regex="^$v_title$ - ([0-9]{4})-([0-9]{2})-([0-9]{2})\.pdf$" options="IgnoreCase" values="year, month, day" />
+      <!-- $v_title$ - 2013-05 - no 39571.pdf -->
+      <FilenameModel name="name_month_number" regex="^$v_title$ - ([0-9]{4})-([0-9]{2}) - no ([0-9]+)(?: - )?(.*)_?([0-9])?\.pdf$" options="IgnoreCase" values="year, month, number, label, index" />
+      <!-- $v_title$ - hors-série - 2013-05 - no 39571.pdf -->
+      <FilenameModel name="special_name_month_number" regex="^$v_title$ - hors-série - ([0-9]{4})-([0-9]{2}) - no ([0-9]+)(?: - )?(.*)_?([0-9])?\.pdf$" options="IgnoreCase" values="year, month, number, label, special_month, index" />
+      <!-- $v_title$ - hors-série - no 39571.pdf -->
+      <FilenameModel name="special_name_number" regex="^$v_title$ - hors-série - no ([0-9]+)(?: - )?(.*)(_[0-9])?\.pdf$" options="IgnoreCase" values="number, label, special, index" />
+
+      <!-- "du vendredi 24 Mai 2013", "du Vendredi 19 & Samedi 20 & Dimanche 21 Juillet 2013", "Du 25 au 31 Juillet 2013" -->
+      <!-- <FilenameDate regex="du\s+(?:$weekdays$)?\s*([0-9]{1,2})\s+(?:&amp;\s+(?:$weekdays$)\s*(?:[0-9]{1,2})\s+)*($months$)\s+(?:au\s+(?:$weekdays$\s+)?(?:[0-9]{1,2})\s+(?:$months$)?\s*)?([0-9]{4})" options="IgnoreCase" values="day, month, year" /> -->
+      <FilenameDate regex="du\s+(?:$weekdays$)?\s*([0-9]{1,2})\s+(?:&amp;\s+(?:$weekdays$)\s*(?:[0-9]{1,2})\s+)*(?:au\s+(?:(?:$weekdays$)\s+)?(?:[0-9]{1,2})\s+)?($months$)\s+(?:au\s+(?:$weekdays$\s+)?(?:[0-9]{1,2})\s+(?:$months$)?\s*)?([0-9]{4})" options="IgnoreCase" values="day, month, year" />
+      <!-- Juillet_Aout_Septembre_2013 -->
+      <FilenameDate regex="($months$)[_\s]*(?:(?:$months$)[_\s]*)*([0-9]{4})" options="IgnoreCase" values="month, year" />
+      <!-- "20130523" -->
+      <FilenameDate regex="(?&lt;![0-9])([0-9]{4})([0-9]{2})([0-9]{2})(?![0-9])" options="IgnoreCase" values="year, month, day" />
+      <!-- "14062013", "28.03.2013", "09_03_2011" -->
+      <FilenameDate regex="(?&lt;![0-9])([0-9]{2})[\._]?([0-9]{2})[\._]?([0-9]{4})(?![0-9])" options="IgnoreCase" values="day, month, year" />
+      <!-- "240713"-->
+      <FilenameDate regex="(?&lt;![0-9])([0-9]{2})[\._]?([0-9]{2})[\._]?([0-9]{2})(?![0-9])" options="IgnoreCase" values="day, month, year" />
+
+      <!-- "29", "30", "01&02", "10", "16$17", "03" -->
+      <FilenameDay regex="(?&lt;![0-9o])([0-9o]{1,2})(?![0-9o])" options="IgnoreCase" values="day_near_current_date" />
+
+      <FilenameNumber regex="([0-9]{3,6})" options="IgnoreCase" values="number" />
+      <!-- N_22 N° -->
+      <FilenameNumber regex="n[_°\.\s]*([0-9]{1,6})" options="IgnoreCase" values="number" />
+
+      <!-- Hors_S_rie -->
+      <FilenameSpecial regex="(?:Hors_S_rie|(?&lt;![a-z])Hs(?![a-z]))" options="IgnoreCase" values="special" />
+    </FilenameInfos>
+
+<!-- ********************************************************************************************************************************************************************** -->
+<!-- ********                                   FilenamesModel                                                                                                     ******** -->
+<!-- ********************************************************************************************************************************************************************** -->
+
+    <FilenamesModel>
+      <TextValue name="weekdays" value="lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche" />
+      <TextValue name="months" value="janvier|f[eé]vrier|mars|avril|mai|juin|juillet|ao[uû]t|septembre|octobre|novembre|d[eé]cembre" />
+      <!-- $v_title$ - 2013-05-02 - no 39571.pdf -->
+      <FilenameModel name="name_day_number" regex="^$v_title$ - ([0-9]{4})-([0-9]{2})-([0-9]{2}) - no ([0-9]+)$v_sup$_?([0-9])?\.pdf$" options="IgnoreCase" values="$v_title_values$ year, month, day, number, $v_sup_values$ index" />
+      <!-- $v_title$ - 2013-05-02.pdf -->
+      <FilenameModel name="name_day" regex="^$v_title$ - ([0-9]{4})-([0-9]{2})-([0-9]{2})\.pdf$" options="IgnoreCase" values="year, month, day" />
+      <!-- $v_title$ - 2013-05 - no 39571.pdf -->
+      <FilenameModel name="name_month_number" regex="^$v_title$ - ([0-9]{4})-([0-9]{2}) - no ([0-9]+)(?: - )?(.*)_?([0-9])?\.pdf$" options="IgnoreCase" values="year, month, number, label, index" />
+      <!-- $v_title$ - hors-série - 2013-05 - no 39571.pdf -->
+      <FilenameModel name="special_name_month_number" regex="^$v_title$ - hors-série - ([0-9]{4})-([0-9]{2}) - no ([0-9]+)(?: - )?(.*)_?([0-9])?\.pdf$" options="IgnoreCase" values="year, month, number, label, special_month, index" />
+      <!-- $v_title$ - hors-série - no 39571.pdf -->
+      <FilenameModel name="special_name_number" regex="^$v_title$ - hors-série - no ([0-9]+)(?: - )?(.*)(_[0-9])?\.pdf$" options="IgnoreCase" values="number, label, special, index" />
+      <!-- $print_title$ du vendredi 24 Mai 2013.pdf L'Humanite du Vendredi 19 & Samedi 20 & Dimanche 21 Juillet 2013.pdf -->
+      <!-- <FilenameModel name="code_date4" regex="$v_code$\s+du\s+(?:$weekdays$)?\s*([0-9]{1,2})\s+($months$)\s+([0-9]{4})" options="IgnoreCase" values="day, month, year $v_values$" /> -->
+      <FilenameModel name="code_date1" regex="$v_code$\s+du\s+(?:$weekdays$)?\s*([0-9]{1,2})\s+(?:&amp;\s+(?:$weekdays$)\s*(?:[0-9]{1,2})\s+)*($months$)\s+(?:au\s+(?:$weekdays$\s+)?(?:[0-9]{1,2})\s+(?:$months$)?\s*)?([0-9]{4})" options="IgnoreCase" values="day, month, year $v_values$" />
+      <!-- $v_code1$20130523$v_code2$.pdf -->
+      <FilenameModel name="code_date2" regex="$v_code1$([0-9]{4})([0-9]{2})([0-9]{2})$v_code2$" options="IgnoreCase" values="$v_code1_values$ year, month, day $v_code2_values$ $v_values$" />
+      <!-- $v_code$14062013.pdf FI_28.03.2013.pdf -->
+      <FilenameModel name="code_date3" regex="$v_code$([0-9]{2})\.?([0-9]{2})\.?([0-9]{4})" options="IgnoreCase" values="day, month, year $v_values$" />
+      <!-- $v_print_code1$29.pdf  $v_print_code1$30£.pdf  $v_print_code1$01&02$.pdf £Pary10£eco$.pdf $v_print_code1$16$17$_2.pdf $Mon$03$&+$.pdf -->
+      <!-- <FilenameModel name="print5" regex="^$v_print_code1$([0-9o]{1,2})(?:[&amp;£\$+][0-9o]{1,2})?$v_print_code2$[£\$+&amp;]*(?:_[0-9])?\.pdf$" options="IgnoreCase" values="day_near_current_date" /> -->
+      <!-- <FilenameModel name="print52" regex="^$v_print_code1$([0-9o]{1,2})" options="IgnoreCase" values="day_near_current_date" /> -->
+      <FilenameModel name="code_day" regex="$v_code$([0-9o]{1,2})" options="IgnoreCase" values="day_near_current_date $v_values$" />
+      <FilenameModel name="code_day2" regex="$v_code1$([0-9o]{1,2})$v_code2$" options="IgnoreCase" values="day_near_current_date $v_values$" />
+      <!-- $CI$1181$.pdf $C$Ynterna$1182$.pdf $Cou$inter$13.19$1180$.pdf CCII1183CCII.pdf -->
+      <!-- <FilenameModel name="print6" regex="^$v_print_code1$([0-9o]{1,6})$v_print_code2$[£\$+&amp;]*(?:_[0-9])?\.pdf$" options="IgnoreCase" values="number" /> -->
+      <FilenameModel name="code_number" regex="$v_code$([0-9o]{1,6})" options="IgnoreCase" values="number" />
+      <FilenameModel name="code_month_number" regex="$v_code$([0-9]{2})-([0-9]{1,6})" options="IgnoreCase" values="month, number" />
+      <FilenameModel name="code_year_month_number" regex="$v_code$([0-9]{2})([0-9]{2})-([0-9]{1,6})" options="IgnoreCase" values="year, month, number" />
+      <FilenameModel name="special_code_number" regex="$v_code$([0-9]{1,6})" options="IgnoreCase" values="number, special" />
+      <FilenameModel name="special_code_month_number" regex="$v_code$([0-9]{2})-([0-9]{1,6})" options="IgnoreCase" values="month, number, special_month" />
+      <!-- $v_code$19_Octobre_Novembre_2012.pdf -->
+      <FilenameModel name="special_code_number_month" regex="$v_code$([0-9]{1,6})[\s_]*($months$)[\s_]*(?:$months$)?[\s_]*([0-9]{4})" options="IgnoreCase" values="number, month, year, special_month" />
+    </FilenamesModel>
+    <Filenames>
+      <!-- le_monde 1-3 : Le monde - 2013-03-01 - no 21186 _quo.pdf -->
+      <Filename key="le_monde1" name="le_monde" regex="^Le monde - ([0-9]{4})-([0-9]{2})-([0-9]{2}) - no ([0-9]+) ((_quo)(?:\+(argent|culture|dossier|éco|eco|édu|edu|festival|géo|geo|livres|mag|mode|science|sport|style|nyt|tv|document|élection|hebdo|sup))*|-(argent|culture|dossier|éco|eco|édu|edu|festival|géo|geo|livres|mag|mode|science|sport|style|nyt|tv|document|élection|hebdo|sup))\.pdf$" options="IgnoreCase" values="year, month, day, number, type, type_quo,, types_quo_sup[], type_sup" />
+      <!-- le_monde 2 : 20130315_QUO.pdf 20130315_LIV.pdf -->
+      <Filename key="le_monde2" name="le_monde" regex="^([0-9]{4})([0-9]{2})([0-9]{2})_(quo|arg|arh|aut|dos|edu|liv|mag|mde|mdv|nyt|peh|sch|scq|sph|sty|tel)\.pdf$" options="IgnoreCase" values="year, month, day, type_code" />
+      <!-- le_monde 3 : -->
+      <!-- Le Monde du dimanche et lundi 17 et 18.03.2013.pdf -->
+      <!-- Le monde culture et idees du 16.03.2013.pdf -->
+      <!-- Le monde geo politique 17 - 18.03.2013.pdf -->
+      <!-- Le monde magazine du 16.03.2013.pdf -->
+      <!-- Le monde science et technologie du 16.03 (1).pdf -->
+      <!-- Le monde science et technologie du 16.03 (2).pdf -->
+      <!-- Le monde sport et forme du 16.03.2013.pdf -->
+      <!-- Le monde televisions du 19 au 24.03.2013.pdf -->
+      <!-- date === 19 au 24.03.2013 === 17 et 18.03.2013 === 17 - 18.03.2013 === 16.03 === 16.03.2013 -->                                                                                                                                                             
+      <Filename key="le_monde3" name="le_monde" regex="^le\s+monde\s*(culture et idees|geo politique|magazine|science et technologie|sport et forme|televisions)?(?:\s+(?:du|et|lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche))*\s+([0-9]{1,2})(?:\s+(?:au|et|-)\s+[0-9]{1,2})?\.([0-9]{1,2})\.?([0-9]{4})?(?:\s*\([0-9]+\))?\.pdf$" options="IgnoreCase" values="type, day, month, year" />
+      <!-- le_monde 4 : LM_20.03.2013.pdf -->
+      <Filename key="le_monde4" name="le_monde" regex="^lm[_ ]([0-9]{2})[ _\.]([0-9]{2})[ _\.]([0-9]{4})\.pdf$" options="IgnoreCase" values="day, month, year, force_type_quo" />
+
+      <!-- La croix - 2013-05-02 - no 39571.pdf -->
+      <Filename key="la_croix1" name="la_croix" regex="^la croix - ([0-9]{4})-([0-9]{2})-([0-9]{2}) - no ([0-9]+)\.pdf$" options="IgnoreCase" values="year, month, day, number" />
+      <!-- La Croix du vendredi 24 Mai 2013.pdf -->
+      <Filename key="la_croix2" name="la_croix" regex="^la\s+croix\s+du\s+(?:lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche)\s+([0-9]{1,2})\s+(janvier|f[eé]vrier|mars|avril|mai|juin|juillet|ao[uû]t|septembre|octobre|novembre|d[eé]cembre)\s+([0-9]{4})\.pdf$" options="IgnoreCase" values="day, month, year" />
+      <!-- £Croi£29.pdf  £Croy£28.pdf  £Croy£30£.pdf  £Croy$01&02$.pdf -->
+      <Filename key="la_croix3" name="la_croix" regex="^£Cro[iy][£\$]([0-9]{1,2})(?:&amp;[0-9]{1,2})?[£\$]?\.pdf$" options="IgnoreCase" values="day_near_current_date" />
+
+      <!-- Le figaro - 2013-04-26 - no 21377.pdf -->
+      <Filename key="le_figaro1" name="le_figaro" regex="^le figaro - ([0-9]{4})-([0-9]{2})-([0-9]{2}) - no ([0-9]+)\.pdf$" options="IgnoreCase" values="year, month, day, number" />
+      <!-- Le Figaro du Jeudi 30 Mai 2013.pdf -->
+      <Filename key="le_figaro2" name="le_figaro" regex="^le\s+figaro\s+du\s+(?:lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche)\s+([0-9]{1,2})\s+(janvier|f[eé]vrier|mars|avril|mai|juin|juillet|ao[uû]t|septembre|octobre|novembre|d[eé]cembre)\s+([0-9]{4})\.pdf$" options="IgnoreCase" values="day, month, year" />
+      <!-- lfg_20130523.pdf  lfg_2013052526.pdf lfgr_20130522.pdf -->
+      <Filename key="le_figaro3" name="le_figaro" regex="^lfgr?_([0-9]{4})([0-9]{2})([0-9]{2})(?:[0-9]{2})?\.pdf$" options="IgnoreCase" values="year, month, day" />
+      <!-- £Fyg£30£.pdf  £Fyg$01&02$.pdf -->
+      <Filename key="le_figaro4" name="le_figaro" regex="^£fyg[£\$]([0-9]{1,2})(?:&amp;[0-9]{1,2})?[£\$]?\.pdf$" options="IgnoreCase" values="day_near_current_date" />
+      <!-- FI_28.03.2013.pdf -->
+      <Filename key="le_figaro5" name="le_figaro" regex="^fi_([0-9]{2}).([0-9]{2}).([0-9]{4})\.pdf$" options="IgnoreCase" values="day, month, year" />
+
+      <!-- Courrier International N°1167 Du 14 au 20 Mars 2013.pdf -->
+      <Filename key="courrier_international1" name="courrier_international" regex="^courrier\s+international\s+n.?([0-9]{4})\s+du\s+([0-9]{1,2})\s+au\s+([0-9]{1,2})\s+(janvier|f[eé]vrier|mars|avril|mai|juin|juillet|ao[uû]t|septembre|octobre|novembre|d[eé]cembre)\s+([0-9]{4})\.pdf$" options="IgnoreCase" values="number, day1, day2, month, year" />
+    </Filenames>
+  </Print>
+</pt>

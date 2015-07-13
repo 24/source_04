@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<AssemblyProject>
+	<Target                                    value = "exe" /> <!-- exe (exe console default), library (dll), module (.netmodule), winexe (exe windows) -->
+	<Output                                    value = "pt.exe" />
+	<NameSpace                                 value = "pt" />
+	<Source                                    value = "pt.cs" />
+	<Source                                    value = "..\Print\PrintManager.cs" />
+	<Source                                    value = "..\Print\Print\LeMonde.cs" />
+	<Source                                    value = "..\Print\Print\LeMondeType.cs" />
+	<Source                                    value = "..\Print\Print\LeParisien.cs" />
+	<Source                                    value = "..\Print\Print\LeVifExpress.cs" />
+	<Source                                    value = "..\Print\Print\LExpress.cs" />
+	<Source                                    value = "..\Print\Print\Print.cs" />
+	<Source                                    value = "..\Print\Print\PrintFrequency.cs" />
+	<Source                                    value = "..\Print\pu.cs" />
+	<Source                                    value = "..\..\..\Application.cs" />
+	<Source                                    value = "..\..\..\Convert.cs" />
+	<Source                                    value = "..\..\..\Date.cs" />
+	<Source                                    value = "..\..\..\Error.cs" />
+	<Source                                    value = "..\..\..\File.cs" />
+	<Source                                    value = "..\..\..\Format.cs" />
+	<Source                                    value = "..\..\..\GClass.cs" />
+	<Source                                    value = "..\..\..\ITrace.cs" />
+	<Source                                    value = "..\..\..\NamedValues.cs" />
+	<Source                                    value = "..\..\..\Path.cs" />
+	<Source                                    value = "..\..\..\Regex.cs" />
+	<Source                                    value = "..\..\..\RegexValues.cs" />
+	<Source                                    value = "..\..\..\SpecialDays.cs" />
+	<Source                                    value = "..\..\..\Split.cs" />
+	<Source                                    value = "..\..\..\String.cs" />
+	<Source                                    value = "..\..\..\StringZones.cs" />
+	<Source                                    value = "..\..\..\TextValues.cs" />
+	<Source                                    value = "..\..\..\Trace.cs" />
+	<Source                                    value = "..\..\..\XmlConfig.cs" />
+	<Source                                    value = "..\..\..\XmlLinq.cs" />
+  <Assembly                                  value = "System.dll" />
+	<Assembly                                  value = "System.Core.dll" />
+	<Assembly                                  value = "System.Data.dll" />
+	<Assembly                                  value = "System.Drawing.dll" />
+	<Assembly                                  value = "System.Xml.dll" />
+	<Assembly                                  value = "System.Xml.Linq.dll" />
+  <File                                      value = "pt_config.xml" />
+	<DebugInformation                          value = "true" />
+	<CopyOutput                                value = "c:\pib\prog\tools">
+    <File                                      value = "pt_config.xml" />
+  </CopyOutput>
+</AssemblyProject>

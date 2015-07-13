@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+	<Project>
+    <NameSpace                        value = "Print.download_test" />
+<!-- 
+		<Assembly                         value = "Microsoft.JScript.dll" />
+		<Assembly                         value = "System.Drawing.dll" />
+    <Assembly                         value = "System.ServiceModel.dll" />
+    <Assembly                         value = "System.Web.dll" />
+    <Assembly                         value = "System.Xml.Linq.dll" />
+		<Assembly                         value = "bin\magazine3k.dll" resolve = "true" resolveName="magazine3k, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
+-->
+<!--    
+		<Assembly                         value = "..\..\..\..\dll\mongocsharpdriver.1.8.3\MongoDB.Bson.dll" resolve = "true" resolveName="MongoDB.Bson, Version=1.8.3.9, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />
+		<Assembly                         value = "..\..\..\..\dll\mongocsharpdriver.1.8.3\MongoDB.Driver.dll" resolve = "true" resolveName="MongoDB.Driver, Version=1.8.3.9, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />
+		<Assembly                         value = "c:\pib\prog\dev\mongodb\driver\CSharpDriver-1.9.1\source\MongoDB.Driver\bin\Debug\MongoDB.Driver.dll" resolve = "true" resolveName = "MongoDB.Driver, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />
+-->
+		<Assembly                         value = "c:\pib\prog\dev\mongodb\driver\CSharpDriver-1.9.1\source\MongoDB.Driver\bin\Debug\MongoDB.Bson.dll" resolve = "true" resolveName = "MongoDB.Bson, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />
+    
+		<Source                           value = "download_test_f.cs" />
+
+    <Source                           value = "..\..\..\NamedValues.cs" />
+    <Source                           value = "..\..\..\ZValue.cs" />
+
+    <!--
+    <Source                           value = "..\..\..\PB_Library\pb\pb\PBException.cs" />
+
+    <Source                           value = "..\..\..\PB_Library\pb\Data\IDocumentStore.cs" />
+    <Source                           value = "..\..\..\PB_Library\pb\Data\Mongo\BsonDocumentsToDataTable.cs" />
+    <Source                           value = "..\..\..\PB_Library\pb\Data\Mongo\BsonPBSerializationProvider.cs" />
+    <Source                           value = "..\..\..\PB_Library\pb\Data\Mongo\Mongo.cs" />
+    <Source                           value = "..\..\..\PB_Library\pb\Data\Mongo\MongoCommand.cs" />
+    <Source                           value = "..\..\..\PB_Library\pb\Data\Mongo\MongoDocumentStore.cs" />
+    <Source                           value = "..\..\..\PB_Library\pb\Data\Mongo\MongoLog.cs" />
+    <Source                           value = "..\..\..\PB_Library\pb\Data\Mongo\NameValueCollectionSerializer.cs" />
+
+    <Source                           value = "..\..\..\PB_Library\pb\Web\LoadDataFromWeb.cs" />
+    <Source                           value = "..\..\..\PB_Library\pb\Web\LoadFromWeb.cs" />
+    <Source                           value = "..\..\..\PB_Library\pb\Web\LoadWebData.cs" />
+    <Source                           value = "..\..\..\PB_Library\pb\Web\LoadWebEnumDataPages.cs" />
+    <Source                           value = "..\..\..\PB_Library\pb\Web\UrlCache.cs" />
+
+    <Source                           value = "..\..\..\PB_Library\pb\Web\old\LoadDataFromWeb_old.cs" />
+    <Source                           value = "..\..\..\PB_Library\pb\Web\old\LoadFromWeb_old.cs" />
+    <Source                           value = "..\..\..\PB_Library\pb\Web\old\LoadWebData_old.cs" />
+    <Source                           value = "..\..\..\PB_Library\pb\Web\old\LoadWebDataPages_old.cs" />
+    <Source                           value = "..\..\..\PB_Library\pb\Web\old\LoadWebDataPages2_old.cs" />
+
+    <Source                           value = "..\..\..\LoadFromXml.cs" />
+
+    <Source                           value = "..\..\..\PB_Tools\PB_Test\test_01.cs" />
+		<Source                           value = "..\..\..\Date2.cs" />
+		<Source                           value = "..\..\..\Directory.cs" />
+		<Source                           value = "..\..\..\Http2.cs" />
+		<Source                           value = "..\..\..\HttpLoad.cs" />
+		<Source                           value = "..\..\..\Image.cs" />
+		<Source                           value = "..\..\..\ImageHtml.cs" />
+
+
+		<Source                           value = "..\..\..\RegexValues.cs" />
+		<Source                           value = "..\..\..\SpecialDays.cs" />
+    <Source                           value = "..\..\..\TextVariables.cs" />
+		<Source                           value = "..\..\..\Xml2.cs" />
+		<Source                           value = "..\..\..\XXElement.cs" />
+		<Source                           value = "..\..\..\XXNode.cs" />
+-->
+  </Project>
+</configuration>

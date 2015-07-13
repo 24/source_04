@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+	<Project>
+		<NameSpace                        value = "Test_cs4" />
+		<Using                            value = "System.Diagnostics" />
+		<Using                            value = "System.Linq" />
+		<Assembly                         value = "System.Xml.Linq.dll" />
+		<Source                           value = "Test_cs4_f.cs" />
+	</Project>
+</configuration>

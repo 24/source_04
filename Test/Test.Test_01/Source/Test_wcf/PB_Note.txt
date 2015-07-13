@@ -1,0 +1,24 @@
+﻿http://stackoverflow.com/questions/11646704/wcf-service-access-right-no-access-rights-to-this-namespace
+Netsh commands for Routing http://www.microsoft.com/resources/documentation/windows/xp/all/proddocs/en-us/netsh_diag.mspx?mfr=true
+	netsh http add urlacl http://+:4711/ user=DOMAIN\USER
+	netsh http add urlacl http://+:8701/ user=\Everyone
+	netsh http show urlacl
+	netsh http delete urlacl http://+:8018/
+
+	@Echo Parameter 1 "%1" == port
+	@Echo Parameter 2 "%2" == URL
+	netsh http add urlacl url=http://+:%1/%2 user=%USERDOMAIN%\%USERNAME%
+    HTTP Server API Version 1.0 Reference : HttpSetServiceConfiguration function http://msdn.microsoft.com/en-us/library/aa364503%28v=vs.85%29.aspx
+
+from Push Data to the Client using WCF CallBack Service http://www.dotnetcurry.com/ShowArticle.aspx?ID=721
+Hosting WCF 4.0 Service on IIS 7.5 with SSL http://www.dotnetcurry.com/showarticle.aspx?ID=487
+	Hosting WCF 4.0 Service on IIS :
+		- Right click on ‘Application Pools’ and select ‘Add Application Pool’, .Net framework v4.0, Managed pipeline mode integrated
+		- Right Click on the Application pool you have created, and select ‘Advanced Settings’ from the ‘Process Model’ group and change the ‘Identity’ to ‘LocalSystem’
+		- Right click on the ‘Sites’ and select ‘Add New Web Site’. Provide ‘Site Name’, using ‘Select’ button and select the application pool which you have created in the ‘Step 1’.
+		  Provide a Physical Path for the web site.
+		- To the web site you have created, right click and select ‘Add Application’
+
+WCF RESTful services and consuming them in an HTML page http://www.codeproject.com/Articles/613097/WCF-RESTful-services-and-consuming-them-in-an-HTML
+
+Could not find a base address that matches scheme http for the endpoint with binding MetadataExchangeHttpBinding

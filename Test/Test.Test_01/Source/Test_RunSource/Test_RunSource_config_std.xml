@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+<!--<RootDir                                       value = ".." />-->
+<!--<SourceDir                                     value = "" />-->
+<!--<Log                                           value = "Log\Log.txt" />-->
+<!--<TraceDir                                      value = "Log\Trace" />-->
+	<CompilerDefaultValues>
+		<Language                                  value = "CSharp" />  <!-- CSharp, JScript -->
+<!--<ProviderOption                            name  = "CompilerVersion" value = "v3.5" />-->
+		<ProviderOption                            name  = "CompilerVersion" value = "v4.0" />
+		<ResourceCompiler                          value = "c:\Program Files\Microsoft SDKs\Windows\v7.1\Bin\ResGen.exe"/>
+	</CompilerDefaultValues>
+	<ProjectDefaultValues>
+		<Using                                     value = "System" />
+		<Using                                     value = "System.Collections" />
+		<Using                                     value = "System.Collections.Generic" />
+		<Using                                     value = "System.Data" />
+		<Using                                     value = "System.Globalization" />
+		<Using                                     value = "System.IO" />
+		<Using                                     value = "System.Text" />
+		<Using                                     value = "System.Text.RegularExpressions" />
+		<Using                                     value = "System.Windows.Forms" />
+		<Using                                     value = "System.Xml" />
+		<Assembly                                  value = "System.dll" />
+		<Assembly                                  value = "System.Core.dll" />
+		<Assembly                                  value = "System.Data.dll" />
+		<Assembly                                  value = "System.Windows.Forms.dll" />
+		<Assembly                                  value = "System.Xml.dll" />
+<!--<Assembly                                  value = "wrun32.exe" /> -->
+    <Assembly                                  value = "runsource.dll" />
+    <Assembly                                  value = "irunsource.dll" />
+		<GenerateInMemory                          value = "true" />
+<!--<GenerateExecutable                        value = "false" />-->
+		<DebugInformation                          value = "true" />
+<!--<Source                                    value = "" />-->
+	</ProjectDefaultValues>
+	<AbortThreadExecutionTimeout                   value = "2" />
+	<ForceAbortThreadExecutionTimeout              value = "30" />
+	<ProgressMinimumMillisecondsBetweenMessage     value = "50" />
+</configuration>

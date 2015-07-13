@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+	<Project>
+		<NameSpace                        value = "Test_cpp" />
+	  <CompilerOptions                  value = "/platform:anycpu" />  <!-- x86, Itanium, x64, or anycpu (default). -->
+		<!--<Using                            value = "wpcap_dn" />-->
+		<!--<Assembly                         value = "System.ServiceProcess.dll" />-->
+		<!--<Assembly                         value = "System.Xml.Linq.dll" />-->
+		<!--<Assembly                         value = "c:\Program Files\Common Files\Microsoft Shared\MSEnv\PublicAssemblies\Microsoft.VisualStudio.SourceSafe.Interop.dll" />-->
+    <!--<Assembly                         value = "c:\Dev\Projet\Tools\wpcap_dn\Debug\wpcap_dn.dll" />-->
+    <!--<Assembly                         value = "c:\Dev\Projet\Tools\wpcap_dn\Debug_x86\wpcap_dn_x86.dll" />-->
+    <!--<Assembly                         value = "c:\Dev\Projet\Tools\wpcap_dn\Debug_x64\wpcap_dn_x64.dll" />-->
+    <!--<Assembly                         value = "c:\_dropbox\Dropbox\dev\Tools\wpcap_dn\Debug_x64\wpcap_dn_x64.dll" />-->
+    <!--<Assembly                         value = "..\..\..\..\Tools\wpcap_dn\Debug_x64\wpcap_dn_x64.dll" />-->
+    <!--<Assembly                         value = "..\..\..\dll\wpcap_dn\wpcap_dn_x64\wpcap_dn_x64.dll" />-->
+    <!-- resolve = "true" resolveName = "wpcap_dn_x86, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" -->
+    <!-- <Assembly                         value = "..\..\..\dll\wpcap_dn\wpcap_dn_x86\wpcap_dn_x86.dll" /> -->
+    <!-- <Assembly                         value = "..\..\..\..\..\Test\Test_cpp\Debug\Test_cpp.dll" resolve = "true" resolveName = "Test_cpp, Version=1.0.5159.22362, Culture=neutral, PublicKeyToken=null" /> -->
+    <Assembly                         value = "vs\Test_cpp\Debug\Test_cpp.dll" resolve = "true" resolveName = "Test_cpp, Version=1.0.5159.31120, Culture=neutral, PublicKeyToken=null" />
+    <!--<Assembly                         value = "..\Test_cs\vs\Test_cs\bin\Debug\Test_cs.dll" />-->
+    <Assembly                         value = "c:\pib\dropbox\pbeuz\Dropbox\dev\project\Source\Source_01\Source\Test\Test_cs\vs\Test_cs\bin\Debug\Test_cs.dll" />
+    <!--<Assembly                         value = "" />-->
+		<Source                           value = "Test_cpp_f.cs" />
+		<!--<Source                           value = "TCP_Packet.cs" />-->
+    <!--<CompilerOptions                  value = "/platform:x86" />-->
+    <!--<CompilerOptions                  value = "/platform:x64" />-->
+    <!--<CompilerOptions                  value = "/platform:x86" />-->
+  </Project>
+</configuration>

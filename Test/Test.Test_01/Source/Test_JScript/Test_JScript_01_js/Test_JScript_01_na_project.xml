@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<AssemblyProject>
+  <Language                                  value = "JScript" />  <!-- CSharp, JScript -->
+	<Target                                    value = "library" /> <!-- exe (exe console default), library (dll), module (.netmodule), winexe (exe windows) -->
+	<Output                                    value = "Test_JScript_01_na.dll" />
+<!--<Icon                                      value = "Resource\ladybug.ico" />-->
+	<NameSpace                                 value = "Test_JScript_01" />
+  <Source                                    value = "Test_JScript_01.js" />
+	<DebugInformation                          value = "true" />
+</AssemblyProject>
+

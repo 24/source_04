@@ -38,7 +38,7 @@
   <Assembly                                  value = "..\MyDownloader.Core\bin32\MyDownloader.Core.dll" />
   <!--<Assembly                                  value = "..\bin\bin32\MyDownloader.Extension.dll" />-->
   <Assembly                                  value = "..\MyDownloader.Extension\bin32\MyDownloader.Extension.dll" />
-  <Assembly                                  value = "..\..\..\RuntimeLibrary\TabStrip\TabStrip.dll" />
+  <Assembly                                  value = "..\..\..\..\RuntimeLibrary\TabStrip\TabStrip.dll" />
 	<DebugInformation                          value = "true" />
 	<!--<CopyOutput                                value = "..\bin\bin32" />-->
 </AssemblyProject>

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Test_InspectType>
+	<Log                                                       value = "c:\pib\dev_data\exe\wrun\test\log\log.txt" />
+	<Trace                                                     value = "c:\pib\dev_data\exe\wrun\test\http" />
+</Test_InspectType>

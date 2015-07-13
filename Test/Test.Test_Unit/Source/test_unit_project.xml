@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+	<Project>
+		<NameSpace                        value = "Test_Unit" />
+		<Using                            value = "System.Linq" />
+    <Assembly                         value = "c:\pib\prog\dev\mongodb\driver\CSharpDriver-1.9.1\source\MongoDB.Driver\bin\Debug\MongoDB.Bson.dll" resolve = "true" resolveName = "MongoDB.Bson, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />
+<!--<Assembly                         value = "c:\pib\prog\dev\mongodb\driver\CSharpDriver-1.9.1\source\MongoDB.Driver\bin\Debug\MongoDB.Driver.dll" resolve = "true" resolveName = "MongoDB.Driver, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />-->
+<!--<Assembly                         value = "c:\pib\dropbox\pbeuz\Dropbox\dev\project\Tools\fastJSON\fastJSON_v2.1.1\output\net40\fastJSON.dll" resolve = "true" resolveName = "fastJSON, Version=2.1.0.0, Culture=neutral, PublicKeyToken=6b75a806b86095cd" />-->
+    <Source                           value = "Test_Unit_f.cs" />
+    <Source                           value = "Test_Unit_UrlToFileName.cs" />
+    <Source                           value = "..\Test_Http\Test_Uri.cs" />
+    <Source                           value = "..\Test_mongodb\Test_Bson_f.cs" />
+    <Source                           value = "..\Test_Reflection\Test_Reflection_f.cs" />
+    <!--<Source                           value = "..\Test_FastJson\Test_FastJson_f.cs" />-->
+    <Source                           value = "..\..\PB_Library\pb\pb\PBException.cs" />
+    <Source                           value = "..\..\PB_Library\pb\Data\Mongo\NameValueCollectionSerializer.cs" />
+    <Source                           value = "..\..\PB_Library\pb\Data\Mongo\BsonPBSerializationProvider.cs" />
+  </Project>
+</configuration>

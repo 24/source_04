@@ -1,0 +1,59 @@
+﻿08/07/2015 15:50:42 - Test_wcf_service :
+
+AfterReceiveRequest :
+  HttpRequest :
+    Url http://localhost:57406/Source/Service1.svc/GetString
+    Method OPTIONS
+    header "Connection" = "keep-alive"
+    header "Accept" = "*/*"
+    header "Accept-Encoding" = "gzip, deflate, sdch"
+    header "Accept-Language" = "fr-FR,fr;q=0.8,en-US;q=0.6,en;q=0.4"
+    header "Host" = "localhost:57406"
+    header "Referer" = "http://localhost/dev/html/test_wcf/test_wcf_01.html"
+    header "User-Agent" = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.132 Safari/537.36"
+    header "Access-Control-Request-Method" = "GET"
+    header "Origin" = "http://localhost"
+    header "Access-Control-Request-Headers" = "accept, content-type"
+
+  receive options request activate cors
+
+BeforeSendReply :
+  add cors headers to reply
+
+  cors activated :
+    add options cors headers to reply
+    change reply status to ok
+
+  httpResponse :
+    StatusCode 200 - OK
+    StatusDescription 
+    header "Allow" = "GET"
+    header "Content-Type" = "text/html; charset=UTF-8"
+    header "Access-Control-Allow-Origin" = "*"
+    header "Access-Control-Request-Method" = "POST,GET,PUT,DELETE,OPTIONS"
+    header "Access-Control-Allow-Headers" = "X-Requested-With,Content-Type"
+    header "Access-Control-Max-Age" = "1728000"
+
+AfterReceiveRequest :
+  HttpRequest :
+    Url http://localhost:57406/Source/Service1.svc/GetString
+    Method GET
+    header "Connection" = "keep-alive"
+    header "Content-Type" = "application/json;charset=utf-8"
+    header "Accept" = "*/*"
+    header "Accept-Encoding" = "gzip, deflate, sdch"
+    header "Accept-Language" = "fr-FR,fr;q=0.8,en-US;q=0.6,en;q=0.4"
+    header "Host" = "localhost:57406"
+    header "Referer" = "http://localhost/dev/html/test_wcf/test_wcf_01.html"
+    header "User-Agent" = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.132 Safari/537.36"
+    header "Origin" = "http://localhost"
+
+BeforeSendReply :
+  add cors headers to reply
+
+  httpResponse :
+    StatusCode 200 - OK
+    StatusDescription 
+    header "Content-Type" = "application/json; charset=utf-8"
+    header "Access-Control-Allow-Origin" = "*"
+

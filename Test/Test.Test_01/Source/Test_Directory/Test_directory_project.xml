@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+	<Project>
+		<NameSpace                        value = "Test_directory" />
+<!--<Using                            value = "System.Diagnostics" />-->
+<!--<Assembly                         value = "System.Xml.Linq.dll" />-->
+		<Source                           value = "Test_directory_f.cs" />
+	</Project>
+</configuration>

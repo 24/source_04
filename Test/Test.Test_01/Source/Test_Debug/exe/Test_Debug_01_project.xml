@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<AssemblyProject>
+	<Target                                    value = "exe" /> <!-- exe (exe console default), library (dll), module (.netmodule), winexe (exe windows) -->
+	<Output                                    value = "Test_Debug_01.exe" />
+	<NameSpace                                 value = "Test.Test_Debug" />
+	<CompilerOptions                           value = "/platform:anycpu" />  <!-- x86, Itanium, x64, or anycpu (default). -->
+	<Source                                    value = "Test_Debug_01.cs" />
+  <Assembly                                  value = "System.dll" />
+	<DebugInformation                          value = "true" />
+</AssemblyProject>
+

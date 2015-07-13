@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+	<Project>
+		<NameSpace                        value = "Test_InspectType" />
+		<Using                            value = "System.Diagnostics" />
+		<Using                            value = "System.Linq" />
+		<Assembly                         value = "System.Xml.Linq.dll" />
+		<Source                           value = "Test_InspectType_f.cs" />
+		<!--<Source                           value = "..\..\..\..\..\Class\InspectType.cs" />-->
+		<Source                           value = "InspectType.cs" />
+	</Project>
+</configuration>

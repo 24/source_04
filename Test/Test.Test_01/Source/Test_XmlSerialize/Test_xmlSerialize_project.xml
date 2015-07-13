@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+	<Project>
+		<NameSpace                        value = "Test_xmlSerialize" />
+<!--<Using                            value = "System.Diagnostics" />-->
+<!--<Assembly                         value = "System.Xml.Linq.dll" />-->
+		<Source                           value = "Test_xmlSerialize_f.cs" />
+	</Project>
+</configuration>

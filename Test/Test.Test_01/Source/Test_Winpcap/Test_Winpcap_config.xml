@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Test>
+  <XmlVariable                             name = "data_dir" value = "c:\pib\dev_data\exe\runsource\http\pcap" />
+	<DataDir                                                   value = "$data_dir$" />
+	<Log                                                       value = "$data_dir$\log\log.txt" />
+	<!--<Log                                                       value = "c:\pib\dev_data\exe\wrun\test\log\log.txt" />-->
+</Test>

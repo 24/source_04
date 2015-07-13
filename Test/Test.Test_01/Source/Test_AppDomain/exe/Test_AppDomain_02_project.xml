@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<AssemblyProject>
+	<Target                                    value = "exe" /> <!-- exe (exe console default), library (dll), module (.netmodule), winexe (exe windows) -->
+	<Output                                    value = "Test_AppDomain_02.exe" />
+	<NameSpace                                 value = "Test_AppDomain_02" />
+	<Source                                    value = "Test_AppDomain_02.cs" />
+  <Assembly                                  value = "System.dll" />
+	<DebugInformation                          value = "true" />
+</AssemblyProject>

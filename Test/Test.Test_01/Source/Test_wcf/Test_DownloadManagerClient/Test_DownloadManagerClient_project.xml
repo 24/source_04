@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+	<Project>
+    <NameSpace                        value = "Test.Test_DownloadManagerClient" />
+    <!--<Using                            value = "System.Linq" />-->
+    <Assembly                         value = "System.ServiceModel.dll" />
+    <Source                           value = "Test_DownloadManagerClient_f.cs" />
+    <Source                           value = "..\..\..\..\..\MyDownloader\MyDownloader.Service\Service\IDownloadManagerService.cs" />
+    <Source                           value = "..\..\..\..\..\MyDownloader\MyDownloader.Service\Service\DownloaderState.cs" />
+  </Project>
+</configuration>

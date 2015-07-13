@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+	<Project>
+		<NameSpace                        value = "Test_JScript" />
+		<Using                            value = "System.Diagnostics" />
+		<Using                            value = "System.Linq" />
+		<Assembly                         value = "Microsoft.JScript.dll" />
+		<Assembly                         value = "System.Xml.Linq.dll" />
+<!--<Assembly                         value = "bin\magazine3k.dll" />-->
+		<Assembly                         value = "Test_JScript_01_js\bin\Test_JScript_01_na.dll" resolve = "true" resolveName="Test_JScript_01_na, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
+		<Source                           value = "Test_JScript_f.cs" />
+	</Project>
+</configuration>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+	<Project>
+		<NameSpace                                 value = "Test" />
+		<Using                                     value = "System.Linq" />
+    <Using                                     value = "System.Drawing" />
+		<Source                                    value = "test_f.cs" />
+    <Source                                    value = "Form1.cs" />
+    <Source                                    value = "Form1.Designer.cs" />
+    <Source                                    value = "Form1.resx" />
+    <Source                                    value = "Form2.cs" />
+    <Source                                    value = "Form2.Designer.cs" />
+    <Source                                    value = "RunSourceForm.cs" />
+    <Source                                    value = "RunSourceForm.Designer.cs" />
+    <Source                                    value = "RunSourceForm.resx" namespace = "Test" />
+    <Source                                    value = "RunSourceForm2.cs" />
+    <Source                                    value = "RunSourceForm2.Designer.cs" />
+    <Source                                    value = "RunSourceForm2.resx" namespace = "Test" />
+    <Assembly                                  value = "System.Drawing.dll" />
+    <Assembly                                  value = "System.Xml.Linq.dll" />
+    <Assembly                                  value = "DevExpress.Data.dll" />
+    <Assembly                                  value = "DevExpress.Utils.dll" />
+    <Assembly                                  value = "DevExpress.XtraEditors.dll" />
+    <Assembly                                  value = "DevExpress.XtraGrid.dll" />
+  </Project>
+</configuration>

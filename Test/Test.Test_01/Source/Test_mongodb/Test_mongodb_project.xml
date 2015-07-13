@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+	<Project>
+		<NameSpace                        value = "Test.Test_mongodb" />
+		<Using                            value = "System.Diagnostics" />
+		<Using                            value = "System.Linq" />
+		<Assembly                         value = "System.Xml.Linq.dll" />
+		<Assembly                         value = "..\..\..\dll\mongocsharpdriver.1.8.3\MongoDB.Bson.dll" resolve = "true" resolveName="MongoDB.Bson, Version=1.8.3.9, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />
+		<Assembly                         value = "..\..\..\dll\mongocsharpdriver.1.8.3\MongoDB.Driver.dll" resolve = "true" resolveName="MongoDB.Driver, Version=1.8.3.9, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />
+<!--
+		<Assembly                         value = "c:\pib\dropbox\pbeuz\Dropbox\dev\project\Source\Source_01\packages\mongocsharpdriver.1.8.3\lib\net35\MongoDB.Bson.dll" />
+		<Assembly                         value = "c:\pib\dropbox\pbeuz\Dropbox\dev\project\Source\Source_01\packages\mongocsharpdriver.1.8.3\lib\net35\MongoDB.Driver.dll" />
+-->
+		<Source                           value = "Test_mongodb_f.cs" />
+	</Project>
+</configuration>

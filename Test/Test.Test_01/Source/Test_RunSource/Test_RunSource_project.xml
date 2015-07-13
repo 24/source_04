@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<AssemblyProject>
+	<Target                                    value = "winexe" /> <!-- exe (exe console default), library (dll), module (.netmodule), winexe (exe windows) -->
+	<Output                                    value = "Test_RunSource.exe" />
+	<Icon                                      value = "app.ico" />
+	<NameSpace                                 value = "Test_RunSource" />
+	<CompilerOptions                           value = "/platform:anycpu" />  <!-- x86, Itanium, x64, or anycpu (default). -->
+<!--<GenerateExecutable                        value = "true" />-->
+  <File                                      value = "Test_RunSource_config_std.xml" destinationFile = "Test_RunSource_config.xml" />
+	<Source                                    value = "Test_RunSource_AssemblyInfo.cs" />
+	<Source                                    value = "Program.cs" />
+	<Source                                    value = "Test_RunSourceForm.cs" />
+	<Source                                    value = "Test_RunSourceForm.Designer.cs" />
+<!--<Source                                    value = "Test_RunSourceForm.resx" namespace = "Test_RunSource" />-->
+	<Source                                    value = "..\..\cf.cs" />
+	<Source                                    value = "..\..\TreeView.cs" />
+	<Source                                    value = "..\..\Application.cs" />
+	<Source                                    value = "..\..\cdt.cs" />
+	<Source                                    value = "..\..\Date.cs" />
+	<Source                                    value = "..\..\Path.cs" />
+	<Source                                    value = "..\..\FieldList.cs" />
+	<Source                                    value = "..\..\File.cs" />
+	<Source                                    value = "..\..\FileReader.cs" />
+	<Source                                    value = "..\..\Regex.cs" />
+	<Source                                    value = "..\..\RemoteRunSource.cs" />
+	<Source                                    value = "..\..\Reflection.cs" />
+	<Source                                    value = "..\..\XmlConfig.cs" />
+  <Assembly                                  value = "System.dll" />
+	<Assembly                                  value = "System.Core.dll" />
+	<Assembly                                  value = "System.Data.dll" />
+	<Assembly                                  value = "System.Drawing.dll" />
+	<Assembly                                  value = "System.Windows.Forms.dll" />
+	<Assembly                                  value = "System.Xml.dll" />
+	<Assembly                                  value = "System.Xml.Linq.dll" />
+  <Assembly                                  value = "..\..\PB_Tools\bin\irunsource.dll" />
+<!--
+	<Source                                    value = "..\..\PB_Tools\PB_Form\cGrid.cs" />
+	<Source                                    value = "..\..\PB_Tools\PB_Form\XtraGrid.cs" />
+  <Assembly                                  value = "DevExpress.Data.dll" />
+  <Assembly                                  value = "DevExpress.Utils.dll" />
+  <Assembly                                  value = "DevExpress.XtraEditors.dll" />
+  <Assembly                                  value = "DevExpress.XtraGrid.dll" />
+	<Assembly                                  value = "System.Deployment.dll" />
+	<Assembly                                  value = "Microsoft.JScript.dll" />
+-->
+	<DebugInformation                          value = "true" />
+</AssemblyProject>
+

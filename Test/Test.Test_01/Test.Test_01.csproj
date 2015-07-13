@@ -1,0 +1,720 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{578DB265-0E9B-4C28-9C96-10DDBB86B98E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Test.Test_01</RootNamespace>
+    <AssemblyName>Test.Test_01</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DevExpress.Data, Version=1.2.7.0, Culture=neutral, PublicKeyToken=79868b8147b5eae4">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\RuntimeLibrary\DevExpress\DevExpress 2.4.7.0\.NET\DevExpress.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Utils, Version=2.1.7.0, Culture=neutral, PublicKeyToken=79868b8147b5eae4">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\RuntimeLibrary\DevExpress\DevExpress 2.4.7.0\.NET\DevExpress.Utils.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraEditors, Version=2.1.7.0, Culture=neutral, PublicKeyToken=79868b8147b5eae4">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\RuntimeLibrary\DevExpress\DevExpress 2.4.7.0\.NET\DevExpress.XtraEditors.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraGrid, Version=2.4.7.0, Culture=neutral, PublicKeyToken=79868b8147b5eae4">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\RuntimeLibrary\DevExpress\DevExpress 2.4.7.0\.NET\DevExpress.XtraGrid.dll</HintPath>
+    </Reference>
+    <Reference Include="fastJSON">
+      <HintPath>..\..\..\RuntimeLibrary\fastJSON\fastJSON_v2.1.1\output\net40\fastJSON.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp">
+      <HintPath>..\..\..\RuntimeLibrary\itextsharp\itextsharp-all-5.3.4\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="managedLibnids">
+      <HintPath>..\..\..\RuntimeLibrary\WinPcap\Libnids\managedLibnids\v3\managedLibnids.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.JScript" />
+    <Reference Include="MongoDB.Bson">
+      <HintPath>..\..\PB_Library\bin\Debug\MongoDB.Bson.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Driver">
+      <HintPath>..\..\PB_Library\bin\Debug\MongoDB.Driver.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Data, Version=6.7.4.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL" />
+    <Reference Include="PcapDotNet.Base">
+      <HintPath>..\..\..\RuntimeLibrary\WinPcap\PcapDotNet\PcapDotNet.x86\PcapDotNet.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="PcapDotNet.Core">
+      <HintPath>..\..\..\RuntimeLibrary\WinPcap\PcapDotNet\PcapDotNet.x86\PcapDotNet.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="PcapDotNet.Core.Extensions">
+      <HintPath>..\..\..\RuntimeLibrary\WinPcap\PcapDotNet\PcapDotNet.x86\PcapDotNet.Core.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="PcapDotNet.Packets">
+      <HintPath>..\..\..\RuntimeLibrary\WinPcap\PcapDotNet\PcapDotNet.x86\PcapDotNet.Packets.dll</HintPath>
+    </Reference>
+    <Reference Include="ScintillaNET">
+      <HintPath>..\..\..\RuntimeLibrary\ScintillaNET\ScintillaNET v2.6\ScintillaNET.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpCompress">
+      <HintPath>..\..\..\RuntimeLibrary\SharpCompress\SharpCompress0.10.3\Full\SharpCompress.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Web" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Tamir.IPLib.SharpPcap">
+      <HintPath>..\..\..\RuntimeLibrary\Tamir.IPLib\Tamir.IPLib.SharpPcap.dll</HintPath>
+    </Reference>
+    <Reference Include="wpcap_dn_x86">
+      <HintPath>..\..\..\RuntimeLibrary\wpcap_dn\wpcap_dn_x86\wpcap_dn_x86.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\Apps\MyDownloader\MyDownloader.Core\Service\DownloaderState.cs">
+      <Link>SourceLnk\Apps\MyDownloader\MyDownloader.Core\Service\DownloaderState.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Apps\MyDownloader\MyDownloader.Core\Service\IDownloadManagerService.cs">
+      <Link>SourceLnk\Apps\MyDownloader\MyDownloader.Core\Service\IDownloadManagerService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\Compiler\AssemblyResolve.cs">
+      <Link>SourceLnk\Lib\pb\Compiler\AssemblyResolve.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\Compiler\Compiler.cs">
+      <Link>SourceLnk\Lib\pb\Compiler\Compiler.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\Compiler\CompilerProject.cs">
+      <Link>SourceLnk\Lib\pb\Compiler\CompilerProject.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\Compiler\GenerateAndExecute.cs">
+      <Link>SourceLnk\Lib\pb\Compiler\GenerateAndExecute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\Compiler\GenerateCSharpCode.cs">
+      <Link>SourceLnk\Lib\pb\Compiler\GenerateCSharpCode.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\Compiler\ICompiler.cs">
+      <Link>SourceLnk\Lib\pb\Compiler\ICompiler.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\Compiler\ICompilerExtension.cs">
+      <Link>SourceLnk\Lib\pb\Compiler\ICompilerExtension.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\Compiler\IGenerateAndExecute.cs">
+      <Link>SourceLnk\Lib\pb\Compiler\IGenerateAndExecute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\Compiler\IRunSource.cs">
+      <Link>SourceLnk\Lib\pb\Compiler\IRunSource.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\Compiler\RemoteRunSource.cs">
+      <Link>SourceLnk\Lib\pb\Compiler\RemoteRunSource.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\Compiler\RunSource.cs">
+      <Link>SourceLnk\Lib\pb\Compiler\RunSource.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\Compiler\RunSourceExtension.cs">
+      <Link>SourceLnk\Lib\pb\Compiler\RunSourceExtension.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\Data\DataTable.cs">
+      <Link>SourceLnk\Lib\pb\Data\DataTable.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\Data\DataTable2.cs">
+      <Link>SourceLnk\Lib\pb\Data\DataTable2.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\Data\FieldList.cs">
+      <Link>SourceLnk\Lib\pb\Data\FieldList.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\Data\GClass.cs">
+      <Link>SourceLnk\Lib\pb\Data\GClass.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\Data\Image.cs">
+      <Link>SourceLnk\Lib\pb\Data\Image.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\Data\Mongo\BsonDocumentComparator.cs">
+      <Link>SourceLnk\Lib\pb\Data\Mongo\BsonDocumentComparator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\Data\Mongo\BsonDocumentsToDataTable.cs">
+      <Link>SourceLnk\Lib\pb\Data\Mongo\BsonDocumentsToDataTable.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\Data\Mongo\EnumerateBsonDocumentElements.cs">
+      <Link>SourceLnk\Lib\pb\Data\Mongo\EnumerateBsonDocumentElements.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\Data\Mongo\Mongo.cs">
+      <Link>SourceLnk\Lib\pb\Data\Mongo\Mongo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\Data\Mongo\PBBsonEnumerateValues.cs">
+      <Link>SourceLnk\Lib\pb\Data\Mongo\PBBsonEnumerateValues.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\Data\Mongo\PBBsonReader.cs">
+      <Link>SourceLnk\Lib\pb\Data\Mongo\PBBsonReader.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\Data\Mongo\Serializers\BsonPBSerializationProvider.cs">
+      <Link>SourceLnk\Lib\pb\Data\Mongo\Serializers\BsonPBSerializationProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\Data\Mongo\Serializers\PBDictionarySerializer.cs">
+      <Link>SourceLnk\Lib\pb\Data\Mongo\Serializers\PBDictionarySerializer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\Data\Mongo\Serializers\PBKeyValuePairSerializer.cs">
+      <Link>SourceLnk\Lib\pb\Data\Mongo\Serializers\PBKeyValuePairSerializer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\Data\NamedValues.cs">
+      <Link>SourceLnk\Lib\pb\Data\NamedValues.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\Data\Xml\Xml.cs">
+      <Link>SourceLnk\Lib\pb\Data\Xml\Xml.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\Data\Xml\Xml1.cs">
+      <Link>SourceLnk\Lib\pb\Data\Xml\Xml1.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\Data\Xml\XmlConfig.cs">
+      <Link>SourceLnk\Lib\pb\Data\Xml\XmlConfig.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\Data\Xml\XmlData.cs">
+      <Link>SourceLnk\Lib\pb\Data\Xml\XmlData.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\Data\Xml\XmlDescendant.cs">
+      <Link>SourceLnk\Lib\pb\Data\Xml\XmlDescendant.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\Data\Xml\XXElement.cs">
+      <Link>SourceLnk\Lib\pb\Data\Xml\XXElement.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\Data\ZValue.cs">
+      <Link>SourceLnk\Lib\pb\Data\ZValue.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\IO\CompressBaseManager.cs">
+      <Link>SourceLnk\Lib\pb\IO\CompressBaseManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\IO\CompressManager.cs">
+      <Link>SourceLnk\Lib\pb\IO\CompressManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\IO\Directory.cs">
+      <Link>SourceLnk\Lib\pb\IO\Directory.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\IO\File.cs">
+      <Link>SourceLnk\Lib\pb\IO\File.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\IO\FileOption.cs">
+      <Link>SourceLnk\Lib\pb\IO\FileOption.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\IO\Path.cs">
+      <Link>SourceLnk\Lib\pb\IO\Path.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\IO\SharpCompressManager.cs">
+      <Link>SourceLnk\Lib\pb\IO\SharpCompressManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\IO\StreamTransfer.cs">
+      <Link>SourceLnk\Lib\pb\IO\StreamTransfer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\IO\WriteToFile.cs">
+      <Link>SourceLnk\Lib\pb\IO\WriteToFile.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\IO\WriteToFileCreate.cs">
+      <Link>SourceLnk\Lib\pb\IO\WriteToFileCreate.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\Linq\Linq.cs">
+      <Link>SourceLnk\Lib\pb\Linq\Linq.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\Text\Regex.cs">
+      <Link>SourceLnk\Lib\pb\Text\Regex.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\Text\Split.cs">
+      <Link>SourceLnk\Lib\pb\Text\Split.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\Text\String.cs">
+      <Link>SourceLnk\Lib\pb\Text\String.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\Text\StringZones.cs">
+      <Link>SourceLnk\Lib\pb\Text\StringZones.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\Web\Html\HtmlCharCodes.cs">
+      <Link>SourceLnk\Lib\pb\Web\Html\HtmlCharCodes.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\Web\Html\HtmlReader.cs">
+      <Link>SourceLnk\Lib\pb\Web\Html\HtmlReader.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\Web\Html\HtmlTag.cs">
+      <Link>SourceLnk\Lib\pb\Web\Html\HtmlTag.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\Web\Html\HtmlToXml.cs">
+      <Link>SourceLnk\Lib\pb\Web\Html\HtmlToXml.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\Web\Http\Http.cs">
+      <Link>SourceLnk\Lib\pb\Web\Http\Http.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\Web\Http\HttpRequest.cs">
+      <Link>SourceLnk\Lib\pb\Web\Http\HttpRequest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\Web\Http\HttpRun.cs">
+      <Link>SourceLnk\Lib\pb\Web\Http\HttpRun.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\Web\Http\HttpXml.cs">
+      <Link>SourceLnk\Lib\pb\Web\Http\HttpXml.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\Web\Http\PBUriBuilder.cs">
+      <Link>SourceLnk\Lib\pb\Web\Http\PBUriBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\Web\Http\Url.cs">
+      <Link>SourceLnk\Lib\pb\Web\Http\Url.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\Web\Http\XmlDocumentSourceType.cs">
+      <Link>SourceLnk\Lib\pb\Web\Http\XmlDocumentSourceType.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\Web\Http\_old\Http_v3.cs">
+      <Link>SourceLnk\Lib\pb\Web\Http\_old\Http_v3.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\Web\MailSender.cs">
+      <Link>SourceLnk\Lib\pb\Web\MailSender.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\Windows\Forms\zerrf.cs">
+      <Link>SourceLnk\Lib\pb\Windows\Forms\zerrf.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\_old\HtmlXmlReader.cs">
+      <Link>SourceLnk\Lib\pb\_old\HtmlXmlReader.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\_old\Http_v1.cs">
+      <Link>SourceLnk\Lib\pb\_old\Http_v1.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\_old\LinqWhereSelect.cs">
+      <Link>SourceLnk\Lib\pb\_old\LinqWhereSelect.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\_old\XmlSelect.cs">
+      <Link>SourceLnk\Lib\pb\_old\XmlSelect.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\_pb\Application.cs">
+      <Link>SourceLnk\Lib\pb\_pb\Application.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\_pb\Chrono.cs">
+      <Link>SourceLnk\Lib\pb\_pb\Chrono.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\_pb\Convert.cs">
+      <Link>SourceLnk\Lib\pb\_pb\Convert.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\_pb\Date.cs">
+      <Link>SourceLnk\Lib\pb\_pb\Date.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\_pb\Date2.cs">
+      <Link>SourceLnk\Lib\pb\_pb\Date2.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\_pb\Error.cs">
+      <Link>SourceLnk\Lib\pb\_pb\Error.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\_pb\FormatInfo.cs">
+      <Link>SourceLnk\Lib\pb\_pb\FormatInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\_pb\GlobalExtension.cs">
+      <Link>SourceLnk\Lib\pb\_pb\GlobalExtension.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\_pb\IChrono.cs">
+      <Link>SourceLnk\Lib\pb\_pb\IChrono.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\_pb\ITrace.cs">
+      <Link>SourceLnk\Lib\pb\_pb\ITrace.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\_pb\ITraceError.cs">
+      <Link>SourceLnk\Lib\pb\_pb\ITraceError.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\_pb\ITraceToFile.cs">
+      <Link>SourceLnk\Lib\pb\_pb\ITraceToFile.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\_pb\NamedValue.cs">
+      <Link>SourceLnk\Lib\pb\_pb\NamedValue.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\_pb\ParseAs.cs">
+      <Link>SourceLnk\Lib\pb\_pb\ParseAs.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\_pb\PBException.cs">
+      <Link>SourceLnk\Lib\pb\_pb\PBException.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\_pb\Progress.cs">
+      <Link>SourceLnk\Lib\pb\_pb\Progress.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\_pb\Reflection.cs">
+      <Link>SourceLnk\Lib\pb\_pb\Reflection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\_pb\TextSerializer.cs">
+      <Link>SourceLnk\Lib\pb\_pb\TextSerializer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\_pb\Trace.cs">
+      <Link>SourceLnk\Lib\pb\_pb\Trace.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\_pb\TraceError.cs">
+      <Link>SourceLnk\Lib\pb\_pb\TraceError.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\_pb\TraceLevel.cs">
+      <Link>SourceLnk\Lib\pb\_pb\TraceLevel.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\_pb\TraceSetWriter.cs">
+      <Link>SourceLnk\Lib\pb\_pb\TraceSetWriter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\_pb\TypeView.cs">
+      <Link>SourceLnk\Lib\pb\_pb\TypeView.cs</Link>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Source\Bug\Bug_f_01.cs" />
+    <Compile Include="Source\Test\Form1.cs">
+      <SubType>form</SubType>
+    </Compile>
+    <Compile Include="Source\Test\Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Source\Test\Form2.cs">
+      <SubType>form</SubType>
+    </Compile>
+    <Compile Include="Source\Test\Form2.Designer.cs">
+      <DependentUpon>Form2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Source\Test\RunSourceForm.cs">
+      <SubType>form</SubType>
+    </Compile>
+    <Compile Include="Source\Test\RunSourceForm.designer.cs">
+      <DependentUpon>RunSourceForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Source\Test\RunSourceForm2.cs">
+      <SubType>form</SubType>
+    </Compile>
+    <Compile Include="Source\Test\RunSourceForm2.designer.cs">
+      <DependentUpon>RunSourceForm2.cs</DependentUpon>
+    </Compile>
+    <None Include="Source\Test\Test.cs" />
+    <Compile Include="Source\Test\Test_DevGrid_01.cs">
+      <SubType>form</SubType>
+    </Compile>
+    <Compile Include="Source\Test\Test_DevGrid_01.Designer.cs">
+      <DependentUpon>Test_DevGrid_01.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Source\Test\Test_f.cs" />
+    <Compile Include="Source\Test\Test_Trace.cs" />
+    <None Include="Source\Test_AppConfig\App.config" />
+    <None Include="Source\Test_AppDomain\compile.cs" />
+    <Compile Include="Source\Test_AppConfig\Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Source\Test_AppConfig\Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Source\Test_AppConfig\Program.cs" />
+    <Compile Include="Source\Test_AppConfig\Test_AppConfig.cs" />
+    <Compile Include="Source\Test_AppDomain\exe\Test_AppDomain_01.cs" />
+    <Compile Include="Source\Test_AppDomain\exe\Test_AppDomain_02.cs" />
+    <Compile Include="Source\Test_AppDomain\exe\Test_AppDomain_03.cs" />
+    <Compile Include="Source\Test_AppDomain\exe\Test_AppDomain_04.cs" />
+    <None Include="Source\Test_AppDomain\exe\Test_AppDomain_05.cs" />
+    <Compile Include="Source\Test_AppDomain\exe\Test_AppDomain_05_itest_01.cs" />
+    <None Include="Source\Test_AppDomain\exe\Test_AppDomain_05_test_01.cs" />
+    <Compile Include="Source\Test_AppDomain\exe\Test_AppDomain_06.cs" />
+    <Compile Include="Source\Test_AppDomain\exe\Test_AppDomain_07.cs" />
+    <Compile Include="Source\Test_AppDomain\exe\Test_AppDomain_08.cs" />
+    <None Include="Source\Test_AppDomain\Test_AppDomain.cs" />
+    <Compile Include="Source\Test_AppDomain\Test_AppDomain_f.cs" />
+    <Compile Include="Source\Test_Basic\Test_CollectionsConcurrent.cs" />
+    <Compile Include="Source\Test_BinaryToStruct\Test_BinaryToStruct_f.cs" />
+    <None Include="Source\Test_cpp\Test_cpp.cs" />
+    <Compile Include="Source\Test_cpp\Test_cpp_err_f.cs" />
+    <Compile Include="Source\Test_cpp\Test_cpp_exe.cs" />
+    <Compile Include="Source\Test_cpp\Test_cpp_f.cs" />
+    <Compile Include="Source\Test_CS\Test_CallerInformation_f.cs" />
+    <Compile Include="Source\Test_CS\Test_Class\Test_Class_f_01.cs" />
+    <None Include="Source\Test_CS\Test_cs4.cs" />
+    <Compile Include="Source\Test_CS\Test_cs4_f.cs" />
+    <Compile Include="Source\Test_CS\Test_ExpressionTrees\Test_ExpressionTrees_f_01.cs" />
+    <Compile Include="Source\Test_CS\Test_GenericConvert.cs" />
+    <None Include="Source\Test_CS\Test_Linq\Test_Linq.cs" />
+    <Compile Include="Source\Test_CS\Test_Linq\Test_Linq_f.cs" />
+    <Compile Include="Source\Test_CS\Test_Linq\Test_Linq_Join_f.cs" />
+    <Compile Include="Source\Test_Debug\exe\Test_Debug_01.cs" />
+    <None Include="Source\Test_Debug\Test_Debug.cs" />
+    <Compile Include="Source\Test_Debug\Test_Debug_f.cs" />
+    <Compile Include="Source\Test_Diagnostics\Test_Diagnostics_Trace.cs" />
+    <Compile Include="Source\Test_Directory\DirSize.cs" />
+    <None Include="Source\Test_Directory\Test_directory.cs" />
+    <Compile Include="Source\Test_Directory\Test_directory_f.cs" />
+    <None Include="Source\Test_FastJson\Test_FastJson_f.cs" />
+    <Compile Include="Source\Test_FileWatcher\Test_cpp_exe.cs" />
+    <None Include="Source\Test_FileWatcher\Test_FileWatcher.cs" />
+    <Compile Include="Source\Test_FileWatcher\Test_FileWatcher_f.cs" />
+    <Compile Include="Source\Test_File\Test_File_01.cs" />
+    <Compile Include="Source\Test_Form\Form1.cs">
+      <SubType>form</SubType>
+    </Compile>
+    <Compile Include="Source\Test_Form\Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Source\Test_Form\Scintilla01.cs">
+      <SubType>form</SubType>
+    </Compile>
+    <Compile Include="Source\Test_Form\Scintilla01.Designer.cs">
+      <DependentUpon>Scintilla01.cs</DependentUpon>
+    </Compile>
+    <None Include="Source\Test_Form\Test_form.cs" />
+    <Compile Include="Source\Test_Form\Test_form_f.cs" />
+    <Compile Include="Source\Test_Http\Test_AllDebrib.cs" />
+    <Compile Include="Source\Test_Http\Test_DebridLink.cs" />
+    <Compile Include="Source\Test_Http\Test_Uri.cs" />
+    <Compile Include="Source\Test_Image\Test_Image_f.cs" />
+    <Compile Include="Source\Test_InspectType\InspectType.cs" />
+    <None Include="Source\Test_InspectType\Test_InspectType.cs" />
+    <Compile Include="Source\Test_InspectType\Test_InspectType_f.cs" />
+    <None Include="Source\Test_iTextSharp\compile.cs" />
+    <Compile Include="Source\Test_iTextSharp\iTextSharp\GraphicsState.cs" />
+    <Compile Include="Source\Test_iTextSharp\iTextSharp\IContentOperator.cs" />
+    <Compile Include="Source\Test_iTextSharp\iTextSharp\ImageRenderInfo.cs" />
+    <Compile Include="Source\Test_iTextSharp\iTextSharp\IRenderListener.cs" />
+    <Compile Include="Source\Test_iTextSharp\iTextSharp\ITextExtractionStrategy.cs" />
+    <Compile Include="Source\Test_iTextSharp\iTextSharp\IXObjectDoHandler.cs" />
+    <Compile Include="Source\Test_iTextSharp\iTextSharp\LocationTextExtractionStrategy.cs" />
+    <Compile Include="Source\Test_iTextSharp\iTextSharp\PdfContentStreamProcessor.cs" />
+    <Compile Include="Source\Test_iTextSharp\iTextSharp\PdfImageObject.cs" />
+    <Compile Include="Source\Test_iTextSharp\iTextSharp\PdfTools.cs" />
+    <Compile Include="Source\Test_iTextSharp\iTextSharp\TextRenderInfo.cs" />
+    <Compile Include="Source\Test_iTextSharp\iTextSharp\xpdf.cs" />
+    <None Include="Source\Test_iTextSharp\Test_iTextSharp.cs" />
+    <None Include="Source\Test_iTextSharp\Test_iTextSharp_f.cs" />
+    <Compile Include="Source\Test_iTextSharp\Test_iTextSharp_f2.cs" />
+    <None Include="Source\Test_JScript\compile.cs" />
+    <None Include="Source\Test_JScript\Test_JScript.cs" />
+    <Compile Include="Source\Test_JScript\Test_JScript_01_exe\Test_JScript_01_exe.cs" />
+    <None Include="Source\Test_JScript\Test_JScript_assembly_attributes\Test_JScript_01_AssemblyInfo.cs" />
+    <Compile Include="Source\Test_JScript\Test_JScript_f.cs" />
+    <Compile Include="Source\Test_mongodb\Test_BsonWriter_f.cs" />
+    <Compile Include="Source\Test_mongodb\Test_Bson_f.cs" />
+    <Compile Include="Source\Test_mongodb\Test_Bson_f2.cs" />
+    <Compile Include="Source\Test_mongodb\Test_Compare_f.cs" />
+    <None Include="Source\Test_mongodb\Test_mongodb.cs" />
+    <Compile Include="Source\Test_mongodb\Test_mongodb_f.cs" />
+    <None Include="Source\Test_mysql\Test_mysql.cs" />
+    <Compile Include="Source\Test_mysql\Test_mysql_f.cs" />
+    <Compile Include="Source\Test_Reflection\Test_Reflection_f.cs" />
+    <None Include="Source\Test_RunSource\compile.cs" />
+    <Compile Include="Source\Test_RunSource\Program.cs" />
+    <Compile Include="Source\Test_RunSource\Test.cs" />
+    <Compile Include="Source\Test_RunSource\Test_RunSourceForm.cs">
+      <SubType>form</SubType>
+    </Compile>
+    <Compile Include="Source\Test_RunSource\Test_RunSourceForm.Designer.cs">
+      <DependentUpon>Test_RunSourceForm.cs</DependentUpon>
+    </Compile>
+    <None Include="Source\Test_RunSource\Test_RunSource_AssemblyInfo.cs" />
+    <Compile Include="Source\Test_Text\Test_Regex_f.cs" />
+    <None Include="Source\Test_wcf\compile.cs" />
+    <None Include="Source\Test_wcf\Test_DownloadManagerClient\Test_DownloadManagerClient.cs" />
+    <Compile Include="Source\Test_wcf\Test_DownloadManagerClient\Test_DownloadManagerClient_f.cs" />
+    <Compile Include="Source\Test_wcf\Test_wcf\Test_wcf_f.cs" />
+    <None Include="Source\Test_wcf\Test_wcf_service_01\AssemblyInfo.cs" />
+    <Compile Include="Source\Test_wcf\Test_wcf_service\CorsHeaders.cs" />
+    <Compile Include="Source\Test_wcf\Test_wcf_service\CorsManager.cs" />
+    <Compile Include="Source\Test_wcf\Test_wcf_service\Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Source\Test_wcf\Test_wcf_service\Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Source\Test_wcf\Test_wcf_service\Program.cs" />
+    <Compile Include="Source\Test_wcf\Test_wcf_service\Service1.cs" />
+    <Compile Include="Source\Test_wcf\Test_wcf_service\ServiceHostManager.cs" />
+    <None Include="Source\Test_wcf\Test_wcf_service_02\AssemblyInfo.cs" />
+    <Compile Include="Source\Test_Web\Test_Mail_f.cs" />
+    <Compile Include="Source\Test_Web\Test_Url_f.cs" />
+    <None Include="Source\Test_wcf\Test_wcf_service_01\App.config" />
+    <None Include="Source\Test_wcf\Test_wcf_service_02\App.config" />
+    <None Include="Source\Test_Web\Test_Web.cs" />
+    <Compile Include="Source\Test_Web\Test_WebRequest_f.cs" />
+    <Compile Include="Source\Test_Web\Test_Web_f.cs" />
+    <Compile Include="Source\Test_Winpcap\TCP_Packet.cs" />
+    <None Include="Source\Test_Winpcap\Test_Winpcap.cs" />
+    <Compile Include="Source\Test_Winpcap\Test_Winpcap_f.cs" />
+    <Compile Include="Source\Test_Winpcap_dn\GlobalExtension.cs" />
+    <Compile Include="Source\Test_Winpcap_dn\Pcap\PcapExtension.cs" />
+    <Compile Include="Source\Test_Winpcap_dn\Pcap\PPacket.cs" />
+    <Compile Include="Source\Test_Winpcap_dn\Pcap\PrintPacket.cs" />
+    <Compile Include="Source\Test_Winpcap_dn\Pcap\PrintPacketDetail.cs" />
+    <Compile Include="Source\Test_Winpcap_dn\Pcap\ReceivePackets.cs" />
+    <Compile Include="Source\Test_Winpcap_dn\Pcap\SortedTcpStreamList.cs" />
+    <Compile Include="Source\Test_Winpcap_dn\Pcap\TcpConnection.cs" />
+    <Compile Include="Source\Test_Winpcap_dn\Pcap\TcpStream.cs" />
+    <Compile Include="Source\Test_Winpcap_dn\Pcap\TcpStreamEx.cs" />
+    <Compile Include="Source\Test_Winpcap_dn\Pcap\TcpStreamTest.cs" />
+    <Compile Include="Source\Test_Winpcap_dn\Pcap\TcpStream_original.cs" />
+    <Compile Include="Source\Test_Winpcap_dn\TcpRecon\PcapDotNet.TcpReconstruct.cs" />
+    <Compile Include="Source\Test_Winpcap_dn\TcpRecon\TcpRecon_Program.cs" />
+    <Compile Include="Source\Test_Winpcap_dn\TcpRecon\TcpRecon_TcpRecon.cs" />
+    <Compile Include="Source\Test_Winpcap_dn\Test_TcpRecon_f.cs" />
+    <None Include="Source\Test_Winpcap_dn\Test_Winpcap_dn.cs" />
+    <Compile Include="Source\Test_Winpcap_dn\Test_Winpcap_dn_f.cs" />
+    <Compile Include="Source\Test_Winpcap_dn\Test_Winpcap_dn_f2.cs" />
+    <Compile Include="Source\Test_Winpcap_dn\Test_Winpcap_dn_f3.cs" />
+    <Compile Include="Source\Test_Winpcap_dn\Test_Winpcap_dn_f4.cs" />
+    <Compile Include="Source\Test_Winpcap_dn\Test_Winpcap_dn_f5.cs" />
+    <None Include="Source\Test_XmlSerialize\Test_xmlSerialize.cs" />
+    <None Include="Source\Test_wmi\Test_wmi.cs" />
+    <Compile Include="Source\Test_wmi\Test_wmi_f.cs" />
+    <Compile Include="Source\Test_XmlSerialize\Test_xmlSerialize_f.cs" />
+    <Compile Include="Source\Test_Xml\Test_Xml_f.cs" />
+    <Compile Include="Source\Test_Zip\Test_Zip_f.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Source\Test\Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Source\Test\Form2.resx">
+      <DependentUpon>Form2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Source\Test\RunSourceForm.resx">
+      <DependentUpon>RunSourceForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Source\Test\RunSourceForm2.resx">
+      <DependentUpon>RunSourceForm2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Source\Test\Test_DevGrid_01.resx">
+      <DependentUpon>Test_DevGrid_01.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Source\Test_AppConfig\Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Source\Test_Form\Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Source\Test_Form\Scintilla01.resx">
+      <DependentUpon>Scintilla01.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Source\Test_RunSource\Test_RunSourceForm.resx">
+      <DependentUpon>Test_RunSourceForm.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Source\Test\test_config.xml" />
+    <Content Include="Source\Test\test_project.xml" />
+    <Content Include="Source\Test_AppConfig\Test_AppConfig.project.xml" />
+    <Content Include="Source\Test_AppDomain\exe\Test_AppDomain_01_project.xml" />
+    <Content Include="Source\Test_AppDomain\exe\Test_AppDomain_02_project.xml" />
+    <Content Include="Source\Test_AppDomain\exe\Test_AppDomain_03_project.xml" />
+    <Content Include="Source\Test_AppDomain\exe\Test_AppDomain_04_project.xml" />
+    <Content Include="Source\Test_AppDomain\exe\Test_AppDomain_05_dll_project.xml" />
+    <Content Include="Source\Test_AppDomain\exe\Test_AppDomain_05_interface_dll_project.xml" />
+    <Content Include="Source\Test_AppDomain\exe\Test_AppDomain_05_project.xml" />
+    <Content Include="Source\Test_AppDomain\exe\Test_AppDomain_06_project.xml" />
+    <Content Include="Source\Test_AppDomain\exe\Test_AppDomain_07_project.xml" />
+    <Content Include="Source\Test_AppDomain\exe\Test_AppDomain_08_project.xml" />
+    <Content Include="Source\Test_AppDomain\Test_AppDomain_config.xml" />
+    <Content Include="Source\Test_AppDomain\Test_AppDomain_project.xml" />
+    <Content Include="Source\Test_cpp\Test_cpp_exe_project.xml" />
+    <Content Include="Source\Test_cpp\Test_cpp_project.xml" />
+    <Content Include="Source\Test_CS\Test_cs4_project.xml" />
+    <Content Include="Source\Test_CS\Test_Linq\Test_Linq_project.xml" />
+    <Content Include="Source\Test_Debug\exe\Test_Debug_01_project.xml" />
+    <Content Include="Source\Test_Debug\Test_Debug_config.xml" />
+    <Content Include="Source\Test_Debug\Test_Debug_project.xml" />
+    <Content Include="Source\Test_Directory\Test_directory_project.xml" />
+    <Content Include="Source\Test_FileWatcher\Test_cpp_exe_project.xml" />
+    <Content Include="Source\Test_FileWatcher\Test_FileWatcher_project.xml" />
+    <Content Include="Source\Test_Form\ScintillaNET.xml" />
+    <Content Include="Source\Test_Form\test_form_project.xml" />
+    <Content Include="Source\Test_InspectType\Test_InspectType_config.xml" />
+    <Content Include="Source\Test_InspectType\Test_InspectType_project.xml" />
+    <Content Include="Source\Test_iTextSharp\Test_iTextSharp_config.xml" />
+    <Content Include="Source\Test_iTextSharp\Test_iTextSharp_project.xml" />
+    <Content Include="Source\Test_iTextSharp\xpdf_project.xml" />
+    <Content Include="Source\Test_JScript\magazine3k_js\magazine3k.js" />
+    <Content Include="Source\Test_JScript\magazine3k_js\magazine3k_project.xml" />
+    <Content Include="Source\Test_JScript\Test_Csharp_dll\Test_Csharp_dll_project.xml" />
+    <Content Include="Source\Test_JScript\Test_JScript_01_exe\Test_JScript_01_exe_project.xml" />
+    <Content Include="Source\Test_JScript\Test_JScript_01_js\Test_JScript_01.js" />
+    <Content Include="Source\Test_JScript\Test_JScript_01_js\Test_JScript_01_na_project.xml" />
+    <Content Include="Source\Test_JScript\Test_JScript_assembly_attributes\Test_JScript_assembly_attributes_project.xml" />
+    <Content Include="Source\Test_JScript\Test_JScript_project.xml" />
+    <Content Include="Source\Test_JScript\Test_jsc_compiler\Test_JScript_01.js" />
+    <Content Include="Source\Test_mongodb\Test_mongodb_project.xml" />
+    <Content Include="Source\Test_mysql\Test_mysql_project.xml" />
+    <Content Include="Source\Test_Reflection\Test_Reflection.project.xml" />
+    <Content Include="Source\Test_RunSource\app.ico" />
+    <Content Include="Source\Test_RunSource\Test_RunSource_config_std.xml" />
+    <Content Include="Source\Test_RunSource\Test_RunSource_project.xml" />
+    <Content Include="Source\Test_wcf\PB_Note.txt" />
+    <Content Include="Source\Test_wcf\Test_DownloadManagerClient\Test_DownloadManagerClient_project.xml" />
+    <Content Include="Source\Test_wcf\Test_wcf\Test_wcf.project.xml" />
+    <Content Include="Source\Test_wcf\Test_wcf_service_01\Test_wcf_service_01.project.xml" />
+    <Content Include="Source\Test_wcf\Test_wcf_service_02\Test_wcf_service_02.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Source\Test_Web\Test_Web_project.xml" />
+    <Content Include="Source\Test_Winpcap\Test_Winpcap_config.xml" />
+    <Content Include="Source\Test_Winpcap\Test_Winpcap_project.xml" />
+    <Content Include="Source\Test_Winpcap_dn\Test_Winpcap_dn_config.xml" />
+    <Content Include="Source\Test_Winpcap_dn\Test_Winpcap_dn_project.xml" />
+    <Content Include="Source\Test_wmi\Test_wmi_project.xml" />
+    <Content Include="Source\Test_XmlSerialize\EnumTest_01_01.xml" />
+    <Content Include="Source\Test_XmlSerialize\test_01_01.xml" />
+    <Content Include="Source\Test_XmlSerialize\test_01_02.xml" />
+    <Content Include="Source\Test_XmlSerialize\test_02_01.xml" />
+    <Content Include="Source\Test_XmlSerialize\test_04_01.xml" />
+    <Content Include="Source\Test_XmlSerialize\test_05_01.xml" />
+    <Content Include="Source\Test_XmlSerialize\Test_xmlSerialize_project.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Source\Test_JScript\ilm\ilm.bat" />
+    <None Include="Source\Test_JScript\Test_jsc_compiler\comp.bat" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Source\Test_Resgen\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

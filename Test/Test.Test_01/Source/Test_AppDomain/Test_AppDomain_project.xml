@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+	<Project>
+		<NameSpace                        value = "Test_AppDomain" />
+		<Using                            value = "System.Diagnostics" />
+		<Using                            value = "System.Linq" />
+		<Assembly                         value = "System.Xml.Linq.dll" />
+		<Source                           value = "Test_AppDomain_f.cs" />
+<!--
+		<Source                           value = "..\..\..\PB_Tools\PB_Test\test_01.cs" />
+		<Source                           value = "..\..\..\GlobalExtension.cs" />
+		<Source                           value = "..\..\..\HtmlXmlReader.cs" />
+		<Source                           value = "..\..\..\PBFile.cs" />
+		<Source                           value = "..\..\..\RegexValues.cs" />
+		<Source                           value = "..\..\..\SpecialDays.cs" />
+		<Source                           value = "..\..\..\Tools.cs" />
+		<Source                           value = "..\..\..\new.cs" />
+		<Source                           value = "download_f.cs" />
+		<Source                           value = "file.cs" />
+		<Source                           value = "magazine3k.cs" />
+		<Source                           value = "telecharger_pdf.cs" />
+		<Source                           value = "..\Print\IPrint.cs" />
+		<Source                           value = "..\Print\PrintManager.cs" />
+		<Source                           value = "..\Print\IPrint\Print.cs" />
+		<Source                           value = "..\Print\IPrint\LaCroix.cs" />
+		<Source                           value = "..\Print\IPrint\LeFigaro.cs" />
+		<Source                           value = "..\Print\IPrint\LeMonde.cs" />
+	  <Source                           value = "..\Print\IPrint\LeParisien.cs" />
+		<Source                           value = "..\Print\pu.cs" />
+		<Source                           value = "..\Tunit\Tunit_print_01.cs" />
+		<Source                           value = "..\le_monde\le_monde_f2.cs" />
+-->
+	</Project>
+</configuration>

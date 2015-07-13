@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<AssemblyProject>
+  <Target                                    value = "winexe" />
+  <!-- exe (exe console default), library (dll), module (.netmodule), winexe (exe windows) -->
+  <Output                                    value = "bin32\Test_AppConfig.exe" />
+  <NameSpace                                 value = "Test.Test_AppConfig" />
+  <Source                                    value = "App.config" />
+  <Source                                    value = "Program.cs" />
+  <Source                                    value = "Form1.cs" />
+  <Source                                    value = "Form1.Designer.cs" />
+  <Source                                    value = "Test_AppConfig.cs" />
+  <Source                                    value = "..\..\..\..\PB_Library\Source\pb\_pb\Application.cs" />
+  <Source                                    value = "..\..\..\..\PB_Library\Source\pb\_pb\Trace_v2.cs" />
+  <Source                                    value = "..\..\..\..\PB_Library\Source\pb\IO\Path.cs" />
+  <Source                                    value = "..\..\..\..\PB_Library\Source\pb\IO\WriteToFile.cs" />
+  <!--
+  <Source                                    value = "..\..\..\..\PB_Library\Source\pb\_pb\PBException.cs" />
+  <Source                                    value = "..\..\..\..\PB_Library\Source\pb\IO\File.cs" />
+  <Source                                    value = "..\..\..\..\PB_Library\Source\pb\Text\Regex.cs" />-->
+  <Assembly                                  value = "System.dll" />
+  <Assembly                                  value = "System.Configuration.dll" />
+  <Assembly                                  value = "System.Core.dll" />
+  <Assembly                                  value = "System.Drawing.dll" />
+  <Assembly                                  value = "System.Linq.dll" />
+  <Assembly                                  value = "System.Windows.Forms.dll" />
+  <Assembly                                  value = "System.Xml.dll" />
+  <Assembly                                  value = "System.Xml.linq.dll" />
+  <!--<Assembly                                  value = "System.Core.dll" />
+  <Assembly                                  value = "System.Data.dll" />-->
+  <DebugInformation                          value = "true" />
+</AssemblyProject>

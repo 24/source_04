@@ -1,0 +1,65 @@
+﻿08/07/2015 11:34:54 - Test_wcf_service :
+
+  Trace                : True
+  Trace file           : "C:\pib\drive\google\dev\project\Source\Test\Test.Test_01\Source\Test_wcf\vs\Test_wcf_service_04\log\0002_log.txt"
+  Trace option         : False
+  Trace option file    : "C:\pib\drive\google\dev\project\Source\Test\Test.Test_01\Source\Test_wcf\vs\Test_wcf_service_04\log\0002_log_options.txt"
+  Trace to memory      : False
+  Trace to memory file : "C:\pib\drive\google\dev\project\Source\Test\Test.Test_01\Source\Test_wcf\vs\Test_wcf_service_04\log\0002_log_memory.txt"
+08/07/2015 11:34:54 - Application_Start
+
+08/07/2015 11:34:54 - Application_BeginRequest :
+  HttpRequest :
+    Url http://localhost:54660/
+    Method GET
+    header "Connection" = "keep-alive"
+    header "Accept" = "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8"
+    header "Accept-Encoding" = "gzip, deflate, sdch"
+    header "Accept-Language" = "fr-FR,fr;q=0.8,en-US;q=0.6,en;q=0.4"
+    header "Host" = "localhost:54660"
+    header "User-Agent" = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.132 Safari/537.36"
+  httpResponse :
+    StatusCode 200 - 200
+    StatusDescription OK
+    header "Server" = "Microsoft-IIS/8.0"
+    header "Access-Control-Allow-Origin" = "*"
+
+08/07/2015 11:34:54 - Application_BeginRequest :
+  HttpRequest :
+    Url http://localhost:54660/
+    Method GET
+    header "Connection" = "keep-alive"
+    header "Content-Length" = "0"
+    header "Accept" = "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8"
+    header "Accept-Encoding" = "gzip, deflate, sdch"
+    header "Accept-Language" = "fr-FR,fr;q=0.8,en-US;q=0.6,en;q=0.4"
+    header "Host" = "localhost:54660"
+    header "User-Agent" = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.132 Safari/537.36"
+  httpResponse :
+    StatusCode 200 - 200
+    StatusDescription OK
+    header "Server" = "Microsoft-IIS/8.0"
+    header "Access-Control-Allow-Origin" = "*"
+
+08/07/2015 11:35:08 - Application_BeginRequest :
+  HttpRequest :
+    Url http://localhost:54660/Source/Service1.svc/GetString
+    Method GET
+    header "Connection" = "keep-alive"
+    header "Content-Type" = "application/json;charset=utf-8"
+    header "Accept" = "*/*"
+    header "Accept-Encoding" = "gzip, deflate, sdch"
+    header "Accept-Language" = "fr-FR,fr;q=0.8,en-US;q=0.6,en;q=0.4"
+    header "Host" = "localhost:54660"
+    header "Referer" = "http://localhost/dev/html/test_wcf/test_wcf_01.html"
+    header "User-Agent" = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.132 Safari/537.36"
+    header "Origin" = "http://localhost"
+  httpResponse :
+    StatusCode 200 - 200
+    StatusDescription OK
+    header "Server" = "Microsoft-IIS/8.0"
+    header "Access-Control-Allow-Origin" = "*"
+
+08/07/2015 11:35:18 - Application_End
+  OptionsMessage False
+

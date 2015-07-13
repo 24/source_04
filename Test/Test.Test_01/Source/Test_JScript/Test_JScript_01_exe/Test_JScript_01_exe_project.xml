@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<AssemblyProject>
+	<Target                                    value = "exe" /> <!-- exe (exe console default), library (dll), module (.netmodule), winexe (exe windows) -->
+	<Output                                    value = "Test_JScript_01.exe" />
+<!--<Icon                                      value = "app.ico" />-->
+	<NameSpace                                 value = "Test_JScript_01" />
+	<CompilerOptions                           value = "/platform:anycpu" />  <!-- x86, Itanium, x64, or anycpu (default). -->
+	<Source                                    value = "Test_JScript_01_exe.cs" />
+  <Assembly                                  value = "System.dll" />
+  <Assembly                                  value = "Microsoft.JScript.dll" />
+  <Assembly                                  value = "..\ilm\Test_JScript_01.dll" />
+<!--
+  <Assembly                                  value = "..\Test_JScript_01_js\bin\Test_JScript_01_na.dll" />
+  <Assembly                                  value = "..\ilm\Test_JScript_01.dll" />
+-->
+	<DebugInformation                          value = "true" />
+</AssemblyProject>
+

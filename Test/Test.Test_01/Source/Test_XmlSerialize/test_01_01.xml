@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Test_01 xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <id>1</id>
+  <name>toto</name>
+  <addressType>Ship Bill</addressType>
+</Test_01>

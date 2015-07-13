@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<AssemblyProject>
+	<Target                                    value = "library" /> <!-- exe (exe console default), library (dll), module (.netmodule), winexe (exe windows) -->
+	<Output                                    value = "Test_Csharp_01.dll" />
+	<NameSpace                                 value = "Test_Csharp_01" />
+	<CompilerOptions                           value = "/platform:anycpu" />  <!-- x86, Itanium, x64, or anycpu (default). -->
+<!--<GenerateExecutable                        value = "true" />-->
+	<Source                                    value = "Test_Csharp_01.cs" />
+  <Assembly                                  value = "System.dll" />
+	<DebugInformation                          value = "true" />
+</AssemblyProject>

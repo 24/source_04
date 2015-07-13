@@ -67,8 +67,8 @@
   <Assembly                                  value = "..\MyDownloader.Extension\bin32\MyDownloader.Extension.dll" />
   <!--<Assembly                                  value = "..\bin\bin32\MyDownloader.Spider.dll" />-->
   <Assembly                                  value = "..\MyDownloader.Spider\bin32\MyDownloader.Spider.dll" />
-  <Assembly                                  value = "..\..\..\RuntimeLibrary\ICSharpCode\ICSharpCode.SharpZipLib.dll" />
-  <Assembly                                  value = "..\..\..\RuntimeLibrary\TabStrip\TabStrip.dll" />
+  <Assembly                                  value = "..\..\..\..\RuntimeLibrary\ICSharpCode\ICSharpCode.SharpZipLib.dll" />
+  <Assembly                                  value = "..\..\..\..\RuntimeLibrary\TabStrip\TabStrip.dll" />
 	<DebugInformation                          value = "true" />
 	<!--<CopyOutput                                value = "..\bin\bin32" />-->
 	<!--<CopyOutput                                value = "c:\pib\prog\tools\DownloadManager\new" />-->

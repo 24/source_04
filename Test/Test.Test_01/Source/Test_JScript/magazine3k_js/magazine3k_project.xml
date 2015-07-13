@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<AssemblyProject>
+  <Language                                  value = "JScript" />  <!-- CSharp, JScript -->
+	<Target                                    value = "library" /> <!-- exe (exe console default), library (dll), module (.netmodule), winexe (exe windows) -->
+	<Output                                    value = "magazine3k.dll" />
+<!--<Icon                                      value = "Resource\ladybug.ico" />-->
+	<NameSpace                                 value = "magazine3k" />
+<!--<GenerateExecutable                        value = "true" />-->
+<!--<File                                      value = "Pib_config.xml" />-->
+<!--<Source                                    value = "PB_Library_AssemblyInfo.cs" />-->
+  <Source                                    value = "magazine3k.js" />
+<!--<Assembly                                  value = "System.dll" />-->
+<!--<Assembly                                  value = "System.Core.dll" />-->
+<!--<Assembly                                  value = "System.Data.dll" />-->
+<!--<Assembly                                  value = "System.Data.Linq.dll" />-->
+<!--<Assembly                                  value = "System.Xml.dll" />-->
+<!--<Assembly                                  value = "System.Xml.Linq.dll" />-->
+	<DebugInformation                          value = "true" />
+</AssemblyProject>
+

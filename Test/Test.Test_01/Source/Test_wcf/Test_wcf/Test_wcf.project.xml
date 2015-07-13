@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+	<Project>
+		<NameSpace                        value = "Test.Test_wcf" />
+<!--<Using                            value = "System.Diagnostics" />-->
+<!--<Assembly                         value = "System.Xml.Linq.dll" />-->
+		<Source                           value = "Test_wcf_f.cs" />
+    <Assembly                         value = "System.ServiceModel.dll" />
+    <Assembly                         value = "System.ServiceModel.Web.dll" />
+	</Project>
+</configuration>

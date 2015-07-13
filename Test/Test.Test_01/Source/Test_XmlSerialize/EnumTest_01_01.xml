@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfTest_01 xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Test_01>
+    <id>1</id>
+    <name>tata</name>
+    <addressType>None</addressType>
+  </Test_01>
+  <Test_01>
+    <id>2</id>
+    <name>toto</name>
+    <addressType>Bill</addressType>
+  </Test_01>
+  <Test_01>
+    <id>3</id>
+    <name>tutu</name>
+    <addressType>Ship</addressType>
+  </Test_01>
+  <Test_01>
+    <id>4</id>
+    <name>titi</name>
+    <addressType>None</addressType>
+  </Test_01>
+  <Test_01>
+    <id>5</id>
+    <name>zaza</name>
+    <addressType>Bill</addressType>
+  </Test_01>
+  <Test_01>
+    <id>6</id>
+    <name>zozo</name>
+    <addressType>Ship</addressType>
+  </Test_01>
+</ArrayOfTest_01>

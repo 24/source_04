@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<AssemblyProject>
+	<Target                                    value = "library" /> <!-- exe (exe console default), library (dll), module (.netmodule), winexe (exe windows) -->
+	<Output                                    value = "Test_AppDomain_05.dll" />
+	<NameSpace                                 value = "Test_AppDomain_05" />
+	<Source                                    value = "Test_AppDomain_05_test_01.cs" />
+  <Assembly                                  value = "System.dll" />
+	<Assembly                                  value = "bin\Test_AppDomain_05_interface.dll" />
+	<DebugInformation                          value = "true" />
+</AssemblyProject>

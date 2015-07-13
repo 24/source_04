@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+	<Project>
+		<NameSpace                                 value = "Test.Test_Form" />
+		<Source                                    value = "test_form_f.cs" />
+    <Source                                    value = "Form1.cs" />
+    <Source                                    value = "Form1.Designer.cs" />
+    <Source                                    value = "Form1.resx" namespace = "Test.Test_Form" />
+    <Source                                    value = "Scintilla01.cs" />
+    <Source                                    value = "Scintilla01.Designer.cs" />
+    <Assembly                                  value = "System.Drawing.dll" />
+    <Assembly                                  value = "System.Xml.Linq.dll" />
+    <Assembly                                  value = "c:\pib\dropbox\pbeuz\Dropbox\dev\project\Tools\ScintillaNET\ScintillaNET v2.6\ScintillaNET.dll"  resolve = "true" resolveName = "ScintillaNET, Version=2.6.0.0, Culture=neutral, PublicKeyToken=948d6c9751444115"/>
+  </Project>
+</configuration>

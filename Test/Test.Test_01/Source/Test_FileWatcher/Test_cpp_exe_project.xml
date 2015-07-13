@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<AssemblyProject>
+	<Target                                    value = "exe" /> <!-- exe (exe console default), library (dll), module (.netmodule), winexe (exe windows) -->
+	<Output                                    value = "bin\Test_cpp_exe.exe" />
+	<NameSpace                                 value = "Test_cpp" />
+	<CompilerOptions                           value = "/platform:anycpu" />  <!-- x86, Itanium, x64, or anycpu (default). -->
+	<Source                                    value = "Test_cpp_exe.cs" />
+  <Assembly                                  value = "System.dll" />
+	<Assembly                                  value = "System.Core.dll" />
+  <Assembly                                  value = "..\..\..\..\..\Test\Test_cpp\Debug\Test_cpp.dll" />
+	<DebugInformation                          value = "true" />
+</AssemblyProject>

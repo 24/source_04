@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<AssemblyProject>
+	<Target                                    value = "exe" /> <!-- exe (exe console default), library (dll), module (.netmodule), winexe (exe windows) -->
+	<Output                                    value = "xpdf.exe" />
+	<NameSpace                                 value = "xpdf" />
+<!--<GenerateExecutable                        value = "true" />-->
+	<Source                                    value = "iTextSharp\xpdf.cs" />
+	<Source                                    value = "..\..PdfDataReader.cs" />
+	<Source                                    value = "..\..PdfReader.cs" />
+	<Source                                    value = "..\..PdfWriter.cs" />
+	<Source                                    value = "..\..GlobalExtension.cs" />
+	<Source                                    value = "..\..Stream.cs" />
+	<Source                                    value = "zlib\Adler32.cs" />
+	<Source                                    value = "zlib\Deflate.cs" />
+	<Source                                    value = "zlib\InfBlocks.cs" />
+	<Source                                    value = "zlib\InfCodes.cs" />
+	<Source                                    value = "zlib\Inflate.cs" />
+	<Source                                    value = "zlib\InfTree.cs" />
+	<Source                                    value = "zlib\JZlib.cs" />
+	<Source                                    value = "zlib\StaticTree.cs" />
+	<Source                                    value = "zlib\Tree.cs" />
+	<Source                                    value = "zlib\ZInflaterInputStream.cs" />
+	<Source                                    value = "zlib\ZStream.cs" />
+	<Source                                    value = "iTextSharp\LocationTextExtractionStrategy.cs" />
+	<Source                                    value = "iTextSharp\PdfContentStreamProcessor.cs" />
+	<Source                                    value = "iTextSharp\IContentOperator.cs" />
+	<Source                                    value = "iTextSharp\IXObjectDoHandler.cs" />
+	<Source                                    value = "iTextSharp\GraphicsState.cs" />
+	<Source                                    value = "iTextSharp\TextRenderInfo.cs" />
+	<Source                                    value = "iTextSharp\IRenderListener.cs" />
+	<Source                                    value = "iTextSharp\ITextExtractionStrategy.cs" />
+	<Source                                    value = "iTextSharp\ImageRenderInfo.cs" />
+	<Source                                    value = "iTextSharp\PdfImageObject.cs" />
+	<Source                                    value = "iTextSharp\PdfTools.cs" />
+  <Assembly                                  value = "System.dll" />
+	<Assembly                                  value = "System.Core.dll" />
+	<Assembly                                  value = "System.Data.dll" />
+	<Assembly                                  value = "System.Drawing.dll" />
+	<Assembly                                  value = "System.Xml.dll" />
+	<Assembly                                  value = "System.Xml.Linq.dll" />
+<!--
+	<Assembly                                  value = "System.Core.dll" />
+	<Assembly                                  value = "System.Data.dll" />
+	<Assembly                                  value = "System.Data.Linq.dll" />
+	<Assembly                                  value = "System.Drawing.dll" />
+	<Assembly                                  value = "System.ServiceProcess.dll" />
+	<Assembly                                  value = "System.Windows.Forms.dll" />
+	<Assembly                                  value = "System.Xml.dll" />
+	<Assembly                                  value = "System.Xml.Linq.dll" />
+  <Assembly                                  value = "DevExpress.XtraEditors.dll" />
+  <Assembly                                  value = "DevExpress.Utils.dll" />
+-->
+	<Assembly                                  value = "..\..\..\Dll\itextsharp.dll" />
+	<DebugInformation                          value = "true" />
+</AssemblyProject>

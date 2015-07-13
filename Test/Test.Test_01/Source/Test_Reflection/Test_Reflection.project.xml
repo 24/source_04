@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+	<Project>
+		<NameSpace                        value = "Test.Reflection" />
+		<Source                           value = "Test_Reflection_f.cs" />
+    <Source                           value = "..\..\..\..\PB_Library\Source\pb\_pb\GlobalExtension.cs" />
+  </Project>
+</configuration>

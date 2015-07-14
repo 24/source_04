@@ -57,6 +57,8 @@ RunSource.CurrentRunSource.Compile_Project(@"..\..\..\..\..\RunSource\Source\run
 RunSource.CurrentRunSource.Compile_Project(@"..\..\..\..\..\RunSource\Source\runsource_domain\runsourced32_project.xml");
 RunSource.CurrentRunSource.Compile_Project(@"..\..\..\..\..\RunSource\Source\runsource_domain\runsource_launch_project.xml");
 
+RunSource.CurrentRunSource.Compile_Project(@"..\..\..\..\PibApp\Pib.project.xml");
+
 
 RunSource.CurrentRunSource.Compile_Project(@"..\..\..\..\Test\Test.Test_01\Source\Test_wcf\Test_wcf_service_01\Test_wcf_service_01.project.xml");
 RunSource.CurrentRunSource.Compile_Project(@"..\..\..\..\Test\Test.Test_01\Source\Test_wcf\Test_wcf_service_02\Test_wcf_service_02.project.xml");

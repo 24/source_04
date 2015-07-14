@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Pib>
+	<!--<AlternateConfigDirectory                                  value = ".." />-->
+	
+	<DBConnection                                              value = "MsSql, pierre2, film, sa, pierre" />
+	<WinProcTrace                                              value = "false" />
+	<Log                                                       value = "c:\pib\dev_data\exe\pib\log\_pib_log.txt" option = "IndexedFile" />
+  
+  <CradleOfRomeWatcher>
+	  <StartWatcher                                            value = "true" />
+	  <Program                                                 value = "c:\pib\prog\game\Cradle of Rome\Cradle Of Rome 2 v1.0.4.2014-okok\Cradle Of Rome 2\CradleOfRome2.exe" />
+	  <DataDirectory                                           value = "c:\Users\Pierre\AppData\Roaming\Awem" />
+	  <FileDirectory                                           value = "$DataDirectory$\CradleOfRome2" />
+	  <FileSaveDirectory                                       value = "$DataDirectory$\_CradleOfRome2\_copy\_06_v1.0.4.2014" />
+	  <FileArchiveDirectory                                    value = "$DataDirectory$\_CradleOfRome2\_copy\_06_v1.0.4.2014\a" />
+  </CradleOfRomeWatcher>
+
+	<Backup>
+		<Log                                                   value = "c:\Dev\_Backup\Log\Backup_log.txt" option = "IndexedFile" />
+		<Ftp                                                   server = "pbeuzart.free.fr"  user = "pbeuzart"  password = "pbeuzart"  directory = "_Backup"/>
+		<zFtp                                                   server = "pbeuzart.free.fr"  user = "pbeuzart"  password = "pbeuzart"  directory = "_Backup/test"/>
+		
+		<zZip>
+			<ZipDirectory                                          value = "d:\Dev\_Backup\Test" />
+			<Source>
+				<SourceDirectory                                   value = "c:\Dev\Projet\Tools\PB_Ado" />
+				<SourceDirectory                                   value = "c:\Dev\Projet\Tools\PB_Grid" />
+			</Source>
+		</zZip>
+		
+		<Zip>
+			<CompressionLevel                                      value = "BestCompression" /> <!-- BestCompression, BestSpeed, None, Level0 ... Level9-->
+			<ZipDirectory                                          value = "c:\Dev\_Backup\Source" />
+			<Source>
+        <SourceDirectory                                   value = "c:\Dev\Doc" />
+        <SourceDirectory                                   value = "c:\Dev\MsSql\PB_AdoExe" />
+        <SourceDirectory                                   value = "c:\Dev\MsSql\Sql" />
+        <SourceDirectory                                   value = "c:\Dev\Projet\Film" />
+        <SourceDirectory                                   value = "c:\Dev\Projet\Html" />
+        <SourceDirectory                                   value = "c:\Dev\Projet\Jeux" />
+        <SourceDirectory                                   value = "c:\Dev\Projet\Mahjong" />
+        <SourceDirectory                                   value = "c:\Dev\Projet\Ping" />
+        <SourceDirectory                                   value = "c:\Dev\Projet\RuntimeLibrary" />
+        <SourceDirectory                                   value = "c:\Dev\Projet\Sudoku" />
+        <SourceDirectory                                   value = "c:\Dev\Projet\Trackmania" />
+        <SourceDirectory                                   value = "c:\Dev\Projet\WebFilm" />
+        <SourceDirectory                                   value = "c:\Dev\Projet\WebFilmXml" />
+        <SourceDirectory                                   value = "c:\Dev\Projet\WRun" />
+        <SourceDirectory                                   value = "c:\Dev\Projet\WRunSource" />
+        <SourceDirectory                                   value = "c:\Dev\Projet\Tools\Chilkat" />
+        <SourceDirectory                                   value = "c:\Dev\Projet\Tools\DotNetZip" />
+        <SourceDirectory                                   value = "c:\Dev\Projet\Tools\edtFTPnet" />
+        <SourceDirectory                                   value = "c:\Dev\Projet\Tools\FileAssociation" />
+        <SourceDirectory                                   value = "c:\Dev\Projet\Tools\ManagedWinapi" />
+        <SourceDirectory                                   value = "c:\Dev\Projet\Tools\PB_Ado" />
+        <SourceDirectory                                   value = "c:\Dev\Projet\Tools\" />
+        <SourceDirectory                                   value = "c:\Dev\Projet\Tools\Snippet" />
+        <SourceDirectory                                   value = "c:\Dev\Projet\Tools\TestAdo" />
+        <SourceDirectory                                   value = "c:\Dev\Projet\Tools\Win32" />
+        <SourceDirectory                                   value = "c:\Dev\Projet\Tools\WinPcap" />
+        <SourceDirectory                                   value = "c:\Dev\Projet\Tools\wpcap_dn" />
+        <SourceDirectory                                   value = "c:\Dev\OpenProject\GoogleChrome\chromium_r67069_ok\Test" />
+        <!--<SourceDirectory                                   value = "c:\_Web\pbeuzart.free.fr" />-->
+				<!--<SourceDirectory                                   value = "c:\_Web\www" />-->
+			</Source>
+		</Zip>
+		<zZip>
+			<CompressionLevel                                      value = "BestCompression" /> <!-- BestCompression, BestSpeed, None, Level0 ... Level9-->
+			<ZipDirectory                                          value = "d:\Dev\_Backup\Base" />
+			<Source>
+				<SourceFile                                        value = "c:\Dev\MsSql\Backup\film_01.dmp" />
+				<SourceFile                                        value = "c:\Dev\MsSql\Backup\ping_01.dmp" />
+			</Source>
+		</zZip>
+	</Backup>
+	<Rapidshare>
+	<!--<TraceLevel                                                value = "2" />-->
+		<TraceDirectory                                            value = "c:\__Download\z\Log\Trace" />
+	<!--<TaskDirectory                                             value = "c:\__Download\z\_Task" />-->
+	<!--<TaskDirectory                                             value = "\\pierre4\D\__Download\z\_Task" />-->
+		<TaskDirectory                                             value = "c:\__Download\z\_Task" />
+	<!--<ArchiveTaskDirectory                                      value = "c:\__Download\z\_TaskArchive" />-->
+		<TaskErrorDirectory                                        value = "c:\__Download\z\_TaskError" />
+		<Login                                                     value = "15024817" />
+		<Password                                                  value = "y7Tj82RD" />
+		<DownloadDirectory                                         value = "c:\__Download\z\_Zip" />
+	<!--<UnzipDirectory                                            value = "c:\__Download\z" />-->
+	</Rapidshare>
+	
+</Pib>

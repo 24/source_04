@@ -9,7 +9,7 @@
   <Source                                    value = "..\..\..\..\Lib\Source\pb\_pb\IChrono.cs" />
   <Source                                    value = "..\..\..\..\Lib\Source\pb\_pb\ITrace.cs" />
   <Source                                    value = "..\..\..\..\Lib\Source\pb\_pb\ITraceError.cs" />
-  <Source                                    value = "..\..\..\..\Lib\Source\pb\_pb\ITraceToFile.cs" />
+  <Source                                    value = "..\..\..\..\Lib\Source\pb\_pb\ITraceSetWriter.cs" />
   <Source                                    value = "..\..\..\..\Lib\Source\pb\Compiler\ICompiler.cs" />
   <Source                                    value = "..\..\..\..\Lib\Source\pb\Compiler\IGenerateAndExecute.cs" />
   <Source                                    value = "..\..\..\..\Lib\Source\pb\Compiler\IRunSource.cs" />

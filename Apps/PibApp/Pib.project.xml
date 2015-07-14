@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<AssemblyProject>
+	<Target                                    value = "winexe" /> <!-- exe (exe console default), library (dll), module (.netmodule), winexe (exe windows) -->
+	<Output                                    value = "Pib.exe" />
+	<Icon                                      value = "Resource\ladybug.ico" />
+	<NameSpace                                 value = "Pib" />
+<!--<GenerateExecutable                        value = "true" />-->
+  
+	<File                                      value = "Pib.config.xml" />
+  
+  <Source                                    value = "Properties\AssemblyInfo.cs" />
+  <Source                                    value = "Properties\Resources.resx" namespace = "Pib.Properties" />
+  <Source                                    value = "Properties\Resources.Designer.cs" />
+
+	<Source                                    value = "Source\MainForm.cs" />
+	<Source                                    value = "Source\MainForm.Designer.cs" />
+	<Source                                    value = "Source\MainForm.resx" namespace = "Pib.Source" />
+  <Source                                    value = "Source\Pib_BackupSource.cs" />
+  <Source                                    value = "Source\Pib_f.cs" />
+  <Source                                    value = "Source\Pib_TrayIcon.cs" />
+
+  <Source                                    value = "..\..\Lib\Source\Other\CradleOfRomeWatcher.cs" />
+  <Source                                    value = "..\..\Lib\Source\Other\Task.cs" />
+  <Source                                    value = "..\..\Lib\Source\pb\_pb\Application.cs" />
+  <Source                                    value = "..\..\Lib\Source\pb\_pb\Convert.cs" />
+  <Source                                    value = "..\..\Lib\Source\pb\_pb\Date.cs" />
+  <Source                                    value = "..\..\Lib\Source\pb\_pb\Error.cs" />
+  <Source                                    value = "..\..\Lib\Source\pb\_pb\FormatInfo.cs" />
+  <Source                                    value = "..\..\Lib\Source\pb\_pb\ITrace.cs" />
+  <Source                                    value = "..\..\Lib\Source\pb\_pb\ITraceSetWriter.cs" />
+  <Source                                    value = "..\..\Lib\Source\pb\_pb\ParseAs.cs" />
+  <Source                                    value = "..\..\Lib\Source\pb\_pb\PBException.cs" />
+  <Source                                    value = "..\..\Lib\Source\pb\_pb\Progress.cs" />
+  <Source                                    value = "..\..\Lib\Source\pb\_pb\Reflection.cs" />
+  <Source                                    value = "..\..\Lib\Source\pb\_pb\TextSerializer.cs" />
+  <Source                                    value = "..\..\Lib\Source\pb\_pb\Trace.cs" />
+  <Source                                    value = "..\..\Lib\Source\pb\_pb\TraceSetWriter.cs" />
+  <Source                                    value = "..\..\Lib\Source\pb\Data\Xml\Xml.cs" />
+  <Source                                    value = "..\..\Lib\Source\pb\Data\Xml\XmlConfig.cs" />
+  <Source                                    value = "..\..\Lib\Source\pb\IO\File.cs" />
+  <Source                                    value = "..\..\Lib\Source\pb\IO\FileOption.cs" />
+  <Source                                    value = "..\..\Lib\Source\pb\IO\Path.cs" />
+  <Source                                    value = "..\..\Lib\Source\pb\IO\WriteToFile.cs" />
+  <Source                                    value = "..\..\Lib\Source\pb\IO\WriteToFileCreate.cs" />
+  <Source                                    value = "..\..\Lib\Source\pb\Text\Regex.cs" />
+  <Source                                    value = "..\..\Lib\Source\pb\Windows\Forms\Hook.cs" />
+  <Source                                    value = "..\..\Lib\Source\pb\Windows\Forms\LogForm.cs" />
+  <Source                                    value = "..\..\Lib\Source\pb\Windows\Forms\LogForm.designer.cs" />
+  <Source                                    value = "..\..\Lib\Source\pb\Windows\Forms\LogForm.resx" namespace = "pb.Windows.Forms" />
+  <Source                                    value = "..\..\Lib\Source\pb\Windows\Forms\Menu.cs" />
+  <Source                                    value = "..\..\Lib\Source\pb\Windows\Forms\ProgressControl.cs" />
+  <Source                                    value = "..\..\Lib\Source\pb\Windows\Forms\TrayIcon.cs" />
+  <Source                                    value = "..\..\Lib\Source\pb\Windows\Forms\WinProc.cs" />
+  <Source                                    value = "..\..\Lib\Source\pb\Windows\Forms\fMainBase.cs" />
+  <Source                                    value = "..\..\Lib\Source\pb\Windows\Forms\fMainBase.designer.cs" />
+  <Source                                    value = "..\..\Lib\Source\pb\Windows\Forms\zerrf.cs" />
+  <Source                                    value = "..\..\Lib\Source\pb\Windows\Win32\GDI.cs" />
+  <Source                                    value = "..\..\Lib\Source\pb\Windows\Win32\Kernel.cs" />
+  <Source                                    value = "..\..\Lib\Source\pb\Windows\Win32\Messages.cs" />
+  <Source                                    value = "..\..\Lib\Source\pb\Windows\Win32\User.Const.cs" />
+  <Source                                    value = "..\..\Lib\Source\pb\Windows\Win32\User.Struct.cs" />
+  <Source                                    value = "..\..\Lib\Source\pb\Windows\Win32\User.cs" />
+  <Source                                    value = "..\..\Lib\Source\pb\Windows\Win32\Windows.cs" />
+
+  <Assembly                                  value = "System.dll" />
+	<Assembly                                  value = "System.Core.dll" />
+	<Assembly                                  value = "System.Data.dll" />
+	<Assembly                                  value = "System.Data.Linq.dll" />
+	<Assembly                                  value = "System.Drawing.dll" />
+	<Assembly                                  value = "System.ServiceProcess.dll" />
+	<Assembly                                  value = "System.Windows.Forms.dll" />
+	<Assembly                                  value = "System.Xml.dll" />
+	<Assembly                                  value = "System.Xml.Linq.dll" />
+  <Assembly                                  value = "DevExpress.XtraEditors.dll" />
+  <Assembly                                  value = "DevExpress.Utils.dll" />
+  <Assembly                                  value = "..\..\..\RuntimeLibrary\edtFTPnet\edtFTPnet.dll" />
+  <Assembly                                  value = "..\..\..\RuntimeLibrary\Ionic\Ionic.Zip.dll" />
+  <!--<LocalAssembly                             value = "..\..\Dll\Ionic.Zip.dll" />-->
+	<!--<LocalAssembly                             value = "..\..\Dll\edtFTPnet.dll" />-->
+	<!--<LocalAssembly                             value = "..\..\Lib\bin\PB_Library.dll" />-->
+	<!--<Assembly                                  value = "..\..\..\Tools\Win32\bin\Debug\Win32.dll" />-->
+	<DebugInformation                          value = "true" />
+</AssemblyProject>
+

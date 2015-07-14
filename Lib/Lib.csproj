@@ -212,7 +212,7 @@
     <Compile Include="Source\pb\_pb\GlobalExtension.cs" />
     <Compile Include="Source\pb\_pb\ITrace.cs" />
     <Compile Include="Source\pb\_pb\ITraceError.cs" />
-    <Compile Include="Source\pb\_pb\ITraceToFile.cs" />
+    <Compile Include="Source\pb\_pb\ITraceSetWriter.cs" />
     <Compile Include="Source\pb\_pb\NamedValue.cs" />
     <Compile Include="Source\pb\_pb\ParseAs.cs" />
     <Compile Include="Source\pb\_pb\PBException.cs" />

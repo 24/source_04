@@ -366,8 +366,8 @@
     <Compile Include="..\..\Lib\Source\pb\_pb\ITraceError.cs">
       <Link>SourceLnk\Lib\pb\_pb\ITraceError.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\Source\pb\_pb\ITraceToFile.cs">
-      <Link>SourceLnk\Lib\pb\_pb\ITraceToFile.cs</Link>
+    <Compile Include="..\..\Lib\Source\pb\_pb\ITraceSetWriter.cs">
+      <Link>SourceLnk\Lib\pb\_pb\ITraceSetWriter.cs</Link>
     </Compile>
     <Compile Include="..\..\Lib\Source\pb\_pb\NamedValue.cs">
       <Link>SourceLnk\Lib\pb\_pb\NamedValue.cs</Link>

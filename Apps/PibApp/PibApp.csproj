@@ -68,6 +68,9 @@
     <Compile Include="..\..\Lib\Source\pb\Data\Xml\XmlConfig.cs">
       <Link>SourceLnk\Lib\pb\Data\Xml\XmlConfig.cs</Link>
     </Compile>
+    <Compile Include="..\..\Lib\Source\pb\IO\Directory.cs">
+      <Link>SourceLnk\Lib\pb\IO\Directory.cs</Link>
+    </Compile>
     <Compile Include="..\..\Lib\Source\pb\IO\File.cs">
       <Link>SourceLnk\Lib\pb\IO\File.cs</Link>
     </Compile>

@@ -37,6 +37,7 @@
   <Source                                    value = "..\..\Lib\Source\pb\_pb\TraceSetWriter.cs" />
   <Source                                    value = "..\..\Lib\Source\pb\Data\Xml\Xml.cs" />
   <Source                                    value = "..\..\Lib\Source\pb\Data\Xml\XmlConfig.cs" />
+  <Source                                    value = "..\..\Lib\Source\pb\IO\Directory.cs" />
   <Source                                    value = "..\..\Lib\Source\pb\IO\File.cs" />
   <Source                                    value = "..\..\Lib\Source\pb\IO\FileOption.cs" />
   <Source                                    value = "..\..\Lib\Source\pb\IO\Path.cs" />

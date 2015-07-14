@@ -91,6 +91,8 @@ namespace PB_Library
         private string _cradleFileDirectory = null;
         private string _cradleFileSaveDirectory = null;
         private string _cradleFileArchiveDirectory = null;
+        private string _cradleFileCopyDirectory = null;
+        private DateTime _cradleLastFileCopiedTime = DateTime.MinValue;
         private CradleOfRomeBlitzLevelType _blitzLevelType = CradleOfRomeBlitzLevelType.None;
         private CradleOfRomeBlitzLevel _currentLevel = new CradleOfRomeBlitzLevel { EasyLevel = 0, NormalLevel = 0, HardLevel = 0, FileNumber = 1 };
         private CradleOfRomeBlitzLevel _lastLevel = new CradleOfRomeBlitzLevel { EasyLevel = 0, NormalLevel = 0, HardLevel = 0, FileNumber = 1 };
@@ -109,6 +111,7 @@ namespace PB_Library
             _cradleFileDirectory = @"c:\Users\Pierre\AppData\Roaming\Awem\CradleOfRome2";
             _cradleFileSaveDirectory = @"c:\Users\Pierre\AppData\Roaming\Awem\_CradleOfRome2\_copy\_06_v1.0.4.2014";
             _cradleFileArchiveDirectory = @"c:\Users\Pierre\AppData\Roaming\Awem\_CradleOfRome2\_copy\_06_v1.0.4.2014\a";
+            _cradleFileCopyDirectory = @"c:\pib\drive\google\dev_data\exe\CradleOfRome\save";
             GetLevelsFromSaveDirectory();
             _lastLevel = _currentLevel;
         }
@@ -255,6 +258,9 @@ namespace PB_Library
             if (CraddleFilesSaved != null)
                 CraddleFilesSaved();
             ArchiveOldLevels();
+            //_cradleFileCopyDirectory
+            if (newLevel)
+                CopySavedFile(zipFile);
         }
 
         public static bool IsCraddleRunning()
@@ -390,6 +396,16 @@ namespace PB_Library
                     if (easyLevel < _currentLevel.EasyLevel - 2 || normalLevel < _currentLevel.NormalLevel - 2 || hardLevel < _currentLevel.HardLevel - 2)
                         File.Move(file, zpath.PathSetDirectory(file, _cradleFileArchiveDirectory));
                 }
+            }
+        }
+
+        private void CopySavedFile(string savedFile)
+        {
+            if (DateTime.Now.Subtract(_cradleLastFileCopiedTime).Days >= 1)
+            {
+                _cradleLastFileCopiedTime = DateTime.Now;
+                zdir.CreateDirectory(_cradleFileCopyDirectory);
+                File.Copy(savedFile, zpath.PathSetDirectory(savedFile, _cradleFileCopyDirectory));
             }
         }
 

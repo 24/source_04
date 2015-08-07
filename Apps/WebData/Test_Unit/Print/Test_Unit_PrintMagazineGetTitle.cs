@@ -36,8 +36,8 @@ namespace Test.Test_Unit.Print
         public static void Test_PrintMagazineGetTitle_01(PrintTitleManager printTitleManager, string file)
         {
             Trace.WriteLine("Test_PrintMagazineGetTitle_01 \"{0}\"", file);
-            file = Path.Combine(GetDirectory(), file);
-            string bsonFile = zpath.PathSetFileNameWithoutExtension(file, Path.GetFileNameWithoutExtension(file) + "_out_bson");
+            file = zPath.Combine(GetDirectory(), file);
+            string bsonFile = zpath.PathSetFileNameWithoutExtension(file, zPath.GetFileNameWithoutExtension(file) + "_out_bson");
             //Trace.CurrentTrace.DisableBaseLog();
             Trace.CurrentTrace.DisableViewer = true;
             StreamWriter sw = null;
@@ -46,7 +46,7 @@ namespace Test.Test_Unit.Print
 
             try
             {
-                sw = File.CreateText(bsonFile);
+                sw = zFile.CreateText(bsonFile);
                 JsonWriterSettings settings = new JsonWriterSettings();
                 settings.Indent = true;
                 bsonWriter = JsonWriter.Create(sw, settings);
@@ -97,8 +97,8 @@ namespace Test.Test_Unit.Print
 
         public static void Test_SplitTitle_01(string file)
         {
-            file = Path.Combine(GetDirectory(), file);
-            string splitFile = zpath.PathSetFileNameWithoutExtension(file, Path.GetFileNameWithoutExtension(file) + "_split_bson");
+            file = zPath.Combine(GetDirectory(), file);
+            string splitFile = zpath.PathSetFileNameWithoutExtension(file, zPath.GetFileNameWithoutExtension(file) + "_split_bson");
             zmongo.BsonReader<TestPrintTitle>(file).zSplitTitle().zSave(splitFile);
             zmongo.BsonReader<TestPrintTitle>(splitFile).zView();
         }
@@ -130,7 +130,7 @@ namespace Test.Test_Unit.Print
 
         private static string GetDirectory()
         {
-            return Path.Combine(XmlConfig.CurrentConfig.GetExplicit("TestUnitDirectory"), @"Print\MagazineTitle");
+            return zPath.Combine(XmlConfig.CurrentConfig.GetExplicit("TestUnitDirectory"), @"Print\MagazineTitle");
         }
     }
 }

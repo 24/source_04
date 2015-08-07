@@ -1,0 +1,14 @@
+img{border:1px solid rgba(0,0,0,0)
+}
+img:hover{
+  border-left:1px solid rgba(255,255,255,.25);
+  border-top:1px solid rgba(255,255,255,.25);
+  border-right:1px solid rgba(0,0,0,.25);
+  border-bottom:1px solid rgba(0,0,0,.25);
+}
+img:active{
+  border-left:1px solid rgba(0,0,0,.25);
+  border-top:1px solid rgba(0,0,0,.25);
+  border-right:1px solid rgba(255,255,255,.25);
+  border-bottom:1px solid rgba(255,255,255,.25);
+}

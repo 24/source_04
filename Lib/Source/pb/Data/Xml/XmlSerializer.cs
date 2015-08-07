@@ -41,7 +41,7 @@ namespace pb.Data.Xml
 
         private void _Load(string file, string rootName)
         {
-            if (File.Exists(file))
+            if (zFile.Exists(file))
                 _document = XDocument.Load(file);
             else
                 _document = new XDocument();

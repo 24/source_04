@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using pb.IO;
 using PcapDotNet.Core;
 using PcapDotNet.Packets;
 using PcapDotNet.Packets.Transport;
@@ -23,7 +24,8 @@ namespace Test_Winpcap_dn.TcpRecon_PcapDotNet
             //PcapDevice device;
             PacketDevice device;
 
-            FileInfo fi = new FileInfo(capFile);
+            //FileInfo fi = new FileInfo(capFile);
+            var fi = zFile.CreateFileInfo(capFile);
             _path = fi.DirectoryName + "\\";
             try
             {

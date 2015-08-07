@@ -74,7 +74,7 @@ namespace pb.IO
                     if (directory == null)
                     {
                         directory = zpath.PathSetExtension(compressFile, "");
-                        if (Directory.Exists(directory))
+                        if (zDirectory.Exists(directory))
                             directory = zdir.GetNewDirectory(directory);
                     }
 
@@ -89,7 +89,7 @@ namespace pb.IO
                         uncompressFileResult.Error = false;
 
                         if (nestedCompressFile && deleteNestedCompressFiles)
-                            File.Delete(compressFile);
+                            zFile.Delete(compressFile);
                     }
                     catch (Exception ex)
                     {
@@ -125,7 +125,7 @@ namespace pb.IO
 
         public CompressBaseManager GetCompressBaseManager(string file)
         {
-            switch (Path.GetExtension(file).ToLower())
+            switch (zPath.GetExtension(file).ToLower())
             {
                 //case ".zip":
                 //    return _zipManager;
@@ -136,13 +136,13 @@ namespace pb.IO
                 case ".7z":
                     return _sharpCompressManager;
                 default:
-                    throw new PBException("error no CompressBaseManager for file type \"{0}\"", Path.GetExtension(file));
+                    throw new PBException("error no CompressBaseManager for file type \"{0}\"", zPath.GetExtension(file));
             }
         }
 
         public static bool IsCompressFile(string file)
         {
-            switch (Path.GetExtension(file).ToLower())
+            switch (zPath.GetExtension(file).ToLower())
             {
                 case ".zip":
                 case ".rar":

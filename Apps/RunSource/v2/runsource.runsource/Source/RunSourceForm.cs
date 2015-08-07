@@ -342,7 +342,7 @@ namespace runsourced
 
         private string GetSettingsFile()
         {
-            return Path.Combine(zapp.GetLocalSettingsDirectory(), "settings.xml");
+            return zPath.Combine(zapp.GetLocalSettingsDirectory(), "settings.xml");
         }
 
         private void fWRun_KeyDown(object sender, KeyEventArgs e)
@@ -568,7 +568,7 @@ namespace runsourced
         {
             try
             {
-                if (_sourceFile != null && File.Exists(_sourceFile))
+                if (_sourceFile != null && zFile.Exists(_sourceFile))
                     //me_source.Text = zfile.ReadFile(_sourcePath);
                     tb_source.Text = zfile.ReadAllText(_sourceFile);
                 else
@@ -689,11 +689,11 @@ namespace runsourced
         {
             string title = __title;
             if (_sourceFile != null)
-                title += " : " + Path.GetFileName(_sourceFile);
+                title += " : " + zPath.GetFileName(_sourceFile);
             if (!_fileSaved)
                 title += "*";
-            if (_runSource.ProjectFile != null && File.Exists(_runSource.ProjectFile))
-                title += " (" + Path.GetFileName(_runSource.ProjectFile) + ")";
+            if (_runSource.ProjectFile != null && zFile.Exists(_runSource.ProjectFile))
+                title += " (" + zPath.GetFileName(_runSource.ProjectFile) + ")";
             if (_runSource.Progress_PutProgressMessageToWindowsTitle && _progressText != null)
                 title += " - " + _progressText;
             this.Text = title;
@@ -726,7 +726,8 @@ namespace runsourced
 
             if (_sourceFile != null)
             {
-                FileInfo file = new FileInfo(_sourceFile);
+                //FileInfo file = new FileInfo(_sourceFile);
+                var file = zFile.CreateFileInfo(_sourceFile);
                 if ((file.Attributes & FileAttributes.ReadOnly) == 0)
                     Save();
             }
@@ -750,7 +751,8 @@ namespace runsourced
                 SetSourceFile(SelectSaveFile(_sourceFile));
             if (_sourceFile != null)
             {
-                FileInfo file = new FileInfo(_sourceFile);
+                //FileInfo file = new FileInfo(_sourceFile);
+                var file = zFile.CreateFileInfo(_sourceFile);
                 if ((file.Attributes & FileAttributes.ReadOnly) == 0)
                     Save();
             }
@@ -803,33 +805,33 @@ namespace runsourced
         private void CompileRunSource()
         {
             string updateDir = _config.GetExplicit("UpdateRunSource/UpdateDirectory").zRootPath(zapp.GetEntryAssemblyDirectory());
-            //if (!Path.IsPathRooted(updateDir))
-            //    updateDir = Path.Combine(zapp.GetAppDirectory(), updateDir);
+            //if (!zPath.IsPathRooted(updateDir))
+            //    updateDir = zPath.Combine(zapp.GetAppDirectory(), updateDir);
             //Trace.WriteLine("CompileRunSource() : UpdateDirectory \"{0}\"", updateDir);
             string projectDir = _config.GetExplicit("UpdateRunSource/ProjectDirectory");
             Dictionary<string, List<string>> projectFiles = new Dictionary<string, List<string>>();
 
             //foreach (string project in _config.GetValues("UpdateRunSource/Project"))
             //{
-            //    ICompiler compiler = Compile_Project(Path.Combine(projectDir, project));
+            //    ICompiler compiler = Compile_Project(zPath.Combine(projectDir, project));
             //    if (compiler.HasError)
             //        return;
             //    List<string> files = CopyProjectFiles(compiler, updateDir);
-            //    projectFiles.Add(Path.GetFileName(project), files);
+            //    projectFiles.Add(zPath.GetFileName(project), files);
             //}
 
             foreach (XElement project in _config.GetElements("UpdateRunSource/Project"))
             {
-                ICompiler compiler = Compile_Project(Path.Combine(projectDir, project.zExplicitAttribValue("value")));
+                ICompiler compiler = Compile_Project(zPath.Combine(projectDir, project.zExplicitAttribValue("value")));
                 if (compiler.HasError())
                     return;
                 //List<string> files = CopyProjectFiles(compiler, updateDir);
-                //projectFiles.Add(Path.GetFileName(project), files);
+                //projectFiles.Add(zPath.GetFileName(project), files);
                 string copyOutput = project.zAttribValue("copyOutput").zRootPath(zapp.GetEntryAssemblyDirectory());
                 if (copyOutput != null)
                 {
-                    //if (!Path.IsPathRooted(copyOutput))
-                    //    copyOutput = Path.Combine(zapp.GetAppDirectory(), copyOutput);
+                    //if (!zPath.IsPathRooted(copyOutput))
+                    //    copyOutput = zPath.Combine(zapp.GetAppDirectory(), copyOutput);
                     _trace.WriteLine("  copy result files to directory \"{0}\"", copyOutput);
                     compiler.CopyResultFilesToDirectory(copyOutput);
                 }
@@ -839,7 +841,7 @@ namespace runsourced
 
             //foreach (string project in _config.GetValues("UpdateRunSource/ProjectRunSourceLaunch"))
             //{
-            //    ICompiler compiler = Compile_Project(Path.Combine(projectDir, project));
+            //    ICompiler compiler = Compile_Project(zPath.Combine(projectDir, project));
             //    if (compiler.HasError)
             //        return;
             //    //CopyProjectFiles(compiler, updateDir);
@@ -847,14 +849,14 @@ namespace runsourced
 
             foreach (XElement project in _config.GetElements("UpdateRunSource/ProjectRunSourceLaunch"))
             {
-                ICompiler compiler = Compile_Project(Path.Combine(projectDir, project.zExplicitAttribValue("value")));
+                ICompiler compiler = Compile_Project(zPath.Combine(projectDir, project.zExplicitAttribValue("value")));
                 if (compiler.HasError())
                     return;
                 string copyOutput = project.zAttribValue("copyOutput").zRootPath(zapp.GetEntryAssemblyDirectory());
                 if (copyOutput != null)
                 {
-                    //if (!Path.IsPathRooted(copyOutput))
-                    //    copyOutput = Path.Combine(zapp.GetAppDirectory(), copyOutput);
+                    //if (!zPath.IsPathRooted(copyOutput))
+                    //    copyOutput = zPath.Combine(zapp.GetAppDirectory(), copyOutput);
                     _trace.WriteLine("  copy result files to directory \"{0}\"", copyOutput);
                     compiler.CopyResultFilesToDirectory(copyOutput);
                 }
@@ -1045,7 +1047,7 @@ namespace runsourced
         //private void SetPathSourceFile(string sPathSource)
         //{
         //    _sourcePath = sPathSource;
-        //    _runSource.SourceDir = Path.GetDirectoryName(sPathSource);
+        //    _runSource.SourceDir = zPath.GetDirectoryName(sPathSource);
         //    Directory.SetCurrentDirectory(_runSource.SourceDir);
         //    _runSource.ProjectName = sPathSource;
         //}
@@ -1053,8 +1055,8 @@ namespace runsourced
         private void SetSourceFile(string file)
         {
             _sourceFile = file;
-            //_runSource.SourceDir = Path.GetDirectoryName(file);
-            //_sourceDirectory = Path.GetDirectoryName(file);
+            //_runSource.SourceDir = zPath.GetDirectoryName(file);
+            //_sourceDirectory = zPath.GetDirectoryName(file);
             //Directory.SetCurrentDirectory(_runSource.SourceDir);
             //_runSource.ProjectName = sPathSource;
             _runSource.SetProjectFile(file);
@@ -1076,9 +1078,9 @@ namespace runsourced
             }
         }
 
-        private void WriteMessage(string sMsg, params object[] prm)
+        private void WriteMessage(string msg, params object[] prm)
         {
-            if (_disableMessage)
+            if (_disableMessage || msg == null)
                 return;
             if (tb_message.Lines.Length > 1000)
             {
@@ -1088,8 +1090,9 @@ namespace runsourced
                 tb_message.Lines = sLines;
                 tb_message.ResumeLayout();
             }
-            if (prm.Length != 0) sMsg = string.Format(sMsg, prm);
-            tb_message.AppendText(sMsg);
+            if (prm.Length != 0)
+                msg = string.Format(msg, prm);
+            tb_message.AppendText(msg);
         }
 
         private void EventDisableMessageChanged(bool disableMessage)

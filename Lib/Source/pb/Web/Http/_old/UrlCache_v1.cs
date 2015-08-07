@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using pb.IO;
 using pb.Web.old;
 
 namespace pb.Web
@@ -25,7 +26,7 @@ namespace pb.Web
 
         public string GetUrlPath(string url, HttpRequestParameters_v1 requestParameters = null)
         {
-            return Path.Combine(_cacheDirectory, GetUrlSubPath(url, requestParameters));
+            return zPath.Combine(_cacheDirectory, GetUrlSubPath(url, requestParameters));
         }
 
         public string GetUrlSubPath(string url, HttpRequestParameters_v1 requestParameters = null)
@@ -33,7 +34,7 @@ namespace pb.Web
             string file = GetUrlFilename(url, requestParameters);
             string dir = GetUrlSubDirectory(url, requestParameters);
             if (dir != null)
-                file = Path.Combine(dir, file);
+                file = zPath.Combine(dir, file);
             return file;
         }
 

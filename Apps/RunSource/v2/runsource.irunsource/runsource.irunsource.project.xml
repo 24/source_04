@@ -14,11 +14,13 @@
   <Source                                    value = "..\..\..\..\Lib\Source\pb\Compiler\IGenerateAndExecute.cs" />
   <Source                                    value = "..\..\..\..\Lib\Source\pb\Compiler\IRunSource.cs" />
   <Source                                    value = "..\..\..\..\Lib\Source\pb\IO\FileOption.cs" />
+  <Source                                    value = "..\..\..\..\Lib\Source\pb\IO\zPath.cs" />
   <Assembly                                  value = "System.dll" />
 	<Assembly                                  value = "System.Core.dll" />
 	<Assembly                                  value = "System.Data.dll" />
 	<Assembly                                  value = "System.Xml.dll" />
 	<Assembly                                  value = "System.Xml.Linq.dll" />
+  <Assembly                                  value = "..\..\..\..\..\RuntimeLibrary\LongPath\LongPath\Pri.LongPath.dll" />
   <DebugInformation                          value = "true" />
 </AssemblyProject>
 

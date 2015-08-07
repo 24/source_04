@@ -129,9 +129,9 @@ namespace pb.Compiler
         //{
         //    bool bDefaultDir = false;
         //    if (gsDefaultDir != null) bDefaultDir = true;
-        //    if (!bDefaultDir) gsDefaultDir = Path.GetDirectoryName(config.ConfigPath);
+        //    if (!bDefaultDir) gsDefaultDir = zPath.GetDirectoryName(config.ConfigPath);
         //    SetCompilerParameters(config.XDocument.Root.XPathSelectElement(sXPathParameter));
-        //    if (!bDefaultDir) gsDefaultDir = Path.GetDirectoryName(config.ConfigLocalPath);
+        //    if (!bDefaultDir) gsDefaultDir = zPath.GetDirectoryName(config.ConfigLocalPath);
         //    SetCompilerParameters(config.LocalXDocument.Root.XPathSelectElement(sXPathParameter));
         //    if (!bDefaultDir) gsDefaultDir = null;
         //}
@@ -140,7 +140,7 @@ namespace pb.Compiler
         //{
         //    _outputDir = xe.zXPathValue("OutputDir", _outputDir);
         //    _outputAssembly = xe.zXPathValue("Output", _outputAssembly);
-        //    string s = Path.GetExtension(_outputAssembly);
+        //    string s = zPath.GetExtension(_outputAssembly);
         //    if (s != null)
         //    {
         //        if (s.ToLower() == ".exe")
@@ -182,7 +182,7 @@ namespace pb.Compiler
         //{
         //    _outputDir = xe.Get("OutputDir", _outputDir);
         //    _outputAssembly = xe.Get("Output", _outputAssembly);
-        //    string s = Path.GetExtension(_outputAssembly);
+        //    string s = zPath.GetExtension(_outputAssembly);
         //    if (s != null)
         //    {
         //        if (s.ToLower() == ".exe")
@@ -318,9 +318,9 @@ namespace pb.Compiler
         public void AddAssembly(string assembly, bool resolve = false, string resolveName = null)
         {
             // sert a ajouter les assembly sans path : System.dll, System.Data.dll
-            string dir = Path.GetDirectoryName(assembly);
-            //if (dir != "" && !Path.IsPathRooted(assembly))
-            //    assembly = Path.Combine(_defaultDir, assembly);
+            string dir = zPath.GetDirectoryName(assembly);
+            //if (dir != "" && !zPath.IsPathRooted(assembly))
+            //    assembly = zPath.Combine(_defaultDir, assembly);
             if (dir != "")
                 assembly = assembly.zRootPath(_defaultDir);
             if (!_assemblyList.ContainsKey(assembly))
@@ -343,7 +343,8 @@ namespace pb.Compiler
         public void AddLocalAssembly(string assembly, bool resolve = false, string resolveName = null)
         {
             assembly = assembly.zRootPath(_defaultDir);
-            if (!File.Exists(assembly)) return;
+            if (!zFile.Exists(assembly))
+                return;
             AddAssembly(assembly, resolve, resolveName);
         }
 
@@ -379,7 +380,8 @@ namespace pb.Compiler
         {
             if (!_generateInMemory && _outputAssembly == null) throw new CompilerException("error output assembly is not defined");
             SetFinalOutputAssembly();
-            if (_finalOutputDir != null) Directory.CreateDirectory(_finalOutputDir);
+            if (_finalOutputDir != null)
+                zDirectory.CreateDirectory(_finalOutputDir);
             //WriteLine(1, "Compile \"{0}\"", gsFinalOutputAssembly);
             WriteLine(2, "Compile \"{0}\"", _finalOutputAssembly);
             WriteLine(2, "  DebugInformation      {0}", _debugInformation);
@@ -446,14 +448,14 @@ namespace pb.Compiler
                 throw new CompilerException("error unknow language \"{0}\"", _language);
             //string[] sSources = GetFilesType(".cs");
             string[] sSources = GetFilesType(sourceExt);
-            string currentDirectory = Directory.GetCurrentDirectory();
-            Directory.SetCurrentDirectory(zapp.GetAppDirectory());
+            //string currentDirectory = zDirectory.GetCurrentDirectory();
+            //Directory.SetCurrentDirectory(zapp.GetAppDirectory());
             //cTrace.Trace("Compiler.Compile() : change current directory to {0}", cu.GetAppDirectory());
             _results = provider.CompileAssemblyFromFile(options, sSources);
             WriteLine(2, "  Compile error warning {0}", _results.Errors.Count);
             WriteLine(2, "  Compile has error     {0}", _results.Errors.HasErrors);
             WriteLine(2, "  Compile has warning   {0}", _results.Errors.HasWarnings);
-            Directory.SetCurrentDirectory(currentDirectory);
+            //Directory.SetCurrentDirectory(currentDirectory);
             //cTrace.Trace("Compiler.Compile() : restore current directory to {0}", currentDirectory);
             provider.Dispose();
 
@@ -487,8 +489,8 @@ namespace pb.Compiler
                 _finalOutputDir = _outputDir.zRootPath(_defaultDir);
             else if (_finalOutputAssembly != null)
             {
-                string sDir = Path.GetDirectoryName(_finalOutputAssembly);
-                _finalOutputAssembly = Path.GetFileName(_finalOutputAssembly);
+                string sDir = zPath.GetDirectoryName(_finalOutputAssembly);
+                _finalOutputAssembly = zPath.GetFileName(_finalOutputAssembly);
                 if (sDir != null && sDir != "")
                     _finalOutputDir = sDir.zRootPath(_defaultDir);
             }
@@ -508,7 +510,7 @@ namespace pb.Compiler
             filename = filename.ToLower();
             foreach (CompilerFile source in _sourceList)
             {
-                string filename2 = Path.GetFileName(source.File).ToLower();
+                string filename2 = zPath.GetFileName(source.File).ToLower();
                 if (filename == filename2)
                     return source;
             }
@@ -522,7 +524,7 @@ namespace pb.Compiler
                 types[i] = types[i].ToLower();
             foreach (CompilerFile source in _sourceList)
             {
-                string ext = Path.GetExtension(source.File).ToLower();
+                string ext = zPath.GetExtension(source.File).ToLower();
                 foreach (string type in types)
                 {
                     if (ext == type)
@@ -539,7 +541,7 @@ namespace pb.Compiler
                 types[i] = types[i].ToLower();
             foreach (CompilerFile source in _sourceList)
             {
-                string ext = Path.GetExtension(source.File).ToLower();
+                string ext = zPath.GetExtension(source.File).ToLower();
                 foreach (string type in types)
                 {
                     if (ext == type) SourcesList.Add(source.File);
@@ -586,7 +588,7 @@ namespace pb.Compiler
 
         //        if (_appConfig != null)
         //        {
-        //            string appFile = Path.GetFileName(gResults.PathToAssembly) + ".config";
+        //            string appFile = zPath.GetFileName(gResults.PathToAssembly) + ".config";
         //            WriteLine(2, "Copy file \"{0}\" to \"{1}\" as \"{2}\"", _appConfig.File, directory, appFile);
         //            //string path = zfile.CopyFileToDirectory(_appConfig.File, directory, appFile, true);
         //            string path = zfile.CopyFileToDirectory(_appConfig.File, directory, appFile, CopyFileOptions.OverwriteReadOnly | CopyFileOptions.CopyOnlyIfNewer);
@@ -701,8 +703,8 @@ namespace pb.Compiler
         //        foreach (CompilerFile file in cod.Files)
         //        {
         //            path = file.File;
-        //            if (!Path.IsPathRooted(path))
-        //                path = Path.Combine(outputDir, path);
+        //            if (!zPath.IsPathRooted(path))
+        //                path = zPath.Combine(outputDir, path);
         //            string destinationFile = null;
         //            if (file.Attributes.ContainsKey("destinationFile"))
         //            {
@@ -723,7 +725,7 @@ namespace pb.Compiler
         //public string[] CompileResources(CompilerFile[] resources, string outputDir)
         public string[] CompileResources(CompilerFile[] resources)
         {
-            string outputDir = Path.Combine(_finalOutputDir, _CompileResourceSubDirectory);
+            string outputDir = zPath.Combine(_finalOutputDir, _CompileResourceSubDirectory);
             string[] compiledResources = new string[resources.Length];
             int i = 0;
             foreach (CompilerFile resource in resources)
@@ -771,11 +773,11 @@ namespace pb.Compiler
             // class : VCManagedResourceCompilerTool
             //string sPathCompiledResource = cu.PathSetDir(cu.PathSetExt(resource, ".resources"), outputDir);
 
-            if (!Directory.Exists(outputDir))
-                Directory.CreateDirectory(outputDir);
+            if (!zDirectory.Exists(outputDir))
+                zDirectory.CreateDirectory(outputDir);
 
             string resourceFile = resource.File;
-            string resourceFilename = Path.GetFileNameWithoutExtension(resourceFile);
+            string resourceFilename = zPath.GetFileNameWithoutExtension(resourceFile);
             string nameSpace = null;
             //int i = resource.Attributes.IndexOfKey("namespace");
             //if (i != -1) nameSpace = resource.Attributes.Values[i];
@@ -784,16 +786,18 @@ namespace pb.Compiler
             if (nameSpace != null) sPathCompiledResource = nameSpace + "." + sPathCompiledResource;
             //"WRunSource.Class.PibLink."
             sPathCompiledResource = zpath.PathSetDirectory(sPathCompiledResource, outputDir);
-            if (File.Exists(sPathCompiledResource) && File.Exists(resourceFile))
+            if (zFile.Exists(sPathCompiledResource) && zFile.Exists(resourceFile))
             {
-                FileInfo fiResource = new FileInfo(resourceFile);
-                FileInfo fiCompiledResource = new FileInfo(sPathCompiledResource);
+                //FileInfo fiResource = new FileInfo(resourceFile);
+                var fiResource = zFile.CreateFileInfo(resourceFile);
+                //FileInfo fiCompiledResource = new FileInfo(sPathCompiledResource);
+                var fiCompiledResource = zFile.CreateFileInfo(sPathCompiledResource);
                 if (fiCompiledResource.LastWriteTime > fiResource.LastWriteTime)
                     return sPathCompiledResource;
             }
             if (_resourceCompiler == null)
                 throw new CompilerException("error resource compiler is not defined");
-            if (!File.Exists(_resourceCompiler))
+            if (!zFile.Exists(_resourceCompiler))
                 throw new CompilerException("error resource compiler cannot be found {0}", _resourceCompiler);
             ProcessStartInfo pi = new ProcessStartInfo();
             pi.FileName = _resourceCompiler;
@@ -810,7 +814,7 @@ namespace pb.Compiler
             pi.UseShellExecute = false;
             pi.RedirectStandardError = true;
             //pi.WorkingDirectory = gsDefaultDir;
-            pi.WorkingDirectory = Path.GetDirectoryName(resourceFile);
+            pi.WorkingDirectory = zPath.GetDirectoryName(resourceFile);
 
             Process p = new Process();
             p.StartInfo = pi;
@@ -871,20 +875,20 @@ namespace pb.Compiler
             dt.Columns.Add("Error", typeof(bool));
             dt.Columns.Add("Message", typeof(string));
             foreach (ResourceCompilerError err in _resourceResults.Errors)
-                dt.Rows.Add(null, Path.GetFileName(err.FileName), null, null, true, err.ErrorText);
+                dt.Rows.Add(null, zPath.GetFileName(err.FileName), null, null, true, err.ErrorText);
             if (_results != null)
             {
                 foreach (CompilerError err in _results.Errors)
                 {
                     //DataRow row = dt.NewRow();
                     //row["ErrorNumber"] = err.ErrorNumber;
-                    //row["Source"] = Path.GetFileName(err.FileName);
+                    //row["Source"] = zPath.GetFileName(err.FileName);
                     //row["Line"] = err.Line;
                     //row["Column"] = err.Column;
                     //row["Error"] = !err.IsWarning;
                     //row["Message"] = err.ErrorText;
                     //dt.Rows.Add(row);
-                    dt.Rows.Add(err.ErrorNumber, Path.GetFileName(err.FileName), err.Line, err.Column, !err.IsWarning, err.ErrorText);
+                    dt.Rows.Add(err.ErrorNumber, zPath.GetFileName(err.FileName), err.Line, err.Column, !err.IsWarning, err.ErrorText);
                 }
             }
             return dt;
@@ -932,7 +936,7 @@ namespace pb.Compiler
             }
 
             if (directory == null)
-                directory = Path.GetDirectoryName(_results.PathToAssembly);
+                directory = zPath.GetDirectoryName(_results.PathToAssembly);
 
             //string sOutputDir = zpath.PathGetDirectory(gResults.PathToAssembly);
             if (!_generateInMemory)
@@ -945,7 +949,7 @@ namespace pb.Compiler
                     //    continue;
 
                     // test when copy to output directory, ?? when copy output to directory
-                    if (Path.GetDirectoryName(file) == "")
+                    if (zPath.GetDirectoryName(file) == "")
                         continue;
 
                     //string assembly2 = zpath.PathSetDirectory(assembly, directory);
@@ -997,7 +1001,7 @@ namespace pb.Compiler
 
             if (_appConfig != null)
             {
-                string appFile = Path.GetFileName(_results.PathToAssembly) + ".config";
+                string appFile = zPath.GetFileName(_results.PathToAssembly) + ".config";
                 WriteLine(2, "  copy file \"{0}\" to \"{1}\" as \"{2}\"", _appConfig.File, directory, appFile);
                 //string path = zfile.CopyFileToDirectory(_appConfig.File, directory, appFile, true);
                 string path = zfile.CopyFileToDirectory(_appConfig.File, directory, appFile, CopyFileOptions.OverwriteReadOnly | CopyFileOptions.CopyOnlyIfNewer);
@@ -1018,12 +1022,12 @@ namespace pb.Compiler
         //    if (_results != null)
         //    {
         //        foreach (CompilerError err in _results.Errors)
-        //            Trace.WriteLine("{0} no {1,-6} source \"{2}\" line {3} col {4} \"{5}\"", err.IsWarning ? "warning" : "error", err.ErrorNumber, Path.GetFileName(err.FileName), err.Line, err.Column, err.ErrorText);
+        //            Trace.WriteLine("{0} no {1,-6} source \"{2}\" line {3} col {4} \"{5}\"", err.IsWarning ? "warning" : "error", err.ErrorNumber, zPath.GetFileName(err.FileName), err.Line, err.Column, err.ErrorText);
         //    }
         //    if (_resourceResults != null)
         //    {
         //        foreach (ResourceCompilerError err in _resourceResults.Errors)
-        //            Trace.WriteLine("source \"{0}\" \"{1}\"", Path.GetFileName(err.FileName), err.ErrorText);
+        //            Trace.WriteLine("source \"{0}\" \"{1}\"", zPath.GetFileName(err.FileName), err.ErrorText);
         //    }
         //}
 
@@ -1032,12 +1036,12 @@ namespace pb.Compiler
             if (_results != null)
             {
                 foreach (CompilerError err in _results.Errors)
-                    pb.Trace.WriteLine("{0} no {1,-6} source \"{2}\" line {3} col {4} \"{5}\"", err.IsWarning ? "warning" : "error", err.ErrorNumber, Path.GetFileName(err.FileName), err.Line, err.Column, err.ErrorText);
+                    pb.Trace.WriteLine("{0} no {1,-6} source \"{2}\" line {3} col {4} \"{5}\"", err.IsWarning ? "warning" : "error", err.ErrorNumber, zPath.GetFileName(err.FileName), err.Line, err.Column, err.ErrorText);
             }
             if (_resourceResults != null)
             {
                 foreach (ResourceCompilerError err in _resourceResults.Errors)
-                    pb.Trace.WriteLine("source \"{0}\" \"{1}\"", Path.GetFileName(err.FileName), err.ErrorText);
+                    pb.Trace.WriteLine("source \"{0}\" \"{1}\"", zPath.GetFileName(err.FileName), err.ErrorText);
             }
         }
 

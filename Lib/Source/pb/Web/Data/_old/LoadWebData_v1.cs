@@ -131,7 +131,7 @@ namespace pb.Web
             if (!_documentLoadedFromXml)
             {
                 string file = GetFileDocumentXml();
-                if (!File.Exists(file))
+                if (!zFile.Exists(file))
                     throw new PBException("error impossible to load xml file does'nt exist \"{0}\"", file);
                 _data = LoadDocumentFromXml(file, loadImage);
                 _documentLoadedFromXml = true;
@@ -146,13 +146,13 @@ namespace pb.Web
 
         private bool DocumentXmlExists()
         {
-            return File.Exists(GetFileDocumentXml());
+            return zFile.Exists(GetFileDocumentXml());
         }
 
         private void _SaveDocumentToXml(bool reload = false, bool saveImage = true)
         {
             string file = GetFileDocumentXml();
-            if (!reload && File.Exists(file))
+            if (!reload && zFile.Exists(file))
                 return;
             _LoadDocumentFromWeb(reload);
             zfile.CreateFileDirectory(file);

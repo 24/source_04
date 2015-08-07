@@ -230,7 +230,10 @@ namespace pb.Data.Mongo
             Trace.Write("FindAs : {0} query ", collection.zGetFullName());
 
             QueryDocument queryDoc = query.zToQueryDocument();
-            Trace.Write(queryDoc.ToJson());
+            if (queryDoc != null)
+                Trace.Write(queryDoc.ToJson());
+            else
+                Trace.Write("null");
 
             SortByWrapper sortByWrapper = null;
             if (sort != null)

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.IO;
+using pb.IO;
+using DirectoryInfo = Pri.LongPath.DirectoryInfo;
 
 namespace DirSize
 {
@@ -10,7 +12,8 @@ namespace DirSize
     {
         static void Main(string[] args)
         {
-            DirectoryInfo dInfo = new DirectoryInfo(@"C:/Articles");
+            //DirectoryInfo dInfo = new DirectoryInfo(@"C:/Articles");
+            var dInfo = zDirectory.CreateDirectoryInfo(@"C:/Articles");
             // set bool parameter to false if you
             // do not want to include subdirectories.
             long sizeOfDir = DirectorySize(dInfo, true);

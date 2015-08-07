@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using pb.IO;
 using pb.Web;
 
 namespace Test.Test_Unit.Web
@@ -22,7 +23,7 @@ namespace Test.Test_Unit.Web
             int okTraceNb = 0;
             int notOkTraceNb = 0;
             int noOkTraceNb = 0;
-            foreach (string file in Directory.EnumerateFiles(dir, "*.html", SearchOption.AllDirectories))
+            foreach (string file in zDirectory.EnumerateFiles(dir, "*.html", SearchOption.AllDirectories))
             {
                 Trace.WriteLine("convert file \"{0}\"", file);
                 string xmlFile = GetXmlFile(file);
@@ -33,7 +34,7 @@ namespace Test.Test_Unit.Web
                 string okXmlFile = GetOkFile(xmlFile);
                 string okTraceHtmlReaderFile = GetOkFile(traceHtmlReaderFile);
                 nb++;
-                if (File.Exists(okXmlFile))
+                if (zFile.Exists(okXmlFile))
                 {
                     if (zfile.AreFileEqual(xmlFile, okXmlFile))
                     {
@@ -51,7 +52,7 @@ namespace Test.Test_Unit.Web
                     noOkXmlNb++;
                     Trace.WriteLine("no ok file for \"{0}\"", xmlFile);
                 }
-                if (File.Exists(okTraceHtmlReaderFile))
+                if (zFile.Exists(okTraceHtmlReaderFile))
                 {
                     if (zfile.AreFileEqual(traceHtmlReaderFile, okTraceHtmlReaderFile))
                     {
@@ -86,7 +87,7 @@ namespace Test.Test_Unit.Web
 
         public static void FileHtmlToXml(string file, string xmlFile, string traceHtmlReaderFile)
         {
-            using (StreamReader sr = File.OpenText(file))
+            using (StreamReader sr = zFile.OpenText(file))
             {
                 HtmlReader htmlReader = new HtmlReader(sr);
                 htmlReader.TraceHtmlReaderFile = traceHtmlReaderFile;
@@ -116,11 +117,11 @@ namespace Test.Test_Unit.Web
             string currentArchiveDir = null;
             foreach (string file in GetHtmlFiles())
             {
-                string dir = Path.GetDirectoryName(file);
+                string dir = zPath.GetDirectoryName(file);
                 if (dir != currentDir)
                 {
                     currentDir = dir;
-                    currentArchiveDir = zdir.GetNewIndexedDirectory(Path.Combine(dir, _archiveDirectory));
+                    currentArchiveDir = zdir.GetNewIndexedDirectory(zPath.Combine(dir, _archiveDirectory));
                 }
                 string okXmlFile = GetOkFile(GetXmlFile(file));
                 string okTraceHtmlReaderFile = GetOkFile(GetTraceFile(file));
@@ -141,7 +142,7 @@ namespace Test.Test_Unit.Web
 
         public static string GetOkFile(string file)
         {
-            return zpath.PathSetFileName(file, Path.GetFileNameWithoutExtension(file) + ".ok");
+            return zpath.PathSetFileName(file, zPath.GetFileNameWithoutExtension(file) + ".ok");
         }
 
         public static IEnumerable<string> GetHtmlFiles()
@@ -149,21 +150,21 @@ namespace Test.Test_Unit.Web
             return zdir.EnumerateFilesInfo(GetDirectory(), "*.html", filter:
                 dirInfo =>
                 {
-                    bool select = Path.GetFileName(dirInfo.SubDirectory) != _archiveDirectory;
+                    bool select = zPath.GetFileName(dirInfo.SubDirectory) != _archiveDirectory;
                     return new EnumDirectoryFilter { Select = select, RecurseSubDirectory = select };
                 }).Select(fileInfo => fileInfo.File);
         }
 
         public static string GetDirectory()
         {
-            return Path.Combine(RunSource.CurrentRunSource.Config.GetExplicit("TestUnitDirectory"), @"Web\HtmlToXml\sites");
+            return zPath.Combine(RunSource.CurrentRunSource.Config.GetExplicit("TestUnitDirectory"), @"Web\HtmlToXml\sites");
         }
 
         //public static void Trace_HtmlReader(string file)
         //{
         //    StreamReader sr = null;
         //    StreamWriter sw = null;
-        //    string outFile = zpath.PathSetFileNameWithExtension(file, Path.GetFileName(file) + ".trace.txt");
+        //    string outFile = zpath.PathSetFileNameWithExtension(file, zPath.GetFileName(file) + ".trace.txt");
         //    try
         //    {
         //        sw = File.CreateText(outFile);

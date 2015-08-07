@@ -39,6 +39,7 @@ namespace pb.Web
     {
         //private static Regex __rgBadFilenameChars = new Regex(@"/|\?|%|&|\\|:", RegexOptions.Compiled);
         private static Regex __rgMultiUnderline = new Regex("_{2,}", RegexOptions.Compiled);
+        private static int __maxFilenameLength = 150;
 
         //public static string UrlToFileName(string url, UrlFileNameType type, string ext = null, HttpRequestParameters requestParameters = null)
         //{
@@ -100,7 +101,7 @@ namespace pb.Web
                     file += "_";
                 //file += HttpUtility.UrlDecode(uri.AbsolutePath);
                 string urlPath = HttpUtility.UrlDecode(uri.AbsolutePath);
-                //urlExt = Path.GetExtension(urlPath);
+                //urlExt = zPath.GetExtension(urlPath);
                 if (urlPath.StartsWith("/"))
                     urlPath = urlPath.Substring(1);
                 if (urlPath.EndsWith("/"))
@@ -121,7 +122,7 @@ namespace pb.Web
                 //if (file.EndsWith("/"))
                 //    file = file.Substring(0, file.Length - 1);
                 string urlFilename = HttpUtility.UrlDecode(uri.Segments[uri.Segments.Length - 1]);
-                //urlExt = Path.GetExtension(urlFilename);
+                //urlExt = zPath.GetExtension(urlFilename);
                 if (urlFilename.EndsWith("/"))
                     urlFilename = urlFilename.Substring(0, urlFilename.Length - 1);
                 if ((type & UrlFileNameType.Ext) != UrlFileNameType.Ext)
@@ -163,7 +164,7 @@ namespace pb.Web
             file = __rgMultiUnderline.Replace(file, "_");
             //if (ext != null)
             //    file = zpath.PathSetExt(file, ext);
-            //else if (!Path.HasExtension(file))
+            //else if (!zPath.HasExtension(file))
             //    file = zpath.PathSetExt(file, ".html");
 
             if (file == "")
@@ -171,7 +172,7 @@ namespace pb.Web
 
             if (ext == null)
             {
-                ext = Path.GetExtension(uri.AbsolutePath);
+                ext = zPath.GetExtension(uri.AbsolutePath);
                 if (ext == "")
                     ext = ".html";
                 //else if (!queryOrContent)
@@ -187,6 +188,18 @@ namespace pb.Web
                 if (!file.EndsWith(ext))
                     file += ext;
             }
+            if (file.Length > __maxFilenameLength)
+            {
+                ext = zPath.GetExtension(file);
+                string filename = zPath.GetFileNameWithoutExtension(file);
+                int i = filename.LastIndexOf('.');
+                if (i != -1 && filename.Length - i < 10)
+                {
+                    ext = filename.Substring(i) + ext;
+                    filename = filename.Substring(0, i);
+                }
+                file = filename.Substring(0, filename.Length - (file.Length - __maxFilenameLength)) + ext;
+            }
 
             return file;
         }
@@ -194,7 +207,7 @@ namespace pb.Web
         public static string GetUrlFileType(string url)
         {
             Uri uri = new Uri(url);
-            return Path.GetExtension(uri.Segments[uri.Segments.Length - 1]);
+            return zPath.GetExtension(uri.Segments[uri.Segments.Length - 1]);
         }
 
         private static Regex __domainRegex = new Regex(@"[^.]+\.[^.]+$", RegexOptions.Compiled);
@@ -205,12 +218,12 @@ namespace pb.Web
 
         public static string GetExtension(string url)
         {
-            return Path.GetExtension(new Uri(url).AbsolutePath);
+            return zPath.GetExtension(new Uri(url).AbsolutePath);
         }
 
         public static string GetFileName(string url)
         {
-            return Path.GetFileName(new Uri(url).AbsolutePath);
+            return zPath.GetFileName(new Uri(url).AbsolutePath);
         }
 
         public static string GetUrl(string baseUrl, string url)

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using MongoDB.Bson;
 using pb.Data.Mongo;
+using pb.IO;
 using pb.Linq;
 
 namespace Test.Test_Unit.Linq
@@ -17,16 +18,16 @@ namespace Test.Test_Unit.Linq
         public static void Test_Join_01(string file1, string file2, string key1, string key2, string resultFile)
         {
             string dir = GetDirectory();
-            file1 = Path.Combine(dir, file1);
-            file2 = Path.Combine(dir, file2);
-            resultFile = Path.Combine(dir, resultFile);
-            Test_Join(file1, file2, key1, key2, zpath.PathSetFileName(resultFile, Path.GetFileNameWithoutExtension(resultFile) + "_InnerJoin"), JoinType.InnerJoin);
-            Test_Join(file1, file2, key1, key2, zpath.PathSetFileName(resultFile, Path.GetFileNameWithoutExtension(resultFile) + "_LeftOuterJoin"), JoinType.LeftOuterJoin);
-            Test_Join(file1, file2, key1, key2, zpath.PathSetFileName(resultFile, Path.GetFileNameWithoutExtension(resultFile) + "_RightOuterJoin"), JoinType.RightOuterJoin);
-            Test_Join(file1, file2, key1, key2, zpath.PathSetFileName(resultFile, Path.GetFileNameWithoutExtension(resultFile) + "_FullOuterJoin"), JoinType.FullOuterJoin);
-            Test_Join(file1, file2, key1, key2, zpath.PathSetFileName(resultFile, Path.GetFileNameWithoutExtension(resultFile) + "_LeftOuterJoinWithoutInner"), JoinType.LeftOuterJoinWithoutInner);
-            Test_Join(file1, file2, key1, key2, zpath.PathSetFileName(resultFile, Path.GetFileNameWithoutExtension(resultFile) + "_RightOuterJoinWithoutInner"), JoinType.RightOuterJoinWithoutInner);
-            Test_Join(file1, file2, key1, key2, zpath.PathSetFileName(resultFile, Path.GetFileNameWithoutExtension(resultFile) + "_FullOuterJoinWithoutInner"), JoinType.FullOuterJoinWithoutInner);
+            file1 = zPath.Combine(dir, file1);
+            file2 = zPath.Combine(dir, file2);
+            resultFile = zPath.Combine(dir, resultFile);
+            Test_Join(file1, file2, key1, key2, zpath.PathSetFileName(resultFile, zPath.GetFileNameWithoutExtension(resultFile) + "_InnerJoin"), JoinType.InnerJoin);
+            Test_Join(file1, file2, key1, key2, zpath.PathSetFileName(resultFile, zPath.GetFileNameWithoutExtension(resultFile) + "_LeftOuterJoin"), JoinType.LeftOuterJoin);
+            Test_Join(file1, file2, key1, key2, zpath.PathSetFileName(resultFile, zPath.GetFileNameWithoutExtension(resultFile) + "_RightOuterJoin"), JoinType.RightOuterJoin);
+            Test_Join(file1, file2, key1, key2, zpath.PathSetFileName(resultFile, zPath.GetFileNameWithoutExtension(resultFile) + "_FullOuterJoin"), JoinType.FullOuterJoin);
+            Test_Join(file1, file2, key1, key2, zpath.PathSetFileName(resultFile, zPath.GetFileNameWithoutExtension(resultFile) + "_LeftOuterJoinWithoutInner"), JoinType.LeftOuterJoinWithoutInner);
+            Test_Join(file1, file2, key1, key2, zpath.PathSetFileName(resultFile, zPath.GetFileNameWithoutExtension(resultFile) + "_RightOuterJoinWithoutInner"), JoinType.RightOuterJoinWithoutInner);
+            Test_Join(file1, file2, key1, key2, zpath.PathSetFileName(resultFile, zPath.GetFileNameWithoutExtension(resultFile) + "_FullOuterJoinWithoutInner"), JoinType.FullOuterJoinWithoutInner);
         }
 
         public static void Test_Join(string file1, string file2, string key1, string key2, string resultFile, JoinType joinType)
@@ -50,16 +51,16 @@ namespace Test.Test_Unit.Linq
         public static void ViewFile(string file)
         {
             string dir = GetDirectory();
-            RunSource.CurrentRunSource.SetResult(pb.Data.Mongo.BsonDocumentsToDataTable_v2.ToDataTable(zmongo.BsonReader<MongoDB.Bson.BsonDocument>(Path.Combine(dir, file))));
+            RunSource.CurrentRunSource.SetResult(pb.Data.Mongo.BsonDocumentsToDataTable_v2.ToDataTable(zmongo.BsonReader<MongoDB.Bson.BsonDocument>(zPath.Combine(dir, file))));
         }
 
         public static void CreateBasicFiles()
         {
             string dir = GetDirectory();
-            //GetProducts().zToBsonDocuments().zSaveToJsonFile(Path.Combine(dir, "Products.txt"));
-            GetProducts().zToBsonDocuments().zSave(Path.Combine(dir, "Products.txt"));
-            //GetCategories().zToBsonDocuments().zSaveToJsonFile(Path.Combine(dir, "Categories.txt"));
-            GetCategories().zToBsonDocuments().zSave(Path.Combine(dir, "Categories.txt"));
+            //GetProducts().zToBsonDocuments().zSaveToJsonFile(zPath.Combine(dir, "Products.txt"));
+            GetProducts().zToBsonDocuments().zSave(zPath.Combine(dir, "Products.txt"));
+            //GetCategories().zToBsonDocuments().zSaveToJsonFile(zPath.Combine(dir, "Categories.txt"));
+            GetCategories().zToBsonDocuments().zSave(zPath.Combine(dir, "Categories.txt"));
         }
 
         public static Product[] GetProducts()
@@ -96,7 +97,7 @@ namespace Test.Test_Unit.Linq
 
         private static string GetDirectory()
         {
-            return Path.Combine(RunSource.CurrentRunSource.Config.GetExplicit("TestUnitDirectory"), @"Linq\Join");
+            return zPath.Combine(RunSource.CurrentRunSource.Config.GetExplicit("TestUnitDirectory"), @"Linq\Join");
         }
     }
 

@@ -25,12 +25,127 @@ using Print;
 //   downloadManagerClient = new DownloadManagerClientTest(@"c:\pib\_dl\_pib\dl");
 //   debrider = new DebriderAlldebridTest();
 
-
-
 namespace Download.Print
 {
     public static class DownloadAutomate_f
     {
+        public static IEnumerable<BsonDocument> LoadPostInfo(string collectionName, string serverName, string databaseName = "dl", string query = null, string sort = null, string fields = null, int limit = 0, string options = null, string server = null)
+        {
+            string downloadedCollectionName = "DownloadedFile";
+            // string query, string sort = null, string fields = null, int limit = 0, string options = null, string server = null
+            //BsonDocument
+            foreach (BsonDocument document in TraceMongoCommand.Find(databaseName, collectionName, query, sort, fields, limit, options, server))
+            {
+                string queryDownloaded = string.Format("{{ $and: [ {{ 'downloadedFile.Key.server': '{0}' }}, {{ 'downloadedFile.Key._id': {1} }} ]}}", serverName, document.zGet("_id").zAsInt());
+                document.zRemove("_id");
+                document.zRemove("download.OriginalTitle");
+                //document.zRemove("download.PostAuthor");
+                //document.zRemove("download.PostCreationDate");
+                document.zRemove("download.Description");
+                document.zRemove("download.Infos");
+                document.zRemove("download.Images");
+                document.zRemove("download.DownloadLinks");
+                BsonDocument documentDownloaded = TraceMongoCommand.Find(databaseName, downloadedCollectionName, queryDownloaded, server).FirstOrDefault();
+                documentDownloaded.zRemove("downloadedFile._id");
+                documentDownloaded.zRemove("downloadedFile.Key");
+                documentDownloaded.zRemove("downloadedFile.DownloadItemLinks");
+                documentDownloaded.zSet("downloadedFile.DownloadedFiles", documentDownloaded.zGet("downloadedFile.DownloadedFiles").zAsBsonArray().zGet(0));
+                documentDownloaded.zSet("downloadedFile.UncompressFiles", documentDownloaded.zGet("downloadedFile.UncompressFiles").zAsBsonArray().zGet(0));
+                //BsonValue downloadedFile = documentDownloaded.zGet("downloadedFile") ?? new BsonDocument();
+                document.Add(new BsonElement("downloaded", documentDownloaded.zGet("downloadedFile") ?? new BsonDocument()));
+                yield return document;
+            }
+        }
+
+        // old
+        public static void Test_ManageDirectoryGroup_01(string[] directories, string[] subDirectories, string bonusDirectory = null, bool usePrintDirectories = true, bool simulate = true, bool moveFiles = false)
+        {
+            PrintFileManager printFileManager = CreatePrintFileManager(simulate: simulate, moveFiles: moveFiles);
+            //Dictionary<string, List<PrintDirectoryInfo>> printDirectoriesInfos = DownloadAutomate_f.CreatePrintDirectoryManager().GetDirectoryGroups(directories, usePrintDirectories);
+            Dictionary<string, List<EnumDirectoryInfo>> printDirectoriesInfos = DownloadAutomate_f.CreatePrintDirectoryManager().GetDirectoryGroups(directories, usePrintDirectories);
+            //List<PrintDirectoryInfo> printDirectoryInfoList = DownloadAutomate_f.CreatePrintDirectoryManager().GetDirectoryGroups(directories)[subDirectory];
+            foreach (string subDirectory in subDirectories)
+            {
+                //DownloadAutomate_f.CreatePrintFileManager(simulate: simulate, moveFiles: moveFiles).ManageDirectoryGroup(printDirectoriesInfos[subDirectory], directories[0]);
+                printFileManager.ManageDirectoryGroup(printDirectoriesInfos[subDirectory], directories[0], bonusDirectory);
+            }
+        }
+
+        // old
+        public static void Test_ManageDirectoryGroup_02(string[] directories, string[] subDirectories, string bonusDirectory = null, bool usePrintDirectories = true, bool simulate = true, bool moveFiles = false)
+        {
+            PrintFileManager printFileManager = CreatePrintFileManager(simulate: simulate, moveFiles: moveFiles);
+            //Dictionary<string, List<PrintDirectoryInfo>> printDirectoriesInfos = CreatePrintDirectoryManager().GetDirectoryGroups(directories, usePrintDirectories);
+            Dictionary<string, List<EnumDirectoryInfo>> printDirectoriesInfos = CreatePrintDirectoryManager().GetDirectoryGroups(directories, usePrintDirectories);
+            foreach (string subDirectory2 in printDirectoriesInfos.Keys)
+            {
+                foreach (string subDirectory in subDirectories)
+                {
+                    if (subDirectory2.StartsWith(subDirectory))
+                    {
+                        Trace.WriteLine("manage directory group \"{0}\"", subDirectory2);
+                        printFileManager.ManageDirectoryGroup(printDirectoriesInfos[subDirectory2], directories[0], bonusDirectory);
+                    }
+                }
+            }
+        }
+
+        // old
+        public static void Test_ManageDirectoryGroup_03(string[] directories, string bonusDirectory = null, bool usePrintDirectories = true, bool simulate = true, bool moveFiles = false)
+        {
+            PrintFileManager printFileManager = CreatePrintFileManager(simulate: simulate, moveFiles: moveFiles);
+            //Dictionary<string, List<PrintDirectoryInfo>> printDirectoriesInfos = CreatePrintDirectoryManager().GetDirectoryGroups(directories, usePrintDirectories);
+            Dictionary<string, List<EnumDirectoryInfo>> printDirectoriesInfos = CreatePrintDirectoryManager().GetDirectoryGroups(directories, usePrintDirectories);
+            foreach (string subDirectory2 in printDirectoriesInfos.Keys)
+            {
+                Trace.WriteLine("manage directory group \"{0}\"", subDirectory2);
+                printFileManager.ManageDirectoryGroup(printDirectoriesInfos[subDirectory2], directories[0], bonusDirectory);
+            }
+        }
+
+        public static void Test_ManageDirectories_01(IEnumerable<string> sourceDirectories, string destinationDirectory, string bonusDirectory = null, bool usePrintDirectories = true,
+            bool simulate = true, bool moveFiles = false, Func<string, bool> directoryFilter = null)
+        {
+            PrintFileManager_v2 printFileManager = CreatePrintFileManager_v2(simulate: simulate, moveFiles: moveFiles);
+            PrintDirectoryManager  printDirectoryManager = CreatePrintDirectoryManager();
+            foreach (string sourceDirectory in sourceDirectories)
+            {
+                foreach (EnumDirectoryInfo directory in CreatePrintDirectoryManager().GetDirectories(sourceDirectory, usePrintDirectories: usePrintDirectories))
+                {
+                    if (directoryFilter != null)
+                    {
+                        if (!directoryFilter(directory.SubDirectory))
+                            continue;
+                    }
+                    printFileManager.ManageDirectory(directory.Directory, zPath.Combine(destinationDirectory, directory.SubDirectory), bonusDirectory);
+                    //directory.Directory.zTrace();
+                    //zPath.Combine(destinationDirectory, directory.SubDirectory).zTrace();
+                    //"".zTrace();
+                }
+            }
+        }
+
+        public static void Test_ManageDirectory_01(string sourceDirectory, string destinationDirectory, string bonusDirectory = null, bool simulate = true, bool moveFiles = false)
+        {
+            PrintFileManager_v2 printFileManager = CreatePrintFileManager_v2(simulate: simulate, moveFiles: moveFiles);
+            printFileManager.ManageDirectory(sourceDirectory, destinationDirectory, bonusDirectory);
+        }
+
+        public static void Test_GetDirectoryInfo_01(string directory, bool excludeBonusDirectory = true)
+        {
+            //zdir.EnumerateDirectoriesInfo(directory, minLevel: 2).Select(dir => zPath.GetFileName(dir.SubDirectory)).zToJson().zTrace();
+            //.zToJson().zTrace()
+            //zdir.EnumerateDirectoriesInfo(directory, minLevel: 2).Select(dir => zPath.GetFileName(dir.SubDirectory)).GroupBy(dir => dir).Select(group => new { dir = group.Key, count = group.Count() })
+            //    .Where(group => group.count > 1).OrderByDescending(group => group.count).zView();
+
+            Func<EnumDirectoryInfo, EnumDirectoryFilter> directoryFilter = null;
+            if (excludeBonusDirectory)
+                directoryFilter = CreatePrintFileManager_v2().NotBonusDirectoryFilter;
+            var directories = zdir.EnumerateDirectoriesInfo(directory, minLevel: 2, directoryFilter: directoryFilter).Select(dir => new { dirInfo = dir, subDirectory = zPath.GetFileName(dir.SubDirectory) }).ToArray();
+            directories.GroupBy(dir => dir.subDirectory).Select(group => new { dir = group.Key, count = group.Count() }).Where(group => group.count > 1).OrderByDescending(group => group.count)
+                .Join(directories, dir => dir.dir, dir => dir.subDirectory, (group, dir) => new { dir = group.dir, count = group.count, subDirectory = dir.dirInfo.SubDirectory }).zView();
+        }
+
         public static void Test_DownloadAutomate_01(bool loadNewPost = false, bool searchPostToDownload = true, bool uncompressFile = true, bool sendMail = false, int version = 3, bool useNewDownloadManager = false,
             bool useTestManager = false, int? traceLevel = null)
         {
@@ -301,7 +416,7 @@ namespace Download.Print
             foreach (string directory in directories)
             {
                 var query = zdir.EnumerateDirectoriesInfo(directory,
-                            filter: dirInfo =>
+                            directoryFilter: dirInfo =>
                                 {
                                     //bool journauxDir = dirInfo.SubDirectory == ".01_quotidien\\Journaux";
                                     //bool journauxSubdir = dirInfo.SubDirectory.StartsWith(".01_quotidien\\Journaux\\");
@@ -324,12 +439,12 @@ namespace Download.Print
                                             BaseDirectory = directory,
                                             Directory = dir.Directory,
                                             //SubDirectory = dir.SubDirectory
-                                            //SubDirectory = Path.Combine(Path.GetDirectoryName(dir.SubDirectory), zpath.PathGetFilenameNumberInfo(dir.SubDirectory).BaseFilename)
-                                            SubDirectory = Path.Combine(Path.GetDirectoryName(dir.SubDirectory), FilenameNumberInfo.GetFilenameNumberInfo(dir.SubDirectory).BaseFilename)
+                                            //SubDirectory = zPath.Combine(zPath.GetDirectoryName(dir.SubDirectory), zpath.PathGetFilenameNumberInfo(dir.SubDirectory).BaseFilename)
+                                            SubDirectory = zPath.Combine(zPath.GetDirectoryName(dir.SubDirectory), FilenameNumberInfo.GetFilenameNumberInfo(dir.SubDirectory).BaseFilename)
                                         }
                                     );
 
-                directoryGroups.zAddKeyList(query, dir => dir.SubDirectory);
+                directoryGroups.zKeyListAdd(query, dir => dir.SubDirectory);
             }
             return directoryGroups;
         }
@@ -608,6 +723,19 @@ namespace Download.Print
             return printFileManager;
         }
 
+        public static PrintFileManager_v2 CreatePrintFileManager_v2(UncompressManager uncompressManager = null, bool simulate = false, bool moveFiles = false)
+        {
+            if (uncompressManager == null)
+                uncompressManager = CreateUncompressManager();
+            RegexValuesList bonusDirectories = new RegexValuesList(XmlConfig.CurrentConfig.GetConfig("PrintList2Config").GetElements("BonusDirectories/Directory"), compileRegex: true);
+            PrintFileManager_v2 printFileManager = new PrintFileManager_v2();
+            printFileManager.Simulate = simulate;
+            printFileManager.MoveFiles = moveFiles;
+            printFileManager.UncompressManager = uncompressManager;
+            printFileManager.BonusDirectories = bonusDirectories;
+            return printFileManager;
+        }
+
         public static Debrider CreateDebrider()
         {
             //return CreateDebriderAlldebrid();
@@ -861,6 +989,7 @@ namespace Download.Print
             //downloadAutomate.AddServerManager(Vosbooks.Vosbooks.CreateServerManager(enableLoadNewPost: true, enableSearchPostToDownload: true));
             Ebookdz.Ebookdz.FakeInit();
             Vosbooks.Vosbooks.FakeInit();
+            TelechargerMagazine.TelechargerMagazine.FakeInit();
             foreach (XElement xe in config.GetElements("DownloadAutomateManager/ServerManagers/ServerManager"))
             {
                 ServerManager serverManager = ServerManagers.Get(xe.zExplicitAttribValue("name"));
@@ -925,7 +1054,7 @@ namespace Download.Print
         public static PrintManager CreatePrintManager()
         {
             //XmlConfig config = XmlConfig.CurrentConfig;
-            //XmlConfig printConfig = new XmlConfig(Path.Combine(Path.GetDirectoryName(config.ConfigPath), config.GetExplicit("PrintConfig")));
+            //XmlConfig printConfig = new XmlConfig(zPath.Combine(zPath.GetDirectoryName(config.ConfigPath), config.GetExplicit("PrintConfig")));
             return new PrintManager(XmlConfig.CurrentConfig.GetConfig("PrintConfig").GetElements("Print/Prints/Print"));
         }
 

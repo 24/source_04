@@ -50,16 +50,30 @@ namespace Download.Print
             }
         }
 
+        public void UncompressDirectoryFiles(string directory, Action<string> uncompress = null)
+        {
+            //foreach (FileInfo fileInfo in new DirectoryInfo(directory).EnumerateFiles("*.*", SearchOption.AllDirectories))
+            foreach (var fileInfo in zDirectory.CreateDirectoryInfo(directory).EnumerateFiles("*.*", SearchOption.AllDirectories))
+            {
+                if (CompressManager.IsCompressFile(fileInfo.Name))
+                {
+                    if (uncompress != null)
+                        uncompress(fileInfo.FullName);
+                    Uncompress(fileInfo.FullName);
+                }
+            }
+        }
+
         public string[] Uncompress(string file)
         {
             //try
             //{
                 string dir = zpath.PathSetExtension(file, "");
-                if (Directory.Exists(dir))
+                if (zDirectory.Exists(dir))
                 {
                     dir = zdir.GetNewDirectory(dir);
                 }
-                Directory.CreateDirectory(dir);
+                zDirectory.CreateDirectory(dir);
 
                 UncompressResult uncompressResult = _compressManager.Uncompress(file, dir, UncompressOptions.ExtractFullPath | UncompressOptions.RenameExistingFile
                     | UncompressOptions.UncompressNestedCompressFiles | UncompressOptions.DeleteNestedCompressFiles);
@@ -86,7 +100,7 @@ namespace Download.Print
                         else
                             archiveDirectory = _archiveErrorCompressDirectory;
                         if (archiveDirectory != null)
-                            File.Move(compressFile, zfile.GetNewFilename(Path.Combine(archiveDirectory, Path.GetFileName(compressFile))));
+                            zFile.Move(compressFile, zfile.GetNewFilename(zPath.Combine(archiveDirectory, zPath.GetFileName(compressFile))));
                     }
                 }
 
@@ -94,10 +108,10 @@ namespace Download.Print
                 if (uncompressResult.UncompressFiles.Length == 1)
                 {
                     string uncompressFile = uncompressResult.UncompressFiles[0];
-                    string newFile = Path.Combine(Path.GetDirectoryName(file), Path.GetFileNameWithoutExtension(file)) + Path.GetExtension(uncompressFile);
+                    string newFile = zPath.Combine(zPath.GetDirectoryName(file), zPath.GetFileNameWithoutExtension(file)) + zPath.GetExtension(uncompressFile);
                     newFile = zfile.GetNewFilename(newFile);
-                    File.Move(Path.Combine(dir, uncompressFile), newFile);
-                    Directory.Delete(dir);
+                    zFile.Move(zPath.Combine(dir, uncompressFile), newFile);
+                    zDirectory.Delete(dir);
                     return new string[] { newFile };
                 }
                 return uncompressResult.UncompressFiles;
@@ -112,7 +126,7 @@ namespace Download.Print
 
         private void ArchiveCompressFile(string file)
         {
-            File.Move(file, zfile.GetNewFilename(Path.Combine(_archiveCompressDirectory, Path.GetFileName(file))));
+            zFile.Move(file, zfile.GetNewFilename(zPath.Combine(_archiveCompressDirectory, zPath.GetFileName(file))));
         }
     }
 }

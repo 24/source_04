@@ -62,7 +62,7 @@ namespace Download.Print
             if (directory2 != null)
             {
                 if (directory1 != null)
-                    return Path.Combine(directory1, directory2);
+                    return zPath.Combine(directory1, directory2);
                 else
                     return directory2;
             }
@@ -71,22 +71,23 @@ namespace Download.Print
         }
     }
 
-    public class PrintDirectoryInfo
-    {
-        public string Directory;                             // "g:\\pib\\media\\print\\.01_quotidien\\Journaux"
-        public string SubDirectory;                          // ".01_quotidien\\Journaux"
-        public int Level;                                    // 1
-        //public PrintSubDirectoryType SubDirectory1Type;      // MonthSubDirectory
-        //public PrintSubDirectoryType SubDirectory2Type;      // DaySubDirectory
-        //public string SubDirectory2Prefix;                   // "Journaux - "
-        //public PrintSubDirectoryInfo SubDirectory1Type;
-        //public PrintSubDirectoryInfo SubDirectory2Type;
-        //public bool HasSubDirectory;
-    }
+    //public class PrintDirectoryInfo
+    //{
+    //    public string Directory;                             // "g:\\pib\\media\\print\\.01_quotidien\\Journaux"
+    //    public string SubDirectory;                          // ".01_quotidien\\Journaux"
+    //    public int Level;                                    // 1
+    //    //public PrintSubDirectoryType SubDirectory1Type;      // MonthSubDirectory
+    //    //public PrintSubDirectoryType SubDirectory2Type;      // DaySubDirectory
+    //    //public string SubDirectory2Prefix;                   // "Journaux - "
+    //    //public PrintSubDirectoryInfo SubDirectory1Type;
+    //    //public PrintSubDirectoryInfo SubDirectory2Type;
+    //    //public bool HasSubDirectory;
+    //}
 
     public class PrintFileInfo
     {
-        public PrintDirectoryInfo DirectoryInfo;
+        //public PrintDirectoryInfo DirectoryInfo;
+        public EnumDirectoryInfo DirectoryInfo;
         public string File;
         public string BaseFilename;
         public int Number;
@@ -94,38 +95,68 @@ namespace Download.Print
 
     public class PrintDirectoryManager
     {
-        private string[] _directories;        // ".01_quotidien", ".02_hebdo", ..., from print_list2.xml
+        private string[] _printDirectories;        // ".01_quotidien", ".02_hebdo", ..., from print_list2.xml
         //private int _level = 1;
 
         public PrintDirectoryManager(string[] directories)
         {
-            _directories = directories;
+            _printDirectories = directories;
         }
 
-        public Dictionary<string, List<PrintDirectoryInfo>> GetDirectoryGroups(string[] directories)
+        // return groups of directories :
+        //   print example
+        //   ".02_hebdo\\L'express" :
+        //     - "Directory" : "g:\\pib\\media\\ebook\\_test\\print\\.02_hebdo\\L'express", "SubDirectory" : ".02_hebdo\\L'express", "Level" : 1
+        //     - "Directory" : "g:\\pib\\media\\ebook\\_test\\_dl\\print\\01\\print\\.02_hebdo\\L'express", "SubDirectory" : ".02_hebdo\\L'express", "Level" : 1
+        //     - "Directory" : "g:\\pib\\media\\ebook\\_test\\_dl\\print\\02\\print\\.02_hebdo\\L'express", "SubDirectory" : ".02_hebdo\\L'express", "Level" : 1
+        //   book example
+        //   "Comment faire les fromages" :
+        //     - "Directory" : "g:\\pib\\media\\ebook\\_test\\book\\Comment faire les fromages", "SubDirectory" : "Comment faire les fromages", "Level" : 1
+        //     - "Directory" : "g:\\pib\\media\\ebook\\_test\\_dl\\book\\01\\book\\Comment faire les fromages", "SubDirectory" : "Comment faire les fromages", "Level" : 1
+        //     - "Directory" : "g:\\pib\\media\\ebook\\_test\\_dl\\book\\02\\book\\Comment faire les fromages", "SubDirectory" : "Comment faire les fromages", "Level" : 1
+        //public Dictionary<string, List<PrintDirectoryInfo>> GetDirectoryGroups(string[] directories, bool usePrintDirectories = true)
+        public Dictionary<string, List<EnumDirectoryInfo>> GetDirectoryGroups(string[] directories, bool usePrintDirectories = true)
         {
-            Dictionary<string, List<PrintDirectoryInfo>> directoryGroups = new Dictionary<string, List<PrintDirectoryInfo>>();
+            Dictionary<string, List<EnumDirectoryInfo>> directoryGroups = new Dictionary<string, List<EnumDirectoryInfo>>(StringComparer.InvariantCultureIgnoreCase);
             foreach (string directory in directories)
             {
                 // directory : "g:\pib\media\print", "c:\pib\_dl\_pib\dl\print"
-                directoryGroups.zAddKeyList(GetDirectories(directory), dir => dir.SubDirectory);
+                directoryGroups.zKeyListAdd(GetDirectories(directory, usePrintDirectories), dir => dir.SubDirectory);
             }
             return directoryGroups;
         }
 
-        public IEnumerable<PrintDirectoryInfo> GetDirectories(string directory)
+        public IEnumerable<EnumDirectoryInfo> GetDirectories(string directory, bool usePrintDirectories = true)
         {
-            foreach (string directory2 in _directories)
+            if (usePrintDirectories)
             {
-                foreach (EnumDirectoryInfo directoryInfo in zdir.EnumerateDirectoriesInfo(Path.Combine(directory, directory2), minLevel: 1, maxLevel: 1))
+                foreach (string directory2 in _printDirectories)
                 {
-                    PrintDirectoryInfo printDirectoryInfo = new PrintDirectoryInfo();
-                    printDirectoryInfo.Directory = directoryInfo.Directory;
-                    printDirectoryInfo.SubDirectory = Path.Combine(directory2, directoryInfo.SubDirectory);
-                    printDirectoryInfo.Level = directoryInfo.Level;
-                    //printDirectoryInfo.SubDirectory1Type = GetSubDirectoryType(printDirectoryInfo.Directory);
-                    //GetSubDirectoryType(printDirectoryInfo);
-                    yield return printDirectoryInfo;
+                    foreach (EnumDirectoryInfo directoryInfo in zdir.EnumerateDirectoriesInfo(zPath.Combine(directory, directory2), minLevel: 1, maxLevel: 1))
+                    {
+                        EnumDirectoryInfo directoryInfo2 = new EnumDirectoryInfo();
+                        directoryInfo2.Directory = directoryInfo.Directory;
+                        FilenameNumberInfo directoryNumberInfo = FilenameNumberInfo.GetFilenameNumberInfo(directoryInfo.SubDirectory);
+                        //directoryInfo2.SubDirectory = zPath.Combine(directory2, directoryInfo.SubDirectory);
+                        directoryInfo2.SubDirectory = zPath.Combine(directory2, directoryNumberInfo.BaseFilename);
+                        directoryInfo2.Number = directoryNumberInfo.Number;
+                        directoryInfo2.Level = directoryInfo.Level;
+                        yield return directoryInfo2;
+                    }
+                }
+            }
+            else
+            {
+                foreach (EnumDirectoryInfo directoryInfo in zdir.EnumerateDirectoriesInfo(zPath.Combine(directory, directory), minLevel: 1, maxLevel: 1))
+                {
+                    EnumDirectoryInfo directoryInfo2 = new EnumDirectoryInfo();
+                    directoryInfo2.Directory = directoryInfo.Directory;
+                    FilenameNumberInfo directoryNumberInfo = FilenameNumberInfo.GetFilenameNumberInfo(directoryInfo.SubDirectory);
+                    //directoryInfo2.SubDirectory = directoryInfo.SubDirectory;
+                    directoryInfo2.SubDirectory = directoryNumberInfo.BaseFilename;
+                    directoryInfo2.Number = directoryNumberInfo.Number;
+                    directoryInfo2.Level = directoryInfo.Level;
+                    yield return directoryInfo2;
                 }
             }
         }
@@ -232,17 +263,11 @@ namespace Download.Print
             return __rgSubDirectoryPartOfFilename.IsMatch(subdirectory);
         }
 
-        public Dictionary<string, List<PrintFileInfo>> GetFileGroups(IEnumerable<PrintDirectoryInfo> directories)
+        //public Dictionary<string, List<PrintFileInfo>> GetFileGroups(IEnumerable<PrintDirectoryInfo> directories)
+        public Dictionary<string, List<PrintFileInfo>> GetFileGroups(IEnumerable<EnumDirectoryInfo> directories)
         {
-            //public class PrintFileInfo
-            //{
-            //    public PrintDirectoryInfo DirectoryInfo;
-            //    public string File;
-            //    public string BaseFilename;
-            //    public int Number;
-            //}
-            Dictionary<string, List<PrintFileInfo>> fileGroups = new Dictionary<string, List<PrintFileInfo>>();
-            foreach (PrintDirectoryInfo directoryInfo in directories)
+            Dictionary<string, List<PrintFileInfo>> fileGroups = new Dictionary<string, List<PrintFileInfo>>(StringComparer.InvariantCultureIgnoreCase);
+            foreach (EnumDirectoryInfo directoryInfo in directories)
             {
                 var query = zdir.EnumerateFilesInfo(directoryInfo.Directory, followDirectoryTree: dir => { });
             }
@@ -256,7 +281,7 @@ namespace Download.Print
         //    bool hasSubDirectory2 = false;
         //    foreach (string subDirectory in Directory.EnumerateDirectories(printDirectoryInfo.Directory))
         //    {
-        //        Match match = __rgSubDirectoryType.Match(Path.GetFileName(subDirectory));
+        //        Match match = __rgSubDirectoryType.Match(zPath.GetFileName(subDirectory));
         //        if (match.Success)
         //        {
         //            if (match.Groups[2].Value != "")

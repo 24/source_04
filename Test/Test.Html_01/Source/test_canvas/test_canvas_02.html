@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+<head>
+  <title>test canvas 02</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+  <script type="application/x-javascript">
+    window.onload = function(){
+      var canvas = document.getElementById("canvas");
+      var context = canvas.getContext("2d");
+      var image = new Image();
+      image.onload = function(){
+        //var destX = canvas.width / 2 - this.width / 2;
+        //var destY = canvas.height / 2 - this.height / 2;
+        // bitmap1 size : 59 x 13
+        //var dx = 59;
+        //var dy = 13;
+        context.drawImage(this, 10, 10, this.width * 20, this.height * 20);
+      };
+      image.src = "/dev_data/exe/casino/gc_bitmap_pierre2/element/gc_bt_history_close.jpg";
+    };
+</script>
+  <!-- 
+                context.drawImage(this, destX, destY);
+            /*imageObj.src = "jet_300x214.jpg";*/
+            /*imageObj.src = "gc_bt_history_close.png";*/
+            imageObj.src = "gc_bt_history_close.jpg";
+  -->
+</head>
+<body>
+  <br>
+  <br>
+  <br>
+  test from Html 5 canvas cookbook - E. Rowell - Packt, 2011.pdf page 68
+  <br>
+  <br>
+  <img src="/dev_data/exe/casino/gc_bitmap_pierre2/element/gc_bt_history_close.jpg">
+  <br>
+  <br>
+  <br>
+  <canvas id="canvas" width="1200" height="280" style="border:1px solid black;"></canvas>    
+</body>
+</html>

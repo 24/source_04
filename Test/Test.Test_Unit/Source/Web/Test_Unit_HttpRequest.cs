@@ -4,6 +4,7 @@ using System.IO.Compression;
 using System.Linq;
 using System.Net;
 using pb.Data.Mongo;
+using pb.IO;
 using pb.Web;
 using pb.Web.old;
 
@@ -110,9 +111,9 @@ namespace Test.Test_Unit.Web
         public static void Test_GZipDecompress_01(string gzipFile, string decompressedFile)
         {
             Trace.WriteLine("decompress gzip file \"{0}\" to \"{1}\"", gzipFile, decompressedFile);
-            using (FileStream gzipFileStream = File.OpenRead(gzipFile))
+            using (FileStream gzipFileStream = zFile.OpenRead(gzipFile))
             {
-                using (FileStream decompressedFileStream = File.Create(decompressedFile))
+                using (FileStream decompressedFileStream = zFile.Create(decompressedFile))
                 {
                     using (GZipStream decompressionStream = new GZipStream(gzipFileStream, CompressionMode.Decompress))
                     {

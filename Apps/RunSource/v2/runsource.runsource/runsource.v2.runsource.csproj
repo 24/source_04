@@ -48,6 +48,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\RuntimeLibrary\DevExpress\DevExpress 2.4.7.0\.NET\DevExpress.XtraGrid.dll</HintPath>
     </Reference>
+    <Reference Include="Pri.LongPath">
+      <HintPath>..\..\..\..\..\RuntimeLibrary\LongPath\LongPath\Pri.LongPath.dll</HintPath>
+    </Reference>
     <Reference Include="ScintillaNET">
       <HintPath>..\..\..\..\RuntimeLibrary\ScintillaNET\ScintillaNET v2.6\ScintillaNET.dll</HintPath>
     </Reference>
@@ -92,6 +95,15 @@
     </Compile>
     <Compile Include="..\..\..\..\Lib\Source\pb\IO\WriteToFileCreate.cs">
       <Link>SourceLnk\Lib\pb\IO\WriteToFileCreate.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Lib\Source\pb\IO\zDirectory.cs">
+      <Link>SourceLnk\Lib\pb\IO\zDirectory.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Lib\Source\pb\IO\zFile.cs">
+      <Link>SourceLnk\Lib\pb\IO\zFile.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Lib\Source\pb\IO\zPath.cs">
+      <Link>SourceLnk\Lib\pb\IO\zPath.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\Lib\Source\pb\Text\Regex.cs">
       <Link>SourceLnk\Lib\pb\Text\Regex.cs</Link>

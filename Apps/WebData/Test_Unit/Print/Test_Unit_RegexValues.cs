@@ -33,15 +33,15 @@ namespace Test.Test_Unit.Print
         public static void Test(string dir)
         {
             //Trace.WriteLine("Test_Unit_RegexValues");
-            //Test_FindDate(Path.Combine(dir, @"RegexValues\RegexValues_FindDate_01.txt"));
+            //Test_FindDate(zPath.Combine(dir, @"RegexValues\RegexValues_FindDate_01.txt"));
         }
 
         public static void Test_FindDate_04(FindDateManager findDateManager, string file)
         {
-            file = Path.Combine(GetDirectoryDate(), file);
+            file = zPath.Combine(GetDirectoryDate(), file);
 
-            string traceFile = zpath.PathSetFileNameWithoutExtension(file, Path.GetFileNameWithoutExtension(file) + "_new_out");
-            string bsonFile = zpath.PathSetFileNameWithoutExtension(file, Path.GetFileNameWithoutExtension(file) + "_new_bson");
+            string traceFile = zpath.PathSetFileNameWithoutExtension(file, zPath.GetFileNameWithoutExtension(file) + "_new_out");
+            string bsonFile = zpath.PathSetFileNameWithoutExtension(file, zPath.GetFileNameWithoutExtension(file) + "_new_bson");
 
             Trace.WriteLine("Test_FindDate \"{0}\" (nb date regex {1})", file, findDateManager.DateRegexList.Count);
             //Trace.CurrentTrace.DisableBaseLog();
@@ -70,11 +70,11 @@ namespace Test.Test_Unit.Print
 
         public static void Test_FindDate_03(FindDateManager_v1 findDateManager, string file)
         {
-            file = Path.Combine(GetDirectoryDate(), file);
+            file = zPath.Combine(GetDirectoryDate(), file);
             int year = Date.Today.Year;
             findDateManager.DateRegexList.Add("year", new RegexValues("year", "year", string.Format(@"(?:^|[_\s])({0}|{1}|{2})(?:$|[_\s])", year - 1, year, year + 1), "IgnoreCase", "year", compileRegex: true));
 
-            string traceFile = zpath.PathSetFileNameWithoutExtension(file, Path.GetFileNameWithoutExtension(file) + "_out");
+            string traceFile = zpath.PathSetFileNameWithoutExtension(file, zPath.GetFileNameWithoutExtension(file) + "_out");
             Trace.WriteLine("Test_FindDate \"{0}\" (nb date regex {1})", file, findDateManager.DateRegexList.Count);
             //Trace.CurrentTrace.DisableBaseLog();
             Trace.CurrentTrace.DisableViewer = true;
@@ -87,7 +87,7 @@ namespace Test.Test_Unit.Print
                 TraceRegexValuesList(findDateManager.DateRegexList);
                 Trace.WriteLine();
 
-                string bsonFile = zpath.PathSetFileNameWithoutExtension(file, Path.GetFileNameWithoutExtension(file) + "_bson");
+                string bsonFile = zpath.PathSetFileNameWithoutExtension(file, zPath.GetFileNameWithoutExtension(file) + "_bson");
                 zmongo.BsonReader<TestText>(file).zFindDate(findDateManager).zSave(bsonFile);
                 zmongo.BsonReader<TestFindDate>(bsonFile).zTraceFindDate();
                 Trace.WriteLine("test duration {0}", DateTime.Now - dt);
@@ -199,10 +199,10 @@ namespace Test.Test_Unit.Print
 
         public static void Test_FindDate_02(FindDateManager_v1 findDateManager, string file)
         {
-            file = Path.Combine(GetDirectoryDate(), file);
+            file = zPath.Combine(GetDirectoryDate(), file);
             int year = Date.Today.Year;
             findDateManager.DateRegexList.Add("year", new RegexValues("year", "year", string.Format(@"(?:^|[_\s])({0}|{1}|{2})(?:$|[_\s])", year - 1, year, year + 1), "IgnoreCase", "year", compileRegex: true));
-            string traceFile = zpath.PathSetFileNameWithoutExtension(file, Path.GetFileNameWithoutExtension(file) + "_out");
+            string traceFile = zpath.PathSetFileNameWithoutExtension(file, zPath.GetFileNameWithoutExtension(file) + "_out");
             Trace.WriteLine("Test_FindDate \"{0}\" (nb date regex {1})", file, findDateManager.DateRegexList.Count);
             //Trace.CurrentTrace.DisableBaseLog();
             Trace.CurrentTrace.DisableViewer = true;
@@ -273,8 +273,8 @@ namespace Test.Test_Unit.Print
 
         public static void Test_FindNumber_02(FindNumberManager findNumberManager, string file)
         {
-            file = Path.Combine(GetDirectoryNumber(), file);
-            string traceFile = zpath.PathSetFileNameWithoutExtension(file, Path.GetFileNameWithoutExtension(file) + "_out");
+            file = zPath.Combine(GetDirectoryNumber(), file);
+            string traceFile = zpath.PathSetFileNameWithoutExtension(file, zPath.GetFileNameWithoutExtension(file) + "_out");
             Trace.WriteLine("Test_FindNumber \"{0}\" (nb number regex {1})", file, findNumberManager.NumberRegexList.Count);
             //Trace.CurrentTrace.DisableBaseLog();
             Trace.CurrentTrace.DisableViewer = true;
@@ -322,8 +322,8 @@ namespace Test.Test_Unit.Print
 
         public static void Test_FindDate_01(RegexValuesList dateRegexList, string file)
         {
-            file = Path.Combine(GetDirectoryDate(), file);
-            string traceFile = zpath.PathSetFileNameWithoutExtension(file, Path.GetFileNameWithoutExtension(file) + "_out");
+            file = zPath.Combine(GetDirectoryDate(), file);
+            string traceFile = zpath.PathSetFileNameWithoutExtension(file, zPath.GetFileNameWithoutExtension(file) + "_out");
             Trace.WriteLine("Test_FindDate \"{0}\" (nb date regex {1})", file, dateRegexList.Count);
             //Trace.CurrentTrace.DisableBaseLog();
             Trace.CurrentTrace.DisableViewer = true;
@@ -398,12 +398,12 @@ namespace Test.Test_Unit.Print
 
         private static string GetDirectoryDate()
         {
-            return Path.Combine(XmlConfig.CurrentConfig.GetExplicit("TestUnitDirectory"), @"Print\RegexValues\Date");
+            return zPath.Combine(XmlConfig.CurrentConfig.GetExplicit("TestUnitDirectory"), @"Print\RegexValues\Date");
         }
 
         private static string GetDirectoryNumber()
         {
-            return Path.Combine(XmlConfig.CurrentConfig.GetExplicit("TestUnitDirectory"), @"Print\RegexValues\Number");
+            return zPath.Combine(XmlConfig.CurrentConfig.GetExplicit("TestUnitDirectory"), @"Print\RegexValues\Number");
         }
     }
 }

@@ -1,0 +1,836 @@
+{
+    "projectName": "Project Name",
+    "licenseText": "Copyright(c) 2012 Company Name",
+    "builds": [
+        {
+            "name": "All Classes",
+            "target": "all-classes.js",
+            "options": {
+                "debug": true
+            },
+            "files": [
+                {
+                    "clsName": "Ext.util.Observable",
+                    "name": "Observable.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/util/"
+                },
+                {
+                    "clsName": "Ext.data.IdGenerator",
+                    "name": "IdGenerator.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/data/"
+                },
+                {
+                    "clsName": "Ext.data.association.Association",
+                    "name": "Association.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/data/association/"
+                },
+                {
+                    "clsName": "Ext.data.Operation",
+                    "name": "Operation.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/data/"
+                },
+                {
+                    "clsName": "Ext.data.validations",
+                    "name": "validations.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/data/"
+                },
+                {
+                    "clsName": "Ext.ZIndexManager",
+                    "name": "ZIndexManager.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/"
+                },
+                {
+                    "clsName": "Ext.util.HashMap",
+                    "name": "HashMap.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/util/"
+                },
+                {
+                    "clsName": "Ext.data.SortTypes",
+                    "name": "SortTypes.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/data/"
+                },
+                {
+                    "clsName": "Ext.util.Floating",
+                    "name": "Floating.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/util/"
+                },
+                {
+                    "clsName": "Ext.util.Sorter",
+                    "name": "Sorter.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/util/"
+                },
+                {
+                    "clsName": "Ext.util.Filter",
+                    "name": "Filter.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/util/"
+                },
+                {
+                    "clsName": "Ext.util.Animate",
+                    "name": "Animate.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/util/"
+                },
+                {
+                    "clsName": "Ext.util.Renderable",
+                    "name": "Renderable.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/util/"
+                },
+                {
+                    "clsName": "Ext.util.ElementContainer",
+                    "name": "ElementContainer.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/util/"
+                },
+                {
+                    "clsName": "Ext.util.ProtoElement",
+                    "name": "ProtoElement.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/util/"
+                },
+                {
+                    "clsName": "Ext.state.Provider",
+                    "name": "Provider.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/state/"
+                },
+                {
+                    "clsName": "Ext.Template",
+                    "name": "Template.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/"
+                },
+                {
+                    "clsName": "Ext.util.KeyMap",
+                    "name": "KeyMap.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/util/"
+                },
+                {
+                    "clsName": "Ext.XTemplateParser",
+                    "name": "XTemplateParser.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/"
+                },
+                {
+                    "clsName": "Ext.util.Memento",
+                    "name": "Memento.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/util/"
+                },
+                {
+                    "clsName": "Ext.panel.Proxy",
+                    "name": "Proxy.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/panel/"
+                },
+                {
+                    "clsName": "Ext.fx.Queue",
+                    "name": "Queue.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/fx/"
+                },
+                {
+                    "clsName": "Ext.fx.CubicBezier",
+                    "name": "CubicBezier.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/fx/"
+                },
+                {
+                    "clsName": "Ext.fx.target.Target",
+                    "name": "Target.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/fx/target/"
+                },
+                {
+                    "clsName": "Ext.util.Offset",
+                    "name": "Offset.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/util/"
+                },
+                {
+                    "clsName": "Ext.layout.container.boxOverflow.None",
+                    "name": "None.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/layout/container/boxOverflow/"
+                },
+                {
+                    "clsName": "Ext.draw.Color",
+                    "name": "Color.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/draw/"
+                },
+                {
+                    "clsName": "Ext.util.ClickRepeater",
+                    "name": "ClickRepeater.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/util/"
+                },
+                {
+                    "clsName": "Ext.util.TextMetrics",
+                    "name": "TextMetrics.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/util/"
+                },
+                {
+                    "clsName": "Ext.app.Controller",
+                    "name": "Controller.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/app/"
+                },
+                {
+                    "clsName": "Ext.AbstractManager",
+                    "name": "AbstractManager.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/"
+                },
+                {
+                    "clsName": "Ext.ModelManager",
+                    "name": "ModelManager.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/"
+                },
+                {
+                    "clsName": "Ext.ComponentManager",
+                    "name": "ComponentManager.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/"
+                },
+                {
+                    "clsName": "Ext.data.Types",
+                    "name": "Types.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/data/"
+                },
+                {
+                    "clsName": "Ext.data.Field",
+                    "name": "Field.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/data/"
+                },
+                {
+                    "clsName": "Ext.util.AbstractMixedCollection",
+                    "name": "AbstractMixedCollection.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/util/"
+                },
+                {
+                    "clsName": "Ext.util.Sortable",
+                    "name": "Sortable.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/util/"
+                },
+                {
+                    "clsName": "Ext.util.MixedCollection",
+                    "name": "MixedCollection.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/util/"
+                },
+                {
+                    "clsName": "Ext.data.StoreManager",
+                    "name": "StoreManager.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/data/"
+                },
+                {
+                    "clsName": "Ext.data.Errors",
+                    "name": "Errors.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/data/"
+                },
+                {
+                    "clsName": "Ext.data.Model",
+                    "name": "Model.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/data/"
+                },
+                {
+                    "clsName": "Ext.ComponentQuery",
+                    "name": "ComponentQuery.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/"
+                },
+                {
+                    "clsName": "Ext.state.Manager",
+                    "name": "Manager.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/state/"
+                },
+                {
+                    "clsName": "Ext.state.Stateful",
+                    "name": "Stateful.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/state/"
+                },
+                {
+                    "clsName": "Ext.AbstractComponent",
+                    "name": "AbstractComponent.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/"
+                },
+                {
+                    "clsName": "Ext.Component",
+                    "name": "Component.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/"
+                },
+                {
+                    "clsName": "Ext.app.EventBus",
+                    "name": "EventBus.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/app/"
+                },
+                {
+                    "clsName": "Ext.XTemplateCompiler",
+                    "name": "XTemplateCompiler.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/"
+                },
+                {
+                    "clsName": "Ext.XTemplate",
+                    "name": "XTemplate.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/"
+                },
+                {
+                    "clsName": "Ext.layout.Layout",
+                    "name": "Layout.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/layout/"
+                },
+                {
+                    "clsName": "Ext.layout.container.Container",
+                    "name": "Container.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/layout/container/"
+                },
+                {
+                    "clsName": "Ext.layout.container.Auto",
+                    "name": "Auto.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/layout/container/"
+                },
+                {
+                    "clsName": "Ext.container.AbstractContainer",
+                    "name": "AbstractContainer.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/container/"
+                },
+                {
+                    "clsName": "Ext.container.Container",
+                    "name": "Container.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/container/"
+                },
+                {
+                    "clsName": "Ext.container.Viewport",
+                    "name": "Viewport.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/container/"
+                },
+                {
+                    "clsName": "Ext.panel.Header",
+                    "name": "Header.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/panel/"
+                },
+                {
+                    "clsName": "Ext.container.DockingContainer",
+                    "name": "DockingContainer.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/container/"
+                },
+                {
+                    "clsName": "Ext.layout.component.Component",
+                    "name": "Component.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/layout/component/"
+                },
+                {
+                    "clsName": "Ext.layout.component.Dock",
+                    "name": "Dock.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/layout/component/"
+                },
+                {
+                    "clsName": "Ext.fx.Easing",
+                    "name": "Easing.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/fx/"
+                },
+                {
+                    "clsName": "Ext.toolbar.Fill",
+                    "name": "Fill.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/toolbar/"
+                },
+                {
+                    "clsName": "Ext.fx.target.Element",
+                    "name": "Element.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/fx/target/"
+                },
+                {
+                    "clsName": "Ext.fx.target.ElementCSS",
+                    "name": "ElementCSS.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/fx/target/"
+                },
+                {
+                    "clsName": "Ext.fx.target.Sprite",
+                    "name": "Sprite.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/fx/target/"
+                },
+                {
+                    "clsName": "Ext.fx.target.CompositeElement",
+                    "name": "CompositeElement.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/fx/target/"
+                },
+                {
+                    "clsName": "Ext.fx.target.CompositeElementCSS",
+                    "name": "CompositeElementCSS.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/fx/target/"
+                },
+                {
+                    "clsName": "Ext.fx.target.CompositeSprite",
+                    "name": "CompositeSprite.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/fx/target/"
+                },
+                {
+                    "clsName": "Ext.dd.StatusProxy",
+                    "name": "StatusProxy.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/dd/"
+                },
+                {
+                    "clsName": "Ext.fx.target.Component",
+                    "name": "Component.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/fx/target/"
+                },
+                {
+                    "clsName": "Ext.fx.Manager",
+                    "name": "Manager.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/fx/"
+                },
+                {
+                    "clsName": "Ext.fx.Animator",
+                    "name": "Animator.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/fx/"
+                },
+                {
+                    "clsName": "Ext.draw.Draw",
+                    "name": "Draw.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/draw/"
+                },
+                {
+                    "clsName": "Ext.fx.PropertyHandler",
+                    "name": "PropertyHandler.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/fx/"
+                },
+                {
+                    "clsName": "Ext.fx.Anim",
+                    "name": "Anim.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/fx/"
+                },
+                {
+                    "clsName": "Ext.util.Region",
+                    "name": "Region.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/util/"
+                },
+                {
+                    "clsName": "Ext.dd.DragDropManager",
+                    "name": "DragDropManager.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/dd/"
+                },
+                {
+                    "clsName": "Ext.layout.container.boxOverflow.Scroller",
+                    "name": "Scroller.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/layout/container/boxOverflow/"
+                },
+                {
+                    "clsName": "Ext.dd.DragDrop",
+                    "name": "DragDrop.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/dd/"
+                },
+                {
+                    "clsName": "Ext.dd.DD",
+                    "name": "DD.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/dd/"
+                },
+                {
+                    "clsName": "Ext.dd.DDProxy",
+                    "name": "DDProxy.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/dd/"
+                },
+                {
+                    "clsName": "Ext.dd.DragSource",
+                    "name": "DragSource.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/dd/"
+                },
+                {
+                    "clsName": "Ext.panel.DD",
+                    "name": "DD.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/panel/"
+                },
+                {
+                    "clsName": "Ext.toolbar.Item",
+                    "name": "Item.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/toolbar/"
+                },
+                {
+                    "clsName": "Ext.toolbar.Separator",
+                    "name": "Separator.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/toolbar/"
+                },
+                {
+                    "clsName": "Ext.menu.Manager",
+                    "name": "Manager.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/menu/"
+                },
+                {
+                    "clsName": "Ext.layout.component.Auto",
+                    "name": "Auto.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/layout/component/"
+                },
+                {
+                    "clsName": "Ext.layout.component.Button",
+                    "name": "Button.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/layout/component/"
+                },
+                {
+                    "clsName": "Ext.button.Button",
+                    "name": "Button.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/button/"
+                },
+                {
+                    "clsName": "Ext.layout.container.boxOverflow.Menu",
+                    "name": "Menu.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/layout/container/boxOverflow/"
+                },
+                {
+                    "clsName": "Ext.layout.container.Box",
+                    "name": "Box.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/layout/container/"
+                },
+                {
+                    "clsName": "Ext.layout.container.VBox",
+                    "name": "VBox.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/layout/container/"
+                },
+                {
+                    "clsName": "Ext.layout.container.HBox",
+                    "name": "HBox.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/layout/container/"
+                },
+                {
+                    "clsName": "Ext.toolbar.Toolbar",
+                    "name": "Toolbar.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/toolbar/"
+                },
+                {
+                    "clsName": "Ext.panel.AbstractPanel",
+                    "name": "AbstractPanel.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/panel/"
+                },
+                {
+                    "clsName": "Ext.panel.Panel",
+                    "name": "Panel.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/panel/"
+                },
+                {
+                    "clsName": "Ext.tip.Tip",
+                    "name": "Tip.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/tip/"
+                },
+                {
+                    "clsName": "Ext.tip.ToolTip",
+                    "name": "ToolTip.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/tip/"
+                },
+                {
+                    "clsName": "Ext.tip.QuickTip",
+                    "name": "QuickTip.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/tip/"
+                },
+                {
+                    "clsName": "Ext.tip.QuickTipManager",
+                    "name": "QuickTipManager.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/tip/"
+                },
+                {
+                    "clsName": "Ext.app.Application",
+                    "name": "Application.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/app/"
+                },
+                {
+                    "clsName": "Ext.util.Point",
+                    "name": "Point.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/util/"
+                },
+                {
+                    "clsName": "Ext.PluginManager",
+                    "name": "PluginManager.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/"
+                },
+                {
+                    "clsName": "Ext.Layer",
+                    "name": "Layer.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/"
+                },
+                {
+                    "clsName": "Ext.resizer.Resizer",
+                    "name": "Resizer.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/resizer/"
+                },
+                {
+                    "clsName": "Ext.util.CSS",
+                    "name": "CSS.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/util/"
+                },
+                {
+                    "clsName": "Ext.layout.component.Body",
+                    "name": "Body.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/layout/component/"
+                },
+                {
+                    "clsName": "Ext.Img",
+                    "name": "Img.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/"
+                },
+                {
+                    "clsName": "Ext.util.Queue",
+                    "name": "Queue.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/util/"
+                },
+                {
+                    "clsName": "Ext.ElementLoader",
+                    "name": "ElementLoader.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/"
+                },
+                {
+                    "clsName": "Ext.panel.Tool",
+                    "name": "Tool.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/panel/"
+                },
+                {
+                    "clsName": "Ext.util.Bindable",
+                    "name": "Bindable.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/util/"
+                },
+                {
+                    "clsName": "Ext.layout.component.Draw",
+                    "name": "Draw.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/layout/component/"
+                },
+                {
+                    "clsName": "Ext.dd.DragTracker",
+                    "name": "DragTracker.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/dd/"
+                },
+                {
+                    "clsName": "Ext.menu.Item",
+                    "name": "Item.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/menu/"
+                },
+                {
+                    "clsName": "Ext.layout.container.Fit",
+                    "name": "Fit.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/layout/container/"
+                },
+                {
+                    "clsName": "Ext.layout.ClassList",
+                    "name": "ClassList.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/layout/"
+                },
+                {
+                    "clsName": "Ext.menu.Separator",
+                    "name": "Separator.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/menu/"
+                },
+                {
+                    "clsName": "Ext.util.LruCache",
+                    "name": "LruCache.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/util/"
+                },
+                {
+                    "clsName": "Ext.util.KeyNav",
+                    "name": "KeyNav.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/util/"
+                },
+                {
+                    "clsName": "Ext.FocusManager",
+                    "name": "FocusManager.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/"
+                },
+                {
+                    "clsName": "Ext.draw.CompositeSprite",
+                    "name": "CompositeSprite.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/draw/"
+                },
+                {
+                    "clsName": "Ext.data.proxy.Proxy",
+                    "name": "Proxy.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/data/proxy/"
+                },
+                {
+                    "clsName": "Ext.data.proxy.Server",
+                    "name": "Server.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/data/proxy/"
+                },
+                {
+                    "clsName": "Ext.data.writer.Writer",
+                    "name": "Writer.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/data/writer/"
+                },
+                {
+                    "clsName": "Ext.data.ResultSet",
+                    "name": "ResultSet.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/data/"
+                },
+                {
+                    "clsName": "Ext.data.Connection",
+                    "name": "Connection.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/data/"
+                },
+                {
+                    "clsName": "Ext.ComponentLoader",
+                    "name": "ComponentLoader.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/"
+                },
+                {
+                    "clsName": "Ext.util.ComponentDragger",
+                    "name": "ComponentDragger.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/util/"
+                },
+                {
+                    "clsName": "Ext.window.Window",
+                    "name": "Window.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/window/"
+                },
+                {
+                    "clsName": "Ext.LoadMask",
+                    "name": "LoadMask.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/"
+                },
+                {
+                    "clsName": "Ext.layout.ContextItem",
+                    "name": "ContextItem.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/layout/"
+                },
+                {
+                    "clsName": "Ext.layout.Context",
+                    "name": "Context.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/layout/"
+                },
+                {
+                    "clsName": "Ext.draw.Surface",
+                    "name": "Surface.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/draw/"
+                },
+                {
+                    "clsName": "Ext.draw.Component",
+                    "name": "Component.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/draw/"
+                },
+                {
+                    "clsName": "Ext.menu.CheckItem",
+                    "name": "CheckItem.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/menu/"
+                },
+                {
+                    "clsName": "Ext.menu.KeyNav",
+                    "name": "KeyNav.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/menu/"
+                },
+                {
+                    "clsName": "Ext.menu.Menu",
+                    "name": "Menu.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/menu/"
+                },
+                {
+                    "clsName": "Ext.data.proxy.Client",
+                    "name": "Client.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/data/proxy/"
+                },
+                {
+                    "clsName": "Ext.data.proxy.Memory",
+                    "name": "Memory.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/data/proxy/"
+                },
+                {
+                    "clsName": "Ext.data.AbstractStore",
+                    "name": "AbstractStore.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/data/"
+                },
+                {
+                    "clsName": "Ext.data.writer.Json",
+                    "name": "Json.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/data/writer/"
+                },
+                {
+                    "clsName": "Ext.data.reader.Reader",
+                    "name": "Reader.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/data/reader/"
+                },
+                {
+                    "clsName": "Ext.data.reader.Json",
+                    "name": "Json.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/data/reader/"
+                },
+                {
+                    "clsName": "Ext.data.reader.Array",
+                    "name": "Array.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/data/reader/"
+                },
+                {
+                    "clsName": "Ext.Ajax",
+                    "name": "Ajax.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/"
+                },
+                {
+                    "clsName": "Ext.data.proxy.Ajax",
+                    "name": "Ajax.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/data/proxy/"
+                },
+                {
+                    "clsName": "Ext.data.Store",
+                    "name": "Store.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/data/"
+                },
+                {
+                    "clsName": "Ext.data.ArrayStore",
+                    "name": "ArrayStore.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/data/"
+                },
+                {
+                    "clsName": "Ext.resizer.ResizeTracker",
+                    "name": "ResizeTracker.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/resizer/"
+                },
+                {
+                    "clsName": "Ext.data.Batch",
+                    "name": "Batch.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/data/"
+                },
+                {
+                    "clsName": "Ext.data.Request",
+                    "name": "Request.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/data/"
+                },
+                {
+                    "clsName": "Ext.util.Grouper",
+                    "name": "Grouper.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/util/"
+                },
+                {
+                    "clsName": "Ext.draw.engine.ImageExporter",
+                    "name": "ImageExporter.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/draw/engine/"
+                },
+                {
+                    "clsName": "Ext.ShadowPool",
+                    "name": "ShadowPool.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/"
+                },
+                {
+                    "clsName": "Ext.draw.engine.SvgExporter",
+                    "name": "SvgExporter.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/draw/engine/"
+                },
+                {
+                    "clsName": "Ext.draw.Matrix",
+                    "name": "Matrix.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/draw/"
+                },
+                {
+                    "clsName": "Ext.draw.SpriteDD",
+                    "name": "SpriteDD.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/draw/"
+                },
+                {
+                    "clsName": "Ext.Shadow",
+                    "name": "Shadow.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/"
+                },
+                {
+                    "clsName": "Ext.draw.Sprite",
+                    "name": "Sprite.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/draw/"
+                },
+                {
+                    "clsName": "Ext.draw.engine.Vml",
+                    "name": "Vml.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/draw/engine/"
+                },
+                {
+                    "clsName": "Ext.draw.engine.Svg",
+                    "name": "Svg.js",
+                    "path": "../../sencha/extjs-4.1.1a/src/draw/engine/"
+                }
+            ]
+        },
+        {
+            "name": "Application - Production",
+            "target": "app-all.js",
+            "compress": true,
+            "files": [
+                {
+                    "path": "",
+                    "name": "all-classes.js"
+                },
+                {
+                    "path": "",
+                    "name": "app.js"
+                }
+            ]
+        }
+    ],
+    "resources": []
+}

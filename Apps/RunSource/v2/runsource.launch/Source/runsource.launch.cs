@@ -67,17 +67,17 @@ namespace runsource_launch
                 __domain.SetData(__domainRestartParametersName, runSourceRestartParameters);
                 runSourceRestartParameters = null;
             }
-            __domain.ExecuteAssembly(Path.Combine(zapp.GetAppDirectory(), __runsourceExeName));
+            __domain.ExecuteAssembly(zPath.Combine(zapp.GetAppDirectory(), __runsourceExeName));
         }
 
         static void UpdateRunSourceFiles()
         {
             string appDir = zapp.GetAppDirectory();
-            //string dir = Path.Combine(appDir, __updateDirectory);
+            //string dir = zPath.Combine(appDir, __updateDirectory);
             string dir = __config.Get("UpdateRunSource/UpdateDirectory", __defaultUpdateDirectory).zRootPath(appDir);
-            if (Directory.Exists(dir))
+            if (zDirectory.Exists(dir))
             {
-                foreach (string file in Directory.EnumerateFiles(dir))
+                foreach (string file in zDirectory.EnumerateFiles(dir))
                 {
                     //Trace.WriteLine("copy file \"{0}\" to directory \"{1}\"", file, appDir);
                     try

@@ -153,13 +153,13 @@ namespace pt
             if (_args.Length > 0)
             {
                 filePattern = _args[0];
-                string dir2 = Path.GetDirectoryName(filePattern);
+                string dir2 = zPath.GetDirectoryName(filePattern);
                 if (dir2 != "")
                     dir = dir2;
-                filePattern = Path.GetFileName(filePattern);
+                filePattern = zPath.GetFileName(filePattern);
             }
             //Trace.WriteLine("read directory start");
-            string[] files = Directory.GetFiles(dir, filePattern, option);
+            string[] files = zDirectory.GetFiles(dir, filePattern, option);
             //Trace.WriteLine("read directory end");
             if (printFile != null && files.Length > 1)
                 throw new PBException("can't use option name with more than one file");

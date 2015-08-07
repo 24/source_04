@@ -40,7 +40,8 @@ namespace pb.Web
         private bool _traceException = false;
         private int _loadRepeatIfError = 1;
         private int _loadRetryTimeout = 10;                                // timeout in seconds, 0 = no timeout, -1 = endless timeout
-        private string _traceDirectory = null;
+        private bool _exportResult = false;
+        private string _exportDirectory = null;
 
         public static HttpManager CurrentHttpManager { get { return __currentHttpManager; } }
 
@@ -48,7 +49,8 @@ namespace pb.Web
         public bool TraceException { get { return _traceException; } set { _traceException = value; } }
         public int LoadRepeatIfError { get { return _loadRepeatIfError; } set { _loadRepeatIfError = value; } }
         public int LoadRetryTimeout { get { return _loadRetryTimeout; } set { _loadRetryTimeout = value; } }
-        public string TraceDirectory { get { return _traceDirectory; } set { _traceDirectory = value; } }
+        public bool ExportResult { get { return _exportResult; } set { _exportResult = value; } }
+        public string ExportDirectory { get { return _exportDirectory; } set { _exportDirectory = value; } }
 
         public Http Load(HttpRequest httpRequest, HttpRequestParameters requestParameters = null)
         {
@@ -237,7 +239,8 @@ namespace pb.Web
             //_webXmlExportPath = null;
             //if (Trace.CurrentTrace.TraceLevel >= 2)
             //    http.TraceDirectory = Trace.CurrentTrace.TraceDir;
-            http.TraceDirectory = _traceDirectory;
+            http.ExportResult = _exportResult;
+            http.ExportDirectory = _exportDirectory;
             return http;
         }
     }
@@ -250,7 +253,8 @@ namespace pb.Web
         private HttpRequestParameters _requestParameters = null;
         // parameters
         private int _loadRetryTimeout = 0; // timeout in seconds, 0 = no timeout, -1 = endless timeout
-        private string _traceDirectory = null;
+        private bool _exportResult = false;
+        private string _exportDirectory = null;
         // work variables
         private Progress _progress = null;
         private System.Net.WebRequest _webRequest = null;
@@ -282,7 +286,8 @@ namespace pb.Web
         public HttpRequest HttpRequest { get { return _httpRequest; } }
         public HttpRequestParameters RequestParameters { get { return _requestParameters; } }
         public int LoadRetryTimeout { get { return _loadRetryTimeout; } set { _loadRetryTimeout = value; } }
-        public string TraceDirectory { get { return _traceDirectory; } set { _traceDirectory = value; } }
+        public bool ExportResult { get { return _exportResult; } set { _exportResult = value; } }
+        public string ExportDirectory { get { return _exportDirectory; } set { _exportDirectory = value; } }
         public string ExportFile { get { return _exportFile; } }
         public string ResultCharset { get { return _resultCharset; } }
         public string ResultContentType { get { return _resultContentType; } }
@@ -299,11 +304,11 @@ namespace pb.Web
                 if (_resultContentType.StartsWith("text") || _resultContentType == "application/json")
                 {
                     _LoadText();
-                    if (_traceDirectory != null)
-                        _exportFile = GetNewHttpFileName(_traceDirectory, GetContentFileExtension(_resultContentType));
+                    if (_exportResult && _exportDirectory != null)
+                        _exportFile = GetNewHttpFileName(_exportDirectory, GetContentFileExtension(_resultContentType));
                     else if (_exportFile != null)
                     {
-                        if (Path.GetExtension(_exportFile) == "")
+                        if (zPath.GetExtension(_exportFile) == "")
                             _exportFile = zpath.PathSetExtension(_exportFile, GetContentFileExtension(_resultContentType));
                     }
                     if (_exportFile != null)
@@ -662,7 +667,7 @@ namespace pb.Web
             else if (_webResponse is FileWebResponse)
             {
                 Uri uri = new Uri(_httpRequest.Url);
-                string ext = Path.GetExtension(uri.LocalPath).ToLower();
+                string ext = zPath.GetExtension(uri.LocalPath).ToLower();
                 switch (ext)
                 {
                     case ".xml":
@@ -693,7 +698,7 @@ namespace pb.Web
         private static string GetNewUrlFileName(string dir, string url, string ext)
         {
             //string file = UrlToFileName(url, ext);
-            //return zfile.GetNewIndexedFileName(Path.Combine(dir, "{0:0000}")) + "_" + file;
+            //return zfile.GetNewIndexedFileName(zPath.Combine(dir, "{0:0000}")) + "_" + file;
             //return zfile.GetNewIndexedFileName(dir) + "_" + UrlToFileName(url, ext);
             return zfile.GetNewIndexedFileName(dir) + "_" + zurl.UrlToFileName(url, UrlFileNameType.Host | UrlFileNameType.Path | UrlFileNameType.Ext | UrlFileNameType.Query, ext);
         }
@@ -729,7 +734,7 @@ namespace pb.Web
         //        file = file.Replace('%', '_');
         //        if (ext != null) file = file + ext;
         //    }
-        //    file = Path.GetFileName(file);
+        //    file = zPath.GetFileName(file);
         //    return file;
         //}
 

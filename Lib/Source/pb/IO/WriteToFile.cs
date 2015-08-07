@@ -21,7 +21,7 @@ namespace pb.IO
                 _encoding = Encoding.UTF8;
             _appendToFile = appendToFile;
             //if (!append)
-            //    File.Delete(_file);
+            //    zFile.Delete(_file);
         }
 
         public WriteToFileBase(Func<string> generateFile, Encoding encoding = null, bool appendToFile = false)
@@ -79,10 +79,10 @@ namespace pb.IO
                 if (_generateFile != null)
                     _file = _generateFile();
                 else if (!_appendToFile)
-                    System.IO.File.Delete(_file);
-                string directory = Path.GetDirectoryName(_file);
-                if (directory != "" && !Directory.Exists(directory))
-                    Directory.CreateDirectory(directory);
+                    zFile.Delete(_file);
+                string directory = zPath.GetDirectoryName(_file);
+                if (directory != "" && !zDirectory.Exists(directory))
+                    zDirectory.CreateDirectory(directory);
                 _fileGenerated = true;
             }
         }

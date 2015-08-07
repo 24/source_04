@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using pb;
 using pb.Data.Mongo;
 using pb.IO;
@@ -11,7 +12,7 @@ namespace Download.Print
 {
     public class FileGroup
     {
-        public PrintDirectoryInfo DirectoryInfo;
+        public EnumDirectoryInfo DirectoryInfo;
         public string SubDirectory;
         public string File;
         public string BaseFilename;
@@ -50,42 +51,68 @@ namespace Download.Print
         public bool Simulate { get { return _simulate; } set { _simulate = value; } }
         public bool MoveFiles { get { return _moveFiles; } set { _moveFiles = value; } }
 
-        //public void ManageDirectoryGroups(Dictionary<string, List<PrintDirectoryInfo>> directoryGroups, string directory)
-        public void ManageDirectoryGroups(IEnumerable<IEnumerable<PrintDirectoryInfo>> directoryGroups, string directory)
+        public void ManageDirectoryGroups(IEnumerable<IEnumerable<EnumDirectoryInfo>> directoryGroups, string directory)
         {
-            foreach (IEnumerable<PrintDirectoryInfo> directoryGroup in directoryGroups)
+            foreach (IEnumerable<EnumDirectoryInfo> directoryGroup in directoryGroups)
             {
                 ManageDirectoryGroup(directoryGroup, directory);
             }
         }
 
-        //public void ManageDirectoryGroup(Dictionary<string, List<PrintDirectoryInfo>> directoryGroups, string directory)
-        public void ManageDirectoryGroup(IEnumerable<PrintDirectoryInfo> directoryGroup, string directory)
+        public void ManageDirectoryGroup(IEnumerable<EnumDirectoryInfo> directoryGroup, string directory, string bonusDirectory = null)
         {
-            //foreach (List<PrintDirectoryInfo> directoryGroup in directoryGroups.Values)
-            //{
-                // 1) delete empty directory
-                if (!_simulate)
-                    directoryGroup.zForEach(dir => zdir.DeleteEmptyDirectory(dir.Directory, deleteOnlySubdirectory: true));
+            // print example
+            //   directoryGroup :
+            //     - "Directory" : "g:\\pib\\media\\ebook\\_test\\print\\.02_hebdo\\L'express", "SubDirectory" : ".02_hebdo\\L'express", "Level" : 1
+            //     - "Directory" : "g:\\pib\\media\\ebook\\_test\\_dl\\print\\01\\print\\.02_hebdo\\L'express", "SubDirectory" : ".02_hebdo\\L'express", "Level" : 1
+            //     - "Directory" : "g:\\pib\\media\\ebook\\_test\\_dl\\print\\02\\print\\.02_hebdo\\L'express", "SubDirectory" : ".02_hebdo\\L'express", "Level" : 1
+            //   directory : "g:\\pib\\media\\ebook\\_test\\print"
+            // book example
+            //   directoryGroup :
+            //     - "Directory" : "g:\\pib\\media\\ebook\\_test\\book\\Comment faire les fromages", "SubDirectory" : "Comment faire les fromages", "Level" : 1
+            //     - "Directory" : "g:\\pib\\media\\ebook\\_test\\_dl\\book\\01\\book\\Comment faire les fromages", "SubDirectory" : "Comment faire les fromages", "Level" : 1
+            //     - "Directory" : "g:\\pib\\media\\ebook\\_test\\_dl\\book\\02\\book\\Comment faire les fromages", "SubDirectory" : "Comment faire les fromages", "Level" : 1
+            //   directory : "g:\\pib\\media\\ebook\\_test\\book"
 
-                // 2) uncompress .zip .rar (recursive)
-                directoryGroup.zForEach(dir => UncompressDirectoryFiles(dir.Directory));
 
-                // 3) pdf control
+            // 1) delete empty directory
+            if (!_simulate)
+                directoryGroup.zForEach(dir => zdir.DeleteEmptyDirectory(dir.Directory, deleteOnlySubdirectory: true));
 
-                Dictionary<string, List<FileGroup>> fileGroups = GetFileGroups(directoryGroup);
+            // 2) uncompress .zip .rar (recursive)
+            directoryGroup.zForEach(dir => UncompressDirectoryFiles(dir.Directory));
 
-                // 4) delete duplicate files, duplicate directories
+            // 3) pdf control
+
+            Dictionary<string, List<FileGroup>> fileGroups;
+
+            // 4) bonus directories
+            if (bonusDirectory != null)
+            {
+                IEnumerable<EnumDirectoryInfo> bonusDirectoryGroup = GetBonusDirectories(bonusDirectory, directoryGroup);
+                fileGroups = GetFileGroups(bonusDirectoryGroup);
+
+                // delete duplicate files, duplicate directories
                 DeleteDuplicateFiles(fileGroups.Values);
 
-                // 5) move and rename files
-                if (_moveFiles && directory != null)
-                    _MoveFiles(fileGroups.Values, directory);
+                // move and rename files
+                if (_moveFiles)
+                    _MoveFiles(fileGroups.Values, bonusDirectory, useSubdirectory: false);
+            }
 
-                // 5) delete empty directory
-                if (!_simulate)
-                    directoryGroup.zForEach(dir => zdir.DeleteEmptyDirectory(dir.Directory, deleteOnlySubdirectory: true));
-            //}
+            fileGroups = GetFileGroups(directoryGroup);
+
+            // 5) delete duplicate files, duplicate directories
+            DeleteDuplicateFiles(fileGroups.Values);
+
+            // 6) move and rename files
+            if (_moveFiles && directory != null)
+                _MoveFiles(fileGroups.Values, directory, useSubdirectory: true);
+
+            // 7) delete empty directory
+            if (!_simulate)
+                // deleteOnlySubdirectory: true
+                directoryGroup.zForEach(dir => zdir.DeleteEmptyDirectory(dir.Directory, deleteOnlySubdirectory: false));
         }
 
         public void ManageDirectory_v1(int level, params string[] directories)
@@ -141,15 +168,16 @@ namespace Download.Print
                                     Directory = dir,
                                     SubDirectory = dir.Substring(l + 1)
                                 };
-                directoryGroups.zAddKeyList(query, dir => dir.SubDirectory);
+                directoryGroups.zKeyListAdd(query, dir => dir.SubDirectory);
             }
             return directoryGroups;
         }
 
         private void UncompressDirectoryFiles(string directory)
         {
-            DirectoryInfo directoryInfo = new DirectoryInfo(directory);
-            foreach (FileInfo fileInfo in directoryInfo.EnumerateFiles("*.*", SearchOption.AllDirectories))
+            //DirectoryInfo directoryInfo = new DirectoryInfo(directory);
+            //foreach (FileInfo fileInfo in directoryInfo.EnumerateFiles("*.*", SearchOption.AllDirectories))
+            foreach (var fileInfo in zDirectory.CreateDirectoryInfo(directory).EnumerateFiles("*.*", SearchOption.AllDirectories))
             {
                 if (CompressManager.IsCompressFile(fileInfo.Name))
                 {
@@ -158,21 +186,38 @@ namespace Download.Print
                         _uncompressManager.Uncompress(fileInfo.FullName);
                 }
             }
-
         }
 
-        public static Dictionary<string, List<FileGroup>> GetFileGroups(IEnumerable<PrintDirectoryInfo> directories)
+        public static IEnumerable<EnumDirectoryInfo> GetBonusDirectories(string bonusDirectory, IEnumerable<EnumDirectoryInfo> directoryGroup)
         {
-            Dictionary<string, List<FileGroup>> fileGroups = new Dictionary<string, List<FileGroup>>();
-            foreach (PrintDirectoryInfo directoryInfo in directories)
+            yield return new EnumDirectoryInfo { Directory = bonusDirectory, Level = 1 };
+            foreach (EnumDirectoryInfo directory in directoryGroup)
+            {
+                foreach (EnumDirectoryInfo directory2 in GetBonusDirectories(directory.Directory))
+                {
+                    yield return directory2;
+                }
+            }
+        }
+
+        // bonus, bonus2, BBonus
+        private static Regex __bonusDirectory = new Regex("^b?bonus[0-9]*$", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
+        public static IEnumerable<EnumDirectoryInfo> GetBonusDirectories(string directory)
+        {
+            return zdir.EnumerateDirectoriesInfo(directory,
+                directoryFilter: directoryInfo => __bonusDirectory.IsMatch(zPath.GetFileName(directoryInfo.SubDirectory)) ? new EnumDirectoryFilter { Select = true, RecurseSubDirectory = false } : new EnumDirectoryFilter { Select = false, RecurseSubDirectory = true });
+        }
+
+        public static Dictionary<string, List<FileGroup>> GetFileGroups(IEnumerable<EnumDirectoryInfo> directories)
+        {
+            Dictionary<string, List<FileGroup>> fileGroups = new Dictionary<string, List<FileGroup>>(StringComparer.InvariantCultureIgnoreCase);
+            foreach (EnumDirectoryInfo directoryInfo in directories)
             {
                 //Trace.WriteLine("get files from \"{0}\"", directoryInfo.Directory);
                 var query = zdir.EnumerateFilesInfo(directoryInfo.Directory, followDirectoryTree: dir => { })
-                //var query = Directory.EnumerateFiles(directoryInfo.Directory, "*.*", SearchOption.AllDirectories).Select(
                 .Select(
                     file =>
                     {
-                        //FilenameNumberInfo filenameNumberInfo = zpath.PathGetFilenameNumberInfo(file.File);
                         FilenameNumberInfo filenameNumberInfo = FilenameNumberInfo.GetFilenameNumberInfo(file.File);
                         string baseFilename = filenameNumberInfo.BaseFilename;
                         bool badFile = false;
@@ -189,11 +234,11 @@ namespace Download.Print
                             BaseFilename = baseFilename,
                             Number = filenameNumberInfo.Number,
                             BadFile = badFile
-                            //PrintInfo = PrintIssue.GetPrintInfo(Path.GetFileNameWithoutExtension(filenameNumberInfo.BaseFilename))
+                            //PrintInfo = PrintIssue.GetPrintInfo(zPath.GetFileNameWithoutExtension(filenameNumberInfo.BaseFilename))
                         };
                     }
                     );
-                fileGroups.zAddKeyList(query, fileGroup => fileGroup.BaseFilename);
+                fileGroups.zKeyListAdd(query, fileGroup => fileGroup.BaseFilename);
             }
             return fileGroups;
         }
@@ -203,7 +248,7 @@ namespace Download.Print
             Dictionary<string, List<FileGroup_v1>> fileGroups = new Dictionary<string, List<FileGroup_v1>>();
             foreach (DirectoryGroup directoryGroup in directories)
             {
-                var query = Directory.EnumerateFiles(directoryGroup.Directory, "*.*", SearchOption.AllDirectories).Select(
+                var query = zDirectory.EnumerateFiles(directoryGroup.Directory, "*.*", SearchOption.AllDirectories).Select(
                     file =>
                     {
                         //FilenameNumberInfo filenameNumberInfo = zpath.PathGetFilenameNumberInfo(file);
@@ -217,7 +262,7 @@ namespace Download.Print
                         };
                     }
                     );
-                fileGroups.zAddKeyList(query, fileGroup => fileGroup.BaseFilename);
+                fileGroups.zKeyListAdd(query, fileGroup => fileGroup.BaseFilename);
             }
             return fileGroups;
         }
@@ -268,7 +313,7 @@ namespace Download.Print
                             }
                             Trace.WriteLine("delete file       \"{0}\"", file1);
                             Trace.WriteLine("   identical to   \"{0}\"", file2);
-                            File.Delete(file1);
+                            zFile.Delete(file1);
                         }
                     }
                     if (file1Deleted)
@@ -328,7 +373,7 @@ namespace Download.Print
                                 file2 = fileGroup2.File;
                             }
                             Trace.WriteLine("delete file \"{0}\" identical to \"{0}\"", file1, file2);
-                            File.Delete(file1);
+                            zFile.Delete(file1);
                         }
                     }
                     if (file1Deleted)
@@ -345,15 +390,15 @@ namespace Download.Print
             }
         }
 
-        private void _MoveFiles(IEnumerable<IEnumerable<FileGroup>> fileGroups, string directory)
+        private void _MoveFiles(IEnumerable<IEnumerable<FileGroup>> fileGroups, string directory, bool useSubdirectory = true)
         {
             foreach (IEnumerable<FileGroup> fileGroup in fileGroups)
             {
-                _MoveFiles(fileGroup, directory);
+                _MoveFiles(fileGroup, directory, useSubdirectory);
             }
         }
 
-        private void _MoveFiles(IEnumerable<FileGroup> fileGroups, string directory)
+        private void _MoveFiles(IEnumerable<FileGroup> fileGroups, string directory, bool useSubdirectory = true)
         {
             // directory : g:\\pib\\media\\ebook\\print
             //Trace.WriteLine("_MoveFiles() directory \"{0}\"", directory);
@@ -377,13 +422,15 @@ namespace Download.Print
                 {
                     first = false;
                     //Trace.WriteLine("_MoveFiles() SubDirectory \"{0}\"", fileGroup.DirectoryInfo.SubDirectory);
-                    directory2 = Path.Combine(directory, fileGroup.DirectoryInfo.SubDirectory);
+                    directory2 = directory;
+                    if (fileGroup.DirectoryInfo.SubDirectory != null && useSubdirectory)
+                        directory2 = zPath.Combine(directory, fileGroup.DirectoryInfo.SubDirectory);
                     //Trace.WriteLine("_MoveFiles() directory \"{0}\"", directory2);
                     directoryDateStorage = PrintDirectoryManager.GetDirectoryDateStorage(directory2);
                 }
 
                 string file = directory2;
-                string filename = Path.GetFileNameWithoutExtension(fileGroup.BaseFilename);
+                string filename = zPath.GetFileNameWithoutExtension(fileGroup.BaseFilename);
                 if (!fileGroup.BadFile)
                 {
                     PrintInfo printInfo = PrintIssue.GetPrintInfo(filename);
@@ -392,20 +439,25 @@ namespace Download.Print
                     {
                         string subDirectory = directoryDateStorage.GetDirectory((Date)printInfo.Date);
                         if (subDirectory != null)
-                            file = Path.Combine(file, subDirectory);
+                            file = zPath.Combine(file, subDirectory);
                     }
                     else if (fileGroup.File.StartsWith(directory))
                     {
                         // dont move unknow file of destination directory
+                        if (n <= fileGroup.Number)
+                            n = fileGroup.Number + 1;
                         continue;
+                        // pas de continue sinon n n'est pas incrémenté
+                        // keep directory file
+                        //file = fileGroup.DirectoryInfo.Directory;
                     }
                 }
                 else
-                    file = Path.Combine(file, __badFileDirectory);
-                file = Path.Combine(file, filename);
+                    file = zPath.Combine(file, __badFileDirectory);
+                file = zPath.Combine(file, filename);
                 if (n > 0)
                     file += string.Format("[{0}]", n);
-                file += Path.GetExtension(fileGroup.BaseFilename);
+                file += zPath.GetExtension(fileGroup.BaseFilename);
                 if (fileGroup.File != file)
                 {
                     files.Add(file);
@@ -414,15 +466,15 @@ namespace Download.Print
                     if (!_simulate)
                     {
                         zfile.CreateFileDirectory(file);
-                        File.Move(fileGroup.File, file + ".tmp");
+                        zFile.Move(fileGroup.File, file + ".tmp");
                     }
                 }
                 //if (fileGroup.Number != n || fileGroup.DirectoryInfo.Directory != directory)
                 //{
-                //    string file = Path.Combine(directory, fileGroup.DirectoryInfo.SubDirectory, Path.GetFileNameWithoutExtension(fileGroup.BaseFilename));
+                //    string file = zPath.Combine(directory, fileGroup.DirectoryInfo.SubDirectory, zPath.GetFileNameWithoutExtension(fileGroup.BaseFilename));
                 //    if (n > 0)
                 //        file += string.Format("[{0}]", n);
-                //    file += Path.GetExtension(fileGroup.BaseFilename);
+                //    file += zPath.GetExtension(fileGroup.BaseFilename);
                 //    files.Add(file);
                 //    Trace.WriteLine("move file \"{0}\" to \"{1}\"", fileGroup.File, file + ".tmp");
                 //    if (!_simulate)
@@ -439,7 +491,7 @@ namespace Download.Print
                 Trace.WriteLine("rename tmp file   \"{0}\"", file + ".tmp");
                 Trace.WriteLine("             to   \"{0}\"", file);
                 if (!_simulate)
-                    File.Move(file + ".tmp", file);
+                    zFile.Move(file + ".tmp", file);
             }
         }
 
@@ -459,17 +511,17 @@ namespace Download.Print
             {
                 if (fileGroup.Number != n || fileGroup.DirectoryGroup.BaseDirectory != directory)
                 {
-                    //string extension = Path.GetExtension(fileGroup.BaseFilename);
-                    string file = Path.Combine(directory, fileGroup.DirectoryGroup.SubDirectory, Path.GetFileNameWithoutExtension(fileGroup.BaseFilename));
+                    //string extension = zPath.GetExtension(fileGroup.BaseFilename);
+                    string file = zPath.Combine(directory, fileGroup.DirectoryGroup.SubDirectory, zPath.GetFileNameWithoutExtension(fileGroup.BaseFilename));
                     if (n > 0)
                         file += string.Format("[{0}]", n);
-                    file += Path.GetExtension(fileGroup.BaseFilename);
+                    file += zPath.GetExtension(fileGroup.BaseFilename);
                     files.Add(file);
                     Trace.WriteLine("move file \"{0}\" to \"{1}\"", fileGroup.File, file + ".tmp");
                     if (!_simulate)
                     {
                         zfile.CreateFileDirectory(file);
-                        File.Move(fileGroup.File, file + ".tmp");
+                        zFile.Move(fileGroup.File, file + ".tmp");
                     }
                 }
                 n++;
@@ -479,7 +531,7 @@ namespace Download.Print
             {
                 Trace.WriteLine("move file \"{0}\" to \"{1}\"", file + ".tmp", file);
                 if (!_simulate)
-                    File.Move(file + ".tmp", file);
+                    zFile.Move(file + ".tmp", file);
             }
         }
 
@@ -488,7 +540,7 @@ namespace Download.Print
         //    Dictionary<string, List<string>> directoryGroups = new Dictionary<string, List<string>>();
         //    foreach (string directory in directories)
         //    {
-        //        directoryGroups.zAddKeyList(zdir.EnumerateDirectories(directory, minLevel: level, maxLevel: level), dir => Path.GetFileName(dir));
+        //        directoryGroups.zAddKeyList(zdir.EnumerateDirectories(directory, minLevel: level, maxLevel: level), dir => zPath.GetFileName(dir));
         //    }
 
         //    //Trace.WriteLine(directoryGroups.zToJson());
@@ -548,41 +600,5 @@ namespace Download.Print
         //    // 5) delete empty directory
         //    zdir.DeleteEmptyDirectory(directory, deleteOnlySubdirectory: false);
         //}
-    }
-
-    public static partial class GlobalExtension
-    {
-        public static Dictionary<TKey, List<TData>> zToKeyList<TKey, TData>(this IEnumerable<TData> dataList, Func<TData, TKey> getKey)
-        {
-            Dictionary<TKey, List<TData>> dictionary = new Dictionary<TKey, List<TData>>();
-            dictionary.zAddKeyList(dataList, getKey);
-            return dictionary;
-        }
-
-        public static void zAddKeyList<TKey, TData>(this Dictionary<TKey, List<TData>> dictionary, IEnumerable<TData> dataList, Func<TData, TKey> getKey)
-        {
-            //if (dictionary == null)
-            //    Trace.WriteLine("dictionary is null");
-            //if (dataList == null)
-            //    Trace.WriteLine("dataList is null");
-            if (dictionary == null || dataList == null)
-                return;
-            foreach (TData data in dataList)
-            {
-                //if (!(data is PrintDirectoryInfo))
-                //{
-                //    if (data is FileGroup)
-                //        Trace.WriteLine("add file \"{0}\"", (data as FileGroup).File);
-                //    else if (data != null)
-                //        Trace.WriteLine("add file unknow data \"{0}\"", data.GetType().zGetName());
-                //    else
-                //        Trace.WriteLine("add file null data");
-                //}
-                TKey key = getKey(data);
-                if (!dictionary.ContainsKey(key))
-                    dictionary.Add(key, new List<TData>());
-                dictionary[key].Add(data);
-            }
-        }
     }
 }

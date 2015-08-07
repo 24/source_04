@@ -1,0 +1,36 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+	<head>
+		<title></title>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src="test_wcf_01.js"></script>
+
+	</head>
+	<body>
+    <br />
+    <br />
+    test javascript
+    <br />
+    <br />
+    <button type="button" onclick="Clear();">Clear</button><br />
+    <button type="button" onclick="Test1();">Test1</button><br />
+    <button type="button" onclick="Test2();">Test2</button><br />
+    <button type="button" onclick="Test3();">Test3</button><br />
+    <br />
+    <br />
+    test wcf service
+    <br />
+    <br />
+    Test_wcf_service_04      <button type="button" onclick="LoadUrl('http://localhost:54660/Source/Service1.svc/GetString');">http://localhost:54660/Source/Service1.svc/GetString</button><br /><br />
+    Test_wcf_service_05      <button type="button" onclick="LoadUrl('http://localhost:57406/Source/Service1.svc/GetString');">http://localhost:57406/Source/Service1.svc/GetString</button><br /><br />
+    Test_wcf_service_06-07   <button type="button" onclick="LoadUrl('http://localhost:8701/Test_wcf_service/Service1/GetString');">http://localhost:8701/Test_wcf_service/Service1/GetString</button><br /><br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    jsonData<br />
+    <div id="jsonData"></div>
+	</body>
+</html>

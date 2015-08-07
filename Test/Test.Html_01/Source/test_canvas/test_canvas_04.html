@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+<head>
+  <title>test canvas 04</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+  <script type="application/x-javascript" src="../js/pb_tools.js"></script>
+  <script type="application/x-javascript" src="../js/pb_canvas.js"></script>
+  <script type="application/x-javascript" src="test_canvas_04.js"></script>
+</head>
+<body>
+  <br>
+  <br>
+  <br>
+  test Html 5 canvas
+  <br>
+  <br>
+  <br>
+  <input type="file"  id="hidden_file"  style="visibility:hidden" onchange="setFile();drawCanvas();" /><br>
+  directory : <input id="directory" type="text" name="directory" size="100"><br>
+  image file : <input type="text" id="file" size="100">
+  <button type="button" onclick="document.getElementById('hidden_file').click();">browse</button><br>
+  zoom x : <input id="zoom_x" type="text" name="zoom_x" value="100">%
+  zoom y : <input id="zoom_y" type="text" name="zoom_y" value="100">%
+  <button type="button" onclick="drawCanvas()">go</button>
+  <br>
+  <br>
+  <canvas id="canvas" width="1200" height="400" style="border:1px solid black;"></canvas>
+</body>
+</html>
+<!--
+The Mystery of c:\fakepath Unveiled http://acidmartin.wordpress.com/2009/06/09/the-mystery-of-cfakepath-unveiled/
+how to resolve the C:\fakepath? http://stackoverflow.com/questions/4851595/how-to-resolve-the-c-fakepath
+File Uploads and C:\fakepath\ http://davidwalsh.name/fakepath
+how to get full file pathname in google chrome using input type "file" http://www.webdeveloper.com/forum/archive/index.php/t-254139.html
+Valeur par default dans un input file http://www.developpez.net/forums/d26063/webmasters-developpement-web/html-dhtml-xhtml/default-input-file/
+-->

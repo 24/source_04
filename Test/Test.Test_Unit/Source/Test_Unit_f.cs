@@ -11,6 +11,7 @@ using System.Collections.Specialized;
 using pb.Data.Mongo;
 using pb.Web.old;
 using Test.Test_Unit.Web;
+using pb.IO;
 
 namespace Test_Unit
 {
@@ -68,7 +69,7 @@ namespace Test_Unit
             BsonPBSerializationProvider.RegisterProvider();
             try
             {
-                string file = Path.Combine(_dataDir, @"Test_Mongo_UrlToFileName_01.txt");
+                string file = zPath.Combine(_dataDir, @"Test_Mongo_UrlToFileName_01.txt");
                 Test_Unit_UrlToFileName.SetBsonSerializationConventionEnumToString();
                 List<Test_UrlToFileName> urlToFileNameList = Test_GetUrlToFileNameList();
                 zfile.WriteFile(file, urlToFileNameList.ToJson());
@@ -85,7 +86,7 @@ namespace Test_Unit
             BsonPBSerializationProvider.RegisterProvider();
             try
             {
-                string file = Path.Combine(_dataDir, @"Test_Mongo_UrlToFileName_01.txt");
+                string file = zPath.Combine(_dataDir, @"Test_Mongo_UrlToFileName_01.txt");
                 string json = zfile.ReadAllText(file);
                 Test_Unit_UrlToFileName.SetBsonSerializationConventionEnumToString();
                 List<Test_UrlToFileName> urlToFileNameList = BsonSerializer.Deserialize<List<Test_UrlToFileName>>(json);

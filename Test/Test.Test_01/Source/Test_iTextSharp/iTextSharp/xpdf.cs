@@ -4,6 +4,7 @@ using System.IO;
 using System.Text;
 using iTextSharp.text.pdf;
 using iTextSharp.text.pdf.parser;
+using pb.IO;
 
 namespace ExportPdfContent
 {
@@ -49,9 +50,9 @@ namespace ExportPdfContent
 
                 foreach (string pdfFile in _pdfFiles)
                 {
-                    string dir = Path.GetDirectoryName(pdfFile);
+                    string dir = zPath.GetDirectoryName(pdfFile);
                     if (dir == "") dir = ".";
-                    foreach (string file in Directory.GetFiles(dir, Path.GetFileName(pdfFile)))
+                    foreach (string file in zDirectory.GetFiles(dir, zPath.GetFileName(pdfFile)))
                     {
                         xpdfFile(file);
                     }
@@ -73,7 +74,7 @@ namespace ExportPdfContent
                 //if (args.Length >= 2)
                 //    outputFile = args[1];
                 //else
-                //    outputFile = Path.Combine(Path.GetDirectoryName(pdfFile), Path.GetFileNameWithoutExtension(pdfFile) + ".txt");
+                //    outputFile = zPath.Combine(zPath.GetDirectoryName(pdfFile), zPath.GetFileNameWithoutExtension(pdfFile) + ".txt");
                 //Console.WriteLine("writing pdf content to \"{0}\"", outputFile);
                 //TextWriter writer = null;
                 //bool outputToConsole = false;
@@ -117,7 +118,7 @@ namespace ExportPdfContent
         {
             try
             {
-                string outputFile = Path.Combine(Path.GetDirectoryName(file), Path.GetFileNameWithoutExtension(file) + ".txt");
+                string outputFile = zPath.Combine(zPath.GetDirectoryName(file), zPath.GetFileNameWithoutExtension(file) + ".txt");
                 Console.WriteLine("extract pdf content from \"{0}\" to \"{1}\"", file, outputFile);
                 TextWriter writer = new StreamWriter(outputFile);
                 PdfReader reader = new PdfReader(file);

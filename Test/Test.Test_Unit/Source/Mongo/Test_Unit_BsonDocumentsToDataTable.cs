@@ -7,6 +7,7 @@ using MongoDB.Bson.IO;
 using MongoDB.Bson.Serialization;
 using pb.Data;
 using pb.Data.Mongo;
+using pb.IO;
 
 namespace Test.Test_Unit.Mongo
 {
@@ -15,15 +16,15 @@ namespace Test.Test_Unit.Mongo
         public static void Test()
         {
             Trace.WriteLine("Test_Unit_BsonDocumentsToDataTable");
-            string dir = Path.Combine(RunSource.CurrentRunSource.Config.GetExplicit("TestUnitDirectory"), @"Mongo\BsonDocumentsToDataTable");
-            Test_01(Path.Combine(dir, "BsonDocumentsToDataTable_01.txt"));
-            Test_01(Path.Combine(dir, "BsonDocumentsToDataTable_02.txt"));
-            Test_01(Path.Combine(dir, "BsonDocumentsToDataTable_03.txt"));
+            string dir = zPath.Combine(RunSource.CurrentRunSource.Config.GetExplicit("TestUnitDirectory"), @"Mongo\BsonDocumentsToDataTable");
+            Test_01(zPath.Combine(dir, "BsonDocumentsToDataTable_01.txt"));
+            Test_01(zPath.Combine(dir, "BsonDocumentsToDataTable_02.txt"));
+            Test_01(zPath.Combine(dir, "BsonDocumentsToDataTable_03.txt"));
         }
 
         public static void Test_01(string file)
         {
-            string traceFile = zpath.PathSetFileName(file, Path.GetFileNameWithoutExtension(file) + "_out");
+            string traceFile = zpath.PathSetFileName(file, zPath.GetFileNameWithoutExtension(file) + "_out");
             Trace.CurrentTrace.AddTraceFile(traceFile, LogOptions.RazLogFile);
             try
             {

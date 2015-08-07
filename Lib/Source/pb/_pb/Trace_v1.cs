@@ -81,7 +81,7 @@ namespace pb
         //        {
         //            string pathDef = _log.FileDefinition;
         //            if (pathDef != null)
-        //                _traceDir = Path.GetDirectoryName(pathDef) + "\\Trace";
+        //                _traceDir = zPath.GetDirectoryName(pathDef) + "\\Trace";
         //        }
         //        return _traceDir;
         //    }
@@ -123,7 +123,8 @@ namespace pb
             _traceDir = dir;
             if (dir != null)
             {
-                if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
+                if (!zDirectory.Exists(dir))
+                    zDirectory.CreateDirectory(dir);
                 _traceLevel = 2;
             }
             else
@@ -252,13 +253,13 @@ namespace pb
             }
             else
             {
-                //if (!Path.IsPathRooted(file))
-                //    //file = Path.Combine(Directory.GetCurrentDirectory(), file);
-                //    file = Path.Combine(zapp.GetAppDirectory(), file);
+                //if (!zPath.IsPathRooted(file))
+                //    //file = zPath.Combine(Directory.GetCurrentDirectory(), file);
+                //    file = zPath.Combine(zapp.GetAppDirectory(), file);
                 //_file = file;
                 _file = file.zRootPath(zapp.GetAppDirectory());
-                if ((options & LogOptions_v1.RazLogFile) == LogOptions_v1.RazLogFile && System.IO.File.Exists(file))
-                    System.IO.File.Delete(file);
+                if ((options & LogOptions_v1.RazLogFile) == LogOptions_v1.RazLogFile && zFile.Exists(file))
+                    zFile.Delete(file);
             }
         }
 
@@ -293,12 +294,12 @@ namespace pb
                 if (_fileDefinition == null)
                     return null;
                 //_file = zfile.GetNewIndexedFileName(_fileDefinition);
-                //string sDir = System.IO.Path.GetDirectoryName(_file);
+                //string sDir = zPath.GetDirectoryName(_file);
                 //if (!Directory.Exists(sDir)) Directory.CreateDirectory(sDir);
-                string dir = Path.GetDirectoryName(_fileDefinition);
-                if (!Directory.Exists(dir))
-                    Directory.CreateDirectory(dir);
-                _file = zfile.GetNewIndexedFileName(dir, Path.GetFileName(_fileDefinition));
+                string dir = zPath.GetDirectoryName(_fileDefinition);
+                if (!zDirectory.Exists(dir))
+                    zDirectory.CreateDirectory(dir);
+                _file = zfile.GetNewIndexedFileName(dir, zPath.GetFileName(_fileDefinition));
             }
 
             FileStream fs = null;

@@ -49,7 +49,7 @@ namespace pb.Data.Mongo
         {
             zfile.CreateFileDirectory(file);
             FileMode mode;
-            if (File.Exists(file))
+            if (zFile.Exists(file))
             {
                 if (append)
                     mode = FileMode.Append;
@@ -58,7 +58,7 @@ namespace pb.Data.Mongo
             }
             else
                 mode = FileMode.Create;
-            StreamWriter streamWriter = new StreamWriter(File.Open(file, mode, FileAccess.Write, FileShare.Read));
+            StreamWriter streamWriter = new StreamWriter(zFile.Open(file, mode, FileAccess.Write, FileShare.Read));
             JsonWriterSettings jsonSettings = new JsonWriterSettings();
             jsonSettings.Indent = true;
             jsonSettings.OutputMode = JsonOutputMode.Shell;

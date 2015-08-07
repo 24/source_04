@@ -45,6 +45,7 @@ namespace Print
         private string _exportDataFile = null;
         //private BsonWriter _exportDataWriter = null;
         private PBBsonWriter _exportDataWriter = null;
+        //private bool _extractValuesFromText = true;
 
         public PrintTextValuesManager(RegexValuesList textInfoRegexList, Func<string, string> trim = null)
         {
@@ -59,6 +60,7 @@ namespace Print
 
         public static bool Trace { get { return __trace; } set { __trace = value; } }
         //public static PrintTextValuesManager CurrentPrintTextValuesManager { get { return __currentPrintTextValuesManager; } set { __currentPrintTextValuesManager = value; } }
+        //public bool ExtractValuesFromText { get { return _extractValuesFromText; } set { _extractValuesFromText = value; } }
 
         public void SetExportDataFile(string file)
         {
@@ -84,7 +86,7 @@ namespace Print
             }
         }
 
-        public PrintTextValues GetTextValues(IEnumerable<string> texts, string title)
+        public PrintTextValues GetTextValues(IEnumerable<string> texts, string title, bool extractValuesFromText = true)
         {
             // read : title
             // modify : infos, description, language, size, nbPages
@@ -106,26 +108,30 @@ namespace Print
                 string name2;
                 string text2;
                 // Editeur : Presse fr
-                bool textValues2 = ExtractTextValues2(s, out name2, out text2);
-
-                if (s == "\r\n" || textValues2)
+                bool textValues2 = false;
+                if (extractValuesFromText)
                 {
-                    if (name != null)
-                    {
-                        if (__trace)
-                            pb.Trace.CurrentTrace.WriteLine("SetTextValues SetValue : \"{0}\" = null", name);
-                        textValues.infos.SetValue(name, null);
-                    }
-                    name = null;
+                    textValues2 = ExtractTextValues2(s, out name2, out text2);
 
-                    if (textValues2)
+                    if (s == "\r\n" || textValues2)
                     {
-                        if (__trace)
-                            pb.Trace.CurrentTrace.WriteLine("SetTextValues SetValue : \"{0}\" = \"{1}\"", name2, text2);
-                        if (text2 != null)
-                            textValues.infos.SetValue(name2, new ZString(text2));
-                        else
-                            name = name2;
+                        if (name != null)
+                        {
+                            if (__trace)
+                                pb.Trace.CurrentTrace.WriteLine("SetTextValues SetValue : \"{0}\" = null", name);
+                            textValues.infos.SetValue(name, null);
+                        }
+                        name = null;
+
+                        if (textValues2)
+                        {
+                            if (__trace)
+                                pb.Trace.CurrentTrace.WriteLine("SetTextValues SetValue : \"{0}\" = \"{1}\"", name2, text2);
+                            if (text2 != null)
+                                textValues.infos.SetValue(name2, new ZString(text2));
+                            else
+                                name = name2;
+                        }
                     }
                 }
 
@@ -354,7 +360,7 @@ namespace Print
 
         private string ExtractTextValues(NamedValues<ZValue> infos, string s)
         {
-            // French | PDF | 107 MB -*- French | PDF |  22 Pages | 7 MB -*- PDF | 116 pages | 53 Mb | French -*- Micro Application | 2010 | ISBN: 2300028441 | 221 pages | PDF
+            // French | PDF | 107 MB -*- French | PDF |  22 Pages | 7 MB -*- PDF | 116 pages | 205/148 pages | 53 Mb | French -*- Micro Application | 2010 | ISBN: 2300028441 | 221 pages | PDF
             // pb : |I|N|F|O|S|, |S|Y|N|O|P|S|I|S|, |T|E|L|E|C|H|A|R|G|E|R|
             // example http://www.telechargement-plus.com/e-book-magazines/bande-dessines/136846-season-one-100-marvel-syrie-en-cours-10-tomes-comicmulti.html
             if (s.Contains('|'))
@@ -365,7 +371,8 @@ namespace Print
                     string s3 = s2;
                     NamedValues<ZValue> values = _textInfoRegexList.ExtractTextValues(ref s3);
                     infos.SetValues(values);
-                    s3 = s3.Trim();
+                    //s3 = s3.Trim();
+                    s3 = Trim(s3);
                     if (s3 != "")
                     {
                         string name;

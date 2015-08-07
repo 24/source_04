@@ -39,9 +39,9 @@ namespace Pib.Pcap
         {
             tcpStream.WriteData += WriteData;
             TcpConnection tcpConnection = tcpStream.TcpConnection;
-            //_file = Path.Combine(directory, string.Format("{0}.{1}-{2}.{3}", tcpConnection.Source.IpAddress, tcpConnection.Source.Port,
+            //_file = zPath.Combine(directory, string.Format("{0}.{1}-{2}.{3}", tcpConnection.Source.IpAddress, tcpConnection.Source.Port,
             //    tcpConnection.Destination.IpAddress, tcpConnection.Destination.Port));
-            _file = Path.Combine(directory, tcpConnection.GetConnectionName());
+            _file = zPath.Combine(directory, tcpConnection.GetConnectionName());
         }
 
         public void Dispose()
@@ -118,9 +118,9 @@ namespace Pib.Pcap
             TcpConnection tcpConnection = tcpStream.TcpConnection;
             //_connectionName = string.Format("{0}.{1}-{2}.{3}", tcpConnection.Source.IpAddress, tcpConnection.Source.Port, tcpConnection.Destination.IpAddress, tcpConnection.Destination.Port);
             _connectionName = tcpConnection.GetConnectionName();
-            //_log = new Log(Path.Combine(directory, _connectionName + ".txt"), LogOptions.RazLogFile);
+            //_log = new Log(zPath.Combine(directory, _connectionName + ".txt"), LogOptions.RazLogFile);
             _trace = new TTrace();
-            _trace.SetWriter(Path.Combine(directory, _connectionName + ".txt"), FileOption.RazFile);
+            _trace.SetWriter(zPath.Combine(directory, _connectionName + ".txt"), FileOption.RazFile);
             tcpStream.WriteData += TraceData;
         }
 

@@ -3,6 +3,7 @@ using System.Collections;
 using System.IO;
 using System.Xml.Serialization;
 using System.Text;
+using pb.IO;
 
 namespace pb.Data.Xml
 {
@@ -81,8 +82,8 @@ namespace pb.Data.Xml
                 BeforeSave();
             Parameter[] prm = SortedListToArray(gslPrm);
             System.Xml.Serialization.XmlSerializer xs = new System.Xml.Serialization.XmlSerializer(typeof(Parameter[]), new Type[] { typeof(object[]) });
-            string sDir = System.IO.Path.GetDirectoryName(gsPath);
-            Directory.CreateDirectory(sDir);
+            string sDir = zPath.GetDirectoryName(gsPath);
+            zDirectory.CreateDirectory(sDir);
             StreamWriter sw = new StreamWriter(gsPath, false, Encoding.Default);
             try
             {
@@ -100,7 +101,7 @@ namespace pb.Data.Xml
 
             //Trace.WriteLine("XmlParameter : load parameters from \"{0}\"", gsPath);
             System.Xml.Serialization.XmlSerializer xs = new System.Xml.Serialization.XmlSerializer(typeof(Parameter[]));
-            if (!File.Exists(gsPath))
+            if (!zFile.Exists(gsPath))
             {
                 gslPrm = new SortedList();
                 return;
@@ -173,7 +174,7 @@ namespace pb.Data.Xml
         {
             string sDir;
 
-            if (!System.IO.Path.IsPathRooted(sPath))
+            if (!zPath.IsPathRooted(sPath))
             {
                 string sPath2 = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
                 //string company = app.GetApplicationCompany();
@@ -191,9 +192,9 @@ namespace pb.Data.Xml
                 if (product != null) sPath2 += "\\" + product;
                 sPath = sPath2 + "\\" + sPath;
             }
-            if (!System.IO.Path.HasExtension(sPath)) sPath += ".xml";
-            sDir = System.IO.Path.GetDirectoryName(sPath);
-            Directory.CreateDirectory(sDir);
+            if (!zPath.HasExtension(sPath)) sPath += ".xml";
+            sDir = zPath.GetDirectoryName(sPath);
+            zDirectory.CreateDirectory(sDir);
             return sPath;
         }
     }

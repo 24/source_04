@@ -25,9 +25,9 @@ namespace pb.Web
             else
                 throw new PBException("Error can't transform http content \"{0}\" to xml", http.ResultContentType);
 
-            if (http.TraceDirectory != null)
+            if (http.ExportDirectory != null)
             {
-                string xmlExportPath = http.GetNewHttpFileName(http.TraceDirectory, ".xml");
+                string xmlExportPath = http.GetNewHttpFileName(http.ExportDirectory, ".xml");
                 xml.Save(xmlExportPath);
             }
             //else if (_xmlExportPath != null)

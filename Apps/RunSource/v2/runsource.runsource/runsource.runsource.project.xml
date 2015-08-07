@@ -35,6 +35,8 @@
   <Source                                    value = "..\..\..\..\Lib\Source\pb\IO\Path.cs" />
   <Source                                    value = "..\..\..\..\Lib\Source\pb\IO\WriteToFile.cs" />
   <Source                                    value = "..\..\..\..\Lib\Source\pb\IO\WriteToFileCreate.cs" />
+  <Source                                    value = "..\..\..\..\Lib\Source\pb\IO\zDirectory.cs" />
+  <Source                                    value = "..\..\..\..\Lib\Source\pb\IO\zFile.cs" />
   <Source                                    value = "..\..\..\..\Lib\Source\pb\Text\Regex.cs" />
   <Source                                    value = "..\..\..\..\Lib\Source\pb\Text\Split.cs" />
   <Source                                    value = "..\..\..\..\Lib\Source\pb\Text\String.cs" />
@@ -60,6 +62,7 @@
   <File                                      value = "..\..\..\..\..\RuntimeLibrary\ScintillaNET\ScintillaNET v2.6\SciLexer.dll" />
   <File                                      value = "..\..\..\..\..\RuntimeLibrary\ScintillaNET\ScintillaNET v2.6\SciLexer64.dll" />
   <File                                      value = "..\..\..\..\..\RuntimeLibrary\ScintillaNET\ScintillaNET v2.6\ScintillaNET.xml" />
+  <Assembly                                  value = "..\..\..\..\..\RuntimeLibrary\LongPath\LongPath\Pri.LongPath.dll" />
   <Assembly                                  value = "..\runsource.irunsource\bin32\runsource.irunsource.dll" />
   <DebugInformation                          value = "true" />
 </AssemblyProject>

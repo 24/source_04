@@ -199,7 +199,7 @@ namespace Download.Print
         public static void Test_AddTraceFile_01()
         {
             Trace.WriteLine("Test_AddTraceFile_01");
-            string logFile = Path.Combine(XmlConfig.CurrentConfig.GetExplicit("DataDir"), @"test_log_01.txt");
+            string logFile = zPath.Combine(XmlConfig.CurrentConfig.GetExplicit("DataDir"), @"test_log_01.txt");
             Trace.WriteLine("add trace file to \"{0}\"", logFile);
             //Trace.CurrentTrace.AddTraceFile(logFile, LogOptions.RazLogFile);
             if (logFile != null)
@@ -252,7 +252,7 @@ namespace Download.Print
 
         public static void Test_ReadFileLines_01()
         {
-            string file = Path.Combine(XmlConfig.CurrentConfig.GetExplicit("DataDir"), @"control\print_filenames_01.txt");
+            string file = zPath.Combine(XmlConfig.CurrentConfig.GetExplicit("DataDir"), @"control\print_filenames_01.txt");
             //RunSource.CurrentRunSource.View(zfile.ReadAllLines(file));
             zfile.ReadAllLines(file).zView();
         }

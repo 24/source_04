@@ -15,7 +15,7 @@ namespace pb.Compiler
 
             compiler.OutputDir = xe.zXPathValue("OutputDir", compiler.OutputDir);
             compiler.OutputAssembly = xe.zXPathValue("Output", compiler.OutputAssembly);
-            string ext = Path.GetExtension(compiler.OutputAssembly);
+            string ext = zPath.GetExtension(compiler.OutputAssembly);
             if (ext != null)
             {
                 if (ext.ToLower() == ".exe")
@@ -57,7 +57,7 @@ namespace pb.Compiler
 
             compiler.OutputDir = xe.Get("OutputDir", compiler.OutputDir);
             compiler.OutputAssembly = xe.Get("Output", compiler.OutputAssembly);
-            string ext = Path.GetExtension(compiler.OutputAssembly);
+            string ext = zPath.GetExtension(compiler.OutputAssembly);
             if (ext != null)
             {
                 if (ext.ToLower() == ".exe")

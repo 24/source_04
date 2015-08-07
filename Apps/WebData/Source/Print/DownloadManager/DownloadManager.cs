@@ -321,7 +321,7 @@ namespace Download.Print
                     //    pb.Trace.WriteLine("ManageEndDownloadFiles() 02                   : end download file : state {0} file \"{1}\"", filePartLink.State, filePartLink.File);
 
                     //filePartLink.DownloadedPath = _downloadClient.GetDownloadLocalFileById(downloadLinkRef.DownloadId);
-                    //filePartLink.DownloadedFile = zpath.PathSetDirectory(filePartLink.DownloadedPath, Path.GetDirectoryName(downloadFile.File));
+                    //filePartLink.DownloadedFile = zpath.PathSetDirectory(filePartLink.DownloadedPath, zPath.GetDirectoryName(downloadFile.File));
                     //filePartLink.EndDownloadTime = DateTime.Now;
                     //filePartLink.DownloadDuration = filePartLink.EndDownloadTime - filePartLink.StartDownloadTime;
                     //downloadFile.EndDownloadTime = filePartLink.EndDownloadTime;
@@ -365,7 +365,7 @@ namespace Download.Print
                     pb.Trace.WriteLine("DownloadManager.ManageEndDownloadFiles() 02                   : end download file : state {0} file \"{1}\"", filePartLink.State, filePartLink.File);
 
                 filePartLink.DownloadedPath = _downloadClient.GetDownloadLocalFileById(downloadLinkRef.DownloadId);
-                filePartLink.DownloadedFile = zpath.PathSetDirectory(filePartLink.DownloadedPath, Path.GetDirectoryName(downloadFile.File));
+                filePartLink.DownloadedFile = zpath.PathSetDirectory(filePartLink.DownloadedPath, zPath.GetDirectoryName(downloadFile.File));
                 filePartLink.EndDownloadTime = DateTime.Now;
                 filePartLink.DownloadDuration = filePartLink.EndDownloadTime - filePartLink.StartDownloadTime;
                 downloadFile.EndDownloadTime = filePartLink.EndDownloadTime;
@@ -421,7 +421,7 @@ namespace Download.Print
 
 
                 //string downloadedPath = _downloadClient.GetDownloadLocalFileById(downloadFile.downloadId);
-                //string downloadDirectory = Path.GetDirectoryName(downloadFile.File);
+                //string downloadDirectory = zPath.GetDirectoryName(downloadFile.File);
 
                 _mongoDownloadedFileManager.RemoveFromKey(downloadedFile.Key);
                 downloadedFile.Id = _mongoDownloadedFileManager.GetNewId();
@@ -439,7 +439,7 @@ namespace Download.Print
                         {
                             //string[] uncompressFiles = UncompressFiles(queueDownloadFile);
                             string[] uncompressFiles = UncompressFiles(queueDownloadFile.DownloadItemLinks.GetDownloadFilePartLinks().Select(filePartLink => filePartLink.DownloadedPath).ToArray());
-                            downloadedFile.UncompressFiles = SetDirectoryFiles(uncompressFiles, Path.GetDirectoryName(queueDownloadFile.File));
+                            downloadedFile.UncompressFiles = SetDirectoryFiles(uncompressFiles, zPath.GetDirectoryName(queueDownloadFile.File));
                             _mongoDownloadedFileManager.Save(downloadedFile.Id, downloadedFile);
                         }
                     });
@@ -491,7 +491,7 @@ namespace Download.Print
         //                    downloadDuration = DateTime.Now - downloadFile.startDownloadTime
         //                };
         //                string downloadedPath = _downloadClient.GetDownloadLocalFileById(downloadFile.downloadId);
-        //                string downloadDirectory = Path.GetDirectoryName(downloadFile.file);
+        //                string downloadDirectory = zPath.GetDirectoryName(downloadFile.file);
         //                //downloadedFile.downloadedFile = zpath.PathSetDirectory(downloadedPath, downloadDirectory);
         //                downloadedFile.id = _mongoDownloadedFileManager.GetNewId();
 

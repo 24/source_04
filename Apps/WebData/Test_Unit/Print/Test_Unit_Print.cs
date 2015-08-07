@@ -102,8 +102,8 @@ namespace Test.Test_Unit.Print
 
         public static void Test_CalculatePrintNumber_01(global::Print.Print print, string directory, Date date, int nb)
         {
-            string traceFile = Path.Combine(directory, @"Print\CalculatePrintDateNumber", string.Format("Print_{0}_Number.txt", print.Name));
-            Trace.WriteLine("print {0} frequency {1} calculate number from date {2:dd-MM-yyyy} nb {3} trace file \"{4}\"", print.Name, print.Frequency, date, nb, Path.GetFileName(traceFile));
+            string traceFile = zPath.Combine(directory, @"Print\CalculatePrintDateNumber", string.Format("Print_{0}_Number.txt", print.Name));
+            Trace.WriteLine("print {0} frequency {1} calculate number from date {2:dd-MM-yyyy} nb {3} trace file \"{4}\"", print.Name, print.Frequency, date, nb, zPath.GetFileName(traceFile));
             //Trace.CurrentTrace.DisableBaseLog();
             Trace.CurrentTrace.DisableViewer = true;
             //Trace.CurrentTrace.AddTraceFile(traceFile, LogOptions.RazLogFile);
@@ -170,8 +170,8 @@ namespace Test.Test_Unit.Print
 
         public static void Test_CalculatePrintDate_01(global::Print.Print print, string directory, int printNumber, int nb)
         {
-            string traceFile = Path.Combine(directory, @"Print\CalculatePrintDateNumber", string.Format("Print_{0}_Date.txt", print.Name));
-            Trace.WriteLine("print {0} frequency {1} calculate date from number {2} nb {3} trace file \"{4}\"", print.Name, print.Frequency, printNumber, nb, Path.GetFileName(traceFile));
+            string traceFile = zPath.Combine(directory, @"Print\CalculatePrintDateNumber", string.Format("Print_{0}_Date.txt", print.Name));
+            Trace.WriteLine("print {0} frequency {1} calculate date from number {2} nb {3} trace file \"{4}\"", print.Name, print.Frequency, printNumber, nb, zPath.GetFileName(traceFile));
             //Trace.CurrentTrace.DisableBaseLog();
             Trace.CurrentTrace.DisableViewer = true;
             //Trace.CurrentTrace.AddTraceFile(traceFile, LogOptions.RazLogFile);
@@ -198,8 +198,8 @@ namespace Test.Test_Unit.Print
 
         public static void Test_CalculatePrintNumber_02(global::Print.Print print, string directory, Date date, int nb)
         {
-            string traceFile = Path.Combine(Path.Combine(directory, @"Print\CalculatePrintDateNumber"), string.Format("Print_{0}_Number.txt", print.Name));
-            Trace.WriteLine("print {0} frequency {1} calculate number from date {2:dd-MM-yyyy} nb {3} trace file \"{4}\"", print.Name, print.Frequency, date, nb, Path.GetFileName(traceFile));
+            string traceFile = zPath.Combine(zPath.Combine(directory, @"Print\CalculatePrintDateNumber"), string.Format("Print_{0}_Number.txt", print.Name));
+            Trace.WriteLine("print {0} frequency {1} calculate number from date {2:dd-MM-yyyy} nb {3} trace file \"{4}\"", print.Name, print.Frequency, date, nb, zPath.GetFileName(traceFile));
             //Trace.CurrentTrace.DisableBaseLog();
             //Trace.CurrentTrace.DisableTraceView = true;
             //Trace.CurrentTrace.AddTraceFile(traceFile, LogOptions.RazLogFile);

@@ -97,7 +97,7 @@ namespace pb.Data.Mongo
             {
                 fileStream.Close();
                 if (deleteFile)
-                    File.Delete(file);
+                    zFile.Delete(file);
             }
         }
 
@@ -129,7 +129,7 @@ namespace pb.Data.Mongo
         public static void SaveToJsonFile<T>(string file, IEnumerable<T> values)
         {
             zfile.CreateFileDirectory(file);
-            using (StreamWriter sw = File.CreateText(file))
+            using (StreamWriter sw = zFile.CreateText(file))
             {
                 JsonWriterSettings jsonSettings = new JsonWriterSettings();
                 jsonSettings.Indent = true;
@@ -154,7 +154,7 @@ namespace pb.Data.Mongo
         public static void SaveToJsonFile<T>(string file, T value)
         {
             zfile.CreateFileDirectory(file);
-            using (StreamWriter sw = File.CreateText(file))
+            using (StreamWriter sw = zFile.CreateText(file))
             {
                 JsonWriterSettings jsonSettings = new JsonWriterSettings();
                 jsonSettings.Indent = true;
@@ -274,8 +274,28 @@ namespace pb.Data.Mongo
             return value;
         }
 
+        public static BsonValue zGet(this BsonValue value, int index)
+        {
+            if (value == null)
+                return null;
+            if (!(value is BsonArray))
+            {
+                //Trace.WriteLine("zGet : value is not BsonArray return null");
+                return null;
+            }
+            BsonArray array = (BsonArray)value;
+            if (index >= array.Count)
+            {
+                //Trace.WriteLine("zGet : value does not contain element index {0} return null", index);
+                return null;
+            }
+            return array[index];
+        }
+
         public static bool zSet(this BsonValue value, string name, BsonValue newValue)
         {
+            if (newValue == null)
+                newValue = BsonNull.Value;
             string[] names = name.Split('.');
             value = value.zGet(names.Take(names.Length - 1));
             if (value != null && value is BsonDocument)

@@ -25,6 +25,9 @@
   <Source                                    value = "..\..\..\..\Lib\Source\pb\IO\Path.cs" />
   <Source                                    value = "..\..\..\..\Lib\Source\pb\IO\WriteToFile.cs" />
   <Source                                    value = "..\..\..\..\Lib\Source\pb\IO\WriteToFileCreate.cs" />
+  <Source                                    value = "..\..\..\..\Lib\Source\pb\IO\zDirectory.cs" />
+  <Source                                    value = "..\..\..\..\Lib\Source\pb\IO\zFile.cs" />
+  <Source                                    value = "..\..\..\..\Lib\Source\pb\IO\zPath.cs" />
   <Source                                    value = "..\..\..\..\Lib\Source\pb\Text\Regex.cs" />
   <Source                                    value = "..\..\..\..\Lib\Source\pb\Windows\Forms\zerrf.cs" />
   
@@ -41,6 +44,7 @@
   <Assembly                                  value = "System.Windows.Forms.dll" />
   <Assembly                                  value = "System.Xml.dll" />
   <Assembly                                  value = "System.Xml.Linq.dll" />
+  <Assembly                                  value = "..\..\..\..\..\RuntimeLibrary\LongPath\LongPath\Pri.LongPath.dll" />
   <DebugInformation                          value = "true" />
 </AssemblyProject>
 

@@ -31,6 +31,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.JScript" />
+    <Reference Include="Pri.LongPath">
+      <HintPath>..\..\..\..\..\RuntimeLibrary\LongPath\LongPath\Pri.LongPath.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -90,6 +93,12 @@
     </Compile>
     <Compile Include="..\..\..\..\Lib\Source\pb\IO\WriteToFileCreate.cs">
       <Link>SourceLnk\Lib\pb\IO\WriteToFileCreate.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Lib\Source\pb\IO\zDirectory.cs">
+      <Link>SourceLnk\Lib\pb\IO\zDirectory.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Lib\Source\pb\IO\zFile.cs">
+      <Link>SourceLnk\Lib\pb\IO\zFile.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\Lib\Source\pb\Text\Regex.cs">
       <Link>SourceLnk\Lib\pb\Text\Regex.cs</Link>

@@ -15,7 +15,7 @@ namespace pb.IO
             bool overrideExistingFile = (options & UncompressBaseOptions.OverrideExistingFile) == UncompressBaseOptions.OverrideExistingFile;
             bool renameExistingFile = (options & UncompressBaseOptions.RenameExistingFile) == UncompressBaseOptions.RenameExistingFile;
             List<string> files = new List<string>();
-            using (Stream stream = File.OpenRead(file))
+            using (Stream stream = zFile.OpenRead(file))
             {
                 var reader = ReaderFactory.Open(stream);
                 while (reader.MoveToNextEntry())
@@ -28,12 +28,12 @@ namespace pb.IO
                         if (extractFullPath)
                             uncompressFile = reader.Entry.FilePath;
                         else
-                            Path.GetFileName(reader.Entry.FilePath);
-                        uncompressFile = Path.Combine(directory, reader.Entry.FilePath);
-                        if (File.Exists(uncompressFile))
+                            zPath.GetFileName(reader.Entry.FilePath);
+                        uncompressFile = zPath.Combine(directory, reader.Entry.FilePath);
+                        if (zFile.Exists(uncompressFile))
                         {
                             if (overrideExistingFile)
-                                File.Delete(uncompressFile);
+                                zFile.Delete(uncompressFile);
                             else if (renameExistingFile)
                                 uncompressFile = zfile.GetNewFilename(uncompressFile);
                             else

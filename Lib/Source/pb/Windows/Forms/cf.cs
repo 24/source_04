@@ -68,19 +68,19 @@ namespace pb.Windows.Forms
 
             sDir = zapp.GetAppDirectory();
             sFileName = null;
-            if (File.Exists(sPathDefaut))
+            if (zFile.Exists(sPathDefaut))
             {
-                sDir = Path.GetDirectoryName(sPathDefaut);
-                sFileName = Path.GetFileName(sPathDefaut);
+                sDir = zPath.GetDirectoryName(sPathDefaut);
+                sFileName = zPath.GetFileName(sPathDefaut);
             }
-            else if (Directory.Exists(sPathDefaut))
+            else if (zDirectory.Exists(sPathDefaut))
             {
                 sDir = sPathDefaut;
             }
             else
             {
-                sPathDefaut = Path.GetDirectoryName(sPathDefaut);
-                if (Directory.Exists(sPathDefaut)) sDir = sPathDefaut;
+                sPathDefaut = zPath.GetDirectoryName(sPathDefaut);
+                if (zDirectory.Exists(sPathDefaut)) sDir = sPathDefaut;
             }
 
             ofDlg = new OpenFileDialog();
@@ -107,19 +107,19 @@ namespace pb.Windows.Forms
         {
             string sDir = zapp.GetAppDirectory();
             string sFileName = null;
-            if (File.Exists(sPathDefaut))
+            if (zFile.Exists(sPathDefaut))
             {
-                sDir = Path.GetDirectoryName(sPathDefaut);
-                sFileName = Path.GetFileName(sPathDefaut);
+                sDir = zPath.GetDirectoryName(sPathDefaut);
+                sFileName = zPath.GetFileName(sPathDefaut);
             }
-            else if (Directory.Exists(sPathDefaut))
+            else if (zDirectory.Exists(sPathDefaut))
             {
                 sDir = sPathDefaut;
             }
             else
             {
-                sPathDefaut = Path.GetDirectoryName(sPathDefaut);
-                if (Directory.Exists(sPathDefaut)) sDir = sPathDefaut;
+                sPathDefaut = zPath.GetDirectoryName(sPathDefaut);
+                if (zDirectory.Exists(sPathDefaut)) sDir = sPathDefaut;
             }
 
             OpenFileDialog ofDlg = new OpenFileDialog();

@@ -7,6 +7,7 @@ using Print;
 using Download.Print;
 using pb.Compiler;
 using pb.Data.Xml;
+using pb.IO;
 
 namespace Test.Test_Unit.Print
 {
@@ -14,7 +15,7 @@ namespace Test.Test_Unit.Print
     {
         public static void Test_01(string file)
         {
-            file = Path.Combine(GetDirectory(), file);
+            file = zPath.Combine(GetDirectory(), file);
             foreach (BsonDocument doc in zmongo.BsonReader<BsonDocument>(file))
             {
                 PrintTextValues_v1 textValues = DownloadPrint.PrintTextValuesManager.GetTextValues_v1(doc.zGet("Texts").zAsBsonArray().zAsStrings(), doc.zGet("Title").zAsString());
@@ -28,7 +29,7 @@ namespace Test.Test_Unit.Print
 
         public static void Test_02(string file)
         {
-            file = Path.Combine(GetDirectory(), file);
+            file = zPath.Combine(GetDirectory(), file);
             foreach (BsonDocument doc in zmongo.BsonReader<BsonDocument>(file))
             {
                 PrintTextValues textValues = DownloadPrint.PrintTextValuesManager.GetTextValues(doc.zGet("Texts").zAsBsonArray().zAsStrings(), doc.zGet("Title").zAsString());
@@ -42,7 +43,7 @@ namespace Test.Test_Unit.Print
 
         private static string GetDirectory()
         {
-            return Path.Combine(XmlConfig.CurrentConfig.GetExplicit("TestUnitDirectory"), @"Print\PrintTextValues");
+            return zPath.Combine(XmlConfig.CurrentConfig.GetExplicit("TestUnitDirectory"), @"Print\PrintTextValues");
         }
     }
 }

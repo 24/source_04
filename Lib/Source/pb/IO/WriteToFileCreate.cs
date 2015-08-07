@@ -14,7 +14,7 @@ namespace pb.IO
                 if (option == FileOption.IndexedFile)
                 {
                     file = file.zRootPath(zapp.GetAppDirectory());
-                    return new WriteToFile(() => zfile.GetNewIndexedFileName(Path.GetDirectoryName(file), Path.GetFileName(file)), encoding);
+                    return new WriteToFile(() => zfile.GetNewIndexedFileName(zPath.GetDirectoryName(file), zPath.GetFileName(file)), encoding);
                 }
                 else
                     return new WriteToFile(file, encoding, appendToFile: option != FileOption.RazFile);

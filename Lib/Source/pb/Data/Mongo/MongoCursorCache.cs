@@ -25,8 +25,8 @@ namespace pb.Data.Mongo
             get { return __cacheFile; }
             set
             {
-                __cacheDirectory = Path.GetDirectoryName(value);
-                __cacheFile = Path.GetFileName(value);
+                __cacheDirectory = zPath.GetDirectoryName(value);
+                __cacheFile = zPath.GetFileName(value);
             }
         }
     }

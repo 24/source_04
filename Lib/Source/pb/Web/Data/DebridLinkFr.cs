@@ -6,6 +6,7 @@ using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using pb.Data.Mongo;
 using pb.Data.Xml;
+using pb.IO;
 using pb.Text;
 
 namespace pb.Web
@@ -232,7 +233,7 @@ namespace pb.Web
                 if (_connexionFile == null)
                     throw new PBException("DebriderDebridLink connexion file is null");
 
-                if (!File.Exists(_connexionFile))
+                if (!zFile.Exists(_connexionFile))
                     return false;
 
                 _connexion = zmongo.ReadFileAs<DebridLinkConnexion>(_connexionFile);
@@ -249,7 +250,7 @@ namespace pb.Web
             //    if (_serverTimeFile == null)
             //        throw new PBException("DebriderDebridLink server time file is null");
 
-            //    if (!File.Exists(_serverTimeFile))
+            //    if (!zFile.Exists(_serverTimeFile))
             //        return false;
 
             //    _serverTime = zmongo.ReadFileAs<DebridLinkServerTime>(_serverTimeFile);

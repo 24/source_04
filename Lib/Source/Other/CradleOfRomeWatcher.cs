@@ -247,12 +247,13 @@ namespace PB_Library
             string zipFile = _currentLevel.GetFilename();
             Message("save craddle files to \"{0}\"", zipFile);
             //////////throw new Exception("error test test test test test");
-            zipFile = Path.Combine(_cradleFileSaveDirectory, zipFile);
+            zipFile = zPath.Combine(_cradleFileSaveDirectory, zipFile);
             ZipFile zip = new ZipFile();
-            if (!Directory.Exists(_cradleFileSaveDirectory)) Directory.CreateDirectory(_cradleFileSaveDirectory);
-            zip.AddFile(Path.Combine(_cradleFileDirectory, "config.xml"), "");
-            zip.AddFile(Path.Combine(_cradleFileDirectory, "hiscores.xml"), "");
-            zip.AddFile(Path.Combine(_cradleFileDirectory, "profiles.xml"), "");
+            if (!zDirectory.Exists(_cradleFileSaveDirectory))
+                zDirectory.CreateDirectory(_cradleFileSaveDirectory);
+            zip.AddFile(zPath.Combine(_cradleFileDirectory, "config.xml"), "");
+            zip.AddFile(zPath.Combine(_cradleFileDirectory, "hiscores.xml"), "");
+            zip.AddFile(zPath.Combine(_cradleFileDirectory, "profiles.xml"), "");
             zip.Save(zipFile);
             zip.Dispose();
             if (CraddleFilesSaved != null)
@@ -303,13 +304,13 @@ namespace PB_Library
         private void DeleteFileLevel(CradleOfRomeBlitzLevel level)
         {
             Message("Delete craddle of rome 2 level {0}", level.GetFilename());
-            File.Delete(Path.Combine(_cradleFileSaveDirectory, level.GetFilename()));
+            zFile.Delete(zPath.Combine(_cradleFileSaveDirectory, level.GetFilename()));
         }
 
         private void CopyFileLevel(CradleOfRomeBlitzLevel level)
         {
             _fileSystemWatcher.EnableRaisingEvents = false;
-            ZipFile zip = new ZipFile(Path.Combine(_cradleFileSaveDirectory, level.GetFilename()));
+            ZipFile zip = new ZipFile(zPath.Combine(_cradleFileSaveDirectory, level.GetFilename()));
             //zip["config.xml"].Extract(gCradleFileDirectory, true);
             zip["config.xml"].Extract(_cradleFileDirectory, ExtractExistingFileAction.OverwriteSilently);
             //zip["hiscores.xml"].Extract(gCradleFileDirectory, true);
@@ -330,7 +331,7 @@ namespace PB_Library
         private void GetLevelsFromSaveDirectory()
         {
             // CradleOfRome2_e0600-n2702-h0717.zip
-            string[] files = Directory.GetFiles(_cradleFileSaveDirectory, "CradleOfRome2_*.zip", SearchOption.TopDirectoryOnly);
+            string[] files = zDirectory.GetFiles(_cradleFileSaveDirectory, "CradleOfRome2_*.zip", SearchOption.TopDirectoryOnly);
             //Regex rx = new Regex("CradleOfRome2_e([0-9]+)-n([0-9]+)-h([0-9]+)(?:_([0-9]+))?", RegexOptions.Compiled | RegexOptions.IgnoreCase);
             int maxEasyLevel = 0;
             int maxNormalLevel = 0;
@@ -387,14 +388,14 @@ namespace PB_Library
 
         private void ArchiveOldLevels()
         {
-            string[] files = Directory.GetFiles(_cradleFileSaveDirectory, "CradleOfRome2_*.zip", SearchOption.TopDirectoryOnly);
+            string[] files = zDirectory.GetFiles(_cradleFileSaveDirectory, "CradleOfRome2_*.zip", SearchOption.TopDirectoryOnly);
             foreach (string file in files)
             {
                 int easyLevel, normalLevel, hardLevel, fileNumber;
                 if (GetFileLevels(file, out easyLevel, out normalLevel, out hardLevel, out fileNumber))
                 {
                     if (easyLevel < _currentLevel.EasyLevel - 2 || normalLevel < _currentLevel.NormalLevel - 2 || hardLevel < _currentLevel.HardLevel - 2)
-                        File.Move(file, zpath.PathSetDirectory(file, _cradleFileArchiveDirectory));
+                        zFile.Move(file, zpath.PathSetDirectory(file, _cradleFileArchiveDirectory));
                 }
             }
         }
@@ -405,7 +406,7 @@ namespace PB_Library
             {
                 _cradleLastFileCopiedTime = DateTime.Now;
                 zdir.CreateDirectory(_cradleFileCopyDirectory);
-                File.Copy(savedFile, zpath.PathSetDirectory(savedFile, _cradleFileCopyDirectory));
+                zFile.Copy(savedFile, zpath.PathSetDirectory(savedFile, _cradleFileCopyDirectory));
             }
         }
 

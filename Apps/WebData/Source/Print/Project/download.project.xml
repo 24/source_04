@@ -31,6 +31,7 @@
 
 		<Assembly                         value = "..\..\..\..\..\..\RuntimeLibrary\itextsharp\itextsharp-all-5.5.2\itextsharp.dll" resolve = "true" resolveName = "itextsharp, Version=5.5.2.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca" />
     <Assembly                         value = "..\..\..\..\..\..\RuntimeLibrary\SharpCompress\SharpCompress0.10.3\Full\SharpCompress.dll" resolve = "true" resolveName = "SharpCompress, Version=0.10.3.0, Culture=neutral, PublicKeyToken=beaf6f427e128133" />
+    <Assembly                         value = "..\..\..\..\..\..\RuntimeLibrary\LongPath\LongPath\Pri.LongPath.dll" />
 
 
     <!-- temp source   -->
@@ -70,7 +71,11 @@
     <Source                           value = "..\sites\vosbooks.net\Vosbooks_Header.cs" />
     <Source                           value = "..\sites\vosbooks.net\Vosbooks_Detail.cs" />
 
-<!--<Source                           value = "..\sites\telechargementz.tv\Telechargementz_f.cs" />
+    <Source                           value = "..\sites\telecharger-magazine.com\TelechargerMagazine.cs" />
+    <Source                           value = "..\sites\telecharger-magazine.com\TelechargerMagazine_Header.cs" />
+    <Source                           value = "..\sites\telecharger-magazine.com\TelechargerMagazine_Detail.cs" />
+
+    <!--<Source                           value = "..\sites\telechargementz.tv\Telechargementz_f.cs" />
     <Source                           value = "..\sites\telechargementz.tv\Telechargementz_Header.cs" />
     <Source                           value = "..\sites\telechargementz.tv\Telechargementz_Detail.cs" />-->
 
@@ -89,8 +94,10 @@
     <Source                           value = "..\Print\DownloadPrint.cs" />
     <Source                           value = "..\Print\FindPrintManager.cs" />
     <Source                           value = "..\Print\IPost.cs" />
+    <Source                           value = "..\Print\MovePrintFiles.cs" />
     <Source                           value = "..\Print\PrintDirectoryManager.cs" />
     <Source                           value = "..\Print\PrintFileManager.cs" />
+    <Source                           value = "..\Print\PrintFileManager_v2.cs" />
     <Source                           value = "..\Print\PrintManager.cs" />
     <Source                           value = "..\Print\PrintTextValuesManager.cs" />
     <Source                           value = "..\Print\PrintTitleManager.cs" />

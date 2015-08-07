@@ -19,7 +19,7 @@ namespace pb.Compiler
         //    _projectXmlElement = projectXmlElement;
         //    _projectFile = projectFile;
         //    if (projectFile != null)
-        //        _projectDirectory = Path.GetDirectoryName(projectFile);
+        //        _projectDirectory = zPath.GetDirectoryName(projectFile);
         //}
 
         public CompilerProject(XmlConfigElement projectXmlElement)
@@ -29,7 +29,7 @@ namespace pb.Compiler
             _projectXmlElement = projectXmlElement;
             _projectFile = projectXmlElement.XmlConfig.ConfigFile;
             if (_projectFile != null)
-                _projectDirectory = Path.GetDirectoryName(_projectFile);
+                _projectDirectory = zPath.GetDirectoryName(_projectFile);
         }
 
         public string ProjectFile { get { return _projectFile; } }
@@ -61,8 +61,8 @@ namespace pb.Compiler
             foreach (string source in _projectXmlElement.GetValues("Source"))
             {
                 //string sourcePath = source;
-                //if (!Path.IsPathRooted(sourcePath) && _projectDirectory != null)
-                //    sourcePath = Path.Combine(_projectDirectory, sourcePath);
+                //if (!zPath.IsPathRooted(sourcePath) && _projectDirectory != null)
+                //    sourcePath = zPath.Combine(_projectDirectory, sourcePath);
                 //yield return sourcePath;
                 yield return source.zRootPath(_projectDirectory);
             }

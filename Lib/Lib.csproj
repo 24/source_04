@@ -56,6 +56,9 @@
     <Reference Include="MongoDB.Driver">
       <HintPath>..\..\..\..\..\..\..\prog\dev\mongodb\driver\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Driver.dll</HintPath>
     </Reference>
+    <Reference Include="Pri.LongPath">
+      <HintPath>..\..\RuntimeLibrary\LongPath\LongPath\Pri.LongPath.dll</HintPath>
+    </Reference>
     <Reference Include="SharpCompress">
       <HintPath>..\..\RuntimeLibrary\SharpCompress\SharpCompress0.10.3\Full\SharpCompress.dll</HintPath>
     </Reference>
@@ -133,6 +136,9 @@
     <Compile Include="Source\pb\IO\CompressManager.cs" />
     <Compile Include="Source\pb\IO\FilenameNumberInfo.cs" />
     <Compile Include="Source\pb\IO\FileOption.cs" />
+    <Compile Include="Source\pb\IO\zDirectory.cs" />
+    <Compile Include="Source\pb\IO\zFile.cs" />
+    <Compile Include="Source\pb\IO\zPath.cs" />
     <Compile Include="Source\pb\IO\SharpCompressManager.cs" />
     <Compile Include="Source\pb\IO\UncompressManager.cs" />
     <Compile Include="Source\pb\IO\WriteToFile.cs" />

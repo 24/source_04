@@ -4,6 +4,7 @@ using System.IO;
 using System.Text;
 using Tamir.IPLib.Packets;
 using Tamir.IPLib;
+using pb.IO;
 
 //namespace Test_Winpcap_dn.Tamir_IPLib_SharpPcap
 namespace Test_Winpcap_dn.TcpRecon
@@ -144,7 +145,8 @@ namespace Test_Winpcap_dn.TcpRecon
         /// <param name="capFile"></param>
         public static void ReconSingleFileLibNids(string capFile)
         {
-            FileInfo fi = new FileInfo(capFile);
+            //FileInfo fi = new FileInfo(capFile);
+            var fi = zFile.CreateFileInfo(capFile);
             path = fi.DirectoryName + "\\";
             // register the local callback and start libnids
             managedLibnids.LibnidsWrapper.Run(capFile, new DataCallbackDelagate(handleData), new DataCallbackDelagate(handleData));
@@ -164,7 +166,8 @@ namespace Test_Winpcap_dn.TcpRecon
         {
             PcapDevice device;
 
-            FileInfo fi = new FileInfo(capFile);
+            //FileInfo fi = new FileInfo(capFile);
+            var fi = zFile.CreateFileInfo(capFile);
             path = fi.DirectoryName + "\\";
             try
             {
@@ -237,7 +240,7 @@ e.g:    TcpRecon C:\PcapFileDir\SomePcapFile.pcap
             }
 
             string capFile = args[0];
-            if (!System.IO.File.Exists(capFile))
+            if (!zFile.Exists(capFile))
             {
                 Console.WriteLine("Pcap file not found!");
                 return;

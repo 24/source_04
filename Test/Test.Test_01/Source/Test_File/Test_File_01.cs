@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
+using pb.IO;
 
 namespace Test.Test_File
 {
@@ -12,7 +13,7 @@ namespace Test.Test_File
     {
         public static void Test_FileAccessControl_01(string file)
         {
-            FileAttributes attributes  = File.GetAttributes(file);
+            FileAttributes attributes  = zFile.GetAttributes(file);
             //File.SetCreationTime
         }
     }

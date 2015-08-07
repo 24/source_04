@@ -4,6 +4,7 @@ using System.IO;
 using System.Text;
 using System.Xml.Linq;
 using pb.Data.Xml;
+using pb.IO;
 using pb.Web.old;
 
 // *********************************************************** deprecated use LoadDataFromWeb ***********************************************************
@@ -63,7 +64,7 @@ namespace pb.Web
             string url = _url;
             if (_urlFile != null)
             {
-                if (_reload || !File.Exists(_urlFile))
+                if (_reload || !zFile.Exists(_urlFile))
                 {
                     //if (!Http2.LoadToFile(_url, _urlFile))
                     if (!Http_v3.LoadToFile(_url, _urlFile))
@@ -197,7 +198,7 @@ namespace pb.Web
             string url = _url;
             if (_urlFile != null)
             {
-                if (_reload || !File.Exists(_urlFile))
+                if (_reload || !zFile.Exists(_urlFile))
                 {
                     //if (!Http2.LoadToFile(_url, _urlFile))
                     if (!Http_v3.LoadToFile(_url, _urlFile))
@@ -293,7 +294,7 @@ namespace pb.Web
             string url = _url;
             if (_urlFile != null)
             {
-                if (_reload || !File.Exists(_urlFile))
+                if (_reload || !zFile.Exists(_urlFile))
                 {
                     //if (!Http2.LoadToFile(_url, _urlFile))
                     if (!Http_v3.LoadToFile(_url, _urlFile))

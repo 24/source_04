@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Download>
+  
   <PrintDirectories>
     <Directory                                                    value = ".01_quotidien" />
     <Directory                                                    value = ".02_hebdo" />
@@ -9,6 +10,14 @@
     <Directory                                                    value = ".06_unknow_print" />
     <Directory                                                    value = ".07_lettres" />
   </PrintDirectories>
+  
+  <BonusDirectories>
+    <!-- -bonus 3- -->
+    <Directory regex="^[\-b\s]*bonus\s*[0-9]*-?$" options="IgnoreCase, CultureInvariant" />
+    <Directory regex="^alexandre[\s,-_]+dumas[\s,-_]+p[eè]re(?:\([0-9]+\))?$" options="IgnoreCase, CultureInvariant" directory="Alexandre Dumas Père"  />
+    <Directory regex="^cornwell[\s,-_]+patricia(?:\([0-9]+\))?$" options="IgnoreCase, CultureInvariant" directory="Cornwell, Patricia"  />
+  </BonusDirectories>
+  
   <FindPrints>
     <Prints>
       <!-- .01_quotidien, .02_hebdo, .03_mensuel, .04_autre -->
@@ -354,7 +363,8 @@
       <!--  -->
       <!-- LES JOURNAUX - MERCREDI 20 / 21 AOUT 2014 & + [PDF][Lien Direct] -->
       <!-- LES JOURNAUX -  JEUDI 21 / 22 AOUT 2014 & + [PDF][Lien Direct] -->
-      <Print                                                name = "journaux"                                   title = "Journaux"                    directory = ".01_quotidien"   regex = "^\s*les\s*journaux$" options="IgnoreCase" />
+      <!-- Journaux Français Du 18 Juillet 2015 -->
+      <Print                                                name = "journaux"                                   title = "Journaux"                    directory = ".01_quotidien"   regex = "^\s*(?:les\s*)?journaux(?:\s*fran[cç]ais)?$" options="IgnoreCase" />
       <!-- L'Equipe Magazine N° 1677 du samedi 06 septembre 2014 -->
       <!-- L'Equipe Magazine N° 1676 du samedi 30 août 2014 -->
       <!-- L'Equipe Magazine N° 1673 - Samedi 16 Aout 2014 -->

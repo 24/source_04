@@ -10,6 +10,7 @@ using pb;
 using pb.Compiler;
 using pb.Data.Mongo;
 using pb.Data.Xml;
+using pb.IO;
 using pb.Text;
 using pb.Web;
 using Print;
@@ -102,7 +103,7 @@ namespace Download.Print.Ebookdz
             if (__cookies == null)
             {
                 __cookiesFile = XmlConfig.CurrentConfig.GetExplicit("Ebookdz/CookiesFile");
-                if (File.Exists(__cookiesFile))
+                if (zFile.Exists(__cookiesFile))
                     __cookies = zcookies.LoadCookies(__cookiesFile);
                 else
                     __cookies = new CookieContainer();

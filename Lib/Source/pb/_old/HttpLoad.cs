@@ -115,7 +115,7 @@ namespace pb.old
             if (!_documentLoadedFromXml)
             {
                 string file = GetFileDocumentXml();
-                if (!File.Exists(file))
+                if (!zFile.Exists(file))
                     throw new PBException("error impossible to load xml file does'nt exist \"{0}\"", file);
                 _LoadDocumentFromXml(file, loadImage);
                 _documentLoadedFromXml = true;
@@ -124,13 +124,13 @@ namespace pb.old
 
         protected virtual bool DocumentXmlExists()
         {
-            return File.Exists(GetFileDocumentXml());
+            return zFile.Exists(GetFileDocumentXml());
         }
 
         public virtual void SaveDocumentToXml(bool reload = false, bool saveImage = true)
         {
             string file = GetFileDocumentXml();
-            if (!reload && File.Exists(file))
+            if (!reload && zFile.Exists(file))
                 return;
             LoadDocumentFromWeb(reload);
             zfile.CreateFileDirectory(file);
@@ -226,8 +226,8 @@ namespace pb.old
         {
             if (_urlFile == null)
             {
-                _urlFile = Path.Combine(GetCacheFileDirectory(), GetUrlCacheFilename());
-                //if (!Path.HasExtension(_urlFile))
+                _urlFile = zPath.Combine(GetCacheFileDirectory(), GetUrlCacheFilename());
+                //if (!zPath.HasExtension(_urlFile))
                 //    _urlFile += ".html";
             }
             return _urlFile;
@@ -241,7 +241,7 @@ namespace pb.old
         public string GetImageFile()
         {
             if (_imageFile == null)
-                _imageFile = Path.Combine(_imageCacheDirectory, Path.GetFileNameWithoutExtension(GetUrlCachePath()));
+                _imageFile = zPath.Combine(_imageCacheDirectory, zPath.GetFileNameWithoutExtension(GetUrlCachePath()));
             return _imageFile;
         }
 

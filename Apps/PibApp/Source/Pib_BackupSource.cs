@@ -172,7 +172,7 @@ namespace Pib
                     gTaskProgress.SetProgressText("Zip " + sourceDir);
                     gTaskProgress.SetProgress(++iZip, nbZip);
 
-                    if (!Directory.Exists(sourceDir))
+                    if (!zDirectory.Exists(sourceDir))
                     {
                         //cTrace.Trace("Zip          : directory does'nt exist {0}", sourceDir);
                         gTaskTrace.WriteLine("Zip          : directory does'nt exist {0}", sourceDir);
@@ -185,9 +185,10 @@ namespace Pib
                         //zip.CompressionLevel = CompressionLevel.BestSpeed;
                         zip.CompressionLevel = compressionLevel;
                         zip.AddDirectory(sourceDir, "");
-                        string sPath = zpath.PathSetDirectory(Path.GetFileNameWithoutExtension(sourceDir) + ".zip", sZipDir);
-                        string sDir = Path.GetDirectoryName(sPath);
-                        if (!Directory.Exists(sDir)) Directory.CreateDirectory(sDir);
+                        string sPath = zpath.PathSetDirectory(zPath.GetFileNameWithoutExtension(sourceDir) + ".zip", sZipDir);
+                        string sDir = zPath.GetDirectoryName(sPath);
+                        if (!zDirectory.Exists(sDir))
+                            zDirectory.CreateDirectory(sDir);
                         zip.Save(sPath);
                         if (gAbortTask) break;
                         zipFiles.Add(sPath);
@@ -207,7 +208,7 @@ namespace Pib
                     gTaskProgress.SetProgressText("Zip " + sourceFile);
                     gTaskProgress.SetProgress(++iZip, nbZip);
 
-                    if (!File.Exists(sourceFile))
+                    if (!zFile.Exists(sourceFile))
                     {
                         //cTrace.Trace("Zip          : file does'nt exist {0}", sourceFile);
                         gTaskTrace.WriteLine("Zip          : file does'nt exist {0}", sourceFile);
@@ -220,9 +221,10 @@ namespace Pib
                         //zip.CompressionLevel = CompressionLevel.BestSpeed;
                         zip.CompressionLevel = compressionLevel;
                         zip.AddFile(sourceFile, "");
-                        string sPath = zpath.PathSetDirectory(Path.GetFileNameWithoutExtension(sourceFile) + ".zip", sZipDir);
-                        string sDir = Path.GetDirectoryName(sPath);
-                        if (!Directory.Exists(sDir)) Directory.CreateDirectory(sDir);
+                        string sPath = zpath.PathSetDirectory(zPath.GetFileNameWithoutExtension(sourceFile) + ".zip", sZipDir);
+                        string sDir = zPath.GetDirectoryName(sPath);
+                        if (!zDirectory.Exists(sDir))
+                            zDirectory.CreateDirectory(sDir);
                         zip.Save(sPath);
                         if (gAbortTask) break;
                         zipFiles.Add(sPath);
@@ -312,14 +314,15 @@ namespace Pib
                         gTaskProgress.SetProgress(++iFile, zipFiles.Count);
                         gTaskTrace.WriteLine("Ftp          : copy file {0}", zipFile);
 
-                        if (!File.Exists(zipFile))
+                        if (!zFile.Exists(zipFile))
                         {
                             //cTrace.Trace("Ftp          : file does'nt exist {0}", zipFile);
                             gTaskTrace.WriteLine("Ftp          : file does'nt exist {0}", zipFile);
                             continue;
                         }
-                        string remoteFile = Path.GetFileName(zipFile);
-                        glFtpByteToTransfer = new FileInfo(zipFile).Length;
+                        string remoteFile = zPath.GetFileName(zipFile);
+                        //glFtpByteToTransfer = new FileInfo(zipFile).Length;
+                        glFtpByteToTransfer = zFile.CreateFileInfo(zipFile).Length;
                         gTaskProgressDetail.SetProgressText("FTP transfer file {0}", remoteFile);
 
                         try

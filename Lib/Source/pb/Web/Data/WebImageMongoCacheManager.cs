@@ -7,6 +7,7 @@ using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver;
 using pb.Data;
 using pb.Data.Mongo;
+using pb.IO;
 using pb.Web.old;
 
 namespace pb.Web
@@ -58,7 +59,7 @@ namespace pb.Web
 
         public void LoadImage(MongoImage mongoImage)
         {
-            mongoImage.Image = zimg.LoadFromFile(Path.Combine(_urlCache.CacheDirectory, mongoImage.File));
+            mongoImage.Image = zimg.LoadFromFile(zPath.Combine(_urlCache.CacheDirectory, mongoImage.File));
         }
 
         public MongoImage LoadMongoImage(string url, HttpRequestParameters requestParameters = null)
@@ -74,11 +75,11 @@ namespace pb.Web
         {
             HttpRequest httpRequest = new HttpRequest { Url = url };
             string file = _urlCache.GetUrlSubPath(httpRequest);
-            string path = Path.Combine(_urlCache.CacheDirectory, file);
-            if (!File.Exists(path))
+            string path = zPath.Combine(_urlCache.CacheDirectory, file);
+            if (!zFile.Exists(path))
                 HttpManager.CurrentHttpManager.LoadToFile(httpRequest, path, requestParameters);
             Image image = null;
-            if (File.Exists(path))
+            if (zFile.Exists(path))
             {
                 try
                 {

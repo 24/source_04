@@ -15,7 +15,7 @@ namespace pb.Compiler
 
         public GenerateAndExecuteManager()
         {
-            _generateAssemblyDirectory = Path.Combine(zapp.GetAppDirectory(), __defaultGenerateAssemblySubdirectory);
+            _generateAssemblyDirectory = zPath.Combine(zapp.GetAppDirectory(), __defaultGenerateAssemblySubdirectory);
         }
 
         public string GenerateAssemblyDirectory { get { return _generateAssemblyDirectory; } set { _generateAssemblyDirectory = value; } }
@@ -34,10 +34,10 @@ namespace pb.Compiler
         private string GetNewAssemblyFilename()
         {
             // "c:\pib\prog\tools\runsource\exe\run\RunSource_00001"
-            if (!Directory.Exists(_generateAssemblyDirectory))
-                Directory.CreateDirectory(_generateAssemblyDirectory);
+            if (!zDirectory.Exists(_generateAssemblyDirectory))
+                zDirectory.CreateDirectory(_generateAssemblyDirectory);
             int i = zfile.GetLastFileNameIndex(_generateAssemblyDirectory) + 1;
-            return Path.Combine(_generateAssemblyDirectory, __defaultGenerateAssemblyName + string.Format("_{0:00000}", i));
+            return zPath.Combine(_generateAssemblyDirectory, __defaultGenerateAssemblyName + string.Format("_{0:00000}", i));
         }
     }
 
@@ -94,7 +94,7 @@ namespace pb.Compiler
         public void GenerateCSharpCode(string code)
         {
             string file = zpath.PathSetExtension(_assemblyFilename, ".cs");
-            using (StreamWriter sw = File.CreateText(file))
+            using (StreamWriter sw = zFile.CreateText(file))
             {
                 GenerateCSharpCode generateCode = new GenerateCSharpCode(sw);
 

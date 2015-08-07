@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using MongoDB.Bson;
 using pb.Data.Mongo;
+using pb.IO;
 
 namespace Test.Test_Unit.Text
 {
@@ -138,20 +139,20 @@ namespace Test.Test_Unit.Text
         {
             //global::Test.Test_Text.Test_Regex.Test();
             Regex regex = new Regex(pattern, options);
-            file = Path.Combine(GetDirectory(), file);
-            zmongo.BsonReader<BsonDocument>(file).zDetailRegexMatches(regex).zSave(zpath.PathSetFileName(file, Path.GetFileNameWithoutExtension(file) + "_matches_detail_bson"));
-            zmongo.BsonReader<BsonDocument>(file).zCompactRegexMatches(regex).zSave(zpath.PathSetFileName(file, Path.GetFileNameWithoutExtension(file) + "_matches_compact_bson"));
+            file = zPath.Combine(GetDirectory(), file);
+            zmongo.BsonReader<BsonDocument>(file).zDetailRegexMatches(regex).zSave(zpath.PathSetFileName(file, zPath.GetFileNameWithoutExtension(file) + "_matches_detail_bson"));
+            zmongo.BsonReader<BsonDocument>(file).zCompactRegexMatches(regex).zSave(zpath.PathSetFileName(file, zPath.GetFileNameWithoutExtension(file) + "_matches_compact_bson"));
         }
 
         public static void TraceDetailRegexMatches(string file, string outputFile)
         {
-            zmongo.BsonReader<DetailRegexMatches>(Path.Combine(GetDirectory(), file)).zTraceDetailRegexMatches(Path.Combine(GetDirectory(), outputFile));
+            zmongo.BsonReader<DetailRegexMatches>(zPath.Combine(GetDirectory(), file)).zTraceDetailRegexMatches(zPath.Combine(GetDirectory(), outputFile));
         }
 
         public static void TraceCompactRegexMatches(string file, string outputFile)
         {
-            zmongo.BsonReader<CompactRegexMatches>(Path.Combine(GetDirectory(), file)).zTraceCompactRegexMatches(Path.Combine(GetDirectory(), outputFile));
-            zmongo.BsonReader<CompactRegexMatches>(Path.Combine(GetDirectory(), file)).zView();
+            zmongo.BsonReader<CompactRegexMatches>(zPath.Combine(GetDirectory(), file)).zTraceCompactRegexMatches(zPath.Combine(GetDirectory(), outputFile));
+            zmongo.BsonReader<CompactRegexMatches>(zPath.Combine(GetDirectory(), file)).zView();
         }
 
         public static IEnumerable<DetailRegexMatches> zDetailRegexMatches(this IEnumerable<BsonDocument> documents, Regex regex)
@@ -174,7 +175,7 @@ namespace Test.Test_Unit.Text
 
         public static void zTraceDetailRegexMatches(this IEnumerable<DetailRegexMatches> regexMatchesList, string file)
         {
-            using (StreamWriter sw = File.CreateText(file))
+            using (StreamWriter sw = zFile.CreateText(file))
             {
                 foreach (DetailRegexMatches regexMatches in regexMatchesList)
                 {
@@ -213,7 +214,7 @@ namespace Test.Test_Unit.Text
 
         public static void zTraceCompactRegexMatches(this IEnumerable<CompactRegexMatches> regexMatchesList, string file)
         {
-            using (StreamWriter sw = File.CreateText(file))
+            using (StreamWriter sw = zFile.CreateText(file))
             {
                 foreach (CompactRegexMatches regexMatches in regexMatchesList)
                 {
@@ -232,7 +233,7 @@ namespace Test.Test_Unit.Text
 
         private static string GetDirectory()
         {
-            return Path.Combine(RunSource.CurrentRunSource.Config.GetExplicit("TestUnitDirectory"), @"Text\Regex");
+            return zPath.Combine(RunSource.CurrentRunSource.Config.GetExplicit("TestUnitDirectory"), @"Text\Regex");
         }
     }
 }

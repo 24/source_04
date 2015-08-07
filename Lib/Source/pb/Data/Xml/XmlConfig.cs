@@ -58,13 +58,13 @@ namespace pb.Data.Xml
                 string file = zapp.GetEntryAssemblyFile();
                 if (file != null)
                     //_configFile = file + _defaultSuffixConfigName;
-                    _configFile = Path.Combine(Path.GetDirectoryName(file), Path.GetFileNameWithoutExtension(file) + _defaultSuffixConfigName);
+                    _configFile = zPath.Combine(zPath.GetDirectoryName(file), zPath.GetFileNameWithoutExtension(file) + _defaultSuffixConfigName);
             }
 
             if (configLocalFile != null)
                 _configLocalFile = configLocalFile.zRootPath(zapp.GetEntryAssemblyDirectory());
             else if (_configFile != null)
-                _configLocalFile = zpath.PathSetFileName(_configFile, Path.GetFileNameWithoutExtension(_configFile) + _defaultSuffixLocalConfigName);
+                _configLocalFile = zpath.PathSetFileName(_configFile, zPath.GetFileNameWithoutExtension(_configFile) + _defaultSuffixLocalConfigName);
 
             Init();
         }
@@ -109,7 +109,7 @@ namespace pb.Data.Xml
 
         private void Init()
         {
-            if (File.Exists(_configFile))
+            if (zFile.Exists(_configFile))
             {
                 _xdocument = XDocument.Load(_configFile);
                 string alternateConfigDirectory = _xdocument.Root.zXPathValue("AlternateConfigDirectory");
@@ -118,7 +118,8 @@ namespace pb.Data.Xml
                     _configFile = zpath.PathSetDirectory(_configFile, alternateConfigDirectory);
                     _xdocument = XDocument.Load(_configFile);
                 }
-                _configFileDateTime = new FileInfo(_configFile).LastWriteTime;
+                //_configFileDateTime = new FileInfo(_configFile).LastWriteTime;
+                _configFileDateTime = zFile.CreateFileInfo(_configFile).LastWriteTime;
                 //SetXmlAttributesTextVariables();
             }
             else
@@ -127,7 +128,7 @@ namespace pb.Data.Xml
             if (_xdocument.Root == null)
                 _xdocument.Add(new XElement("configuration"));
 
-            if (File.Exists(_configLocalFile))
+            if (zFile.Exists(_configLocalFile))
             {
                 _localXDocument = XDocument.Load(_configLocalFile);
                 string alternateConfigDirectory = _localXDocument.Root.zXPathValue("AlternateConfigDirectory");
@@ -136,7 +137,8 @@ namespace pb.Data.Xml
                     _configLocalFile = zpath.PathSetDirectory(_configLocalFile, alternateConfigDirectory);
                     _localXDocument = XDocument.Load(_configLocalFile);
                 }
-                _configLocalFileDateTime = new FileInfo(_configLocalFile).LastWriteTime;
+                //_configLocalFileDateTime = new FileInfo(_configLocalFile).LastWriteTime;
+                _configLocalFileDateTime = zFile.CreateFileInfo(_configLocalFile).LastWriteTime;
             }
             else
                 _localXDocument = new XDocument();
@@ -156,10 +158,12 @@ namespace pb.Data.Xml
         public void Refresh()
         {
             bool reload = false;
-            if (File.Exists(_configFile) && new FileInfo(_configFile).LastWriteTime > _configFileDateTime)
+            //if (zFile.Exists(_configFile) && new FileInfo(_configFile).LastWriteTime > _configFileDateTime)
+            if (zFile.Exists(_configFile) && zFile.CreateFileInfo(_configFile).LastWriteTime > _configFileDateTime)
             {
                 _xdocument = XDocument.Load(_configFile);
-                _configFileDateTime = new FileInfo(_configFile).LastWriteTime;
+                //_configFileDateTime = new FileInfo(_configFile).LastWriteTime;
+                _configFileDateTime = zFile.CreateFileInfo(_configFile).LastWriteTime;
                 //_textVariables = null;
                 //SetXmlAttributesTextVariables();
                 if (_xdocument.Root == null)
@@ -167,10 +171,12 @@ namespace pb.Data.Xml
                 _element = _xdocument.Root;
                 reload = true;
             }
-            if (File.Exists(_configLocalFile) && new FileInfo(_configLocalFile).LastWriteTime > _configLocalFileDateTime)
+            //if (zFile.Exists(_configLocalFile) && new FileInfo(_configLocalFile).LastWriteTime > _configLocalFileDateTime)
+            if (zFile.Exists(_configLocalFile) && zFile.CreateFileInfo(_configLocalFile).LastWriteTime > _configLocalFileDateTime)
             {
                 _localXDocument = XDocument.Load(_configLocalFile);
-                _configLocalFileDateTime = new FileInfo(_configLocalFile).LastWriteTime;
+                //_configLocalFileDateTime = new FileInfo(_configLocalFile).LastWriteTime;
+                _configLocalFileDateTime = zFile.CreateFileInfo(_configLocalFile).LastWriteTime;
                 if (_localXDocument.Root == null)
                     _localXDocument.Add(new XElement("configuration"));
                 _localElement = _localXDocument.Root;
@@ -186,22 +192,22 @@ namespace pb.Data.Xml
 
         //private void SetConfigPath(string configPath)
         //{
-        //    if (configPath != null && !Path.IsPathRooted(configPath))
+        //    if (configPath != null && !zPath.IsPathRooted(configPath))
         //    {
         //        string exePath = zapp.GetExecutablePath();
         //        if (exePath != null)
-        //            configPath = Path.Combine(Path.GetDirectoryName(exePath), configPath);
+        //            configPath = zPath.Combine(zPath.GetDirectoryName(exePath), configPath);
         //    }
         //    _configPath = configPath;
         //}
 
         //private void SetConfigLocalPath(string configLocalPath)
         //{
-        //    if (!Path.IsPathRooted(configLocalPath))
+        //    if (!zPath.IsPathRooted(configLocalPath))
         //    {
         //        string exePath = zapp.GetEntryAssemblyFilename();
         //        if (exePath != null)
-        //            configLocalPath = Path.Combine(Path.GetDirectoryName(exePath), configLocalPath);
+        //            configLocalPath = zPath.Combine(zPath.GetDirectoryName(exePath), configLocalPath);
         //    }
         //    _configLocalFile = configLocalPath;
         //}
@@ -228,10 +234,10 @@ namespace pb.Data.Xml
         //    string s;
 
         //    s = Get("RootDir", ".");
-        //    if (!Path.IsPathRooted(s))
+        //    if (!zPath.IsPathRooted(s))
         //    {
         //        s = zapp.GetAppDirectory() + "\\" + s;
-        //        s = Path.GetFullPath(s);
+        //        s = zPath.GetFullPath(s);
         //    }
         //    if (s[s.Length - 1] != '\\') s += "\\";
         //    if (!Directory.Exists(s))
@@ -274,10 +280,10 @@ namespace pb.Data.Xml
         //    string s = Get(sXPath, sDefaut);
         //    if (s != "" && s != null)
         //    {
-        //        if (!Path.IsPathRooted(s))
+        //        if (!zPath.IsPathRooted(s))
         //        {
         //            s = sRootDir + s;
-        //            s = Path.GetFullPath(s);
+        //            s = zPath.GetFullPath(s);
         //        }
         //        if (s[s.Length - 1] != '\\') s += "\\";
         //        if (bCreateDir && !Directory.Exists(s))
@@ -296,10 +302,10 @@ namespace pb.Data.Xml
         //    string s = Get(sXPath, sDefaut);
         //    if (s != "" && s != null)
         //    {
-        //        if (!Path.IsPathRooted(s))
+        //        if (!zPath.IsPathRooted(s))
         //        {
         //            s = sRootDir + s;
-        //            s = Path.GetFullPath(s);
+        //            s = zPath.GetFullPath(s);
         //        }
         //    }
         //    return s;
@@ -453,21 +459,21 @@ namespace pb.Data.Xml
         public XmlConfig GetConfig(string xpath)
         {
             //string file = GetExplicit(xpath);
-            //if (!Path.IsPathRooted(file))
-            //    file = Path.Combine(Path.GetDirectoryName(_xmlConfig.ConfigPath), file);
-            string file = GetExplicit(xpath).zRootPath(Path.GetDirectoryName(_xmlConfig.ConfigFile));
-            if (!File.Exists(file))
+            //if (!zPath.IsPathRooted(file))
+            //    file = zPath.Combine(zPath.GetDirectoryName(_xmlConfig.ConfigPath), file);
+            string file = GetExplicit(xpath).zRootPath(zPath.GetDirectoryName(_xmlConfig.ConfigFile));
+            if (!zFile.Exists(file))
                 throw new pb.PBException("file does'nt exists \"{0}\"", file);
             XmlConfigFile configFile;
             if (!_configFiles.ContainsKey(file))
             {
-                configFile = new XmlConfigFile { Config = new XmlConfig(file), FileTime = File.GetLastWriteTime(file) };
+                configFile = new XmlConfigFile { Config = new XmlConfig(file), FileTime = zFile.GetLastWriteTime(file) };
                 _configFiles.Add(file, configFile);
             }
             else
             {
                 configFile = _configFiles[file];
-                DateTime fileTime = File.GetLastWriteTime(file);
+                DateTime fileTime = zFile.GetLastWriteTime(file);
                 if (fileTime > configFile.FileTime)
                     configFile.Config = new XmlConfig(file);
             }
@@ -486,7 +492,7 @@ namespace pb.Data.Xml
             {
                 XmlSerializer xs = new XmlSerializer(oPrm.GetType());
                 string sPath = GetPath(sPrmName);
-                string sDir = Path.GetDirectoryName(sPath);
+                string sDir = zPath.GetDirectoryName(sPath);
                 Directory.CreateDirectory(sDir);
                 StreamWriter sw = new StreamWriter(sPath, false, Encoding.Default);
                 try

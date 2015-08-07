@@ -6,6 +6,7 @@ using iTextSharp.text;
 using iTextSharp.text.pdf;
 using iTextSharp.text.pdf.parser;
 using pb;
+using pb.IO;
 
 namespace Test.Test_iTextSharp
 {
@@ -36,7 +37,7 @@ namespace Test.Test_iTextSharp
 
         public static void Test_ControlPdfDirectory_01(string directory)
         {
-            foreach (string file in Directory.EnumerateFiles(directory, "*.pdf", SearchOption.AllDirectories))
+            foreach (string file in zDirectory.EnumerateFiles(directory, "*.pdf", SearchOption.AllDirectories))
             {
                 Test_ControlPdf_01(file);
             }

@@ -20,7 +20,7 @@ namespace pb.IO
             {
                 foreach (ZipArchiveEntry entry in archive.Entries)
                 {
-                    string path = Path.Combine(directory, entry.FullName);
+                    string path = zPath.Combine(directory, entry.FullName);
                     zfile.CreateFileDirectory(path);
                     entry.ExtractToFile(path);
                     files.Add(path);

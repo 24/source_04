@@ -6,6 +6,7 @@ using System.ServiceModel.Description;
 //using MyDownloader.App.WCF;
 //using MyDownloader.Core;
 using MyDownloader.Service;
+using pb.IO;
 
 namespace Download.Print
 {
@@ -338,7 +339,7 @@ namespace Download.Print
         {
             //return _service.GetDownloadLocalFileById(id);
             if (_downloadFiles.ContainsKey(id))
-                return Path.Combine(_downloadDirectory, _downloadFiles[id].File);
+                return zPath.Combine(_downloadDirectory, _downloadFiles[id].File);
             else
                 return null;
         }
@@ -386,9 +387,10 @@ namespace Download.Print
             //return _service.GetDownloadFileSizeById(id);
             if (_downloadFiles.ContainsKey(id))
             {
-                string file = Path.Combine(_downloadDirectory, _downloadFiles[id].File);
-                if (File.Exists(file))
-                    return new FileInfo(file).Length;
+                string file = zPath.Combine(_downloadDirectory, _downloadFiles[id].File);
+                if (zFile.Exists(file))
+                    //return new FileInfo(file).Length;
+                    return zFile.CreateFileInfo(file).Length;
             }
             return 0;
         }

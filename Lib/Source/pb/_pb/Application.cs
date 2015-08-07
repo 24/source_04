@@ -4,6 +4,7 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Threading;
+using pb.IO;
 
 // Assembly.GetExecutingAssembly() : gets the assembly that contains the code that is currently executing. ex : RunSource_00004.dll
 // Assembly.GetEntryAssembly()     : the assembly that is the process executable in the default application domain,
@@ -79,7 +80,7 @@ namespace pb
             {
                 string file = GetEntryAssemblyFile();
                 if (file != null)
-                    __entryAssemblyDirectory = Path.GetDirectoryName(file);
+                    __entryAssemblyDirectory = zPath.GetDirectoryName(file);
             }
             return __entryAssemblyDirectory;
         }
@@ -91,7 +92,7 @@ namespace pb
             {
                 string file = GetEntryAssemblyFile();
                 if (file != null)
-                    __entryAssemblyFilename = Path.GetFileNameWithoutExtension(file);
+                    __entryAssemblyFilename = zPath.GetFileNameWithoutExtension(file);
             }
             return __entryAssemblyFilename;
         }

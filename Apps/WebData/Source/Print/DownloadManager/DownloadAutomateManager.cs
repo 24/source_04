@@ -6,6 +6,7 @@ using System.Net.Mail;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using pb;
 using pb.Compiler;
@@ -221,6 +222,8 @@ namespace Download.Print
         }
     }
 
+    //public delegate IEnumerable<BsonDocument> GetPostInfoListDelegate(string query = null, string sort = null, int limit = 0);
+
     public class ServerManager
     {
         public string Name;
@@ -229,6 +232,7 @@ namespace Download.Print
         public string DownloadDirectory;
         public Action LoadNewPost = null;
         public Func<DateTime, IEnumerable<IPostToDownload>> GetPostList = null;
+        //public GetPostInfoListDelegate GetPostInfoList = null;
         public Func<int, IPostToDownload> LoadPost = null;
     }
 
@@ -506,7 +510,7 @@ namespace Download.Print
             IPostToDownload post = LoadPost(downloadFile.key);
             if (post != null)
                 TracePost(post, message, downloadFile.downloadedFile, downloadFile.downloadLink);
-            MailAddLine(string.Format("{0} {1} {2:dd-MM-yyyy HH:mm:ss}", Path.GetFileName(downloadFile.downloadedFile), message, DateTime.Now));
+            MailAddLine(string.Format("{0} {1} {2:dd-MM-yyyy HH:mm:ss}", zPath.GetFileName(downloadFile.downloadedFile), message, DateTime.Now));
             if (downloadFile.state == DownloadState.DownloadCompleted)
             {
                 if (downloadFile.uncompressFiles != null)
@@ -514,7 +518,7 @@ namespace Download.Print
                     foreach (string uncompressFile in downloadFile.uncompressFiles)
                     {
                         //Trace.WriteLine("  \"{0}\"", uncompressFile);
-                        MailAddLine(string.Format("  {0}", Path.GetFileName(uncompressFile)));
+                        MailAddLine(string.Format("  {0}", zPath.GetFileName(uncompressFile)));
                     }
                 }
             }
@@ -558,7 +562,7 @@ namespace Download.Print
             //    {
             //        foreach (string uncompressFile in downloadedFile.UncompressFiles)
             //        {
-            //            MailAddLine(string.Format("  {0}\r\n", Path.GetFileName(uncompressFile)));
+            //            MailAddLine(string.Format("  {0}\r\n", zPath.GetFileName(uncompressFile)));
             //        }
             //    }
             //}

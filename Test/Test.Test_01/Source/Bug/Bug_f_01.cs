@@ -4,6 +4,7 @@ using System.IO;
 using System.Text;
 using pb;
 using pb.Compiler;
+using pb.IO;
 
 namespace Bug
 {
@@ -20,8 +21,8 @@ namespace Bug
             _tr.WriteLine("file \"{0}\"", file);
             try
             {
-                // Path.GetDirectoryName(file); génère une exception System.NotSupportedException qui n'est pas capturé par le catch
-                // et Path.GetDirectoryName est correctement exécuté
+                // zPath.GetDirectoryName(file); génère une exception System.NotSupportedException qui n'est pas capturé par le catch
+                // et zPath.GetDirectoryName est correctement exécuté
                 //System.NotSupportedException occurred
                 //  HResult=-2146233067
                 //  Message=The given path's format is not supported.
@@ -30,7 +31,7 @@ namespace Bug
                 //       at System.Security.Util.StringExpressionSet.CanonicalizePath(String path, Boolean needFullPath)
                 //  InnerException: 
 
-                string dir = Path.GetDirectoryName(file);
+                string dir = zPath.GetDirectoryName(file);
                 _tr.WriteLine("Path.GetDirectoryName(file) \"{0}\"", dir);
             }
             catch (NotSupportedException ex)

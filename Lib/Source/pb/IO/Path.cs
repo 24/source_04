@@ -9,12 +9,12 @@ namespace pb.IO
     {
         //public static string PathGetDirectory(string path)
         //{
-        //    return Path.GetDirectoryName(path);
+        //    return zPath.GetDirectoryName(path);
         //}
 
         //public static string PathGetFileName(string path)
         //{
-        //    return Path.GetFileNameWithoutExtension(path);
+        //    return zPath.GetFileNameWithoutExtension(path);
         //}
 
         // test(1).txt  => test.txt
@@ -23,12 +23,12 @@ namespace pb.IO
 
         //public static string PathGetFileNameWithExtension(string path)
         //{
-        //    return Path.GetFileName(path);
+        //    return zPath.GetFileName(path);
         //}
 
         //public static string PathGetExtension(string path)
         //{
-        //    return Path.GetExtension(path);
+        //    return zPath.GetExtension(path);
         //}
 
         public static string PathSetFileNameWithoutExtension(string path, string file)
@@ -37,12 +37,12 @@ namespace pb.IO
                 return file;
             if (file == null)
                 return path;
-            string directory = Path.GetDirectoryName(path);
-            string ext = Path.GetExtension(path);
+            string directory = zPath.GetDirectoryName(path);
+            string ext = zPath.GetExtension(path);
             //if (directory != "" && !directory.EndsWith("\\"))
             //    directory += "\\";
             //return directory + file + ext;
-            return Path.Combine(directory, file + ext);
+            return zPath.Combine(directory, file + ext);
         }
 
         public static string PathSetFileName(string path, string file)
@@ -51,10 +51,10 @@ namespace pb.IO
                 return file;
             if (file == null)
                 return path;
-            string directory = Path.GetDirectoryName(path);
+            string directory = zPath.GetDirectoryName(path);
             //if (directory != "" && !directory.EndsWith("\\")) directory += "\\";
             //return directory + file;
-            return Path.Combine(directory, file);
+            return zPath.Combine(directory, file);
         }
 
         public static string PathSetExtension(string path, string ext)
@@ -67,7 +67,7 @@ namespace pb.IO
             //    dir += "\\";
             //string file = PathGetFile(path);
             //if (ext.Length > 0 && ext[0] != '.') ext = "." + ext;
-            return Path.Combine(Path.GetDirectoryName(path), Path.GetFileNameWithoutExtension(path) + ext);
+            return zPath.Combine(zPath.GetDirectoryName(path), zPath.GetFileNameWithoutExtension(path) + ext);
         }
 
         //public static string PathSetDir(string path, string directory)
@@ -75,7 +75,7 @@ namespace pb.IO
         //    if (path == null) return null;
         //    if (directory == null) return path;
         //    string file = PathGetFileWithExt(path);
-        //    if (!Path.IsPathRooted(directory))
+        //    if (!zPath.IsPathRooted(directory))
         //        directory = PathMakeRooted(directory, PathGetDir(path));
         //    if (directory != "" && !directory.EndsWith("\\")) directory += "\\";
         //    return directory + file;
@@ -85,10 +85,10 @@ namespace pb.IO
         {
             if (file == null)
                 return null;
-            string filename = Path.GetFileName(file);
+            string filename = zPath.GetFileName(file);
             if (directory == null)
                 return filename;
-            return Path.Combine(directory, filename);
+            return zPath.Combine(directory, filename);
         }
 
         //public static string SetRootDirectory(string file, string rootDirectory = null)
@@ -97,11 +97,11 @@ namespace pb.IO
         {
             if (file == null)
                 return null;
-            if (Path.IsPathRooted(file) || rootDirectory == null || rootDirectory == "")
+            if (zPath.IsPathRooted(file) || rootDirectory == null || rootDirectory == "")
                 return file;
             //if (rootDirectory == null)
             //    rootDirectory = zapp.GetAppDirectory();
-            return Path.GetFullPath(Path.Combine(rootDirectory, file));
+            return zPath.GetFullPath(zPath.Combine(rootDirectory, file));
         }
 
         //public static string PathAddDirectory(string path, string directory)
@@ -116,22 +116,22 @@ namespace pb.IO
         //{
         //    if (path == null) return null;
         //    if (directory == null) return path;
-        //    if (Path.IsPathRooted(path))
+        //    if (zPath.IsPathRooted(path))
         //        return path;
         //    else
-        //        return Path.GetFullPath(PathAddDirectory(path, directory));
+        //        return zPath.GetFullPath(PathAddDirectory(path, directory));
         //}
 
         //public static string GetPathFile(string file)
         //{
-        //    if (!Path.IsPathRooted(file))
-        //        file = Path.Combine(Directory.GetCurrentDirectory(), file);
+        //    if (!zPath.IsPathRooted(file))
+        //        file = zPath.Combine(Directory.GetCurrentDirectory(), file);
         //    return file;
         //}
 
         //public static string PathGetRelativeDirectory(string path, string baseDirectory)
         //{
-        //    string directory = Path.GetDirectoryName(path);
+        //    string directory = zPath.GetDirectoryName(path);
         //    if (directory.StartsWith(baseDirectory, StringComparison.CurrentCultureIgnoreCase))
         //    {
         //        int l = baseDirectory.Length;

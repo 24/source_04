@@ -30,7 +30,7 @@ namespace pb.Data.Xml
             if (!dataRequest.DocumentLoaded)
             {
                 string file = GetFileDocument();
-                if (!File.Exists(file))
+                if (!zFile.Exists(file))
                     throw new PBException("error impossible to load xml file does'nt exist \"{0}\"", file);
                 //////////////////////////////////////////////////////dataRequest.Data = LoadDocument(file, dataRequest.LoadImage);
                 //dataRequest.DocumentLoadedFromXml = true;
@@ -45,7 +45,7 @@ namespace pb.Data.Xml
 
         public bool DocumentExists()
         {
-            return File.Exists(GetFileDocument());
+            return zFile.Exists(GetFileDocument());
         }
 
         //public void SaveDocument(WebDataRequest_v2<T> dataRequest)

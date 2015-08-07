@@ -50,7 +50,7 @@ namespace Download.Print
 
         public static void Test_SpecialDays_01()
         {
-            string logFile = Path.Combine(XmlConfig.CurrentConfig.GetExplicit("DataDir"), @"control\ctrl_SpecialDays_01.txt");
+            string logFile = zPath.Combine(XmlConfig.CurrentConfig.GetExplicit("DataDir"), @"control\ctrl_SpecialDays_01.txt");
             Trace.WriteLine("write to file \"{0}\"", logFile);
             //Trace.CurrentTrace.AddTraceFile(logFile, LogOptions.RazLogFile);
             Trace.CurrentTrace.AddOnWrite("Print_Exe", WriteToFile.Create(logFile, FileOption.RazFile).Write);
@@ -344,7 +344,7 @@ namespace Download.Print
         public static void Control_RegexValues_01()
         {
             Trace.WriteLine("Control_RegexValues_01");
-            string logFile = Path.Combine(XmlConfig.CurrentConfig.GetExplicit("DataDir"), @"control\ctrl_RegexValues_01.txt");
+            string logFile = zPath.Combine(XmlConfig.CurrentConfig.GetExplicit("DataDir"), @"control\ctrl_RegexValues_01.txt");
             Trace.WriteLine("write to file \"{0}\"", logFile);
             //Trace.CurrentTrace.AddTraceFile(logFile, LogOptions.RazLogFile);
             Trace.CurrentTrace.AddOnWrite("Print_Exe", WriteToFile.Create(logFile, FileOption.RazFile).Write);
@@ -366,7 +366,7 @@ namespace Download.Print
         {
             string file = @"control\print_filenames_01.txt";
             string logFile = @"control\print_filenames_01_regex.txt";
-            logFile = Path.Combine(XmlConfig.CurrentConfig.GetExplicit("DataDir"), logFile);
+            logFile = zPath.Combine(XmlConfig.CurrentConfig.GetExplicit("DataDir"), logFile);
             Trace.WriteLine("write to file \"{0}\"", logFile);
             //Trace.CurrentTrace.AddTraceFile(logFile, LogOptions.RazLogFile);
             Trace.CurrentTrace.AddOnWrite("Print_Exe", WriteToFile.Create(logFile, FileOption.RazFile).Write);
@@ -375,7 +375,7 @@ namespace Download.Print
             Trace.WriteLine("  log  : \"{0}\"", logFile);
             Trace.WriteLine();
             IEnumerable<XElement> els = XmlConfig.CurrentConfig.GetElements("Print/Filenames/Filename");
-            string[] lines = zfile.ReadAllLines(Path.Combine(XmlConfig.CurrentConfig.GetExplicit("DataDir"), file));
+            string[] lines = zfile.ReadAllLines(zPath.Combine(XmlConfig.CurrentConfig.GetExplicit("DataDir"), file));
             foreach (string line in lines)
             {
                 if (line != "")
@@ -413,7 +413,7 @@ namespace Download.Print
 
         //public static void Control_PrintNumber_01(string name, Date date, int nb)
         //{
-        //    string logFile = Path.Combine(XmlConfig.CurrentConfig.GetExplicit("DataDir"), string.Format(@"control\number\ctrl_{0}_number_01.txt", name));
+        //    string logFile = zPath.Combine(XmlConfig.CurrentConfig.GetExplicit("DataDir"), string.Format(@"control\number\ctrl_{0}_number_01.txt", name));
         //    Trace.WriteLine("write to file \"{0}\"", logFile);
         //    Trace.CurrentTrace.AddTraceFile(logFile, LogOptions.RazLogFile);
         //    try
@@ -477,7 +477,7 @@ namespace Download.Print
 
         //public static void Control_PrintNumber_02(string name, int printNumber, int nb)
         //{
-        //    string logFile = Path.Combine(XmlConfig.CurrentConfig.GetExplicit("DataDir"), string.Format(@"control\number\ctrl_{0}_number_02.txt", name));
+        //    string logFile = zPath.Combine(XmlConfig.CurrentConfig.GetExplicit("DataDir"), string.Format(@"control\number\ctrl_{0}_number_02.txt", name));
         //    Trace.WriteLine("write to file \"{0}\"", logFile);
         //    Trace.CurrentTrace.AddTraceFile(logFile, LogOptions.RazLogFile);
         //    try

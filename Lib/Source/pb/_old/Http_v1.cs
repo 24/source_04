@@ -470,7 +470,7 @@ namespace pb.old
                         _textExportPath = GetNewHttpFileName(_traceDirectory, GetContentFileExtension(_resultContentType));
                     else if (_textExportPath != null)
                     {
-                        if (Path.GetExtension(_textExportPath) == "")
+                        if (zPath.GetExtension(_textExportPath) == "")
                             _textExportPath = zpath.PathSetExtension(_textExportPath, GetContentFileExtension(_resultContentType));
                     }
                     if (_textExportPath != null)
@@ -713,7 +713,7 @@ namespace pb.old
                 _xmlExportPath = GetNewHttpFileName(_traceDirectory, ".xml");
             else if (_xmlExportPath != null)
             {
-                if (Path.GetExtension(_textExportPath) == "")
+                if (zPath.GetExtension(_textExportPath) == "")
                     _xmlExportPath = zpath.PathSetExtension(_textExportPath, ".xml");
             }
             if (_xmlExportPath != null)
@@ -743,7 +743,7 @@ namespace pb.old
                 _xmlExportPath = GetNewHttpFileName(_traceDirectory, ".xml");
             else if (_xmlExportPath != null)
             {
-                if (Path.GetExtension(_textExportPath) == "")
+                if (zPath.GetExtension(_textExportPath) == "")
                     _xmlExportPath = zpath.PathSetExtension(_textExportPath, ".xml");
             }
             if (_xmlExportPath != null)
@@ -1042,7 +1042,7 @@ namespace pb.old
             else if (_url.StartsWith("file:", StringComparison.InvariantCultureIgnoreCase))
             {
                 Uri uri = new Uri(_url);
-                string sExt = Path.GetExtension(uri.LocalPath).ToLower();
+                string sExt = zPath.GetExtension(uri.LocalPath).ToLower();
                 switch (sExt)
                 {
                     case ".xml":
@@ -1085,7 +1085,7 @@ namespace pb.old
             else if (_webResponse is FileWebResponse)
             {
                 Uri uri = new Uri(_url);
-                string sExt = Path.GetExtension(uri.LocalPath).ToLower();
+                string sExt = zPath.GetExtension(uri.LocalPath).ToLower();
                 switch (sExt)
                 {
                     case ".xml":
@@ -1302,7 +1302,7 @@ namespace pb.old
         public static string GetNewUrlFileName(string dir, string url, string ext)
         {
             string sFile = UrlToFileName(url, ext);
-            //return zfile.GetNewIndexedFileName(Path.Combine(dir, "{0:0000}")) + "_" + sFile;
+            //return zfile.GetNewIndexedFileName(zPath.Combine(dir, "{0:0000}")) + "_" + sFile;
             return zfile.GetNewIndexedFileName(dir) + "_" + sFile;
         }
 
@@ -1353,7 +1353,7 @@ namespace pb.old
                 //sFile = cu.PathGetFile(sFile) + ".html";
                 if (sExt != null) sFile = sFile + sExt;
             }
-            sFile = Path.GetFileName(sFile);
+            sFile = zPath.GetFileName(sFile);
             return sFile;
         }
 

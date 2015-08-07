@@ -1,0 +1,31 @@
+root { 
+    display: block;
+}
+
+.table {
+    display: table;
+}
+
+.row {
+    display: table-row;    
+    zzborder: 1px solid;
+}
+
+.cell {
+    display: table-cell;
+    padding-left: 5px;
+    padding-right: 5px;
+    border: 1px solid;
+    vertical-align: top;
+}
+
+.canvas {
+    border: 2px solid;
+    vertical-align: top;
+}
+
+.hidden {
+  visibility: hidden;
+  width: 0;
+  height: 0;
+}

@@ -85,7 +85,7 @@ namespace Test_Winpcap_dn
         {
             if (file == null)
                 return null;
-            return Path.Combine(_dataDir, file);
+            return zPath.Combine(_dataDir, file);
         }
 
         public static void Test_01()

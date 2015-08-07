@@ -504,7 +504,7 @@ namespace pb.old
                 //        string sExt = Http_v1.GetContentFileExtension(sContentType);
                 //        if (sExt == ".xml")
                 //        {
-                //            sPath2 = zpath.PathSetFileName(sPath, Path.GetFileNameWithoutExtension(sPath) + "_source.xml");
+                //            sPath2 = zpath.PathSetFileName(sPath, zPath.GetFileNameWithoutExtension(sPath) + "_source.xml");
                 //            File.Move(sPath, sPath2);
                 //        }
                 //        //else
@@ -530,8 +530,8 @@ namespace pb.old
                     string ext = Http_v1.GetContentFileExtension(sContentType);
                     if (ext == ".xml")
                     {
-                        path2 = zpath.PathSetFileName(path, Path.GetFileNameWithoutExtension(path) + "_source.xml");
-                        File.Move(path, path2);
+                        path2 = zpath.PathSetFileName(path, zPath.GetFileNameWithoutExtension(path) + "_source.xml");
+                        zFile.Move(path, path2);
                     }
                     _webExportPath = path2;
                 }
@@ -1395,7 +1395,7 @@ namespace pb.old
 
         public string GetPathFichier(string sFileName)
         {
-            if (!Path.IsPathRooted(sFileName))
+            if (!zPath.IsPathRooted(sFileName))
             {
                 string sDir = Dir;
                 if (sDir != null) sFileName = sDir + sFileName;

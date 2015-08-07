@@ -2,6 +2,7 @@
 using System.IO;
 using System.Xml.Linq;
 using pb.Data.Xml;
+using pb.IO;
 using pb.Web.old;
 
 // to do
@@ -26,7 +27,7 @@ namespace pb.Web
 
         public string GetUrlPath(HttpRequest httpRequest)
         {
-            return Path.Combine(_cacheDirectory, GetUrlSubPath(httpRequest));
+            return zPath.Combine(_cacheDirectory, GetUrlSubPath(httpRequest));
         }
 
         public string GetUrlSubPath(HttpRequest httpRequest)
@@ -34,7 +35,7 @@ namespace pb.Web
             string file = GetUrlFilename(httpRequest);
             string dir = GetUrlSubDirectory(httpRequest);
             if (dir != null)
-                file = Path.Combine(dir, file);
+                file = zPath.Combine(dir, file);
             return file;
         }
 

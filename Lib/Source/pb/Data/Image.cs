@@ -4,6 +4,7 @@ using System.Drawing;
 using System.IO;
 using System.Net;
 using System.Text;
+using pb.IO;
 
 namespace pb.Data
 {
@@ -12,7 +13,7 @@ namespace pb.Data
         //public static Bitmap ReadBitmap(string sourceFile)
         public static Bitmap LoadFromFile(string file)
         {
-            if (!File.Exists(file))
+            if (!zFile.Exists(file))
                 throw new PBException("error reading image file \"{0}\" does'nt exists", file);
             //Bitmap bitmap = new Bitmap(sourceFile);
             Image image;

@@ -4,6 +4,7 @@ using System.IO;
 using System.Text;
 using System.Xml;
 using pb;
+using pb.IO;
 
 namespace pb.old
 {
@@ -32,7 +33,7 @@ namespace pb.old
 
         protected void Load()
         {
-            _fileDirectory = Path.GetDirectoryName(_file);
+            _fileDirectory = zPath.GetDirectoryName(_file);
             XmlReaderSettings settings = new XmlReaderSettings();
             settings.IgnoreComments = true;
             settings.IgnoreWhitespace = true;

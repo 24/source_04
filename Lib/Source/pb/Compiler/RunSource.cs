@@ -199,15 +199,15 @@ namespace pb.Compiler
 
         //public string GetProjectConfigPath(string projectName)
         //{
-        //    string file = Path.GetFileName(projectName);
-        //    if (Path.GetExtension(file).ToLower() != ".xml")
+        //    string file = zPath.GetFileName(projectName);
+        //    if (zPath.GetExtension(file).ToLower() != ".xml")
         //    {
-        //        file = Path.GetFileNameWithoutExtension(projectName);
+        //        file = zPath.GetFileNameWithoutExtension(projectName);
         //        if (!file.ToLower().EndsWith("_project"))
         //            file += "_project";
         //        file += ".xml";
         //    }
-        //    string dir = Path.GetDirectoryName(projectName);
+        //    string dir = zPath.GetDirectoryName(projectName);
         //    dir = GetFilePath(dir);
         //    if (!dir.EndsWith("\\")) dir += "\\";
         //    return dir + file;
@@ -487,9 +487,9 @@ namespace pb.Compiler
             if (file != null)
             {
                 if (!file.ToLower().EndsWith(_defaultSuffixProjectName.ToLower()))
-                    file = zpath.PathSetFileName(file, Path.GetFileNameWithoutExtension(file) + _defaultSuffixProjectName);
+                    file = zpath.PathSetFileName(file, zPath.GetFileNameWithoutExtension(file) + _defaultSuffixProjectName);
                 _projectFile = GetFilePath(file);
-                _projectDirectory = Path.GetDirectoryName(_projectFile);
+                _projectDirectory = zPath.GetDirectoryName(_projectFile);
             }
             else
             {
@@ -655,7 +655,7 @@ namespace pb.Compiler
                 return;
 
             CompilerProject compilerProject = null;
-            if (!compileWithoutProject && _projectFile != null && File.Exists(_projectFile))
+            if (!compileWithoutProject && _projectFile != null && zFile.Exists(_projectFile))
             {
                 //pb.Trace.WriteLine("RunSource._GenerateCodeAndCompile_v2() : use project \"{0}\"", _projectFile);
                 XmlConfig xmlConfig = new XmlConfig(_projectFile);
@@ -710,12 +710,12 @@ namespace pb.Compiler
         //    if (compiler.Results != null)
         //    {
         //        foreach (CompilerError err in compiler.Results.Errors)
-        //            Trace.WriteLine("{0} no {1,-6} source \"{2}\" line {3} col {4} \"{5}\"", err.IsWarning ? "warning" : "error", err.ErrorNumber, Path.GetFileName(err.FileName), err.Line, err.Column, err.ErrorText);
+        //            Trace.WriteLine("{0} no {1,-6} source \"{2}\" line {3} col {4} \"{5}\"", err.IsWarning ? "warning" : "error", err.ErrorNumber, zPath.GetFileName(err.FileName), err.Line, err.Column, err.ErrorText);
         //    }
         //    if (compiler.ResourceResults != null)
         //    {
         //        foreach (ResourceCompilerError err in compiler.ResourceResults.Errors)
-        //            Trace.WriteLine("source \"{0}\" \"{1}\"", Path.GetFileName(err.FileName), err.ErrorText);
+        //            Trace.WriteLine("source \"{0}\" \"{1}\"", zPath.GetFileName(err.FileName), err.ErrorText);
         //    }
         //}
 
@@ -776,7 +776,7 @@ namespace pb.Compiler
         {
             ICompiler compiler = generateAndExecute.Compiler;
             if (compilerProject != null)
-                compiler.DefaultDir = Path.GetDirectoryName(compilerProject.ProjectFile);
+                compiler.DefaultDir = zPath.GetDirectoryName(compilerProject.ProjectFile);
             compiler.zSetCompilerParameters(_runSourceConfig.XDocument.Root.XPathSelectElement("CompilerDefaultValues"));
             compiler.zSetCompilerParameters(_runSourceConfig.XDocument.Root.XPathSelectElement("ProjectDefaultValues"));
             if (compilerProject != null)
@@ -788,9 +788,9 @@ namespace pb.Compiler
         //public Compiler Compile(CompilerProject compilerProject, string assemblyPath, params string[] pathSources)
         //{
         //    Compiler compiler = new Compiler();
-        //    //compiler.DefaultDir = Path.GetDirectoryName(gProjectConfig.ConfigPath);
+        //    //compiler.DefaultDir = zPath.GetDirectoryName(gProjectConfig.ConfigPath);
         //    if (compilerProject != null)
-        //        compiler.DefaultDir = Path.GetDirectoryName(compilerProject.ProjectFile);
+        //        compiler.DefaultDir = zPath.GetDirectoryName(compilerProject.ProjectFile);
         //    compiler.SetCompilerParameters(_runSourceConfig.XDocument.Root.XPathSelectElement("CompilerDefaultValues"));
         //    compiler.SetCompilerParameters(_runSourceConfig.XDocument.Root.XPathSelectElement("ProjectDefaultValues"));
         //    //compiler.SetCompilerParameters(gProjectConfig.XDocument.Root.XPathSelectElement("Project"));
@@ -827,7 +827,7 @@ namespace pb.Compiler
             //compiler.SetCompilerParameters(_runSourceConfig, "CompilerDefaultValues");
             Compiler compiler = new Compiler();
             string pathProject = GetFilePath(projectName);
-            compiler.DefaultDir = Path.GetDirectoryName(pathProject);
+            compiler.DefaultDir = zPath.GetDirectoryName(pathProject);
             //compiler.SetCompilerParameters(_runSourceConfig, "CompilerDefaultValues");
             compiler.zSetCompilerParameters(_runSourceConfig.XDocument.Root.XPathSelectElement("CompilerDefaultValues"));
             Trace.WriteLine("Compile project \"{0}\"", pathProject);
@@ -851,7 +851,7 @@ namespace pb.Compiler
         //public Compiler CompileAndRun_Project(string projectName, bool killActiveProcess)
         //{
         //    Compiler compiler = new Compiler();
-        //    compiler.DefaultDir = Path.GetDirectoryName(GetFilePath(projectName));
+        //    compiler.DefaultDir = zPath.GetDirectoryName(GetFilePath(projectName));
         //    compiler.zSetCompilerParameters(_runSourceConfig.XDocument.Root.XPathSelectElement("CompilerDefaultValues"));
         //    compiler.zSetCompilerParameters(XDocument.Load(GetFilePath(projectName)).Root);
         //    if (killActiveProcess)
@@ -892,7 +892,7 @@ namespace pb.Compiler
         //    if (!Directory.Exists(dir))
         //        Directory.CreateDirectory(dir);
         //    int i = zfile.GetLastFileNameIndex(dir) + 1;
-        //    return Path.Combine(dir, gsDefaultAssemblyName + string.Format("_{0:00000}", i));
+        //    return zPath.Combine(dir, gsDefaultAssemblyName + string.Format("_{0:00000}", i));
         //}
 
         //private static string GetAssemblyPath(string sProjectName)
@@ -1227,7 +1227,7 @@ namespace pb.Compiler
         //    for (int i = 0; i < sSources.Length; i++)
         //    {
         //        //string sPathSource = sSources[i];
-        //        //if (!Path.IsPathRooted(sPathSource) && gsSourceDir != null)
+        //        //if (!zPath.IsPathRooted(sPathSource) && gsSourceDir != null)
         //        //{
         //        //    sPathSource = gsSourceDir + sPathSource;
         //        //    sSources[i] = sPathSource;
@@ -1240,7 +1240,7 @@ namespace pb.Compiler
         // not used
         //public void InitConfig(string sConfigName)
         //{
-        //    if (!Path.HasExtension(sConfigName))
+        //    if (!zPath.HasExtension(sConfigName))
         //        sConfigName += ".config.xml";
         //    sConfigName = GetFilePath(sConfigName);
         //    gsSourceConfigName = sConfigName;
@@ -1408,17 +1408,17 @@ namespace pb.Compiler
 
         public string GetFilePath(string file)
         {
-            //if (!Path.IsPathRooted(file) && gsSourceDir != null)
-            //if (!Path.IsPathRooted(file) && _projectDirectory != null)
-            //    //file = Path.Combine(gsSourceDir, file);
-            //    file = Path.Combine(_projectDirectory, file);
+            //if (!zPath.IsPathRooted(file) && gsSourceDir != null)
+            //if (!zPath.IsPathRooted(file) && _projectDirectory != null)
+            //    //file = zPath.Combine(gsSourceDir, file);
+            //    file = zPath.Combine(_projectDirectory, file);
             //return file;
             return file.zRootPath(_projectDirectory);
         }
 
         //public string GetPathSource(string sPath)
         //{
-        //    if (!Path.IsPathRooted(sPath) && gsSourceDir != null) sPath = gsSourceDir + sPath;
+        //    if (!zPath.IsPathRooted(sPath) && gsSourceDir != null) sPath = gsSourceDir + sPath;
         //    return sPath;
         //}
 

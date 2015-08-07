@@ -9,6 +9,7 @@ using MongoDB.Bson.Serialization.Attributes;
 using pb;
 using pb.Data;
 using pb.Data.Mongo;
+using pb.IO;
 
 namespace Test.Test_Bson
 {
@@ -21,7 +22,7 @@ namespace Test.Test_Bson
             BsonWriter bsonWriter = null;
             try
             {
-                sw = File.CreateText(bsonFile);
+                sw = zFile.CreateText(bsonFile);
                 JsonWriterSettings jsonSettings = new JsonWriterSettings();
                 jsonSettings.Indent = true;
                 //jsonSettings.NewLineChars = "\r\n";

@@ -46,7 +46,7 @@ Download.Print.DownloadAutomate_f.Test_DownloadAutomate_01(loadNewPost: true, se
 
 Trace.WriteLine(Download.Print.DownloadAutomate_f.GetMongoDownloadAutomateManager().GetLastRunDateTime().ToString());
 Trace.WriteLine(Download.Print.DownloadAutomate_f.GetMongoDownloadAutomateManager().GetNextRunDateTime().ToString());
-Download.Print.DownloadAutomate_f.GetMongoDownloadAutomateManager().SetLastRunDateTime(DateTime.Parse("2015-04-01 10:00:00"));
+Download.Print.DownloadAutomate_f.GetMongoDownloadAutomateManager().SetLastRunDateTime(DateTime.Parse("2015-07-18 10:00:00"));
 Download.Print.DownloadAutomate_f.GetMongoDownloadAutomateManager().SetLastRunDateTime(DateTime.Parse("2015-03-22 00:00:00"));
 Download.Print.DownloadAutomate_f.GetMongoDownloadAutomateManager().SetLastRunDateTime(DateTime.Parse("2015-01-10 00:00:00"));
 Download.Print.DownloadAutomate_f.GetMongoDownloadAutomateManager().SetLastRunDateTime(DateTime.Parse("2015-03-01 00:00:00"));

@@ -81,7 +81,7 @@ namespace Download.Print
             //string trace = config.Get("Trace").zRootPath(zapp.GetEntryAssemblyDirectory());
             //if (trace != null && trace != "")
             //    Trace.CurrentTrace.SetTraceDirectory(trace);
-            HttpManager.CurrentHttpManager.TraceDirectory = config.Get("Trace").zRootPath(zapp.GetEntryAssemblyDirectory());
+            HttpManager.CurrentHttpManager.ExportDirectory = config.Get("HttpExportDirectory").zRootPath(zapp.GetEntryAssemblyDirectory());
 
             //string mongoLog = config.Get("MongoLog").zRootPath(zapp.GetEntryAssemblyDirectory());
             //if (mongoLog != null)
@@ -248,13 +248,14 @@ namespace Download.Print
             //   download avec WebClient.DownloadFileAsync   04:02 423.1 KB/s
 
             Trace.WriteLine("Test_Download_01");
-            string path = Path.Combine(dir, file);
+            string path = zPath.Combine(dir, file);
             Trace.WriteLine("download url \"{0}\" in \"{1}\"", url, path);
             WebClient webClient = new WebClient();
             DateTime dt = DateTime.Now;
             webClient.DownloadFile(url, path);
             TimeSpan ts = DateTime.Now.Subtract(dt);
-            FileInfo fi = new FileInfo(path);
+            //FileInfo fi = new FileInfo(path);
+            var fi = zFile.CreateFileInfo(path);
             Trace.WriteLine(@"downloaded time {0:hh\:mm\:ss} speed {1:0.0} KB/s", ts, fi.Length / ts.TotalSeconds / 1024);
         }
 
@@ -283,7 +284,7 @@ namespace Download.Print
             //string url = "";
 
             Trace.WriteLine("Test_Download_02");
-            _downloadPath = Path.Combine(dir, file);
+            _downloadPath = zPath.Combine(dir, file);
             Trace.WriteLine("download async url \"{0}\" in \"{1}\"", url, _downloadPath);
             WebClient webClient = new WebClient();
             webClient.DownloadFileCompleted += new System.ComponentModel.AsyncCompletedEventHandler(Completed);
@@ -308,7 +309,8 @@ namespace Download.Print
             Trace.WriteLine("Download completed {0} %");
             //MessageBox.Show("Download completed!");
             TimeSpan ts = DateTime.Now.Subtract(_downloadStartTime);
-            FileInfo fi = new FileInfo(_downloadPath);
+            //FileInfo fi = new FileInfo(_downloadPath);
+            var fi = zFile.CreateFileInfo(_downloadPath);
             Trace.WriteLine(@"downloaded time {0:hh\:mm\:ss} speed {1:0.0} KB/s", ts, fi.Length / ts.TotalSeconds / 1024);
         }
 

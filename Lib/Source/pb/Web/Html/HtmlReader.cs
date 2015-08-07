@@ -107,7 +107,7 @@ namespace pb.Web
 
         public static string GetTraceFile(string file)
         {
-            return zpath.PathSetFileName(file, Path.GetFileName(file) + ".trace.txt");
+            return zpath.PathSetFileName(file, zPath.GetFileName(file) + ".trace.txt");
         }
 
         private void OpenTraceHtmlReader()
@@ -836,6 +836,13 @@ namespace pb.Web
                     {
                         cChar = '-';
                         _stringStream.Append(cChar);
+                    }
+                    // '\x07' dans http://www.telecharger-magazine.com/livres/502-tout-sur-les-lgumes-lencyclopdie-des-aliments.html   c:\pib\dev_data\exe\runsource\download\sites\telecharger-magazine.com\cache\detail\0\livres_502-tout-sur-les-lgumes-lencyclopdie-des-aliments.html
+                    // '\x1F' dans http://www.telecharger-magazine.com/actualit/117-grand-guide-2014-du-seo.html  c:\pib\dev_data\exe\runsource\download\sites\telecharger-magazine.com\cache\detail\0\actualit_117-grand-guide-2014-du-seo.html
+                    // remplace '\x07' '\x1F' par un blanc
+                    else if (iChar == 7 || iChar == 0x1F)
+                    {
+                        cChar = ' ';
                     }
                     _stringStream.Append(cChar);
                 }

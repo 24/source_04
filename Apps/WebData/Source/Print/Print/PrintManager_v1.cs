@@ -334,8 +334,8 @@ namespace Print
             bool writeUnknowPrint = true;
             bool logFileInDestinationDirectory = false;
             bool debug = false;
-            string file = Path.GetFileName(path);
-            if (!File.Exists(path))
+            string file = zPath.GetFileName(path);
+            if (!zFile.Exists(path))
             {
                 Trace.WriteLine("file dont exists \"{0}\"", file);
                 return;
@@ -372,7 +372,7 @@ namespace Print
                     Trace.WriteLine("  {0} = {1}", value.Key, value.Value);
             }
             string file2 = print.GetFilename();
-            if (file == file2 && (!moveFile || Path.GetDirectoryName(path) == print.Directory))
+            if (file == file2 && (!moveFile || zPath.GetDirectoryName(path) == print.Directory))
             {
                 if (writeFilenameOk)
                 {
@@ -386,12 +386,12 @@ namespace Print
                 return;
             }
 
-            if (moveFile && !simulate && !Directory.Exists(print.Directory))
-                Directory.CreateDirectory(print.Directory);
+            if (moveFile && !simulate && !zDirectory.Exists(print.Directory))
+                zDirectory.CreateDirectory(print.Directory);
             string traceFile = null;
             if (moveFile && !simulate && logFileInDestinationDirectory)
             {
-                traceFile = Path.Combine(print.Directory, "log.txt");
+                traceFile = zPath.Combine(print.Directory, "log.txt");
                 //_tr.AddTraceFile(traceFile, LogOptions.None);
                 if (traceFile != null)
                     Trace.CurrentTrace.AddOnWrite("pu1", WriteToFile.Create(traceFile, FileOption.None).Write);
@@ -407,17 +407,18 @@ namespace Print
                 {
                     //if (!simulate && !Directory.Exists(print.Directory))
                     //    Directory.CreateDirectory(print.Directory);
-                    path2 = Path.Combine(print.Directory, file2);
+                    path2 = zPath.Combine(print.Directory, file2);
                 }
                 else
                     path2 = zpath.PathSetFileName(path, file2);
                 int index = 2;
-                while (File.Exists(path2))
+                while (zFile.Exists(path2))
                 {
                     fileExists = true;
                     if (path == path2)
                         break;
-                    filesEquals = zfile.FilesEquals(path, path2);
+                    //filesEquals = zfile.FilesEquals(path, path2);
+                    filesEquals = zfile.AreFileEqual(path, path2);
                     if (filesEquals)
                         break;
                     file2 = print.GetFilename(index++);
@@ -454,9 +455,9 @@ namespace Print
                 if (!simulate)
                 {
                     if (filesEquals)
-                        File.Delete(path);
-                    else if (!File.Exists(path2))
-                        File.Move(path, path2);
+                        zFile.Delete(path);
+                    else if (!zFile.Exists(path2))
+                        zFile.Move(path, path2);
                 }
             }
             finally

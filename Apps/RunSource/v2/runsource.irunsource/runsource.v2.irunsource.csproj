@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Pri.LongPath">
+      <HintPath>..\..\..\..\..\RuntimeLibrary\LongPath\LongPath\Pri.LongPath.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -50,6 +53,9 @@
     </Compile>
     <Compile Include="..\..\..\..\Lib\Source\pb\IO\FileOption.cs">
       <Link>SourceLnk\Lib\pb\IO\FileOption.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Lib\Source\pb\IO\zPath.cs">
+      <Link>SourceLnk\Lib\pb\IO\zPath.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\Lib\Source\pb\_pb\Application.cs">
       <Link>SourceLnk\Lib\pb\_pb\Application.cs</Link>

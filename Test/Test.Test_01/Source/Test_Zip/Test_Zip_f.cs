@@ -16,7 +16,7 @@ namespace Test.Test_Zip
         public static void Test_Uncompress_01(string file, bool overwrite = false)
         {
             string dir = zpath.PathSetExtension(file, "");
-            if (Directory.Exists(dir))
+            if (zDirectory.Exists(dir))
             {
                 Trace.WriteLine("error directory already exist \"{0}\"", dir);
                 return;
@@ -26,7 +26,7 @@ namespace Test.Test_Zip
             ExtractOptions options = ExtractOptions.ExtractFullPath;
             if (overwrite)
                 options |= ExtractOptions.Overwrite;
-            using (Stream stream = File.OpenRead(file))
+            using (Stream stream = zFile.OpenRead(file))
             {
                 var reader = ReaderFactory.Open(stream);
                 while (reader.MoveToNextEntry())
@@ -43,7 +43,7 @@ namespace Test.Test_Zip
         public static void Test_Uncompress_02(string file)
         {
             string directory = zpath.PathSetExtension(file, "");
-            if (Directory.Exists(directory))
+            if (zDirectory.Exists(directory))
             {
                 Trace.WriteLine("error directory already exist \"{0}\"", directory);
                 return;
@@ -54,7 +54,7 @@ namespace Test.Test_Zip
             {
                 foreach (ZipArchiveEntry entry in archive.Entries)
                 {
-                    string path = Path.Combine(directory, entry.FullName);
+                    string path = zPath.Combine(directory, entry.FullName);
                     zfile.CreateFileDirectory(path);
                     entry.ExtractToFile(path);
                 }
@@ -65,7 +65,7 @@ namespace Test.Test_Zip
         {
             //System.IO.Compression.ZipFile
             Trace.WriteLine("view compress file \"{0}\"", file);
-            using (Stream stream = File.OpenRead(file))
+            using (Stream stream = zFile.OpenRead(file))
             {
                 var reader = ReaderFactory.Open(stream);
                 Trace.WriteLine("reader  {0}", reader);

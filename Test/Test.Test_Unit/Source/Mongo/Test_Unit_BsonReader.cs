@@ -5,6 +5,7 @@ using MongoDB.Bson;
 using MongoDB.Bson.IO;
 using MongoDB.Bson.Serialization;
 using pb.Data.Mongo;
+using pb.IO;
 
 namespace Test.Test_Unit.Mongo
 {
@@ -13,15 +14,15 @@ namespace Test.Test_Unit.Mongo
         public static void Test()
         {
             Trace.WriteLine("Test_Unit_BsonReader");
-            string dir = Path.Combine(RunSource.CurrentRunSource.Config.GetExplicit("TestUnitDirectory"), @"Mongo\BsonReader");
-            //Test_01(Path.Combine(dir, "BsonReader_01.txt"));
-            Test_01(Path.Combine(dir, "BsonReader_02.txt"));
-            //Test_BsonWriter_01(Path.Combine(dir, "BsonWriter_01.txt"));
+            string dir = zPath.Combine(RunSource.CurrentRunSource.Config.GetExplicit("TestUnitDirectory"), @"Mongo\BsonReader");
+            //Test_01(zPath.Combine(dir, "BsonReader_01.txt"));
+            Test_01(zPath.Combine(dir, "BsonReader_02.txt"));
+            //Test_BsonWriter_01(zPath.Combine(dir, "BsonWriter_01.txt"));
         }
 
         public static void Test_01(string file)
         {
-            string traceFile = zpath.PathSetFileName(file, Path.GetFileNameWithoutExtension(file) + "_out");
+            string traceFile = zpath.PathSetFileName(file, zPath.GetFileNameWithoutExtension(file) + "_out");
             Trace.CurrentTrace.AddTraceFile(traceFile, LogOptions.RazLogFile);
             try
             {
@@ -43,7 +44,7 @@ namespace Test.Test_Unit.Mongo
 
         //public static void Test_CloneReader_01(string file)
         //{
-        //    string traceFile = zpath.PathSetFile(file, Path.GetFileNameWithoutExtension(file) + "_out");
+        //    string traceFile = zpath.PathSetFile(file, zPath.GetFileNameWithoutExtension(file) + "_out");
         //    Trace.CurrentTrace.AddTraceFile(traceFile, LogOptions.RazLogFile);
         //    FileStream fileStream = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.Read);
         //    try
@@ -133,7 +134,7 @@ namespace Test.Test_Unit.Mongo
 
         //public static void Test_01_old(string file)
         //{
-        //    string traceFile = zpath.PathSetFile(file, Path.GetFileNameWithoutExtension(file) + "_out");
+        //    string traceFile = zpath.PathSetFile(file, zPath.GetFileNameWithoutExtension(file) + "_out");
         //    Trace.CurrentTrace.AddTraceFile(traceFile, LogOptions.RazLogFile);
         //    try
         //    {

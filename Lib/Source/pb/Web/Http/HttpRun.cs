@@ -10,7 +10,7 @@ namespace pb.Web
         private static XDocument __xDocument = null;
 
         // http
-        private static HttpManager __httpManager = new HttpManager();
+        //private static HttpManager __httpManager = new HttpManager();
         private static Http __http = null;
 
         // xml file
@@ -30,7 +30,8 @@ namespace pb.Web
         {
             RazSource();
             __xmlDocumentSourceType = XmlDocumentSourceType.Http;
-            __http = __httpManager.Load(httpRequest, requestParameters);
+            //__http = __httpManager.Load(httpRequest, requestParameters);
+            __http = HttpManager.CurrentHttpManager.Load(httpRequest, requestParameters);
             return __http;
         }
 

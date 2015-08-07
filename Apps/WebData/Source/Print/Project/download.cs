@@ -78,39 +78,40 @@ Download.Print.DownloadAutomate_f.Test_DownloadAutomate_01(loadNewPost: true, se
 pb.Data.Mongo.TraceMongoCommand.Eval("{ listDatabases: 1 }");
 pb.Data.Mongo.TraceMongoCommand.Eval("db.getCollectionNames()", "dl");
 // DownloadAutomate
-pb.Data.Mongo.TraceMongoCommand.Export("dl", "DownloadAutomate3", Path.Combine(RunSource.CurrentRunSource.DataDir, @"mongo\export\DownloadAutomate\export_DownloadAutomate3.txt"));
+pb.Data.Mongo.TraceMongoCommand.Export("dl", "DownloadAutomate3", Path.Combine(AppData.DataDirectory, @"mongo\export\DownloadAutomate\export_DownloadAutomate3.txt"));
 // DownloadedFile :
-pb.Data.Mongo.TraceMongoCommand.Export("dl", "DownloadedFile", Path.Combine(RunSource.CurrentRunSource.DataDir, @"mongo\export\Download\export_DownloadedFile.txt"));
+pb.Data.Mongo.TraceMongoCommand.Export("dl", "DownloadedFile", Path.Combine(AppData.DataDirectory, @"mongo\export\Download\export_DownloadedFile.txt"));
 pb.Data.Mongo.TraceMongoCommand.Count("dl", "DownloadedFile");
 // queue
-pb.Data.Mongo.TraceMongoCommand.Export("dl", "QueueDownloadFile_new", Path.Combine(XmlConfig.CurrentConfig.GetExplicit("DataDir"), @"mongo\export\Download\export_QueueDownloadFile_new.txt"), sort: "{ _id: 1 }");
-pb.Data.Mongo.TraceMongoCommand.Export("dl", "CurrentDownloadFile", Path.Combine(XmlConfig.CurrentConfig.GetExplicit("DataDir"), @"mongo\export\Download\export_CurrentDownloadFile.txt"), sort: "{ _id: 1 }");
+pb.Data.Mongo.TraceMongoCommand.Export("dl", "QueueDownloadFile_new", Path.Combine(AppData.DataDirectory, @"mongo\export\Download\export_QueueDownloadFile_new.txt"), sort: "{ _id: 1 }");
+pb.Data.Mongo.TraceMongoCommand.Export("dl", "CurrentDownloadFile", Path.Combine(AppData.DataDirectory, @"mongo\export\Download\export_CurrentDownloadFile.txt"), sort: "{ _id: 1 }");
 pb.Data.Mongo.TraceMongoCommand.Count("dl", "QueueDownloadFile_new");
 pb.Data.Mongo.TraceMongoCommand.Count("dl", "CurrentDownloadFile");
 //pb.Data.Mongo.TraceMongoCommand.Eval("db.QueueDownloadFile_new.drop()", "dl");
 //pb.Data.Mongo.TraceMongoCommand.Eval("db.CurrentDownloadFile.drop()", "dl");
 
 // old DownloadedFile : DownloadFile3
-pb.Data.Mongo.TraceMongoCommand.Export("dl", "DownloadFile3", Path.Combine(RunSource.CurrentRunSource.DataDir, @"mongo\export\Download\export_DownloadFile3.txt"), sort: "{ _id: 1 }");
+pb.Data.Mongo.TraceMongoCommand.Export("dl", "DownloadFile3", Path.Combine(AppData.DataDirectory, @"mongo\export\Download\export_DownloadFile3.txt"), sort: "{ _id: 1 }");
 pb.Data.Mongo.TraceMongoCommand.Find("dl", "DownloadFile3", "{}", limit: 100, sort: "{ _id: -1 }", fields: "{ _id: 1, 'downloadFile.key': 1, 'downloadFile.downloadedFile': 1, 'downloadFile.state': 1, 'downloadFile.startDownloadTime': 1 }");
 pb.Data.Mongo.TraceMongoCommand.Count("dl", "DownloadFile3");
 // old queue
-pb.Data.Mongo.TraceMongoCommand.Export("dl", "QueueDownloadFile4", Path.Combine(RunSource.CurrentRunSource.DataDir, @"mongo\export\Download\export_QueueDownloadFile4.txt"), sort: "{ _id: 1 }");
+pb.Data.Mongo.TraceMongoCommand.Export("dl", "QueueDownloadFile4", Path.Combine(AppData.DataDirectory, @"mongo\export\Download\export_QueueDownloadFile4.txt"), sort: "{ _id: 1 }");
 pb.Data.Mongo.TraceMongoCommand.Count("dl", "QueueDownloadFile4");
-pb.Data.Mongo.TraceMongoCommand.Import("dl", "QueueDownloadFile4", Path.Combine(RunSource.CurrentRunSource.DataDir, @"mongo\export\Download\export_QueueDownloadFile4_12.txt"));
+pb.Data.Mongo.TraceMongoCommand.Import("dl", "QueueDownloadFile4", Path.Combine(AppData.DataDirectory, @"mongo\export\Download\export_QueueDownloadFile4_12.txt"));
 //pb.Data.Mongo.TraceMongoCommand.Eval("db.QueueDownloadFile4.drop()", "dl");
 
 //pb.Data.Mongo.TraceMongoCommand.Export("dl", "Download2", Path.Combine(RunSource.CurrentRunSource.DataDir, @"mongo\export\Download\export_Download2.txt"));
 //pb.Data.Mongo.TraceMongoCommand.Export("dl", "QueueDownloadFile3", Path.Combine(RunSource.CurrentRunSource.DataDir, @"mongo\export\Download\export_QueueDownloadFile3.txt"));
 
-pb.Data.Mongo.TraceMongoCommand.Export("dl", "Vosbooks_Detail", Path.Combine(RunSource.CurrentRunSource.DataDir, @"mongo\export\vosbooks.net\export_Vosbooks_Detail.txt"), sort: "{ 'download.PostCreationDate': -1 }");
-pb.Data.Mongo.TraceMongoCommand.Export("dl", "Ebookdz_Detail", Path.Combine(RunSource.CurrentRunSource.DataDir, @"mongo\export\ebookdz.com\export_Ebookdz_Detail.txt"), sort: "{ 'download.PostCreationDate': -1 }");
-pb.Data.Mongo.TraceMongoCommand.Export("dl", "RapideDdl_Detail2", Path.Combine(RunSource.CurrentRunSource.DataDir, @"mongo\export\rapide-ddl.com\export_RapideDdl_Detail2.txt"), sort: "{ 'download.creationDate': -1 }");
-pb.Data.Mongo.TraceMongoCommand.Export("dl", "GoldenDdl_Detail", Path.Combine(RunSource.CurrentRunSource.DataDir, @"mongo\export\golden-ddl.net\export_GoldenDdl_Detail.txt"), sort: "{ 'download.creationDate': -1 }");
-pb.Data.Mongo.TraceMongoCommand.Export("dl", "GoldenDdl_Detail", Path.Combine(RunSource.CurrentRunSource.DataDir, @"mongo\export\golden-ddl.net\export_GoldenDdl_Detail.txt"), sort: "{ '_id': -1 }");
-pb.Data.Mongo.TraceMongoCommand.Export("dl", "GoldenDdl_Detail2", Path.Combine(RunSource.CurrentRunSource.DataDir, @"mongo\export\golden-ddl.net\export_GoldenDdl_Detail2.txt"), sort: "{ 'download.creationDate': -1 }");
-pb.Data.Mongo.TraceMongoCommand.Export("dl", "Telechargementz_Detail", Path.Combine(RunSource.CurrentRunSource.DataDir, @"mongo\export\telechargementz.tv\export_Telechargementz_Detail.txt"), sort: "{ 'download.creationDate': -1 }");
-pb.Data.Mongo.TraceMongoCommand.Export("dl", "ExtremeDown_Detail", Path.Combine(RunSource.CurrentRunSource.DataDir, @"mongo\export\extreme-down.net\export_ExtremeDown_Detail.txt"), sort: "{ 'download.creationDate': -1 }");
+pb.Data.Mongo.TraceMongoCommand.Export("dl", "TelechargerMagazine_Detail", Path.Combine(AppData.DataDirectory, @"mongo\export\telecharger-magazine.com\export_TelechargerMagazine_Detail.txt"), sort: "{ '_id': -1 }");
+pb.Data.Mongo.TraceMongoCommand.Export("dl", "Vosbooks_Detail", Path.Combine(AppData.DataDirectory, @"mongo\export\vosbooks.net\export_Vosbooks_Detail.txt"), sort: "{ 'download.PostCreationDate': -1 }");
+pb.Data.Mongo.TraceMongoCommand.Export("dl", "Ebookdz_Detail", Path.Combine(AppData.DataDirectory, @"mongo\export\ebookdz.com\export_Ebookdz_Detail.txt"), sort: "{ 'download.PostCreationDate': -1 }");
+pb.Data.Mongo.TraceMongoCommand.Export("dl", "RapideDdl_Detail2", Path.Combine(AppData.DataDirectory, @"mongo\export\rapide-ddl.com\export_RapideDdl_Detail2.txt"), sort: "{ 'download.creationDate': -1 }");
+pb.Data.Mongo.TraceMongoCommand.Export("dl", "GoldenDdl_Detail", Path.Combine(AppData.DataDirectory, @"mongo\export\golden-ddl.net\export_GoldenDdl_Detail.txt"), sort: "{ 'download.creationDate': -1 }");
+pb.Data.Mongo.TraceMongoCommand.Export("dl", "GoldenDdl_Detail", Path.Combine(AppData.DataDirectory, @"mongo\export\golden-ddl.net\export_GoldenDdl_Detail.txt"), sort: "{ '_id': -1 }");
+pb.Data.Mongo.TraceMongoCommand.Export("dl", "GoldenDdl_Detail2", Path.Combine(AppData.DataDirectory, @"mongo\export\golden-ddl.net\export_GoldenDdl_Detail2.txt"), sort: "{ 'download.creationDate': -1 }");
+pb.Data.Mongo.TraceMongoCommand.Export("dl", "Telechargementz_Detail", Path.Combine(AppData.DataDirectory, @"mongo\export\telechargementz.tv\export_Telechargementz_Detail.txt"), sort: "{ 'download.creationDate': -1 }");
+pb.Data.Mongo.TraceMongoCommand.Export("dl", "ExtremeDown_Detail", Path.Combine(AppData.DataDirectory, @"mongo\export\extreme-down.net\export_ExtremeDown_Detail.txt"), sort: "{ 'download.creationDate': -1 }");
 //pb.Data.Mongo.TraceMongoCommand.Eval("db.DownloadFile3.drop()", "dl");
 //pb.Data.Mongo.TraceMongoCommand.Eval("db.Telechargementz_Detail.drop()", "dl");
 //pb.Data.Mongo.TraceMongoCommand.Eval("db.DownloadedFile3.drop()", "dl");
@@ -2113,6 +2114,34 @@ Trace.WriteLine("{0}", zfile.AreFileEqual(@"c:\pib\_dl\_pib\dl\golden-ddl.net\pr
 //************************************************************************************************************************************************************************************
 // $$info.manage.print.directory
 
+string[] directories = new string[] {
+	@"g:\pib\media\ebook\_dl\_dl_pib\print\03\print"
+	};
+DownloadAutomate_f.Test_ManageDirectories_01(directories, @"g:\pib\media\ebook\print", usePrintDirectories: true,
+	simulate: false, moveFiles: true);
+
+string[] directories = new string[] {
+	@"g:\pib\media\ebook\_dl\_dl_pib\book\01\book"
+	};
+DownloadAutomate_f.Test_ManageDirectories_01(directories, @"g:\pib\media\ebook\book\unsorted", bonusDirectory: @"g:\pib\media\ebook\book\bonus",
+	usePrintDirectories: false, simulate: false, moveFiles: true);
+
+DownloadAutomate_f.Test_GetDirectoryInfo_01(@"g:\pib\media\ebook\_dl\_dl_pib\book\01\book", excludeBonusDirectory: true);
+DownloadAutomate_f.Test_GetDirectoryInfo_01(@"g:\pib\media\ebook\_dl\_dl_pib\book\01\book", excludeBonusDirectory: false);
+
+string[] directories = new string[] {
+	@"g:\pib\media\ebook\_dl\_test\_dl\print\01\print"
+	};
+DownloadAutomate_f.Test_ManageDirectories_01(directories, @"g:\pib\media\ebook\_dl\_test\print\", usePrintDirectories: true,
+	simulate: false, moveFiles: true);
+
+string[] directories = new string[] {
+	@"g:\pib\media\ebook\_dl\_test\_dl\book\01\book"
+	//@"g:\pib\media\ebook\_dl\_test\_dl\book\02\book"
+	};
+DownloadAutomate_f.Test_ManageDirectories_01(directories, @"g:\pib\media\ebook\_dl\_test\book\", bonusDirectory: @"g:\pib\media\ebook\_dl\_test\bonus", usePrintDirectories: false,
+	simulate: false, moveFiles: true);
+
 
 DownloadAutomate_f.CreatePrintDirectoryManager().GetDirectoryGroups(new string[] { @"g:\pib\media\print", @"c:\pib\_dl\_pib\dl\print" }).zTraceJson();
 DownloadAutomate_f.CreatePrintDirectoryManager().GetDirectoryGroups(new string[] { @"g:\pib\media\print", @"c:\pib\_dl\_pib\dl\print" }).zView();
@@ -2124,6 +2153,139 @@ PrintFileManager.GetFileGroups(DownloadAutomate_f.CreatePrintDirectoryManager().
 PrintFileManager.GetFileGroups(DownloadAutomate_f.CreatePrintDirectoryManager().GetDirectoryGroups(new string[] { @"g:\pib\media\ebook\print", @"g:\pib\media\ebook\_dl\_dl_pib\01\print" })[".02_hebdo\\01 net"]).zTraceJson();
 PrintFileManager.GetFileGroups(DownloadAutomate_f.CreatePrintDirectoryManager().GetDirectoryGroups(new string[] { @"g:\pib\media\ebook\print", @"g:\pib\media\ebook\_dl\_dl_pib\01\print" })[".02_hebdo\\01 net"]).zView();
 
+string[] directories = new string[] { @"g:\pib\media\ebook\print", @"g:\pib\media\ebook\_dl\_dl_pib\01\print" };
+string subDirectory = @".03_mensuel\Alternatives économiques";
+DownloadAutomate_f.Test_ManageDirectoryGroup_01(directories, subDirectory, simulate: true, moveFiles: true);
+
+//string subDirectory = @".03_mensuel\60 millions de consommateurs";
+//string subDirectory = @".03_mensuel\Afrique magazine";
+//string subDirectory = @".03_mensuel\Alternatives économiques";
+//string subDirectory = @".03_mensuel\Android mobiles et tablettes";
+//string subDirectory = @".03_mensuel\Beaux arts magazine";
+string[] subDirectories = new string[] {
+	@".03_mensuel\Canard PC hardware",
+	@".03_mensuel\Capital",
+	@".03_mensuel\Cerveau et psycho",
+	@".03_mensuel\Ciel et espace",
+	@".03_mensuel\Classica",
+	@".03_mensuel\Connaissance des arts",
+	@".03_mensuel\DownLoad"
+	};
+string[] subDirectories = new string[] {
+	@".03_mensuel\F1 racing",
+	@".03_mensuel\Géo",
+	@".03_mensuel\Jeux vidéo magazine",
+	@".03_mensuel\L'art de l'aquarelle",
+	@".03_mensuel\National geographic",
+	@".03_mensuel\Pianiste",
+	@".03_mensuel\Pirate informatique",
+	@".03_mensuel\Plume",
+	@".03_mensuel\Pour la science",
+	@".03_mensuel\Première",
+	@".03_mensuel\Psychologies magazine",
+	@".03_mensuel\Que choisir",
+	@".03_mensuel\Questions internationales",
+	@".03_mensuel\Science et vie",
+	@".03_mensuel\Sciences et avenir"
+	};
+
+string[] directories = new string[] {
+	@"g:\pib\media\ebook\print",
+	@"g:\pib\media\ebook\_dl\_dl_pib\01\print",
+	@"g:\pib\media\ebook\_dl\_dl_pib\02\print",
+	@"g:\pib\media\ebook\_dl\_dl_pib\03\print",
+	@"g:\pib\media\ebook\_dl\_dl_pib\04\print",
+	@"g:\pib\media\ebook\_dl\_dl_pib\05\print",
+	@"g:\pib\media\ebook\_dl\_dl_pib\06\print",
+	@"g:\pib\media\ebook\_dl\_dl_pib\07\print",
+	@"g:\pib\media\ebook\_dl\_dl_pib\08\print"
+	};
+string[] subDirectories = new string[] {
+	@".02_hebdo\01 net",
+	@".02_hebdo\Challenges",
+	@".02_hebdo\Courrier international",
+	@".02_hebdo\France football",
+	@".02_hebdo\Le journal du dimanche",
+	@".02_hebdo\Le nouvel observateur",
+	@".02_hebdo\Le point",
+	@".02_hebdo\Les inrockuptibles",
+	@".02_hebdo\L'express",
+	@".02_hebdo\Marianne",
+	@".02_hebdo\Valeurs actuelles"
+	};
+DownloadAutomate_f.Test_ManageDirectoryGroup_01(directories, subDirectories, simulate: false, moveFiles: true);
+
+// ok print
+string[] directories = new string[] {
+	@"g:\pib\media\ebook\print",
+	//@"g:\pib\media\ebook\_dl\_dl_pib\print\02\print",
+	@"g:\pib\media\ebook\_dl\_dl_pib\print\03\print"
+	};
+string[] subDirectories = new string[] {
+	".01_quotidien",
+	".02_hebdo",
+	".03_mensuel"
+	//".04_autre",
+	//".05_new_print",
+	//".06_unknow_print"
+	};
+DownloadAutomate_f.Test_ManageDirectoryGroup_02(directories, subDirectories, usePrintDirectories: true, simulate: false, moveFiles: true);
+
+// ok book
+string[] directories = new string[] {
+	@"g:\pib\media\ebook\book",
+	@"g:\pib\media\ebook\_dl\_dl_pib\book\10\book"
+	};
+DownloadAutomate_f.Test_ManageDirectoryGroup_03(directories, bonusDirectory: @"g:\pib\media\ebook\bonus", usePrintDirectories: false, simulate: false, moveFiles: true);
+
+string[] directories = new string[] {
+	@"g:\pib\media\ebook\_test\book",
+	@"g:\pib\media\ebook\_test\_dl\book\01\book"
+	//@"g:\pib\media\ebook\_test\_dl\book\02\book"
+	};
+DownloadAutomate_f.Test_ManageDirectoryGroup_03(directories, bonusDirectory: @"g:\pib\media\ebook\_test\bonus", usePrintDirectories: false, simulate: false, moveFiles: true);
+
+// trace
+string[] directories = new string[] {
+	@"g:\pib\media\ebook\_test\print",
+	@"g:\pib\media\ebook\_test\_dl\print"
+	};
+DownloadAutomate_f.CreatePrintDirectoryManager().GetDirectoryGroups(directories).zToJson().zTrace();
+
+string[] directories = new string[] {
+	@"g:\pib\media\ebook\_test\book",
+	@"g:\pib\media\ebook\_test\_dl\book\01\book"
+	//@"g:\pib\media\ebook\_test\_dl\book\02\book"
+	};
+PrintFileManager.GetFileGroups(PrintFileManager.GetBonusDirectories(@"g:\pib\media\ebook\_test\bonus", DownloadAutomate_f.CreatePrintDirectoryManager().GetDirectoryGroups(directories, usePrintDirectories: false)["Analyse des besoins _ la gestion de projet par étapes"])).zToJson().zTrace();
+PrintFileManager.GetBonusDirectories(@"g:\pib\media\ebook\_test\bonus", DownloadAutomate_f.CreatePrintDirectoryManager().GetDirectoryGroups(directories, usePrintDirectories: false)["Analyse des besoins _ la gestion de projet par étapes"]).zToJson().zTrace();
+//DownloadAutomate_f.CreatePrintDirectoryManager().GetDirectoryGroups(directories, usePrintDirectories: false).zToJson().zTrace();
+PrintFileManager.GetFileGroups(DownloadAutomate_f.CreatePrintDirectoryManager().GetDirectoryGroups(directories, usePrintDirectories: false).Values.First()).zToJson().zTrace();
+PrintFileManager.GetBonusDirectories(@"g:\pib\media\ebook\_dl\_dl_pib\book\01\book").zToJson().zTrace();
+PrintFileManager.GetBonusDirectories(@"g:\pib\media\ebook\_dl\_dl_pib\book\01\book").Select(directoryInfo => Path.GetFileName(directoryInfo.SubDirectory)).zToJson().zTrace();
+PrintFileManager.GetBonusDirectories(@"g:\pib\media\ebook\_test\_dl\book\01\book").Select(directoryInfo => Path.GetFileName(directoryInfo.SubDirectory)).zToJson().zTrace();
+
+string[] directories = new string[] {
+	@"g:\pib\media\ebook\print",
+	@"g:\pib\media\ebook\_dl\_dl_pib\08\print"
+	};
+DownloadAutomate_f.Test_ManageDirectoryGroup_02(directories, ".03_mensuel", simulate: false, moveFiles: true);
+
+
+DownloadAutomate_f.CreatePrintFileManager(simulate: true, moveFiles: true).ManageDirectoryGroup(
+  DownloadAutomate_f.CreatePrintDirectoryManager().GetDirectoryGroups(new string[] { @"g:\pib\media\ebook\print", @"g:\pib\media\ebook\_dl\_dl_pib\01\print" })[@".03_mensuel\60 millions de consommateurs"],
+  @"g:\pib\media\ebook\print"
+  );
+DownloadAutomate_f.CreatePrintFileManager(simulate: false, moveFiles: true).ManageDirectoryGroup(
+  DownloadAutomate_f.CreatePrintDirectoryManager().GetDirectoryGroups(new string[] { @"g:\pib\media\ebook\print", @"g:\pib\media\ebook\_dl\_dl_pib\01\print" })[@".03_mensuel\60 millions de consommateurs"],
+  @"g:\pib\media\ebook\print"
+  );
+DownloadAutomate_f.CreatePrintFileManager(simulate: false, moveFiles: true).ManageDirectoryGroup(
+  DownloadAutomate_f.CreatePrintDirectoryManager().GetDirectoryGroups(new string[] { @"g:\pib\media\ebook\print", @"g:\pib\media\ebook\_dl\_dl_pib\01\print" })[@".03_mensuel\Afrique magazine"],
+  @"g:\pib\media\ebook\print"
+  );
+
+  
 DownloadAutomate_f.CreatePrintFileManager(simulate: true, moveFiles: true).ManageDirectoryGroup(
   DownloadAutomate_f.CreatePrintDirectoryManager().GetDirectoryGroups(new string[] { @"g:\pib\media\ebook\print", @"g:\pib\media\ebook\_dl\_dl_pib\01\print" })[@".02_hebdo\01 net"], @"g:\pib\media\ebook\print"
   );
@@ -3305,3 +3467,97 @@ Trace.CurrentTrace.TraceLevel = 0;
 Trace.CurrentTrace.TraceLevel = 1;
 Trace.WriteLine("TraceLevel {0}", Trace.CurrentTrace.TraceLevel);
 HttpRun.Load("http://www.ebookdz.com/");
+
+
+HttpManager.CurrentHttpManager.ExportResult = false;
+HttpManager.CurrentHttpManager.ExportResult = true;
+Trace.WriteLine("ExportResult {0} ExportDirectory \"{1}\"", HttpManager.CurrentHttpManager.ExportResult, HttpManager.CurrentHttpManager.ExportDirectory);
+HttpRun.Load("http://www.telecharger-magazine.com/index.php");
+HttpRun.Load("http://www.telecharger-magazine.com/journaux/3831-journaux-franais-du-17-juillet-2015.html");
+HttpRun.Load("http://www.telecharger-magazine.com/informatique/3701-a-la-dcouverte-de-photoshop-spcial-grands-dbutants-.html");
+//
+Download.Print.TelechargerMagazine.TelechargerMagazine_HeaderManager.HeaderWebDataPageManager.LoadPages(startPage: 1, maxPage: 5, reload: true, loadImage: false, refreshDocumentStore: false).zView();
+Download.Print.TelechargerMagazine.TelechargerMagazine_DetailManager.WebHeaderDetailManager.LoadDetails(startPage: 1, maxPage: 5, reloadHeaderPage: false, reloadDetail: false, loadImage: true, refreshDocumentStore: false).zView();
+Download.Print.TelechargerMagazine.TelechargerMagazine_DetailManager.WebHeaderDetailManager.LoadDetails(startPage: 1, maxPage: 5, reloadHeaderPage: false, reloadDetail: false, loadImage: true, refreshDocumentStore: true).zView();
+Download.Print.TelechargerMagazine.TelechargerMagazine_DetailManager.WebHeaderDetailManager.LoadDetails(startPage: 1, maxPage: 0, reloadHeaderPage: true, reloadDetail: false, loadImage: true, refreshDocumentStore: false).zView();
+Download.Print.TelechargerMagazine.TelechargerMagazine_DetailManager.WebHeaderDetailManager.LoadDetails(startPage: 200, maxPage: 0, reloadHeaderPage: true, reloadDetail: false, loadImage: true, refreshDocumentStore: false).zView();
+Download.Print.TelechargerMagazine.TelechargerMagazine_DetailManager.WebHeaderDetailManager.LoadNewDocuments(maxNbDocumentsLoadedFromStore: 25, startPage: 1, maxPage: 20);
+
+pb.Data.Mongo.TraceMongoCommand.Export("dl", "TelechargerMagazine_Detail", Path.Combine(AppData.DataDirectory, @"mongo\export\telecharger-magazine.com\export_TelechargerMagazine_Detail.txt"), sort: "{ '_id': -1 }");
+
+
+Download.Print.TelechargerMagazine.TelechargerMagazine_DetailManager.DetailWebDataManager.Load(new pb.Web.Data.WebRequest { HttpRequest = new HttpRequest { Url = "http://www.telecharger-magazine.com/livres/502-tout-sur-les-lgumes-lencyclopdie-des-aliments.html" }, LoadImage = false, RefreshDocumentStore = false, ReloadFromWeb = true }).Document.zTrace();
+Download.Print.TelechargerMagazine.TelechargerMagazine_DetailManager.DetailWebDataManager.Load(new pb.Web.Data.WebRequest { HttpRequest = new HttpRequest { Url = "http://www.telecharger-magazine.com/actualit/117-grand-guide-2014-du-seo.html" }, LoadImage = false, RefreshDocumentStore = false, ReloadFromWeb = true }).Document.zTrace();
+
+Download.Print.DownloadAutomate_f.Test_TryDownload_02(Download.Print.TelechargerMagazine.TelechargerMagazine_DetailManager.DetailWebDataManager, "{ _id: 3872 }", downloadDirectory: "telecharger-magazine.com", uncompressFile: true,
+  forceDownloadAgain: true, forceSelect: false, simulateDownload: false, useNewDownloadManager: true, useTestManager: false);
+Download.Print.DownloadAutomate_f.Test_TryDownload_02(Download.Print.TelechargerMagazine.TelechargerMagazine_DetailManager.DetailWebDataManager, "{ _id: 3868 }", uncompressFile: true,
+  forceDownloadAgain: false, forceSelect: false, simulateDownload: false, useNewDownloadManager: true, useTestManager: false);
+
+Download.Print.TelechargerMagazine.TelechargerMagazine_DetailManager.DetailWebDataManager.FindDocuments("{ _id: 3851 }").FirstOrDefault().zToJson().zTrace();
+Download.Print.TelechargerMagazine.TelechargerMagazine_DetailManager.DetailWebDataManager.FindDocuments("{ _id: 3850 }").FirstOrDefault().zToJson().zTrace();
+
+Uri uri = new Uri("http://www.telecharger-magazine.com/page/2/");
+Trace.WriteLine(uri.Segments[uri.Segments.Length - 1]);
+Uri uri = new Uri("http://www.telecharger-magazine.com/2015/07/17/");
+Trace.WriteLine("{0} - {1} - {2} - {3} - {4}", uri.Segments.Length, uri.Segments[0], uri.Segments[1], uri.Segments[2], uri.Segments[3]);
+Uri uri = new Uri("http://www.telecharger-magazine.com/journaux/3841-le-monde-eco-et-entreprise-sport-et-forme-du-samedi-18-juillet-2015.html");
+Trace.WriteLine("{0} - {1} - {2} - {3}", uri.Segments.Length, uri.Segments[0], uri.Segments[1], uri.Segments[2]);
+
+FilenameNumberInfo.GetFilenameNumberInfo(@"Comment se mettre dans le pétrin en une étape facile - iris miller\[Maïa Perséides - 1] Comment se mettre dans le petri - Iris Miller.epub").zToJson().zTrace();
+FilenameNumberInfo.GetFilenameNumberInfo("La_cuisine_italienne_2263041563.pdf").zToJson().zTrace();
+
+
+
+zdir.EnumerateDirectoriesInfo(@"g:\pib\media\ebook\_dl\_dl_pib\book\10\book\Les 50 meilleures recettes de quiches").zToJson().zTrace();
+zdir.EnumerateDirectoriesInfo(@"g:\pib\media\ebook\_dl\_dl_pib\book\10\book\Les 50 meilleures recettes de quiches",
+	followDirectoryTree: dir => { dir.zToJson().zTrace(); }
+	).zToJson().zTrace();
+PrintFileManager_v2.GetBonusFiles(@"g:\pib\media\ebook\_dl\_dl_pib\book\10\book\Les 50 meilleures recettes de quiches").zToJson().zTrace();
+DownloadAutomate_f.CreatePrintFileManager_v2().GetNotBonusFiles(@"g:\pib\media\ebook\_dl\_dl_pib\book\10\book\Les fées cuisinent et les lutins dînent").zToJson().zTrace();
+DownloadAutomate_f.CreatePrintFileManager_v2().GetFiles(@"g:\pib\media\ebook\_dl\_dl_pib\book\10\book\Les fées cuisinent et les lutins dînent", FileFilter.NotBonusFiles).zToJson().zTrace();
+DownloadAutomate_f.CreatePrintFileManager_v2().GetNotBonusFiles(@"g:\pib\media\ebook\_dl\_dl_pib\book\10\book\Les 50 meilleures recettes de quiches").zToJson().zTrace();
+DownloadAutomate_f.CreatePrintFileManager_v2().GetFiles(@"g:\pib\media\ebook\_dl\_dl_pib\book\10\book\Les 50 meilleures recettes de quiches", FileFilter.NotBonusFiles).zToJson().zTrace();
+DownloadAutomate_f.CreatePrintFileManager_v2().GetNotBonusFiles(@"g:\pib\media\ebook\_dl\_dl_pib\book\10\book\Les bienveillantes - jonathan littell").zToJson().zTrace();
+DownloadAutomate_f.CreatePrintFileManager_v2().GetFiles(@"g:\pib\media\ebook\_dl\_dl_pib\book\10\book\Les bienveillantes - jonathan littell", FileFilter.NotBonusFiles).zToJson().zTrace();
+DownloadAutomate_f.CreatePrintFileManager_v2().GetBonusFiles(@"g:\pib\media\ebook\_dl\_dl_pib\book\10\book\Les bienveillantes - jonathan littell").zToJson().zTrace();
+DownloadAutomate_f.CreatePrintFileManager_v2().GetFiles(@"g:\pib\media\ebook\_dl\_dl_pib\book\10\book\Les bienveillantes - jonathan littell", FileFilter.BonusFiles).zToJson().zTrace();
+DownloadAutomate_f.CreatePrintFileManager_v2().GetBonusFiles(@"g:\pib\media\ebook\_dl\_test\_test_bonus").zToJson().zTrace();
+DownloadAutomate_f.CreatePrintFileManager_v2().GetFiles(@"g:\pib\media\ebook\_dl\_test\_test_bonus", FileFilter.BonusFiles).zToJson().zTrace();
+DownloadAutomate_f.Test_ManageDirectories_01(@"c:\pib\_dl\_pib\dl\print", @"g:\pib\media\ebook\print", usePrintDirectories: true);
+DownloadAutomate_f.Test_ManageDirectories_01(@"c:\pib\_dl\_pib\dl\book", @"g:\pib\media\ebook\book\unsorted_verified", usePrintDirectories: false);
+
+
+@"zozo\bonus\toto".Substring(11).zTrace();
+@"zozo\bonus\".Substring(11).zTrace();
+@"zozo\bonus".Substring(11).zTrace();
+
+zdir.EnumerateFilesInfo(@"g:\pib\media\ebook\_dl\_test\_dl\book\02\zzbook").zToJson().zTrace();
+
+string dir = @"c:\pib\_dl\_test\toto ";
+Trace.WriteLine("dir : \"{0}\"", dir);
+string file = Path.Combine(dir, "toto.txt");
+Trace.WriteLine("file : \"{0}\"", file);
+zfile.CreateFileDirectory(file);
+zfile.WriteFile(file, "toto\r\n");
+string file2 = Path.Combine(dir, "tata.txt");
+Trace.WriteLine("file : \"{0}\"", file2);
+zfile.CreateFileDirectory(file2);
+zfile.WriteFile(file2, "tata\r\n");
+
+string dir1 = @"c:\pib\_dl\_test\toto1 ";
+Trace.WriteLine("dir1 : \"{0}\"", dir1);
+string dir2 = zPath.Combine(dir1, "toto2");
+Trace.WriteLine("dir2 : \"{0}\"", dir2);
+Directory.CreateDirectory(dir2);
+zDirectory.CreateDirectory(dir2);
+string file = zPath.Combine(dir2, "toto.txt");
+Trace.WriteLine("file : \"{0}\"", file);
+zfile.CreateFileDirectory(file);
+zfile.WriteFile(file, "toto\r\n");
+string file2 = zPath.Combine(dir2, "tata.txt");
+Trace.WriteLine("file : \"{0}\"", file2);
+zfile.CreateFileDirectory(file2);
+zfile.WriteFile(file2, "tata\r\n");
+
+"toto".zTrace();

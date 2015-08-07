@@ -129,17 +129,17 @@ namespace Print
                                 // sauf pour le monde ex : "Le Monde week-end + Magazine + 3 suppléments du samedi 30 aout 2014" le 3 n'est pas le bon numéro
                                 printIssue.PrintNumber = (int)findPrint.number;
                             }
-                            //findPrint.file = Path.Combine(print.Directory, Path.GetFileNameWithoutExtension(printIssue.GetFilename()));
+                            //findPrint.file = zPath.Combine(print.Directory, zPath.GetFileNameWithoutExtension(printIssue.GetFilename()));
                         }
                         else if (findPrint.number != null)
                         {
                             //PrintIssue printIssue = print.NewPrintIssue((int)findPrint.number);
                             printIssue.PrintNumber = (int)findPrint.number;
                             printIssue.Special = findPrint.special;
-                            //findPrint.file = Path.Combine(print.Directory, Path.GetFileNameWithoutExtension(printIssue.GetFilename()));
+                            //findPrint.file = zPath.Combine(print.Directory, zPath.GetFileNameWithoutExtension(printIssue.GetFilename()));
                         }
 
-                        findPrint.file = Path.Combine(print.Directory, Path.GetFileNameWithoutExtension(printIssue.GetFilename()));
+                        findPrint.file = zPath.Combine(print.Directory, zPath.GetFileNameWithoutExtension(printIssue.GetFilename()));
                 }
                 else
                 {

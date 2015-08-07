@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 //using System.Linq;
 using System.Text;
+using pb.IO;
 
 namespace Test_AppDomain_01
 {
@@ -11,7 +12,7 @@ namespace Test_AppDomain_01
         static void Main()
         {
             Console.WriteLine("Test_AppDomain_01");
-            Console.WriteLine("Current directory \"{0}\"", Directory.GetCurrentDirectory());
+            Console.WriteLine("Current directory \"{0}\"", zDirectory.GetCurrentDirectory());
             Console.WriteLine("Current domain friendly name \"{0}\"", AppDomain.CurrentDomain.FriendlyName);
             Console.WriteLine("Current domain base directory \"{0}\"", AppDomain.CurrentDomain.BaseDirectory);
             Console.WriteLine("Current domain relative search path \"{0}\"", AppDomain.CurrentDomain.RelativeSearchPath);

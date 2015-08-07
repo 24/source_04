@@ -3,7 +3,7 @@
   <DataDir                                                       value = "c:\pib\dev_data\exe\runsource\download" />
   <Log                                                           value = "$DataDir$\log\_log.txt" option = "IndexedFile" />
   <TestUnitDirectory                                             value = "c:\pib\dropbox\pbeuz\Dropbox\dev_data\exe\runsource\test_unit" />  <!-- c:\pib\dev_data\exe\runsource\test_unit -->
-  <!--<Trace                                                         value = "$DataDir$\http" />-->
+  <HttpExportDirectory                                           value = "$DataDir$\http" />
   <MongoLog                                                      value = "$DataDir$\mongo\log\_mongo_log.txt" option = "IndexedFile" />
   <MongoCache                                                    value = "$DataDir$\mongo\cache\mongo_cache.txt" />
   <PrintConfig                                                   value = "print_config.xml" />          <!-- ..\pt\pt_config.xml -->
@@ -17,6 +17,7 @@
       <!-- <ServerManager                                             name = "Ebookdz"  enableLoadNewPost = "false"  enableSearchPostToDownload = "false"  downloadDirectory = "Ebookdz" /> -->
       <ServerManager                                             name = "Ebookdz" />
       <ServerManager                                             name = "Vosbooks" />
+      <ServerManager                                             name = "TelechargerMagazine" />
       <!--<ServerManager                                             name = "Vosbooks_test" enableLoadNewPost = "false" downloadDirectory = "Vosbooks" />-->
     </ServerManagers>
 
@@ -83,12 +84,12 @@
   <TextInfos>
     <ExportData                                                  value = "false" />
     <ExportDataFile                                              value = "$TestUnitDirectory$\Print\PrintTextValues\PrintTextValues.txt" />
-    <!-- French | PDF | 107 MB -*- French | PDF |  22 Pages | 7 MB -*- PDF | 116 pages | 53 Mb | French -*- Micro Application | 2010 | ISBN: 2300028441 | 221 pages | PDF -->
+    <!-- French | PDF | 107 MB -*- French | PDF |  22 Pages | 221 pages | 205/148 pages | 7 MB -*- PDF | 116 pages | 53 Mb | French -*- Micro Application | 2010 | ISBN: 2300028441 | PDF -->
     <TextInfo regex="(French)" options="IgnoreCase" values="language" />
     <!-- 29.1 MB -->
     <TextInfo regex="([0-9]+(\.[0-9]*)?\s*(?:MB))" options="IgnoreCase" values="size" />
     <!-- 116 pages -->
-    <TextInfo regex="([0-9]+)\s*pages" options="IgnoreCase" values="page_nb" />
+    <TextInfo regex="([0-9]+(?:\s*/\s*[0-9]+)?)\s*pages" options="IgnoreCase" values="page_nb" />
     <!-- 2 Issues -->
     <TextInfo regex="([0-9]+)\s*issues?" options="IgnoreCase" values="issue_nb" />
     <!--<TextInfo regex="isbn:?\s*([0-9]+)" options="IgnoreCase" values="isbn" />-->
@@ -237,6 +238,36 @@
       <MongoDefaultSort                                          value = "{ 'download.id': 1 }" />
     </Detail>
   </Vosbooks>
+
+  <TelechargerMagazine>
+    <DataDir                                                     value = "$DataDir$\sites\telecharger-magazine.com" />
+    <!--<CookiesFile                                                 value = "$Ebookdz/DataDir$\cookies\cookies.txt" />-->
+
+    <Header>
+      <UseUrlCache                                               value = "true" />
+      <CacheDirectory                                            value = "$TelechargerMagazine/DataDir$\cache\header" />
+      <CacheUrlFileNameType                                      value = "Host, Path, Query" />
+      <UseMongo                                                  value = "false" />
+      <MongoServer                                               value = "mongodb://localhost" />
+      <MongoDatabase                                             value = "dl" />
+      <MongoCollection                                           value = "TelechargerMagazine_Header" />
+      <MongoDocumentItemName                                     value = "download" />
+      <MongoDefaultSort                                          value = "{ 'download.id': 1 }" />
+    </Header>
+
+    <Detail>
+      <UseUrlCache                                               value = "true" />
+      <CacheDirectory                                            value = "$TelechargerMagazine/DataDir$\cache\detail" />
+      <CacheUrlFileNameType                                      value = "Path, Query" />
+      <UseMongo                                                  value = "true" />
+      <MongoServer                                               value = "mongodb://localhost" />
+      <MongoDatabase                                             value = "dl" />
+      <MongoCollection                                           value = "TelechargerMagazine_Detail" />
+      <MongoDocumentItemName                                     value = "download" />
+      <MongoDefaultSort                                          value = "{ 'download.id': 1 }" />
+    </Detail>
+  </TelechargerMagazine>
+
 
   <Telechargementz>
     <DataDir                                                     value = "$DataDir$\sites\telechargementz.tv" />

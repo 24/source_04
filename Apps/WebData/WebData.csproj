@@ -37,6 +37,9 @@
     <Reference Include="MongoDB.Driver">
       <HintPath>..\..\..\..\..\..\..\prog\dev\mongodb\driver\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Driver.dll</HintPath>
     </Reference>
+    <Reference Include="Pri.LongPath">
+      <HintPath>..\..\..\RuntimeLibrary\LongPath\LongPath\Pri.LongPath.dll</HintPath>
+    </Reference>
     <Reference Include="SharpCompress, Version=0.10.3.0, Culture=neutral, PublicKeyToken=beaf6f427e128133, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\RuntimeLibrary\SharpCompress\SharpCompress0.10.3\Full\SharpCompress.dll</HintPath>
@@ -56,6 +59,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\Lib\Source\pb\IO\zDirectory.cs">
+      <Link>SourceLnk\Lib\pb\IO\zDirectory.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\IO\zFile.cs">
+      <Link>SourceLnk\Lib\pb\IO\zFile.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\Source\pb\IO\zPath.cs">
+      <Link>SourceLnk\Lib\pb\IO\zPath.cs</Link>
+    </Compile>
     <Compile Include="..\MyDownloader\MyDownloader.Core\Service\DownloaderState.cs">
       <Link>SourceLnk\Apps\MyDownloader\MyDownloader.Core\Service\DownloaderState.cs</Link>
     </Compile>
@@ -457,14 +469,19 @@
     <Compile Include="Source\Print\Print\IPost.cs" />
     <Compile Include="Source\Print\Print\PrintDirectoryManager.cs" />
     <Compile Include="Source\Print\Print\PrintFileManager.cs" />
+    <Compile Include="Source\Print\Print\PrintFileManager_v2.cs" />
     <Compile Include="Source\Print\Print\PrintManager.cs" />
     <Compile Include="Source\Print\Print\PrintManager_v1.cs" />
     <Compile Include="Source\Print\Print\PrintManager_v2.cs" />
+    <Compile Include="Source\Print\Print\MovePrintFiles.cs" />
     <Compile Include="Source\Print\Print\PrintTextValuesManager.cs" />
     <Compile Include="Source\Print\Print\PrintTitleManager.cs" />
     <Compile Include="Source\Print\Print\Print\IPrint.cs" />
     <Compile Include="Source\Print\Project\AppData.cs" />
     <None Include="Source\Print\Project\test.cs" />
+    <Compile Include="Source\Print\sites\telecharger-magazine.com\TelechargerMagazine.cs" />
+    <Compile Include="Source\Print\sites\telecharger-magazine.com\TelechargerMagazine_Detail.cs" />
+    <Compile Include="Source\Print\sites\telecharger-magazine.com\TelechargerMagazine_Header.cs" />
     <Compile Include="Test_Unit\Print\Test_Unit_FindPrint.cs" />
     <Compile Include="Test_Unit\Print\Test_Unit_Print.cs" />
     <Compile Include="Test_Unit\Print\Test_Unit_PrintMagazineGetTitle.cs" />

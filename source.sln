@@ -63,6 +63,27 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PibApp", "PibApp", "{E72149
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PibApp", "Apps\PibApp\PibApp.csproj", "{9565177D-71A9-4DD6-A715-3464EB878F67}"
 EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Test.Html_01", "http://localhost:54787", "{07723B30-1B07-468B-BFC6-5A4A2443CC1C}"
+	ProjectSection(WebsiteProperties) = preProject
+		UseIISExpress = "true"
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.5"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_54787"
+		Debug.AspNetCompiler.PhysicalPath = "Test\Test.Html_01\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_54787\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_54787"
+		Release.AspNetCompiler.PhysicalPath = "Test\Test.Html_01\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_54787\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		SlnRelativePath = "Test\Test.Html_01\"
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -199,6 +220,12 @@ Global
 		{9565177D-71A9-4DD6-A715-3464EB878F67}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9565177D-71A9-4DD6-A715-3464EB878F67}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9565177D-71A9-4DD6-A715-3464EB878F67}.Release|x86.ActiveCfg = Release|Any CPU
+		{07723B30-1B07-468B-BFC6-5A4A2443CC1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07723B30-1B07-468B-BFC6-5A4A2443CC1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{07723B30-1B07-468B-BFC6-5A4A2443CC1C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{07723B30-1B07-468B-BFC6-5A4A2443CC1C}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{07723B30-1B07-468B-BFC6-5A4A2443CC1C}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{07723B30-1B07-468B-BFC6-5A4A2443CC1C}.Release|x86.ActiveCfg = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -231,5 +258,6 @@ Global
 		{74940701-1895-4129-93DB-2D23511259CD} = {A9FEC463-BC1C-4E35-AC19-7D7FE8446DCE}
 		{E72149A5-5E21-4B07-89F0-8967D299B5C6} = {2DD8A8EC-4786-4BA8-A7D8-FA1061DE2405}
 		{9565177D-71A9-4DD6-A715-3464EB878F67} = {E72149A5-5E21-4B07-89F0-8967D299B5C6}
+		{07723B30-1B07-468B-BFC6-5A4A2443CC1C} = {16F7088B-0F21-405E-9287-3CADF69378C7}
 	EndGlobalSection
 EndGlobal

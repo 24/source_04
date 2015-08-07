@@ -4,6 +4,7 @@ using System.Text;
 using MongoDB.Bson;
 using MongoDB.Bson.IO;
 using pb.Data.Mongo;
+using pb.IO;
 
 namespace Test.Test_Unit.Mongo
 {
@@ -11,8 +12,8 @@ namespace Test.Test_Unit.Mongo
     {
         public static void Test_TextReader()
         {
-            string dir = Path.Combine(RunSource.CurrentRunSource.Config.GetExplicit("TestUnitDirectory"), @"Mongo\PBBsonReader");
-            string file = Path.Combine(dir, "PBBsonReader_01.txt");
+            string dir = zPath.Combine(RunSource.CurrentRunSource.Config.GetExplicit("TestUnitDirectory"), @"Mongo\PBBsonReader");
+            string file = zPath.Combine(dir, "PBBsonReader_01.txt");
             Test_TextReader_01(file, traceLevel: 0);
             Test_TextReader_01(file, traceLevel: 1);
             Test_TextReader_01(file, traceLevel: 2);
@@ -20,34 +21,34 @@ namespace Test.Test_Unit.Mongo
 
         public static void Test_CloneTextReader(string dir)
         {
-            Test_CloneTextReader_01(Path.Combine(dir, @"PBBsonReader\PBBsonReader_01.txt"));
+            Test_CloneTextReader_01(zPath.Combine(dir, @"PBBsonReader\PBBsonReader_01.txt"));
         }
 
         public static void Test_BookmarkTextReader(string dir)
         {
-            Test_BookmarkTextReader_01(Path.Combine(dir, @"PBBsonReader\PBBsonReader_01.txt"));
+            Test_BookmarkTextReader_01(zPath.Combine(dir, @"PBBsonReader\PBBsonReader_01.txt"));
         }
 
         public static void Test_BinaryReader(string dir)
         {
-            Test_BinaryReader_01(Path.Combine(dir, @"PBBsonReader\PBBsonReader_01.txt"));
+            Test_BinaryReader_01(zPath.Combine(dir, @"PBBsonReader\PBBsonReader_01.txt"));
         }
 
         public static void Test_CloneBinaryReader(string dir)
         {
-            Test_CloneBinaryReader_01(Path.Combine(dir, @"PBBsonReader\PBBsonReader_01.txt"));
+            Test_CloneBinaryReader_01(zPath.Combine(dir, @"PBBsonReader\PBBsonReader_01.txt"));
         }
 
         public static void Test_BookmarkBinaryReader(string dir)
         {
-            Test_BookmarkBinaryReader_01(Path.Combine(dir, @"PBBsonReader\PBBsonReader_01.txt"));
+            Test_BookmarkBinaryReader_01(zPath.Combine(dir, @"PBBsonReader\PBBsonReader_01.txt"));
         }
 
         public static void Test_BinaryReader_01(string file)
         {
             // test example using BsonBinaryReader : MongoDB.BsonUnitTests.Jira.CSharp71Tests.Test20KDocument()
 
-            string traceFile = zpath.PathSetFileName(file, Path.GetFileNameWithoutExtension(file) + "_out_bin");
+            string traceFile = zpath.PathSetFileName(file, zPath.GetFileNameWithoutExtension(file) + "_out_bin");
             Trace.WriteLine("Test.Test_Unit.Test_Unit_PBBsonReader.Test_BinaryReader_01()");
             Trace.WriteLine("trace to file \"{0}\"", traceFile);
             Trace.WriteLine();
@@ -87,7 +88,7 @@ namespace Test.Test_Unit.Mongo
 
         public static void Test_CloneBinaryReader_01(string file)
         {
-            string traceFile = zpath.PathSetFileName(file, Path.GetFileNameWithoutExtension(file) + "_out_bin_clone");
+            string traceFile = zpath.PathSetFileName(file, zPath.GetFileNameWithoutExtension(file) + "_out_bin_clone");
             Trace.WriteLine("Test.Test_Unit.Test_Unit_PBBsonReader.Test_CloneBinaryReader_01()");
             Trace.WriteLine("trace to file \"{0}\"", traceFile);
             Trace.WriteLine();
@@ -147,7 +148,7 @@ namespace Test.Test_Unit.Mongo
 
         public static void Test_BookmarkBinaryReader_01(string file)
         {
-            string traceFile = zpath.PathSetFileName(file, Path.GetFileNameWithoutExtension(file) + "_out_bin_bookmark");
+            string traceFile = zpath.PathSetFileName(file, zPath.GetFileNameWithoutExtension(file) + "_out_bin_bookmark");
             Trace.WriteLine("Test.Test_Unit.Test_Unit_PBBsonReader.Test_BookmarkBinaryReader_01()");
             Trace.WriteLine("trace to file \"{0}\"", traceFile);
             Trace.WriteLine();
@@ -207,7 +208,7 @@ namespace Test.Test_Unit.Mongo
         {
             FileStream fileStream = null;
 
-            string traceFile = zpath.PathSetFileName(file, Path.GetFileNameWithoutExtension(file) + "_out_text_trace_" + traceLevel.ToString());
+            string traceFile = zpath.PathSetFileName(file, zPath.GetFileNameWithoutExtension(file) + "_out_text_trace_" + traceLevel.ToString());
             Trace.WriteLine("Test.Test_Unit.Test_Unit_PBBsonReader.Test_TextReader_01()");
             Trace.WriteLine("trace to file \"{0}\"", traceFile);
             Trace.WriteLine();
@@ -246,7 +247,7 @@ namespace Test.Test_Unit.Mongo
         {
             FileStream fileStream = null;
 
-            string traceFile = zpath.PathSetFileName(file, Path.GetFileNameWithoutExtension(file) + "_out_text_clone");
+            string traceFile = zpath.PathSetFileName(file, zPath.GetFileNameWithoutExtension(file) + "_out_text_clone");
             Trace.WriteLine("Test.Test_Unit.Test_Unit_PBBsonReader.Test_CloneTextReader_01()");
             Trace.WriteLine("trace to file \"{0}\"", traceFile);
             Trace.WriteLine();
@@ -299,7 +300,7 @@ namespace Test.Test_Unit.Mongo
         {
             FileStream fileStream = null;
 
-            string traceFile = zpath.PathSetFileName(file, Path.GetFileNameWithoutExtension(file) + "_out_text_bookmark");
+            string traceFile = zpath.PathSetFileName(file, zPath.GetFileNameWithoutExtension(file) + "_out_text_bookmark");
             Trace.WriteLine("Test.Test_Unit.Test_Unit_PBBsonReader.Test_BookmarkTextReader_01()");
             Trace.WriteLine("trace to file \"{0}\"", traceFile);
             Trace.WriteLine();

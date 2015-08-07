@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using pb.IO;
 
 namespace pb.Web.Data
 {
@@ -50,7 +51,7 @@ namespace pb.Web.Data
             if (_urlCache != null)
             {
                 string urlPath = _urlCache.GetUrlPath(httpRequest);
-                if (webRequest.ReloadFromWeb || !File.Exists(urlPath))
+                if (webRequest.ReloadFromWeb || !zFile.Exists(urlPath))
                 {
                     _InitLoadFromWeb(httpRequest);
                     if (!HttpManager.CurrentHttpManager.LoadToFile(httpRequest, urlPath, _GetHttpRequestParameters()))
@@ -58,7 +59,8 @@ namespace pb.Web.Data
                 }
                 httpRequest = new HttpRequest { Url = urlPath };
                 // get last write time as loadFromWebDate, dont take creation time because creation time is modified when copying the file
-                loadFromWebDate = new FileInfo(urlPath).LastWriteTime;
+                //loadFromWebDate = new FileInfo(urlPath).LastWriteTime;
+                loadFromWebDate = zFile.CreateFileInfo(urlPath).LastWriteTime;
             }
             else
                 loadFromWebDate = DateTime.Now;

@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+<head>
+  <title>test canvas 06</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+</head>
+<body>
+  <canvas id="dessin" width="640" height="480"></canvas>
+  <script>
+  var moncanvas = document.getElementById('dessin');
+  var ctx = moncanvas.getContext('2d');
+  ctx.lineWidth = 2;
+  ctx.fillStyle = "rgba(206,0,0,255)";
+  // Positionnement au centre
+  ctx.translate(moncanvas.width/2,moncanvas.height/2);
+  var i = 0;
+  function dessiner() {
+  ctx.translate(4,1);
+  ctx.rotate(0.2);
+  ctx.fillRect(i,0,20,20);
+  i++;
+  if(i>400) clearInterval(inter);
+  ctx.fillStyle = "rgba(206,0,"+i+",255)";
+  }
+  var inter = setInterval(dessiner,10);
+  </script>
+</body>
+</html>

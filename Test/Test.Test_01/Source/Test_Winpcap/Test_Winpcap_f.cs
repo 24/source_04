@@ -42,7 +42,7 @@ namespace Test_Winpcap
         {
             if (file == null)
                 return null;
-            return Path.Combine(_dataDir, file);
+            return zPath.Combine(_dataDir, file);
         }
 
         public static void Test_01()
@@ -147,7 +147,7 @@ namespace Test_Winpcap
 
             try
             {
-                string file2 = zpath.PathSetFileName(file, Path.GetFileNameWithoutExtension(file) + "_filtered");
+                string file2 = zpath.PathSetFileName(file, zPath.GetFileNameWithoutExtension(file) + "_filtered");
                 fs = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.Read);
                 fs2 = new FileStream(file2, FileMode.Create, FileAccess.Write, FileShare.Read);
                 sr = new StreamReader(fs);

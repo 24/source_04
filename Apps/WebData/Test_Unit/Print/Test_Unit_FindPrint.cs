@@ -67,8 +67,8 @@ namespace Test.Test_Unit.Print
             //    Trace.WriteLine("  FindPrintManager.PrintRegexList  : {0}", downloadAutomate.FindPrintManager.PrintRegexList.Count);
             if (downloadAutomate.FindPrintManager != null)
                 Trace.WriteLine("  FindPrintManager2.PrintRegexList  : {0}", downloadAutomate.FindPrintManager.PrintRegexList.Count);
-            file = Path.Combine(GetDirectory(), file);
-            string bsonFile = zpath.PathSetFileNameWithoutExtension(file, Path.GetFileNameWithoutExtension(file) + "_out_bson");
+            file = zPath.Combine(GetDirectory(), file);
+            string bsonFile = zpath.PathSetFileNameWithoutExtension(file, zPath.GetFileNameWithoutExtension(file) + "_out_bson");
             zmongo.BsonReader<TestPrint>(file).zFindPrint(downloadAutomate).zSave(bsonFile);
             WriteAllFindPrint(bsonFile);
         }
@@ -84,8 +84,8 @@ namespace Test.Test_Unit.Print
         public static void Test_FindPrintFromMongo(DownloadAutomateManager downloadAutomate, string printName, string query, int limit = 0, string sort = null)
         {
             Trace.WriteLine("regex {0} : \"{1}\"", printName, downloadAutomate.FindPrintManager.PrintRegexList[printName].Pattern);
-            string file = Path.Combine(GetDirectory(), printName + ".txt");
-            string bsonFile = zpath.PathSetFileNameWithoutExtension(file, Path.GetFileNameWithoutExtension(file) + "_out_bson");
+            string file = zPath.Combine(GetDirectory(), printName + ".txt");
+            string bsonFile = zpath.PathSetFileNameWithoutExtension(file, zPath.GetFileNameWithoutExtension(file) + "_out_bson");
             FindPrintFromMongo(downloadAutomate, query, limit, sort).zFindPrint(downloadAutomate).zSave(bsonFile);
             WriteAllFindPrint(bsonFile);
             zmongo.BsonReader<TestFindPrint>(bsonFile).zView();
@@ -96,11 +96,11 @@ namespace Test.Test_Unit.Print
             //string file1 = @"c:\pib\dev_data\exe\runsource\test_unit\Print\FindPrint\FindPrint_out_bson.txt";
             //string file2 = @"c:\pib\dev_data\exe\runsource\test_unit\Print\FindPrint\_archive\FindPrint_v1_SelectPost_02\FindPrint_out_bson.txt";
             //string resultFile = @"c:\pib\dev_data\exe\runsource\test_unit\Print\FindPrint\test_compare.txt";
-            file1 = Path.Combine(GetDirectory(), file1);
-            file2 = Path.Combine(GetDirectory(), file2);
+            file1 = zPath.Combine(GetDirectory(), file1);
+            file2 = zPath.Combine(GetDirectory(), file2);
             if (elementsToCompare == null)
                 elementsToCompare = new string[] { "findPrint_file" };
-            resultFile = Path.Combine(GetDirectory(), resultFile);
+            resultFile = zPath.Combine(GetDirectory(), resultFile);
             BsonDocumentComparator.CompareBsonDocumentFilesWithKey(file1, file2, "post_title", "post_title", joinType: pb.Linq.JoinType.InnerJoin, elementsToCompare: elementsToCompare, comparatorOptions: options)
                 // .zSaveToJsonFile
                 .Select(result => result.GetResultDocument()).zSave(resultFile);
@@ -111,11 +111,11 @@ namespace Test.Test_Unit.Print
 
         public static void Test_Correction(string file, string correctionFile, string correctedFile)
         {
-            file = Path.Combine(GetDirectory(), file);
-            correctionFile = Path.Combine(GetDirectory(), correctionFile);
-            correctedFile = Path.Combine(GetDirectory(), correctedFile);
+            file = zPath.Combine(GetDirectory(), file);
+            correctionFile = zPath.Combine(GetDirectory(), correctionFile);
+            correctedFile = zPath.Combine(GetDirectory(), correctedFile);
 
-            //string newFile1 = zpath.PathSetFile(file, Path.GetFileNameWithoutExtension(file) + "_new1");
+            //string newFile1 = zpath.PathSetFile(file, zPath.GetFileNameWithoutExtension(file) + "_new1");
             //zmongo.BsonReader<TestFindPrint>(file).zJoin(zmongo.BsonReader<TestFindPrint>(correctionFile), tfp => tfp.post_title, tfp => tfp.post_title, (tfp1, tfp2) => tfp1,
             //    JoinType.LeftOuterJoinWithoutInner).zSave(newFile1);
             //Trace.WriteLine("\"{0}\" count {1}", file, zmongo.BsonReader<TestFindPrint>(file).Count());
@@ -132,7 +132,7 @@ namespace Test.Test_Unit.Print
 
         public static void Test_ViewDateCapture_01(string bsonFile)
         {
-            bsonFile = Path.Combine(GetDirectory(), bsonFile);
+            bsonFile = zPath.Combine(GetDirectory(), bsonFile);
             //var query = from tfp in zmongo.BsonReader<TestFindPrint>(bsonFile)
             //            where tfp.findPrint_date != null
             //            //orderby tfp.findPrint_dateCapture != null ? tfp.findPrint_dateCapture.capture : null
@@ -175,7 +175,7 @@ namespace Test.Test_Unit.Print
 
         public static void Test_ViewDateCapture_02(string bsonFile)
         {
-            bsonFile = Path.Combine(GetDirectory(), bsonFile);
+            bsonFile = zPath.Combine(GetDirectory(), bsonFile);
             var query = from tfp in zmongo.BsonReader<TestFindPrint>(bsonFile)
                             where tfp.findPrint_date == null
                             select new
@@ -321,7 +321,7 @@ namespace Test.Test_Unit.Print
         private static Regex __rgSpecial = new Regex(@"hors[-\s]*s.rie", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         public static void WriteAllFindPrint(string bsonFile)
         {
-            string filename = Path.GetFileNameWithoutExtension(bsonFile);
+            string filename = zPath.GetFileNameWithoutExtension(bsonFile);
             if (filename.EndsWith("_bson"))
                 filename = filename.Substring(0, filename.Length - 5);
             WriteFindPrint(zpath.PathSetFileNameWithoutExtension(bsonFile, filename), zmongo.BsonReader<TestFindPrint>(bsonFile), old: true);
@@ -335,7 +335,7 @@ namespace Test.Test_Unit.Print
 
         private static void WriteFindPrint(string file, IEnumerable<TestFindPrint> testFindPrintList, bool old = false)
         {
-            using (StreamWriter sw = File.CreateText(file))
+            using (StreamWriter sw = zFile.CreateText(file))
             {
                 foreach (TestFindPrint testFindPrint in testFindPrintList)
                 {
@@ -359,7 +359,7 @@ namespace Test.Test_Unit.Print
 
         private static void WriteFindPrint_NotSelected(string file, IEnumerable<TestFindPrint> testFindPrintList)
         {
-            using (StreamWriter sw = File.CreateText(file))
+            using (StreamWriter sw = zFile.CreateText(file))
             {
                 foreach (TestFindPrint testFindPrint in from tfp in testFindPrintList orderby tfp.post_category, tfp.post_title select tfp)
                 {
@@ -388,7 +388,7 @@ namespace Test.Test_Unit.Print
 
         private static string GetDirectory()
         {
-            return Path.Combine(XmlConfig.CurrentConfig.GetExplicit("TestUnitDirectory"), @"Print\FindPrint");
+            return zPath.Combine(XmlConfig.CurrentConfig.GetExplicit("TestUnitDirectory"), @"Print\FindPrint");
         }
     }
 }

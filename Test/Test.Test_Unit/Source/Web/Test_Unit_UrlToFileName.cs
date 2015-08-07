@@ -4,6 +4,7 @@ using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Conventions;
 using pb.Data.Mongo;
+using pb.IO;
 using pb.Web;
 using pb.Web.old;
 
@@ -23,8 +24,8 @@ namespace Test.Test_Unit.Web
         public static void Test()
         {
             Trace.WriteLine("Test_Unit_UrlToFileName");
-            string dir = Path.Combine(RunSource.CurrentRunSource.Config.GetExplicit("TestUnitDirectory"), @"Web\UrlToFileName");
-            Test_01(Path.Combine(dir, "UrlToFileName_01.txt"));
+            string dir = zPath.Combine(RunSource.CurrentRunSource.Config.GetExplicit("TestUnitDirectory"), @"Web\UrlToFileName");
+            Test_01(zPath.Combine(dir, "UrlToFileName_01.txt"));
         }
 
         public static void SetBsonSerializationConventionEnumToString()

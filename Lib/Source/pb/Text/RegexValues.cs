@@ -363,6 +363,14 @@ namespace pb.Text
             }
             return values;
         }
+
+        public string GetAttribute(string attribute)
+        {
+            if (_regexValues != null && _regexValues.Attributes.ContainsKey(attribute))
+                return _regexValues.Attributes[attribute];
+            else
+                return null;
+        }
     }
 
     public class RegexValues : XRegex

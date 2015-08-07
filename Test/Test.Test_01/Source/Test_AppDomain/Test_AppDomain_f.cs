@@ -44,7 +44,7 @@ namespace Test_AppDomain
         public static void Test_AppDomain_01()
         {
             _tr.WriteLine("Test_AppDomain_01");
-            _tr.WriteLine("Current directory \"{0}\"", Directory.GetCurrentDirectory());
+            _tr.WriteLine("Current directory \"{0}\"", zDirectory.GetCurrentDirectory());
             _tr.WriteLine("Current domain friendly name \"{0}\"", AppDomain.CurrentDomain.FriendlyName);
             _tr.WriteLine("Current domain base directory \"{0}\"", AppDomain.CurrentDomain.BaseDirectory);
             _tr.WriteLine("Current domain relative search path \"{0}\"", AppDomain.CurrentDomain.RelativeSearchPath);

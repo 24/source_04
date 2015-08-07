@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Xml.Linq;
+using pb.IO;
 using pb.Web.old;
 
 namespace pb.Web
@@ -51,7 +52,7 @@ namespace pb.Web
             {
                 //string urlPath = _urlCache.UrlPath;
                 string urlPath = _urlCache.GetUrlPath(url, _requestParameters);
-                if (_reload || !File.Exists(urlPath))
+                if (_reload || !zFile.Exists(urlPath))
                 {
                     //if (!Http2.LoadToFile(_url, urlPath, _requestParameters))
                     if (!Http_v3.LoadToFile(_url, urlPath, _requestParameters))

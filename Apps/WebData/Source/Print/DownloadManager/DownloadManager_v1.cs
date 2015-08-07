@@ -230,7 +230,7 @@ namespace Download.Print
                         //    downloadDuration = DateTime.Now - downloadFile.startDownloadTime
                         //};
                         //string downloadedPath = _downloadClient.GetDownloadLocalFileById(downloadFile.downloadId);
-                        //string downloadDirectory = Path.GetDirectoryName(downloadFile.file);
+                        //string downloadDirectory = zPath.GetDirectoryName(downloadFile.file);
                         ////if (_trace)
                         ////{
                         ////    pb.Trace.WriteLine("ManageEndDownloadFiles()                      : downloadFile.file : \"{0}\"", downloadFile.file);
@@ -287,7 +287,7 @@ namespace Download.Print
                     downloadDuration = DateTime.Now - downloadFile.startDownloadTime
                 };
                 string downloadedPath = _downloadClient.GetDownloadLocalFileById(downloadFile.downloadId);
-                string downloadDirectory = Path.GetDirectoryName(downloadFile.file);
+                string downloadDirectory = zPath.GetDirectoryName(downloadFile.file);
                 //if (_trace)
                 //{
                 //    pb.Trace.WriteLine("ManageEndDownloadFiles()                      : downloadFile.file : \"{0}\"", downloadFile.file);

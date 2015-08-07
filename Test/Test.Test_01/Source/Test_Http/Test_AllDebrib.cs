@@ -3,6 +3,7 @@ using System.IO;
 using pb;
 using pb.Compiler;
 using pb.Data.Xml;
+using pb.IO;
 using pb.Web;
 
 namespace Test.Test_Http
@@ -68,7 +69,7 @@ namespace Test.Test_Http
             if (__login != null)
                 return;
             string LocalConfigFile = XmlConfig.CurrentConfig.Get("LocalConfig");
-            if (!File.Exists(LocalConfigFile))
+            if (!zFile.Exists(LocalConfigFile))
                 throw new PBException("error LocalConfig not found \"{0}\"", LocalConfigFile);
             XmlConfig localConfig = new XmlConfig(LocalConfigFile);
             //Trace.WriteLine("LocalConfig : \"{0}\"", RunSource.CurrentRunSource.Config.Get("LocalConfig"));

@@ -4,6 +4,7 @@ using System.Linq;
 using pb.Linq;
 using pb.Data.Mongo;
 using MongoDB.Bson;
+using pb.IO;
 
 namespace Test.Test_Unit.Mongo
 {
@@ -13,7 +14,7 @@ namespace Test.Test_Unit.Mongo
         {
             string dir = GetDirectory();
             //Func<BsonDocument, BsonDocument, BsonDocument> resultSelector = (product1, product2) => new BsonDocument { { "product1", product1 ?? new BsonDocument() }, { "product2", product2 ?? new BsonDocument() } };
-            Test_Compare_01(Path.Combine(dir, "Products1.txt"), Path.Combine(dir, "Products2.txt"), "_id", "_id", Path.Combine(dir, "Products_Compare_InnerJoin.txt"), JoinType.InnerJoin);
+            Test_Compare_01(zPath.Combine(dir, "Products1.txt"), zPath.Combine(dir, "Products2.txt"), "_id", "_id", zPath.Combine(dir, "Products_Compare_InnerJoin.txt"), JoinType.InnerJoin);
         }
 
         // Func<BsonDocument, BsonDocument, BsonDocument> resultSelector = null
@@ -26,17 +27,17 @@ namespace Test.Test_Unit.Mongo
         public static void ViewFile(string file)
         {
             string dir = GetDirectory();
-            RunSource.CurrentRunSource.SetResult(pb.Data.Mongo.BsonDocumentsToDataTable_v2.ToDataTable(zmongo.BsonReader<MongoDB.Bson.BsonDocument>(Path.Combine(dir, file))));
+            RunSource.CurrentRunSource.SetResult(pb.Data.Mongo.BsonDocumentsToDataTable_v2.ToDataTable(zmongo.BsonReader<MongoDB.Bson.BsonDocument>(zPath.Combine(dir, file))));
         }
 
         public static void CreateBasicFiles()
         {
             string dir = GetDirectory();
             // .zSaveToJsonFile
-            GetProducts1().zToBsonDocuments().zSave(Path.Combine(dir, "Products1.txt"));
+            GetProducts1().zToBsonDocuments().zSave(zPath.Combine(dir, "Products1.txt"));
             // .zSaveToJsonFile
-            GetProducts2().zToBsonDocuments().zSave(Path.Combine(dir, "Products2.txt"));
-            //GetCategories().zToBsonDocuments().zSave(Path.Combine(dir, "Categories.txt"));
+            GetProducts2().zToBsonDocuments().zSave(zPath.Combine(dir, "Products2.txt"));
+            //GetCategories().zToBsonDocuments().zSave(zPath.Combine(dir, "Categories.txt"));
         }
 
         public static Product[] GetProducts1()
@@ -93,7 +94,7 @@ namespace Test.Test_Unit.Mongo
 
         private static string GetDirectory()
         {
-            return Path.Combine(RunSource.CurrentRunSource.Config.GetExplicit("TestUnitDirectory"), @"Mongo\BsonDocumentComparator");
+            return zPath.Combine(RunSource.CurrentRunSource.Config.GetExplicit("TestUnitDirectory"), @"Mongo\BsonDocumentComparator");
         }
     }
 

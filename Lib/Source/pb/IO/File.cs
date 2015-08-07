@@ -44,16 +44,18 @@ namespace pb.IO
 
         public static bool CopyFile(string sourceFile, string destinationFile, CopyFileOptions options = CopyFileOptions.None)
         {
-            if (!File.Exists(sourceFile))
+            if (!zFile.Exists(sourceFile))
                 return false;
-            if (File.Exists(destinationFile))
+            if (zFile.Exists(destinationFile))
             {
                 if ((options & CopyFileOptions.Overwrite) != CopyFileOptions.Overwrite)
                     return false;
                 if ((options & CopyFileOptions.CopyOnlyIfNewer) == CopyFileOptions.CopyOnlyIfNewer)
                 {
-                    FileInfo sourceFileInfo = new FileInfo(sourceFile);
-                    FileInfo destinationFileInfo = new FileInfo(destinationFile);
+                    //FileInfo sourceFileInfo = new FileInfo(sourceFile);
+                    var sourceFileInfo = zFile.CreateFileInfo(sourceFile);
+                    //FileInfo destinationFileInfo = new FileInfo(destinationFile);
+                    var destinationFileInfo = zFile.CreateFileInfo(destinationFile);
                     if (destinationFileInfo.LastWriteTimeUtc >= sourceFileInfo.LastWriteTimeUtc)
                         return false;
                 }
@@ -64,7 +66,7 @@ namespace pb.IO
             }
             else
                 CreateFileDirectory(destinationFile);
-            File.Copy(sourceFile, destinationFile);
+            zFile.Copy(sourceFile, destinationFile);
             return true;
         }
 
@@ -75,9 +77,9 @@ namespace pb.IO
                 destinationFile = zpath.PathSetDirectory(sourceFile, destinationDirectory);
             // vérifier si ce cas est utilisé
             //else if (destinationFilename.EndsWith("\\"))
-            //    destinationFile = Path.Combine(destinationDirectory, destinationFilename + Path.GetFileName(sourceFile));
+            //    destinationFile = zPath.Combine(destinationDirectory, destinationFilename + zPath.GetFileName(sourceFile));
             else
-                destinationFile = Path.Combine(destinationDirectory, destinationFilename);
+                destinationFile = zPath.Combine(destinationDirectory, destinationFilename);
             if (CopyFile(sourceFile, destinationFile, options))
                 return destinationFile;
             else
@@ -86,32 +88,34 @@ namespace pb.IO
 
         public static string CopyFileToDirectory(string file, string destinationDir, string destinationFile = null, bool overwrite = false, bool copyOnlyIfNewer = false)
         {
-            if (!Directory.Exists(destinationDir))
-                Directory.CreateDirectory(destinationDir);
-            if (File.Exists(file))
+            if (!zDirectory.Exists(destinationDir))
+                zDirectory.CreateDirectory(destinationDir);
+            if (zFile.Exists(file))
             {
                 string file2;
                 if (destinationFile == null)
                     file2 = zpath.PathSetDirectory(file, destinationDir);
                 else if (destinationFile.EndsWith("\\"))
-                    file2 = Path.Combine(destinationDir, destinationFile + Path.GetFileName(file));
+                    file2 = zPath.Combine(destinationDir, destinationFile + zPath.GetFileName(file));
                 else
-                    file2 = Path.Combine(destinationDir, destinationFile);
-                if (overwrite && File.Exists(file2))
+                    file2 = zPath.Combine(destinationDir, destinationFile);
+                if (overwrite && zFile.Exists(file2))
                 {
                     if (copyOnlyIfNewer)
                     {
-                        FileInfo fileInfo = new FileInfo(file);
-                        FileInfo fileInfo2 = new FileInfo(file2);
+                        //FileInfo fileInfo = new FileInfo(file);
+                        var fileInfo = zFile.CreateFileInfo(file);
+                        //FileInfo fileInfo2 = new FileInfo(file2);
+                        var fileInfo2 = zFile.CreateFileInfo(file2);
                         if (fileInfo2.LastWriteTimeUtc >= fileInfo.LastWriteTimeUtc)
                             return null;
                     }
-                    //FileAttributes attribs = File.GetAttributes(file2);
+                    //FileAttributes attribs = zFile.GetAttributes(file2);
                     //if ((attribs & FileAttributes.ReadOnly) == FileAttributes.ReadOnly)
-                    //    File.SetAttributes(file2, attribs & ~FileAttributes.ReadOnly);
+                    //    zFile.SetAttributes(file2, attribs & ~FileAttributes.ReadOnly);
                     RemoveFileReadOnlyAttribute(file2);
                 }
-                File.Copy(file, file2, overwrite);
+                zFile.Copy(file, file2, overwrite);
                 return file2;
             }
             return null;
@@ -119,62 +123,25 @@ namespace pb.IO
 
         public static void RemoveFileReadOnlyAttribute(string file)
         {
-            FileAttributes attribs = File.GetAttributes(file);
+            FileAttributes attribs = zFile.GetAttributes(file);
             if ((attribs & FileAttributes.ReadOnly) == FileAttributes.ReadOnly)
-                File.SetAttributes(file, attribs & ~FileAttributes.ReadOnly);
-        }
-
-        public static bool FilesEquals(string path1, string path2)
-        {
-            FileInfo fi1 = new FileInfo(path1);
-            FileInfo fi2 = new FileInfo(path2);
-            if (fi1.Length != fi2.Length)
-                return false;
-            BinaryReader br1 = null;
-            BinaryReader br2 = null;
-            int bufferLen = 4096;
-            byte[] buffer1 = new byte[bufferLen];
-            byte[] buffer2 = new byte[bufferLen];
-            try
-            {
-                br1 = new BinaryReader(new FileStream(path1, FileMode.Open, FileAccess.Read, FileShare.Read));
-                br2 = new BinaryReader(new FileStream(path2, FileMode.Open, FileAccess.Read, FileShare.Read));
-                while (true)
-                {
-                    int n1 = br1.Read(buffer1, 0, bufferLen);
-                    int n2 = br2.Read(buffer2, 0, bufferLen);
-                    if (n1 == 0 && n2 == 0)
-                        break;
-                    if (n1 != n2)
-                        throw new PBException("error comparing files \"{0}\" \"{1}\"", path1, path2);
-                    if (!((IStructuralEquatable)buffer1).Equals(buffer2, StructuralComparisons.StructuralEqualityComparer))
-                        return false;
-                }
-            }
-            finally
-            {
-                if (br1 != null)
-                    br1.Close();
-                if (br2 != null)
-                    br2.Close();
-            }
-            return true;
+                zFile.SetAttributes(file, attribs & ~FileAttributes.ReadOnly);
         }
 
         public static void DeleteFile(string file, bool removeReadOnlyAttribute = true)
         {
-            if (File.Exists(file))
+            if (zFile.Exists(file))
             {
                 if (removeReadOnlyAttribute)
                     RemoveFileReadOnlyAttribute(file);
-                File.Delete(file);
+                zFile.Delete(file);
             }
         }
 
         public static void DeleteFiles(string pathWithPattern, bool removeReadOnlyAttribute = true)
         {
-            string dir = Path.GetDirectoryName(pathWithPattern);
-            string searchPattern = Path.GetFileName(pathWithPattern);
+            string dir = zPath.GetDirectoryName(pathWithPattern);
+            string searchPattern = zPath.GetFileName(pathWithPattern);
             DeleteFiles(dir, searchPattern, removeReadOnlyAttribute);
         }
 
@@ -185,14 +152,14 @@ namespace pb.IO
 
         public static void DeleteFiles(string dir, string searchPattern, bool throwError, bool removeReadOnlyAttribute = true)
         {
-            if (!Directory.Exists(dir))
+            if (!zDirectory.Exists(dir))
                 return;
-            string[] files = Directory.GetFiles(dir, searchPattern);
+            string[] files = zDirectory.GetFiles(dir, searchPattern);
             foreach (string file in files)
             {
                 try
                 {
-                    //File.Delete(file);
+                    //zFile.Delete(file);
                     DeleteFile(file, removeReadOnlyAttribute);
                 }
                 catch
@@ -210,30 +177,30 @@ namespace pb.IO
 
         public static void RenameFile(string file, string newFile, bool overwrite = false)
         {
-            if (File.Exists(file))
+            if (zFile.Exists(file))
             {
-                if (overwrite && File.Exists(newFile))
+                if (overwrite && zFile.Exists(newFile))
                 {
                     RemoveFileReadOnlyAttribute(newFile);
-                    File.Delete(newFile);
+                    zFile.Delete(newFile);
                 }
-                File.Move(file, newFile);
+                zFile.Move(file, newFile);
             }
         }
 
         public static void MoveFile(string path, string dir, bool overwrite = false)
         {
-            if (!Directory.Exists(dir))
-                Directory.CreateDirectory(dir);
-            if (File.Exists(path))
+            if (!zDirectory.Exists(dir))
+                zDirectory.CreateDirectory(dir);
+            if (zFile.Exists(path))
             {
                 string path2 = zpath.PathSetDirectory(path, dir);
-                if (overwrite && File.Exists(path2))
+                if (overwrite && zFile.Exists(path2))
                 {
                     RemoveFileReadOnlyAttribute(path2);
-                    File.Delete(path2);
+                    zFile.Delete(path2);
                 }
-                File.Move(path, path2);
+                zFile.Move(path, path2);
             }
         }
 
@@ -279,12 +246,12 @@ namespace pb.IO
         {
             if (encoding == null)
                 encoding = Encoding.UTF8;
-            return File.ReadAllText(file, encoding);
+            return zFile.ReadAllText(file, encoding);
         }
 
         public static byte[] ReadAllBytes(string file)
         {
-            return File.ReadAllBytes(file);
+            return zFile.ReadAllBytes(file);
         }
 
         //public static string ReadFile(string file)
@@ -309,7 +276,7 @@ namespace pb.IO
             {
                 if (encoding == null)
                     encoding = Encoding.UTF8;
-                return File.ReadLines(file, encoding);
+                return zFile.ReadLines(file, encoding);
                 //FileStream fs = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
                 //StreamReader sr = new StreamReader(fs, encoding);
                 //try
@@ -346,7 +313,7 @@ namespace pb.IO
             //}
             if (encoding == null)
                 encoding = Encoding.UTF8;
-            return File.ReadAllLines(file, encoding);
+            return zFile.ReadAllLines(file, encoding);
         }
 
         //public static void WriteFile(string sPath, string s)
@@ -356,9 +323,9 @@ namespace pb.IO
 
         public static void WriteFile(string file, string text, bool append = false, Encoding encoding = null)
         {
-            string dir = Path.GetDirectoryName(file);
-            if (dir != "" && !Directory.Exists(dir))
-                Directory.CreateDirectory(dir);
+            string dir = zPath.GetDirectoryName(file);
+            if (dir != "" && !zDirectory.Exists(dir))
+                zDirectory.CreateDirectory(dir);
             if (encoding == null)
                 encoding = Encoding.UTF8;
             FileMode fm;
@@ -413,15 +380,15 @@ namespace pb.IO
 
         public static string GetNewFilename(string path)
         {
-            if (File.Exists(path))
+            if (zFile.Exists(path))
             {
-                string filename = Path.GetFileNameWithoutExtension(path);
-                string ext = Path.GetExtension(path);
-                string directory = Path.GetDirectoryName(path);
+                string filename = zPath.GetFileNameWithoutExtension(path);
+                string ext = zPath.GetExtension(path);
+                string directory = zPath.GetDirectoryName(path);
                 for (int i = 1; ; i++)
                 {
-                    path = Path.Combine(directory, string.Format("{0}[{1}]{2}", filename, i, ext));
-                    if (!File.Exists(path))
+                    path = zPath.Combine(directory, string.Format("{0}[{1}]{2}", filename, i, ext));
+                    if (!zFile.Exists(path))
                         break;
                 }
 
@@ -431,19 +398,19 @@ namespace pb.IO
 
         public static string GetNewDirectory(string directoryPath)
         {
-            if (Directory.Exists(directoryPath))
+            if (zDirectory.Exists(directoryPath))
             {
-                string directoryName = Path.GetFileName(directoryPath);
-                string parentDirectoryPath = Path.GetDirectoryName(directoryPath);
+                string directoryName = zPath.GetFileName(directoryPath);
+                string parentDirectoryPath = zPath.GetDirectoryName(directoryPath);
                 for (int i = 1; ; i++)
                 {
-                    directoryPath = Path.Combine(parentDirectoryPath, string.Format("{0}[{1}]", directoryName, i));
-                    if (!Directory.Exists(directoryPath))
+                    directoryPath = zPath.Combine(parentDirectoryPath, string.Format("{0}[{1}]", directoryName, i));
+                    if (!zDirectory.Exists(directoryPath))
                         break;
                 }
 
             }
-            Directory.CreateDirectory(directoryPath);
+            zDirectory.CreateDirectory(directoryPath);
             return directoryPath;
         }
 
@@ -459,11 +426,11 @@ namespace pb.IO
         //    fileMask = null;
         //    if (path == null) return null;
 
-        //    // Path.GetDirectoryName(path);
+        //    // zPath.GetDirectoryName(path);
         //    // exception générée et capturée par le debugger mais qui n'apparait pas à l'exécution
         //    // System.NotSupportedException "The given path's format is not supported."
         //    // path = "C:\\pib\\prog\\tools\\runsource\\run\\RunSource_{0:00000}.*"
-        //    string dir = Path.GetDirectoryName(path);
+        //    string dir = zPath.GetDirectoryName(path);
         //    int l = dir.Length + 1;
         //    string file = path.Substring(l, path.Length - l);
 
@@ -480,7 +447,7 @@ namespace pb.IO
 
         //    fileMask = file;
         //    if (ext != null) fileMask += ext;
-        //    fileMask = Path.Combine(dir, fileMask);
+        //    fileMask = zPath.Combine(dir, fileMask);
         //    return string.Format(fileMask, index);
         //}
 
@@ -488,14 +455,14 @@ namespace pb.IO
         //{
         //    if (path == null) return null;
 
-        //    string dir = Path.GetDirectoryName(path);
+        //    string dir = zPath.GetDirectoryName(path);
         //    int l = dir.Length + 1;
         //    string dirname = path.Substring(l, path.Length - l);
 
         //    if (!__rgGetNewIndexedFileName.IsMatch(dirname))
         //        dirname = "{0:0000}_" + dirname;
         //    int iIndex = GetLastDirectoryIndex(dir, dirname) + 1;
-        //    return Path.Combine(dir, string.Format(dirname, iIndex));
+        //    return zPath.Combine(dir, string.Format(dirname, iIndex));
         //}
 
         //public static int GetLastFileNameIndex(string dir, string file, string ext)
@@ -528,7 +495,7 @@ namespace pb.IO
         //    int iMax = 0;
         //    foreach (string sFile in sFiles)
         //    {
-        //        match = rx.Match(Path.GetFileName(sFile));
+        //        match = rx.Match(zPath.GetFileName(sFile));
         //        if (!match.Success) continue;
         //        int iIndex = int.Parse(match.Groups[1].Value);
         //        if (iMax < iIndex) iMax = iIndex;
@@ -563,7 +530,7 @@ namespace pb.IO
         //    int iMax = 0;
         //    foreach (string sFile in sFiles)
         //    {
-        //        match = rx.Match(Path.GetFileName(sFile));
+        //        match = rx.Match(zPath.GetFileName(sFile));
         //        if (!match.Success) continue;
         //        int iIndex = int.Parse(match.Groups[1].Value);
         //        if (iMax < iIndex) iMax = iIndex;
@@ -586,7 +553,7 @@ namespace pb.IO
             int l = indexedFile.Length;
             if (l < indexLength)
                 indexedFile = new string('0', indexLength - l) + indexedFile;
-            return Path.Combine(dir, indexedFile + filename);
+            return zPath.Combine(dir, indexedFile + filename);
         }
 
         public static int GetLastFileNameIndex(string dir, string filename = null, TextIndexOption option = TextIndexOption.NumberBefore)
@@ -599,11 +566,11 @@ namespace pb.IO
         public static int GetLastFileNameIndex(string dir, string filename, TextIndexOption option, out int maxIndexLength)
         {
             maxIndexLength = 0;
-            if (!Directory.Exists(dir))
+            if (!zDirectory.Exists(dir))
                 return 0;
-            //return Directory.EnumerateFiles(dir).Select(d => Path.GetFileName(d)).zGetLastTextIndex(filename, out maxIndexLength);
-            //return Directory.EnumerateFiles(dir).Select(d => Path.GetFileName(d)).zGetLastTextIndex(filename, option, out maxIndexLength);
-            return GetLastTextIndex(Directory.EnumerateFiles(dir).Select(d => Path.GetFileName(d)), filename, option, out maxIndexLength);
+            //return Directory.EnumerateFiles(dir).Select(d => zPath.GetFileName(d)).zGetLastTextIndex(filename, out maxIndexLength);
+            //return Directory.EnumerateFiles(dir).Select(d => zPath.GetFileName(d)).zGetLastTextIndex(filename, option, out maxIndexLength);
+            return GetLastTextIndex(zDirectory.EnumerateFiles(dir).Select(d => zPath.GetFileName(d)), filename, option, out maxIndexLength);
         }
 
         private static Regex __textIndexNumberBefore = new Regex("(?<number>[0-9]+)(?<name>.*)$", RegexOptions.Compiled);
@@ -647,7 +614,7 @@ namespace pb.IO
 
         public static string[] DirectoryGetFiles(string sPath)
         {
-            return Directory.GetFiles(Path.GetDirectoryName(sPath), Path.GetFileName(sPath));
+            return zDirectory.GetFiles(zPath.GetDirectoryName(sPath), zPath.GetFileName(sPath));
         }
 
         public static string[] DirectoryGetFiles(string sDir, params string[] sPatterns)
@@ -656,7 +623,7 @@ namespace pb.IO
             int n = 0;
             for (int i = 0; i < sPatterns.Length; i++)
             {
-                sFiles1[i] = Directory.GetFiles(sDir, sPatterns[i]);
+                sFiles1[i] = zDirectory.GetFiles(sDir, sPatterns[i]);
                 n += sFiles1[i].Length;
             }
             string[] sFiles = new string[n];
@@ -679,9 +646,9 @@ namespace pb.IO
 
         public static void CreateFileDirectory(string path)
         {
-            string dir = Path.GetDirectoryName(path);
-            if (dir != "" && !Directory.Exists(dir))
-                Directory.CreateDirectory(dir);
+            string dir = zPath.GetDirectoryName(path);
+            if (dir != "" && !zDirectory.Exists(dir))
+                zDirectory.CreateDirectory(dir);
         }
 
         public static byte[] ReadBinaryFile(string file)
@@ -711,11 +678,52 @@ namespace pb.IO
             return new StreamWriter(new FileStream(file, fileMode, FileAccess.Write, FileShare.Read), encoding);
         }
 
+        //public static bool FilesEquals(string path1, string path2)
+        //{
+        //    //FileInfo fi1 = new FileInfo(path1);
+        //    var fi1 = zFile.CreateFileInfo(path1);
+        //    //FileInfo fi2 = new FileInfo(path2);
+        //    var fi2 = zFile.CreateFileInfo(path2);
+        //    if (fi1.Length != fi2.Length)
+        //        return false;
+        //    BinaryReader br1 = null;
+        //    BinaryReader br2 = null;
+        //    int bufferLen = 4096;
+        //    byte[] buffer1 = new byte[bufferLen];
+        //    byte[] buffer2 = new byte[bufferLen];
+        //    try
+        //    {
+        //        br1 = new BinaryReader(new FileStream(path1, FileMode.Open, FileAccess.Read, FileShare.Read));
+        //        br2 = new BinaryReader(new FileStream(path2, FileMode.Open, FileAccess.Read, FileShare.Read));
+        //        while (true)
+        //        {
+        //            int n1 = br1.Read(buffer1, 0, bufferLen);
+        //            int n2 = br2.Read(buffer2, 0, bufferLen);
+        //            if (n1 == 0 && n2 == 0)
+        //                break;
+        //            if (n1 != n2)
+        //                throw new PBException("error comparing files \"{0}\" \"{1}\"", path1, path2);
+        //            if (!((IStructuralEquatable)buffer1).Equals(buffer2, StructuralComparisons.StructuralEqualityComparer))
+        //                return false;
+        //        }
+        //    }
+        //    finally
+        //    {
+        //        if (br1 != null)
+        //            br1.Close();
+        //        if (br2 != null)
+        //            br2.Close();
+        //    }
+        //    return true;
+        //}
+
         public static bool AreFileEqual(string file1, string file2)
         {
             int len = 10000;
-            FileInfo fi1 = new FileInfo(file1);
-            FileInfo fi2 = new FileInfo(file2);
+            //FileInfo fi1 = new FileInfo(file1);
+            var fi1 = zFile.CreateFileInfo(file1);
+            //FileInfo fi2 = new FileInfo(file2);
+            var fi2 = zFile.CreateFileInfo(file2);
             if (fi1.Length != fi2.Length)
                 return false;
             FileStream fs1 = null;
@@ -724,9 +732,9 @@ namespace pb.IO
             BinaryReader br2 = null;
             try
             {
-                fs1 = File.OpenRead(file1);
+                fs1 = zFile.OpenRead(file1);
                 br1 = new BinaryReader(fs1);
-                fs2 = File.OpenRead(file2);
+                fs2 = zFile.OpenRead(file2);
                 br2 = new BinaryReader(fs2);
                 while (true)
                 {

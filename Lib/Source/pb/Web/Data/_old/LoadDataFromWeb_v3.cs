@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Xml.Linq;
+using pb.IO;
 using pb.Web.old;
 
 namespace pb.Web
@@ -77,7 +78,7 @@ namespace pb.Web
             if (_urlCache != null)
             {
                 string urlPath = _urlCache.GetUrlPath(url, request.RequestParameters);
-                if (request.ReloadFromWeb || !File.Exists(urlPath))
+                if (request.ReloadFromWeb || !zFile.Exists(urlPath))
                 {
                     if (_firstLoadFromWeb && url.StartsWith("http://"))
                     {
@@ -91,7 +92,8 @@ namespace pb.Web
                 }
                 url = urlPath;
                 // get last write time as loadFromWebDate, dont take creation time because creation time is modified when copying the file
-                loadFromWebDate = new FileInfo(urlPath).LastWriteTime;
+                //loadFromWebDate = new FileInfo(urlPath).LastWriteTime;
+                loadFromWebDate = zFile.CreateFileInfo(urlPath).LastWriteTime;
             }
             else
                 loadFromWebDate = DateTime.Now;

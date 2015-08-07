@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Xml.Linq;
+using MongoDB.Bson;
+using MongoDB.Driver;
 using pb;
+using pb.Data.Mongo;
 using pb.Data.Xml;
 using pb.Text;
 using pb.Web;
@@ -197,5 +200,16 @@ namespace Download.Print
                 return null;
             }
         }
+
+        //public static IEnumerable<BsonDocument> GetPostInfoList(MongoCollection mongoCollection, string server, string query = null, string sort = null, int limit = 0)
+        //{
+        //    //IEnumerable<BsonDocument> cursor = mongoCollection.zFind<BsonDocument>(query.zToQueryDocument(), sort.zToSortByWrapper(), limit: limit);
+        //    foreach (BsonDocument document in mongoCollection.zFind<BsonDocument>(query.zToQueryDocument(), sort.zToSortByWrapper(), limit: limit))
+        //    {
+        //        BsonDocument documentDownloaded = null;
+        //        document.Add(new BsonElement("downloaded", documentDownloaded));
+        //        yield return document;
+        //    }
+        //}
     }
 }

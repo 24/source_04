@@ -3560,4 +3560,24 @@ Trace.WriteLine("file : \"{0}\"", file2);
 zfile.CreateFileDirectory(file2);
 zfile.WriteFile(file2, "tata\r\n");
 
+DownloadAutomate_f.CreateFindPrintManager().Find("Le Figaro du jeudi 23 juillet 2015", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager().Find("La Provence Marseille du jeudi 06 aout 2015", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager().Find("Les Echos Sociétés - Jeudi 06 Août 2015", PrintType.Print).zToJson().zTrace();
+
+DownloadAutomate_f.Test_RenamePrintFiles_01(@"g:\pib\media\ebook\_dl\_dl_pib\print\02\print", @"g:\pib\media\ebook\Journaux", simulate: false);
+DownloadAutomate_f.Test_RenamePrintFiles_01(@"g:\pib\media\ebook\_dl\_dl_pib\print\02\print", @"g:\pib\media\ebook\Journaux", simulate: true);
+
+zPath.GetDirectoryName(@"..\..\..\..\..\..\RuntimeLibrary\LongPath\LongPath\Pri.LongPath.dll").zTrace();
+zPath.GetDirectoryName(@"c:\..\..\..\..\..\..\RuntimeLibrary\LongPath\LongPath\tata.dll").zTrace();
+zPath.GetDirectoryName(@"c:\toto\RuntimeLibrary\LongPath\LongPath\tata.dll").zTrace();
+zPath.GetDirectoryName(@"..\..\..\..\..\..\RuntimeLibrary\toto\toto.dll").zTrace();
+zPath.GetDirectoryName(@"..\..\..\..\Lib\Source\pb\_pb\Application.cs").zTrace();
+zPath.GetDirectoryName(@"toto\tata\tutu\zozo.cs").zTrace();
+zPath.GetDirectoryName(@"..\toto\tata\tutu\zozo.cs").zTrace();
+
+Path.GetDirectoryName(@"..\..\..\..\..\..\RuntimeLibrary\LongPath\LongPath\Pri.LongPath.dll").zTrace();
+Path.GetDirectoryName(@"c:\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto.txt").zTrace();
+zPath.GetDirectoryName(@"c:\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto.txt").zTrace();
+
+
 "toto".zTrace();

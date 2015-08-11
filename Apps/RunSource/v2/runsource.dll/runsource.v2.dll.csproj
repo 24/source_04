@@ -46,157 +46,157 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\..\..\Lib\Source\pb\Compiler\AssemblyResolve.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Compiler\AssemblyResolve.cs">
       <Link>SourceLnk\Lib\pb\Compiler\AssemblyResolve.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\Compiler\Compiler.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Compiler\Compiler.cs">
       <Link>SourceLnk\Lib\pb\Compiler\Compiler.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\Compiler\CompilerProject.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Compiler\CompilerProject.cs">
       <Link>SourceLnk\Lib\pb\Compiler\CompilerProject.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\Compiler\GenerateAndExecute.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Compiler\GenerateAndExecute.cs">
       <Link>SourceLnk\Lib\pb\Compiler\GenerateAndExecute.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\Compiler\GenerateCSharpCode.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Compiler\GenerateCSharpCode.cs">
       <Link>SourceLnk\Lib\pb\Compiler\GenerateCSharpCode.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\Compiler\ICompilerExtension.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Compiler\ICompilerExtension.cs">
       <Link>SourceLnk\Lib\pb\Compiler\ICompilerExtension.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\Compiler\RunSource.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Compiler\RunSource.cs">
       <Link>SourceLnk\Lib\pb\Compiler\RunSource.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\Data\GClass.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Data\GClass.cs">
       <Link>SourceLnk\Lib\pb\Data\GClass.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\Data\Image.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Data\Image.cs">
       <Link>SourceLnk\Lib\pb\Data\Image.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\Data\Xml\Xml.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Data\Xml\Xml.cs">
       <Link>SourceLnk\Lib\pb\Data\Xml\Xml.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\Data\Xml\XmlConfig.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Data\Xml\XmlConfig.cs">
       <Link>SourceLnk\Lib\pb\Data\Xml\XmlConfig.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\IO\File.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\IO\File.cs">
       <Link>SourceLnk\Lib\pb\IO\File.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\IO\Path.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\IO\Path.cs">
       <Link>SourceLnk\Lib\pb\IO\Path.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\IO\StreamTransfer.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\IO\StreamTransfer.cs">
       <Link>SourceLnk\Lib\pb\IO\StreamTransfer.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\IO\WriteToFile.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\IO\WriteToFile.cs">
       <Link>SourceLnk\Lib\pb\IO\WriteToFile.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\IO\WriteToFileCreate.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\IO\WriteToFileCreate.cs">
       <Link>SourceLnk\Lib\pb\IO\WriteToFileCreate.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\IO\zDirectory.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\IO\zDirectory.cs">
       <Link>SourceLnk\Lib\pb\IO\zDirectory.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\IO\zFile.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\IO\zFile.cs">
       <Link>SourceLnk\Lib\pb\IO\zFile.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\Text\Regex.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Text\Regex.cs">
       <Link>SourceLnk\Lib\pb\Text\Regex.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\Text\Split.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Text\Split.cs">
       <Link>SourceLnk\Lib\pb\Text\Split.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\Text\String.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Text\String.cs">
       <Link>SourceLnk\Lib\pb\Text\String.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\Text\StringZones.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Text\StringZones.cs">
       <Link>SourceLnk\Lib\pb\Text\StringZones.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\Web\Html\HtmlCharCodes.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Web\Html\HtmlCharCodes.cs">
       <Link>SourceLnk\Lib\pb\Web\Html\HtmlCharCodes.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\Web\Html\HtmlReader.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Web\Html\HtmlReader.cs">
       <Link>SourceLnk\Lib\pb\Web\Html\HtmlReader.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\Web\Html\HtmlTag.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Web\Html\HtmlTag.cs">
       <Link>SourceLnk\Lib\pb\Web\Html\HtmlTag.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\Web\Html\HtmlToXml.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Web\Html\HtmlToXml.cs">
       <Link>SourceLnk\Lib\pb\Web\Html\HtmlToXml.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\Web\Http\Http.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Web\Http\Http.cs">
       <Link>SourceLnk\Lib\pb\Web\Http\Http.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\Web\Http\HttpRequest.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Web\Http\HttpRequest.cs">
       <Link>SourceLnk\Lib\pb\Web\Http\HttpRequest.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\Web\Http\HttpRun.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Web\Http\HttpRun.cs">
       <Link>SourceLnk\Lib\pb\Web\Http\HttpRun.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\Web\Http\HttpXml.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Web\Http\HttpXml.cs">
       <Link>SourceLnk\Lib\pb\Web\Http\HttpXml.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\Web\Http\Url.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Web\Http\Url.cs">
       <Link>SourceLnk\Lib\pb\Web\Http\Url.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\Web\Http\XmlDocumentSourceType.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Web\Http\XmlDocumentSourceType.cs">
       <Link>SourceLnk\Lib\pb\Web\Http\XmlDocumentSourceType.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\Windows\Win32\GDI.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Windows\Win32\GDI.cs">
       <Link>SourceLnk\Lib\pb\Windows\Win32\GDI.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\Windows\Win32\Kernel.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Windows\Win32\Kernel.cs">
       <Link>SourceLnk\Lib\pb\Windows\Win32\Kernel.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\Windows\Win32\User.Const.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Windows\Win32\User.Const.cs">
       <Link>SourceLnk\Lib\pb\Windows\Win32\User.Const.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\Windows\Win32\User.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Windows\Win32\User.cs">
       <Link>SourceLnk\Lib\pb\Windows\Win32\User.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\Windows\Win32\User.Struct.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Windows\Win32\User.Struct.cs">
       <Link>SourceLnk\Lib\pb\Windows\Win32\User.Struct.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\Windows\Win32\Windows.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Windows\Win32\Windows.cs">
       <Link>SourceLnk\Lib\pb\Windows\Win32\Windows.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\_pb\Chrono.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\Chrono.cs">
       <Link>SourceLnk\Lib\pb\_pb\Chrono.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\_pb\Convert.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\Convert.cs">
       <Link>SourceLnk\Lib\pb\_pb\Convert.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\_pb\Error.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\Error.cs">
       <Link>SourceLnk\Lib\pb\_pb\Error.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\_pb\FormatInfo.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\FormatInfo.cs">
       <Link>SourceLnk\Lib\pb\_pb\FormatInfo.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\_pb\ParseAs.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\ParseAs.cs">
       <Link>SourceLnk\Lib\pb\_pb\ParseAs.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\_pb\PBException.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\PBException.cs">
       <Link>SourceLnk\Lib\pb\_pb\PBException.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\_pb\Process.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\Process.cs">
       <Link>SourceLnk\Lib\pb\_pb\Process.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\_pb\Progress.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\Progress.cs">
       <Link>SourceLnk\Lib\pb\_pb\Progress.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\_pb\Reflection.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\Reflection.cs">
       <Link>SourceLnk\Lib\pb\_pb\Reflection.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\_pb\Trace.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\Trace.cs">
       <Link>SourceLnk\Lib\pb\_pb\Trace.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\_pb\TraceError.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\TraceError.cs">
       <Link>SourceLnk\Lib\pb\_pb\TraceError.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\_pb\TraceLevel.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\TraceLevel.cs">
       <Link>SourceLnk\Lib\pb\_pb\TraceLevel.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\_pb\TraceSetWriter.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\TraceSetWriter.cs">
       <Link>SourceLnk\Lib\pb\_pb\TraceSetWriter.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

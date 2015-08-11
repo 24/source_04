@@ -131,6 +131,25 @@ namespace Download.Print
             printFileManager.ManageDirectory(sourceDirectory, destinationDirectory, bonusDirectory);
         }
 
+        public static void Test_RenamePrintFiles_01(string sourceDirectory, string destinationDirectory, bool simulate = true, int version = 3, string printSubDirectory = @".01_quotidien\Journaux")
+        {
+            // sourceDirectory      : g:\pib\media\ebook\_dl\_dl_pib\print\02\print
+            // destinationDirectory : g:\pib\media\ebook
+            FindPrintManager findPrintManager = CreateFindPrintManager(version);
+            // getSubDirectoryNumber: true
+            foreach (EnumDirectoryInfo dir in zdir.EnumerateDirectoriesInfo(zPath.Combine(sourceDirectory, printSubDirectory), 1, 1))
+            {
+                // Journaux - 2015-08-06       Journaux - 2015-08-06[1]
+                //Trace.Write("directory \"{0}\" ", dir.Directory);
+                //Trace.Write("subdirectory \"{0}\" date ", dir.SubDirectory);
+                //Date date;
+                //if (Date.TryParseExact(dir.SubDirectory.Substring(11), "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out date))
+                //    Trace.Write("{0}", date);
+                //Trace.WriteLine();
+                PrintFileManager_v2.RenamePrintFiles(findPrintManager, dir.Directory, destinationDirectory, simulate);
+            }
+        }
+
         public static void Test_GetDirectoryInfo_01(string directory, bool excludeBonusDirectory = true)
         {
             //zdir.EnumerateDirectoriesInfo(directory, minLevel: 2).Select(dir => zPath.GetFileName(dir.SubDirectory)).zToJson().zTrace();
@@ -544,7 +563,6 @@ namespace Download.Print
             return new PrintDirectoryManager(XmlConfig.CurrentConfig.GetConfig("PrintList2Config").GetValues("PrintDirectories/Directory").ToArray());
         }
 
-        //public static PrintTitleManager CreatePrintTitleManager(int version = 3, XmlConfig printList1Config = null)
         public static PrintTitleManager CreatePrintTitleManager(int version = 3)
         {
             // version 2 : utilise le nouveau PrintTitleManager, l'ancien pattern de date FindPrints/Dates/Date avec l'ancien FindDateManager
@@ -557,9 +575,6 @@ namespace Download.Print
             //if (printList1Config == null)
             //    printList1Config = new XmlConfig(RunSource.CurrentRunSource.GetPathSource(XmlConfig.CurrentConfig.GetExplicit("PrintList1Config")));
 
-            PrintTitleManager printTitleManager = null;
-            XmlConfig config = XmlConfig.CurrentConfig;
-
             //if (version == 2)
             //{
             //    FindDateManager_v1 findDateManager = new FindDateManager_v1(printList1Config.GetElements("FindPrints/Dates/Date"), compileRegex: true);
@@ -571,27 +586,22 @@ namespace Download.Print
             //        new RegexValuesList(printList1Config.GetElements("FindPrints/Specials/Special"), compileRegex: true),
             //        printList1Config.GetExplicit("FindPrints/UnknowPrintDirectory"));
             //}
+            //FindDateManager findDateManager = new FindDateManager(config.GetConfig("PrintList1Config").GetElements("FindPrints/Dates/DateNew"), compileRegex: true);
+            //FindNumberManager findNumberManager = new FindNumberManager(config.GetConfig("PrintList1Config").GetElements("FindPrints/Numbers/Number"), compileRegex: true);
+            //RegexValuesList findSpecial = new RegexValuesList(config.GetConfig("PrintList1Config").GetElements("FindPrints/Specials/Special"), compileRegex: true);
+            //string unknowPrintDirectory = config.GetConfig("PrintList1Config").GetExplicit("FindPrints/UnknowPrintDirectory");
+            //PrintTitleManager printTitleManager = new PrintTitleManager(findDateManager, findNumberManager, findSpecial, unknowPrintDirectory, splitTitle: splitTitle);
+
+            XmlConfig config = XmlConfig.CurrentConfig;
+            PrintTitleManager printTitleManager = new PrintTitleManager();
+            printTitleManager.FindDateManager = new FindDateManager(config.GetConfig("PrintList1Config").GetElements("FindPrints/Dates/DateNew"), compileRegex: true);
+            printTitleManager.FindNumberManager = new FindNumberManager(config.GetConfig("PrintList1Config").GetElements("FindPrints/Numbers/Number"), compileRegex: true);
+            printTitleManager.FindSpecial = new RegexValuesList(config.GetConfig("PrintList1Config").GetElements("FindPrints/Specials/Special"), compileRegex: true);
+            printTitleManager.PrintDirectory = config.GetConfig("PrintList1Config").GetExplicit("FindPrints/UnknowPrintDirectory");
             if (version == 3)
-            {
-                FindDateManager findDateManager_new = new FindDateManager(config.GetConfig("PrintList1Config").GetElements("FindPrints/Dates/DateNew"), compileRegex: true);
-
-                printTitleManager = new PrintTitleManager(findDateManager_new,
-                    new FindNumberManager(config.GetConfig("PrintList1Config").GetElements("FindPrints/Numbers/Number"), compileRegex: true),
-                    new RegexValuesList(config.GetConfig("PrintList1Config").GetElements("FindPrints/Specials/Special"), compileRegex: true),
-                    config.GetConfig("PrintList1Config").GetExplicit("FindPrints/UnknowPrintDirectory"),
-                    splitTitle: false);
-            }
+                printTitleManager.SplitTitle = false;
             else if (version == 4)
-            {
-                FindDateManager findDateManager_new = new FindDateManager(config.GetConfig("PrintList1Config").GetElements("FindPrints/Dates/DateNew"), compileRegex: true);
-
-                printTitleManager = new PrintTitleManager(findDateManager_new,
-                    new FindNumberManager(config.GetConfig("PrintList1Config").GetElements("FindPrints/Numbers/Number"), compileRegex: true),
-                    new RegexValuesList(config.GetConfig("PrintList1Config").GetElements("FindPrints/Specials/Special"), compileRegex: true),
-                    config.GetConfig("PrintList1Config").GetExplicit("FindPrints/UnknowPrintDirectory"),
-                    splitTitle: true);
-            }
-
+                printTitleManager.SplitTitle = true;
             return printTitleManager;
         }
 
@@ -882,6 +892,19 @@ namespace Download.Print
             return downloadManager;
         }
 
+        public static FindPrintManager CreateFindPrintManager(int version = 3)
+        {
+            XmlConfig config = XmlConfig.CurrentConfig;
+            FindPrintManager findPrintManager = new FindPrintManager();
+            findPrintManager.PrintTitleManager = CreatePrintTitleManager(version);
+            findPrintManager.FindPrint = new RegexValuesList(config.GetConfig("PrintList2Config").GetElements("FindPrints/Prints/Print"), compileRegex: true);
+            findPrintManager.PrintManager = CreatePrintManager();
+            findPrintManager.PostTypeDirectories = GetPostTypeDirectories();
+            findPrintManager.DefaultPrintDirectory = config.GetConfig("PrintList1Config").Get("FindPrints/DefaultPrintDirectory");
+            findPrintManager.UnknowPrintDirectory = config.GetConfig("PrintList1Config").Get("FindPrints/UnknowPrintDirectory");
+            return findPrintManager;
+        }
+
         public static DownloadAutomateManager CreateDownloadAutomate(int version = 3, bool useNewDownloadManager = false, bool useTestManager = false, int? traceLevel = null)
         {
             // le 01/11/2014 désactive version 1 et version 2
@@ -890,50 +913,28 @@ namespace Download.Print
             // version 3 : version 2 + le nouveau pattern de date FindPrints/Dates/DateNew avec le nouveau FindDateManager_new
             // version 4 : version 3 + découpe le titre avec "du" ou "-" (PrintTitleManager)
 
-            //if (version < 1 || version > 4)
             if (version < 3 || version > 4)
                 throw new PBException("bad version {0}", version);
 
             Trace.WriteLine("create download automate : version {0} useNewDownloadManager {1} useTestManager {2} traceLevel {3}", version, useNewDownloadManager, useTestManager, traceLevel.zToStringOrNull());
 
             XmlConfig config = XmlConfig.CurrentConfig;
-            //XmlConfig localConfig = new XmlConfig(config.GetExplicit("LocalConfig"));
-            //XmlConfig printList1Config = new XmlConfig(RunSource.CurrentRunSource.GetPathSource(config.GetExplicit("PrintList1Config")));
-            //XmlConfig printList2Config = new XmlConfig(RunSource.CurrentRunSource.GetPathSource(config.GetExplicit("PrintList2Config")));
             MongoDownloadAutomateManager mongoDownloadAutomateManager = GetMongoDownloadAutomateManager();
-            //Action loadNewPost = () => RapideDdl_LoadPostDetail.LoadNewDocuments(maxNbDocumentLoadedFromStore: 7, startPage: 1, maxPage: 20);
 
-            /////////////return null;
+            //PrintManager printManager = CreatePrintManager();
 
-            // version 1 
-            //FindDateManager findDateManager = new FindDateManager(printList1Config.GetElements("FindPrints/Dates/Date"), compileRegex: true);
-            //int year = Date.Today.Year;
-            //findDateManager.DateRegexList.Add("year", new RegexValues("year", "year", string.Format(@"(?:^|[_\s])({0}|{1}|{2})(?:$|[_\s])", year - 1, year, year + 1), "IgnoreCase", "year", compileRegex: true));
-
-            PrintManager printManager = CreatePrintManager();
-
-            //FindPrintManager findPrintManager = null;
-            //FindPrintManager_new findPrintManager_new = null;
-            //if (version == 1)
-            //    findPrintManager = new FindPrintManager(
-            //        printList1Config.GetElements("FindPrints/Prints/Print"),
-            //        findDateManager,
-            //        new FindNumberManager(printList1Config.GetElements("FindPrints/Numbers/Number"), compileRegex: true),
-            //        new RegexValuesList(printList1Config.GetElements("FindPrints/Specials/Special"), compileRegex: true),
-            //        defaultDirectory: printList1Config.Get("FindPrints/DefaultPrintDirectory"));
-            //else // version 2, 3, 4
-            FindPrintManager findPrintManager_new = new FindPrintManager(
-                    config.GetConfig("PrintList2Config").GetElements("FindPrints/Prints/Print"),
-                    CreatePrintTitleManager(version), printManager, compileRegex: true,
-                    postTypeDirectories: GetPostTypeDirectories(),
-                    defaultPrintDirectory: config.GetConfig("PrintList1Config").Get("FindPrints/DefaultPrintDirectory"),
-                    unknowPrintDirectory: config.GetConfig("PrintList1Config").Get("FindPrints/UnknowPrintDirectory"));
-
-            //////////return null;         // ok
-
-            // UncompressManager
-            //UncompressManager uncompressManager = new UncompressManager();
-            //uncompressManager.ArchiveCompressDirectory = config.Get("DownloadAutomateManager/UncompressManager/ArchiveCompressDirectory");
+            //FindPrintManager findPrintManager_new = new FindPrintManager(
+            //        config.GetConfig("PrintList2Config").GetElements("FindPrints/Prints/Print"),
+            //        CreatePrintTitleManager(version), printManager, compileRegex: true,
+            //        postTypeDirectories: GetPostTypeDirectories(),
+            //        defaultPrintDirectory: config.GetConfig("PrintList1Config").Get("FindPrints/DefaultPrintDirectory"),
+            //        unknowPrintDirectory: config.GetConfig("PrintList1Config").Get("FindPrints/UnknowPrintDirectory"));
+            //FindPrintManager findPrintManager = new FindPrintManager();
+            //findPrintManager.PrintTitleManager = CreatePrintTitleManager(version);
+            //findPrintManager.FindPrint = new RegexValuesList(config.GetConfig("PrintList2Config").GetElements("FindPrints/Prints/Print"), compileRegex: true);
+            //findPrintManager.PostTypeDirectories = GetPostTypeDirectories();
+            //findPrintManager.DefaultPrintDirectory = config.GetConfig("PrintList1Config").Get("FindPrints/DefaultPrintDirectory");
+            //findPrintManager.UnknowPrintDirectory = config.GetConfig("PrintList1Config").Get("FindPrints/UnknowPrintDirectory");
 
             DownloadManager_v1<DownloadPostKey> downloadManager_v1 = null;
             if (!useNewDownloadManager)
@@ -943,50 +944,23 @@ namespace Download.Print
             if (useNewDownloadManager)
                 downloadManager = CreateDownloadManager(useTestManager);
 
-            //////////////////////return null;  // pas ok
-
-            // localConfig.Get<int>("DownloadAutomateManager/Gmail/SmtpPort", 587)
             MailSender mailSender = new MailSender(config.GetConfig("LocalConfig").Get("DownloadAutomateManager/Gmail/Mail"), config.GetConfig("LocalConfig").Get("DownloadAutomateManager/Gmail/Password"),
                 config.GetConfig("LocalConfig").Get("DownloadAutomateManager/Gmail/SmtpHost"), config.GetConfig("LocalConfig").Get("DownloadAutomateManager/Gmail/SmtpPort").zTryParseAs<int>(587));
             MailMessage mailMessage = new MailMessage(config.GetConfig("LocalConfig").Get("DownloadAutomateManager/Gmail/Mail"), config.Get("DownloadAutomateManager/Mail/To"),
                 config.Get("DownloadAutomateManager/Mail/Subject"), config.Get("DownloadAutomateManager/Mail/Body"));
 
-            //DownloadAutomateManager downloadAutomate = null;
-            //if (version == 1)
-            //    downloadAutomate = new DownloadAutomateManager(mongoDownloadAutomateManager, loadNewPost, findPrintManager, printManager, debrider,
-            //        downloadManager, mailSender, mailMessage);
-            //else // version 2, 3, 4
-
-            // DownloadAutomateManager
-            //DownloadAutomateManager downloadAutomate = new DownloadAutomateManager(mongoDownloadAutomateManager, loadNewPost, findPrintManager_new, printManager, debrider,
-            //    downloadManager, mailSender, mailMessage);
             DownloadAutomateManager downloadAutomate = new DownloadAutomateManager();
 
-            ////////////////return downloadAutomate;
-
             downloadAutomate.MongoDownloadAutomateManager = mongoDownloadAutomateManager;
-            //downloadAutomate.LoadNewPostAction = loadNewPost;
-            //post.printType == PrintType.Print
             downloadAutomate.DownloadAllPrintType = printType => printType == PrintType.Print || printType == PrintType.Book || printType == PrintType.UnknowEBook;
-            //downloadAutomate.DownloadAllPrintType = printType => printType == PrintType.Print || printType == PrintType.UnknowEBook;
-            downloadAutomate.FindPrintManager = findPrintManager_new;
-            downloadAutomate.PrintManager = printManager;
-            //downloadAutomate.Debrider = debrider;
+            downloadAutomate.FindPrintManager = CreateFindPrintManager(version);
+            //downloadAutomate.PrintManager = printManager;
+            downloadAutomate.PrintManager = downloadAutomate.FindPrintManager.PrintManager;
             downloadAutomate.DownloadManager_v1 = downloadManager_v1;
             downloadAutomate.DownloadManager = downloadManager;
             downloadAutomate.MailSender = mailSender;
             downloadAutomate.MailMessage = mailMessage;
 
-            // add ebookdz.com server manager
-            // downloadDirectory: "ebookdz.com"
-            //downloadAutomate.AddServerManager(Create_Ebookdz_ServerManager_old(enableLoadNewPost: true, enableSearchPostToDownload: true));
-            // add rapide-ddl.com server manager
-            //downloadAutomate.AddServerManager(Create_RapideDdl_ServerManager(enableLoadNewPost: true, enableSearchPostToDownload: true, downloadDirectory: null));
-            // add golden-ddl.net server manager
-            //downloadAutomate.AddServerManager(Create_GoldenDdl_ServerManager(enableLoadNewPost: true, enableSearchPostToDownload: true, downloadDirectory: null));
-
-            //downloadAutomate.AddServerManager(Ebookdz.Ebookdz.CreateServerManager(enableLoadNewPost: true, enableSearchPostToDownload: true));
-            //downloadAutomate.AddServerManager(Vosbooks.Vosbooks.CreateServerManager(enableLoadNewPost: true, enableSearchPostToDownload: true));
             Ebookdz.Ebookdz.FakeInit();
             Vosbooks.Vosbooks.FakeInit();
             TelechargerMagazine.TelechargerMagazine.FakeInit();
@@ -1016,13 +990,9 @@ namespace Download.Print
 
             Trace.WriteLine("last run time {0:dd-MM-yyyy HH:mm:ss}", downloadAutomate.MongoDownloadAutomateManager.GetLastRunDateTime());
 
-            //Trace.WriteLine("rapide-ddl.com post mongo collection              {0}", ((MongoDocumentStore_new<int, RapideDdl_PostDetail>)RapideDdl_LoadPostDetail.CurrentLoadPostDetail.DocumentStore).GetCollection().zGetFullName());
-            // Unable to cast object of type 'pb.Data.Mongo.MongoDocumentStore_new`2[System.Int32,Print.IPost]' to type 'pb.Data.Mongo.MongoDocumentStore_new`2[System.Int32,Download.Print.GoldenDdl.GoldenDdl_PostDetail]'. (System.InvalidCastException)
-            //Trace.WriteLine("golden-ddl.net post mongo collection              {0}", ((MongoDocumentStore_new<int, GoldenDdl_PostDetail>)GoldenDdl_LoadPostDetail.CurrentLoadPostDetail.DocumentStore).GetCollection().zGetFullName());
             if (!ControlDownloadManagerClient(downloadAutomate))
                 throw new PBException("error DownloadManagerClient is not working");
 
-            //Http2.HtmlReader.Trace.TraceLevel = 0;
             if (traceLevel != null)
                 Trace.CurrentTrace.TraceLevel = (int)traceLevel;
 

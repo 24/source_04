@@ -132,6 +132,46 @@ namespace Download.Print
                 zdir.DeleteEmptyDirectory(sourceDirectory, deleteOnlySubdirectory: false);
         }
 
+        public static void RenamePrintFiles(FindPrintManager findPrintManager, string sourceDirectory, string destinationDirectory, bool simulate = true)
+        {
+            Trace.Write("rename print files from \"{0}\" ", sourceDirectory);
+            Date date;
+            if (!Date.TryParseExact(FilenameNumberInfo.GetFilenameWithoutNumber(zPath.GetFileName(sourceDirectory)).Substring(11), "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out date))
+            {
+                Trace.WriteLine("date not found");
+                return;
+            }
+            Trace.WriteLine("{0}", date);
+            foreach (EnumFileInfo fileInfo in zdir.EnumerateFilesInfo(sourceDirectory))
+            {
+                FindPrint findPrint = findPrintManager.Find(zPath.GetFileNameWithoutExtension(fileInfo.File), PrintType.Print);
+                if (!findPrint.found)
+                {
+                    Trace.WriteLine("  unknow print \"{0}\"", zPath.GetFileName(fileInfo.File));
+                    continue;
+                }
+                if (findPrint.date == null)
+                {
+                    Trace.WriteLine("  date not found \"{0}\"", zPath.GetFileName(fileInfo.File));
+                    continue;
+                }
+                int dateGap = findPrint.date.Value.Subtract(date).Days;
+                if (dateGap < -1 || dateGap > 1)
+                {
+                    Trace.WriteLine("  wrong date found {0} - \"{1}\"", findPrint.date, zPath.GetFileName(fileInfo.File));
+                    continue;
+                }
+                string newfile = zPath.Combine(destinationDirectory, findPrint.file) + zPath.GetExtension(fileInfo.File);
+                newfile = zfile.GetNewFilename(newfile);
+                Trace.WriteLine("  rename file \"{0}\" to \"{1}\"", zPath.GetFileName(fileInfo.File), newfile);
+                if (!simulate)
+                {
+                    zfile.CreateFileDirectory(newfile);
+                    zFile.Move(fileInfo.File, newfile);
+                }
+            }
+        }
+
         private static Dictionary<string, List<FileGroup_v2>> CreateFileGroups()
         {
             return new Dictionary<string, List<FileGroup_v2>>(StringComparer.InvariantCultureIgnoreCase);

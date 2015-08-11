@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -66,97 +66,97 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\..\..\Lib\Source\pb\Compiler\RemoteRunSource.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Compiler\RemoteRunSource.cs">
       <Link>SourceLnk\Lib\pb\Compiler\RemoteRunSource.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\Data\Image.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Data\Image.cs">
       <Link>SourceLnk\Lib\pb\Data\Image.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\Data\Xml\Xml.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Data\Xml\Xml.cs">
       <Link>SourceLnk\Lib\pb\Data\Xml\Xml.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\Data\Xml\XmlConfig.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Data\Xml\XmlConfig.cs">
       <Link>SourceLnk\Lib\pb\Data\Xml\XmlConfig.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\Data\Xml\XmlSerialize.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Data\Xml\XmlSerialize.cs">
       <Link>SourceLnk\Lib\pb\Data\Xml\XmlSerialize.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\Data\Xml\XmlSerializer.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Data\Xml\XmlSerializer.cs">
       <Link>SourceLnk\Lib\pb\Data\Xml\XmlSerializer.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\IO\File.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\IO\File.cs">
       <Link>SourceLnk\Lib\pb\IO\File.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\IO\Path.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\IO\Path.cs">
       <Link>SourceLnk\Lib\pb\IO\Path.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\IO\WriteToFile.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\IO\WriteToFile.cs">
       <Link>SourceLnk\Lib\pb\IO\WriteToFile.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\IO\WriteToFileCreate.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\IO\WriteToFileCreate.cs">
       <Link>SourceLnk\Lib\pb\IO\WriteToFileCreate.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\IO\zDirectory.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\IO\zDirectory.cs">
       <Link>SourceLnk\Lib\pb\IO\zDirectory.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\IO\zFile.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\IO\zFile.cs">
       <Link>SourceLnk\Lib\pb\IO\zFile.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\IO\zPath.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\IO\zPath.cs">
       <Link>SourceLnk\Lib\pb\IO\zPath.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\Text\Regex.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Text\Regex.cs">
       <Link>SourceLnk\Lib\pb\Text\Regex.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\Text\Split.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Text\Split.cs">
       <Link>SourceLnk\Lib\pb\Text\Split.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\Text\String.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Text\String.cs">
       <Link>SourceLnk\Lib\pb\Text\String.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\Text\StringZones.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Text\StringZones.cs">
       <Link>SourceLnk\Lib\pb\Text\StringZones.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\Windows\Forms\cGrid.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Windows\Forms\cGrid.cs">
       <Link>SourceLnk\Lib\pb\Windows\Forms\cGrid.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\Windows\Forms\XtraGrid.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Windows\Forms\XtraGrid.cs">
       <Link>SourceLnk\Lib\pb\Windows\Forms\XtraGrid.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\Windows\Forms\zerrf.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Windows\Forms\zerrf.cs">
       <Link>SourceLnk\Lib\pb\Windows\Forms\zerrf.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\_pb\Convert.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\Convert.cs">
       <Link>SourceLnk\Lib\pb\_pb\Convert.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\_pb\Date.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\Date.cs">
       <Link>SourceLnk\Lib\pb\_pb\Date.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\_pb\Error.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\Error.cs">
       <Link>SourceLnk\Lib\pb\_pb\Error.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\_pb\FormatInfo.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\FormatInfo.cs">
       <Link>SourceLnk\Lib\pb\_pb\FormatInfo.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\_pb\ParseAs.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\ParseAs.cs">
       <Link>SourceLnk\Lib\pb\_pb\ParseAs.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\_pb\PBException.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\PBException.cs">
       <Link>SourceLnk\Lib\pb\_pb\PBException.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\_pb\Reflection.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\Reflection.cs">
       <Link>SourceLnk\Lib\pb\_pb\Reflection.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\_pb\TextSerializer.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\TextSerializer.cs">
       <Link>SourceLnk\Lib\pb\_pb\TextSerializer.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\_pb\Trace.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\Trace.cs">
       <Link>SourceLnk\Lib\pb\_pb\Trace.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\_pb\TraceError.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\TraceError.cs">
       <Link>SourceLnk\Lib\pb\_pb\TraceError.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\_pb\TraceSetWriter.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\TraceSetWriter.cs">
       <Link>SourceLnk\Lib\pb\_pb\TraceSetWriter.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -56,9 +56,6 @@
     <Reference Include="MongoDB.Driver">
       <HintPath>..\..\..\..\..\..\..\prog\dev\mongodb\driver\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Driver.dll</HintPath>
     </Reference>
-    <Reference Include="Pri.LongPath">
-      <HintPath>..\..\RuntimeLibrary\LongPath\LongPath\Pri.LongPath.dll</HintPath>
-    </Reference>
     <Reference Include="SharpCompress">
       <HintPath>..\..\RuntimeLibrary\SharpCompress\SharpCompress0.10.3\Full\SharpCompress.dll</HintPath>
     </Reference>
@@ -332,7 +329,12 @@
       <DependentUpon>LogForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\LongPath\Pri.LongPath\Pri.LongPath.csproj">
+      <Project>{df1f23ca-9dc6-4604-8400-6c4b656e0f5d}</Project>
+      <Name>Pri.LongPath</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

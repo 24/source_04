@@ -150,10 +150,11 @@ namespace pb.IO
         }
 
         //public static IEnumerable<EnumDirectoryInfo> EnumerateDirectoriesInfo(string directory, string pattern = null, int minLevel = 0, int maxLevel = 0)
-        public static IEnumerable<EnumDirectoryInfo> EnumerateDirectoriesInfo(string directory, int minLevel, int maxLevel = 0, string pattern = null, Func<EnumDirectoryInfo, EnumDirectoryFilter> directoryFilter = null)
+        public static IEnumerable<EnumDirectoryInfo> EnumerateDirectoriesInfo(string directory, int minLevel, int maxLevel = 0, string pattern = null,
+            Func<EnumDirectoryInfo, EnumDirectoryFilter> directoryFilter = null, bool getSubDirectoryNumber = false)
         {
             return EnumerateDirectoriesInfo(directory, pattern,
-                       dirInfo =>
+                directoryFilter: dirInfo =>
                        {
                            EnumDirectoryFilter result = new EnumDirectoryFilter
                            {
@@ -167,8 +168,8 @@ namespace pb.IO
                                result.RecurseSubDirectory = result.RecurseSubDirectory & result2.RecurseSubDirectory;
                            }
                            return result;
-                       }
-                       );
+                       },
+                       getSubDirectoryNumber: getSubDirectoryNumber);
         }
 
         // followDirectoryTree : followDirectoryTree est appelé quand on entre dans un répertoire et quand on en sort
@@ -180,7 +181,7 @@ namespace pb.IO
         //   sortie de tutu EnumDirectoryInfo = Directory: null SubDirectory: null Level: 2
         //   sortie de tata EnumDirectoryInfo = Directory: null SubDirectory: null Level: 1
         public static IEnumerable<EnumDirectoryInfo> EnumerateDirectoriesInfo(string directory, string pattern = null, Func<EnumDirectoryInfo, EnumDirectoryFilter> directoryFilter = null,
-            Action<EnumDirectoryInfo> followDirectoryTree = null)
+            Action<EnumDirectoryInfo> followDirectoryTree = null, bool getSubDirectoryNumber = false)
         {
             if (!zDirectory.Exists(directory))
                 yield break;
@@ -203,6 +204,12 @@ namespace pb.IO
                     {
                         if (followDirectoryTree != null)
                             followDirectoryTree(enumDirectoryInfo);
+                        if (getSubDirectoryNumber)
+                        {
+                            FilenameNumberInfo directoryNumberInfo = FilenameNumberInfo.GetFilenameNumberInfo(enumDirectoryInfo.SubDirectory);
+                            enumDirectoryInfo.SubDirectory = directoryNumberInfo.BaseFilename;
+                            enumDirectoryInfo.Number = directoryNumberInfo.Number;
+                        }
                         yield return enumDirectoryInfo;
                         if (!enumDirectoryFilter.RecurseSubDirectory && followDirectoryTree != null)
                             followDirectoryTree(new EnumDirectoryInfo { Level = level });

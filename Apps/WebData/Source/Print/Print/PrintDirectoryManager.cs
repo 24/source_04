@@ -132,31 +132,34 @@ namespace Download.Print
             {
                 foreach (string directory2 in _printDirectories)
                 {
-                    foreach (EnumDirectoryInfo directoryInfo in zdir.EnumerateDirectoriesInfo(zPath.Combine(directory, directory2), minLevel: 1, maxLevel: 1))
+                    foreach (EnumDirectoryInfo directoryInfo in zdir.EnumerateDirectoriesInfo(zPath.Combine(directory, directory2), minLevel: 1, maxLevel: 1, getSubDirectoryNumber: true))
                     {
-                        EnumDirectoryInfo directoryInfo2 = new EnumDirectoryInfo();
-                        directoryInfo2.Directory = directoryInfo.Directory;
-                        FilenameNumberInfo directoryNumberInfo = FilenameNumberInfo.GetFilenameNumberInfo(directoryInfo.SubDirectory);
-                        //directoryInfo2.SubDirectory = zPath.Combine(directory2, directoryInfo.SubDirectory);
-                        directoryInfo2.SubDirectory = zPath.Combine(directory2, directoryNumberInfo.BaseFilename);
-                        directoryInfo2.Number = directoryNumberInfo.Number;
-                        directoryInfo2.Level = directoryInfo.Level;
-                        yield return directoryInfo2;
+                        //EnumDirectoryInfo directoryInfo2 = new EnumDirectoryInfo();
+                        //directoryInfo2.Directory = directoryInfo.Directory;
+                        //FilenameNumberInfo directoryNumberInfo = FilenameNumberInfo.GetFilenameNumberInfo(directoryInfo.SubDirectory);
+                        ////directoryInfo2.SubDirectory = zPath.Combine(directory2, directoryInfo.SubDirectory);
+                        //directoryInfo2.SubDirectory = zPath.Combine(directory2, directoryNumberInfo.BaseFilename);
+                        //directoryInfo2.Number = directoryNumberInfo.Number;
+                        //directoryInfo2.Level = directoryInfo.Level;
+                        //yield return directoryInfo2;
+                        directoryInfo.SubDirectory = zPath.Combine(directory2, directoryInfo.SubDirectory);
+                        yield return directoryInfo;
                     }
                 }
             }
             else
             {
-                foreach (EnumDirectoryInfo directoryInfo in zdir.EnumerateDirectoriesInfo(zPath.Combine(directory, directory), minLevel: 1, maxLevel: 1))
+                foreach (EnumDirectoryInfo directoryInfo in zdir.EnumerateDirectoriesInfo(zPath.Combine(directory, directory), minLevel: 1, maxLevel: 1, getSubDirectoryNumber: true))
                 {
-                    EnumDirectoryInfo directoryInfo2 = new EnumDirectoryInfo();
-                    directoryInfo2.Directory = directoryInfo.Directory;
-                    FilenameNumberInfo directoryNumberInfo = FilenameNumberInfo.GetFilenameNumberInfo(directoryInfo.SubDirectory);
-                    //directoryInfo2.SubDirectory = directoryInfo.SubDirectory;
-                    directoryInfo2.SubDirectory = directoryNumberInfo.BaseFilename;
-                    directoryInfo2.Number = directoryNumberInfo.Number;
-                    directoryInfo2.Level = directoryInfo.Level;
-                    yield return directoryInfo2;
+                    //EnumDirectoryInfo directoryInfo2 = new EnumDirectoryInfo();
+                    //directoryInfo2.Directory = directoryInfo.Directory;
+                    //FilenameNumberInfo directoryNumberInfo = FilenameNumberInfo.GetFilenameNumberInfo(directoryInfo.SubDirectory);
+                    ////directoryInfo2.SubDirectory = directoryInfo.SubDirectory;
+                    //directoryInfo2.SubDirectory = directoryNumberInfo.BaseFilename;
+                    //directoryInfo2.Number = directoryNumberInfo.Number;
+                    //directoryInfo2.Level = directoryInfo.Level;
+                    //yield return directoryInfo2;
+                    yield return directoryInfo;
                 }
             }
         }

@@ -50,28 +50,31 @@ namespace Print
     {
         private static bool __traceWarning = false;
         private PrintTitleManager _printTitleManager = null;
-        private RegexValuesList _printRegexList = null;
+        private RegexValuesList _findPrint = null;
         private PrintManager _printManager = null;
         private Dictionary<PrintType, string> _postTypeDirectories = null;
         private string _defaultPrintDirectory = null;              // .05_new_print
-        private string _unknowPrintDirectory = null;          // .06_unknow_print
+        private string _unknowPrintDirectory = null;               // .06_unknow_print
         private int _maxFilenameLength = 100;
 
-        public FindPrintManager(IEnumerable<XElement> xelements, PrintTitleManager printTitleManager, PrintManager printManager, bool compileRegex = true,
-            Dictionary<PrintType, string> postTypeDirectories = null, string defaultPrintDirectory = null, string unknowPrintDirectory = null)
-        {
-            _printRegexList = new RegexValuesList(xelements, compileRegex: compileRegex);
-            _printTitleManager = printTitleManager;
-            _printManager = printManager;
-            _postTypeDirectories = postTypeDirectories;
-            _defaultPrintDirectory = defaultPrintDirectory;
-            _unknowPrintDirectory = unknowPrintDirectory;
-        }
+        //public FindPrintManager(IEnumerable<XElement> xelements, PrintTitleManager printTitleManager, PrintManager printManager, bool compileRegex = true,
+        //    Dictionary<PrintType, string> postTypeDirectories = null, string defaultPrintDirectory = null, string unknowPrintDirectory = null)
+        //{
+        //    _findPrint = new RegexValuesList(xelements, compileRegex: compileRegex);
+        //    _printTitleManager = printTitleManager;
+        //    _printManager = printManager;
+        //    _postTypeDirectories = postTypeDirectories;
+        //    _defaultPrintDirectory = defaultPrintDirectory;
+        //    _unknowPrintDirectory = unknowPrintDirectory;
+        //}
 
         public static bool TraceWarning { get { return __traceWarning; } set { __traceWarning = value; } }
-        public PrintTitleManager PrintTitleManager { get { return _printTitleManager; } }
-        public RegexValuesList PrintRegexList { get { return _printRegexList; } }
-        public string DefaultPrintDirectory { get { return _defaultPrintDirectory; } }
+        public PrintTitleManager PrintTitleManager { get { return _printTitleManager; } set { _printTitleManager = value; } }
+        public RegexValuesList FindPrint { get { return _findPrint; } set { _findPrint = value; } }
+        public PrintManager PrintManager { get { return _printManager; } set { _printManager = value; } }
+        public Dictionary<PrintType, string> PostTypeDirectories { get { return _postTypeDirectories; } set { _postTypeDirectories = value; } }
+        public string DefaultPrintDirectory { get { return _defaultPrintDirectory; } set { _defaultPrintDirectory = value; } }
+        public string UnknowPrintDirectory { get { return _unknowPrintDirectory; } set { _unknowPrintDirectory = value; } }
 
         // bool isPrint
         public FindPrint Find(string title, PrintType printType = PrintType.Unknow, bool forceSelect = false)
@@ -90,7 +93,7 @@ namespace Print
             findPrint.titleInfo = titleInfo;
 
             //FindText_old findText = _printRegexList.Find_old(titleInfo.formatedTitle);
-            FindText findText = _printRegexList.Find(titleInfo.formatedTitle);
+            FindText findText = _findPrint.Find(titleInfo.formatedTitle);
             if (findText.found)
             {
                 findPrint.found = true;

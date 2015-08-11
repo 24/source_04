@@ -66,7 +66,7 @@ namespace Test.Test_Unit.Print
             //if (downloadAutomate.FindPrintManager != null)
             //    Trace.WriteLine("  FindPrintManager.PrintRegexList  : {0}", downloadAutomate.FindPrintManager.PrintRegexList.Count);
             if (downloadAutomate.FindPrintManager != null)
-                Trace.WriteLine("  FindPrintManager2.PrintRegexList  : {0}", downloadAutomate.FindPrintManager.PrintRegexList.Count);
+                Trace.WriteLine("  FindPrintManager2.PrintRegexList  : {0}", downloadAutomate.FindPrintManager.FindPrint.Count);
             file = zPath.Combine(GetDirectory(), file);
             string bsonFile = zpath.PathSetFileNameWithoutExtension(file, zPath.GetFileNameWithoutExtension(file) + "_out_bson");
             zmongo.BsonReader<TestPrint>(file).zFindPrint(downloadAutomate).zSave(bsonFile);
@@ -83,7 +83,7 @@ namespace Test.Test_Unit.Print
 
         public static void Test_FindPrintFromMongo(DownloadAutomateManager downloadAutomate, string printName, string query, int limit = 0, string sort = null)
         {
-            Trace.WriteLine("regex {0} : \"{1}\"", printName, downloadAutomate.FindPrintManager.PrintRegexList[printName].Pattern);
+            Trace.WriteLine("regex {0} : \"{1}\"", printName, downloadAutomate.FindPrintManager.FindPrint[printName].Pattern);
             string file = zPath.Combine(GetDirectory(), printName + ".txt");
             string bsonFile = zpath.PathSetFileNameWithoutExtension(file, zPath.GetFileNameWithoutExtension(file) + "_out_bson");
             FindPrintFromMongo(downloadAutomate, query, limit, sort).zFindPrint(downloadAutomate).zSave(bsonFile);

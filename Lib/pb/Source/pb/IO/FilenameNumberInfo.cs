@@ -31,7 +31,8 @@ namespace pb.IO
                 //filenameNumberInfo.Number = int.Parse(number);
                 int number;
                 if (int.TryParse(textNumber, out number))
-                    return new FilenameNumberInfo { BaseFilename = match.zReplace(filename, "").Trim() + ext, Number = number };
+                    // modif le 08/08/2015 ajout zPath.GetDirectoryName(path)
+                    return new FilenameNumberInfo { BaseFilename = zPath.Combine(zPath.GetDirectoryName(path), match.zReplace(filename, "").Trim()) + ext, Number = number };
             }
             //else
             //{
@@ -39,12 +40,14 @@ namespace pb.IO
             //    filenameNumberInfo.Number = 0;
             //}
             //return filenameNumberInfo;
-            return new FilenameNumberInfo { BaseFilename = filename.Trim() + ext, Number = 0 };
+            // modif le 08/08/2015 ajout zPath.GetDirectoryName(path)
+            return new FilenameNumberInfo { BaseFilename = zPath.Combine(zPath.GetDirectoryName(path), filename.Trim()) + ext, Number = 0 };
         }
 
         public static string GetFilenameWithoutNumber(string path)
         {
-            return __filenameNumber.Replace(zPath.GetFileNameWithoutExtension(path), "").Trim() + zPath.GetExtension(path);
+            // modif le 08/08/2015 ajout zPath.GetDirectoryName(path)
+            return zPath.Combine(zPath.GetDirectoryName(path), __filenameNumber.Replace(zPath.GetFileNameWithoutExtension(path), "").Trim()) + zPath.GetExtension(path);
         }
 
         public static int GetFilenameNumber(string path)

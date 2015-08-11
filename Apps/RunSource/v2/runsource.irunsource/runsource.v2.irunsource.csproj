@@ -42,34 +42,34 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\..\..\Lib\Source\pb\Compiler\ICompiler.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Compiler\ICompiler.cs">
       <Link>SourceLnk\Lib\pb\Compiler\ICompiler.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\Compiler\IGenerateAndExecute.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Compiler\IGenerateAndExecute.cs">
       <Link>SourceLnk\Lib\pb\Compiler\IGenerateAndExecute.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\Compiler\IRunSource.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Compiler\IRunSource.cs">
       <Link>SourceLnk\Lib\pb\Compiler\IRunSource.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\IO\FileOption.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\IO\FileOption.cs">
       <Link>SourceLnk\Lib\pb\IO\FileOption.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\IO\zPath.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\IO\zPath.cs">
       <Link>SourceLnk\Lib\pb\IO\zPath.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\_pb\Application.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\Application.cs">
       <Link>SourceLnk\Lib\pb\_pb\Application.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\_pb\IChrono.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\IChrono.cs">
       <Link>SourceLnk\Lib\pb\_pb\IChrono.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\_pb\ITrace.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\ITrace.cs">
       <Link>SourceLnk\Lib\pb\_pb\ITrace.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\_pb\ITraceError.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\ITraceError.cs">
       <Link>SourceLnk\Lib\pb\_pb\ITraceError.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\Source\pb\_pb\ITraceSetWriter.cs">
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\ITraceSetWriter.cs">
       <Link>SourceLnk\Lib\pb\_pb\ITraceSetWriter.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

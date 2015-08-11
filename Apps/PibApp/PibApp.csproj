@@ -59,144 +59,147 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="compile.cs" />
-    <Compile Include="..\..\Lib\Source\Other\CradleOfRomeWatcher.cs">
+    <Compile Include="..\..\Lib\pb\Source\Other\CradleOfRomeWatcher.cs">
       <Link>SourceLnk\Lib\Other\CradleOfRomeWatcher.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\Source\Other\Task.cs">
+    <Compile Include="..\..\Lib\pb\Source\Other\Task.cs">
       <Link>SourceLnk\Lib\Other\Task.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\Source\pb\Data\Xml\Xml.cs">
+    <Compile Include="..\..\Lib\pb\Source\pb\Data\Xml\Xml.cs">
       <Link>SourceLnk\Lib\pb\Data\Xml\Xml.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\Source\pb\Data\Xml\XmlConfig.cs">
+    <Compile Include="..\..\Lib\pb\Source\pb\Data\Xml\XmlConfig.cs">
       <Link>SourceLnk\Lib\pb\Data\Xml\XmlConfig.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\Source\pb\IO\Directory.cs">
+    <Compile Include="..\..\Lib\pb\Source\pb\IO\Directory.cs">
       <Link>SourceLnk\Lib\pb\IO\Directory.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\Source\pb\IO\File.cs">
+    <Compile Include="..\..\Lib\pb\Source\pb\IO\File.cs">
       <Link>SourceLnk\Lib\pb\IO\File.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\Source\pb\IO\FileOption.cs">
+    <Compile Include="..\..\Lib\pb\Source\pb\IO\FilenameNumberInfo.cs">
+      <Link>SourceLnk\Lib\pb\IO\FilenameNumberInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\IO\FileOption.cs">
       <Link>SourceLnk\Lib\pb\IO\FileOption.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\Source\pb\IO\Path.cs">
+    <Compile Include="..\..\Lib\pb\Source\pb\IO\Path.cs">
       <Link>SourceLnk\Lib\pb\IO\Path.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\Source\pb\IO\WriteToFile.cs">
+    <Compile Include="..\..\Lib\pb\Source\pb\IO\WriteToFile.cs">
       <Link>SourceLnk\Lib\pb\IO\WriteToFile.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\Source\pb\IO\WriteToFileCreate.cs">
+    <Compile Include="..\..\Lib\pb\Source\pb\IO\WriteToFileCreate.cs">
       <Link>SourceLnk\Lib\pb\IO\WriteToFileCreate.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\Source\pb\IO\zDirectory.cs">
+    <Compile Include="..\..\Lib\pb\Source\pb\IO\zDirectory.cs">
       <Link>SourceLnk\Lib\pb\IO\zDirectory.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\Source\pb\IO\zFile.cs">
+    <Compile Include="..\..\Lib\pb\Source\pb\IO\zFile.cs">
       <Link>SourceLnk\Lib\pb\IO\zFile.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\Source\pb\IO\zPath.cs">
+    <Compile Include="..\..\Lib\pb\Source\pb\IO\zPath.cs">
       <Link>SourceLnk\Lib\pb\IO\zPath.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\Source\pb\Text\Regex.cs">
+    <Compile Include="..\..\Lib\pb\Source\pb\Text\Regex.cs">
       <Link>SourceLnk\Lib\pb\Text\Regex.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\Source\pb\Windows\Forms\fMainBase.cs">
+    <Compile Include="..\..\Lib\pb\Source\pb\Windows\Forms\fMainBase.cs">
       <Link>SourceLnk\Lib\pb\Windows\Forms\fMainBase.cs</Link>
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="..\..\Lib\Source\pb\Windows\Forms\fMainBase.designer.cs">
+    <Compile Include="..\..\Lib\pb\Source\pb\Windows\Forms\fMainBase.designer.cs">
       <Link>SourceLnk\Lib\pb\Windows\Forms\fMainBase.designer.cs</Link>
       <DependentUpon>fMainBase.cs</DependentUpon>
     </Compile>
-    <Compile Include="..\..\Lib\Source\pb\Windows\Forms\Hook.cs">
+    <Compile Include="..\..\Lib\pb\Source\pb\Windows\Forms\Hook.cs">
       <Link>SourceLnk\Lib\pb\Windows\Forms\Hook.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\Source\pb\Windows\Forms\LogForm.cs">
+    <Compile Include="..\..\Lib\pb\Source\pb\Windows\Forms\LogForm.cs">
       <Link>SourceLnk\Lib\pb\Windows\Forms\LogForm.cs</Link>
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="..\..\Lib\Source\pb\Windows\Forms\LogForm.designer.cs">
+    <Compile Include="..\..\Lib\pb\Source\pb\Windows\Forms\LogForm.designer.cs">
       <Link>SourceLnk\Lib\pb\Windows\Forms\LogForm.designer.cs</Link>
       <DependentUpon>LogForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="..\..\Lib\Source\pb\Windows\Forms\Menu.cs">
+    <Compile Include="..\..\Lib\pb\Source\pb\Windows\Forms\Menu.cs">
       <Link>SourceLnk\Lib\pb\Windows\Forms\Menu.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\Source\pb\Windows\Forms\ProgressControl.cs">
+    <Compile Include="..\..\Lib\pb\Source\pb\Windows\Forms\ProgressControl.cs">
       <Link>SourceLnk\Lib\pb\Windows\Forms\ProgressControl.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\Source\pb\Windows\Forms\TrayIcon.cs">
+    <Compile Include="..\..\Lib\pb\Source\pb\Windows\Forms\TrayIcon.cs">
       <Link>SourceLnk\Lib\pb\Windows\Forms\TrayIcon.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\Source\pb\Windows\Forms\WinProc.cs">
+    <Compile Include="..\..\Lib\pb\Source\pb\Windows\Forms\WinProc.cs">
       <Link>SourceLnk\Lib\pb\Windows\Forms\WinProc.cs</Link>
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="..\..\Lib\Source\pb\Windows\Forms\zerrf.cs">
+    <Compile Include="..\..\Lib\pb\Source\pb\Windows\Forms\zerrf.cs">
       <Link>SourceLnk\Lib\pb\Windows\Forms\zerrf.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\Source\pb\Windows\Win32\GDI.cs">
+    <Compile Include="..\..\Lib\pb\Source\pb\Windows\Win32\GDI.cs">
       <Link>SourceLnk\Lib\pb\Windows\Win32\GDI.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\Source\pb\Windows\Win32\Kernel.cs">
+    <Compile Include="..\..\Lib\pb\Source\pb\Windows\Win32\Kernel.cs">
       <Link>SourceLnk\Lib\pb\Windows\Win32\Kernel.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\Source\pb\Windows\Win32\Messages.cs">
+    <Compile Include="..\..\Lib\pb\Source\pb\Windows\Win32\Messages.cs">
       <Link>SourceLnk\Lib\pb\Windows\Win32\Messages.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\Source\pb\Windows\Win32\User.Const.cs">
+    <Compile Include="..\..\Lib\pb\Source\pb\Windows\Win32\User.Const.cs">
       <Link>SourceLnk\Lib\pb\Windows\Win32\User.Const.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\Source\pb\Windows\Win32\User.cs">
+    <Compile Include="..\..\Lib\pb\Source\pb\Windows\Win32\User.cs">
       <Link>SourceLnk\Lib\pb\Windows\Win32\User.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\Source\pb\Windows\Win32\User.Struct.cs">
+    <Compile Include="..\..\Lib\pb\Source\pb\Windows\Win32\User.Struct.cs">
       <Link>SourceLnk\Lib\pb\Windows\Win32\User.Struct.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\Source\pb\Windows\Win32\Windows.cs">
+    <Compile Include="..\..\Lib\pb\Source\pb\Windows\Win32\Windows.cs">
       <Link>SourceLnk\Lib\pb\Windows\Win32\Windows.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\Source\pb\_pb\Application.cs">
+    <Compile Include="..\..\Lib\pb\Source\pb\_pb\Application.cs">
       <Link>SourceLnk\Lib\pb\_pb\Application.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\Source\pb\_pb\Convert.cs">
+    <Compile Include="..\..\Lib\pb\Source\pb\_pb\Convert.cs">
       <Link>SourceLnk\Lib\pb\_pb\Convert.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\Source\pb\_pb\Date.cs">
+    <Compile Include="..\..\Lib\pb\Source\pb\_pb\Date.cs">
       <Link>SourceLnk\Lib\pb\_pb\Date.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\Source\pb\_pb\Error.cs">
+    <Compile Include="..\..\Lib\pb\Source\pb\_pb\Error.cs">
       <Link>SourceLnk\Lib\pb\_pb\Error.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\Source\pb\_pb\FormatInfo.cs">
+    <Compile Include="..\..\Lib\pb\Source\pb\_pb\FormatInfo.cs">
       <Link>SourceLnk\Lib\pb\_pb\FormatInfo.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\Source\pb\_pb\ITrace.cs">
+    <Compile Include="..\..\Lib\pb\Source\pb\_pb\ITrace.cs">
       <Link>SourceLnk\Lib\pb\_pb\ITrace.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\Source\pb\_pb\ITraceSetWriter.cs">
+    <Compile Include="..\..\Lib\pb\Source\pb\_pb\ITraceSetWriter.cs">
       <Link>SourceLnk\Lib\pb\_pb\ITraceSetWriter.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\Source\pb\_pb\ParseAs.cs">
+    <Compile Include="..\..\Lib\pb\Source\pb\_pb\ParseAs.cs">
       <Link>SourceLnk\Lib\pb\_pb\ParseAs.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\Source\pb\_pb\PBException.cs">
+    <Compile Include="..\..\Lib\pb\Source\pb\_pb\PBException.cs">
       <Link>SourceLnk\Lib\pb\_pb\PBException.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\Source\pb\_pb\Progress.cs">
+    <Compile Include="..\..\Lib\pb\Source\pb\_pb\Progress.cs">
       <Link>SourceLnk\Lib\pb\_pb\Progress.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\Source\pb\_pb\Reflection.cs">
+    <Compile Include="..\..\Lib\pb\Source\pb\_pb\Reflection.cs">
       <Link>SourceLnk\Lib\pb\_pb\Reflection.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\Source\pb\_pb\TextSerializer.cs">
+    <Compile Include="..\..\Lib\pb\Source\pb\_pb\TextSerializer.cs">
       <Link>SourceLnk\Lib\pb\_pb\TextSerializer.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\Source\pb\_pb\Trace.cs">
+    <Compile Include="..\..\Lib\pb\Source\pb\_pb\Trace.cs">
       <Link>SourceLnk\Lib\pb\_pb\Trace.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\Source\pb\_pb\TraceSetWriter.cs">
+    <Compile Include="..\..\Lib\pb\Source\pb\_pb\TraceSetWriter.cs">
       <Link>SourceLnk\Lib\pb\_pb\TraceSetWriter.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -210,7 +213,7 @@
     <Compile Include="Source\Pib_f.cs" />
     <None Include="Source\Pib_Rapidshare.cs" />
     <Compile Include="Source\Pib_TrayIcon.cs" />
-    <EmbeddedResource Include="..\..\Lib\Source\pb\Windows\Forms\LogForm.resx">
+    <EmbeddedResource Include="..\..\Lib\pb\Source\pb\Windows\Forms\LogForm.resx">
       <Link>SourceLnk\Lib\pb\Windows\Forms\LogForm.resx</Link>
       <DependentUpon>LogForm.cs</DependentUpon>
     </EmbeddedResource>

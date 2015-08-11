@@ -94,7 +94,7 @@ namespace Print
         private static Regex __rgFormatTitle = new Regex(@"^(?:([^\s_]+)(?:[\s_]+|$))*$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         //private FindDateManager_v1 _findDateManager_v1 = null;
         private FindDateManager _findDateManager = null;
-        private FindNumberManager _findNumber = null;
+        private FindNumberManager _findNumberManager = null;
         private RegexValuesList _findSpecial = null;
         private string _printDirectory = null;
         private bool _splitTitle = false;
@@ -107,14 +107,20 @@ namespace Print
         //    _printDirectory = printDirectory;
         //}
 
-        public PrintTitleManager(FindDateManager findDateManager, FindNumberManager findNumberManager, RegexValuesList findSpecial, string printDirectory, bool splitTitle = true)
-        {
-            _findDateManager = findDateManager;
-            _findNumber = findNumberManager;
-            _findSpecial = findSpecial;
-            _printDirectory = printDirectory;
-            _splitTitle = splitTitle;
-        }
+        //public PrintTitleManager(FindDateManager findDateManager, FindNumberManager findNumberManager, RegexValuesList findSpecial, string printDirectory, bool splitTitle = true)
+        //{
+        //    _findDateManager = findDateManager;
+        //    _findNumber = findNumberManager;
+        //    _findSpecial = findSpecial;
+        //    _printDirectory = printDirectory;
+        //    _splitTitle = splitTitle;
+        //}
+
+        public FindDateManager FindDateManager { get { return _findDateManager; } set { _findDateManager = value; } }
+        public FindNumberManager FindNumberManager { get { return _findNumberManager; } set { _findNumberManager = value; } }
+        public RegexValuesList FindSpecial { get { return _findSpecial; } set { _findSpecial = value; } }
+        public string PrintDirectory { get { return _printDirectory; } set { _printDirectory = value; } }
+        public bool SplitTitle { get { return _splitTitle; } set { _splitTitle = value; } }
 
         public PrintTitleInfo GetPrintTitleInfo(string title)
         {
@@ -353,7 +359,7 @@ namespace Print
                 title = findSpecial.matchValues.Replace(" $$special$$ ");
             }
 
-            FindNumber findNumber = _findNumber.Find(title);
+            FindNumber findNumber = _findNumberManager.Find(title);
             if (findNumber.found)
             {
                 titleRequest.number = findNumber.number;
@@ -453,7 +459,7 @@ namespace Print
         //}
 
         /// not used
-        private static PrintSplitedTitle SplitTitle(string title)
+        private static PrintSplitedTitle _SplitTitle(string title)
         {
             //int i = title.IndexOf("- ");
             //if (i != -1)

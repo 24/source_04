@@ -44,7 +44,6 @@ using pb.IO;
 // <CopyOutput value = "" />
 //   < File                                    value = "" />
 
-
 namespace pb.Compiler
 {
     #region class CompilerException
@@ -323,6 +322,7 @@ namespace pb.Compiler
             //    assembly = zPath.Combine(_defaultDir, assembly);
             if (dir != "")
                 assembly = assembly.zRootPath(_defaultDir);
+            ////WriteLine(1, "  Add assembly          \"{0}\" resolve {1} dir {2}", assembly, resolve, dir);
             if (!_assemblyList.ContainsKey(assembly))
                 _assemblyList.Add(assembly, new CompilerAssembly(assembly, resolve, resolveName));
         }
@@ -383,6 +383,8 @@ namespace pb.Compiler
             if (_finalOutputDir != null)
                 zDirectory.CreateDirectory(_finalOutputDir);
             //WriteLine(1, "Compile \"{0}\"", gsFinalOutputAssembly);
+            //_defaultDir
+            ////WriteLine(1, "Compiler _defaultDir \"{0}\"", _defaultDir);
             WriteLine(2, "Compile \"{0}\"", _finalOutputAssembly);
             WriteLine(2, "  DebugInformation      {0}", _debugInformation);
             WriteLine(2, "  GenerateInMemory      {0}", _generateInMemory);

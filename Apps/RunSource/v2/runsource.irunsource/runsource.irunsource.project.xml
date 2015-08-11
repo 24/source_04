@@ -5,22 +5,24 @@
 	<NameSpace                                 value = "pb" />
 	<CompilerOptions                           value = "/platform:x86" />  <!-- x86, Itanium, x64, or anycpu (default). -->
   <Source                                    value = "Properties\AssemblyInfo.cs" />
-  <Source                                    value = "..\..\..\..\Lib\Source\pb\_pb\Application.cs" />
-  <Source                                    value = "..\..\..\..\Lib\Source\pb\_pb\IChrono.cs" />
-  <Source                                    value = "..\..\..\..\Lib\Source\pb\_pb\ITrace.cs" />
-  <Source                                    value = "..\..\..\..\Lib\Source\pb\_pb\ITraceError.cs" />
-  <Source                                    value = "..\..\..\..\Lib\Source\pb\_pb\ITraceSetWriter.cs" />
-  <Source                                    value = "..\..\..\..\Lib\Source\pb\Compiler\ICompiler.cs" />
-  <Source                                    value = "..\..\..\..\Lib\Source\pb\Compiler\IGenerateAndExecute.cs" />
-  <Source                                    value = "..\..\..\..\Lib\Source\pb\Compiler\IRunSource.cs" />
-  <Source                                    value = "..\..\..\..\Lib\Source\pb\IO\FileOption.cs" />
-  <Source                                    value = "..\..\..\..\Lib\Source\pb\IO\zPath.cs" />
+  <Source                                    value = "..\..\..\..\Lib\pb\Source\pb\_pb\Application.cs" />
+  <Source                                    value = "..\..\..\..\Lib\pb\Source\pb\_pb\IChrono.cs" />
+  <Source                                    value = "..\..\..\..\Lib\pb\Source\pb\_pb\ITrace.cs" />
+  <Source                                    value = "..\..\..\..\Lib\pb\Source\pb\_pb\ITraceError.cs" />
+  <Source                                    value = "..\..\..\..\Lib\pb\Source\pb\_pb\ITraceSetWriter.cs" />
+  <Source                                    value = "..\..\..\..\Lib\pb\Source\pb\Compiler\ICompiler.cs" />
+  <Source                                    value = "..\..\..\..\Lib\pb\Source\pb\Compiler\IGenerateAndExecute.cs" />
+  <Source                                    value = "..\..\..\..\Lib\pb\Source\pb\Compiler\IRunSource.cs" />
+  <Source                                    value = "..\..\..\..\Lib\pb\Source\pb\IO\FileOption.cs" />
+  <Source                                    value = "..\..\..\..\Lib\pb\Source\pb\IO\zPath.cs" />
   <Assembly                                  value = "System.dll" />
 	<Assembly                                  value = "System.Core.dll" />
 	<Assembly                                  value = "System.Data.dll" />
 	<Assembly                                  value = "System.Xml.dll" />
 	<Assembly                                  value = "System.Xml.Linq.dll" />
-  <Assembly                                  value = "..\..\..\..\..\RuntimeLibrary\LongPath\LongPath\Pri.LongPath.dll" />
+  <!--<Assembly                                  value = "..\..\..\..\..\RuntimeLibrary\LongPath\LongPath\Pri.LongPath.dll" />-->
+  <!--<Assembly                                  value = "c:\pib\drive\google\dev\project\RuntimeLibrary\LongPath\LongPath\Pri.LongPath.dll" />-->
+  <Assembly                                  value = "..\..\..\..\Lib\LongPath\Pri.LongPath\bin\Debug\Pri.LongPath.dll" />
   <DebugInformation                          value = "true" />
 </AssemblyProject>
 

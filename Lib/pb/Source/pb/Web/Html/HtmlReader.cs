@@ -29,9 +29,11 @@ namespace pb.Web
         private TextReader _textReader = null;
         private bool _closeTextReader = false;
 
-        private string _traceHtmlReaderFile = null;
+        private static string __traceHtmlReaderFile = null;
+        private static bool __tracePeekChar = false;
+        //private string _traceHtmlReaderFile = null;
         private StreamWriter _traceHtmlReaderStreamWriter = null;
-        private int _traceIndex = 0;
+        private int _traceIndex = 1;
 
         // export du flux Html dans path
         private string _exportHtmlFile = null;
@@ -42,8 +44,14 @@ namespace pb.Web
 
         // lecture du flux Html pour pouvoir faire des Peek()
         private StringBuilder _stringStream = new StringBuilder(100, 1000000);
-        // position du prochain caractère à lire dans gsbStream
-        private int _posStream = 0;
+        // position du prochain caractère à lire dans _stringStream
+        private int _posStringStream = 0;
+        private int _posSourceStream = 0;
+
+        // control PeekChar(0) pour éviter une boucle sans fin
+        private static int __maxPeekCharCount = 200;
+        private int _lastPosPeekChar = -1;
+        private int _peekCharCount = 0;
 
         // Compte le nombre de caractère Unread pour ne pas exporter 2 fois ces caractères dans l'export du flux Html
         private int _nbUnreadChar = 0;
@@ -113,11 +121,11 @@ namespace pb.Web
         private void OpenTraceHtmlReader()
         {
             CloseTraceHtmlReader();
-            if (_traceHtmlReaderFile != null)
+            if (__traceHtmlReaderFile != null)
             {
-                FileStream fs = new FileStream(_traceHtmlReaderFile, FileMode.Create, FileAccess.Write, FileShare.Read, _bufferSize);
+                FileStream fs = new FileStream(__traceHtmlReaderFile, FileMode.Create, FileAccess.Write, FileShare.Read, _bufferSize);
                 _traceHtmlReaderStreamWriter = new StreamWriter(fs, _encoding);
-                _traceIndex = 0;
+                _traceIndex = 1;
             }
         }
 
@@ -203,7 +211,9 @@ namespace pb.Web
             Close();
         }
 
-        public string TraceHtmlReaderFile { get { return _traceHtmlReaderFile; } set { _traceHtmlReaderFile = value; } }
+        //public string TraceHtmlReaderFile { get { return _traceHtmlReaderFile; } set { _traceHtmlReaderFile = value; } }
+        public static string TraceHtmlReaderFile { get { return __traceHtmlReaderFile; } set { __traceHtmlReaderFile = value; } }
+        public static bool TracePeekChar { get { return __tracePeekChar; } set { __tracePeekChar = value; } }
         public string ExportHtmlFile { get { return _exportHtmlFile; } set { _exportHtmlFile = value; } }
         public bool ReadCommentInText { get { return _readCommentInText; } set { _readCommentInText = value; } }
         public Encoding encoding { get { return _encoding; } set { _encoding = value; } }
@@ -285,9 +295,11 @@ namespace pb.Web
             _comment = null;
             _docType = null;
             _separator = null;
+
             int charInt = PeekChar();
             if (charInt == -1)
                 return false;  // EOF
+
             char car = (char)charInt;
             while (true)
             {
@@ -773,20 +785,23 @@ namespace pb.Web
 
         private void UnreadChar()
         {
-            if (_posStream == 0) throw new HTMLReaderException("Error UnreadChar line {0} column {1}", _line, _column);
-            _posStream--;
+            if (_posStringStream == 0)
+                throw new HTMLReaderException("Error UnreadChar line {0} column {1}", _line, _column);
+            _posStringStream--;
             _nbUnreadChar++;
         }
 
         private int ReadChar()
         {
             int charInt = PeekChar(0);
-            _posStream++;
+            _posStringStream++;
             if (_exportHtmlStreamWriter != null && charInt != -1)
             {
-                if (_nbUnreadChar == 0) _exportHtmlStreamWriter.Write((char)charInt);
+                if (_nbUnreadChar == 0)
+                    _exportHtmlStreamWriter.Write((char)charInt);
             }
-            if (_nbUnreadChar > 0) _nbUnreadChar--;
+            if (_nbUnreadChar > 0)
+                _nbUnreadChar--;
             return charInt;
         }
 
@@ -797,18 +812,23 @@ namespace pb.Web
 
         private int PeekChar(int i)
         {
-            if (i + 10 >= _stringStream.MaxCapacity) throw new HTMLReaderException("Error PeekChar({0}) max = {1}", i, _stringStream.Capacity);
-            if (i >= _stringStream.MaxCapacity - _posStream)
+            if (i + 10 >= _stringStream.MaxCapacity)
+                throw new HTMLReaderException("Error PeekChar({0}) max = {1}", i, _stringStream.Capacity);
+            if (i >= _stringStream.MaxCapacity - _posStringStream)
             {
-                for (int i1 = 0, i2 = _posStream; i2 < _stringStream.Length; i1++, i2++) _stringStream[i1] = _stringStream[i2];
-                _stringStream.Remove(_stringStream.Length - _posStream, _posStream);
-                _posStream = 0;
+                for (int i1 = 0, i2 = _posStringStream; i2 < _stringStream.Length; i1++, i2++)
+                    _stringStream[i1] = _stringStream[i2];
+                _stringStream.Remove(_stringStream.Length - _posStringStream, _posStringStream);
+                _posSourceStream += _posStringStream;
+                _posStringStream = 0;
             }
-            if (_posStream + i >= _stringStream.Length)
+            int charInt;
+            char charText;
+            if (_posStringStream + i >= _stringStream.Length)
             {
-                for (int i1 = _stringStream.Length; i1 <= _posStream + i; i1++)
+                for (int i1 = _stringStream.Length; i1 <= _posStringStream + i; i1++)
                 {
-                    int iChar = _textReader.Read();
+                    charInt = _textReader.Read();
                     //int iRetry = 0;
                     //int iChar;
                     //while (true)
@@ -830,28 +850,54 @@ namespace pb.Web
                     //        cTrace.Trace(cError.GetErrorMessage(ex, false, true));
                     //    }
                     //}
-                    if (iChar == -1) break;
-                    char cChar = (char)iChar;
-                    if (cChar == '—')
+                    if (charInt == -1)
+                        break;
+                    charText = (char)charInt;
+                    if (charText == '—')
                     {
-                        cChar = '-';
-                        _stringStream.Append(cChar);
+                        charText = '-';
+                        _stringStream.Append(charText);
                     }
                     // '\x07' dans http://www.telecharger-magazine.com/livres/502-tout-sur-les-lgumes-lencyclopdie-des-aliments.html   c:\pib\dev_data\exe\runsource\download\sites\telecharger-magazine.com\cache\detail\0\livres_502-tout-sur-les-lgumes-lencyclopdie-des-aliments.html
                     // '\x1F' dans http://www.telecharger-magazine.com/actualit/117-grand-guide-2014-du-seo.html  c:\pib\dev_data\exe\runsource\download\sites\telecharger-magazine.com\cache\detail\0\actualit_117-grand-guide-2014-du-seo.html
                     // remplace '\x07' '\x1F' par un blanc
-                    else if (iChar == 7 || iChar == 0x1F)
+                    else if (charInt == 7 || charInt == 0x1F)
                     {
-                        cChar = ' ';
+                        charText = ' ';
                     }
-                    _stringStream.Append(cChar);
+                    _stringStream.Append(charText);
                 }
-                if (_posStream + i >= _stringStream.Length)
+                if (_posStringStream + i >= _stringStream.Length)
                 {
                     return -1;
                 }
             }
-            return _stringStream[_posStream + i];
+            //return _stringStream[_posStringStream + i];
+            charInt = _stringStream[_posStringStream + i];
+            if (__tracePeekChar && _traceHtmlReaderStreamWriter != null)
+            {
+                charText = (char)charInt;
+                _traceHtmlReaderStreamWriter.WriteLine("      peek char i {0} line {1} column {2} pos {3,7} code {4} char {5}", i, _line, _column, _posSourceStream + _posStringStream + i, charInt.zToHex(), !char.IsControl(charText) ? "\"" + charText + "\"" : "---");
+            }
+            // control PeekChar(0) pour éviter une boucle sans fin
+            if (i == 0)
+            {
+                int pos = _posSourceStream + _posStringStream + i;
+                if (pos == _lastPosPeekChar)
+                {
+                    if (++_peekCharCount >= __maxPeekCharCount)
+                    {
+                        charText = (char)charInt;
+                        throw new HTMLReaderException("pb.Web.HtmlReader.PeekChar : to much read of same character {0} {1} line {2} column {3} position {4}", charInt.zToHex(), !char.IsControl(charText) ? "\"" + charText + "\"" : "---", _line, _column, _lastPosPeekChar);
+                    }
+                }
+                else
+                {
+                    _lastPosPeekChar = pos;
+                    _peekCharCount = 1;
+                }
+            }
+            return charInt;
         }
 
 
@@ -881,7 +927,7 @@ namespace pb.Web
                 _textReader = null;
             }
             _stringStream.Remove(0, _stringStream.Length);
-            _posStream = 0;
+            _posStringStream = 0;
             _stringBuilder.Remove(0, _stringBuilder.Length);
             CloseTraceHtmlReader();
             CloseExportHtml();

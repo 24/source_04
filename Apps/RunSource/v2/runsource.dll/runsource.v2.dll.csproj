@@ -61,9 +61,6 @@
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\Compiler\GenerateCSharpCode.cs">
       <Link>SourceLnk\Lib\pb\Compiler\GenerateCSharpCode.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Compiler\ICompilerExtension.cs">
-      <Link>SourceLnk\Lib\pb\Compiler\ICompilerExtension.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\Compiler\RunSource.cs">
       <Link>SourceLnk\Lib\pb\Compiler\RunSource.cs</Link>
     </Compile>
@@ -117,6 +114,12 @@
     </Compile>
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\Web\Html\HtmlReader.cs">
       <Link>SourceLnk\Lib\pb\Web\Html\HtmlReader.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Web\Html\HtmlReaderBase.cs">
+      <Link>SourceLnk\Lib\pb\Web\Html\HtmlReaderBase.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Web\Html\HtmlReader_v2.cs">
+      <Link>SourceLnk\Lib\pb\Web\Html\HtmlReader_v2.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\Web\Html\HtmlTag.cs">
       <Link>SourceLnk\Lib\pb\Web\Html\HtmlTag.cs</Link>

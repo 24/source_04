@@ -25,13 +25,13 @@ _rs.Trace.SetTraceDirectory(null);
 //****                                   Automate
 //*************************************************************************************************************************
 
-RunSource.CurrentRunSource.SetProjectFile("download.project.xml");
+RunSource.CurrentRunSource.SetProject("download.project.xml");
 Trace.WriteLine(RunSource.CurrentRunSource.ProjectFile);
 Trace.WriteLine(RunSource.CurrentRunSource.ProjectDirectory);
 
 
 // use new download manager
-Download.Print.DownloadAutomate_f.Test_DownloadAutomate_01(loadNewPost: true, searchPostToDownload: true, uncompressFile: true, sendMail: false,
+DownloadAutomate_f.Test_DownloadAutomate_01(loadNewPost: true, searchPostToDownload: true, uncompressFile: true, sendMail: false,
   version: 3, useNewDownloadManager: true, traceLevel: 0);
 // use new download manager, send mail
 Download.Print.DownloadAutomate_f.Test_DownloadAutomate_01(loadNewPost: true, searchPostToDownload: true, uncompressFile: true, sendMail: true,
@@ -44,24 +44,18 @@ Download.Print.DownloadAutomate_f.Test_DownloadAutomate_01(loadNewPost: true, se
 //  version: 3, useNewDownloadManager: false, traceLevel: 0);
 //Download.Print.DownloadAutomate_f.Test_DownloadAutomate_01(loadNewPost: true, uncompressFile: true, sendMail: false);
 
-Trace.WriteLine(Download.Print.DownloadAutomate_f.GetMongoDownloadAutomateManager().GetLastRunDateTime().ToString());
-Trace.WriteLine(Download.Print.DownloadAutomate_f.GetMongoDownloadAutomateManager().GetNextRunDateTime().ToString());
-Download.Print.DownloadAutomate_f.GetMongoDownloadAutomateManager().SetLastRunDateTime(DateTime.Parse("2015-07-18 10:00:00"));
-Download.Print.DownloadAutomate_f.GetMongoDownloadAutomateManager().SetLastRunDateTime(DateTime.Parse("2015-03-22 00:00:00"));
-Download.Print.DownloadAutomate_f.GetMongoDownloadAutomateManager().SetLastRunDateTime(DateTime.Parse("2015-01-10 00:00:00"));
-Download.Print.DownloadAutomate_f.GetMongoDownloadAutomateManager().SetLastRunDateTime(DateTime.Parse("2015-03-01 00:00:00"));
-Download.Print.DownloadAutomate_f.GetMongoDownloadAutomateManager().SetLastRunDateTime(DateTime.Parse("2014-11-16 00:00:00"));
-Download.Print.DownloadAutomate_f.GetMongoDownloadAutomateManager().SetLastRunDateTime(DateTime.Parse("2014-10-01 12:00:00"));
-Download.Print.DownloadAutomate_f.GetMongoDownloadAutomateManager().SetLastRunDateTime(DateTime.Parse("2014-09-24 00:00:00"));
-Download.Print.DownloadAutomate_f.GetMongoDownloadAutomateManager().SetLastRunDateTime(DateTime.Parse("2014-09-22 00:00:00"));
-Download.Print.DownloadAutomate_f.GetMongoDownloadAutomateManager().SetLastRunDateTime(DateTime.Parse("2014-09-15 00:00:00"));
-Download.Print.DownloadAutomate_f.GetMongoDownloadAutomateManager().SetLastRunDateTime(DateTime.Parse("2014-07-01 00:00:00"));
-Download.Print.DownloadAutomate_f.GetMongoDownloadAutomateManager().SetLastRunDateTime(DateTime.Parse("2014-09-01 00:00:00"));
-Download.Print.DownloadAutomate_f.GetMongoDownloadAutomateManager().SetLastRunDateTime(DateTime.Parse("2014-09-17 18:00:00"));
-Download.Print.DownloadAutomate_f.GetMongoDownloadAutomateManager().SetLastRunDateTime(new DateTime(2014, 9, 13, 20, 0, 0));
-Download.Print.DownloadAutomate_f.GetMongoDownloadAutomateManager().SetLastRunDateTime(new DateTime(2014, 8, 25, 20, 0, 0));
-Download.Print.DownloadAutomate_f.GetMongoDownloadAutomateManager().SetTimeBetweenRun(TimeSpan.FromHours(1));
-Download.Print.DownloadAutomate_f.GetMongoDownloadAutomateManager().SetTimeBetweenRun(TimeSpan.FromMinutes(30));
+DownloadAutomate_f.GetMongoDownloadAutomateManager().GetLastRunDateTime().zTrace();
+DownloadAutomate_f.GetMongoDownloadAutomateManager().GetNextRunDateTime().zTrace();
+DownloadAutomate_f.GetMongoDownloadAutomateManager().SetLastRunDateTime(DateTime.Parse("2015-08-21 05:00:00"));
+DownloadAutomate_f.GetMongoDownloadAutomateManager().SetLastRunDateTime(DateTime.Parse("2015-03-22 00:00:00"));
+DownloadAutomate_f.GetMongoDownloadAutomateManager().SetLastRunDateTime(DateTime.Parse("2015-01-10 00:00:00"));
+DownloadAutomate_f.GetMongoDownloadAutomateManager().SetLastRunDateTime(DateTime.Parse("2015-03-01 00:00:00"));
+DownloadAutomate_f.GetMongoDownloadAutomateManager().SetLastRunDateTime(DateTime.Parse("2014-11-16 00:00:00"));
+DownloadAutomate_f.GetMongoDownloadAutomateManager().SetLastRunDateTime(DateTime.Parse("2014-10-01 12:00:00"));
+DownloadAutomate_f.GetMongoDownloadAutomateManager().SetLastRunDateTime(new DateTime(2014, 9, 13, 20, 0, 0));
+DownloadAutomate_f.GetMongoDownloadAutomateManager().SetLastRunDateTime(new DateTime(2014, 8, 25, 20, 0, 0));
+DownloadAutomate_f.GetMongoDownloadAutomateManager().SetTimeBetweenRun(TimeSpan.FromHours(1));
+DownloadAutomate_f.GetMongoDownloadAutomateManager().SetTimeBetweenRun(TimeSpan.FromMinutes(30));
 
 //*************************************************************************************************************************
 //****                                   Automate mongo
@@ -908,3 +902,11 @@ Trace.WriteLine(RunSource.CurrentRunSource.ProjectFile);
 Trace.WriteLine(RunSource.CurrentRunSource.ProjectDirectory);
 
 RunSource.CurrentRunSource.SetProjectFile("test.project.xml");
+
+Trace.WriteLine("ExportResult {0} ExportDirectory \"{1}\"", HttpManager.CurrentHttpManager.ExportResult, HttpManager.CurrentHttpManager.ExportDirectory);
+HttpManager.CurrentHttpManager.ExportResult = true;
+HttpRun.Load("http://www.telecharger-magazine.com/journaux/3831-journaux-franais-du-17-juillet-2015.html");
+HttpRun.Load("http://www.telecharger-magazine.com/science/4588-pour-la-science-n455-septembre-2015.html");
+
+HtmlRun.Select("//div");
+

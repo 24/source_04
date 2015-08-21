@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+  <!--
+    Data\Mongo\Mongo.cs
+      add :
+        zToJson(), zTraceJson(), zToBsonDocument(), zToBsonDocuments(),
+        zGetDocumentId(this object document)
+        zGetFullName(this MongoDatabase database)
+        zGetFullName(this MongoCollection collection)
+        zGet(this BsonValue value, string name)
+        zSet(this BsonValue value, string name, BsonValue newValue)
+        zRemove(this BsonValue value, string name)
+        zDeserialize<T>(this BsonValue value)
+        zAsString(), ...
+        zSave()
+      dependances :
+        MongoDB.Bson.dll
+        MongoDB.Driver.dll
+  -->
+  <Project>
+    <Root                             value = "..\..\..\..\.." />
+
+    <Using                            value = "pb.Data.Mongo" />
+
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Data\Mongo\Mongo.cs" />
+
+    <!--
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\_pb\Date.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\_pb\NamedValue.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\_pb\TypeView.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Compiler\RunSourceExtension.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Data\DataTable.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Data\FieldList.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Data\Mongo\BsonDocumentsToDataTable.cs" />
+    -->
+
+    <Assembly                         value = "c:\pib\prog\dev\mongodb\driver\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Bson.dll" resolve = "true" resolveName = "MongoDB.Bson, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />
+    <Assembly                         value = "c:\pib\prog\dev\mongodb\driver\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Driver.dll" resolve = "true" resolveName = "MongoDB.Driver, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />
+    
+    <!--
+    <Assembly                         value = "System.Drawing.dll" />
+    <Assembly                         value = "System.Xml.Linq.dll" />
+    
+    -->
+  </Project>
+</configuration>

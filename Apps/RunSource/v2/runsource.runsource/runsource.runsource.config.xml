@@ -29,7 +29,8 @@
     <Language                                  value = "CSharp" />  <!-- CSharp, JScript -->
 <!--<ProviderOption                            name  = "CompilerVersion" value = "v3.5" />-->
 		<ProviderOption                            name  = "CompilerVersion" value = "v4.0" />
-		<ResourceCompiler                          value = "c:\Program Files\Microsoft SDKs\Windows\v7.1\Bin\ResGen.exe"/>
+    <WarningLevel                              value = "4" />
+    <ResourceCompiler                          value = "c:\Program Files\Microsoft SDKs\Windows\v7.1\Bin\ResGen.exe"/>
 	</CompilerDefaultValues>
 	<ProjectDefaultValues> <!-- attention CompilerDefaultValues and ProjectDefaultValues dont work in _local.xml -->
 		<Using                                     value = "System" />

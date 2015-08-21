@@ -41,7 +41,7 @@
   <Source                                    value = "..\..\..\..\Lib\pb\Source\pb\Compiler\CompilerProject.cs" />
   <Source                                    value = "..\..\..\..\Lib\pb\Source\pb\Compiler\GenerateAndExecute.cs" />
   <Source                                    value = "..\..\..\..\Lib\pb\Source\pb\Compiler\GenerateCSharpCode.cs" />
-  <Source                                    value = "..\..\..\..\Lib\pb\Source\pb\Compiler\ICompilerExtension.cs" />
+  <!--<Source                                    value = "..\..\..\..\Lib\pb\Source\pb\Compiler\ICompilerExtension.cs" />-->
   <Source                                    value = "..\..\..\..\Lib\pb\Source\pb\Compiler\RunSource.cs" />
   <Source                                    value = "..\..\..\..\Lib\pb\Source\pb\Data\GClass.cs" />
   <Source                                    value = "..\..\..\..\Lib\pb\Source\pb\Data\Image.cs" />
@@ -60,6 +60,8 @@
   <Source                                    value = "..\..\..\..\Lib\pb\Source\pb\Text\StringZones.cs" />
   <Source                                    value = "..\..\..\..\Lib\pb\Source\pb\Web\Html\HtmlCharCodes.cs" />
   <Source                                    value = "..\..\..\..\Lib\pb\Source\pb\Web\Html\HtmlReader.cs" />
+  <Source                                    value = "..\..\..\..\Lib\pb\Source\pb\Web\Html\HtmlReader_v2.cs" />
+  <Source                                    value = "..\..\..\..\Lib\pb\Source\pb\Web\Html\HtmlReaderBase.cs" />
   <Source                                    value = "..\..\..\..\Lib\pb\Source\pb\Web\Html\HtmlTag.cs" />
   <Source                                    value = "..\..\..\..\Lib\pb\Source\pb\Web\Html\HtmlToXml.cs" />
   <Source                                    value = "..\..\..\..\Lib\pb\Source\pb\Web\Http\Http.cs" />

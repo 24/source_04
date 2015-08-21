@@ -234,6 +234,7 @@ namespace Download.Print
         public Func<DateTime, IEnumerable<IPostToDownload>> GetPostList = null;
         //public GetPostInfoListDelegate GetPostInfoList = null;
         public Func<int, IPostToDownload> LoadPost = null;
+        public Action Backup = null;
     }
 
     public class DownloadAutomateManager

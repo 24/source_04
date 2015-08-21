@@ -43,7 +43,7 @@ namespace runsourced
         private bool _selectTreeViewResult = false;     // true si il faut sélectionner le résultat du TreeView
         private bool _errorResult = false;              // true si le résultat est une liste d'erreurs
         //private bool _newMessage = false;             // true si il y a un nouveau message à afficher
-        private string _sourceFile = null;
+        //private string _sourceFile = null;
         private bool _fileSaved = true;
         private string _sourceFilter = "source files (*.cs)|*.cs|All files (*.*)|*.*";
         private string _progressText = null;
@@ -354,13 +354,12 @@ namespace runsourced
                 case Keys.F5:
                     //if (!e.Alt && !e.Control && !e.Shift)
                     //    Exe(new fExe(RunSource));
-                    if (!e.Alt && !e.Control)
-                    {
-                        if (!e.Shift)
-                            Exe(new fExe(RunSource));
-                        else
-                            Exe(new fExe(RunSourceOnMainThread));
-                    }
+                    if (!e.Alt && !e.Control && !e.Shift)
+                        Exe(new fExe(RunSource));
+                    else if (!e.Alt && !e.Control && e.Shift)
+                        Exe(new fExe(RunSourceOnMainThread));
+                    else if (!e.Alt && e.Control && !e.Shift)
+                        Exe(new fExe(RunSourceWithoutProject));
                     break;
                 //case Keys.Escape:
                 //    if (!e.Alt && !e.Control && !e.Shift && gbThreadExecutionRunning)
@@ -448,6 +447,11 @@ namespace runsourced
             Exe(new fExe(RunSourceOnMainThread));
         }
 
+        private void m_execute_without_project_Click(object sender, EventArgs e)
+        {
+            Exe(new fExe(RunSourceWithoutProject));
+        }
+
         private void m_compile_Click(object sender, EventArgs e)
         {
             Exe(new fExe(CompileSource));
@@ -525,7 +529,7 @@ namespace runsourced
             bool cancel;
             ControlSave(out cancel);
             if (cancel) return;
-            string path = SelectOpenFile(_sourceFile);
+            string path = SelectOpenFile(_runSource.SourceFile);
             if (path != null)
             {
                 OpenSourceFile(path);
@@ -541,9 +545,9 @@ namespace runsourced
         private void Save(out bool bCancel)
         {
             bCancel = false;
-            if (_sourceFile == null)
-                SetSourceFile(SelectSaveFile(_sourceFile));
-            if (_sourceFile == null)
+            if (_runSource.SourceFile == null)
+                SetSourceFile(SelectSaveFile(_runSource.SourceFile));
+            if (_runSource.SourceFile == null)
             {
                 bCancel = true;
                 return;
@@ -556,7 +560,7 @@ namespace runsourced
         {
             string sPath;
 
-            sPath = SelectSaveFile(_sourceFile);
+            sPath = SelectSaveFile(_runSource.SourceFile);
             if (sPath != null)
             {
                 SetSourceFile(sPath);
@@ -568,9 +572,9 @@ namespace runsourced
         {
             try
             {
-                if (_sourceFile != null && zFile.Exists(_sourceFile))
+                if (_runSource.SourceFile != null && zFile.Exists(_runSource.SourceFile))
                     //me_source.Text = zfile.ReadFile(_sourcePath);
-                    tb_source.Text = zfile.ReadAllText(_sourceFile);
+                    tb_source.Text = zfile.ReadAllText(_runSource.SourceFile);
                 else
                     //me_source.Text = "";
                     tb_source.Text = "";
@@ -591,7 +595,7 @@ namespace runsourced
             try
             {
                 //zfile.WriteFile(_sourcePath, me_source.Text);
-                zfile.WriteFile(_sourceFile, tb_source.Text);
+                zfile.WriteFile(_runSource.SourceFile, tb_source.Text);
                 SetFileSaved();
                 return true;
             }
@@ -688,8 +692,8 @@ namespace runsourced
         private void SetFormTitle()
         {
             string title = __title;
-            if (_sourceFile != null)
-                title += " : " + zPath.GetFileName(_sourceFile);
+            if (_runSource.SourceFile != null)
+                title += " : " + zPath.GetFileName(_runSource.SourceFile);
             if (!_fileSaved)
                 title += "*";
             if (_runSource.ProjectFile != null && zFile.Exists(_runSource.ProjectFile))
@@ -706,7 +710,12 @@ namespace runsourced
 
         private void RunSourceOnMainThread()
         {
-            _RunSource(false);
+            _RunSource(useNewThread: false);
+        }
+
+        private void RunSourceWithoutProject()
+        {
+            _RunSource(compileWithoutProject: true);
         }
 
         private void _RunSource(bool useNewThread = true, bool compileWithoutProject = false)
@@ -724,10 +733,10 @@ namespace runsourced
                 return;
             }
 
-            if (_sourceFile != null)
+            if (_runSource.SourceFile != null)
             {
                 //FileInfo file = new FileInfo(_sourceFile);
-                var file = zFile.CreateFileInfo(_sourceFile);
+                var file = zFile.CreateFileInfo(_runSource.SourceFile);
                 if ((file.Attributes & FileAttributes.ReadOnly) == 0)
                     Save();
             }
@@ -747,12 +756,12 @@ namespace runsourced
                 MessageBox.Show("Un programme est déjà en cours d'exécution !", "Compile", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
-            if (_sourceFile == null)
-                SetSourceFile(SelectSaveFile(_sourceFile));
-            if (_sourceFile != null)
+            if (_runSource.SourceFile == null)
+                SetSourceFile(SelectSaveFile(_runSource.SourceFile));
+            if (_runSource.SourceFile != null)
             {
                 //FileInfo file = new FileInfo(_sourceFile);
-                var file = zFile.CreateFileInfo(_sourceFile);
+                var file = zFile.CreateFileInfo(_runSource.SourceFile);
                 if ((file.Attributes & FileAttributes.ReadOnly) == 0)
                     Save();
             }
@@ -902,7 +911,7 @@ namespace runsourced
         {
             if (SetRestartRunsource != null)
                 //SetRestartRunsource(new RunSourceRestartParameters { SourceFile = _sourcePath, SelectionStart = me_source.SelectionStart, SelectionLength = me_source.SelectionLength });
-                SetRestartRunsource(new RunSourceRestartParameters { SourceFile = _sourceFile, SelectionStart = tb_source.Selection.Start, SelectionLength = tb_source.Selection.Length });
+                SetRestartRunsource(new RunSourceRestartParameters { SourceFile = _runSource.SourceFile, SelectionStart = tb_source.Selection.Start, SelectionLength = tb_source.Selection.Length });
             this.Close();
         }
 
@@ -1054,12 +1063,9 @@ namespace runsourced
 
         private void SetSourceFile(string file)
         {
-            _sourceFile = file;
-            //_runSource.SourceDir = zPath.GetDirectoryName(file);
-            //_sourceDirectory = zPath.GetDirectoryName(file);
-            //Directory.SetCurrentDirectory(_runSource.SourceDir);
-            //_runSource.ProjectName = sPathSource;
-            _runSource.SetProjectFile(file);
+            //_sourceFile = file;
+            _runSource.SourceFile = file;
+            _runSource.SetProject(file);
         }
 
         private void TraceWrited(string msg)

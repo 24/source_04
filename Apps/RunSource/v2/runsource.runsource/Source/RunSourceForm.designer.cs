@@ -60,6 +60,7 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.m_execute = new System.Windows.Forms.ToolStripMenuItem();
             this.m_execute_on_main_thread = new System.Windows.Forms.ToolStripMenuItem();
+            this.m_execute_without_project = new System.Windows.Forms.ToolStripMenuItem();
             this.m_compile = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.m_update_runsource = new System.Windows.Forms.ToolStripMenuItem();
@@ -351,6 +352,7 @@
             this.toolStripSeparator1,
             this.m_execute,
             this.m_execute_on_main_thread,
+            this.m_execute_without_project,
             this.m_compile,
             this.toolStripSeparator2,
             this.m_update_runsource,
@@ -408,6 +410,13 @@
             this.m_execute_on_main_thread.Size = new System.Drawing.Size(186, 22);
             this.m_execute_on_main_thread.Text = "Execute on &main thread (shift + F5)";
             this.m_execute_on_main_thread.Click += new System.EventHandler(this.m_execute_on_main_thread_Click);
+            // 
+            // m_execute_without_project
+            // 
+            this.m_execute_without_project.Name = "m_execute_without_project";
+            this.m_execute_without_project.Size = new System.Drawing.Size(186, 22);
+            this.m_execute_without_project.Text = "Execute &without project (ctrl + F5)";
+            this.m_execute_without_project.Click += new System.EventHandler(this.m_execute_without_project_Click);
             // 
             // m_compile
             // 
@@ -545,6 +554,8 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem m_execute;
         private System.Windows.Forms.ToolStripMenuItem m_execute_on_main_thread;
+        private System.Windows.Forms.ToolStripMenuItem m_execute_without_project;
+        private System.Windows.Forms.ToolStripMenuItem m_compile;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripMenuItem m_update_runsource;
         private System.Windows.Forms.ToolStripMenuItem m_compile_runsource;
@@ -558,7 +569,6 @@
         //private System.Windows.Forms.DataGridView grid_result2;
         private System.Windows.Forms.ProgressBar pb_progress_bar;
         private System.Windows.Forms.Label lb_progress_label;
-        private System.Windows.Forms.ToolStripMenuItem m_compile;
         private System.Windows.Forms.TabPage tab_result3;
         private System.Windows.Forms.DataGrid grid_result3;
         private System.Windows.Forms.Button bt_pause;

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using MongoDB.Bson;
 using pb.Linq;
+using pb.Text;
 
 namespace pb.Data.Mongo
 {
@@ -24,13 +25,16 @@ namespace pb.Data.Mongo
     [Flags]
     public enum BsonDocumentComparatorOptions
     {
-        ReturnNotEqualDocuments   = 0x0001,
-        ReturnEqualDocuments      = 0x0002,
-        ReturnAllDocuments        = 0x0003,
-        ResultDocumentsSource     = 0x0004,
-        ResultNotEqualElements    = 0x0010,
-        ResultEqualElements       = 0x0020,
-        ResultAllElements         = 0x0030
+        ReturnNotEqualDocuments             = 0x0001,
+        ReturnEqualDocuments                = 0x0002,
+        ReturnAllDocuments                  = 0x0003,
+        ResultDocumentsSource               = 0x0004,
+        ResultNotEqualElements              = 0x0010,
+        ResultEqualElements                 = 0x0020,
+        ResultAllElements                   = 0x0030,
+        DontSetDocumentReference            = 0x0100,
+        StringComparisonIgnoreCase          = 0x1000,
+        StringComparisonIgnoreWhiteSpace    = 0x2000
     }
 
     public enum DocumentsType
@@ -165,6 +169,10 @@ namespace pb.Data.Mongo
         private bool _allElementsEqual = true;
         private DocumentsType _documentsType;
         private List<ElementResult> _elements = new List<ElementResult>();
+        private bool _dontSetDocumentReference = false;
+        //private bool _useDefaultDocumentReference = false;
+        private IEnumerable<string> _documentReferenceElements1 = null;      // list of reference element from document 1
+        private IEnumerable<string> _documentReferenceElements2 = null;      // list of reference element from document 2
 
         public CompareBsonDocumentsResult(TwoBsonDocuments twoBsonDocuments, BsonDocumentComparatorOptions comparatorOptions)
         {
@@ -182,11 +190,15 @@ namespace pb.Data.Mongo
         }
         public DocumentsType DocumentsType { get { return _documentsType; } set { _documentsType = value; } }
         public List<ElementResult> Elements { get { return _elements; } }
+        public bool DontSetDocumentReference { get { return _dontSetDocumentReference; } set { _dontSetDocumentReference = value; } }
+        public IEnumerable<string> DocumentReferenceElements1 { get { return _documentReferenceElements1; } set { _documentReferenceElements1 = value; } }
+        public IEnumerable<string> DocumentReferenceElements2 { get { return _documentReferenceElements2; } set { _documentReferenceElements2 = value; } }
 
         public BsonDocument GetResultDocument()
         {
-            // key: key
             // result: 'equal' or 'not equal'
+            // key: key
+            // reference { document1: {}, document2: {} }
             // difference: 'name, ...', 'document1 is null', 'document2 is null'
             // elements:
             //   name: { compare: 'equal', value1: value }
@@ -209,8 +221,11 @@ namespace pb.Data.Mongo
                 resultEqualElements = false;
 
             BsonDocument result = new BsonDocument();
-            result.Add("key", _twoBsonDocuments.Key);
             result.Add("result", Equal ? "equal" : "not equal");
+            // if _twoBsonDocuments.Key is null key is not added
+            result.Add("key", _twoBsonDocuments.Key);
+            // if GetReference() is null reference is not added
+            result.Add("reference", GetReference());
             result.Add("difference", "");
 
             BsonDocument elements = null;
@@ -274,6 +289,89 @@ namespace pb.Data.Mongo
             return result;
         }
 
+        private BsonDocument GetReference()
+        {
+            BsonDocument reference = null;
+            if (!_dontSetDocumentReference)
+            {
+                if (_documentReferenceElements1 != null || _documentReferenceElements2 != null)
+                {
+                    reference = new BsonDocument();
+                    if (_documentReferenceElements1 != null)
+                    {
+                        BsonDocument documentReference1 = new BsonDocument();
+                        reference.Add("document1", documentReference1);
+                        if (_twoBsonDocuments.Document1 != null)
+                        {
+                            foreach (string element in _documentReferenceElements1)
+                            {
+                                BsonValue value = _twoBsonDocuments.Document1.zGet(element);
+                                if (value != null)
+                                    documentReference1.zSet(element, value);
+                            }
+                        }
+                        else
+                            documentReference1.Add("error", "document 1 is null");
+                    }
+                    if (_documentReferenceElements2 != null)
+                    {
+                        BsonDocument documentReference2 = new BsonDocument();
+                        reference.Add("document2", documentReference2);
+                        if (_twoBsonDocuments.Document2 != null)
+                        {
+                            foreach (string element in _documentReferenceElements2)
+                            {
+                                BsonValue value = _twoBsonDocuments.Document2.zGet(element);
+                                if (value != null)
+                                    documentReference2.zSet(element, value);
+                            }
+                        }
+                        else
+                            documentReference2.Add("error", "document 2 is null");
+                    }
+                }
+                else
+                {
+                    reference = new BsonDocument();
+                    if (_twoBsonDocuments.Document1 != null)
+                    {
+                        bool first = true;
+                        foreach (BsonElement element in _twoBsonDocuments.Document1)
+                        {
+                            if (element.Value.IsBsonDocument)
+                            {
+                                if (first)
+                                    //reference.Add(element);
+                                    reference = element.Value.AsBsonDocument;
+                                break;
+                            }
+                            reference.Add(element);
+                            first = false;
+                        }
+                    }
+                    else if (_twoBsonDocuments.Document2 != null)
+                    {
+                        bool first = true;
+                        foreach (BsonElement element in _twoBsonDocuments.Document2)
+                        {
+                            if (element.Value.IsBsonDocument)
+                            {
+                                if (first)
+                                    //reference.Add(element);
+                                    reference = element.Value.AsBsonDocument;
+                                break;
+                            }
+                            reference.Add(element);
+                            first = false;
+                        }
+                    }
+                    else
+                        reference.Add("error", "document 1 and document 2 are null");
+                }
+            }
+            return reference;
+        }
+
         public void AddElement(string name, CompareElementResult compareResult, BsonValue value1 = null, BsonValue value2 = null)
         {
             _elements.Add(new ElementResult { Name = name, CompareResult = compareResult, Value1 = value1, Value2 = value2 });
@@ -288,14 +386,22 @@ namespace pb.Data.Mongo
         private EnumerateElementsOptions _enumerateElementsOptions = EnumerateElementsOptions.None;
         private Dictionary<string, string> _elementsToCompare = null;
         private EnumerateElements _enumerateElements = null;
+        private bool _dontSetDocumentReference = false;
+        //private bool _useDefaultDocumentReference = false;
+        private IEnumerable<string> _documentReferenceElements1 = null;      // list of reference element from document 1
+        private IEnumerable<string> _documentReferenceElements2 = null;      // list of reference element from document 2
 
         private bool _returnNotEqualDocuments = false;
         private bool _returnEqualDocuments = false;
+        private bool _stringComparisonIgnoreCase = false;
+        private bool _stringComparisonIgnoreWhiteSpace = false;
 
         public BsonDocumentComparator()
         {
             SetComparatorOptions(BsonDocumentComparatorOptions.ReturnNotEqualDocuments | BsonDocumentComparatorOptions.ResultNotEqualElements);
         }
+
+        public bool DontSetDocumentReference { get { return _dontSetDocumentReference; } set { _dontSetDocumentReference = value; } }
 
         public void SetComparatorOptions(BsonDocumentComparatorOptions options)
         {
@@ -310,6 +416,21 @@ namespace pb.Data.Mongo
                 _returnEqualDocuments = true;
             else
                 _returnEqualDocuments = false;
+
+            if ((options & BsonDocumentComparatorOptions.DontSetDocumentReference) == BsonDocumentComparatorOptions.DontSetDocumentReference)
+                _dontSetDocumentReference = true;
+            else
+                _dontSetDocumentReference = false;
+
+            if ((options & BsonDocumentComparatorOptions.StringComparisonIgnoreCase) == BsonDocumentComparatorOptions.StringComparisonIgnoreCase)
+                _stringComparisonIgnoreCase = true;
+            else
+                _stringComparisonIgnoreCase = false;
+
+            if ((options & BsonDocumentComparatorOptions.StringComparisonIgnoreWhiteSpace) == BsonDocumentComparatorOptions.StringComparisonIgnoreWhiteSpace)
+                _stringComparisonIgnoreWhiteSpace = true;
+            else
+                _stringComparisonIgnoreWhiteSpace = false;
         }
 
         public void SetEnumerateElementsOptions(EnumerateElementsOptions enumerateElementsOptions)
@@ -324,6 +445,29 @@ namespace pb.Data.Mongo
             _elementsToCompare = new Dictionary<string, string>();
             foreach (string name in elementsToCompare)
                 _elementsToCompare.Add(name, null);
+        }
+
+        public void SetDocumentReference(IEnumerable<string> elements)
+        {
+            if (elements != null)
+            {
+                List<string> documentReferenceElements1 = new List<string>();
+                List<string> documentReferenceElements2 = new List<string>();
+                // each element name must start with document1. or document2.
+                foreach (string element in elements)
+                {
+                    if (element.StartsWith("document1."))
+                        documentReferenceElements1.Add(element.Substring(10));
+                    else if (element.StartsWith("document2."))
+                        documentReferenceElements2.Add(element.Substring(10));
+                    else
+                        throw new PBException("document reference must start with document1. or document2. : \"{0}\"", element);
+                }
+                if (documentReferenceElements1.Count > 0)
+                    _documentReferenceElements1 = documentReferenceElements1;
+                if (documentReferenceElements2.Count > 0)
+                    _documentReferenceElements2 = documentReferenceElements2;
+            }
         }
 
         public IEnumerable<CompareBsonDocumentsResult> Compare(IEnumerable<TwoBsonDocuments> twoBsonDocumentsList)
@@ -343,6 +487,9 @@ namespace pb.Data.Mongo
             BsonDocument document2 = twoBsonDocuments.Document2;
 
             CompareBsonDocumentsResult result = new CompareBsonDocumentsResult(twoBsonDocuments, _comparatorOptions);
+            result.DontSetDocumentReference = _dontSetDocumentReference;
+            result.DocumentReferenceElements1 = _documentReferenceElements1;
+            result.DocumentReferenceElements2 = _documentReferenceElements2;
             if (document1 == null && document2 == null)
                 result.DocumentsType = DocumentsType.Document1AndDocument2AreNull;
             else if (document1 == null)
@@ -357,7 +504,25 @@ namespace pb.Data.Mongo
                     CompareElementResult compareElements;
                     if (twoDocElement.Value1 != null && twoDocElement.Value2 != null)
                     {
-                        if (twoDocElement.Value1 == twoDocElement.Value2)
+                        //if (twoDocElement.Value1.IsString && twoDocElement.Value2.IsString)
+                        //{
+                        //    if (_stringComparisonIgnoreWhiteSpace)
+                        //    {
+                        //    }
+
+                        //}
+                        //if (_stringComparisonIgnoreCase && twoDocElement.Value1.IsString && twoDocElement.Value2.IsString)
+                        //{
+                        //    if (string.Equals(twoDocElement.Value1.AsString, twoDocElement.Value2.AsString, StringComparison.InvariantCultureIgnoreCase))
+                        //        compareElements = CompareElementResult.Equal;
+                        //    else
+                        //        compareElements = CompareElementResult.NotEqual;
+                        //}
+                        //else if (twoDocElement.Value1 == twoDocElement.Value2)
+                        //    compareElements = CompareElementResult.Equal;
+                        //else
+                        //    compareElements = CompareElementResult.NotEqual;
+                        if (Equals(twoDocElement.Value1, twoDocElement.Value2))
                             compareElements = CompareElementResult.Equal;
                         else
                             compareElements = CompareElementResult.NotEqual;
@@ -370,6 +535,19 @@ namespace pb.Data.Mongo
                 }
             }
             return result;
+        }
+
+        private bool Equals(BsonValue value1, BsonValue value2)
+        {
+            if (value1.IsString && value2.IsString)
+            {
+                if (_stringComparisonIgnoreWhiteSpace)
+                    return StringCompare.EqualsIgnoreWhiteSpace(value1.AsString, value2.AsString, _stringComparisonIgnoreCase);
+
+                if (_stringComparisonIgnoreCase)
+                    return string.Equals(value1.AsString, value2.AsString, StringComparison.InvariantCultureIgnoreCase);
+            }
+            return value1 == value2;
         }
 
         private IEnumerable<TwoBsonDocumentsElement> EnumerateTwoBsonDocumentsElements(BsonDocument document1, BsonDocument document2)
@@ -427,7 +605,7 @@ namespace pb.Data.Mongo
 
         public static IEnumerable<CompareBsonDocumentsResult> CompareBsonDocumentFiles(string file1, string file2,
             BsonDocumentComparatorOptions comparatorOptions = BsonDocumentComparatorOptions.ReturnNotEqualDocuments, EnumerateElementsOptions enumerateElementsOptions = EnumerateElementsOptions.None,
-            IEnumerable<string> elementsToCompare = null)
+            IEnumerable<string> elementsToCompare = null, IEnumerable<string> documentReference = null)
         {
             var query = EnumarateTwoBsonDocumentsList(zmongo.BsonReader<BsonDocument>(file1), zmongo.BsonReader<BsonDocument>(file2));
 
@@ -435,6 +613,7 @@ namespace pb.Data.Mongo
             comparator.SetComparatorOptions(comparatorOptions);
             comparator.SetEnumerateElementsOptions(enumerateElementsOptions);
             comparator.SetElementsToCompare(elementsToCompare);
+            comparator.SetDocumentReference(documentReference);
             return comparator.Compare(query);
         }
 

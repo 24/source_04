@@ -29,7 +29,11 @@ using pb.IO;
  * <GenerateExecutable                        value = "" />
  * <GenerateInMemory                          value = "" />
  * <DebugInformation                          value = "" />
+ * <WarningLevel                              value = "" />              Gets or sets the warning level at which the compiler aborts compilation. FAUX marche comme /warn:option
  * <CompilerOptions                           value = "" />              http://msdn.microsoft.com/en-us/library/2fdbz5xd.aspx   /define:DEBUG;TRACE
+ *   /warn:option 0 Désactive l'émission de tous les messages d'avertissement, 1 Affiche les messages d'avertissement grave, 2 Affiche les avertissements de niveau 1 ainsi que quelques avertissements moins graves,
+ *                2 Affiche les avertissements de niveau 2 ainsi que quelques avertissements moins graves, 4 Affiche tous les avertissements de niveau 3 plus les avertissements d'information
+ * <IncludeProject                            value = "" />
  * ...
  * <Source                                    value = "" [namespace = ""] />
  * ...
@@ -62,9 +66,11 @@ namespace pb.Compiler
         public static int TraceLevel = 1;
 
         private string _defaultDir = null;
-        private List<CompilerFile> _sourceList = new List<CompilerFile>();
+        //private List<CompilerFile> _sourceList = new List<CompilerFile>();
+        private Dictionary<string, CompilerFile> _sourceList = new Dictionary<string, CompilerFile>();
         private CompilerFile _appConfig = null;
-        private List<CompilerFile> _fileList = new List<CompilerFile>();
+        //private List<CompilerFile> _fileList = new List<CompilerFile>();
+        private Dictionary<string, CompilerFile> _fileList = new Dictionary<string, CompilerFile>();
         private Dictionary<string, CompilerAssembly> _assemblyList = new Dictionary<string, CompilerAssembly>();
         private string _language = null;           // CSharp, JScript
         private Dictionary<string, string> _providerOption = new Dictionary<string, string>();
@@ -88,28 +94,23 @@ namespace pb.Compiler
         }
 
         public string DefaultDir { get { return _defaultDir; } set { _defaultDir = value; } }
-        public IEnumerable<CompilerFile> SourceList { get { return _sourceList; } }  // set { _sourceList = value; }
-        public IEnumerable<CompilerFile> FileList { get { return _fileList; } }  //  set { _fileList = value; }
-        //public Dictionary<string, CompilerAssembly> AssemblyList { get { return _assemblyList; } set { _assemblyList = value; } }
+        public IEnumerable<CompilerFile> SourceList { get { return _sourceList.Values; } }
+        public IEnumerable<CompilerFile> FileList { get { return _fileList.Values; } }
         public IEnumerable<CompilerAssembly> AssemblyList { get { return _assemblyList.Values; } }
         public string Language { get { return _language; } set { _language = value; } }
-        public Dictionary<string, string> ProviderOption { get { return _providerOption; } }  // set { _providerOption = value; }
+        public Dictionary<string, string> ProviderOption { get { return _providerOption; } }
         public string ResourceCompiler { get { return _resourceCompiler; } set { _resourceCompiler = value; } }
         public bool GenerateInMemory { get { return _generateInMemory; } set { _generateInMemory = value; } }
         public bool GenerateExecutable { get { return _generateExecutable; } set { _generateExecutable = value; } }
         public bool DebugInformation { get { return _debugInformation; } set { _debugInformation = value; } }
         public int WarningLevel { get { return _warningLevel; } set { _warningLevel = value; } }
         public string OutputDir { get { return _outputDir; } set { _outputDir = value; } }
-        //public string FinalOutputDir { get { SetFinalOutputAssembly(); return _finalOutputDir; } }
         public string OutputAssembly { get { return _outputAssembly; } set { _outputAssembly = value; } }
-        //public string FinalOutputAssembly { get { SetFinalOutputAssembly(); return _finalOutputAssembly; } }
-        //public string CompiledAssemblyPath { get { if (_results != null) return _results.PathToAssembly; else return null; } }
         public string CompilerOptions { get { return _compilerOptions; } set { _compilerOptions = value; } }
         public ResourceCompilerResults ResourceResults { get { return _resourceResults; } }
         public CompilerResults Results { get { return _results; } }
         public IEnumerable<string> CopyOutputDirectories { get { return _copyOutputDirectories; } }
 
-        //public bool HasError { get { if ((_results != null && _results.Errors.HasErrors) || _resourceResults.HasError) return true; else return false; } }
         public bool HasError()
         {
             if ((_results != null && _results.Errors.HasErrors) || _resourceResults.HasError)
@@ -118,112 +119,119 @@ namespace pb.Compiler
                 return false;
         }
 
-        //public void SetCompilerParameters(string xmlFile)
-        //{
-        //    XDocument xd = XDocument.Load(xmlFile);
-        //    SetCompilerParameters(xd.Root);
-        //}
-
-        //public void SetCompilerParameters(XmlConfig config, string sXPathParameter)
-        //{
-        //    bool bDefaultDir = false;
-        //    if (gsDefaultDir != null) bDefaultDir = true;
-        //    if (!bDefaultDir) gsDefaultDir = zPath.GetDirectoryName(config.ConfigPath);
-        //    SetCompilerParameters(config.XDocument.Root.XPathSelectElement(sXPathParameter));
-        //    if (!bDefaultDir) gsDefaultDir = zPath.GetDirectoryName(config.ConfigLocalPath);
-        //    SetCompilerParameters(config.LocalXDocument.Root.XPathSelectElement(sXPathParameter));
-        //    if (!bDefaultDir) gsDefaultDir = null;
-        //}
-
-        //public void SetCompilerParameters(XElement xe)
-        //{
-        //    _outputDir = xe.zXPathValue("OutputDir", _outputDir);
-        //    _outputAssembly = xe.zXPathValue("Output", _outputAssembly);
-        //    string s = zPath.GetExtension(_outputAssembly);
-        //    if (s != null)
-        //    {
-        //        if (s.ToLower() == ".exe")
-        //            _generateExecutable = true;
-        //        else if (s.ToLower() == ".dll")
-        //            _generateExecutable = false;
-        //    }
-        //    _generateExecutable = xe.zXPathValue("GenerateExecutable").zTryParseAs(_generateExecutable);
-        //    _generateInMemory = xe.zXPathValue("GenerateInMemory").zTryParseAs(_generateInMemory);
-        //    _debugInformation = xe.zXPathValue("DebugInformation").zTryParseAs(_debugInformation);
-        //    _warningLevel = xe.zXPathValue("WarningLevel").zTryParseAs<int>(_warningLevel);
-        //    AddCompilerOptions(xe.zXPathValues("CompilerOptions"));
-        //    string sKeyfile = xe.zXPathValue("KeyFile");
-        //    if (sKeyfile != null)
-        //        AddCompilerOption("/keyfile:\"" + zpath.PathMakeRooted(sKeyfile, _defaultDir) + "\"");
-        //    string sTarget = xe.zXPathValue("Target");
-        //    if (sTarget != null)
-        //        AddCompilerOption("/target:" + sTarget);
-        //    string sIcon = xe.zXPathValue("Icon");
-        //    if (sIcon != null)
-        //        AddCompilerOption("/win32icon:" + zpath.PathMakeRooted(sIcon, _defaultDir));
-        //    if (xe != null)
-        //        AddSources(xe.Elements("Source"));
-        //    AddFiles(_fileList, xe.zXPathElements("File"), _defaultDir);
-        //    AddAssemblies(xe.zXPathElements("Assembly"));
-        //    AddLocalAssemblies(xe.zXPathElements("LocalAssembly"));
-
-        //    _language = xe.zXPathValue("Language", _language);
-        //    foreach (XElement xe2 in xe.zXPathElements("ProviderOption"))
-        //        SetProviderOption(xe2.zAttribValue("name"), xe2.zAttribValue("value"));
-        //    s = xe.zXPathValue("ResourceCompiler");
-        //    if (s != null)
-        //        _resourceCompiler = s;
-
-        //    AddCopyOutputDirectories(xe.zXPathValues("CopyOutput"));
-        //}
-
-        //public void SetCompilerParameters(XmlConfigElement xe)
-        //{
-        //    _outputDir = xe.Get("OutputDir", _outputDir);
-        //    _outputAssembly = xe.Get("Output", _outputAssembly);
-        //    string s = zPath.GetExtension(_outputAssembly);
-        //    if (s != null)
-        //    {
-        //        if (s.ToLower() == ".exe")
-        //            _generateExecutable = true;
-        //        else if (s.ToLower() == ".dll")
-        //            _generateExecutable = false;
-        //    }
-        //    _generateExecutable = xe.Get("GenerateExecutable").zTryParseAs(_generateExecutable);
-        //    _generateInMemory = xe.Get("GenerateInMemory").zTryParseAs(_generateInMemory);
-        //    _debugInformation = xe.Get("DebugInformation").zTryParseAs(_debugInformation);
-        //    _warningLevel = xe.Get("WarningLevel").zTryParseAs<int>(_warningLevel);
-        //    AddCompilerOptions(xe.GetValues("CompilerOptions"));
-        //    string keyfile = xe.Get("KeyFile");
-        //    if (keyfile != null)
-        //        AddCompilerOption("/keyfile:\"" + zpath.PathMakeRooted(keyfile, _defaultDir) + "\"");
-        //    string target = xe.Get("Target");
-        //    if (target != null)
-        //        AddCompilerOption("/target:" + target);
-        //    string icon = xe.Get("Icon");
-        //    if (icon != null)
-        //        AddCompilerOption("/win32icon:" + zpath.PathMakeRooted(icon, _defaultDir));
-        //    if (xe != null)
-        //        AddSources(xe.GetElements("Source"));
-        //    AddFiles(_fileList, xe.GetElements("File"), _defaultDir);
-        //    AddAssemblies(xe.GetElements("Assembly"));
-        //    AddLocalAssemblies(xe.GetElements("LocalAssembly"));
-
-        //    _language = xe.Get("Language", _language);
-        //    foreach (XElement xe2 in xe.GetElements("ProviderOption"))
-        //        SetProviderOption(xe2.zAttribValue("name"), xe2.zAttribValue("value"));
-        //    s = xe.Get("ResourceCompiler");
-        //    if (s != null)
-        //        _resourceCompiler = s;
-
-        //    AddCopyOutputDirectories(xe.GetValues("CopyOutput"));
-        //}
-
-        public void SetProviderOption(string name, string value)
+        public void SetParameters(ICompilerProject project, bool includeProject = false)
         {
-            if (_providerOption.ContainsKey(name)) _providerOption.Remove(name);
-            _providerOption.Add(name, value);
+            if (project == null)
+                return;
+            if (!includeProject)
+            {
+                //compiler.Language = xe.Get("Language", compiler.Language);
+                string s = project.GetLanguage();
+                if (s != null)
+                    _language = s;
+
+                //foreach (XElement xe2 in xe.GetElements("ProviderOption"))
+                //    compiler.SetProviderOption(xe2.zAttribValue("name"), xe2.zAttribValue("value"));
+                SetProviderOptions(project.GetProviderOptions());
+
+                //compiler.ResourceCompiler = xe.Get("ResourceCompiler", compiler.ResourceCompiler);
+                s = project.GetResourceCompiler();
+                if (s != null)
+                    _resourceCompiler = s;
+
+                //compiler.OutputDir = xe.Get("OutputDir", compiler.OutputDir);
+                s = project.GetOutputDir();
+                if (s != null)
+                    _outputDir = s;
+
+                //compiler.OutputAssembly = xe.Get("Output", compiler.OutputAssembly);
+                s = project.GetOutput();
+                if (s != null)
+                    _outputAssembly = s;
+                string ext = zPath.GetExtension(_outputAssembly);
+                if (ext != null)
+                {
+                    if (ext.ToLower() == ".exe")
+                        _generateExecutable = true;
+                    else if (ext.ToLower() == ".dll")
+                        _generateExecutable = false;
+                }
+
+                //compiler.GenerateExecutable = xe.Get("GenerateExecutable").zTryParseAs(compiler.GenerateExecutable);
+                bool? b = project.GetGenerateExecutable();
+                if (b != null)
+                    _generateExecutable = (bool)b;
+
+                //compiler.GenerateInMemory = xe.Get("GenerateInMemory").zTryParseAs(compiler.GenerateInMemory);
+                b = project.GetGenerateInMemory();
+                if (b != null)
+                    _generateInMemory = (bool)b;
+
+                //compiler.DebugInformation = xe.Get("DebugInformation").zTryParseAs(compiler.DebugInformation);
+                b = project.GetDebugInformation();
+                if (b != null)
+                    _debugInformation = (bool)b;
+
+                //compiler.WarningLevel = xe.Get("WarningLevel").zTryParseAs<int>(compiler.WarningLevel);
+                int? i = project.GetWarningLevel();
+                if (i != null)
+                    _warningLevel = (int)i;
+
+                //compiler.AddCompilerOptions(xe.GetValues("CompilerOptions"));
+                AddCompilerOptions(project.GetCompilerOptions());
+
+                //string keyfile = xe.Get("KeyFile");
+                s = project.GetKeyFile();
+                if (s != null)
+                    AddCompilerOption("/keyfile:\"" + s + "\"");
+
+                //string target = xe.Get("Target");
+                s = project.GetTarget();
+                if (s != null)
+                    AddCompilerOption("/target:" + s);
+
+                //string icon = xe.Get("Icon");
+                s = project.GetIcon();
+                if (s != null)
+                    //AddCompilerOption("/win32icon:" + s);
+                    AddCompilerOption("/win32icon:\"" + s + "\"");
+            }
+
+            foreach (ICompilerProject project2 in project.GetIncludeProjects())
+            {
+                SetParameters(project2, includeProject: true);
+            }
+
+            //compiler.AddSources(xe.GetElements("Source"));
+            AddSources(project.GetSources());
+
+            //compiler.AddFiles(xe.GetElements("File"));  // compiler.DefaultDir
+            AddFiles(project.GetFiles());
+
+            //compiler.AddAssemblies(xe.GetElements("Assembly"));
+            AddAssemblies(project.GetAssemblies());
+
+            //compiler.AddLocalAssemblies(xe.GetElements("LocalAssembly"));
+
+            //compiler.AddCopyOutputDirectories(xe.GetValues("CopyOutput"));
+            AddCopyOutputDirectories(project.GetCopyOutputs());
         }
+
+        public void SetProviderOptions(IEnumerable<CompilerProviderOption> options)
+        {
+            foreach (CompilerProviderOption option in options)
+            {
+                if (_providerOption.ContainsKey(option.Name))
+                    _providerOption.Remove(option.Name);
+                _providerOption.Add(option.Name, option.Value);
+            }
+        }
+
+        //public void SetProviderOption(string name, string value)
+        //{
+        //    if (_providerOption.ContainsKey(name)) _providerOption.Remove(name);
+        //    _providerOption.Add(name, value);
+        //}
 
         //public void AddCompilerOptions(string[] options)
         public void AddCompilerOptions(IEnumerable<string> options)
@@ -241,112 +249,145 @@ namespace pb.Compiler
                 _compilerOptions = option;
         }
 
-        //public void AddSources(string[] sources)
-        public void AddSources(IEnumerable<string> sources)
+        //public void AddSources(IEnumerable<string> sources)
+        //{
+        //    AddFiles(_sourceList, sources, _defaultDir);
+        //}
+
+        public void AddSources(IEnumerable<CompilerFile> sources)
         {
-            AddFiles(_sourceList, sources, _defaultDir);
+            //_sourceList.AddRange(sources);
+            foreach (CompilerFile source in sources)
+                AddSource(source);
         }
 
-        public void AddSources(IEnumerable<XElement> sources)
+        public void AddSource(CompilerFile source)
         {
-            AddFiles(_sourceList, sources, _defaultDir);
+            if (!_sourceList.ContainsKey(source.File))
+                _sourceList.Add(source.File, source);
         }
 
-        public void AddSource(string source)
-        {
-            AddFile(_sourceList, source, _defaultDir);
-        }
+        //public void AddSources(IEnumerable<XElement> sources)
+        //{
+        //    AddFiles(_sourceList, sources, _defaultDir);
+        //}
 
-        public void AddFile(string file, string dir)
-        {
-            AddFile(_fileList, file, dir);
-        }
+        //public void AddSource(string source)
+        //{
+        //    AddFile(_sourceList, source, _defaultDir);
+        //}
 
-        public void AddFiles(IEnumerable<XElement> files, string dir = null)
-        {
-            AddFiles(_fileList, files, dir);
-        }
+        //public void AddFile(string file, string dir)
+        //{
+        //    AddFile(_fileList, file, dir);
+        //}
 
-        //private void AddFiles(List<CompilerFile> list, string[] files, string dir)
-        private void AddFiles(List<CompilerFile> list, IEnumerable<string> files, string dir)
+        public void AddFiles(IEnumerable<CompilerFile> files)
         {
-            foreach (string file in files)
-                AddFile(list, file, dir);
-        }
-
-        private void AddFiles(List<CompilerFile> list, IEnumerable<XElement> files, string dir = null)
-        {
-            foreach (XElement file in files)
-                AddFile(list, file, dir);
-        }
-
-        private void AddFile(List<CompilerFile> list, string file, string dir)
-        {
-            list.Add(new CompilerFile(file.zRootPath(dir)));
-        }
-
-        private void AddFile(List<CompilerFile> list, XElement xeFile, string dir = null)
-        {
-            string file = xeFile.Attribute("value").Value;
-            if (dir == null)
-                dir = _defaultDir;
-            if (dir != null)
-                file = file.zRootPath(dir);
-            CompilerFile cf = new CompilerFile(file);
-            foreach (XAttribute xa in xeFile.Attributes())
+            //_fileList.AddRange(files);
+            foreach (CompilerFile file in files)
             {
-                if (xa.Name != "value")
-                    cf.Attributes.Add(xa.Name.LocalName, xa.Value);
-            }
-            list.Add(cf);
-        }
-
-        public void AddAssemblies(IEnumerable<XElement> assemblies)
-        {
-            foreach (XElement assembly in assemblies)
-            {
-                //bool resolve = assembly.zAttribValueBool("resolve", false);
-                bool resolve = assembly.zAttribValue("resolve").zTryParseAs<bool>(false);
-                string resolveName = assembly.zAttribValue("resolveName");
-                if (resolve && resolveName == null)
-                    throw new PBException("error to resolve an assembly you must specify a resolveName (\"Test_dll, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null\")");
-                AddAssembly(assembly.zAttribValue("value"), resolve, resolveName);
+                if (!_fileList.ContainsKey(file.File))
+                    _fileList.Add(file.File, file);
             }
         }
 
-        public void AddAssembly(string assembly, bool resolve = false, string resolveName = null)
+        //public void AddFiles(IEnumerable<XElement> files, string dir = null)
+        //{
+        //    AddFiles(_fileList, files, dir);
+        //}
+
+        //private void AddFiles(List<CompilerFile> list, IEnumerable<string> files, string dir)
+        //{
+        //    foreach (string file in files)
+        //        AddFile(list, file, dir);
+        //}
+
+        //private void AddFiles(List<CompilerFile> list, IEnumerable<XElement> files, string dir = null)
+        //{
+        //    foreach (XElement file in files)
+        //        AddFile(list, file, dir);
+        //}
+
+        //private void AddFile(List<CompilerFile> list, string file, string dir)
+        //{
+        //    list.Add(new CompilerFile(file.zRootPath(dir)));
+        //}
+
+        //private void AddFile(List<CompilerFile> list, XElement xeFile, string dir = null)
+        //{
+        //    string file = xeFile.Attribute("value").Value;
+        //    if (dir == null)
+        //        dir = _defaultDir;
+        //    if (dir != null)
+        //        file = file.zRootPath(dir);
+        //    CompilerFile cf = new CompilerFile(file);
+        //    foreach (XAttribute xa in xeFile.Attributes())
+        //    {
+        //        if (xa.Name != "value")
+        //            cf.Attributes.Add(xa.Name.LocalName, xa.Value);
+        //    }
+        //    list.Add(cf);
+        //}
+
+        //public void AddAssemblies(IEnumerable<XElement> assemblies)
+        //{
+        //    foreach (XElement assembly in assemblies)
+        //    {
+        //        //bool resolve = assembly.zAttribValueBool("resolve", false);
+        //        bool resolve = assembly.zAttribValue("resolve").zTryParseAs<bool>(false);
+        //        string resolveName = assembly.zAttribValue("resolveName");
+        //        if (resolve && resolveName == null)
+        //            throw new PBException("error to resolve an assembly you must specify a resolveName (\"Test_dll, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null\")");
+        //        AddAssembly(assembly.zAttribValue("value"), resolve, resolveName);
+        //    }
+        //}
+
+        //public void AddAssembly(string assembly, bool resolve = false, string resolveName = null)
+        //{
+        //    // sert a ajouter les assembly sans path : System.dll, System.Data.dll
+        //    string dir = zPath.GetDirectoryName(assembly);
+        //    //if (dir != "" && !zPath.IsPathRooted(assembly))
+        //    //    assembly = zPath.Combine(_defaultDir, assembly);
+        //    if (dir != "")
+        //        assembly = assembly.zRootPath(_defaultDir);
+        //    ////WriteLine(1, "  Add assembly          \"{0}\" resolve {1} dir {2}", assembly, resolve, dir);
+        //    if (!_assemblyList.ContainsKey(assembly))
+        //        _assemblyList.Add(assembly, new CompilerAssembly(assembly, resolve, resolveName));
+        //}
+
+        public void AddAssemblies(IEnumerable<CompilerAssembly> assemblies)
         {
-            // sert a ajouter les assembly sans path : System.dll, System.Data.dll
-            string dir = zPath.GetDirectoryName(assembly);
-            //if (dir != "" && !zPath.IsPathRooted(assembly))
-            //    assembly = zPath.Combine(_defaultDir, assembly);
-            if (dir != "")
-                assembly = assembly.zRootPath(_defaultDir);
-            ////WriteLine(1, "  Add assembly          \"{0}\" resolve {1} dir {2}", assembly, resolve, dir);
-            if (!_assemblyList.ContainsKey(assembly))
-                _assemblyList.Add(assembly, new CompilerAssembly(assembly, resolve, resolveName));
+            foreach (CompilerAssembly assembly in assemblies)
+                AddAssembly(assembly);
         }
 
-        public void AddLocalAssemblies(IEnumerable<XElement> assemblies)
+        public void AddAssembly(CompilerAssembly assembly)
         {
-            foreach (XElement assembly in assemblies)
-            {
-                //bool resolve = assembly.zAttribValueBool("resolve", false);
-                bool resolve = assembly.zAttribValue("resolve").zTryParseAs<bool>(false);
-                string resolveName = assembly.zAttribValue("resolveName");
-                if (resolve && resolveName == null)
-                    throw new PBException("error to resolve an assembly you must specify a resolveName (\"Test_dll, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null\")");
-                AddLocalAssembly(assembly.zAttribValue("value"), resolve, resolveName);
-            }
+            if (!_assemblyList.ContainsKey(assembly.File))
+                _assemblyList.Add(assembly.File, assembly);
         }
 
-        public void AddLocalAssembly(string assembly, bool resolve = false, string resolveName = null)
-        {
-            assembly = assembly.zRootPath(_defaultDir);
-            if (!zFile.Exists(assembly))
-                return;
-            AddAssembly(assembly, resolve, resolveName);
-        }
+        //public void AddLocalAssemblies(IEnumerable<XElement> assemblies)
+        //{
+        //    foreach (XElement assembly in assemblies)
+        //    {
+        //        //bool resolve = assembly.zAttribValueBool("resolve", false);
+        //        bool resolve = assembly.zAttribValue("resolve").zTryParseAs<bool>(false);
+        //        string resolveName = assembly.zAttribValue("resolveName");
+        //        if (resolve && resolveName == null)
+        //            throw new PBException("error to resolve an assembly you must specify a resolveName (\"Test_dll, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null\")");
+        //        AddLocalAssembly(assembly.zAttribValue("value"), resolve, resolveName);
+        //    }
+        //}
+
+        //public void AddLocalAssembly(string assembly, bool resolve = false, string resolveName = null)
+        //{
+        //    assembly = assembly.zRootPath(_defaultDir);
+        //    if (!zFile.Exists(assembly))
+        //        return;
+        //    AddAssembly(assembly, resolve, resolveName);
+        //}
 
         public void AddCopyOutputDirectories(IEnumerable<string> directories)
         {
@@ -378,7 +419,8 @@ namespace pb.Compiler
 
         public void Compile()
         {
-            if (!_generateInMemory && _outputAssembly == null) throw new CompilerException("error output assembly is not defined");
+            if (!_generateInMemory && _outputAssembly == null)
+                throw new CompilerException("output assembly is not defined");
             SetFinalOutputAssembly();
             if (_finalOutputDir != null)
                 zDirectory.CreateDirectory(_finalOutputDir);
@@ -488,7 +530,8 @@ namespace pb.Compiler
             //string sOutputDir = null;
             _finalOutputDir = null;
             if (_outputDir != null)
-                _finalOutputDir = _outputDir.zRootPath(_defaultDir);
+                //_finalOutputDir = _outputDir.zRootPath(_defaultDir);
+                _finalOutputDir = _outputDir;
             else if (_finalOutputAssembly != null)
             {
                 string sDir = zPath.GetDirectoryName(_finalOutputAssembly);
@@ -510,7 +553,7 @@ namespace pb.Compiler
         private CompilerFile GetCompilerFileName(string filename)
         {
             filename = filename.ToLower();
-            foreach (CompilerFile source in _sourceList)
+            foreach (CompilerFile source in _sourceList.Values)
             {
                 string filename2 = zPath.GetFileName(source.File).ToLower();
                 if (filename == filename2)
@@ -524,7 +567,7 @@ namespace pb.Compiler
             List<CompilerFile> SourcesList = new List<CompilerFile>();
             for (int i = 0; i < types.Length; i++)
                 types[i] = types[i].ToLower();
-            foreach (CompilerFile source in _sourceList)
+            foreach (CompilerFile source in _sourceList.Values)
             {
                 string ext = zPath.GetExtension(source.File).ToLower();
                 foreach (string type in types)
@@ -541,12 +584,13 @@ namespace pb.Compiler
             List<string> SourcesList = new List<string>();
             for (int i = 0; i < types.Length; i++)
                 types[i] = types[i].ToLower();
-            foreach (CompilerFile source in _sourceList)
+            foreach (CompilerFile source in _sourceList.Values)
             {
                 string ext = zPath.GetExtension(source.File).ToLower();
                 foreach (string type in types)
                 {
-                    if (ext == type) SourcesList.Add(source.File);
+                    if (ext == type)
+                        SourcesList.Add(source.File);
                 }
             }
             return SourcesList.ToArray();
@@ -724,7 +768,6 @@ namespace pb.Compiler
         //    return copiedFiles;
         //}
 
-        //public string[] CompileResources(CompilerFile[] resources, string outputDir)
         public string[] CompileResources(CompilerFile[] resources)
         {
             string outputDir = zPath.Combine(_finalOutputDir, _CompileResourceSubDirectory);
@@ -783,9 +826,11 @@ namespace pb.Compiler
             string nameSpace = null;
             //int i = resource.Attributes.IndexOfKey("namespace");
             //if (i != -1) nameSpace = resource.Attributes.Values[i];
-            if (resource.Attributes.ContainsKey("namespace")) nameSpace = resource.Attributes["namespace"];
+            if (resource.Attributes.ContainsKey("namespace"))
+                nameSpace = resource.Attributes["namespace"];
             string sPathCompiledResource = resourceFilename + ".resources";
-            if (nameSpace != null) sPathCompiledResource = nameSpace + "." + sPathCompiledResource;
+            if (nameSpace != null)
+                sPathCompiledResource = nameSpace + "." + sPathCompiledResource;
             //"WRunSource.Class.PibLink."
             sPathCompiledResource = zpath.PathSetDirectory(sPathCompiledResource, outputDir);
             if (zFile.Exists(sPathCompiledResource) && zFile.Exists(resourceFile))
@@ -985,7 +1030,7 @@ namespace pb.Compiler
                 }
             }
 
-            foreach (CompilerFile compilerFile in _fileList)
+            foreach (CompilerFile compilerFile in _fileList.Values)
             {
                 string destinationFile = null;
                 if (compilerFile.Attributes.ContainsKey("destinationFile"))

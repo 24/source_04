@@ -1,11 +1,15 @@
 ﻿// $$info.manage.print.directory
 // $$info.test.regex
 // $$info.debrid-link.fr
+// $$info.test_unit.print
 
 
 //*************************************************************************************************************************
 //****                                   Trace
 //*************************************************************************************************************************
+
+Trace.WriteLine("toto");
+RunSource.CurrentRunSource.SetProjectFromSource();
 
 Trace.CurrentTrace.TraceLevel = 0;
 Trace.CurrentTrace.TraceLevel = 1;
@@ -22,7 +26,6 @@ Compiler.TraceLevel = 2;
 XNodeDescendants.Trace = false;
 XNodeDescendants.Trace = true;
 
-Trace.WriteLine("toto");
 
 Trace.WriteLine(RunSource.CurrentRunSource.ProjectFile);
 Trace.WriteLine(RunSource.CurrentRunSource.ProjectDirectory);
@@ -68,8 +71,17 @@ RunSource.CurrentRunSource.Compile_Project(@"..\..\..\..\Test\Test.Test_01\Sourc
 //****                                   Automate
 //*************************************************************************************************************************
 
-Download.Print.DownloadAutomate_f.Test_DownloadAutomate_01(loadNewPost: true, searchPostToDownload: true, uncompressFile: true, sendMail: false,
+DownloadAutomate_f.Test_DownloadAutomate_01(loadNewPost: true, searchPostToDownload: true, uncompressFile: true, sendMail: false,
   version: 3, useNewDownloadManager: true, traceLevel: 0);
+
+DownloadAutomate_f.GetMongoDownloadAutomateManager().SetLastRunDateTime(DateTime.Parse("2015-08-21 05:00:00"));
+
+DownloadAutomate_f.GetDownloadedInfo("Ebookdz_Detail", "ebookdz.com", limit: 100, onlyNotDownloaded: false, file: false).zView();
+DownloadAutomate_f.GetDownloadedInfo("Ebookdz_Detail", "ebookdz.com", limit: 300, onlyNotDownloaded: true, file: false).zView();
+DownloadAutomate_f.GetDownloadedInfo("Ebookdz_Detail", "ebookdz.com", limit: 100, onlyNotDownloaded: false, file: false).zView();
+DownloadAutomate_f.GetDownloadedInfo("Ebookdz_Detail", "ebookdz.com", limit: 300, onlyNotDownloaded: true, file: false).zView();
+DownloadAutomate_f.GetDownloadedInfo("TelechargerMagazine_Detail", "telecharger-magazine.com", limit: 100, onlyNotDownloaded: false, file: false).zView();
+DownloadAutomate_f.GetDownloadedInfo("TelechargerMagazine_Detail", "telecharger-magazine.com", limit: 300, onlyNotDownloaded: true, file: false).zView();
 
 //*************************************************************************************************************************
 //****                                   mongo pierre
@@ -1681,12 +1693,16 @@ Test.Test_Text.Test_Regex.Test(
 //****                                                  Test_Unit_PrintMagazineGetTitle
 //****                      c:\pib\dev_data\exe\runsource\test_unit\Print\MagazineTitle\MagazineTitle.txt
 //***********************************************************************************************************************************************************
+// $$info.test_unit.print
 
-pb.Data.Mongo.TraceMongoCommand.Export("dl", "RapideDdl_Detail2", @"c:\pib\dev_data\exe\runsource\test_unit\Print\MagazineTitle\MagazineTitle.txt",
-  query: "{ $or: [ { 'download.category': 'Ebooks/Journaux' }, { 'download.category': 'Ebooks/Magazine' } ] }",
-  fields: "{ '_id': 0 'download.title': 1, 'download.category': 1 }", limit: 1000, sort: "{ 'download.creationDate': -1 }",
-  transformDocument: doc => new MongoDB.Bson.BsonDocument { { "title", doc["download"]["title"] }, { "category", doc["download"]["category"] } });
-Test.Test_Unit.Print.Test_Unit_PrintMagazineGetTitle.Test_PrintMagazineGetTitle_01(Download.Print.DownloadAutomate_f.CreatePrintTitleManager(), "MagazineTitle.txt");
+Test.Test_Unit.Print.Test_Unit_PrintMagazineGetTitle.Test_ExportTitle_TelechargerMagazine_01();
+Test.Test_Unit.Print.Test_Unit_PrintMagazineGetTitle.Test_ExportTitle_Vosbooks_01();
+Test.Test_Unit.Print.Test_Unit_PrintMagazineGetTitle.Test_ExportTitle_Ebookdz_01();
+
+Test.Test_Unit.Print.Test_Unit_PrintMagazineGetTitle.Test_PrintMagazineGetTitle_01(Download.Print.DownloadAutomate_f.CreatePrintTitleManager(), "MagazineTitle_TelechargerMagazine.txt");
+Test.Test_Unit.Print.Test_Unit_PrintMagazineGetTitle.Test_PrintMagazineGetTitle_01(Download.Print.DownloadAutomate_f.CreatePrintTitleManager(), "MagazineTitle_Vosbooks.txt");
+Test.Test_Unit.Print.Test_Unit_PrintMagazineGetTitle.Test_PrintMagazineGetTitle_01(Download.Print.DownloadAutomate_f.CreatePrintTitleManager(), "MagazineTitle_Ebookdz.txt");
+
 RunSource.CurrentRunSource.SetResult(pb.Data.Mongo.BsonDocumentsToDataTable_old2.ToDataTable(zmongo.BsonReader<MongoDB.Bson.BsonDocument>(@"c:\pib\dev_data\exe\runsource\test_unit\Print\MagazineTitle\MagazineTitle_out_bson.txt")));
 //RunSource.CurrentRunSource.SetResult(pb.Data.Mongo.BsonDocumentsToDataTable_old2.ToDataTable(zmongo.BsonReader<MongoDB.Bson.BsonDocument>(@"c:\pib\dev_data\exe\runsource\test_unit\Print\MagazineTitle\MagazineTitle.txt")));
 
@@ -2117,8 +2133,7 @@ Trace.WriteLine("{0}", zfile.AreFileEqual(@"c:\pib\_dl\_pib\dl\golden-ddl.net\pr
 string[] directories = new string[] {
 	@"g:\pib\media\ebook\_dl\_dl_pib\print\03\print"
 	};
-DownloadAutomate_f.Test_ManageDirectories_01(directories, @"g:\pib\media\ebook\print", usePrintDirectories: true,
-	simulate: false, moveFiles: true);
+DownloadAutomate_f.Test_ManageDirectories_01(directories, @"g:\pib\media\ebook\print", usePrintDirectories: true, simulate: false, moveFiles: true);
 
 string[] directories = new string[] {
 	@"g:\pib\media\ebook\_dl\_dl_pib\book\01\book"
@@ -2129,6 +2144,15 @@ DownloadAutomate_f.Test_ManageDirectories_01(directories, @"g:\pib\media\ebook\b
 DownloadAutomate_f.Test_GetDirectoryInfo_01(@"g:\pib\media\ebook\_dl\_dl_pib\book\01\book", excludeBonusDirectory: true);
 DownloadAutomate_f.Test_GetDirectoryInfo_01(@"g:\pib\media\ebook\_dl\_dl_pib\book\01\book", excludeBonusDirectory: false);
 
+DownloadAutomate_f.Test_RenamePrintFiles_01(@"g:\pib\media\ebook\_dl\_dl_pib\print\02\print", @"g:\pib\media\ebook\Journaux", simulate: false);
+DownloadAutomate_f.Test_RenamePrintFiles_01(@"g:\pib\media\ebook\_dl\_dl_pib\print\02\print", @"g:\pib\media\ebook\Journaux", simulate: true);
+
+string[] directories = new string[] {
+	@"g:\pib\media\ebook\Journaux\print"
+	};
+DownloadAutomate_f.Test_ManageDirectories_01(directories, @"g:\pib\media\ebook\print", usePrintDirectories: true, simulate: false, moveFiles: true);
+
+// test print
 string[] directories = new string[] {
 	@"g:\pib\media\ebook\_dl\_test\_dl\print\01\print"
 	};
@@ -3563,6 +3587,11 @@ zfile.WriteFile(file2, "tata\r\n");
 DownloadAutomate_f.CreateFindPrintManager().Find("Le Figaro du jeudi 23 juillet 2015", PrintType.Print).zToJson().zTrace();
 DownloadAutomate_f.CreateFindPrintManager().Find("La Provence Marseille du jeudi 06 aout 2015", PrintType.Print).zToJson().zTrace();
 DownloadAutomate_f.CreateFindPrintManager().Find("Les Echos Sociétés - Jeudi 06 Août 2015", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager().Find("derni__res_nouvelles_d_alsace_du_vendredi_24_juillet_2015", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager().Find("sud_ouest__gironde__du_dimanche_26_juillet_2015", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager().Find("sud_ouest_bassin_d_arcachon_du_jeudi_06_ao__t_2015", PrintType.Print).zToJson().zTrace();
+
+
 
 DownloadAutomate_f.Test_RenamePrintFiles_01(@"g:\pib\media\ebook\_dl\_dl_pib\print\02\print", @"g:\pib\media\ebook\Journaux", simulate: false);
 DownloadAutomate_f.Test_RenamePrintFiles_01(@"g:\pib\media\ebook\_dl\_dl_pib\print\02\print", @"g:\pib\media\ebook\Journaux", simulate: true);
@@ -3579,5 +3608,133 @@ Path.GetDirectoryName(@"..\..\..\..\..\..\RuntimeLibrary\LongPath\LongPath\Pri.L
 Path.GetDirectoryName(@"c:\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto.txt").zTrace();
 zPath.GetDirectoryName(@"c:\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto\toto.txt").zTrace();
 
+zdir.EnumerateFilesInfo(@"").zToJson().zTrace();
+zPath.GetFileName(@"g:\pib\media\ebook\_dl\_test\_dl\print\01\print\.01_quotidien\L'équipe\L'équipe - 2015-07-23 - no 22284.pdf").zTrace();
+zPath.GetFileNameWithoutExtension(@"g:\pib\media\ebook\_dl\_test\_dl\print\01\print\.01_quotidien\L'équipe\L'équipe - 2015-07-23 - no 22284.pdf").zTrace();
+FilenameNumberInfo.GetFilenameNumberInfo(@"g:\pib\media\ebook\_dl\_test\_dl\print\01\print\.01_quotidien\L'équipe\L'équipe - 2015-07-23 - no 22284.pdf").zToJson().zTrace();
 
+BsonDocumentComparator.CompareBsonDocumentFiles(
+	Test_Unit_PrintTitleManager.GetFile("PrintTitle_TelechargerMagazine_out_bson_01_02.txt"),
+	Test_Unit_PrintTitleManager.GetFile("PrintTitle_TelechargerMagazine_out_bson_02.txt"),
+	BsonDocumentComparatorOptions.ReturnNotEqualDocuments | BsonDocumentComparatorOptions.ResultNotEqualElements | BsonDocumentComparatorOptions.StringComparisonIgnoreCase | BsonDocumentComparatorOptions.StringComparisonIgnoreWhiteSpace
+	)
+	.Select(result => result.GetResultDocument())
+	.zSave(Test_Unit_PrintTitleManager.GetFile("PrintTitle_TelechargerMagazine_out_bson_compare.txt"));
+
+zmongo.BsonReader<BsonDocument>(Test_Unit_PrintTitleManager.GetFile("PrintTitle_TelechargerMagazine_out_bson_01.txt"))
+	.zAction(doc => { BsonElement element = doc.zGetElement("PrintTitleInfo.title"); if (element != null && element.Value.IsString) element.Value = element.Value.AsString.Replace("&", " et "); } )
+	.zSave(Test_Unit_PrintTitleManager.GetFile("PrintTitle_TelechargerMagazine_out_bson_01_02.txt"));
+
+BsonDocumentComparator.CompareBsonDocumentFiles(
+	Test_Unit_PrintTitleManager.GetFile("PrintTitle_Ebookdz_out_bson_01.txt"),
+	Test_Unit_PrintTitleManager.GetFile("PrintTitle_Ebookdz_out_bson_01.txt"),
+	BsonDocumentComparatorOptions.ReturnNotEqualDocuments | BsonDocumentComparatorOptions.ResultNotEqualElements | BsonDocumentComparatorOptions.StringComparisonIgnoreCase | BsonDocumentComparatorOptions.StringComparisonIgnoreWhiteSpace
+	)
+	.Select(result => result.GetResultDocument())
+	.zSave(Test_Unit_PrintTitleManager.GetFile("PrintTitle_Ebookdz_out_bson_compare.txt"));
+
+
+BsonDocumentComparator.CompareBsonDocumentFiles(
+	Test_Unit_PrintTitleManager.GetFile("PrintTitle_Vosbooks_out_bson_01_02.txt"),
+	Test_Unit_PrintTitleManager.GetFile("PrintTitle_Vosbooks_out_bson_02.txt"),
+	BsonDocumentComparatorOptions.ReturnNotEqualDocuments | BsonDocumentComparatorOptions.ResultNotEqualElements | BsonDocumentComparatorOptions.StringComparisonIgnoreCase | BsonDocumentComparatorOptions.StringComparisonIgnoreWhiteSpace
+	)
+	.Select(result => result.GetResultDocument())
+	.zSave(Test_Unit_PrintTitleManager.GetFile("PrintTitle_Vosbooks_out_bson_compare.txt"));
+
+zmongo.BsonReader<BsonDocument>(Test_Unit_PrintTitleManager.GetFile("PrintTitle_Vosbooks_out_bson_01.txt"))
+	.zAction(doc =>
+	{
+		BsonElement element = doc.zGetElement("PrintTitleInfo.title"); if (element != null && element.Value.IsString) element.Value = element.Value.AsString.Replace("&", " et ");
+		element = doc.zGetElement("PrintTitleInfo.titleStructure"); if (element != null && element.Value.IsString) element.Value = element.Value.AsString.Replace("&", " et ");
+		element = doc.zGetElement("PrintTitleInfo.remainText"); if (element != null && element.Value.IsString) element.Value = element.Value.AsString.Replace("&", " et ");
+	} )
+	.zSave(Test_Unit_PrintTitleManager.GetFile("PrintTitle_Vosbooks_out_bson_01_02.txt"));
+
+
+
+
+
+BsonDocumentComparator.CompareBsonDocumentFiles(
+	@"c:\pib\drive\google\dev_data\exe\runsource\test_unit\Print\PrintTitle\test_01.txt",
+	@"c:\pib\drive\google\dev_data\exe\runsource\test_unit\Print\PrintTitle\test_02.txt",
+	BsonDocumentComparatorOptions.ReturnAllDocuments | BsonDocumentComparatorOptions.ResultAllElements)
+	.Select(result => result.GetResultDocument())
+	.zSave(@"c:\pib\drive\google\dev_data\exe\runsource\test_unit\Print\PrintTitle\test_compare.txt");
+
+
+Type type = typeof(bool?);
+//Trace.WriteLine("Type {0} BaseType {1} IsGenericType {2} GetGenericTypeDefinition {3}", type, type.BaseType, type.IsGenericType, type.GetGenericTypeDefinition());
+Trace.WriteLine("Type {0} GetGenericArguments().Length {1} GetGenericArguments()[0] {2}", type, type.GetGenericArguments().Length, type.GetGenericArguments()[0]);
+Trace.WriteLine("Type {0} IsGenericType {1} GetGenericTypeDefinition() {2} GetGenericTypeDefinition() == typeof(Nullable<>) {3}", type, type.IsGenericType, type.GetGenericTypeDefinition(), type.GetGenericTypeDefinition() == typeof(Nullable<>));
+//Type type = abc.GetType().GetGenericArguments()[0];
+//type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>)
+
+Trace.WriteLine("{0}", zparse.ParseAs<bool>("true"));
+Trace.WriteLine("{0}", zparse.ParseAs<bool?>("true"));
+
+XmlConfigElement xmlConfigElement = new XmlConfig(@"c:\pib\drive\google\dev\project\Source\Apps\RunSource\v2\runsource.irunsource\runsource.irunsource.project.xml").GetConfigElement("/AssemblyProject");
+XmlConfigElement xmlConfigElement = new XmlConfig(@"c:\pib\drive\google\dev\project\Source\Apps\RunSource\v2\runsource.irunsource\runsource.irunsource.project.xml").GetConfigElement("/*");
+if (xmlConfigElement != null)
+	Trace.WriteLine("Element.zGetPath() {0}", xmlConfigElement.Element.zGetPath());
+else
+	Trace.WriteLine("null");
+
+XmlConfig.CurrentConfig.XDocument.Root.zGetVariableValue("$DataDir$").zTrace();
+RunSource.CurrentRunSource.ProjectFile.zTrace();
+new XmlConfig(RunSource.CurrentRunSource.ProjectFile).XDocument.Root.zGetVariableValue("$Project/Root$").zTrace();
+new XmlConfig(RunSource.CurrentRunSource.ProjectFile).XDocument.Root.zGetVariableValue("$//Root$").zTrace();
+string root = new XmlConfig(RunSource.CurrentRunSource.ProjectFile).XDocument.Root.zGetVariableValue("$//Root$");
+//zPath.Combine(zPath.GetDirectoryName(RunSource.CurrentRunSource.ProjectFile), root);
+root.zRootPath(RunSource.CurrentRunSource.ProjectDirectory).zTrace();
+
+"toto".zView();
 "toto".zTrace();
+"toto".zToJson().zTrace();
+Trace.WriteLine("toto");
+Trace.WriteLine("toto".zToJson());
+"toto".zTraceJson();
+
+Trace.WriteLine(RunSource.CurrentRunSource.ProjectFile);
+RunSource.CurrentRunSource.SetProjectFromSource();
+RunSource.CurrentRunSource.SetProject(null);
+RunSource.CurrentRunSource.SetProject(@"..\..\..\..\..\Lib\pb\Source\pb\IO\Test\Test_SharpCompressManager.project.xml");
+pb.IO.Test.Test_SharpCompressManager.Test_Compress_01();
+
+RunSource.CurrentRunSource.SetProject(@"$//Root$\Source\Test\Test.Test_01\Source\Test_Project\Test_Project.project.xml");
+Test.Test_Project.Test_IncludeProject.Test_01();
+
+Compiler.TraceLevel = 1;
+Compiler.TraceLevel = 2;
+
+Trace.WriteLine("ExportResult {0} ExportDirectory \"{1}\"", HttpManager.CurrentHttpManager.ExportResult, HttpManager.CurrentHttpManager.ExportDirectory);
+HttpManager.CurrentHttpManager.ExportResult = false;
+HttpRun.Load("http://www.telecharger-magazine.com/journaux/3831-journaux-franais-du-17-juillet-2015.html");
+HttpRun.Load("http://www.telecharger-magazine.com/science/4588-pour-la-science-n455-septembre-2015.html");
+c:\pib\drive\google\dev_data\exe\runsource\download\sites\
+HttpRun.Load(@"c:\pib\drive\google\dev_data\exe\runsource\download\sites\telecharger-magazine.com\model\detail\bug_telecharger-magazine.com_science_4588-pour-la-science-n455-septembre-2015_01_01.html");
+HttpRun.Load(@"c:\pib\drive\google\dev_data\exe\runsource\download\sites\telecharger-magazine.com\model\detail\bug_telecharger-magazine.com_science_4588-pour-la-science-n455-septembre-2015_01_02.html");
+
+HtmlReader_v2.TraceHtmlReaderFile = null;
+HtmlReader_v2.TracePeekChar = false;
+HtmlReader_v2.TraceHtmlReaderFile = @"c:\pib\drive\google\dev_data\exe\runsource\download\sites\telecharger-magazine.com\model\detail\TraceHtmlReaderFile.txt";
+HtmlReader_v2.TracePeekChar = true;
+HtmlReader_v2.TraceHtmlReaderFile.zTrace();
+HtmlReader_v2.TracePeekChar.zTrace();
+
+HtmlToXml.HtmlReaderVersion = 1;
+HtmlToXml.HtmlReaderVersion = 2;
+HtmlToXml.HtmlReaderVersion.zTrace();
+
+HtmlRun.Select("//div");
+
+//string url = @"c:\pib\drive\google\dev_data\exe\runsource\download\sites\telecharger-magazine.com\model\detail\bug_telecharger-magazine.com_science_4588-pour-la-science-n455-septembre-2015_01_01.html";
+string url = @"http://www.telecharger-magazine.com/science/4588-pour-la-science-n455-septembre-2015.html";
+HttpRequest httpRequest = new HttpRequest { Url = url };
+Http http = HttpManager.CurrentHttpManager.Load(httpRequest, new HttpRequestParameters { Encoding = Encoding.UTF8 });
+var data = Download.Print.TelechargerMagazine.TelechargerMagazine_DetailManager.GetData(new WebResult { Http = http, WebRequest = new WebRequest { HttpRequest = httpRequest } });
+data.zToJson().zTrace();
+
+Download.Print.TelechargerMagazine.TelechargerMagazine_DetailManager.WebHeaderDetailManager.LoadNewDocuments(startPage: 1, maxPage: 100, maxNbDocumentsLoadedFromStore: 25);
+
+

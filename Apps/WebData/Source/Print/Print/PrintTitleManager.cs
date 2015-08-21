@@ -12,8 +12,6 @@ using pb.Text;
  *   a letter after date : "Le Parisien + Journal de Paris du Lundi 25 Août 2014j"
 ***************************************************************************************************************************************************************/
 
-
-
 namespace Print
 {
     public class PrintTitleInfo
@@ -290,6 +288,9 @@ namespace Print
             PrintTitleRequest titleRequest = new PrintTitleRequest();
 
             titleRequest.originalTitle = title;
+
+            // new le 11/08/2015
+            //title = GetFormatedText(title);
 
             bool foundDate = false;
 

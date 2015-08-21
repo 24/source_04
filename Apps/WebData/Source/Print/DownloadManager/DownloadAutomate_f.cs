@@ -29,31 +29,51 @@ namespace Download.Print
 {
     public static class DownloadAutomate_f
     {
-        public static IEnumerable<BsonDocument> LoadPostInfo(string collectionName, string serverName, string databaseName = "dl", string query = null, string sort = null, string fields = null, int limit = 0, string options = null, string server = null)
+        public static void BackupSite(ServerManager serverManager)
+        {
+            string mongoBackupDirectory = XmlConfig.CurrentConfig.Get("MongoBackupDirectory");
+            string mongoBackupTmpDirectory = XmlConfig.CurrentConfig.Get("MongoBackupTmpDirectory");
+        }
+
+        // collectionName : Ebookdz_Detail Vosbooks_Detail TelechargerMagazine_Detail
+        // serverName : ebookdz.com vosbooks.net telecharger-magazine.com
+        public static IEnumerable<BsonDocument> GetDownloadedInfo(string collectionName, string serverName, bool onlyNotDownloaded = false, bool file = false, string databaseName = "dl", string query = null, string sort = null, int limit = 0, string server = null)
         {
             string downloadedCollectionName = "DownloadedFile";
-            // string query, string sort = null, string fields = null, int limit = 0, string options = null, string server = null
-            //BsonDocument
-            foreach (BsonDocument document in TraceMongoCommand.Find(databaseName, collectionName, query, sort, fields, limit, options, server))
+            if (sort == null)
+                sort = "{ _id: -1 }";
+            foreach (BsonDocument document in TraceMongoCommand.Find(databaseName, collectionName, query: query, sort: sort, limit: limit, server: server))
             {
                 string queryDownloaded = string.Format("{{ $and: [ {{ 'downloadedFile.Key.server': '{0}' }}, {{ 'downloadedFile.Key._id': {1} }} ]}}", serverName, document.zGet("_id").zAsInt());
-                document.zRemove("_id");
-                document.zRemove("download.OriginalTitle");
-                //document.zRemove("download.PostAuthor");
-                //document.zRemove("download.PostCreationDate");
-                document.zRemove("download.Description");
-                document.zRemove("download.Infos");
-                document.zRemove("download.Images");
-                document.zRemove("download.DownloadLinks");
-                BsonDocument documentDownloaded = TraceMongoCommand.Find(databaseName, downloadedCollectionName, queryDownloaded, server).FirstOrDefault();
-                documentDownloaded.zRemove("downloadedFile._id");
-                documentDownloaded.zRemove("downloadedFile.Key");
-                documentDownloaded.zRemove("downloadedFile.DownloadItemLinks");
-                documentDownloaded.zSet("downloadedFile.DownloadedFiles", documentDownloaded.zGet("downloadedFile.DownloadedFiles").zAsBsonArray().zGet(0));
-                documentDownloaded.zSet("downloadedFile.UncompressFiles", documentDownloaded.zGet("downloadedFile.UncompressFiles").zAsBsonArray().zGet(0));
-                //BsonValue downloadedFile = documentDownloaded.zGet("downloadedFile") ?? new BsonDocument();
-                document.Add(new BsonElement("downloaded", documentDownloaded.zGet("downloadedFile") ?? new BsonDocument()));
-                yield return document;
+                BsonDocument documentDownloaded = TraceMongoCommand.Find(databaseName, downloadedCollectionName, queryDownloaded, server).FirstOrDefault().zGet("downloadedFile").zAsBsonDocument();
+
+                string state = documentDownloaded.zGet("State").zAsString();
+                if (onlyNotDownloaded && state == "DownloadCompleted")
+                    continue;
+
+                BsonDocument documentDownload = document.zGet("download").zAsBsonDocument();
+
+                // download : SourceUrl, LoadFromWebDate, Title, PrintType, OriginalTitle, PostAuthor, PostCreationDate, Category, Description, Infos, Images, DownloadLinks
+                // documentDownloaded : State, DownloadItemLinks, DownloadedFiles, UncompressFiles, RequestTime, StartDownloadTime, EndDownloadTime, DownloadDuration
+
+                BsonDocument resultDocument = new BsonDocument();
+                resultDocument.zSet("_id", document.zGet("_id"));
+                resultDocument.zSet("server", serverName);
+                resultDocument.zSet("LoadFromWebDate", documentDownload.zGet("LoadFromWebDate"));
+                resultDocument.zSet("Title", documentDownload.zGet("Title"));
+                resultDocument.zSet("State", documentDownloaded.zGet("State"));
+                resultDocument.zSet("PrintType", documentDownload.zGet("PrintType"));
+                resultDocument.zSet("Category", documentDownload.zGet("Category"));
+                resultDocument.zSet("PostAuthor", documentDownload.zGet("PostAuthor"));
+                resultDocument.zSet("PostCreationDate", documentDownload.zGet("PostCreationDate"));
+                resultDocument.zSet("SourceUrl", documentDownload.zGet("SourceUrl"));
+                if (file)
+                {
+                    resultDocument.zSet("DownloadedFiles", documentDownloaded.zGet("DownloadedFiles"));
+                    resultDocument.zSet("UncompressFiles", documentDownloaded.zGet("UncompressFiles"));
+                }
+
+                yield return resultDocument;
             }
         }
 

@@ -66,7 +66,8 @@ namespace Download.Print.TelechargerMagazine
                 LoadNewPost = loadNewPost,
                 GetPostList = getPostList,
                 //GetPostInfoList = getPostInfoList,
-                LoadPost = loadPost
+                LoadPost = loadPost,
+                Backup = DownloadPrint.CreateMongoBackup(TelechargerMagazine_DetailManager.DetailMongoDocumentStore.GetCollection()).Backup
             };
         }
 

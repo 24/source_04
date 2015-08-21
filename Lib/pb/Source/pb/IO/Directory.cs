@@ -207,7 +207,8 @@ namespace pb.IO
                         if (getSubDirectoryNumber)
                         {
                             FilenameNumberInfo directoryNumberInfo = FilenameNumberInfo.GetFilenameNumberInfo(enumDirectoryInfo.SubDirectory);
-                            enumDirectoryInfo.SubDirectory = directoryNumberInfo.BaseFilename;
+                            //enumDirectoryInfo.SubDirectory = directoryNumberInfo.BaseFilename;
+                            enumDirectoryInfo.SubDirectory = directoryNumberInfo.BasePath;
                             enumDirectoryInfo.Number = directoryNumberInfo.Number;
                         }
                         yield return enumDirectoryInfo;

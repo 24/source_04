@@ -5,9 +5,28 @@ using System.Text.RegularExpressions;
 using pb.IO;
 using pb.Text;
 
+// le 21/08/2015 bug lecture http://www.telecharger-magazine.com/science/4588-pour-la-science-n455-septembre-2015.html
+//   ligne 378 : </iframe    il manque >
+//   $$bug iframe
+//   correction dans Read()
+//   todo
+//        private bool ReadProperty()
+//        {
+//            ReadSpaceChar();
+//            // manque détection <!--
+//            if (PeekChar() == '<' && (char.IsLetter((char)PeekChar(1)) || (PeekChar(1) == '/' && char.IsLetter((char)PeekChar(2)))))
+//                return false;
+// todo
+//   - faire un test unit
+//   - nouvelle classe pour retourner le résultat d'un Read()
+//     _isMarkBegin, _isMarkEnd, _isMarkBeginEnd, _isProperty, _isText, _isTextSeparator, _isComment, _isDocType, _propertyName, _propertyValue, _text, _comment, _docType, _separator
+//   - nouvelle classe pour gérer la lecture des caractères
+//     GetChar(), UnreadChar(), ReadChar(), PeekChar(), PeekChar(int i)
+
+
 namespace pb.Web
 {
-    public class HtmlReader : HtmlReaderBase
+    public class HtmlReader_v2 : HtmlReaderBase
     {
         public class HTMLReaderException : Exception
         {
@@ -89,7 +108,7 @@ namespace pb.Web
         private int _charInt = 0;
         private char _lastChar = '\0';
 
-        public HtmlReader(TextReader textReader, bool closeTextReader = true)
+        public HtmlReader_v2(TextReader textReader, bool closeTextReader = true)
         {
             _textReader = textReader;
             _closeTextReader = closeTextReader;
@@ -320,7 +339,9 @@ namespace pb.Web
                 {
                     GetChar();
                     ReadMarkName();
-                    if (_char == ' ' || _char == '\t' || _char == '\r' || _char == '\n')
+                    // $$bug iframe
+                    //if (_char == ' ' || _char == '\t' || _char == '\r' || _char == '\n')
+                    if ((_char == ' ' || _char == '\t' || _char == '\r' || _char == '\n') && !_isMarkEnd)
                         _markInProgress = true;
                     else if (_char != '>')
                         UnreadChar();

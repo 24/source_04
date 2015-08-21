@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <configuration>
 	<Project>
+    <Root                             value = "..\..\..\..\..\.." />
+
+    <IncludeProject                   value = "$Root$\Source\Lib\pb\Source\Project\RunSourceExtension.project.xml" />
+    <IncludeProject                   value = "$Root$\Source\Lib\pb\Source\Project\MongoExtension.project.xml" />
+
     <NameSpace                        value = "Download.Print" />    <!-- Print.download -->
     <Using                            value = "System.Linq" />
     <Using                            value = "System.Xml.Linq" />
@@ -13,8 +18,12 @@
     <Using                            value = "pb.Linq" />
     <Using                            value = "pb.Text" />
     <Using                            value = "pb.Web" />
+    <Using                            value = "pb.Web.Data" />
     <Using                            value = "Print" />
-		<Assembly                         value = "Microsoft.JScript.dll" />
+    <Using                            value = "Test" />
+    <Using                            value = "Test.Test_Unit" />
+    <Using                            value = "Test.Test_Unit.Print" />
+    <Assembly                         value = "Microsoft.JScript.dll" />
 		<Assembly                         value = "System.Drawing.dll" />
     <Assembly                         value = "System.IO.Compression.dll" />
     <Assembly                         value = "System.IO.Compression.FileSystem.dll" />
@@ -22,30 +31,31 @@
     <Assembly                         value = "System.Web.dll" />
     <Assembly                         value = "System.Xml.Linq.dll" />
 		<!--<Assembly                         value = "bin\magazine3k.dll" resolve = "true" resolveName="magazine3k, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />-->
-<!--    
-		<Assembly                         value = "..\..\..\..\dll\mongocsharpdriver.1.8.3\MongoDB.Bson.dll" resolve = "true" resolveName="MongoDB.Bson, Version=1.8.3.9, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />
-		<Assembly                         value = "..\..\..\..\dll\mongocsharpdriver.1.8.3\MongoDB.Driver.dll" resolve = "true" resolveName="MongoDB.Driver, Version=1.8.3.9, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />
--->
 		<Assembly                         value = "c:\pib\prog\dev\mongodb\driver\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Bson.dll" resolve = "true" resolveName = "MongoDB.Bson, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />
 		<Assembly                         value = "c:\pib\prog\dev\mongodb\driver\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Driver.dll" resolve = "true" resolveName = "MongoDB.Driver, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />
 
-		<Assembly                         value = "..\..\..\..\..\..\RuntimeLibrary\itextsharp\itextsharp-all-5.5.2\itextsharp.dll" resolve = "true" resolveName = "itextsharp, Version=5.5.2.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca" />
-    <Assembly                         value = "..\..\..\..\..\..\RuntimeLibrary\SharpCompress\SharpCompress0.10.3\Full\SharpCompress.dll" resolve = "true" resolveName = "SharpCompress, Version=0.10.3.0, Culture=neutral, PublicKeyToken=beaf6f427e128133" />
+		<!--<assembly                         value = "..\..\..\..\..\..\runtimelibrary\itextsharp\itextsharp-all-5.5.2\itextsharp.dll" resolve = "true" resolvename = "itextsharp, version=5.5.2.0, culture=neutral, publickeytoken=8354ae6d2174ddca" />-->
+    <!--<Assembly                         value = "..\..\..\..\..\..\RuntimeLibrary\SharpCompress\SharpCompress0.10.3\Full\SharpCompress.dll" resolve = "true" resolveName = "SharpCompress, Version=0.10.3.0, Culture=neutral, PublicKeyToken=beaf6f427e128133" />-->
+    <Assembly                         value = "$Root$\RuntimeLibrary\itextsharp\itextsharp-all-5.5.2\itextsharp.dll" resolve = "true" resolveName = "itextsharp, Version=5.5.2.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca" />
+    <Assembly                         value = "$Root$\RuntimeLibrary\SharpCompress\SharpCompress0.10.3\Full\SharpCompress.dll" resolve = "true" resolveName = "SharpCompress, Version=0.10.3.0, Culture=neutral, PublicKeyToken=beaf6f427e128133" />
+
     <!--<Assembly                         value = "..\..\..\..\..\..\RuntimeLibrary\LongPath\LongPath\Pri.LongPath.dll" />-->
-    <!--<Assembly                         value = "c:\pib\drive\google\dev\project\RuntimeLibrary\LongPath\LongPath\Pri.LongPath.dll" />-->
-    <Assembly                         value = "..\..\..\..\..\Lib\LongPath\Pri.LongPath\bin\Debug\Pri.LongPath.dll" />
+    <!--<Assembly                         value = "..\..\..\..\..\Lib\LongPath\Pri.LongPath\bin\Debug\Pri.LongPath.dll" />-->
+    <Assembly                         value = "$Root$\Source\Lib\LongPath\Pri.LongPath\bin\Debug\Pri.LongPath.dll" />
 
 
     <!-- temp source   -->
-    <Source                           value = "..\..\..\..\..\Lib\pb\Source\pb\Data\Xml\XmlSerialize.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Data\Xml\XmlSerialize.cs" />
 
 
 
     <Source                           value = "download_f.cs" />
     <Source                           value = "AppData.cs" />
 
-    <Source                           value = "..\..\..\..\MyDownloader\MyDownloader.Core\Service\DownloaderState.cs" />
-    <Source                           value = "..\..\..\..\MyDownloader\MyDownloader.Core\Service\IDownloadManagerService.cs" />
+    <!--<Source                           value = "..\..\..\..\MyDownloader\MyDownloader.Core\Service\DownloaderState.cs" />-->
+    <!--<Source                           value = "..\..\..\..\MyDownloader\MyDownloader.Core\Service\IDownloadManagerService.cs" />-->
+    <Source                           value = "$Root$\Source\Apps\MyDownloader\MyDownloader.Core\Service\DownloaderState.cs" />
+    <Source                           value = "$Root$\Source\Apps\MyDownloader\MyDownloader.Core\Service\IDownloadManagerService.cs" />
 
     <Source                           value = "..\DownloadManager\DownloadAutomate_f.cs" />
     <Source                           value = "..\DownloadManager\DownloadManager_f.cs" />
@@ -117,105 +127,109 @@
 	  <Source                           value = "..\Print\Print\LeVifExpress1.cs" />
 	  <Source                           value = "..\Print\Print\LExpress.cs" />
 
-    <Source                           value = "..\..\..\..\..\Lib\pb\Source\pb\_pb\AsyncManager.cs" />
-    <Source                           value = "..\..\..\..\..\Lib\pb\Source\pb\_pb\Date.cs" />
-    <Source                           value = "..\..\..\..\..\Lib\pb\Source\pb\_pb\Date2.cs" />
-    <Source                           value = "..\..\..\..\..\Lib\pb\Source\pb\_pb\GlobalExtension.cs" />
-    <Source                           value = "..\..\..\..\..\Lib\pb\Source\pb\_pb\NamedValue.cs" />
-    <Source                           value = "..\..\..\..\..\Lib\pb\Source\pb\_pb\PBTraceListener.cs" />
-    <Source                           value = "..\..\..\..\..\Lib\pb\Source\pb\_pb\SpecialDays.cs" />
-    <Source                           value = "..\..\..\..\..\Lib\pb\Source\pb\_pb\TaskManager.cs" />
-    <Source                           value = "..\..\..\..\..\Lib\pb\Source\pb\_pb\TextSerializer.cs" />
-    <Source                           value = "..\..\..\..\..\Lib\pb\Source\pb\_pb\TypeView.cs" />
-    <Source                           value = "..\..\..\..\..\Lib\pb\Source\pb\_pb\ztrace.cs" />
+    <Source                           value = "..\..\..\Test_Unit\Print\Test_Unit_PrintTitleManager.cs" />
 
-    <Source                           value = "..\..\..\..\..\Lib\pb\Source\pb\Compiler\RunSourceExtension.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\_pb\AsyncManager.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\_pb\Date.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\_pb\Date2.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\_pb\GlobalExtension.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\_pb\NamedValue.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\_pb\PBTraceListener.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\_pb\SpecialDays.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\_pb\TaskManager.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\_pb\TextSerializer.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\_pb\TypeView.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\_pb\ztrace.cs" />
+
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Compiler\RunSourceExtension.cs" />
     
-    <Source                           value = "..\..\..\..\..\Lib\pb\Source\pb\Data\DataTable.cs" />
-    <Source                           value = "..\..\..\..\..\Lib\pb\Source\pb\Data\FieldList.cs" />
-    <Source                           value = "..\..\..\..\..\Lib\pb\Source\pb\Data\IDocumentStore.cs" />
-    <Source                           value = "..\..\..\..\..\Lib\pb\Source\pb\Data\NamedValues.cs" />
-    <Source                           value = "..\..\..\..\..\Lib\pb\Source\pb\Data\ZValue.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Data\DataTable.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Data\FieldList.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Data\IDocumentStore.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Data\NamedValues.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Data\ZValue.cs" />
     
-    <Source                           value = "..\..\..\..\..\Lib\pb\Source\pb\Data\Mongo\BsonDocumentComparator.cs" />
-    <Source                           value = "..\..\..\..\..\Lib\pb\Source\pb\Data\Mongo\BsonDocumentsToDataTable.cs" />
-    <Source                           value = "..\..\..\..\..\Lib\pb\Source\pb\Data\Mongo\EnumerateBsonDocumentElements.cs" />
-    <Source                           value = "..\..\..\..\..\Lib\pb\Source\pb\Data\Mongo\Mongo.cs" />
-    <Source                           value = "..\..\..\..\..\Lib\pb\Source\pb\Data\Mongo\MongoCollectionManager.cs" />
-    <Source                           value = "..\..\..\..\..\Lib\pb\Source\pb\Data\Mongo\MongoCommand.cs" />
-    <Source                           value = "..\..\..\..\..\Lib\pb\Source\pb\Data\Mongo\MongoCursorCache.cs" />
-    <Source                           value = "..\..\..\..\..\Lib\pb\Source\pb\Data\Mongo\MongoDocumentStore.cs" />
-    <Source                           value = "..\..\..\..\..\Lib\pb\Source\pb\Data\Mongo\MongoIdGenerator.cs" />
-    <Source                           value = "..\..\..\..\..\Lib\pb\Source\pb\Data\Mongo\MongoLog.cs" />
-    <Source                           value = "..\..\..\..\..\Lib\pb\Source\pb\Data\Mongo\PBBsonEnumerateValues.cs" />
-    <Source                           value = "..\..\..\..\..\Lib\pb\Source\pb\Data\Mongo\PBBsonReader.cs" />
-    <Source                           value = "..\..\..\..\..\Lib\pb\Source\pb\Data\Mongo\PBBsonWriter.cs" />
-    <Source                           value = "..\..\..\..\..\Lib\pb\Source\pb\Data\Mongo\Serializers\BsonPBSerializationProvider.cs" />
-    <Source                           value = "..\..\..\..\..\Lib\pb\Source\pb\Data\Mongo\Serializers\DateSerializer.cs" />
-    <Source                           value = "..\..\..\..\..\Lib\pb\Source\pb\Data\Mongo\Serializers\DefaultMongoSerializer.cs" />
-    <Source                           value = "..\..\..\..\..\Lib\pb\Source\pb\Data\Mongo\Serializers\NameValueCollectionSerializer.cs" />
-    <Source                           value = "..\..\..\..\..\Lib\pb\Source\pb\Data\Mongo\Serializers\PBDictionarySerializer.cs" />
-    <Source                           value = "..\..\..\..\..\Lib\pb\Source\pb\Data\Mongo\Serializers\PBKeyValuePairSerializer.cs" />
-    <Source                           value = "..\..\..\..\..\Lib\pb\Source\pb\Data\Mongo\Serializers\UrlImageSerializer.cs" />
-    <Source                           value = "..\..\..\..\..\Lib\pb\Source\pb\Data\Mongo\Serializers\ZIntSerializer.cs" />
-    <Source                           value = "..\..\..\..\..\Lib\pb\Source\pb\Data\Mongo\Serializers\ZStringArraySerializer.cs" />
-    <Source                           value = "..\..\..\..\..\Lib\pb\Source\pb\Data\Mongo\Serializers\ZStringSerializer.cs" />
-    <Source                           value = "..\..\..\..\..\Lib\pb\Source\pb\Data\Mongo\Serializers\ZValueSerializer.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Data\Mongo\BsonDocumentComparator.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Data\Mongo\BsonDocumentsToDataTable.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Data\Mongo\EnumerateBsonDocumentElements.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Data\Mongo\Mongo.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Data\Mongo\MongoBackup.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Data\Mongo\MongoCollectionManager.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Data\Mongo\MongoCommand.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Data\Mongo\MongoCursorCache.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Data\Mongo\MongoDocumentStore.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Data\Mongo\MongoIdGenerator.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Data\Mongo\MongoLog.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Data\Mongo\PBBsonEnumerateValues.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Data\Mongo\PBBsonReader.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Data\Mongo\PBBsonWriter.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Data\Mongo\Serializers\BsonPBSerializationProvider.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Data\Mongo\Serializers\DateSerializer.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Data\Mongo\Serializers\DefaultMongoSerializer.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Data\Mongo\Serializers\NameValueCollectionSerializer.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Data\Mongo\Serializers\PBDictionarySerializer.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Data\Mongo\Serializers\PBKeyValuePairSerializer.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Data\Mongo\Serializers\UrlImageSerializer.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Data\Mongo\Serializers\ZIntSerializer.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Data\Mongo\Serializers\ZStringArraySerializer.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Data\Mongo\Serializers\ZStringSerializer.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Data\Mongo\Serializers\ZValueSerializer.cs" />
 
-    <Source                           value = "..\..\..\..\..\Lib\pb\Source\pb\Data\Xml\XmlDescendant.cs" />
-    <Source                           value = "..\..\..\..\..\Lib\pb\Source\pb\Data\Xml\XmlSelect.cs" />
-    <Source                           value = "..\..\..\..\..\Lib\pb\Source\pb\Data\Xml\XXElement.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Data\Xml\XmlDescendant.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Data\Xml\XmlSelect.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Data\Xml\XXElement.cs" />
 
-    <Source                           value = "..\..\..\..\..\Lib\pb\Source\pb\IO\CompressBaseManager.cs" />
-    <Source                           value = "..\..\..\..\..\Lib\pb\Source\pb\IO\CompressManager.cs" />
-    <Source                           value = "..\..\..\..\..\Lib\pb\Source\pb\IO\Directory.cs" />
-    <Source                           value = "..\..\..\..\..\Lib\pb\Source\pb\IO\FilenameNumberInfo.cs" />
-    <Source                           value = "..\..\..\..\..\Lib\pb\Source\pb\IO\SharpCompressManager.cs" />
-    <Source                           value = "..\..\..\..\..\Lib\pb\Source\pb\IO\UncompressManager.cs" />
-    <Source                           value = "..\..\..\..\..\Lib\pb\Source\pb\IO\ZipManager.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\IO\CompressBaseManager.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\IO\CompressManager.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\IO\Directory.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\IO\FilenameNumberInfo.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\IO\SharpCompressManager.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\IO\UncompressManager.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\IO\ZipManager.cs" />
 
-    <Source                           value = "..\..\..\..\..\Lib\pb\Source\pb\Linq\Linq.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Linq\Linq.cs" />
 
-    <Source                           value = "..\..\..\..\..\Lib\pb\Source\pb\Text\Crypt.cs" />
-    <Source                           value = "..\..\..\..\..\Lib\pb\Source\pb\Text\FindDateManager.cs" />
-    <Source                           value = "..\..\..\..\..\Lib\pb\Source\pb\Text\FindNumberManager.cs" />
-    <Source                           value = "..\..\..\..\..\Lib\pb\Source\pb\Text\RegexValues.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Text\Crypt.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Text\FindDateManager.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Text\FindNumberManager.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Text\RegexValues.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Text\StringCompare.cs" />
 
-    <Source                           value = "..\..\..\..\..\Lib\pb\Source\pb\Web\Data\Debrider.cs" />
-    <Source                           value = "..\..\..\..\..\Lib\pb\Source\pb\Web\Data\DebriderAlldebrid.cs" />
-    <Source                           value = "..\..\..\..\..\Lib\pb\Source\pb\Web\Data\DebriderDebridLinkFr.cs" />
-    <Source                           value = "..\..\..\..\..\Lib\pb\Source\pb\Web\Data\DebridLinkFr.cs" />
-    <Source                           value = "..\..\..\..\..\Lib\pb\Source\pb\Web\Data\DownloadFileServerInfo.cs" />
-    <Source                           value = "..\..\..\..\..\Lib\pb\Source\pb\Web\Data\ProtectLink.cs" />
-    <Source                           value = "..\..\..\..\..\Lib\pb\Source\pb\Web\Data\WebDataManager.cs" />
-    <Source                           value = "..\..\..\..\..\Lib\pb\Source\pb\Web\Data\WebDataPageManager.cs" />
-    <Source                           value = "..\..\..\..\..\Lib\pb\Source\pb\Web\Data\WebHeaderDetailManager.cs" />
-    <Source                           value = "..\..\..\..\..\Lib\pb\Source\pb\Web\Data\WebImage.cs" />
-    <Source                           value = "..\..\..\..\..\Lib\pb\Source\pb\Web\Data\WebImageCacheManager.cs" />
-    <Source                           value = "..\..\..\..\..\Lib\pb\Source\pb\Web\Data\WebImageMongoCacheManager.cs" />
-    <Source                           value = "..\..\..\..\..\Lib\pb\Source\pb\Web\Data\WebLoadDataManager.cs" />
-    <Source                           value = "..\..\..\..\..\Lib\pb\Source\pb\Web\Data\WebLoadManager.cs" />
-    <Source                           value = "..\..\..\..\..\Lib\pb\Source\pb\Web\Html\HtmlRun.cs" />
-    <Source                           value = "..\..\..\..\..\Lib\pb\Source\pb\Web\Http\Cookies.cs" />
-    <Source                           value = "..\..\..\..\..\Lib\pb\Source\pb\Web\Http\HttpArchive.cs" />
-    <Source                           value = "..\..\..\..\..\Lib\pb\Source\pb\Web\Http\PBUriBuilder.cs" />
-    <Source                           value = "..\..\..\..\..\Lib\pb\Source\pb\Web\Http\UrlCache.cs" />
-    <Source                           value = "..\..\..\..\..\Lib\pb\Source\pb\Web\MailSender.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Web\Data\Debrider.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Web\Data\DebriderAlldebrid.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Web\Data\DebriderDebridLinkFr.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Web\Data\DebridLinkFr.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Web\Data\DownloadFileServerInfo.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Web\Data\ProtectLink.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Web\Data\WebDataManager.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Web\Data\WebDataPageManager.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Web\Data\WebHeaderDetailManager.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Web\Data\WebImage.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Web\Data\WebImageCacheManager.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Web\Data\WebImageMongoCacheManager.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Web\Data\WebLoadDataManager.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Web\Data\WebLoadManager.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Web\Html\HtmlRun.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Web\Http\Cookies.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Web\Http\HttpArchive.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Web\Http\PBUriBuilder.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Web\Http\UrlCache.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Web\MailSender.cs" />
 
-    <Source                           value = "..\..\..\..\..\Lib\pb\Source\pb\Web\Http\_old\Http_v3.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Web\Http\_old\Http_v3.cs" />
 
-    <Source                           value = "..\..\..\..\..\Lib\pb\Source\pb\_old\TextVariables.cs" />
-    <Source                           value = "..\..\..\..\..\Lib\pb\Source\pb\_old\LoadFromXml.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\_old\TextVariables.cs" />
+    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\_old\LoadFromXml.cs" />
     
     <!--<Source                           value = "..\..\..\..\..\Lib\pb\Source\LoadFromXml.cs" />-->
     <!--<Source                           value = "..\..\..\..\..\Lib\pb\Source\RunSourceExtension.cs" />-->
     <!--<Source                           value = "..\..\..\..\..\Lib\pb\Source\TextVariables.cs" />-->
 
-    <Test.Test_01.Directory           value = "..\..\..\..\..\Test\Test.Test_01\Source" />
+    <!--<Test.Test_01.Directory           value = "..\..\..\..\..\Test\Test.Test_01\Source" />-->
 
     <!--<Source                           value = "..\..\..\..\Test\Test.Test_01\Source\Test\Test_Trace.cs" />-->
-    <Source                           value = "..\..\..\..\..\Test\Test.Test_01\Source\Test_Reflection\Test_Reflection_f.cs" />
-    <Source                           value = "..\..\..\..\..\Test\Test.Test_01\Source\Test_Text\Test_Regex_f.cs" />
+    <!--<Source                           value = "..\..\..\..\..\Test\Test.Test_01\Source\Test_Reflection\Test_Reflection_f.cs" />
+    <Source                           value = "..\..\..\..\..\Test\Test.Test_01\Source\Test_Text\Test_Regex_f.cs" />-->
     <!--
     <Source                           value = "$Test.Test_01.Directory$\Test\Test_Trace.cs" />
     <Source                           value = "..\..\..\..\Test_01\Source\Test\Test_Basic\Test_CollectionsConcurrent.cs" />
@@ -251,7 +265,6 @@
     <Source                           value = "..\..\..\..\Test_01\Source\Test_Unit\Linq\Test_Unit_Join.cs" />
 
     <Source                           value = "..\..\..\..\Test_01\Source\Test_Unit\Print\Test_Unit_Print.cs" />
-    <Source                           value = "..\..\..\..\Test_01\Source\Test_Unit\Print\Test_Unit_PrintMagazineGetTitle.cs" />
     <Source                           value = "..\..\..\..\Test_01\Source\Test_Unit\Print\Test_Unit_RegexValues.cs" />
     <Source                           value = "..\..\..\..\Test_01\Source\Test_Unit\Print\Test_Unit_FindPrint.cs" />
     <Source                           value = "..\..\..\..\Test_01\Source\Test_Unit\Print\Test_Unit_PrintTextValuesManager.cs" />

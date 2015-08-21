@@ -104,6 +104,7 @@ namespace Download.Print.TelechargerMagazine
     {
         private static bool __trace = false;
         private static WebDataManager<int, TelechargerMagazine_PostDetail> __detailWebDataManager = null;
+        private static MongoDocumentStore<int, TelechargerMagazine_PostDetail> __detailMongoDocumentStore = null;
         private static WebHeaderDetailManager<int, TelechargerMagazine_HeaderPage, TelechargerMagazine_PostHeader, int, TelechargerMagazine_PostDetail> __webHeaderDetailManager = null;
         //private static Date? __lastPostDate = null;
 
@@ -118,6 +119,7 @@ namespace Download.Print.TelechargerMagazine
 
         public static bool Trace { get { return __trace; } set { __trace = value; } }
         public static WebDataManager<int, TelechargerMagazine_PostDetail> DetailWebDataManager { get { return __detailWebDataManager; } }
+        public static MongoDocumentStore<int, TelechargerMagazine_PostDetail> DetailMongoDocumentStore { get { return __detailMongoDocumentStore; } }
         public static WebHeaderDetailManager<int, TelechargerMagazine_HeaderPage, TelechargerMagazine_PostHeader, int, TelechargerMagazine_PostDetail> WebHeaderDetailManager { get { return __webHeaderDetailManager; } }
 
         private static WebDataManager<int, TelechargerMagazine_PostDetail> CreateWebDataManager(XElement xe)
@@ -141,12 +143,13 @@ namespace Download.Print.TelechargerMagazine
 
             //documentStore.GetDataKey = headerPage => headerPage.GetKey();
             //documentStore.Deserialize = document => (IEnumDataPages_new<int, IHeaderData_new>)BsonSerializer.Deserialize<Vosbooks_HeaderPage>(document);
-            detailWebDataManager.DocumentStore = MongoDocumentStore<int, TelechargerMagazine_PostDetail>.Create(xe);
+            __detailMongoDocumentStore = MongoDocumentStore<int, TelechargerMagazine_PostDetail>.Create(xe);
+            detailWebDataManager.DocumentStore = __detailMongoDocumentStore;
 
             return detailWebDataManager;
         }
 
-        private static TelechargerMagazine_PostDetail GetData(WebResult webResult)
+        public static TelechargerMagazine_PostDetail GetData(WebResult webResult)
         {
             XXElement xeSource = webResult.Http.zGetXDocument().zXXElement();
             TelechargerMagazine_PostDetail data = new TelechargerMagazine_PostDetail();

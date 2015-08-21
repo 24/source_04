@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using MongoDB.Bson;
 using MongoDB.Bson.IO;
 using pb;
@@ -14,14 +15,22 @@ namespace Test.Test_Unit.Print
 {
     public class TestPrintTitle
     {
+        public string Title;
+        public string PrintType;
+    }
+
+    public class TestPrintTitleSplit
+    {
         public string title;
         public string category;
         public string title1;
         public string title2;
     }
 
-    public static class Test_Unit_PrintMagazineGetTitle
+    public static class Test_Unit_PrintTitleManager
     {
+        private static string __subDirectory = @"Print\PrintTitle";
+
         public static Dictionary<string, string> GetPrintList()
         {
             Dictionary<string, string> prints = new Dictionary<string, string>();
@@ -33,11 +42,56 @@ namespace Test.Test_Unit.Print
             return prints;
         }
 
+        public static void Test_ExportTitle_TelechargerMagazine_01()
+        {
+            string file = "MagazineTitle_TelechargerMagazine.txt";
+            TraceMongoCommand.Export("dl", "TelechargerMagazine_Detail", GetFile(file),
+              //query: "{ $or: [ { 'download.category': 'Ebooks/Journaux' }, { 'download.category': 'Ebooks/Magazine' } ] }",
+              fields: "{ '_id': 0 'download.Title': 1, 'download.PrintType': 1 }",
+              limit: 1000,
+              sort: "{ _id: -1 }",
+              transformDocument: doc => new MongoDB.Bson.BsonDocument { { "Title", doc.zGet("download.Title") }, { "PrintType", doc.zGet("download.PrintType") } });
+        }
+
+        public static void Test_ExportTitle_Vosbooks_01()
+        {
+            string file = "MagazineTitle_Vosbooks.txt";
+            TraceMongoCommand.Export("dl", "Vosbooks_Detail", GetFile(file),
+              query: "{ 'download.PrintType': { $ne: 'Comics' } }",
+              fields: "{ '_id': 0 'download.Title': 1, 'download.PrintType': 1 }",
+              limit: 1000,
+              sort: "{ 'download.PostCreationDate': -1 }",
+              transformDocument: doc => new MongoDB.Bson.BsonDocument { { "Title", doc.zGet("download.Title") }, { "PrintType", doc.zGet("download.PrintType") } });
+        }
+
+        public static void Test_ExportTitle_Ebookdz_01()
+        {
+            string file = "MagazineTitle_Ebookdz.txt";
+            TraceMongoCommand.Export("dl", "Ebookdz_Detail", GetFile(file),
+              query: "{ 'download.PrintType': { $ne: 'Comics' } }",
+              fields: "{ '_id': 0 'download.Title': 1, 'download.PrintType': 1 }",
+              limit: 1000,
+              sort: "{ 'download.PostCreationDate': -1 }",
+              transformDocument: doc => new MongoDB.Bson.BsonDocument { { "Title", doc.zGet("download.Title") }, { "PrintType", doc.zGet("download.PrintType") } });
+        }
+
         public static void Test_PrintMagazineGetTitle_01(PrintTitleManager printTitleManager, string file)
         {
             Trace.WriteLine("Test_PrintMagazineGetTitle_01 \"{0}\"", file);
-            file = zPath.Combine(GetDirectory(), file);
+            file = GetFile(file);
             string bsonFile = zpath.PathSetFileNameWithoutExtension(file, zPath.GetFileNameWithoutExtension(file) + "_out_bson");
+            Trace.WriteLine("  output to \"{0}\"", bsonFile);
+            //zmongo.BsonReader<TestPrint>(file).zFindPrint(downloadAutomate).zSave(bsonFile);
+            zmongo.BsonReader<TestPrintTitle>(file).Select(printTitle => new { Title = printTitle.Title, PrintType = printTitle.PrintType, PrintTitleInfo = printTitleManager.GetPrintTitleInfo(printTitle.Title) }).zSave(bsonFile);
+            //PrintTitleInfo titleInfo = printTitleManager.GetPrintTitleInfo(title);
+        }
+
+        public static void Test_PrintMagazineGetTitle_01_old(PrintTitleManager printTitleManager, string file)
+        {
+            Trace.WriteLine("Test_PrintMagazineGetTitle_01 \"{0}\"", file);
+            file = GetFile(file);
+            string bsonFile = zpath.PathSetFileNameWithoutExtension(file, zPath.GetFileNameWithoutExtension(file) + "_out_bson");
+            Trace.WriteLine("  output to \"{0}\"", bsonFile);
             //Trace.CurrentTrace.DisableBaseLog();
             Trace.CurrentTrace.DisableViewer = true;
             StreamWriter sw = null;
@@ -97,15 +151,15 @@ namespace Test.Test_Unit.Print
 
         public static void Test_SplitTitle_01(string file)
         {
-            file = zPath.Combine(GetDirectory(), file);
+            file = GetFile(file);
             string splitFile = zpath.PathSetFileNameWithoutExtension(file, zPath.GetFileNameWithoutExtension(file) + "_split_bson");
-            zmongo.BsonReader<TestPrintTitle>(file).zSplitTitle().zSave(splitFile);
-            zmongo.BsonReader<TestPrintTitle>(splitFile).zView();
+            zmongo.BsonReader<TestPrintTitleSplit>(file).zSplitTitle().zSave(splitFile);
+            zmongo.BsonReader<TestPrintTitleSplit>(splitFile).zView();
         }
 
-        public static IEnumerable<TestPrintTitle> zSplitTitle(this IEnumerable<TestPrintTitle> prints)
+        public static IEnumerable<TestPrintTitleSplit> zSplitTitle(this IEnumerable<TestPrintTitleSplit> prints)
         {
-            foreach (TestPrintTitle print in prints)
+            foreach (TestPrintTitleSplit print in prints)
             {
                 string title = print.title;
                 int i = title.IndexOf("- ");
@@ -128,9 +182,14 @@ namespace Test.Test_Unit.Print
 
         }
 
+        public static string GetFile(string file)
+        {
+            return zPath.Combine(GetDirectory(), file); ;
+        }
+
         private static string GetDirectory()
         {
-            return zPath.Combine(XmlConfig.CurrentConfig.GetExplicit("TestUnitDirectory"), @"Print\MagazineTitle");
+            return zPath.Combine(XmlConfig.CurrentConfig.GetExplicit("TestUnitDirectory"), __subDirectory);
         }
     }
 }

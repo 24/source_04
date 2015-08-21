@@ -66,14 +66,48 @@ namespace pb.Data.Xml
                 return null;
         }
 
-        private static Regex _rgVariables = new Regex(@"\$([_a-z][_a-z0-9/]*)\$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-        // get variable $Ebookdz/DataDir$ value
+        // "\$([_a-z][_a-z0-9/]*)\$"
+        private static Regex __rgVariables = new Regex(@"\$([_a-z0-9/]*)\$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        // get variable "$Ebookdz/DataDir$" value or "$//Root$"
         // function getValue() return constant value like AppDirectory
+        //public static string zGetVariableValue(this XElement xe, string value, Func<string, string> getValue = null)
+        //{
+        //    if (xe == null || value == null)
+        //        return null;
+        //    return __rgVariables.Replace(value, new MatchEvaluator(
+        //        match =>
+        //        {
+        //            string xpath = match.Groups[1].Value;
+        //            XElement parent = xe.Parent;
+        //            string var = null;
+        //            if (getValue != null)
+        //                var = getValue(xpath);
+        //            if (var == null && parent != null && xpath != xe.Name.LocalName)
+        //                var = parent.zXPathValue(xpath);
+        //            if (var == null)
+        //                var = xe.Document.Root.zXPathValue(xpath);
+        //            if (var == null)
+        //                pb.Trace.WriteLine("can't find xml variable \"${0}$\" from {1}", xpath, xe.zGetPath());
+        //            return var;
+        //        }));
+        //}
+
         public static string zGetVariableValue(this XElement xe, string value, Func<string, string> getValue = null)
         {
-            if (value == null || xe == null)
-                return null;
-            return _rgVariables.Replace(value, new MatchEvaluator(
+            string newValue;
+            xe.zTryGetVariableValue(value, out newValue, getValue);
+            return newValue;
+        }
+
+        public static bool zTryGetVariableValue(this XElement xe, string value, out string newValue, Func<string, string> getValue = null)
+        {
+            if (xe == null || value == null)
+            {
+                newValue = null;
+                return true;
+            }
+            bool valueNotFound = false;
+            newValue = __rgVariables.Replace(value, new MatchEvaluator(
                 match =>
                 {
                     string xpath = match.Groups[1].Value;
@@ -86,9 +120,24 @@ namespace pb.Data.Xml
                     if (var == null)
                         var = xe.Document.Root.zXPathValue(xpath);
                     if (var == null)
+                    {
+                        valueNotFound = true;
                         pb.Trace.WriteLine("can't find xml variable \"${0}$\" from {1}", xpath, xe.zGetPath());
+                    }
                     return var;
                 }));
+            return !valueNotFound;
+        }
+
+        public static void zSetAllVariablesValues(this XDocument xdocument, Func<string, string> getValue = null)
+        {
+            if (xdocument == null)
+                return;
+            foreach (XElement xe in xdocument.Root.DescendantsAndSelf())
+            {
+                foreach (XAttribute xa in xe.Attributes())
+                    xa.Value = xe.zGetVariableValue(xa.Value, getValue);
+            }
         }
 
         //private static bool XPathResultGetValue(object o, out string value)

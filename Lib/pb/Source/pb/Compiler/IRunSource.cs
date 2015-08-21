@@ -34,6 +34,7 @@ namespace pb.Compiler
 
         //ITrace Trace { get; set; }
         IGenerateAndExecuteManager GenerateAndExecuteManager { get; }
+        string SourceFile { get; set; }
         string ProjectFile { get; }
         string ProjectDirectory { get; set; }
         //string ProjectName { get; set; }
@@ -52,7 +53,7 @@ namespace pb.Compiler
 
         void SetAsCurrentRunSource();
         void SetRunSourceConfig(string file);
-        string SetProjectFile(string file);
+        string SetProject(string file);
         bool IsRunning();
         bool IsExecutionPaused();
         void PauseExecution(bool pause);

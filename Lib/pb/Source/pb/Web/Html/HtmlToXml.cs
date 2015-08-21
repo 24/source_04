@@ -37,8 +37,10 @@ namespace pb.Web
         //  - ajouter un paramètre pour supprimer ou pas les noeuds de texte ne contenant que des séparateurs IsSeparator() " \r\n\t"
         // $$pb
 
+        private static int __htmlReaderVersion = 2;
 
-        private HtmlReader _htmlReader;
+        //private HtmlReader _htmlReader;
+        private HtmlReaderBase _htmlReader;
         private bool _generateXmlNodeOnly = false;  // si true ne crée pas les noeuds texte et commentaire
         private bool _normalizeXml = true;
 
@@ -65,14 +67,19 @@ namespace pb.Web
         private static Regex _replace = new Regex(@"[/,;?@!<>\\\[\]\-\*\(\)\+\:\'" + "\\\"]", RegexOptions.Compiled);
         private static Regex _commentCorrection = new Regex("--+", RegexOptions.Compiled);
 
-        public HtmlToXml(HtmlReader htmlReader)
-        {
-            _htmlReader = htmlReader;
-        }
+        //public HtmlToXml(HtmlReaderBase htmlReader)
+        //{
+        //    _htmlReader = htmlReader;
+        //}
 
         public HtmlToXml(TextReader tr)
         {
-            _htmlReader = new HtmlReader(tr);
+            if (__htmlReaderVersion == 1)
+                _htmlReader = new HtmlReader(tr);
+            else if (__htmlReaderVersion == 2)
+                _htmlReader = new HtmlReader_v2(tr);
+            else
+                throw new PBException("unknow HtmlReader version {0}", __htmlReaderVersion);
         }
 
         public void Dispose()
@@ -85,6 +92,7 @@ namespace pb.Web
             _xmlDocument = null;
         }
 
+        public static int HtmlReaderVersion { get { return __htmlReaderVersion; } set { __htmlReaderVersion = value; } }
         public bool GenerateXmlNodeOnly { get { return _generateXmlNodeOnly; } set { _generateXmlNodeOnly = value; } }
         public bool NormalizeXml { get { return _normalizeXml; } set { _normalizeXml = value; } }
         public bool ReadCommentInText { get { return _readCommentInText; } set { _readCommentInText = value; } }

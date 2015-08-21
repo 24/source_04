@@ -121,7 +121,7 @@ namespace pb.Compiler
                 // close namespace
                 generateCode.CloseNameSpace();
             }
-            _compiler.AddSource(file);
+            _compiler.AddSource(new CompilerFile(file));
         }
 
         //public void Execute(bool useNewThread = true)

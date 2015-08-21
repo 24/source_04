@@ -1113,7 +1113,7 @@ Zeste N°16 - Juill-Aout-Septembre 2014
       (?:du\s*)?                : "du"
       -->
       <Weekday                                                   value = "lundi|lun|mardi|mar|mercre?di|mer|jeudi|jeu|vendredi|ven|samedi|sam|dimanche|dim" />
-      <Month                                                     value = "janvier|f[eé]vrier|mars|avril|mai|juin|juillet|juill|a[o0][uû]t?|septembre|sptembre|octobre|novembre|d[eé]cembre|january|february|march|april|may|june|july|august|september|october|november|december" />
+      <Month                                                     value = "janvier|f[eé]vrier|mars|avril|mai|juin|juillet|juill|a[o0][uû\s]t?|septembre|sptembre|octobre|novembre|d[eé]cembre|january|february|march|april|may|june|july|august|september|october|november|december" />
       <BeginSeparator                                            value = "^|[_\s]" />
       <From                                                      value = "du\s*" />
       <Day                                                       value = "[0-9]{1,2}|1er" />  <!-- [0-9]{1,2} -->
@@ -1146,7 +1146,7 @@ Zeste N°16 - Juill-Aout-Septembre 2014
         "2014"
         FHM N 11 - Décembre 2010-Janvier 2011
       -->
-      <Month2                                                    value = "janvier|janv|f[eé]vrier|mars|avril|mai|juin|juillet|juill|a[o0][uû]t?|septembre|sptembre|octobre|novembre|d[eé]cembre|january|february|march|april|may|june|july|august|september|october|november|december|printemps|[eé]t[eé]|automne|hiver" />
+      <Month2                                                    value = "janvier|janv|f[eé]vrier|mars|avril|mai|juin|juillet|juill|a[o0][uû\s]t?|septembre|sptembre|octobre|novembre|d[eé]cembre|january|february|march|april|may|june|july|august|september|october|november|december|printemps|[eé]t[eé]|automne|hiver" />
       <And                                                       value = "[\-/&amp;\s]+" />
       <!-- "month (et month) (et month) year"       et = [\-/&amp;\s]+ -->
       <!--<Date regex="(?:$BeginSeparator$)($Month2$)\s*(?:$And$(?:$Month2$)\s*)?(?:$And$(?:$Month2$)\s*)?($Year$)(?:$EndSeparator$)" options="IgnoreCase" values="month, year" />-->

@@ -313,26 +313,18 @@ namespace pb.Data.Xml
 
         private void SetAllVariablesValues()
         {
-            foreach (XElement xe2 in _xdocument.Root.DescendantsAndSelf())
-            {
-                foreach (XAttribute xa in xe2.Attributes())
-                {
-                    //xa.Value = textVariables.SetTextVariables(xa.Value);
-                    //xa.Value = SetVariablesValues(xa.Value);
-                    //xa.Value = xe2.Parent.zSetVariablesValues(xa.Value);
-                    xa.Value = xe2.zGetVariableValue(xa.Value, GetConstantValue);
-                }
-            }
-            foreach (XElement xe2 in _localXDocument.Root.DescendantsAndSelf())
-            {
-                foreach (XAttribute xa in xe2.Attributes())
-                {
-                    //xa.Value = textVariables.SetTextVariables(xa.Value);
-                    //xa.Value = SetVariablesValues(xa.Value);
-                    //xa.Value = xe2.Parent.zSetVariablesValues(xa.Value);
-                    xa.Value = xe2.zGetVariableValue(xa.Value, GetConstantValue);
-                }
-            }
+            //foreach (XElement xe in _xdocument.Root.DescendantsAndSelf())
+            //{
+            //    foreach (XAttribute xa in xe.Attributes())
+            //        xa.Value = xe.zGetVariableValue(xa.Value, GetConstantValue);
+            //}
+            //foreach (XElement xe in _localXDocument.Root.DescendantsAndSelf())
+            //{
+            //    foreach (XAttribute xa in xe.Attributes())
+            //        xa.Value = xe.zGetVariableValue(xa.Value, GetConstantValue);
+            //}
+            _xdocument.zSetAllVariablesValues(GetConstantValue);
+            _localXDocument.zSetAllVariablesValues(GetConstantValue);
         }
 
         private static string GetConstantValue(string name)

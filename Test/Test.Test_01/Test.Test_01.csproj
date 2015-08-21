@@ -156,6 +156,9 @@
     <Compile Include="..\..\Lib\pb\Source\pb\Compiler\ICompilerExtension.cs">
       <Link>SourceLnk\Lib\pb\Compiler\ICompilerExtension.cs</Link>
     </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Compiler\ICompilerProject.cs">
+      <Link>SourceLnk\Lib\pb\Compiler\ICompilerProject.cs</Link>
+    </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Compiler\IGenerateAndExecute.cs">
       <Link>SourceLnk\Lib\pb\Compiler\IGenerateAndExecute.cs</Link>
     </Compile>
@@ -290,6 +293,9 @@
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Text\String.cs">
       <Link>SourceLnk\Lib\pb\Text\String.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Text\StringCompare.cs">
+      <Link>SourceLnk\Lib\pb\Text\StringCompare.cs</Link>
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Text\StringZones.cs">
       <Link>SourceLnk\Lib\pb\Text\StringZones.cs</Link>
@@ -551,6 +557,7 @@
     <Compile Include="Source\Test_mongodb\Test_mongodb_f.cs" />
     <None Include="Source\Test_mysql\Test_mysql.cs" />
     <Compile Include="Source\Test_mysql\Test_mysql_f.cs" />
+    <Compile Include="Source\Test_Project\Test_IncludeProject.cs" />
     <Compile Include="Source\Test_Reflection\Test_Reflection_f.cs" />
     <None Include="Source\Test_RunSource\compile.cs" />
     <Compile Include="Source\Test_RunSource\Program.cs" />
@@ -692,6 +699,8 @@
     <Content Include="Source\Test_JScript\Test_jsc_compiler\Test_JScript_01.js" />
     <Content Include="Source\Test_mongodb\Test_mongodb_project.xml" />
     <Content Include="Source\Test_mysql\Test_mysql_project.xml" />
+    <Content Include="Source\Test_Project\Test_IncludeProject.project.xml" />
+    <Content Include="Source\Test_Project\Test_Project.project.xml" />
     <Content Include="Source\Test_Reflection\Test_Reflection.project.xml" />
     <Content Include="Source\Test_RunSource\app.ico" />
     <Content Include="Source\Test_RunSource\Test_RunSource_config_std.xml" />

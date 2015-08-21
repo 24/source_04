@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -59,6 +59,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\Lib\pb\Source\pb\Compiler\ICompilerProject.cs">
+      <Link>SourceLnk\Lib\pb\Compiler\ICompilerProject.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\MongoBackup.cs">
+      <Link>SourceLnk\Lib\pb\Data\Mongo\MongoBackup.cs</Link>
+    </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\IO\zDirectory.cs">
       <Link>SourceLnk\Lib\pb\IO\zDirectory.cs</Link>
     </Compile>
@@ -67,6 +73,15 @@
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\IO\zPath.cs">
       <Link>SourceLnk\Lib\pb\IO\zPath.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Text\StringCompare.cs">
+      <Link>SourceLnk\Lib\pb\Text\StringCompare.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Html\HtmlReaderBase.cs">
+      <Link>SourceLnk\Lib\pb\Web\Html\HtmlReaderBase.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Html\HtmlReader_v2.cs">
+      <Link>SourceLnk\Lib\pb\Web\Html\HtmlReader_v2.cs</Link>
     </Compile>
     <Compile Include="..\MyDownloader\MyDownloader.Core\Service\DownloaderState.cs">
       <Link>SourceLnk\Apps\MyDownloader\MyDownloader.Core\Service\DownloaderState.cs</Link>
@@ -484,7 +499,7 @@
     <Compile Include="Source\Print\sites\telecharger-magazine.com\TelechargerMagazine_Header.cs" />
     <Compile Include="Test_Unit\Print\Test_Unit_FindPrint.cs" />
     <Compile Include="Test_Unit\Print\Test_Unit_Print.cs" />
-    <Compile Include="Test_Unit\Print\Test_Unit_PrintMagazineGetTitle.cs" />
+    <Compile Include="Test_Unit\Print\Test_Unit_PrintTitleManager.cs" />
     <Compile Include="Test_Unit\Print\Test_Unit_PrintTextValuesManager.cs" />
     <Compile Include="Test_Unit\Print\Test_Unit_RegexValues.cs" />
     <Compile Include="Test_Unit\Print\_old\Test_Unit_FindPrint_v1.cs" />

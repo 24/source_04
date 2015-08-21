@@ -86,6 +86,7 @@
     <Compile Include="Source\pb\Compiler\GenerateAndExecute.cs" />
     <Compile Include="Source\pb\Compiler\GenerateCSharpCode.cs" />
     <Compile Include="Source\pb\Compiler\ICompilerExtension.cs" />
+    <Compile Include="Source\pb\Compiler\ICompilerProject.cs" />
     <Compile Include="Source\pb\Compiler\IGenerateAndExecute.cs" />
     <Compile Include="Source\pb\Data\DataTable.cs" />
     <Compile Include="Source\pb\Data\DataTable2.cs" />
@@ -94,6 +95,7 @@
     <Compile Include="Source\pb\Data\Mongo\BsonDocumentsToDataTable.cs" />
     <Compile Include="Source\pb\Data\Mongo\EnumerateBsonDocumentElements.cs" />
     <Compile Include="Source\pb\Data\Mongo\Mongo.cs" />
+    <Compile Include="Source\pb\Data\Mongo\MongoBackup.cs" />
     <Compile Include="Source\pb\Data\Mongo\MongoCollectionManager.cs" />
     <Compile Include="Source\pb\Data\Mongo\MongoCommand.cs" />
     <Compile Include="Source\pb\Data\Mongo\MongoCursorCache.cs" />
@@ -133,6 +135,7 @@
     <Compile Include="Source\pb\IO\CompressManager.cs" />
     <Compile Include="Source\pb\IO\FilenameNumberInfo.cs" />
     <Compile Include="Source\pb\IO\FileOption.cs" />
+    <Compile Include="Source\pb\IO\Test\Test_SharpCompressManager.cs" />
     <Compile Include="Source\pb\IO\zDirectory.cs" />
     <Compile Include="Source\pb\IO\zFile.cs" />
     <Compile Include="Source\pb\IO\zPath.cs" />
@@ -156,6 +159,7 @@
     <Compile Include="Source\pb\Text\Crypt.cs" />
     <Compile Include="Source\pb\Text\FindDateManager.cs" />
     <Compile Include="Source\pb\Text\FindNumberManager.cs" />
+    <Compile Include="Source\pb\Text\StringCompare.cs" />
     <Compile Include="Source\pb\Web\Data\Debrider.cs" />
     <Compile Include="Source\pb\Web\Data\DebriderAlldebrid.cs" />
     <Compile Include="Source\pb\Web\Data\DebriderDebridLinkFr.cs" />
@@ -190,6 +194,8 @@
     <Compile Include="Source\pb\Web\Data\_old\WebImageCacheManager_v1.cs" />
     <Compile Include="Source\pb\Web\Data\_old\WebImageMongoCacheManager_v1.cs" />
     <Compile Include="Source\pb\Web\Html\HtmlCharCodes.cs" />
+    <Compile Include="Source\pb\Web\Html\HtmlReaderBase.cs" />
+    <Compile Include="Source\pb\Web\Html\HtmlReader_v2.cs" />
     <Compile Include="Source\pb\Web\Html\HtmlReader.cs" />
     <Compile Include="Source\pb\Web\Html\HtmlRun.cs" />
     <Compile Include="Source\pb\Web\Html\HtmlTag.cs" />
@@ -323,6 +329,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Source\Other\PB_Library_project.xml" />
+    <Content Include="Source\pb\IO\Test\Test_SharpCompressManager.project.xml" />
+    <Content Include="Source\Project\MongoExtension.project.xml" />
+    <Content Include="Source\Project\RunSourceExtension.project.xml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Source\pb\Windows\Forms\LogForm.resx">

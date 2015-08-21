@@ -102,7 +102,12 @@ namespace pb.Data.Mongo
         public static void Export(string databaseName, string collectionName, string file, string query = null, string sort = null, string fields = null, int limit = 0, string options = null,
             Func<BsonDocument, BsonDocument> transformDocument = null, string server = null)
         {
-            MongoCollection collection = GetDatabase(server, databaseName).GetCollection(collectionName);
+            Export(GetDatabase(server, databaseName).GetCollection(collectionName), file, query, sort, fields, limit, options, transformDocument);
+        }
+
+        public static void Export(MongoCollection collection, string file, string query = null, string sort = null, string fields = null, int limit = 0, string options = null,
+            Func<BsonDocument, BsonDocument> transformDocument = null)
+        {
             QueryDocument queryDoc = query.zToQueryDocument();
             SortByWrapper sortWrapper = sort.zToSortByWrapper();
             FieldsWrapper fieldsWrapper = fields.zToFieldsWrapper();

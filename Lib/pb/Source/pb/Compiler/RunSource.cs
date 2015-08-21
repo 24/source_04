@@ -35,6 +35,7 @@ namespace pb.Compiler
         private XmlConfig _runSourceConfig = null;
         private CompilerProject _defaultProject = null;  // <ProjectDefaultValues> in _runSourceConfig  (runsource.runsource.config.xml runsource.runsource.config.local.xml)
         //private string gsProjectName = null;
+        private string _sourceFile = null;
         private string _projectFile = null;
         private string _projectDirectory = null;
         //private XmlConfig gProjectConfig = null;
@@ -176,6 +177,7 @@ namespace pb.Compiler
         }
 
         public IGenerateAndExecuteManager GenerateAndExecuteManager { get { return _generateAndExecuteManager; } }
+        public string SourceFile { get { return _sourceFile; } set { _sourceFile = value; } }
         public string ProjectFile { get { return _projectFile; } }
         public string ProjectDirectory { get { return _projectDirectory; } set { _projectDirectory = value; } }
 
@@ -482,17 +484,32 @@ namespace pb.Compiler
                 _defaultProject = null;
         }
 
-        public string SetProjectFile(string file)
+        public string SetProjectFromSource()
+        {
+            return SetProject(_sourceFile);
+        }
+
+        public string SetProject(string file)
         {
             if (file != null)
             {
+                // get project variable : "$//Root$\Source\..."
+                //Trace.WriteLine("SetProject : \"{0}\"", file);
+                string newFile;
+                if (!new XmlConfig(_projectFile).XDocument.Root.zTryGetVariableValue(file, out newFile))
+                    throw new PBException("cant set project \"{0}\"", file);
+                file = newFile;
+                //Trace.WriteLine("SetProject : \"{0}\"", file);
+
                 if (!file.ToLower().EndsWith(_defaultSuffixProjectName.ToLower()))
                     file = zpath.PathSetFileName(file, zPath.GetFileNameWithoutExtension(file) + _defaultSuffixProjectName);
                 _projectFile = GetFilePath(file);
+                Trace.WriteLine("set project \"{0}\"", _projectFile);
                 _projectDirectory = zPath.GetDirectoryName(_projectFile);
             }
             else
             {
+                Trace.WriteLine("set project as null");
                 _projectFile = null;
             }
             return _projectFile;
@@ -777,12 +794,12 @@ namespace pb.Compiler
             ICompiler compiler = generateAndExecute.Compiler;
             if (compilerProject != null)
                 compiler.DefaultDir = zPath.GetDirectoryName(compilerProject.ProjectFile);
-            compiler.zSetCompilerParameters(_runSourceConfig.XDocument.Root.XPathSelectElement("CompilerDefaultValues"));
-            compiler.zSetCompilerParameters(_runSourceConfig.XDocument.Root.XPathSelectElement("ProjectDefaultValues"));
-            if (compilerProject != null)
-                compiler.zSetCompilerParameters(compilerProject.ProjectXmlElement);
-            //if (compilerProject != null)
-            //    compiler.AddSources(compilerProject.GetSources());
+            //compiler.zSetCompilerParameters(_runSourceConfig.XDocument.Root.XPathSelectElement("CompilerDefaultValues"));
+            compiler.SetParameters(CompilerProject.Create(_runSourceConfig.GetConfigElement("CompilerDefaultValues")));
+            //compiler.zSetCompilerParameters(_runSourceConfig.XDocument.Root.XPathSelectElement("ProjectDefaultValues"));
+            compiler.SetParameters(CompilerProject.Create(_runSourceConfig.GetConfigElement("ProjectDefaultValues")));
+            //compiler.zSetCompilerParameters(compilerProject.ProjectXmlElement);
+            compiler.SetParameters(compilerProject);
         }
 
         //public Compiler Compile(CompilerProject compilerProject, string assemblyPath, params string[] pathSources)
@@ -823,15 +840,14 @@ namespace pb.Compiler
 
         public ICompiler Compile_Project(string projectName)
         {
-            //Compiler compiler = new Compiler(GetPathFichier(ProjectName));
-            //compiler.SetCompilerParameters(_runSourceConfig, "CompilerDefaultValues");
             Compiler compiler = new Compiler();
             string pathProject = GetFilePath(projectName);
             compiler.DefaultDir = zPath.GetDirectoryName(pathProject);
-            //compiler.SetCompilerParameters(_runSourceConfig, "CompilerDefaultValues");
-            compiler.zSetCompilerParameters(_runSourceConfig.XDocument.Root.XPathSelectElement("CompilerDefaultValues"));
+            //compiler.zSetCompilerParameters(_runSourceConfig.XDocument.Root.XPathSelectElement("CompilerDefaultValues"));
+            compiler.SetParameters(CompilerProject.Create(_runSourceConfig.GetConfigElement("CompilerDefaultValues")));
             Trace.WriteLine("Compile project \"{0}\"", pathProject);
-            compiler.zSetCompilerParameters(XDocument.Load(pathProject).Root);
+            //compiler.zSetCompilerParameters(XDocument.Load(pathProject).Root);
+            compiler.SetParameters(CompilerProject.Create(new XmlConfig(pathProject).GetConfigElement("/*")));  // /AssemblyProject
             compiler.Compile();
             string s = null;
             if (compiler.HasError())
@@ -1430,103 +1446,4 @@ namespace pb.Compiler
         //    }
         //}
     }
-
-    //public static class RunSource_XmlLinq_Extension
-    //{
-        //public static DataTable zSelect_old(this RunSource wr, IEnumerable<XNode> list)
-        //{
-        //    DataTable dt = list.zToDataTable();
-        //    wr.Result = dt;
-        //    return dt;
-        //}
-
-        //public static DataTable zSelect_old(this RunSource wr, IEnumerable<XElement> list)
-        //{
-        //    DataTable dt = list.zToDataTable();
-        //    wr.Result = dt;
-        //    return dt;
-        //}
-
-        //public static DataTable zSelect_old(this RunSource wr, IEnumerable<XAttribute> list)
-        //{
-        //    DataTable dt = list.zToDataTable();
-        //    wr.Result = dt;
-        //    return dt;
-        //}
-
-        //public static DataTable zSelect_old<T>(this RunSource wr, IEnumerable<T> q)
-        //{
-        //    DataTable dt = q.zToDataTable();
-        //    wr.Result = dt;
-        //    return dt;
-        //}
-
-        //public static void zPrint_old<T>(this RunSource wr, T v)
-        //{
-        //    wr.zPrint_old(v, true);
-        //}
-
-        //public static void zPrint_old<T>(this RunSource wr, T v, bool bWithName)
-        //{
-        //    TypeView view = new TypeView(v);
-        //    string s = "";
-        //    foreach (NamedValue value in view.Values)
-        //    {
-        //        if (bWithName)
-        //        {
-        //            if (s != "") s += ", ";
-        //            string sName = value.Name; if (sName == "") sName = "value";
-        //            s += string.Format("{0}=\"{1}\"", sName, value.Value);
-        //        }
-        //        else
-        //        {
-        //            if (s != "") s += " ";
-        //            s += value.Value.ToString();
-        //        }
-        //    }
-        //    Trace.CurrentTrace.WriteLine(s);
-        //}
-
-        //public static void zPrint_old<T>(this RunSource wr, T v, string sFormat)
-        //{
-        //    TypeView view = new TypeView(v);
-        //    object[] values = new object[view.Values.Count];
-        //    for (int i = 0; i < view.Values.Count; i++) values[i] = view.Values[i].Value;
-        //    Trace.CurrentTrace.WriteLine(string.Format(sFormat, values));
-        //}
-
-        //public static void zPrint_old<T>(this RunSource wr, IEnumerable<T> q)
-        //{
-        //    wr.zPrint_old(q, true);
-        //}
-
-        //public static void zPrint_old<T>(this RunSource wr, IEnumerable<T> q, bool bWithName)
-        //{
-        //    foreach (T v in q)
-        //        wr.zPrint_old(v, bWithName);
-        //}
-
-        //public static void zPrint_old<T>(this RunSource wr, IEnumerable<T> q, string sFormat)
-        //{
-        //    foreach (T v in q)
-        //        wr.zPrint_old(v, sFormat);
-        //}
-
-        //public static void zViewType_old<T>(this RunSource wr, IEnumerable<T> q)
-        //{
-        //    DataTable dt = zdt.Create("type, value");
-        //    foreach (T v in q)
-        //    {
-        //        dt.Rows.Add(v.GetType(), v);
-        //    }
-        //    wr.Result = dt;
-        //}
-
-        //public static DataTable zViewType_old<T>(this RunSource wr, T v)
-        //{
-        //    DataTable dt = v.zViewType();
-        //    wr.Result = dt;
-        //    return dt;
-        //}
-    //}
 }

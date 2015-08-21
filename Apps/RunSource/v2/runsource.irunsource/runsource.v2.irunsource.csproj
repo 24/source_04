@@ -45,6 +45,9 @@
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\Compiler\ICompiler.cs">
       <Link>SourceLnk\Lib\pb\Compiler\ICompiler.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Compiler\ICompilerProject.cs">
+      <Link>SourceLnk\Lib\pb\Compiler\ICompilerProject.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\Compiler\IGenerateAndExecute.cs">
       <Link>SourceLnk\Lib\pb\Compiler\IGenerateAndExecute.cs</Link>
     </Compile>

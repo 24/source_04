@@ -231,7 +231,12 @@ namespace pb.Data.Mongo
         public static BsonValue zGet(this BsonValue value, string name)
         {
             //Trace.WriteLine("zGet : get value \"{0}\" from {1}", name, value != null ? value.GetType().zGetName() : "null");
-            return value.zGet(name.Split('.'));
+            //return value.zGet(name.Split('.'));
+            BsonElement element = value.zGetElement(name.Split('.'));
+            if (element != null)
+                return element.Value;
+            else
+                return null;
             //foreach (string name2 in name.Split('.'))
             //{
             //    //Trace.WriteLine("zGet : get value \"{0}\" from {1}", name2, value.GetType().zGetName());
@@ -251,28 +256,28 @@ namespace pb.Data.Mongo
             //return value;
         }
 
-        public static BsonValue zGet(this BsonValue value, IEnumerable<string> names)
-        {
-            if (value == null)
-                return null;
-            foreach (string name2 in names)
-            {
-                //Trace.WriteLine("zGet : get value \"{0}\" from {1}", name2, value.GetType().zGetName());
-                if (!(value is BsonDocument))
-                {
-                    //Trace.WriteLine("zGet : value is not BsonDocument return null");
-                    return null;
-                }
-                BsonDocument document = (BsonDocument)value;
-                if (!document.Contains(name2))
-                {
-                    //Trace.WriteLine("zGet : value does not contain \"{0}\" return null", name2);
-                    return null;
-                }
-                value = document[name2];
-            }
-            return value;
-        }
+        //public static BsonValue zGet(this BsonValue value, IEnumerable<string> names)
+        //{
+        //    if (value == null)
+        //        return null;
+        //    foreach (string name in names)
+        //    {
+        //        //Trace.WriteLine("zGet : get value \"{0}\" from {1}", name2, value.GetType().zGetName());
+        //        if (!(value is BsonDocument))
+        //        {
+        //            //Trace.WriteLine("zGet : value is not BsonDocument return null");
+        //            return null;
+        //        }
+        //        BsonDocument document = (BsonDocument)value;
+        //        if (!document.Contains(name))
+        //        {
+        //            //Trace.WriteLine("zGet : value does not contain \"{0}\" return null", name2);
+        //            return null;
+        //        }
+        //        value = document[name];
+        //    }
+        //    return value;
+        //}
 
         public static BsonValue zGet(this BsonValue value, int index)
         {
@@ -292,32 +297,89 @@ namespace pb.Data.Mongo
             return array[index];
         }
 
+        public static BsonElement zGetElement(this BsonValue value, string name)
+        {
+            return value.zGetElement(name.Split('.'));
+        }
+
+        public static BsonElement zGetElement(this BsonValue value, IEnumerable<string> names)
+        {
+            if (value == null)
+                return null;
+            BsonElement element = null;
+            foreach (string name in names)
+            {
+                //Trace.WriteLine("zGet : get value \"{0}\" from {1}", name2, value.GetType().zGetName());
+                if (!(value is BsonDocument))
+                {
+                    //Trace.WriteLine("zGet : value is not BsonDocument return null");
+                    return null;
+                }
+                BsonDocument document = (BsonDocument)value;
+                if (!document.Contains(name))
+                {
+                    //Trace.WriteLine("zGet : value does not contain \"{0}\" return null", name2);
+                    return null;
+                }
+                //value = document[name];
+                element = document.GetElement(name);
+                value = element.Value;
+            }
+            return element;
+        }
+
         public static bool zSet(this BsonValue value, string name, BsonValue newValue)
         {
+            if (value == null)
+                return false;
             if (newValue == null)
                 newValue = BsonNull.Value;
             string[] names = name.Split('.');
-            value = value.zGet(names.Take(names.Length - 1));
-            if (value != null && value is BsonDocument)
-            {
-                BsonDocument document = (BsonDocument)value;
+            //value = value.zGet(names.Take(names.Length - 1));
+            //if (value != null && value is BsonDocument)
+            //{
+                //BsonDocument document = (BsonDocument)value;
+                BsonDocument document = value.zCreateDocuments(names.Take(names.Length - 1));
                 string name2 = names[names.Length - 1];
                 if (document.Contains(name2))
                     document[name2] = newValue;
                 else
                     document.Add(name2, newValue);
                 return true;
+            //}
+            //return false;
+        }
+
+        public static BsonDocument zCreateDocuments(this BsonValue value, IEnumerable<string> names)
+        {
+            if (value == null)
+                throw new PBException("unable to create documents from a null BsonValue");
+            foreach (string name in names)
+            {
+                if (!(value is BsonDocument))
+                    throw new PBException("unable to create documents, value is not a document ({0})", value.GetType().zGetTypeName());
+                BsonDocument document = (BsonDocument)value;
+                if (!document.Contains(name))
+                {
+                    value = new BsonDocument();
+                    document.Add(name, value);
+                }
+                else
+                    value = document[name];
             }
-            return false;
+            return value.AsBsonDocument;
         }
 
         public static bool zRemove(this BsonValue value, string name)
         {
             string[] names = name.Split('.');
-            value = value.zGet(names.Take(names.Length - 1));
-            if (value != null && value is BsonDocument)
+            //value = value.zGet(names.Take(names.Length - 1));
+            BsonElement element = value.zGetElement(names.Take(names.Length - 1));
+            //if (value != null && value is BsonDocument)
+            if (element != null && element.Value is BsonDocument)
             {
-                BsonDocument document = (BsonDocument)value;
+                //BsonDocument document = (BsonDocument)value;
+                BsonDocument document = (BsonDocument)element.Value;
                 string name2 = names[names.Length - 1];
                 if (document.Contains(name2))
                 {

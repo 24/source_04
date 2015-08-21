@@ -432,10 +432,10 @@
       <!-- La Provence Marseille du jeudi 04 septembre 2014 -->
       <Print                                                name = "la_provence"                                                                                                    regex = "^\s*la\s*provence(?:\s*marseille)?$" options="IgnoreCase" />
       <!-- Dernières Nouvelles d'Alsace du Jeudi 4 septembre 2014 -->
-      <Print                                                name = "dernieres_nouvelles_d_alsace"                                                                                   regex = "^\s*derni[eè]res\s*nouvelles\s*d['\s]*alsace$" options="IgnoreCase" />
+      <Print                                                name = "dernieres_nouvelles_d_alsace"                                                                                   regex = "^\s*derni[eè\s]res\s*nouvelles\s*d['\s]*alsace$" options="IgnoreCase" />
       <!-- SUD OUEST bassin d'Arcachon Jeudi 4 septembre 2014 -->
       <!-- Sud Ouest (Rive Gauche) Du Mercredi 10 Septembre 2014 -->
-      <Print                                                name = "sud_ouest"                                                                                                      regex = "^\s*sud\s*ouest(?:\s*bassin\s*d['\s]*arcachon|\s*\(\s*rive\s*gauche\s*\))?$" options="IgnoreCase" />
+      <Print                                                name = "sud_ouest"                                                                                                      regex = "^\s*sud\s*ouest(?:\s*bassin\s*d['\s]*arcachon|\s*\(\s*rive\s*gauche\s*\)|\s*gironde)?$" options="IgnoreCase" />
 
 
 

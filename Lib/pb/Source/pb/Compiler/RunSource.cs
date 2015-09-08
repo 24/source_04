@@ -13,6 +13,8 @@ using System.Xml.XPath;
 using pb.Data.Xml;
 using pb.IO;
 
+//Trace.WriteLine("toto");
+
 namespace pb.Compiler
 {
     public class RunSource : MarshalByRefObject, IRunSource // IDisposable
@@ -21,29 +23,27 @@ namespace pb.Compiler
         private static string _defaultSuffixProjectName = ".project.xml";
         //private ITrace _trace = null;
         //private string gsDir = null;
-        private string _dataDirectory = null;
+        private string _dataDirectory = null;                                             // not used inside RunSource class
         private DataTable gdtResult = null;
         private DataSet gdsResult = null;
         private string gsXmlResultFormat = null;
 
-        //private XmlParameters_v1 _xmlParameter = null;
-
-        private SortedList<string, object> gData = new SortedList<string, object>();
+        private SortedList<string, object> gData = new SortedList<string, object>();      // not used inside RunSource class
 
         //private bool gbIncludeActive = true;
         //private SortedList<string, object> gIncludes = new SortedList<string, object>();
         private XmlConfig _runSourceConfig = null;
-        private CompilerProject _defaultProject = null;  // <ProjectDefaultValues> in _runSourceConfig  (runsource.runsource.config.xml runsource.runsource.config.local.xml)
-        //private string gsProjectName = null;
+        private bool _refreshRunSourceConfig = false;
         private string _sourceFile = null;
         private string _projectFile = null;
         private string _projectDirectory = null;
-        //private XmlConfig gProjectConfig = null;
-        //private string gsProjectNameSpace = null;
-        //private bool _compileWithoutProject = false;          // used by runsource to be able to run RunSource.CurrentRunSource.Compile_Project() without current project
-        //private string gsSourceConfigName = null;       // not used
-        //private XmlConfig gSourceConfig = null;         // not used
-        //private string gsSourceDir = null;
+        private XmlConfig _projectConfig = null;
+        private bool _refreshProjectConfig = false;
+
+        // projectDefaultValues
+        private string _defaultProjectFile = null;
+        private XmlConfig _defaultProjectXmlConfig = null;
+        private CompilerProject _defaultProject = null;
 
         private Chrono gExecutionChrono = new Chrono();
         //private AppDomain gDomain = null;
@@ -69,10 +69,8 @@ namespace pb.Compiler
         //public fDataSetResultEvent DataSetResultEvent;
 
         public event OnPauseEvent OnPauseExecution;
-        //public OnAbortEvent OnAbortExecution;
         public OnAbortEvent OnAbortExecution { get; set; }
 
-        //public event WritedEvent2 Writed;
         public event SetDataTableEvent GridResultSetDataTable;
         public event SetDataSetEvent GridResultSetDataSet;
 
@@ -87,9 +85,7 @@ namespace pb.Compiler
         public event DisableMessageChangedEvent DisableMessageChanged;
 
         private bool gbDisableResultEvent = false; // si true ResultEvent n'est pas appelé quand un nouveau résultat est disponible
-        //public fResultEvent ErrorResultEvent;
         public event SetDataTableEvent ErrorResultSet;
-        //public fProgressEvent ProgressEvent;
         public event ProgressChangeEvent ProgressChange;
         public event EndRunEvent EndRun;
 
@@ -156,129 +152,11 @@ namespace pb.Compiler
             _currentRunSource = this;
         }
 
-        //public static RunSource CurrentDomainRunSource
-        //{
-        //    get
-        //    {
-        //        return (RunSource)AppDomain.CurrentDomain.GetData("RunSource");
-        //    }
-        //}
-
-        //public ITrace Trace
-        //{
-        //    get { return _trace; }
-        //    set { _trace = value; }
-        //}
-
-        public XmlConfig RunSourceConfig
-        {
-            get { return _runSourceConfig; }
-            //set { _runSourceConfig = value; }
-        }
-
         public IGenerateAndExecuteManager GenerateAndExecuteManager { get { return _generateAndExecuteManager; } }
         public string SourceFile { get { return _sourceFile; } set { _sourceFile = value; } }
         public string ProjectFile { get { return _projectFile; } }
-        public string ProjectDirectory { get { return _projectDirectory; } set { _projectDirectory = value; } }
-
-        //public string ProjectName
-        //{
-        //    get { return gsProjectName; }
-        //    set
-        //    {
-        //        InitProject(value);
-        //    }
-        //}
-
-        //private void InitProject(string file)
-        //{
-        //    gsProjectName = file;
-        //    if (file == null)
-        //        gsProjectConfigPath = null;
-        //    else
-        //        gsProjectConfigPath = GetProjectFile(file);
-        //}
-
-        //public string GetProjectConfigPath(string projectName)
-        //{
-        //    string file = zPath.GetFileName(projectName);
-        //    if (zPath.GetExtension(file).ToLower() != ".xml")
-        //    {
-        //        file = zPath.GetFileNameWithoutExtension(projectName);
-        //        if (!file.ToLower().EndsWith("_project"))
-        //            file += "_project";
-        //        file += ".xml";
-        //    }
-        //    string dir = zPath.GetDirectoryName(projectName);
-        //    dir = GetFilePath(dir);
-        //    if (!dir.EndsWith("\\")) dir += "\\";
-        //    return dir + file;
-        //}
-
-        //public XmlConfig ProjectConfig
-        //{
-        //    get { return gProjectConfig; }
-        //    set { gProjectConfig = value; }
-        //}
-
-        //public string ProjectNameSpace
-        //{
-        //    get { return gsProjectNameSpace; }
-        //    set { gsProjectNameSpace = value; }
-        //}
-
-        // not used
-        //public XmlConfig Config
-        //{
-        //    get { return gSourceConfig; }
-        //    set
-        //    {
-        //        gSourceConfig = value;
-        //        XmlConfig.CurrentConfig = gSourceConfig;
-        //    }
-        //}
-
-        //public string SourceDir
-        //{
-        //    get { return gsSourceDir; }
-        //    set
-        //    {
-        //        gsSourceDir = value;
-        //        //if (gsSourceDir != null && !gsSourceDir.EndsWith("\\"))
-        //        //    gsSourceDir += "\\";
-        //        //if (!Directory.Exists(gsSourceDir))
-        //        //    Directory.CreateDirectory(gsSourceDir);
-        //    }
-        //}
-
-        //public string Dir
-        //{
-        //    get
-        //    {
-        //        if (gsDir != null)
-        //            return gsDir;
-        //        else
-        //            return gsSourceDir;
-        //    }
-        //    set
-        //    {
-        //        value = value.Replace("?", "");
-        //        value = value.Replace("*", "");
-        //        string sDrive = "";
-        //        if (value.Length >= 2 && char.IsLetter(value[0]) && value[1] == ':')
-        //        {
-        //            sDrive = value.Substring(0, 2);
-        //            value = value.Remove(0, 2);
-        //        }
-        //        value = value.Replace(":", "");
-        //        value = sDrive + value;
-        //        value = value.Trim();
-        //        if (!value.EndsWith("\\")) value += "\\";
-        //        _trace.WriteLine("Dir = \"{0}\";", value);
-        //        gsDir = value;
-        //        if (!Directory.Exists(gsDir)) Directory.CreateDirectory(gsDir);
-        //    }
-        //}
+        // set { _projectDirectory = value; }
+        public string ProjectDirectory { get { return _projectDirectory; } }
 
         public string DataDirectory { get { return _dataDirectory; } set { _dataDirectory = value; } }
 
@@ -321,11 +199,6 @@ namespace pb.Compiler
             //}
         }
 
-        //public void SetResult(DataTable dt)
-        //{
-        //    SetResult(dt, null);
-        //}
-
         public void SetResult(DataTable table, string xmlFormat = null)
         {
             gdtResult = table;
@@ -343,25 +216,6 @@ namespace pb.Compiler
             if (!gbDisableResultEvent && GridResultSetDataSet != null)
                 GridResultSetDataSet(gdsResult, gsXmlResultFormat);
         }
-
-        //public DataTable View<T>(T v)
-        //{
-        //    DataTable table;
-        //    if (!(v is DataTable))
-        //        table = v.zToDataTable();
-        //    else
-        //        table = v as DataTable;
-        //    SetResult(table);
-        //    return table;
-        //}
-
-        //public DataTable ViewType<T>(T v)
-        //{
-        //    DataTable dt = v.zTypeToDataTable();
-        //    SetResult(dt);
-        //    return dt;
-        //}
-
 
         public bool DontSelectResultTab
         {
@@ -447,41 +301,100 @@ namespace pb.Compiler
             set { gbDisableResultEvent = value; }
         }
 
-        //public Thread ExecutionThread
-        //{
-        //    get { return gExecutionThread; }
-        //}
-
         public IChrono ExecutionChrono
         {
             get { return gExecutionChrono; }
         }
 
-        //public bool Abort
-        //{
-        //    get { return gbAbort; }
-        //    set { gbAbort = value; }
-        //}
-
-        //public bool Pause
-        //{
-        //    get { return gbPause; }
-        //    set { gbPause = value; }
-        //}
-
-        //public void KeepAlive()
-        //{
-        //}
-
         public void SetRunSourceConfig(string file)
         {
             _runSourceConfig = new XmlConfig(file);
-            XmlConfigElement projectDefaultValues = _runSourceConfig.GetConfigElement("ProjectDefaultValues");
-            if (projectDefaultValues != null)
-                //_defaultProject = new CompilerProject(projectDefaultValues, _runSourceConfig.ConfigPath);
-                _defaultProject = new CompilerProject(projectDefaultValues);
-            else
+            _refreshRunSourceConfig = false;
+            //XmlConfigElement projectDefaultValues = _runSourceConfig.GetConfigElement("ProjectDefaultValues");
+            //if (projectDefaultValues != null)
+            //    //_defaultProject = new CompilerProject(projectDefaultValues, _runSourceConfig.ConfigPath);
+            //    _defaultProject = new CompilerProject(projectDefaultValues);
+            //else
+            //    _defaultProject = null;
+        }
+
+        public XmlConfig GetRunSourceConfig()
+        {
+            if (_runSourceConfig != null)
+            {
+                if (_refreshRunSourceConfig)
+                    _runSourceConfig.Refresh();
+            }
+            _refreshRunSourceConfig = false;
+            return _runSourceConfig;
+        }
+
+        public CompilerProject GetRunSourceConfigCompilerDefaultValues()
+        {
+            return CompilerProject.Create(GetRunSourceConfig().zGetConfigElement("CompilerDefaultValues"));
+        }
+
+        // $$ProjectDefaultValues disable
+        //public CompilerProject GetRunSourceConfigProjectDefaultValues()
+        public CompilerProject GetDefaultProject()
+        {
+            string projectFile = GetRunSourceConfig().Get("DefaultProject");
+            bool createCompilerProject = false;
+            if (projectFile == null)
+            {
+                _defaultProjectFile = null;
+                _defaultProjectXmlConfig = null;
                 _defaultProject = null;
+                Trace.WriteLine("no default project");
+            }
+            else if (projectFile != _defaultProjectFile)
+            {
+                _defaultProjectFile = projectFile;
+                _defaultProjectXmlConfig = new XmlConfig(projectFile);
+                createCompilerProject = true;
+                Trace.WriteLine("create default project from \"{0}\"", _defaultProjectFile);
+            }
+            else
+            {
+                createCompilerProject = _defaultProjectXmlConfig.Refresh();
+                if (createCompilerProject)
+                    Trace.WriteLine("refresh default project from \"{0}\"", _defaultProjectFile);
+            }
+            if (createCompilerProject)
+                _defaultProject = CompilerProject.Create(_defaultProjectXmlConfig.GetConfigElement("/AssemblyProject"));
+            return _defaultProject;
+        }
+
+        public XmlConfig GetProjectConfig()
+        {
+            if (_projectConfig == null && _projectFile != null && zFile.Exists(_projectFile))
+                _projectConfig = new XmlConfig(_projectFile);
+            else if (_projectConfig != null && _refreshProjectConfig)
+                _projectConfig.Refresh();
+            _refreshProjectConfig = false;
+            return _projectConfig;
+        }
+
+        public CompilerProject GetProjectCompilerProject()
+        {
+            XmlConfig config = GetProjectConfig();
+            if (config != null)
+                return CompilerProject.Create(GetProjectConfig().GetConfigElementExplicit("/AssemblyProject"));
+            else
+                return null;
+        }
+
+        public string GetProjectVariableValue(string value, bool throwError = false)
+        {
+            XmlConfig projectConfig = GetProjectConfig();
+            XElement root = null;
+            if (projectConfig != null)
+                root = projectConfig.XDocument.Root;
+            string newValue;
+            if (!root.zTryGetVariableValue(value, out newValue, traceError: true) && throwError)
+                throw new PBException("cant get variable value from \"{0}\"", value);
+            value = newValue;
+            return value;
         }
 
         public string SetProjectFromSource()
@@ -495,10 +408,11 @@ namespace pb.Compiler
             {
                 // get project variable : "$//Root$\Source\..."
                 //Trace.WriteLine("SetProject : \"{0}\"", file);
-                string newFile;
-                if (!new XmlConfig(_projectFile).XDocument.Root.zTryGetVariableValue(file, out newFile))
-                    throw new PBException("cant set project \"{0}\"", file);
-                file = newFile;
+                //string newFile;
+                //if (!new XmlConfig(_projectFile).XDocument.Root.zTryGetVariableValue(file, out newFile))
+                //    throw new PBException("cant set project \"{0}\"", file);
+                //file = newFile;
+                file = GetProjectVariableValue(file, throwError: true);
                 //Trace.WriteLine("SetProject : \"{0}\"", file);
 
                 if (!file.ToLower().EndsWith(_defaultSuffixProjectName.ToLower()))
@@ -512,6 +426,7 @@ namespace pb.Compiler
                 Trace.WriteLine("set project as null");
                 _projectFile = null;
             }
+            _projectConfig = null;
             return _projectFile;
         }
 
@@ -562,6 +477,45 @@ namespace pb.Compiler
 
         public void Run(string code, bool useNewThread = true, bool compileWithoutProject = false)
         {
+            _Run_v1(code, useNewThread, compileWithoutProject);
+            //_Run_v2(code, useNewThread, compileWithoutProject);
+        }
+
+        private void _Run_v2(string code, bool useNewThread = true, bool compileWithoutProject = false)
+        {
+            if (code == "")
+                return;
+
+            bool error = false;
+            if (gExecutionThread != null)
+                throw new PBException("error program already running");
+
+            _refreshRunSourceConfig = true;
+            _refreshProjectConfig = true;
+
+            gExecutionChrono = new Chrono();
+            try
+            {
+                _GenerateCode(code, compileWithoutProject);
+            }
+            catch
+            {
+                error = true;
+                throw;
+            }
+            finally
+            {
+                if (error && EndRun != null)
+                    EndRun(error);
+            }
+        }
+
+        private void _GenerateCode(string code, bool compileWithoutProject = false)
+        {
+        }
+
+        private void _Run_v1(string code, bool useNewThread = true, bool compileWithoutProject = false)
+        {
             if (code == "")
                 return;
 
@@ -576,52 +530,13 @@ namespace pb.Compiler
                 AssemblyResolve.Stop();
                 AssemblyResolve.Clear();
 
-                ////Compiler compiler = _GenerateCodeAndCompile(generateAndExecute, code, compileWithoutProject);
-                ////GenerateAndExecute generateAndExecute = _GenerateCodeAndCompile(code, compileWithoutProject);
-                //_GenerateCodeAndCompile(code, compileWithoutProject);
-                //if (_generateAndExecute.Compiler.HasError)
-                //    return;
+                _refreshRunSourceConfig = true;
+                _refreshProjectConfig = true;
 
                 IGenerateAndExecute generateAndExecute = _generateAndExecuteManager.New();
                 _GenerateCodeAndCompile_v2(generateAndExecute, code, compileWithoutProject);
                 if (generateAndExecute.Compiler.HasError())
                     return;
-
-                //Assembly assembly = _generateAndExecute.Compiler.Results.CompiledAssembly;
-                //string sClass = "w";
-                //if (gsProjectNameSpace != null)
-                //    sClass = gsProjectNameSpace + ".w";
-                //Type typeMain = assembly.GetType(sClass);
-                //if (typeMain == null)
-                //    throw new PBException("class w not found");
-
-                //AssemblyResolve.Start();
-                //MethodInfo method = typeMain.GetMethod("Init");
-                //if (method != null)
-                //{
-                //    gExecutionChrono.Start();
-                //    method.Invoke(null, null);
-                //    gExecutionChrono.Stop();
-                //}
-
-                //gMethodRun = typeMain.GetMethod("Run");
-                //if (gMethodRun == null)
-                //    throw new PBException("function Run not found");
-
-                //gMethodEnd = typeMain.GetMethod("End");
-
-                //if (useNewThread)
-                //{
-                //    gExecutionThread = new Thread(new ThreadStart(ThreadStart));
-                //    gExecutionThread.CurrentCulture = FormatInfo.CurrentFormat.CurrentCulture;
-                //    gExecutionThread.SetApartmentState(ApartmentState.STA);
-                //    gExecutionThread.Start();
-                //}
-                //else
-                //{
-                //    _trace.WriteLine("execute on main thread");
-                //    this.ThreadStart();
-                //}
 
                 MethodInfo runMethod = generateAndExecute.GetAssemblyRunMethod();
                 MethodInfo initMethod = generateAndExecute.GetAssemblyInitMethod();
@@ -662,36 +577,40 @@ namespace pb.Compiler
 
         public void GenerateWRSourceAndCompile(string code, bool compileWithoutProject = false)
         {
-            //_GenerateCodeAndCompile(code, compileWithoutProject);
             _GenerateCodeAndCompile_v2(_generateAndExecuteManager.New(), code, compileWithoutProject);
         }
 
         private void _GenerateCodeAndCompile_v2(IGenerateAndExecute generateAndExecute, string code, bool compileWithoutProject = false)
         {
+            // use CompilerDefaultValues from runsource.runsource.config.xml runsource.runsource.config.local.xml
+
             if (code == "")
                 return;
 
             CompilerProject compilerProject = null;
-            if (!compileWithoutProject && _projectFile != null && zFile.Exists(_projectFile))
-            {
-                //pb.Trace.WriteLine("RunSource._GenerateCodeAndCompile_v2() : use project \"{0}\"", _projectFile);
-                XmlConfig xmlConfig = new XmlConfig(_projectFile);
-                //compilerProject = new CompilerProject(xmlConfig.GetElement("Project"), gsProjectConfigPath);
-                //compilerProject = new CompilerProject(xmlConfig.GetConfigElementExplicit("Project"));
-                XmlConfigElement configElement = xmlConfig.GetConfigElement("Project");
-                if (configElement != null)
-                    compilerProject = new CompilerProject(configElement);
-                else
-                    pb.Trace.WriteLine("RunSource._GenerateCodeAndCompile_v2() : element \"Project\" not found in project \"{0}\"", _projectFile);
-            }
+            //if (!compileWithoutProject && _projectFile != null && zFile.Exists(_projectFile))
+            //{
+            //    compilerProject = CompilerProject.Create(GetProjectConfig().GetConfigElementExplicit("/AssemblyProject"));
+            //}
+            ////else
+            ////    pb.Trace.WriteLine("RunSource._GenerateCodeAndCompile_v2() : dont use project");
             //else
-            //    pb.Trace.WriteLine("RunSource._GenerateCodeAndCompile_v2() : dont use project");
+            //    compilerProject = GetDefaultProject();
+            if (!compileWithoutProject)
+                compilerProject = GetProjectCompilerProject();
+            if (compilerProject == null)
+                compilerProject = GetDefaultProject();
 
             if (compilerProject != null)
+            {
                 generateAndExecute.NameSpace = compilerProject.GetNameSpace();
+            }
 
-            if (_defaultProject != null)
-                generateAndExecute.AddUsings(_defaultProject.GetUsings());
+            // $$ProjectDefaultValues disable
+            //CompilerProject defaultProject = GetRunSourceConfigProjectDefaultValues();
+            //if (defaultProject != null)
+            //    generateAndExecute.AddUsings(defaultProject.GetUsings());
+
             if (compilerProject != null)
                 generateAndExecute.AddUsings(compilerProject.GetUsings());
 
@@ -700,8 +619,12 @@ namespace pb.Compiler
             SetCompilerValues(generateAndExecute, compilerProject);
 
             ICompiler compiler = generateAndExecute.Compiler;
+            //Compiler compiler = new Compiler();
+            //compiler.SetOutputAssembly(assemblyFilename);
+            //compiler.AddSource(new CompilerFile(file));
             compiler.Compile();
-            //if (compiler.ResourceResults.HasError || (compiler.Results != null && compiler.Results.Errors.HasErrors))
+            //Assembly assembly = _compiler.Results.CompiledAssembly;
+
             if (compiler.HasError())
             {
                 DataTable dtMessage = compiler.GetCompilerMessagesDataTable();
@@ -717,137 +640,57 @@ namespace pb.Compiler
             else
                 // trace warning
                 compiler.TraceMessages();
-                //TraceCompilerMessages(compiler);
         }
-
-        //private void TraceCompilerMessages(ICompiler compiler)
-        //{
-        //    if (_trace == null)
-        //        return;
-        //    if (compiler.Results != null)
-        //    {
-        //        foreach (CompilerError err in compiler.Results.Errors)
-        //            Trace.WriteLine("{0} no {1,-6} source \"{2}\" line {3} col {4} \"{5}\"", err.IsWarning ? "warning" : "error", err.ErrorNumber, zPath.GetFileName(err.FileName), err.Line, err.Column, err.ErrorText);
-        //    }
-        //    if (compiler.ResourceResults != null)
-        //    {
-        //        foreach (ResourceCompilerError err in compiler.ResourceResults.Errors)
-        //            Trace.WriteLine("source \"{0}\" \"{1}\"", zPath.GetFileName(err.FileName), err.ErrorText);
-        //    }
-        //}
-
-        //private void _GenerateCodeAndCompile(string code, bool compileWithoutProject = false)
-        //{
-        //    if (code == "")
-        //        return;
-
-        //    //GenerateAndExecute generateAndExecute = new GenerateAndExecute();
-
-        //    // compileWithoutProject is used by runsource to be able to run RunSource.CurrentRunSource.Compile_Project() without current project
-        //    //try
-        //    //{
-        //        //_compileWithoutProject = compileWithoutProject;
-        //        CompilerProject compilerProject = null;
-        //        if (!compileWithoutProject)
-        //        {
-        //            XmlConfig xmlConfig = new XmlConfig(gsProjectConfigPath);
-        //            compilerProject = new CompilerProject(xmlConfig.GetElement("Project"), gsProjectConfigPath);
-        //        }
-
-        //        //gProjectConfig = null;
-        //        //gProjectConfig = new XmlConfig(gsProjectConfigPath);
-        //        //gsAssemblyPath = GetNewAssemblyPath();
-        //        string assemblyPath = GetNewAssemblyPath();
-
-
-        //        //string pathSource = GenerateWRSource(code, compilerProject);
-        //        string file = zpath.PathSetExtension(assemblyPath, ".cs");
-
-        //        if (compilerProject != null)
-        //            _generateAndExecute.NameSpace = compilerProject.GetNameSpace();
-        //        else
-        //            _generateAndExecute.NameSpace = "RunSourceExecute";
-        //        _generateAndExecute.ClassName = "w";
-        //        _generateAndExecute.FunctionName = "Run";
-
-        //        GenerateCSharpCode(file, code, compilerProject);
-
-        //        //if (pathSource == null)
-        //        //    return null;
-        //        //return Compile(compilerProject, gsAssemblyPath, file);
-        //        _generateAndExecute.Compiler = Compile(compilerProject, assemblyPath, file);
-        //        //return generateAndExecute;
-        //    //}
-        //    //finally
-        //    //{
-        //    //    _compileWithoutProject = false;
-        //    //}
-        //}
-
-        //public Compiler Compile(params string[] sPathSources)
-        //{
-        //    return Compile(null, sPathSources);
-        //}
 
         public void SetCompilerValues(IGenerateAndExecute generateAndExecute, CompilerProject compilerProject)
         {
             ICompiler compiler = generateAndExecute.Compiler;
             if (compilerProject != null)
                 compiler.DefaultDir = zPath.GetDirectoryName(compilerProject.ProjectFile);
-            //compiler.zSetCompilerParameters(_runSourceConfig.XDocument.Root.XPathSelectElement("CompilerDefaultValues"));
-            compiler.SetParameters(CompilerProject.Create(_runSourceConfig.GetConfigElement("CompilerDefaultValues")));
-            //compiler.zSetCompilerParameters(_runSourceConfig.XDocument.Root.XPathSelectElement("ProjectDefaultValues"));
-            compiler.SetParameters(CompilerProject.Create(_runSourceConfig.GetConfigElement("ProjectDefaultValues")));
-            //compiler.zSetCompilerParameters(compilerProject.ProjectXmlElement);
-            compiler.SetParameters(compilerProject);
+            // CompilerDefaultValues from runsource.runsource.config.xml runsource.runsource.config.local.xml
+            compiler.SetParameters(GetRunSourceConfigCompilerDefaultValues(), dontSetOutput: true);
+
+            // ProjectDefaultValues from runsource.runsource.config.xml runsource.runsource.config.local.xml
+            // $$ProjectDefaultValues disable
+            //compiler.SetParameters(GetRunSourceConfigProjectDefaultValues(), dontSetOutput: true);
+
+            compiler.SetParameters(compilerProject, dontSetOutput: true);
         }
-
-        //public Compiler Compile(CompilerProject compilerProject, string assemblyPath, params string[] pathSources)
-        //{
-        //    Compiler compiler = new Compiler();
-        //    //compiler.DefaultDir = zPath.GetDirectoryName(gProjectConfig.ConfigPath);
-        //    if (compilerProject != null)
-        //        compiler.DefaultDir = zPath.GetDirectoryName(compilerProject.ProjectFile);
-        //    compiler.SetCompilerParameters(_runSourceConfig.XDocument.Root.XPathSelectElement("CompilerDefaultValues"));
-        //    compiler.SetCompilerParameters(_runSourceConfig.XDocument.Root.XPathSelectElement("ProjectDefaultValues"));
-        //    //compiler.SetCompilerParameters(gProjectConfig.XDocument.Root.XPathSelectElement("Project"));
-        //    if (compilerProject != null)
-        //        compiler.SetCompilerParameters(compilerProject.ProjectXmlElement);
-        //    compiler.SourceList.Clear();
-        //    compiler.AddSources(pathSources);
-        //    //compiler.AddSources(GetSourceList());
-        //    if (compilerProject != null)
-        //        compiler.AddSources(compilerProject.GetSources());
-        //    compiler.OutputAssembly = assemblyPath;
-        //    compiler.Compile();
-        //    if (compiler.ResourceResults.HasError || (compiler.Results != null && compiler.Results.Errors.HasErrors))
-        //    {
-        //        DataTable dtMessage = compiler.GetCompilerMessagesDataTable();
-        //        if (dtMessage != null)
-        //        {
-        //            gdtResult = dtMessage;
-        //            gdsResult = null;
-        //            gsXmlResultFormat = null;
-        //            if (ErrorResultSet != null) ErrorResultSet(gdtResult, null);
-        //        }
-        //    }
-        //    else
-        //        // trace warning
-        //        compiler.TraceMessages();
-
-        //    return compiler;
-        //}
 
         public ICompiler Compile_Project(string projectName)
         {
+            // - compile assembly project (like runsource.dll.project.xml) and runsource project (like download.project.xml)
+            // - for assembly project use CompilerDefaultValues from runsource.runsource.config.xml runsource.runsource.config.local.xml
+            // - for runsource project use CompilerDefaultValues from runsource.runsource.config.xml runsource.runsource.config.local.xml
+
             Compiler compiler = new Compiler();
+            projectName = GetProjectVariableValue(projectName, throwError: true);
             string pathProject = GetFilePath(projectName);
             compiler.DefaultDir = zPath.GetDirectoryName(pathProject);
-            //compiler.zSetCompilerParameters(_runSourceConfig.XDocument.Root.XPathSelectElement("CompilerDefaultValues"));
-            compiler.SetParameters(CompilerProject.Create(_runSourceConfig.GetConfigElement("CompilerDefaultValues")));
+            // CompilerDefaultValues from runsource.runsource.config.xml runsource.runsource.config.local.xml
+            compiler.SetParameters(GetRunSourceConfigCompilerDefaultValues(), dontSetOutput: true);
             Trace.WriteLine("Compile project \"{0}\"", pathProject);
-            //compiler.zSetCompilerParameters(XDocument.Load(pathProject).Root);
-            compiler.SetParameters(CompilerProject.Create(new XmlConfig(pathProject).GetConfigElement("/*")));  // /AssemblyProject
+
+            //XmlConfig projectConfig = new XmlConfig(pathProject);
+            //XmlConfigElement projectElement = null;
+            //if (projectConfig.XDocument.Root.Name == "AssemblyProject")
+            //{
+            //    // assembly project (like runsource.dll.project.xml)
+            //    projectElement = projectConfig.GetConfigElement("/AssemblyProject");
+            //}
+            //else
+            //{
+            //    // runsource project (like download.project.xml)
+            //    projectElement = projectConfig.GetConfigElement("Project");
+            //    // ProjectDefaultValues from runsource.runsource.config.xml runsource.runsource.config.local.xml
+            //    compiler.SetParameters(GetRunSourceConfigProjectDefaultValues(), dontSetOutput: true);
+            //}
+            //if (projectElement == null)
+            //    throw new PBException("unknow project type \"{0}\"", pathProject);
+            //compiler.SetParameters(CompilerProject.Create(projectElement));  // /AssemblyProject
+
+            compiler.SetParameters(CompilerProject.Create(new XmlConfig(pathProject).GetConfigElementExplicit("/AssemblyProject")));
+
             compiler.Compile();
             string s = null;
             if (compiler.HasError())
@@ -859,133 +702,10 @@ namespace pb.Compiler
             return compiler;
         }
 
-        //public Compiler CompileAndRun_Project(string projectName)
-        //{
-        //    return CompileAndRun_Project(projectName, false);
-        //}
-
-        //public Compiler CompileAndRun_Project(string projectName, bool killActiveProcess)
-        //{
-        //    Compiler compiler = new Compiler();
-        //    compiler.DefaultDir = zPath.GetDirectoryName(GetFilePath(projectName));
-        //    compiler.zSetCompilerParameters(_runSourceConfig.XDocument.Root.XPathSelectElement("CompilerDefaultValues"));
-        //    compiler.zSetCompilerParameters(XDocument.Load(GetFilePath(projectName)).Root);
-        //    if (killActiveProcess)
-        //        compiler.CloseProcess();
-        //    compiler.Compile();
-        //    string s = "";
-        //    if (compiler.HasError)
-        //    {
-        //        Result = compiler.GetCompilerMessagesDataTable();
-        //        s = "with error(s) ";
-        //    }
-        //    _trace.WriteLine("{0} compiled {1}: {2}", projectName, s, compiler.OutputAssembly);
-
-        //    if (!compiler.HasError && compiler.Results.PathToAssembly != null)
-        //    {
-        //        Process.Start(compiler.Results.PathToAssembly);
-        //        //ProcessStartInfo psi = new ProcessStartInfo(compiler.CompiledAssemblyPath);
-        //        //psi.UseShellExecute = true;
-        //        ////psi.WindowStyle = ProcessWindowStyle.Hidden;
-        //        //Process.Start(psi);
-        //    }
-        //    return compiler;
-        //}
-
-        //private static void DeleteAssemblies()
-        //{
-        //    zfile.DeleteFiles(GetAssemblyDirectory(), gsDefaultAssemblyName + "*.*", false);
-        //}
-
         public void DeleteGeneratedAssemblies()
         {
             _generateAndExecuteManager.DeleteGeneratedAssemblies();
         }
-
-        //private static string GetNewAssemblyPath()
-        //{
-        //    string dir = GetAssemblyDirectory();
-        //    if (!Directory.Exists(dir))
-        //        Directory.CreateDirectory(dir);
-        //    int i = zfile.GetLastFileNameIndex(dir) + 1;
-        //    return zPath.Combine(dir, gsDefaultAssemblyName + string.Format("_{0:00000}", i));
-        //}
-
-        //private static string GetAssemblyPath(string sProjectName)
-        //{
-        //    string sPath = zpath.PathGetFileName(sProjectName);
-        //    string sDir = GetAssemblyDirectory();
-        //    if (!Directory.Exists(sDir)) Directory.CreateDirectory(sDir);
-        //    sPath = sDir + sPath;
-        //    sPath = zpath.PathSetExtension(sPath, "");
-        //    //gsAssemblyPath = sPath;
-        //    return sPath;
-        //}
-
-        //private static string GetAssemblyDirectory()
-        //{
-        //    string sDir = zapp.GetAppDirectory();
-        //    if (!sDir.EndsWith("\\")) sDir += "\\";
-        //    //sDir += "WRunDll\\";
-        //    sDir += "run\\";
-        //    return sDir;
-        //}
-
-        //private void ThreadStart()
-        //{
-        //    bool bError = false;
-        //    try
-        //    {
-        //        _executionAborted = false;
-        //        try
-        //        {
-        //            gExecutionChrono.Start();
-        //            //gMethodRun.Invoke(null, new object[] { this });
-        //            gMethodRun.Invoke(null, null);
-        //            gExecutionChrono.Stop();
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            gExecutionChrono.Stop();
-        //            bError = true;
-        //            _trace.WriteError(ex);
-        //        }
-        //    }
-        //    finally
-        //    {
-        //        try
-        //        {
-        //            if (gMethodEnd != null)
-        //            {
-        //                gExecutionChrono.Start();
-        //                gMethodEnd.Invoke(null, null);
-        //                gExecutionChrono.Stop();
-        //            }
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            bError = true;
-        //            _trace.WriteError(ex);
-        //        }
-        //        finally
-        //        {
-        //            // modif le 30/03/2013
-        //            gExecutionThread = null;
-        //            gMethodRun = null;
-        //            _executionPaused = false;
-        //            _executionAborted = false;
-        //            //gExecutionChrono.Stop();
-        //            if (EndRun != null) EndRun(bError);
-        //            #region AppDomain ...
-        //            //******************************************************************************************************************************************************************************
-        //            //                                                                              AppDomain
-        //            //AppDomain.Unload(gDomain);
-        //            //gDomain = null;
-        //            //******************************************************************************************************************************************************************************
-        //            #endregion
-        //        }
-        //    }
-        //}
 
         private void _Run(MethodInfo runMethod, MethodInfo initMethod = null, MethodInfo endMethod = null)
         {
@@ -1048,260 +768,6 @@ namespace pb.Compiler
             }
         }
 
-        //private void GenerateCSharpCode(string file, string code, CompilerProject compilerProject)
-        //{
-        //    //if (code == "")
-        //    //    return null;
-        //    //string codeFile = zpath.PathSetExtension(gsAssemblyPath, ".cs");
-        //    using (StreamWriter sw = File.CreateText(file))
-        //    {
-        //        GenerateCSharpCode generateCode = new GenerateCSharpCode(sw);
-
-        //        // using
-        //        if (_defaultProject != null)
-        //            generateCode.AddUsings(_defaultProject.GetUsings());
-        //        if (compilerProject != null)
-        //            generateCode.AddUsings(compilerProject.GetUsings());
-
-        //        // open namespace
-        //        generateCode.OpenNameSpace(_generateAndExecute.NameSpace);
-
-        //        // open class
-        //        // public static partial class ...
-        //        generateCode.OpenClass(_generateAndExecute.ClassName, ClassOptions.Public | ClassOptions.Static | ClassOptions.Partial);
-
-        //        // open function
-        //        // public static void Run()
-        //        generateCode.WriteLine("public static void {0}()", _generateAndExecute.FunctionName);
-        //        generateCode.WriteLine("{");
-        //        generateCode.WriteLine(code);
-        //        generateCode.WriteLine("}");
-
-        //        // close class
-        //        generateCode.CloseClass();
-
-        //        // close namespace
-        //        generateCode.CloseNameSpace();
-        //    }
-        //}
-
-        //private string GenerateWRSource(string sSource, CompilerProject compilerProject)
-        //{
-        //    sSource = SourceReadInclude(sSource);
-        //    if (sSource == "")
-        //        return null;
-
-        //    string sPathSource = zpath.PathSetExtension(gsAssemblyPath, ".cs");
-        //    string sUsing = GetUsingList();
-        //    zfile.WriteFile(sPathSource, sUsing);
-
-        //    gsProjectNameSpace = null;
-        //    //gsProjectNameSpace = gProjectConfig.Get("Project/NameSpace");
-        //    if (compilerProject != null)
-        //        gsProjectNameSpace = compilerProject.GetNameSpace();
-
-        //    string s;
-        //    s = "\r\n";
-        //    if (gsProjectNameSpace != null)
-        //    {
-        //        s += "namespace " + gsProjectNameSpace + "\r\n";
-        //        s += "{\r\n";
-        //        s += "\r\n";
-        //    }
-        //    s += "public static partial class w\r\n";
-        //    s += "{\r\n";
-        //    s += "\tpublic static void Run()\r\n";
-        //    s += "\t{\r\n";
-        //    s += "\r\n";
-        //    zfile.WriteFile(sPathSource, s, true);
-        //    zfile.WriteFile(sPathSource, sSource, true);
-        //    s = "\r\n";
-        //    s += "\t}\r\n";
-        //    s += "}\r\n";
-        //    s += "\r\n";
-        //    if (gsProjectNameSpace != null)
-        //    {
-        //        s += "}\r\n";
-        //        s += "\r\n";
-        //    }
-        //    zfile.WriteFile(sPathSource, s, true);
-
-        //    //string[] sPathSources1 = GetSourceList();
-        //    //string[] sPathSources2 = new string[sPathSources1.Length + 1];
-        //    //sPathSources2[0] = sPathSource;
-        //    //sPathSources1.CopyTo(sPathSources2, 1);
-        //    //return sPathSources2;
-        //    return sPathSource;
-        //}
-
-        //private string GetUsingList()
-        //{
-        //    string[] sUsingList = _runSourceConfig.GetValues("ProjectDefaultValues/Using/@value");
-        //    string sUsing = "";
-        //    foreach (string s in sUsingList)
-        //        sUsing += "using " + s + ";\r\n";
-        //    if (gProjectConfig != null)
-        //    {
-        //        sUsingList = gProjectConfig.GetValues("Project/Using/@value");
-        //        foreach (string s in sUsingList)
-        //            sUsing += "using " + s + ";\r\n";
-        //    }
-        //    return sUsing;
-        //}
-
-        // désactivé le 21/05/2015
-        //private string SourceReadInclude(string sSource)
-        //{
-        //    int i;
-        //    char[] cEol = new char[] { '\r', '\n' };
-        //    char[] cTrim = new char[] { ' ', '\t', '\r', '\n' };
-        //    char[] cSep = new char[] { ' ', '\t' };
-        //    while (true)
-        //    {
-        //        sSource = sSource.TrimStart(cTrim);
-        //        if (sSource.StartsWith("//"))
-        //        {
-        //            i = sSource.IndexOfAny(cEol);
-        //            if (i == -1)
-        //            {
-        //                sSource = "";
-        //                break;
-        //            }
-        //            sSource = sSource.Remove(0, i + 1).TrimStart(cTrim);
-        //        }
-        //        else if (sSource.StartsWith("raz_include", StringComparison.InvariantCultureIgnoreCase))
-        //        {
-        //            _trace.WriteLine("raz_include;");
-        //            sSource = sSource.Remove(0, 11).TrimStart(cSep);
-        //            if (sSource.StartsWith(";")) sSource = sSource.Remove(0, 1);
-        //            sSource = sSource.TrimStart(cTrim);
-        //            gIncludes.Clear();
-        //        }
-        //        else if (sSource.StartsWith("include", StringComparison.InvariantCultureIgnoreCase))
-        //        {
-        //            sSource = sSource.Remove(0, 7).TrimStart(cSep);
-        //            if (sSource.StartsWith("on", StringComparison.InvariantCultureIgnoreCase))
-        //            {
-        //                sSource = sSource.Remove(0, 2).TrimStart(cSep);
-        //                gbIncludeActive = true;
-        //            }
-        //            else if (sSource.StartsWith("off", StringComparison.InvariantCultureIgnoreCase))
-        //            {
-        //                sSource = sSource.Remove(0, 3).TrimStart(cSep);
-        //                gbIncludeActive = false;
-        //            }
-        //            else if (sSource.StartsWith("\""))
-        //            {
-        //                i = sSource.IndexOf('\"', 1);
-        //                if (i == -1)
-        //                    throw new PBException("error bad include command");
-        //                string sInclude = sSource.Substring(1, i - 1);
-        //                _trace.WriteLine("include \"{0}\";", sInclude);
-        //                if (!gIncludes.ContainsKey(sInclude))
-        //                    gIncludes.Add(sInclude, null);
-        //                sSource = sSource.Remove(0, i + 1);
-        //            }
-        //            else
-        //                throw new PBException("error bad include command");
-        //            if (sSource.StartsWith(";")) sSource = sSource.Remove(0, 1);
-        //            sSource = sSource.TrimStart(cTrim);
-        //        }
-        //        else
-        //            break;
-        //    }
-        //    return sSource;
-        //}
-
-        //private string[] GetSourceList()
-        //{
-        //    string[] sProjectSources = GetProjectSourceList(gProjectConfig);
-        //    string[] sIncludeSources = GetIncludeSourceList();
-        //    string[] sSources = new string[sIncludeSources.Length + sProjectSources.Length];
-        //    sIncludeSources.CopyTo(sSources, 0);
-        //    sProjectSources.CopyTo(sSources, sIncludeSources.Length);
-        //    return sSources;
-        //}
-
-        //private string[] GetProjectSourceList(XmlConfig projectConfig)
-        //{
-        //    if (projectConfig == null)
-        //        return new string[0];
-        //    string[] sSources = projectConfig.GetValues("Project/Source/@value");
-        //    for (int i = 0; i < sSources.Length; i++)
-        //    {
-        //        sSources[i] = GetPathSource(sSources[i]);
-        //    }
-        //    return sSources;
-        //}
-
-        // désactivé le 21/05/2015
-        //private string[] GetIncludeSourceList()
-        //{
-        //    if (!gbIncludeActive) return new string[0];
-        //    string[] sSources = new string[gIncludes.Keys.Count];
-        //    gIncludes.Keys.CopyTo(sSources, 0);
-        //    for (int i = 0; i < sSources.Length; i++)
-        //    {
-        //        //string sPathSource = sSources[i];
-        //        //if (!zPath.IsPathRooted(sPathSource) && gsSourceDir != null)
-        //        //{
-        //        //    sPathSource = gsSourceDir + sPathSource;
-        //        //    sSources[i] = sPathSource;
-        //        //}
-        //        sSources[i] = GetPathSource(sSources[i]);
-        //    }
-        //    return sSources;
-        //}
-
-        // not used
-        //public void InitConfig(string sConfigName)
-        //{
-        //    if (!zPath.HasExtension(sConfigName))
-        //        sConfigName += ".config.xml";
-        //    sConfigName = GetFilePath(sConfigName);
-        //    gsSourceConfigName = sConfigName;
-        //    Config = new XmlConfig(sConfigName);
-        //}
-
-        //public void Export(string sPath)
-        //{
-        //    Export(sPath, false, false);
-        //}
-
-        //public void Export(string file, bool fieldNameHeader = false, bool append = false)
-        //{
-        //    if (_trace.TraceLevel >= 1)
-        //        _trace.WriteLine("Export(\"{0}\");", file);
-        //    zdt.Save(gdtResult.DefaultView, file, append, fieldNameHeader, null, Encoding.Default);
-        //}
-
-        //public DataTable Transpose(string sValueColumn, string sFieldDef)
-        //{
-        //    FieldList fields = new FieldList(sFieldDef);
-        //    return Transpose(sValueColumn, fields);
-        //}
-
-        //public DataTable Transpose(string sValueColumn, FieldList fields)
-        //{
-        //    DataTable dtTranspose = zdt.Create(fields);
-        //    DataRow row = dtTranspose.NewRow();
-        //    zdt.Transpose(gdtResult, sValueColumn, fields, row);
-        //    dtTranspose.Rows.Add(row);
-        //    Result = dtTranspose;
-        //    return gdtResult;
-        //}
-
-        //public void Transpose(string sValueColumn, string sFieldDef, DataRow row)
-        //{
-        //    FieldList fields = new FieldList(sFieldDef);
-        //    Transpose(sValueColumn, fields, row);
-        //}
-
-        //public void Transpose(string sValueColumn, FieldList fields, DataRow row)
-        //{
-        //    zdt.Transpose(gdtResult, sValueColumn, fields, row);
-        //}
-
         public void Progress()
         {
             Progress(giProgressValue, giProgressTotal, gsProgressTxt);
@@ -1342,108 +808,9 @@ namespace pb.Compiler
             ProgressChange(value, total, s);
         }
 
-        //public void AddTreeViewResult(string nodeName, string xmlPath, XFormat xFormat)
-        //{
-        //    if (!gbDisableResultEvent && TreeViewResultAdd != null)
-        //    {
-        //        XDocument xd = XDocument.Load(xmlPath);
-        //        TreeViewResultAdd(nodeName, xd.Root, xFormat);
-        //    }
-        //}
-
-        //public void AddTreeViewResult(string nodeName, XElement xmlElement, XFormat xFormat)
-        //{
-        //    if (!gbDisableResultEvent && TreeViewResultAdd != null) TreeViewResultAdd(nodeName, xmlElement, xFormat);
-        //}
-
-        //public void SelectTreeViewResult()
-        //{
-        //    if (!gbDisableResultEvent && TreeViewResultSelect != null)
-        //        TreeViewResultSelect();
-        //}
-
-        //public string GetParametersName()
-        //{
-        //    string company = zapp.GetEntryAssemblyCompany();
-        //    string product = zapp.GetEntryAssemblyProduct();
-        //    if (company == null || product == null)
-        //    {
-        //        company = zapp.GetExecutingAssemblyCompany();
-        //        product = zapp.GetExecutingAssemblyProduct();
-        //    }
-        //    if (product == null && company == null)
-        //        throw new PBException("error unknow assembly product and company");
-        //    if (product == null)
-        //        return company;
-        //    if (company == null)
-        //        return product;
-        //    return company + "_" + product;
-        //}
-
-        //public XmlParameters_v1 CreateParameters()
-        //{
-        //    _xmlParameter = new XmlParameters_v1(GetParametersName());
-        //    return _xmlParameter;
-        //}
-
-        //public void SaveParameters()
-        //{
-        //    //XmlParameter xp = new XmlParameter(GetParametersName());
-        //    //string sName = "WebRun_";
-        //    if (_xmlParameter == null)
-        //        CreateParameters();
-        //    string sName = "RunSource_";
-        //    _xmlParameter.Set(sName + "CurrentDirectory", Directory.GetCurrentDirectory());
-        //    _xmlParameter.Set(sName + "SourceDir", gsSourceDir);
-        //    _xmlParameter.Save();
-        //}
-
-        //public XmlParameters_v1 LoadParameters()
-        //{
-        //    XmlParameters_v1 xp = new XmlParameters_v1(GetParametersName());
-        //    //xp.Deserialize();
-        //    //string sName = "WebRun_";
-        //    string sName = "RunSource_";
-        //    object o;
-        //    o = xp.Get(sName + "CurrentDirectory");
-        //    if (o != null && o is string)
-        //    {
-        //        string dir = (string)o;
-        //        //_trace.WriteLine("set current directory \"{0}\"", dir);
-        //        if (Directory.Exists(dir))
-        //            Directory.SetCurrentDirectory(dir);
-        //    }
-        //    o = xp.Get(sName + "SourceDir");
-        //    if (o != null && o is string)
-        //    {
-        //        //_trace.WriteLine("set source directory \"{0}\"", o);
-        //        gsSourceDir = (string)o;
-        //    }
-        //    return xp;
-        //}
-
         public string GetFilePath(string file)
         {
-            //if (!zPath.IsPathRooted(file) && gsSourceDir != null)
-            //if (!zPath.IsPathRooted(file) && _projectDirectory != null)
-            //    //file = zPath.Combine(gsSourceDir, file);
-            //    file = zPath.Combine(_projectDirectory, file);
-            //return file;
             return file.zRootPath(_projectDirectory);
         }
-
-        //public string GetPathSource(string sPath)
-        //{
-        //    if (!zPath.IsPathRooted(sPath) && gsSourceDir != null) sPath = gsSourceDir + sPath;
-        //    return sPath;
-        //}
-
-        //private void EventWrited(string msg)
-        //{
-        //    if (Writed != null)
-        //    {
-        //        Writed(msg);
-        //    }
-        //}
     }
 }

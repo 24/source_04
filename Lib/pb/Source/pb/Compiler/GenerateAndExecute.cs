@@ -59,10 +59,10 @@ namespace pb.Compiler
         private Type _runType = null;                 // Type _runTypeName in compiled assembly
         private string _runMethodName = null;       // "Run"
 
-        private string _initTypeName = null;          // if null use _runTypeName
+        //private string _initTypeName = null;          // if null use _runTypeName
         private string _initMethodName = null;      // "Init"
 
-        private string _endTypeName = null;           // if null use _runTypeName
+        //private string _endTypeName = null;           // if null use _runTypeName
         private string _endMethodName = null;       // "End"
 
         private Compiler _compiler = null;
@@ -81,6 +81,7 @@ namespace pb.Compiler
         }
 
 
+        // test if (value != null) pour simplifier l'utilisation à partir d'un fichier de config
         /// <summary>example "c:\pib\prog\tools\runsource\exe\run\RunSource_00001"</summary>
         public string AssemblyFilename { get { return _assemblyFilename; } set { if (value != null) _assemblyFilename = value; } }
         public string NameSpace { get { return _nameSpace; } set { if (value != null) _nameSpace = value; } }
@@ -105,7 +106,7 @@ namespace pb.Compiler
             string file = zpath.PathSetExtension(_assemblyFilename, ".cs");
             using (StreamWriter sw = zFile.CreateText(file))
             {
-                GenerateCSharpCode generateCode = new GenerateCSharpCode(sw);
+                CSharpCodeWriter generateCode = new CSharpCodeWriter(sw);
 
                 // using
                 generateCode.WriteUsings(_usings.Keys);
@@ -132,54 +133,6 @@ namespace pb.Compiler
             }
             _compiler.AddSource(new CompilerFile(file));
         }
-
-        //public void Execute(bool useNewThread = true)
-        //{
-        //    bool bError = false;
-        //    bool bOk = false;
-        //    Chrono chrono = new Chrono();
-        //    try
-        //    {
-        //        MethodInfo method = GetAssemblyMethod(_initFunctionName);
-        //        if (method != null)
-        //        {
-        //            chrono.Start();
-        //            method.Invoke(null, null);
-        //            chrono.Stop();
-        //        }
-
-        //        method = GetAssemblyMethod(_runFunctionName);
-        //        if (method == null)
-        //            throw new PBException("function \"{0}\" not found in type \"{1}\" in assembly \"{2}\"", _runFunctionName, _type.zGetTypeName(), _compiler.Results.CompiledAssembly.Location);
-
-        //        MethodInfo endMethod = GetAssemblyMethod(_endFunctionName);
-
-        //        if (useNewThread)
-        //        {
-        //            _executionThread = new Thread(new ThreadStart(ThreadStart));
-        //            _executionThread.CurrentCulture = FormatInfo.CurrentFormat.CurrentCulture;
-        //            _executionThread.SetApartmentState(ApartmentState.STA);
-        //            _executionThread.Start();
-        //        }
-        //        else
-        //        {
-        //            Trace.WriteLine("execute on main thread");
-        //            this.ThreadStart();
-        //        }
-
-        //        bOk = true;
-        //    }
-        //    catch
-        //    {
-        //        bError = true;
-        //        throw;
-        //    }
-        //    finally
-        //    {
-        //        if (!bOk && EndRun != null)
-        //            EndRun(bError);
-        //    }
-        //}
 
         private string GetRunTypeName()
         {

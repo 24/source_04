@@ -16,16 +16,16 @@ namespace pb.Compiler
     {
         string NameSpace { get; set; }
         string ClassName { get; set; }
-        string RunFunctionName { get; set; }
-        string InitFunctionName { get; set; }
-        string EndFunctionName { get; set; }
+        string RunMethodName { get; set; }
+        string InitMethodName { get; set; }
+        string EndMethodName { get; set; }
         ICompiler Compiler { get; }
         Thread ExecutionThread { get; }
 
         void AddUsings(IEnumerable<string> usings);
         void GenerateCSharpCode(string code);
-        Type GetAssemblyType(string typeName = null);
-        MethodInfo GetAssemblyMethod(string methodName);
+        Type GetRunType(string typeName = null);
+        //MethodInfo GetAssemblyMethod(string methodName, bool throwError = false, bool traceError = false);
         MethodInfo GetAssemblyRunMethod();
         MethodInfo GetAssemblyInitMethod();
         MethodInfo GetAssemblyEndMethod();

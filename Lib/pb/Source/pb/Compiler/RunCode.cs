@@ -35,82 +35,126 @@ namespace pb.Compiler
         public Chrono RunChrono { get { return _runChrono; } }
         public Action<bool> EndRun { get { return _endRun; } set { _endRun = value; } }
 
+        //public void Run(bool useNewThread)
+        //{
+        //    _runChrono = new Chrono();
+        //    if (_runAssembly != null)
+        //    {
+        //        _runClass = Reflection.GetType(_runAssembly, _runClassName, ErrorOptions.TraceError);
+        //        if (_runClass != null)
+        //        {
+        //            MethodInfo runMethod = Reflection.GetMethod(_runClass, _runMethodName, ErrorOptions.TraceError);
+        //            if (runMethod != null)
+        //            {
+        //                MethodInfo initMethod = GetMethod(_initMethodName, _initClassName);
+        //                MethodInfo endMethod = GetMethod(_endMethodName, _endClassName);
+
+        //                AssemblyResolve.Stop();
+        //                AssemblyResolve.Clear();
+        //                AssemblyResolve.Start();
+
+        //                if (useNewThread)
+        //                {
+        //                    _runThread = new Thread(new ThreadStart(() => _Run(runMethod, initMethod, endMethod)));
+        //                    _runThread.CurrentCulture = FormatInfo.CurrentFormat.CurrentCulture;
+        //                    _runThread.SetApartmentState(ApartmentState.STA);
+        //                    _runThread.Start();
+        //                }
+        //                else
+        //                {
+        //                    Trace.WriteLine("execute on main thread");
+        //                    _Run(runMethod, initMethod, endMethod);
+        //                }
+        //            }
+        //        }
+        //    }
+        //    else
+        //        Error.WriteMessage(ErrorOptions.TraceError, "run assembly is null");
+        //}
+
         public void Run(bool useNewThread)
         {
             _runChrono = new Chrono();
-            if (_runAssembly != null)
+            if (_runAssembly == null)
+                throw new PBException("assembly is null");
+            MethodInfo runMethod = GetRunMethod();
+            MethodInfo initMethod = GetMethod(_initMethodName);
+            //if (initMethod != null)
+            //    Trace.WriteLine("found init method \"{0}\"", _initMethodName);
+            MethodInfo endMethod = GetMethod(_endMethodName);
+            //if (endMethod != null)
+            //    Trace.WriteLine("found init method \"{0}\"", _endMethodName);
+
+            AssemblyResolve.Stop();
+            AssemblyResolve.Clear();
+            AssemblyResolve.Start();
+
+            if (useNewThread)
             {
-                _runClass = Reflection.GetType(_runAssembly, _runClassName, ErrorOptions.TraceError);
-                if (_runClass != null)
-                {
-                    MethodInfo runMethod = Reflection.GetMethod(_runClass, _runMethodName, ErrorOptions.TraceError);
-                    if (runMethod != null)
-                    {
-                        //if (_initMethodName != null)
-                        //{
-                        //    Type initClass = null;
-                        //    if (_initClassName != null)
-                        //    {
-                        //        if (Reflection.IsQualifiedTypeName(_initClassName))
-                        //            initClass = Reflection.GetType(_initClassName, ErrorOptions.TraceError);
-                        //        else
-                        //            initClass = Reflection.GetType(_runAssembly, _initClassName, ErrorOptions.TraceError);
-                        //        if (initClass != null)
-                        //            initMethod = Reflection.GetMethod(initClass, _initMethodName, ErrorOptions.TraceWarning);
-                        //    }
-                        //    else
-                        //        initMethod = Reflection.GetMethod(_runClass, _initMethodName, ErrorOptions.TraceWarning);
-                        //}
-                        MethodInfo initMethod = GetMethod(_initMethodName, _initClassName);
-                        MethodInfo endMethod = GetMethod(_endMethodName, _endClassName);
-
-                        //endMethod = Reflection.GetMethod(_runClass, _endMethodName, ErrorOptions.TraceWarning);
-
-                        AssemblyResolve.Stop();
-                        AssemblyResolve.Clear();
-                        AssemblyResolve.Start();
-
-                        if (useNewThread)
-                        {
-                            _runThread = new Thread(new ThreadStart(() => _Run(runMethod, initMethod, endMethod)));
-                            _runThread.CurrentCulture = FormatInfo.CurrentFormat.CurrentCulture;
-                            _runThread.SetApartmentState(ApartmentState.STA);
-                            _runThread.Start();
-                        }
-                        else
-                        {
-                            Trace.WriteLine("execute on main thread");
-                            _Run(runMethod, initMethod, endMethod);
-                        }
-                    }
-                }
+                _runThread = new Thread(new ThreadStart(() => _Run(runMethod, initMethod, endMethod)));
+                _runThread.CurrentCulture = FormatInfo.CurrentFormat.CurrentCulture;
+                _runThread.SetApartmentState(ApartmentState.STA);
+                _runThread.Start();
             }
             else
-                //throw new PBException("run assembly is null");
-                Error.WriteMessage(ErrorOptions.TraceError, "run assembly is null");
+            {
+                Trace.WriteLine("execute on main thread");
+                _Run(runMethod, initMethod, endMethod);
+            }
         }
 
-        private MethodInfo GetMethod(string methodName, string className)
+        private MethodInfo GetRunMethod()
         {
-            if (methodName == null)
-                return null;
+            MethodElements runMethodElements = Reflection.GetMethodElements(_runMethodName);
+            if (runMethodElements.TypeName == null)
+                throw new PBException("bad run method name \"{0}\", run method need type name", _runMethodName);
+            if (runMethodElements.QualifiedTypeName != null)
+                _runClass = Reflection.GetType(runMethodElements.QualifiedTypeName, ErrorOptions.ThrowError);
+            else
+                _runClass = Reflection.GetType(_runAssembly, runMethodElements.TypeName, ErrorOptions.ThrowError);
+            return Reflection.GetMethod(_runClass, runMethodElements.MethodName, ErrorOptions.ThrowError);
+        }
 
-            MethodInfo method = null;
-            if (className != null)
+        private MethodInfo GetMethod(string methodName)
+        {
+            MethodElements runMethodElements = Reflection.GetMethodElements(methodName);
+            Type type;
+            if (runMethodElements.TypeName != null)
             {
-                Type type = null;
-                if (Reflection.IsQualifiedTypeName(className))
-                    type = Reflection.GetType(className, ErrorOptions.TraceError);
+                if (runMethodElements.QualifiedTypeName != null)
+                    type = Reflection.GetType(runMethodElements.QualifiedTypeName, ErrorOptions.TraceWarning);
                 else
-                    type = Reflection.GetType(_runAssembly, className, ErrorOptions.TraceError);
-                if (type != null)
-                    method = Reflection.GetMethod(type, methodName, ErrorOptions.TraceWarning);
+                    type = Reflection.GetType(_runAssembly, runMethodElements.TypeName, ErrorOptions.TraceWarning);
             }
             else
-                method = Reflection.GetMethod(_runClass, methodName, ErrorOptions.TraceWarning);
-
-            return method;
+                type = _runClass;
+            if (type != null)
+                return Reflection.GetMethod(type, runMethodElements.MethodName, ErrorOptions.ThrowError);
+            else
+                return null;
         }
+
+        //private MethodInfo GetMethod(string methodName, string className)
+        //{
+        //    if (methodName == null)
+        //        return null;
+
+        //    MethodInfo method = null;
+        //    if (className != null)
+        //    {
+        //        Type type = null;
+        //        if (Reflection.IsQualifiedTypeName(className))
+        //            type = Reflection.GetType(className, ErrorOptions.TraceError);
+        //        else
+        //            type = Reflection.GetType(_runAssembly, className, ErrorOptions.TraceError);
+        //        if (type != null)
+        //            method = Reflection.GetMethod(type, methodName, ErrorOptions.TraceWarning);
+        //    }
+        //    else
+        //        method = Reflection.GetMethod(_runClass, methodName, ErrorOptions.TraceWarning);
+
+        //    return method;
+        //}
 
         private void _Run(MethodInfo runMethod, MethodInfo initMethod = null, MethodInfo endMethod = null)
         {

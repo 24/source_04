@@ -39,6 +39,26 @@ namespace pb.Web
     //    public TimeSpan ServerTimeGap;         // ConnexionTime - ServerConnexionTime
     //}
 
+    public class DebridLinkFrInfo : DebridLinkInfo
+    {
+        public string ErrorCode;
+
+        public override string GetErrorMessage()
+        {
+            if (ErrorCode == null)
+                return null;
+            switch (ErrorCode.ToLower())
+            {
+                case "maxlinkhost":
+                    return string.Format("warning : nombre de liens maximum atteint pour cet hébergeur, link \"{0}\"", Link);
+                case "hostnotvalid":
+                    return string.Format("warning : host not valid, link \"{0}\"", Link);
+                default:
+                    return string.Format("unknow error code \"{0}\"", ErrorCode);
+            }
+        }
+    }
+
     public class DebridLinkFr
     {
         private static bool __trace = false;
@@ -371,7 +391,15 @@ namespace pb.Web
 
         public BsonDocument DownloaderAdd(string link)
         {
-            return ExecutePostCommand("/downloader/add", "link=" + link);
+            BsonDocument result = ExecutePostCommand("/downloader/add", "link=" + link);
+            if (result.zGet("result").zAsString() == "KO")
+            {
+                if (result.zGet("ERR").zAsString() == "maxLinkHost")
+                {
+                    pb.Trace.WriteLine("warning : nombre de liens maximum atteint pour cet hébergeur. link \"{0}\"", link);
+                }
+            }
+            return result;
             // {
             //   "result" : "OK",
             //   "value" : {
@@ -571,6 +599,46 @@ namespace pb.Web
                     return TimeSpan.FromHours(24);
                 default:
                     throw new PBException("unknow DebridLink connexion lifetime {0}", connexionLifetime);
+            }
+        }
+
+        public static int GetLinkRate(string server)
+        {
+            // http://uptobox.com/oiyprfxyfn1v
+            // http://www.uploadable.ch/file/BgeEV6KxnCbB/VPFN118.rar
+            // http://rapidgator.net/file/096cca55aba4d9e9dac902b9508a23b1/MiHN65.rar.html
+            // http://turbobit.net/15cejdxrzleh.html
+            // http://6i5mqc65bc.1fichier.com/
+            // http://ul.to/0cqaq9ou
+            // http://uploaded.net/file/t40jl73t
+            switch (server.ToLower())
+            {
+                case "uptobox":
+                case "uptobox.com":
+                    return 30;
+                case "uploadable":
+                case "uploadable.ch":
+                    return 40;
+                case "rapidgator":
+                case "rapidgator.net":
+                    return 50;
+                case "turbobit":
+                case "turbobit.net":
+                    return 60;
+                case "1fichier":
+                case "1fichier.com":
+                    return 70;
+                case "letitbit":
+                case "letitbit.net":
+                    return 80;
+                case "ul":
+                case "ul.to":
+                    return 90;
+                case "uploaded":
+                case "uploaded.net":
+                    return 95;
+                default:
+                    return 999;
             }
         }
     }

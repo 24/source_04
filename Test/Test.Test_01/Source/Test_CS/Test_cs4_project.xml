@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<configuration>
-	<Project>
-		<NameSpace                        value = "Test_cs4" />
-		<Using                            value = "System.Diagnostics" />
-		<Using                            value = "System.Linq" />
-		<Assembly                         value = "System.Xml.Linq.dll" />
-		<Source                           value = "Test_cs4_f.cs" />
-	</Project>
-</configuration>
+<AssemblyProject>
+  <Root                             value = "..\..\..\..\.." />
+  
+  <IncludeProject                   value = "$Root$\Source\Lib\pb\Source\Project\Basic.project.xml" />
+  <IncludeProject                   value = "$Root$\Source\Lib\pb\Source\Project\RunSourceExtension.project.xml" />
+  
+  <NameSpace                        value = "Test_cs4" />
+	<Using                            value = "System.Diagnostics" />
+	<Using                            value = "System.Linq" />
+	<Assembly                         value = "System.Xml.Linq.dll" />
+	<Source                           value = "Test_cs4_f.cs" />
+	<Source                           value = "Test_Class\Test_Class_Refresh.cs" />
+</AssemblyProject>

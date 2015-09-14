@@ -1,120 +1,95 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
+using pb.IO;
 
 namespace pb.Compiler
 {
-    [Flags]
-    public enum ClassOptions
+    public class GenerateCSharpCodeResult
     {
-        None                 = 0x00000000,
-        //  access modifiers : public, protected internal, protected, internal, or private
-        AccessType           = 0x00000007,
-        Public               = 0x00000001,
-        Private              = 0x00000002,
-        Protected            = 0x00000003,
-        Internal             = 0x00000004,
-        ProtectedInternal    = 0x00000005,
-        // static
-        Static               = 0x00000008,
-        // partial
-        Partial              = 0x00000010
+        public string SourceFile = null;            // "c:\pib\prog\tools\runsource\exe\run\RunSource_00001.cs"
+        public string NameSpace = null;             // namespace from project
+        public string TypeName = null;              // "_RunCode" - "w"
+        public string RunMethodName = null;         // "Run"
+
+        public string GetFullRunMethodName()
+        {
+            string typeName;
+            if (NameSpace != null)
+                typeName = NameSpace + "." + TypeName;
+            else
+                typeName = TypeName;
+            return typeName + "." + RunMethodName;
+        }
     }
 
     public class GenerateCSharpCode
     {
-        private TextWriter _tw = null;
+        private string _sourceFile = null;            // "c:\pib\prog\tools\runsource\exe\run\RunSource_00001.cs"
+        private Dictionary<string, string> _usings = new Dictionary<string, string>();
 
-        public GenerateCSharpCode()
+        private string _nameSpace = null;             // namespace from project
+        private string _runTypeName = null;           // "_RunCode" - "w"
+        private string _runMethodName = null;         // "Run"
+
+        public GenerateCSharpCode(string sourceFile)
         {
-            _tw = new StringWriter();
+            if (zPath.GetExtension(sourceFile).ToLower() != ".cs")
+                sourceFile = zpath.PathSetExtension(sourceFile, ".cs");
+            _sourceFile = sourceFile;
         }
 
-        public GenerateCSharpCode(TextWriter tw)
-        {
-            _tw = tw;
-        }
 
-        public void WriteLine()
-        {
-            _tw.WriteLine();
-        }
+        /// <summary>example "c:\pib\prog\tools\runsource\exe\run\RunSource_00001"</summary>
+        public string SourceFile { get { return _sourceFile; } }
+        // test if (value != null) pour simplifier l'utilisation à partir d'un fichier de config
+        public string NameSpace { get { return _nameSpace; } set { if (value != null) _nameSpace = value; } }
+        public string RunTypeName { get { return _runTypeName; } set { if (value != null) _runTypeName = value; } }
+        public string RunMethodName { get { return _runMethodName; } set { if (value != null) _runMethodName = value; } }
 
-        public void WriteLine(string format, params object[] prm)
+        public void AddUsings(IEnumerable<string> usings)
         {
-            if (prm.Length > 0)
-                _tw.WriteLine(format, prm);
-            else
-                _tw.WriteLine(format);
-        }
-
-        public void WriteUsings(IEnumerable<string> names)
-        {
-            foreach (string name in names)
+            foreach (string name in usings)
             {
-                _tw.WriteLine("using {0};", name);
+                // $$todo vérifier s'il faut mettre un warning si using est déjà dans le distionnaire
+                if (!_usings.ContainsKey(name))
+                    _usings.Add(name, name);
             }
         }
 
-        public void OpenNameSpace(string name)
+        public GenerateCSharpCodeResult GenerateCode(string code)
         {
-            if (name == null)
-                throw new PBException("namespace is null, cannot open namespace");
-            _tw.WriteLine("namespace {0}", name);
-            _tw.WriteLine("{");
-        }
-
-        public void CloseNameSpace()
-        {
-            _tw.WriteLine("}");
-        }
-
-        public void OpenClass(string name, ClassOptions options = ClassOptions.None)
-        {
-            if (name == null)
-                throw new PBException("class name is null, cannot open class");
-            string access = GetAccessString(options);
-            if (access != null)
-                _tw.Write("{0} ", access);
-            if ((options & ClassOptions.Static) == ClassOptions.Static)
-                _tw.Write("static ");
-            if ((options & ClassOptions.Partial) == ClassOptions.Partial)
-                _tw.Write("partial ");
-            _tw.WriteLine("class {0}", name);
-            _tw.WriteLine("{");
-        }
-
-        public void CloseClass()
-        {
-            _tw.WriteLine("}");
-        }
-
-        public override string ToString()
-        {
-            if (_tw is StringWriter)
-                return ((StringWriter)_tw).ToString();
-            else
-                throw new PBException("TextWriter of GenerateCode is not a StringWriter, impossible to generate string");
-        }
-
-        private static string GetAccessString(ClassOptions options)
-        {
-            ClassOptions access = options & ClassOptions.AccessType;
-            switch (access)
+            string file = _sourceFile;
+            using (StreamWriter sw = zFile.CreateText(file))
             {
-                case ClassOptions.Public:
-                    return "public";
-                case ClassOptions.Private:
-                    return "private";
-                case ClassOptions.Protected:
-                    return "protected";
-                case ClassOptions.Internal:
-                    return "internal";
-                case ClassOptions.ProtectedInternal:
-                    return "protected internal";
+                CSharpCodeWriter codeWriter = new CSharpCodeWriter(sw);
+
+                // using
+                codeWriter.WriteUsings(_usings.Keys);
+
+                // open namespace
+                codeWriter.OpenNameSpace(_nameSpace);
+
+                // open class
+                // public static partial class ...
+                codeWriter.OpenClass(_runTypeName, ClassOptions.Public | ClassOptions.Static | ClassOptions.Partial);
+
+                // open function
+                // public static void Run()
+                if (_runMethodName == null)
+                    throw new PBException("run method name is null, can't open method");
+                codeWriter.WriteLine("public static void {0}()", _runMethodName);
+                codeWriter.WriteLine("{");
+                codeWriter.WriteLine(code);
+                codeWriter.WriteLine("}");
+
+                // close class
+                codeWriter.CloseClass();
+
+                // close namespace
+                codeWriter.CloseNameSpace();
             }
-            return null;
+            return new GenerateCSharpCodeResult { SourceFile = _sourceFile, NameSpace = _nameSpace, TypeName = _runTypeName, RunMethodName = _runMethodName };
         }
     }
 }

@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<configuration>
-	<Project>
-		<NameSpace                        value = "Test.Reflection" />
-		<Source                           value = "Test_Reflection_f.cs" />
-    <Source                           value = "..\..\..\..\PB_Library\Source\pb\_pb\GlobalExtension.cs" />
-  </Project>
-</configuration>
+<AssemblyProject>
+  <Root                             value = "..\..\..\..\.." />
+
+  <IncludeProject                   value = "$Root$\Source\Lib\pb\Source\Project\Basic.project.xml" />
+  <IncludeProject                   value = "$Root$\Source\Lib\pb\Source\Project\RunSourceExtension.project.xml" />
+  <IncludeProject                   value = "$Root$\Source\Lib\pb\Source\Project\MongoExtension.project.xml" />
+
+  <NameSpace                        value = "Test.Test_Reflection" />
+  <Using                            value = "Test.Test_Reflection" />
+  <Using                            value = "System.Reflection" />
+  <Source                           value = "Test_Reflection.cs" />
+  <Source                           value = "Test_Assembly.cs" />
+
+  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\_pb\GlobalExtension.cs" />
+</AssemblyProject>

@@ -19,7 +19,17 @@ namespace pb
     //    public PB_Util_InnerException(Exception InnerException, string sMessage, params object[] oPrm) : base(string.Format(sMessage, oPrm), InnerException) { }
     //}
 
-	public class Error
+    [Flags]
+    public enum ErrorOptions
+    {
+        None           = 0,            // no trace no throw
+        ThrowError     = 0x0001,       // throw error
+        Trace          = 0x0010,       // trace message
+        TraceWarning   = 0x0020,       // trace "warning : " + message
+        TraceError     = 0x0030        // trace "error : " + message
+    }
+
+    public static class Error
 	{
         //private static string[] gsException =
         //        {
@@ -47,7 +57,27 @@ namespace pb
         //            "Xceed.Ftp"
         //        };
 
-		public static void ErrorWrite(Exception ex)
+        public static void WriteMessage(ErrorOptions option, string message, params object[] prm)
+        {
+            if (prm.Length > 0)
+                message = string.Format(message, prm);
+            switch ((ErrorOptions)((int)option >> 4 << 4))
+            {
+                case ErrorOptions.Trace:
+                    Trace.WriteLine(message);
+                    break;
+                case ErrorOptions.TraceWarning:
+                    Trace.WriteLine("warning : " + message);
+                    break;
+                case ErrorOptions.TraceError:
+                    Trace.WriteLine("error : " + message);
+                    break;
+            }
+            if ((option & ErrorOptions.ThrowError) == ErrorOptions.ThrowError)
+                throw new PBException(message);
+        }
+
+        public static void WriteToConsole(Exception ex)
 		{
 			Console.WriteLine(GetErrorMessage(ex));
 		}

@@ -36,7 +36,7 @@ namespace pb.Data.Xml
 
         //private string _configPath = null;
         private string _configFile = null;
-        private DateTime _configFileDateTime;
+        private DateTime _configFileDateTime = DateTime.MinValue;
         private XDocument _xdocument = null;
         //private string _configLocalPath = null;
         private string _configLocalFile = null;
@@ -45,7 +45,7 @@ namespace pb.Data.Xml
         //private string _rootDir = null;
         //private Dictionary<string, string> _textVariables = null;
 
-        public XmlConfig(string configFile = null, string configLocalFile = null)
+        public XmlConfig(string configFile = null, string configLocalFile = null, bool createConfigIfFileDontExist = false)
         {
             //SetConfigPath(configPath);
             //SetConfigLocalPath(configLocalPath);
@@ -66,7 +66,7 @@ namespace pb.Data.Xml
             else if (_configFile != null)
                 _configLocalFile = zpath.PathSetFileName(_configFile, zPath.GetFileNameWithoutExtension(_configFile) + _defaultSuffixLocalConfigName);
 
-            Init();
+            Init(createConfigIfFileDontExist);
         }
 
         //public XmlConfig(string configPath, string configLocalPath)
@@ -107,7 +107,7 @@ namespace pb.Data.Xml
         public string ConfigLocalFile { get { return _configLocalFile; } }
         public XDocument LocalXDocument { get { return _localXDocument; } }
 
-        private void Init()
+        private void Init(bool createConfigIfFileDontExist)
         {
             if (zFile.Exists(_configFile))
             {
@@ -122,8 +122,10 @@ namespace pb.Data.Xml
                 _configFileDateTime = zFile.CreateFileInfo(_configFile).LastWriteTime;
                 //SetXmlAttributesTextVariables();
             }
-            else
+            else if (createConfigIfFileDontExist)
                 _xdocument = new XDocument();
+            else
+                throw new PBException("file not found \"{0}\"", _configFile);
 
             if (_xdocument.Root == null)
                 _xdocument.Add(new XElement("configuration"));
@@ -155,7 +157,7 @@ namespace pb.Data.Xml
             SetAllVariablesValues();
         }
 
-        public void Refresh()
+        public bool Refresh()
         {
             bool reload = false;
             //if (zFile.Exists(_configFile) && new FileInfo(_configFile).LastWriteTime > _configFileDateTime)
@@ -188,6 +190,7 @@ namespace pb.Data.Xml
                 //if (__initAllVariablesValues)
                 SetAllVariablesValues();
             }
+            return reload;
         }
 
         //private void SetConfigPath(string configPath)
@@ -336,6 +339,25 @@ namespace pb.Data.Xml
                 default:
                     return null;
             }
+        }
+    }
+
+    public static class XmlConfigExtension
+    {
+        public static XmlConfigElement zGetConfigElement(this XmlConfig config, string xpath)
+        {
+            if (config != null)
+                return config.GetConfigElement(xpath);
+            else
+                return null;
+        }
+
+        public static XmlConfigElement zGetConfigElementExplicit(this XmlConfig config, string xpath)
+        {
+            if (config != null)
+                return config.GetConfigElementExplicit(xpath);
+            else
+                return null;
         }
     }
 

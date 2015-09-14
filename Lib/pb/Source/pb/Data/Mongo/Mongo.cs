@@ -40,6 +40,17 @@ namespace pb.Data.Mongo
 
     public static class zmongo
     {
+        public static MongoCollection GetCollection(string collectionName, string databaseName, string serverName = null)
+        {
+            if (collectionName == null)
+                throw new PBException("cant generate id, mongo collection is'nt defined");
+            if (databaseName == null)
+                throw new PBException("cant generate id, mongo database is'nt defined");
+            if (serverName == null)
+                serverName = "mongodb://localhost";
+            return new MongoClient(serverName).GetServer().GetDatabase(databaseName).GetCollection(collectionName);
+        }
+
         public static IEnumerable<IEnumerable<ZBsonElement>> GetBsonDocumentsEnumerate(IEnumerable<BsonDocument> docs)
         {
             foreach (BsonDocument doc in docs)
@@ -457,6 +468,7 @@ namespace pb.Data.Mongo
         {
             //value.zToBsonDocument().zSaveToJsonFile(file);
             //zmongo.SaveToJsonFile(file, value.zToBsonDocument());
+            //Trace.WriteLine("zSave() single value");
             zmongo.SaveToJsonFile(file, value);
         }
 
@@ -464,7 +476,16 @@ namespace pb.Data.Mongo
         {
             //values.zToBsonDocuments().zSaveToJsonFile(file);
             //zmongo.SaveToJsonFile(file, values.zToBsonDocuments());
+            //Trace.WriteLine("zSave() enumerable values");
             zmongo.SaveToJsonFile(file, values);
+        }
+
+        // IOrderedEnumerable<T> is returned by OrderBy
+        // if no zSave extension for IOrderedEnumerable<T> c# compiler call zSave(this T value, string file)
+        public static void zSave<T>(this IOrderedEnumerable<T> values, string file)
+        {
+            //Trace.WriteLine("zSave() ordered enumerable values");
+            zmongo.SaveToJsonFile(file, values as IEnumerable<T>);
         }
 
         //public static void zSave(this BsonValue value, string file)

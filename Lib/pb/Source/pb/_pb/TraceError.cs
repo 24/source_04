@@ -15,8 +15,8 @@ namespace pb
 
         public void WriteError(Exception ex)
         {
-            string err = string.Format("{0:dd/MM/yyyy HH:mm:ss} ", DateTime.Now) + Error.GetErrorMessage(ex, false, true);
-            string stack = "----------------------\r\n" + Error.GetErrorStackTrace(ex);
+            string err = string.Format("{0:dd/MM/yyyy HH:mm:ss} ", DateTime.Now) + Error.GetErrorMessage(ex, false, true) + "\r\n";
+            string stack = "----------------------\r\n" + Error.GetErrorStackTrace(ex) + "\r\n";
 
             if (_writer != null)
             {

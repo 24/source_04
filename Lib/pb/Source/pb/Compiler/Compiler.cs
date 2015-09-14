@@ -96,7 +96,8 @@ namespace pb.Compiler
         public string DefaultDir { get { return _defaultDir; } set { _defaultDir = value; } }
         public IEnumerable<CompilerFile> SourceList { get { return _sourceList.Values; } }
         public IEnumerable<CompilerFile> FileList { get { return _fileList.Values; } }
-        public IEnumerable<CompilerAssembly> AssemblyList { get { return _assemblyList.Values; } }
+        //public IEnumerable<CompilerAssembly> AssemblyList { get { return _assemblyList.Values; } }
+        public Dictionary<string, CompilerAssembly> Assemblies { get { return _assemblyList; } }
         public string Language { get { return _language; } set { _language = value; } }
         public Dictionary<string, string> ProviderOption { get { return _providerOption; } }
         public string ResourceCompiler { get { return _resourceCompiler; } set { _resourceCompiler = value; } }
@@ -105,7 +106,8 @@ namespace pb.Compiler
         public bool DebugInformation { get { return _debugInformation; } set { _debugInformation = value; } }
         public int WarningLevel { get { return _warningLevel; } set { _warningLevel = value; } }
         public string OutputDir { get { return _outputDir; } set { _outputDir = value; } }
-        public string OutputAssembly { get { return _outputAssembly; } set { _outputAssembly = value; } }
+        // set { _outputAssembly = value; }
+        public string OutputAssembly { get { return _outputAssembly; } }
         public string CompilerOptions { get { return _compilerOptions; } set { _compilerOptions = value; } }
         public ResourceCompilerResults ResourceResults { get { return _resourceResults; } }
         public CompilerResults Results { get { return _results; } }
@@ -119,53 +121,83 @@ namespace pb.Compiler
                 return false;
         }
 
-        public void SetParameters(ICompilerProject project, bool includeProject = false)
+
+        // dontSetOutput : true when executing code from runsource, true for CompilerDefaultValues and ProjectDefaultValues, otherwise false
+        //public void SetParameters(ICompilerProject project, bool includeProject = false, bool dontSetOutput = false)
+        public void SetParameters(ICompilerProject project, bool dontSetOutput = false)
         {
             if (project == null)
                 return;
-            if (!includeProject)
-            {
+            //if (!includeProject)
+            //{
                 //compiler.Language = xe.Get("Language", compiler.Language);
                 string s = project.GetLanguage();
                 if (s != null)
+                {
+                    if (_language != null)
+                        WriteLine(1, "Compiler warning : redefine language \"{0}\" as \"{1}\" from project \"{2}\"", _language, s, project.ProjectFile);
                     _language = s;
+                }
 
                 //foreach (XElement xe2 in xe.GetElements("ProviderOption"))
                 //    compiler.SetProviderOption(xe2.zAttribValue("name"), xe2.zAttribValue("value"));
-                SetProviderOptions(project.GetProviderOptions());
+                SetProviderOptions(project.GetProviderOptions(), project);
 
                 //compiler.ResourceCompiler = xe.Get("ResourceCompiler", compiler.ResourceCompiler);
                 s = project.GetResourceCompiler();
                 if (s != null)
-                    _resourceCompiler = s;
-
-                //compiler.OutputDir = xe.Get("OutputDir", compiler.OutputDir);
-                s = project.GetOutputDir();
-                if (s != null)
-                    _outputDir = s;
-
-                //compiler.OutputAssembly = xe.Get("Output", compiler.OutputAssembly);
-                s = project.GetOutput();
-                if (s != null)
-                    _outputAssembly = s;
-                string ext = zPath.GetExtension(_outputAssembly);
-                if (ext != null)
                 {
-                    if (ext.ToLower() == ".exe")
-                        _generateExecutable = true;
-                    else if (ext.ToLower() == ".dll")
-                        _generateExecutable = false;
+                    if (_resourceCompiler != null)
+                        WriteLine(1, "Compiler warning : redefine resource compiler \"{0}\" as \"{1}\" from project \"{2}\"", _resourceCompiler, s, project.ProjectFile);
+                    _resourceCompiler = s;
                 }
 
+                //compiler.OutputDir = xe.Get("OutputDir", compiler.OutputDir);
+                if (!dontSetOutput)
+                {
+                    s = project.GetOutputDir();
+                    if (s != null)
+                    {
+                        if (_outputDir != null)
+                            WriteLine(1, "Compiler warning : redefine output directory \"{0}\" as \"{1}\" from project \"{2}\"", _outputDir, s, project.ProjectFile);
+                        _outputDir = s;
+                    }
+                }
+
+                //compiler.OutputAssembly = xe.Get("Output", compiler.OutputAssembly);
+                if (!dontSetOutput)
+                {
+                    s = project.GetOutput();
+                    if (s != null)
+                        SetOutputAssembly(s, project);
+                }
+                //if (s != null)
+                //    _outputAssembly = s;
+                //string ext = zPath.GetExtension(_outputAssembly);
+                //if (ext != null)
+                //{
+                //    if (ext.ToLower() == ".exe")
+                //        _generateExecutable = true;
+                //    else if (ext.ToLower() == ".dll")
+                //        _generateExecutable = false;
+                //}
+
+                bool? b;
                 //compiler.GenerateExecutable = xe.Get("GenerateExecutable").zTryParseAs(compiler.GenerateExecutable);
-                bool? b = project.GetGenerateExecutable();
-                if (b != null)
-                    _generateExecutable = (bool)b;
+                if (!dontSetOutput)
+                {
+                    b = project.GetGenerateExecutable();
+                    if (b != null)
+                        _generateExecutable = (bool)b;
+                }
 
                 //compiler.GenerateInMemory = xe.Get("GenerateInMemory").zTryParseAs(compiler.GenerateInMemory);
-                b = project.GetGenerateInMemory();
-                if (b != null)
-                    _generateInMemory = (bool)b;
+                if (!dontSetOutput)
+                {
+                    b = project.GetGenerateInMemory();
+                    if (b != null)
+                        _generateInMemory = (bool)b;
+                }
 
                 //compiler.DebugInformation = xe.Get("DebugInformation").zTryParseAs(compiler.DebugInformation);
                 b = project.GetDebugInformation();
@@ -186,20 +218,24 @@ namespace pb.Compiler
                     AddCompilerOption("/keyfile:\"" + s + "\"");
 
                 //string target = xe.Get("Target");
-                s = project.GetTarget();
-                if (s != null)
-                    AddCompilerOption("/target:" + s);
+                if (!dontSetOutput)
+                {
+                    s = project.GetTarget();
+                    if (s != null)
+                        AddCompilerOption("/target:" + s);
+                }
 
                 //string icon = xe.Get("Icon");
                 s = project.GetIcon();
                 if (s != null)
                     //AddCompilerOption("/win32icon:" + s);
                     AddCompilerOption("/win32icon:\"" + s + "\"");
-            }
+            //}
 
             foreach (ICompilerProject project2 in project.GetIncludeProjects())
             {
-                SetParameters(project2, includeProject: true);
+                //SetParameters(project2, includeProject: true, dontSetOutput: dontSetOutput);
+                SetParameters(project2, dontSetOutput: dontSetOutput);
             }
 
             //compiler.AddSources(xe.GetElements("Source"));
@@ -214,15 +250,39 @@ namespace pb.Compiler
             //compiler.AddLocalAssemblies(xe.GetElements("LocalAssembly"));
 
             //compiler.AddCopyOutputDirectories(xe.GetValues("CopyOutput"));
-            AddCopyOutputDirectories(project.GetCopyOutputs());
+            if (!dontSetOutput)
+            {
+                AddCopyOutputDirectories(project.GetCopyOutputs());
+            }
         }
 
-        public void SetProviderOptions(IEnumerable<CompilerProviderOption> options)
+        public void SetOutputAssembly(string outputAssembly, ICompilerProject project = null)
+        {
+            if (outputAssembly != null)
+            {
+                if (_outputAssembly != null)
+                    WriteLine(1, "Compiler warning : redefine output assembly \"{0}\" as \"{1}\" from project \"{2}\"", _outputAssembly, outputAssembly, project.ProjectFile);
+                _outputAssembly = outputAssembly;
+                string ext = zPath.GetExtension(outputAssembly);
+                if (ext != null)
+                {
+                    if (ext.ToLower() == ".exe")
+                        _generateExecutable = true;
+                    else if (ext.ToLower() == ".dll")
+                        _generateExecutable = false;
+                }
+            }
+        }
+
+        public void SetProviderOptions(IEnumerable<CompilerProviderOption> options, ICompilerProject project = null)
         {
             foreach (CompilerProviderOption option in options)
             {
                 if (_providerOption.ContainsKey(option.Name))
+                {
+                    WriteLine(1, "Compiler warning : redefine provider option \"{0}\" value \"{1}\" as \"{2}\" from project \"{3}\"", option.Name, _providerOption[option.Name], option.Value, project != null ? project.ProjectFile : "--no project--");
                     _providerOption.Remove(option.Name);
+                }
                 _providerOption.Add(option.Name, option.Value);
             }
         }
@@ -242,7 +302,8 @@ namespace pb.Compiler
 
         public void AddCompilerOption(string option)
         {
-            if (option == null || option == "") return;
+            if (option == null || option == "")
+                return;
             if (_compilerOptions != null)
                 _compilerOptions += " " + option;
             else
@@ -265,6 +326,11 @@ namespace pb.Compiler
         {
             if (!_sourceList.ContainsKey(source.File))
                 _sourceList.Add(source.File, source);
+            else
+            {
+                WriteLine(1, "Compiler warning : duplicate source file \"{0}\" from project \"{1}\"", source.File, source.Project.ProjectFile);
+                WriteLine(1, "  already loaded from project \"{0}\"", _sourceList[source.File].Project.ProjectFile);
+            }
         }
 
         //public void AddSources(IEnumerable<XElement> sources)
@@ -289,6 +355,11 @@ namespace pb.Compiler
             {
                 if (!_fileList.ContainsKey(file.File))
                     _fileList.Add(file.File, file);
+                else
+                {
+                    WriteLine(1, "Compiler warning : duplicate file \"{0}\" from project \"{1}\"", file.File, file.Project.ProjectFile);
+                    WriteLine(1, "  already loaded from project \"{0}\"", _fileList[file.File].Project.ProjectFile);
+                }
             }
         }
 
@@ -364,8 +435,28 @@ namespace pb.Compiler
 
         public void AddAssembly(CompilerAssembly assembly)
         {
-            if (!_assemblyList.ContainsKey(assembly.File))
-                _assemblyList.Add(assembly.File, assembly);
+            //if (!_assemblyList.ContainsKey(assembly.File))
+            //    _assemblyList.Add(assembly.File, assembly);
+            string filename = zPath.GetFileNameWithoutExtension(assembly.File).ToLowerInvariant();
+            if (!_assemblyList.ContainsKey(filename))
+                _assemblyList.Add(filename, assembly);
+            else if (!assembly.Project.IsIncludeProject)
+            {
+                CompilerAssembly assembly2 = _assemblyList[assembly.File];
+                if (!assembly2.Project.IsIncludeProject)
+                {
+                    WriteLine(1, "Compiler warning : duplicate assembly \"{0}\" from project \"{1}\"", assembly.File, assembly.Project.ProjectFile);
+                    WriteLine(1, "  already loaded from project \"{0}\"", assembly2.Project.ProjectFile);
+                }
+            }
+        }
+
+        public CompilerAssembly GetAssembly(string filename)
+        {
+            if (_assemblyList.ContainsKey(filename))
+                return _assemblyList[filename];
+            else
+                return null;
         }
 
         //public void AddLocalAssemblies(IEnumerable<XElement> assemblies)

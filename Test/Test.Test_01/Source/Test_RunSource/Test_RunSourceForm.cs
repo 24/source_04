@@ -413,7 +413,7 @@ namespace Test_RunSource
             //_runSource.TreeViewResultSelect += new TreeViewResultSelectEvent(EventTreeViewResultSelect);
             //_runSource.ErrorResultSet += new SetDataTableEvent(EventErrorResultSet);
             //_runSource.ProgressChange += new ProgressChangeEvent(EventProgressChange);
-            runSource.EndRun += new EndRunEvent(EventEndRun);
+            runSource.EndRunCode += new EndRunEvent(EventEndRun);
 
             //runSource.SourceDir = Program.Config.GetRootSubDir("SourceDir", "WRun", true);
             //runSource.SourceDir = Program.Config.Get("SourceDir", "WRun").zRootPath(zapp.GetAppDirectory());
@@ -434,7 +434,7 @@ namespace Test_RunSource
             //_runSource.TreeViewResultSelect -= new TreeViewResultSelectEvent(EventTreeViewResultSelect);
             //_runSource.ErrorResultSet -= new SetDataTableEvent(EventErrorResultSet);
             //_runSource.ProgressChange -= new ProgressChangeEvent(EventProgressChange);
-            runSource.EndRun -= new EndRunEvent(EventEndRun);
+            runSource.EndRunCode -= new EndRunEvent(EventEndRun);
 
             remoteRunSource.Dispose();
             remoteRunSource = null;
@@ -507,7 +507,7 @@ namespace Test_RunSource
         {
             try
             {
-                runSource.Run(s);
+                runSource.RunCode(s);
             }
             catch (Exception ex)
             {

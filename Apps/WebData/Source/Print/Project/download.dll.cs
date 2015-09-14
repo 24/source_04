@@ -1,4 +1,4 @@
-﻿Trace.CurrentTrace.TraceLevel = 0;
+Trace.CurrentTrace.TraceLevel = 0;
 Trace.CurrentTrace.TraceLevel = 1;
 
 Compiler.TraceLevel = 1;
@@ -26,7 +26,6 @@ _rs.Trace.SetTraceDirectory(null);
 //*************************************************************************************************************************
 
 RunSource.CurrentRunSource.SetProject("download.project.xml");
-RunSource.CurrentRunSource.SetProject("download.v1.project.xml");
 Trace.WriteLine(RunSource.CurrentRunSource.ProjectFile);
 Trace.WriteLine(RunSource.CurrentRunSource.ProjectDirectory);
 
@@ -47,7 +46,7 @@ Download.Print.DownloadAutomate_f.Test_DownloadAutomate_01(loadNewPost: true, se
 
 DownloadAutomate_f.GetMongoDownloadAutomateManager().GetLastRunDateTime().zTrace();
 DownloadAutomate_f.GetMongoDownloadAutomateManager().GetNextRunDateTime().zTrace();
-DownloadAutomate_f.GetMongoDownloadAutomateManager().SetLastRunDateTime(DateTime.Parse("2015-08-26 08:00:00"));
+DownloadAutomate_f.GetMongoDownloadAutomateManager().SetLastRunDateTime(DateTime.Parse("2015-09-14 08:00:00"));
 DownloadAutomate_f.GetMongoDownloadAutomateManager().SetLastRunDateTime(DateTime.Parse("2015-03-22 00:00:00"));
 DownloadAutomate_f.GetMongoDownloadAutomateManager().SetLastRunDateTime(DateTime.Parse("2015-01-10 00:00:00"));
 DownloadAutomate_f.GetMongoDownloadAutomateManager().SetLastRunDateTime(DateTime.Parse("2015-03-01 00:00:00"));
@@ -897,7 +896,6 @@ Test.Test_Web.Test_Mail_f.Test_Mail_02("pierre.beuzart@gmail.com", "test 3", "te
 Http2.LoadUrl(@"c:\pib\dev_data\exe\runsource\download\sites\rapide-ddl\cache\detail\39000\ebooks_magazine_39023-multi-lautomobile-no821-octobre-2014.html");
 
 
-Trace.WriteLine("toto");
 RunSource.CurrentRunSource.SetProjectFile("download.project.xml");
 Trace.WriteLine(RunSource.CurrentRunSource.ProjectFile);
 Trace.WriteLine(RunSource.CurrentRunSource.ProjectDirectory);
@@ -911,3 +909,18 @@ HttpRun.Load("http://www.telecharger-magazine.com/science/4588-pour-la-science-n
 
 HtmlRun.Select("//div");
 
+Type.GetType("Download.Print._RunCode, ebook.download, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null").AssemblyQualifiedName.zTrace();
+Reflection.GetType("Download.Print._RunCode, ebook.download, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null", ErrorOptions.TraceWarning).AssemblyQualifiedName.zTrace();
+Reflection.GetType("ebook.download, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null", "Download.Print._RunCode", ErrorOptions.TraceWarning).AssemblyQualifiedName.zTrace();
+Reflection.GetAssembly("ebook.download, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null", ErrorOptions.TraceWarning).FullName.zTrace();
+Reflection.GetMethodElements("Download.Print._RunCode.Init, ebook.download, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null").zTraceJson();
+
+AppDomain.CurrentDomain.GetAssemblies().Select(assembly => new { IsDynamic = assembly.IsDynamic, FullName = assembly.FullName, Location = !assembly.IsDynamic ? assembly.Location : null }).zTraceJson();
+
+AppDomain.CurrentDomain.GetAssemblies().Where(assembly => assembly.FullName == "ebook.download, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null").First().FullName.zTrace();
+AppDomain.CurrentDomain.GetAssemblies().Where(assembly => assembly.FullName == "ebook.download, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null").First().GetType("Download.Print._RunCode").AssemblyQualifiedName.zTrace();
+
+LoadDll.Fake();
+Assembly.Load("ebook.download, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null").FullName.zTrace();
+
+Trace.WriteLine("toto");

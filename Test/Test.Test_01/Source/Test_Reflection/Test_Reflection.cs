@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 
 namespace Test.Test_Reflection
 {
-    public static class Test_Reflection_f
+    public static class Test_Reflection
     {
         public static void Test_Reflection_01()
         {

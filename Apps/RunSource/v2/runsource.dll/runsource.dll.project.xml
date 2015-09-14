@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <AssemblyProject>
-	<Target                                    value = "library" /> <!-- exe (exe console default), library (dll), module (.netmodule), winexe (exe windows) -->
-	<Output                                    value = "bin32\runsource.dll" />
-	<Icon                                      value = "Properties\app.ico" />
-	<NameSpace                                 value = "pb" />
-	<CompilerOptions                           value = "/platform:x86" />  <!-- x86, Itanium, x64, or anycpu (default). -->
-<!--<GenerateExecutable                        value = "true" />-->
-  <Source                                    value = "Properties\AssemblyInfo.cs" />
+  <Root                             value = "..\..\..\..\.." />
+  
+  <Target                           value = "library" /> <!-- exe (exe console default), library (dll), module (.netmodule), winexe (exe windows) -->
+	<Output                           value = "bin32\runsource.dll" />
+	<Icon                             value = "Properties\app.ico" />
+	<NameSpace                        value = "pb" />
+	<CompilerOptions                  value = "/platform:x86" />  <!-- x86, Itanium, x64, or anycpu (default). -->
+<!--<GenerateExecutable               value = "true" />-->
+  <Source                           value = "Properties\AssemblyInfo.cs" />
   
   <!--
     to get .zTrace() and .zView()
@@ -18,77 +20,88 @@
       pb\_pb\NamedValue.cs
   -->
 
-  <!--<Source                                    value = "..\..\..\..\Lib\Source\pb\_pb\NamedValue.cs" />-->
-  <!--<Source                                    value = "..\..\..\..\Lib\Source\pb\_pb\TypeView.cs" />-->
-  <!--<Source                                    value = "..\..\..\..\Lib\Source\pb\Data\DataTable.cs" />-->
-  <!--<Source                                    value = "..\..\..\..\Lib\Source\pb\Data\DataTable2.cs" />-->
+  <!--<Source                         value = "..\..\..\..\Lib\Source\pb\_pb\NamedValue.cs" />-->
+  <!--<Source                         value = "..\..\..\..\Lib\Source\pb\_pb\TypeView.cs" />-->
+  <!--<Source                         value = "..\..\..\..\Lib\Source\pb\Data\DataTable.cs" />-->
+  <!--<Source                         value = "..\..\..\..\Lib\Source\pb\Data\DataTable2.cs" />-->
 
-  <Source                                    value = "..\..\..\..\Lib\pb\Source\pb\_pb\Chrono.cs" />
-  <Source                                    value = "..\..\..\..\Lib\pb\Source\pb\_pb\Convert.cs" />
-  <Source                                    value = "..\..\..\..\Lib\pb\Source\pb\_pb\Error.cs" />
-  <Source                                    value = "..\..\..\..\Lib\pb\Source\pb\_pb\FormatInfo.cs" />
-  <Source                                    value = "..\..\..\..\Lib\pb\Source\pb\_pb\ParseAs.cs" />
-  <Source                                    value = "..\..\..\..\Lib\pb\Source\pb\_pb\PBException.cs" />
-  <Source                                    value = "..\..\..\..\Lib\pb\Source\pb\_pb\Process.cs" />
-  <Source                                    value = "..\..\..\..\Lib\pb\Source\pb\_pb\Progress.cs" />
-  <Source                                    value = "..\..\..\..\Lib\pb\Source\pb\_pb\Reflection.cs" />
-  <Source                                    value = "..\..\..\..\Lib\pb\Source\pb\_pb\Trace.cs" />
-  <Source                                    value = "..\..\..\..\Lib\pb\Source\pb\_pb\TraceError.cs" />
-  <Source                                    value = "..\..\..\..\Lib\pb\Source\pb\_pb\TraceLevel.cs" />
-  <Source                                    value = "..\..\..\..\Lib\pb\Source\pb\_pb\TraceSetWriter.cs" />
-  <Source                                    value = "..\..\..\..\Lib\pb\Source\pb\Compiler\AssemblyResolve.cs" />
-  <Source                                    value = "..\..\..\..\Lib\pb\Source\pb\Compiler\Compiler.cs" />
-  <Source                                    value = "..\..\..\..\Lib\pb\Source\pb\Compiler\CompilerProject.cs" />
-  <Source                                    value = "..\..\..\..\Lib\pb\Source\pb\Compiler\GenerateAndExecute.cs" />
-  <Source                                    value = "..\..\..\..\Lib\pb\Source\pb\Compiler\GenerateCSharpCode.cs" />
-  <!--<Source                                    value = "..\..\..\..\Lib\pb\Source\pb\Compiler\ICompilerExtension.cs" />-->
-  <Source                                    value = "..\..\..\..\Lib\pb\Source\pb\Compiler\RunSource.cs" />
-  <Source                                    value = "..\..\..\..\Lib\pb\Source\pb\Data\GClass.cs" />
-  <Source                                    value = "..\..\..\..\Lib\pb\Source\pb\Data\Image.cs" />
-  <Source                                    value = "..\..\..\..\Lib\pb\Source\pb\Data\Xml\Xml.cs" />
-  <Source                                    value = "..\..\..\..\Lib\pb\Source\pb\Data\Xml\XmlConfig.cs" />
-  <Source                                    value = "..\..\..\..\Lib\pb\Source\pb\IO\File.cs" />
-  <Source                                    value = "..\..\..\..\Lib\pb\Source\pb\IO\Path.cs" />
-  <Source                                    value = "..\..\..\..\Lib\pb\Source\pb\IO\StreamTransfer.cs" />
-  <Source                                    value = "..\..\..\..\Lib\pb\Source\pb\IO\WriteToFile.cs" />
-  <Source                                    value = "..\..\..\..\Lib\pb\Source\pb\IO\WriteToFileCreate.cs" />
-  <Source                                    value = "..\..\..\..\Lib\pb\Source\pb\IO\zDirectory.cs" />
-  <Source                                    value = "..\..\..\..\Lib\pb\Source\pb\IO\zFile.cs" />
-  <Source                                    value = "..\..\..\..\Lib\pb\Source\pb\Text\Regex.cs" />
-  <Source                                    value = "..\..\..\..\Lib\pb\Source\pb\Text\Split.cs" />
-  <Source                                    value = "..\..\..\..\Lib\pb\Source\pb\Text\String.cs" />
-  <Source                                    value = "..\..\..\..\Lib\pb\Source\pb\Text\StringZones.cs" />
-  <Source                                    value = "..\..\..\..\Lib\pb\Source\pb\Web\Html\HtmlCharCodes.cs" />
-  <Source                                    value = "..\..\..\..\Lib\pb\Source\pb\Web\Html\HtmlReader.cs" />
-  <Source                                    value = "..\..\..\..\Lib\pb\Source\pb\Web\Html\HtmlReader_v2.cs" />
-  <Source                                    value = "..\..\..\..\Lib\pb\Source\pb\Web\Html\HtmlReaderBase.cs" />
-  <Source                                    value = "..\..\..\..\Lib\pb\Source\pb\Web\Html\HtmlTag.cs" />
-  <Source                                    value = "..\..\..\..\Lib\pb\Source\pb\Web\Html\HtmlToXml.cs" />
-  <Source                                    value = "..\..\..\..\Lib\pb\Source\pb\Web\Http\Http.cs" />
-  <Source                                    value = "..\..\..\..\Lib\pb\Source\pb\Web\Http\HttpRequest.cs" />
-  <Source                                    value = "..\..\..\..\Lib\pb\Source\pb\Web\Http\HttpRun.cs" />
-  <Source                                    value = "..\..\..\..\Lib\pb\Source\pb\Web\Http\HttpXml.cs" />
-  <Source                                    value = "..\..\..\..\Lib\pb\Source\pb\Web\Http\Url.cs" />
-  <Source                                    value = "..\..\..\..\Lib\pb\Source\pb\Web\Http\XmlDocumentSourceType.cs" />
-  <Source                                    value = "..\..\..\..\Lib\pb\Source\pb\Windows\Win32\GDI.cs" />
-  <Source                                    value = "..\..\..\..\Lib\pb\Source\pb\Windows\Win32\Kernel.cs" />
-  <Source                                    value = "..\..\..\..\Lib\pb\Source\pb\Windows\Win32\User.Const.cs" />
-  <Source                                    value = "..\..\..\..\Lib\pb\Source\pb\Windows\Win32\User.Struct.cs" />
-  <Source                                    value = "..\..\..\..\Lib\pb\Source\pb\Windows\Win32\User.cs" />
-  <Source                                    value = "..\..\..\..\Lib\pb\Source\pb\Windows\Win32\Windows.cs" />
+  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\_pb\Chrono.cs" />
+  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\_pb\Convert.cs" />
+  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\_pb\Error.cs" />
+  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\_pb\FormatInfo.cs" />
+  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\_pb\ParseAs.cs" />
+  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\_pb\PBException.cs" />
+  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\_pb\Process.cs" />
+  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\_pb\Progress.cs" />
+  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\_pb\Reflection.cs" />
+  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\_pb\Trace.cs" />
+  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\_pb\TraceError.cs" />
+  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\_pb\TraceLevel.cs" />
+  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\_pb\TraceSetWriter.cs" />
   
-  <Assembly                                  value = "System.dll" />
-	<Assembly                                  value = "System.Core.dll" />
-	<Assembly                                  value = "System.Data.dll" />
-	<Assembly                                  value = "System.Drawing.dll" />
-	<Assembly                                  value = "System.Web.dll" />
-	<Assembly                                  value = "System.Windows.Forms.dll" />
-	<Assembly                                  value = "System.Xml.dll" />
-	<Assembly                                  value = "System.Xml.Linq.dll" />
-	<Assembly                                  value = "Microsoft.JScript.dll" />
-  <!--<Assembly                                  value = "..\..\..\..\..\RuntimeLibrary\LongPath\LongPath\Pri.LongPath.dll" />-->
-  <!--<Assembly                                  value = "c:\pib\drive\google\dev\project\RuntimeLibrary\LongPath\LongPath\Pri.LongPath.dll" />-->
-  <Assembly                                  value = "..\..\..\..\Lib\LongPath\Pri.LongPath\bin\Debug\Pri.LongPath.dll" />
-  <Assembly                                  value = "..\runsource.irunsource\bin32\runsource.irunsource.dll" />
-  <DebugInformation                          value = "true" />
+  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Compiler\AssemblyResolve.cs" />
+  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Compiler\Compiler.cs" />
+  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Compiler\CompilerProject.cs" />
+  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Compiler\CSharpCodeWriter.cs" />
+  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Compiler\GenerateAssembly.cs" />
+  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Compiler\GenerateCSharpCode.cs" />
+  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Compiler\RunCode.cs" />
+  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Compiler\RunSource.cs" />
+  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Compiler\RunSourceRunCode.cs" />
+
+  <!--<Source                           value = "$Root$\Source\Lib\pb\Source\pb\Compiler\_old\GenerateAndExecute.cs" />
+  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Compiler\_old\RunSourceRunCode_v1.cs" />-->
+
+  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Data\GClass.cs" />
+  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Data\Image.cs" />
+  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Data\Xml\Xml.cs" />
+  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Data\Xml\XmlConfig.cs" />
+  
+  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\IO\File.cs" />
+  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\IO\Path.cs" />
+  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\IO\StreamTransfer.cs" />
+  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\IO\WriteToFile.cs" />
+  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\IO\WriteToFileCreate.cs" />
+  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\IO\zDirectory.cs" />
+  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\IO\zFile.cs" />
+  
+  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Text\Regex.cs" />
+  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Text\Split.cs" />
+  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Text\String.cs" />
+  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Text\StringZones.cs" />
+  
+  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Web\Html\HtmlCharCodes.cs" />
+  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Web\Html\HtmlReader.cs" />
+  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Web\Html\HtmlReader_v2.cs" />
+  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Web\Html\HtmlReaderBase.cs" />
+  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Web\Html\HtmlTag.cs" />
+  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Web\Html\HtmlToXml.cs" />
+  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Web\Http\Http.cs" />
+  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Web\Http\HttpRequest.cs" />
+  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Web\Http\HttpRun.cs" />
+  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Web\Http\HttpXml.cs" />
+  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Web\Http\Url.cs" />
+  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Web\Http\XmlDocumentSourceType.cs" />
+  
+  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Windows\Win32\GDI.cs" />
+  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Windows\Win32\Kernel.cs" />
+  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Windows\Win32\User.Const.cs" />
+  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Windows\Win32\User.Struct.cs" />
+  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Windows\Win32\User.cs" />
+  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Windows\Win32\Windows.cs" />
+  
+  <Assembly                         value = "System.dll" />
+	<Assembly                         value = "System.Core.dll" />
+	<Assembly                         value = "System.Data.dll" />
+	<Assembly                         value = "System.Drawing.dll" />
+	<Assembly                         value = "System.Web.dll" />
+	<Assembly                         value = "System.Windows.Forms.dll" />
+	<Assembly                         value = "System.Xml.dll" />
+	<Assembly                         value = "System.Xml.Linq.dll" />
+	<Assembly                         value = "Microsoft.JScript.dll" />
+  <!--<Assembly                         value = "..\..\..\..\..\RuntimeLibrary\LongPath\LongPath\Pri.LongPath.dll" />-->
+  <!--<Assembly                         value = "c:\pib\drive\google\dev\project\RuntimeLibrary\LongPath\LongPath\Pri.LongPath.dll" />-->
+  <Assembly                         value = "$Root$\Source\Lib\LongPath\Pri.LongPath\bin\Debug\Pri.LongPath.dll" />
+  <Assembly                         value = "$Root$\Source\Apps\RunSource\v2\runsource.irunsource\bin32\runsource.irunsource.dll" />
+  <DebugInformation                 value = "true" />
 </AssemblyProject>

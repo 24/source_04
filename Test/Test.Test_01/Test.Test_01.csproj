@@ -489,6 +489,7 @@
     <Compile Include="Source\Test_CS\Test_CallerInformation_f.cs" />
     <Compile Include="Source\Test_CS\Test_Class\Test_Class_f_01.cs" />
     <None Include="Source\Test_CS\Test_cs4.cs" />
+    <Compile Include="Source\Test_CS\Test_Class\Test_Class_Refresh.cs" />
     <Compile Include="Source\Test_CS\Test_cs4_f.cs" />
     <Compile Include="Source\Test_CS\Test_ExpressionTrees\Test_ExpressionTrees_f_01.cs" />
     <Compile Include="Source\Test_CS\Test_GenericConvert.cs" />
@@ -558,7 +559,8 @@
     <None Include="Source\Test_mysql\Test_mysql.cs" />
     <Compile Include="Source\Test_mysql\Test_mysql_f.cs" />
     <Compile Include="Source\Test_Project\Test_IncludeProject.cs" />
-    <Compile Include="Source\Test_Reflection\Test_Reflection_f.cs" />
+    <Compile Include="Source\Test_Reflection\Test_Assembly.cs" />
+    <Compile Include="Source\Test_Reflection\Test_Reflection.cs" />
     <None Include="Source\Test_RunSource\compile.cs" />
     <Compile Include="Source\Test_RunSource\Program.cs" />
     <Compile Include="Source\Test_RunSource\Test.cs" />
@@ -701,7 +703,9 @@
     <Content Include="Source\Test_mysql\Test_mysql_project.xml" />
     <Content Include="Source\Test_Project\Test_IncludeProject.project.xml" />
     <Content Include="Source\Test_Project\Test_Project.project.xml" />
-    <Content Include="Source\Test_Reflection\Test_Reflection.project.xml" />
+    <Content Include="Source\Test_Reflection\Test_Reflection.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Source\Test_RunSource\app.ico" />
     <Content Include="Source\Test_RunSource\Test_RunSource_config_std.xml" />
     <Content Include="Source\Test_RunSource\Test_RunSource_project.xml" />

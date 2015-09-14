@@ -41,7 +41,8 @@ namespace runsourced
         private bool _newDataTableResult = false;       // true si il y a un nouveau résultat DataTable ou DataSet à afficher
         private bool _newTreeViewResult = false;        // true si il y a un nouveau résultat TreeView à afficher
         private bool _selectTreeViewResult = false;     // true si il faut sélectionner le résultat du TreeView
-        private bool _errorResult = false;              // true si le résultat est une liste d'erreurs
+        // $$todo à supprimer
+        //private bool _errorResult = false;              // true si le résultat est une liste d'erreurs
         //private bool _newMessage = false;             // true si il y a un nouveau message à afficher
         //private string _sourceFile = null;
         private bool _fileSaved = true;
@@ -58,16 +59,17 @@ namespace runsourced
         private ITrace _trace = null;
         private XmlConfig _config = null;
         private RunSourceRestartParameters _runSourceParameters = null;
+        private string _settingsProjectDirectory = null;
 
         //private string _sourceDirectory = null;
 
-        private delegate void EventMessageSendCallback(string sMsg);
-        private delegate void SetDataTableEventCallback(DataTable dt, string sXmlFormat);
-        private delegate void EventGridResultSetDataSetCallback(DataSet ds, string sXmlFormat);
+        //private delegate void EventMessageSendCallback(string sMsg);
+        //private delegate void SetDataTableEventCallback(DataTable dt, string sXmlFormat);
+        //private delegate void EventGridResultSetDataSetCallback(DataSet ds, string sXmlFormat);
         //private delegate void EventTreeViewResultClearCallback();
         //private delegate void EventTreeViewResultAddCallback(string nodeName, XElement xmlElement, XFormat xFormat);
-        private delegate void EventProgressChangeCallback(int iCurrent, int iTotal, string sMessage, params object[] prm);
-        private delegate void EventEndRunCallback(bool bError);
+        //private delegate void EventProgressChangeCallback(int iCurrent, int iTotal, string sMessage, params object[] prm);
+        //private delegate void EventEndRunCallback(bool bError);
         //public UpdateRunsourceFilesEvent UpdateRunsourceFiles;
         public SetRestartRunsourceEvent SetRestartRunsource;
 
@@ -220,6 +222,7 @@ namespace runsourced
         private void initRunSource()
         {
             _runSource.SetRunSourceConfig(_config.ConfigFile);
+            _runSource.DeleteGeneratedAssemblies();
             //_trace.Writed += new WritedEvent(TraceWrited);
             //_trace.AddOnWrite("RunSourceForm", TraceWrited);
             _trace.SetViewer(TraceWrited);
@@ -228,9 +231,10 @@ namespace runsourced
             _runSource.GridResultSetDataSet += new SetDataSetEvent(EventGridResultSetDataSet);
             //_runSource.TreeViewResultAdd += new TreeViewResultAddEvent(EventTreeViewResultAdd);
             //_runSource.TreeViewResultSelect += new TreeViewResultSelectEvent(EventTreeViewResultSelect);
-            _runSource.ErrorResultSet += new SetDataTableEvent(EventErrorResultSet);
+            //_runSource.ErrorResultSet += new SetDataTableEvent(EventErrorResultSet);
             _runSource.ProgressChange += new ProgressChangeEvent(EventProgressChange);
-            _runSource.EndRun += new EndRunEvent(EventEndRun);
+            //_runSource.EndRun += new EndRunEvent(EventEndRun);
+            _runSource.EndRunCode += EventEndRunCode;
 
             //_runSource.SourceDir = _config.Get("SourceDir", "run").zSetRootDirectory();
             //_runSource.LoadParameters();
@@ -254,9 +258,10 @@ namespace runsourced
                 _runSource.GridResultSetDataSet -= new SetDataSetEvent(EventGridResultSetDataSet);
                 //_runSource.TreeViewResultAdd -= new TreeViewResultAddEvent(EventTreeViewResultAdd);
                 //_runSource.TreeViewResultSelect -= new TreeViewResultSelectEvent(EventTreeViewResultSelect);
-                _runSource.ErrorResultSet -= new SetDataTableEvent(EventErrorResultSet);
+                //_runSource.ErrorResultSet -= new SetDataTableEvent(EventErrorResultSet);
                 _runSource.ProgressChange -= new ProgressChangeEvent(EventProgressChange);
-                _runSource.EndRun -= new EndRunEvent(EventEndRun);
+                //_runSource.EndRun -= new EndRunEvent(EventEndRun);
+                _runSource.EndRunCode -= EventEndRunCode;
                 _runSource = null;
             }
         }
@@ -310,8 +315,8 @@ namespace runsourced
 
             if (xmlSerializer.OpenElement("RunSource") != null)
             {
-                //_runSource.SourceDir = xmlSerializer.GetValue("SourceDir", _runSource.SourceDir);
-                _runSource.ProjectDirectory = xmlSerializer.GetValue("ProjectDirectory", _runSource.ProjectDirectory);
+                //_runSource.ProjectDirectory = xmlSerializer.GetValue("ProjectDirectory", _runSource.ProjectDirectory);
+                _settingsProjectDirectory = xmlSerializer.GetValue<string>("ProjectDirectory");
                 xmlSerializer.CloseElement();
             }
         }
@@ -334,7 +339,7 @@ namespace runsourced
 
             xmlSerializer.AddElement("RunSource");
             //xmlSerializer.AddValue("SourceDir", _runSource.SourceDir);
-            xmlSerializer.AddValue("ProjectDirectory", _runSource.ProjectDirectory);
+            xmlSerializer.AddValue("ProjectDirectory", _runSource.ProjectDirectory ?? _settingsProjectDirectory);
             xmlSerializer.CloseElement();
 
             xmlSerializer.Save(GetSettingsFile());
@@ -355,11 +360,11 @@ namespace runsourced
                     //if (!e.Alt && !e.Control && !e.Shift)
                     //    Exe(new fExe(RunSource));
                     if (!e.Alt && !e.Control && !e.Shift)
-                        Exe(new fExe(RunSource));
+                        Exe(new fExe(RunCode));
                     else if (!e.Alt && !e.Control && e.Shift)
-                        Exe(new fExe(RunSourceOnMainThread));
+                        Exe(new fExe(RunCodeOnMainThread));
                     else if (!e.Alt && e.Control && !e.Shift)
-                        Exe(new fExe(RunSourceWithoutProject));
+                        Exe(new fExe(RunCodeWithoutProject));
                     break;
                 //case Keys.Escape:
                 //    if (!e.Alt && !e.Control && !e.Shift && gbThreadExecutionRunning)
@@ -374,7 +379,7 @@ namespace runsourced
                     break;
                 case Keys.B:
                     if (!e.Alt && e.Control && e.Shift)
-                        Exe(new fExe(CompileSource));
+                        Exe(new fExe(CompileCode));
                     break;
                 case Keys.C:
                     // Ctrl-C
@@ -439,22 +444,22 @@ namespace runsourced
 
         private void m_execute_Click(object sender, EventArgs e)
         {
-            Exe(new fExe(RunSource));
+            Exe(new fExe(RunCode));
         }
 
         private void m_execute_on_main_thread_Click(object sender, EventArgs e)
         {
-            Exe(new fExe(RunSourceOnMainThread));
+            Exe(new fExe(RunCodeOnMainThread));
         }
 
         private void m_execute_without_project_Click(object sender, EventArgs e)
         {
-            Exe(new fExe(RunSourceWithoutProject));
+            Exe(new fExe(RunCodeWithoutProject));
         }
 
         private void m_compile_Click(object sender, EventArgs e)
         {
-            Exe(new fExe(CompileSource));
+            Exe(new fExe(CompileCode));
         }
 
         private void m_update_runsource_Click(object sender, EventArgs e)
@@ -490,7 +495,7 @@ namespace runsourced
         private void bt_execute_Click(object sender, EventArgs e)
         {
             if (!_runSource.IsRunning())
-                Exe(new fExe(RunSource));
+                Exe(new fExe(RunCode));
             else
             {
                 DialogResult r = MessageBox.Show("Voulez-vous interrompre l'exécution du programme ?", "WRun", MessageBoxButtons.OKCancel, MessageBoxIcon.Stop, MessageBoxDefaultButton.Button2);
@@ -635,7 +640,7 @@ namespace runsourced
             saveFileDialog = new SaveFileDialog();
             //sfDlg.InitialDirectory = _runSource.SourceDir;
             //saveFileDialog.InitialDirectory = _sourceDirectory;
-            saveFileDialog.InitialDirectory = _runSource.ProjectDirectory;
+            saveFileDialog.InitialDirectory = _runSource.ProjectDirectory ?? _settingsProjectDirectory;
             saveFileDialog.Filter = _sourceFilter;
             saveFileDialog.FilterIndex = 1;
             saveFileDialog.RestoreDirectory = true;
@@ -657,7 +662,7 @@ namespace runsourced
             openFileDialog = new OpenFileDialog();
             //ofDlg.InitialDirectory = _runSource.SourceDir;
             //openFileDialog.InitialDirectory = _sourceDirectory;
-            openFileDialog.InitialDirectory = _runSource.ProjectDirectory;
+            openFileDialog.InitialDirectory = _runSource.ProjectDirectory ?? _settingsProjectDirectory;
             openFileDialog.Filter = _sourceFilter;
             openFileDialog.FilterIndex = 1;
             openFileDialog.RestoreDirectory = true;
@@ -671,7 +676,7 @@ namespace runsourced
             return file;
         }
 
-        private string GetSource()
+        private string GetCode()
         {
             //return me_source.SelectedText;
             return tb_source.Selection.Text;
@@ -696,29 +701,34 @@ namespace runsourced
                 title += " : " + zPath.GetFileName(_runSource.SourceFile);
             if (!_fileSaved)
                 title += "*";
-            if (_runSource.ProjectFile != null && zFile.Exists(_runSource.ProjectFile))
-                title += " (" + zPath.GetFileName(_runSource.ProjectFile) + ")";
+            if (_runSource.ProjectFile != null)
+            {
+                title += " (" + zPath.GetFileName(_runSource.ProjectFile);
+                if (!zFile.Exists(_runSource.ProjectFile))
+                    title += "(*)";
+                title += ")";
+            }
             if (_runSource.Progress_PutProgressMessageToWindowsTitle && _progressText != null)
                 title += " - " + _progressText;
             this.Text = title;
         }
 
-        private void RunSource()
+        private void RunCode()
         {
-            _RunSource();
+            _RunCode();
         }
 
-        private void RunSourceOnMainThread()
+        private void RunCodeOnMainThread()
         {
-            _RunSource(useNewThread: false);
+            _RunCode(useNewThread: false);
         }
 
-        private void RunSourceWithoutProject()
+        private void RunCodeWithoutProject()
         {
-            _RunSource(compileWithoutProject: true);
+            _RunCode(compileWithoutProject: true);
         }
 
-        private void _RunSource(bool useNewThread = true, bool compileWithoutProject = false)
+        private void _RunCode(bool useNewThread = true, bool compileWithoutProject = false)
         {
             if (_runSource.IsRunning())
             {
@@ -745,11 +755,11 @@ namespace runsourced
             RazProgress();
 
             bt_execute.Text = "&Stop";
-            string s = GetSource();
-            _runSource.Run(s, useNewThread, compileWithoutProject);
+            string s = GetCode();
+            _runSource.RunCode(s, useNewThread, compileWithoutProject);
         }
 
-        private void CompileSource()
+        private void CompileCode()
         {
             if (_runSource.IsRunning())
             {
@@ -769,9 +779,10 @@ namespace runsourced
             RazResult();
             RazProgress();
             bt_execute.Enabled = false;
-            string s = GetSource();
-            _runSource.GenerateWRSourceAndCompile(s);
-            EventEndRun(false);
+            string s = GetCode();
+            _runSource.CompileCode(s);
+            //EventEndRunCode(false);
+            //EventEndRunCode(new EndRunCodeInfo { Error = false });
         }
 
         private void _UpdateRunSource()
@@ -813,78 +824,65 @@ namespace runsourced
 
         private void CompileRunSource()
         {
-            string updateDir = _config.GetExplicit("UpdateRunSource/UpdateDirectory").zRootPath(zapp.GetEntryAssemblyDirectory());
-            //if (!zPath.IsPathRooted(updateDir))
-            //    updateDir = zPath.Combine(zapp.GetAppDirectory(), updateDir);
-            //Trace.WriteLine("CompileRunSource() : UpdateDirectory \"{0}\"", updateDir);
-            string projectDir = _config.GetExplicit("UpdateRunSource/ProjectDirectory");
-            Dictionary<string, List<string>> projectFiles = new Dictionary<string, List<string>>();
-
-            //foreach (string project in _config.GetValues("UpdateRunSource/Project"))
-            //{
-            //    ICompiler compiler = Compile_Project(zPath.Combine(projectDir, project));
-            //    if (compiler.HasError)
-            //        return;
-            //    List<string> files = CopyProjectFiles(compiler, updateDir);
-            //    projectFiles.Add(zPath.GetFileName(project), files);
-            //}
-
-            foreach (XElement project in _config.GetElements("UpdateRunSource/Project"))
+            Chrono chrono = new Chrono();
+            chrono.Start();
+            int nbProject = 0;
+            try
             {
-                ICompiler compiler = Compile_Project(zPath.Combine(projectDir, project.zExplicitAttribValue("value")));
-                if (compiler.HasError())
-                    return;
-                //List<string> files = CopyProjectFiles(compiler, updateDir);
-                //projectFiles.Add(zPath.GetFileName(project), files);
-                string copyOutput = project.zAttribValue("copyOutput").zRootPath(zapp.GetEntryAssemblyDirectory());
-                if (copyOutput != null)
+                string updateDir = _config.GetExplicit("UpdateRunSource/UpdateDirectory").zRootPath(zapp.GetEntryAssemblyDirectory());
+                //string projectDir = _config.GetExplicit("UpdateRunSource/ProjectDirectory");
+                Dictionary<string, List<string>> projectFiles = new Dictionary<string, List<string>>();
+
+                foreach (XElement project in _config.GetElements("UpdateRunSource/Project"))
                 {
-                    //if (!zPath.IsPathRooted(copyOutput))
-                    //    copyOutput = zPath.Combine(zapp.GetAppDirectory(), copyOutput);
-                    _trace.WriteLine("  copy result files to directory \"{0}\"", copyOutput);
-                    compiler.CopyResultFilesToDirectory(copyOutput);
+                    //ICompiler compiler = Compile_Project(zPath.Combine(projectDir, project.zExplicitAttribValue("value")));
+                    ICompiler compiler = CompileProject(project.zExplicitAttribValue("value"));
+                    if (compiler.HasError())
+                        return;
+                    string copyOutput = project.zAttribValue("copyOutput").zRootPath(zapp.GetEntryAssemblyDirectory());
+                    if (copyOutput != null)
+                    {
+                        _trace.WriteLine("  copy result files to directory \"{0}\"", copyOutput);
+                        compiler.CopyResultFilesToDirectory(copyOutput);
+                    }
+                    _trace.WriteLine("  copy result files to directory \"{0}\"", updateDir);
+                    compiler.CopyResultFilesToDirectory(updateDir);
+                    nbProject++;
                 }
-                _trace.WriteLine("  copy result files to directory \"{0}\"", updateDir);
-                compiler.CopyResultFilesToDirectory(updateDir);
-            }
 
-            //foreach (string project in _config.GetValues("UpdateRunSource/ProjectRunSourceLaunch"))
-            //{
-            //    ICompiler compiler = Compile_Project(zPath.Combine(projectDir, project));
-            //    if (compiler.HasError)
-            //        return;
-            //    //CopyProjectFiles(compiler, updateDir);
-            //}
-
-            foreach (XElement project in _config.GetElements("UpdateRunSource/ProjectRunSourceLaunch"))
-            {
-                ICompiler compiler = Compile_Project(zPath.Combine(projectDir, project.zExplicitAttribValue("value")));
-                if (compiler.HasError())
-                    return;
-                string copyOutput = project.zAttribValue("copyOutput").zRootPath(zapp.GetEntryAssemblyDirectory());
-                if (copyOutput != null)
+                foreach (XElement project in _config.GetElements("UpdateRunSource/ProjectRunSourceLaunch"))
                 {
-                    //if (!zPath.IsPathRooted(copyOutput))
-                    //    copyOutput = zPath.Combine(zapp.GetAppDirectory(), copyOutput);
-                    _trace.WriteLine("  copy result files to directory \"{0}\"", copyOutput);
-                    compiler.CopyResultFilesToDirectory(copyOutput);
+                    //ICompiler compiler = Compile_Project(zPath.Combine(projectDir, project.zExplicitAttribValue("value")));
+                    ICompiler compiler = CompileProject(project.zExplicitAttribValue("value"));
+                    if (compiler.HasError())
+                        return;
+                    string copyOutput = project.zAttribValue("copyOutput").zRootPath(zapp.GetEntryAssemblyDirectory());
+                    if (copyOutput != null)
+                    {
+                        _trace.WriteLine("  copy result files to directory \"{0}\"", copyOutput);
+                        compiler.CopyResultFilesToDirectory(copyOutput);
+                    }
+                    nbProject++;
                 }
             }
-
-            //if (UpdateRunsourceFiles != null)
-            //    UpdateRunsourceFiles(projectFiles);
+            finally
+            {
+                chrono.Stop();
+                _trace.WriteLine("{0} project(s) compiled", nbProject);
+                _trace.WriteLine("Process completed {0}", chrono.TotalTimeString);
+            }
         }
 
-        private ICompiler Compile_Project(string projectPath)
+        private ICompiler CompileProject(string projectPath)
         {
-            ICompiler compiler = _runSource.Compile_Project(projectPath);
+            ICompiler compiler = _runSource.CompileProject(projectPath);
             if (compiler.HasError())
             {
                 DataTable dtMessage = compiler.GetCompilerMessagesDataTable();
                 if (dtMessage != null)
                     SetResult(dtMessage, null);
-                EventEndRun(false);
-                //return null;
+                //EventEndRunCode(false);
+                EventEndRunCode(new EndRunCodeInfo { Error = false });
             }
             return compiler;
         }
@@ -993,19 +991,32 @@ namespace runsourced
             _trace.WriteLine("Execution process aborted");
         }
 
-        private void EventEndRun(bool bError)
+        //private void EventEndRun(bool bError)
+        private void EventEndRunCode(EndRunCodeInfo endRunCodeInfo)
         {
             if (InvokeRequired)
             {
-                EventEndRunCallback endRunSource = new EventEndRunCallback(EventEndRun);
-                Invoke(endRunSource, bError);
+                //EventEndRunCallback endRunSource = new EventEndRunCallback(EventEndRun);
+                //Invoke(endRunSource, bError);
+
+                // Error 13 Cannot convert lambda expression to type 'System.Delegate' because it is not a delegate type
+                //Invoke(() => { EventEndRunCode(endRunCodeInfo); });
+
+                Invoke((Action)(() => EventEndRunCode(endRunCodeInfo)));
             }
             else
             {
                 try
                 {
                     //_runSource.Trace.WriteLine("Process completed {0}", _runSource.ExecutionChrono.TotalTimeString);
-                    _trace.WriteLine("Process completed {0}", _runSource.ExecutionChrono.TotalTimeString);
+                    //_trace.WriteLine("Process completed {0}", _runSource.RunCodeChrono.TotalTimeString);
+                    //_trace.WriteLine("Process completed {0}", endRunCodeInfo.RunCodeChrono.TotalTimeString);
+                    _trace.Write("Process completed ");
+                    if (endRunCodeInfo.RunCodeChrono != null)
+                        _trace.Write(endRunCodeInfo.RunCodeChrono.TotalTimeString);
+                    else
+                        _trace.Write("----");
+                    _trace.WriteLine();
                     //_runSource.Trace.WriteLine("Process completed {0} (is running {1})", _runSource.ExecutionChrono.TotalTimeString, _runSource.IsRunning());
                 }
                 catch (Exception ex)
@@ -1019,20 +1030,23 @@ namespace runsourced
                 if (_newTreeViewResult)
                     ViewTreeViewResult();
 
+                bool error = endRunCodeInfo.Error;
+
                 // on sélectionne l'onglet sauf si :
                 //   - DontSelectResultTab = true, gbErrorResult = false et bError = false
-                if (!_runSource.DontSelectResultTab || _errorResult || bError)
+                //if (!_runSource.DontSelectResultTab || _errorResult || error)
+                if (!_runSource.DontSelectResultTab || error)
                 {
-                    if (_selectTreeViewResult && !bError)
+                    if (_selectTreeViewResult && !error)
                         tc_result.SelectedTab = tab_result4;
-                    else if (_newDataTableResult && !bError)
+                    else if (_newDataTableResult && !error)
                     {
                         if (_xmlResultFormat != null || _dataSetResult != null)
                             tc_result.SelectedTab = tab_result;
                         else
                             tc_result.SelectedTab = tab_result2;
                     }
-                    else if (_newTreeViewResult && !bError)
+                    else if (_newTreeViewResult && !error)
                         tc_result.SelectedTab = tab_result4;
                     else
                         tc_result.SelectedTab = tab_message;
@@ -1072,14 +1086,19 @@ namespace runsourced
         {
             if (InvokeRequired)
             {
-                EventMessageSendCallback callback = new EventMessageSendCallback(TraceWrited);
-                Invoke(callback, msg);
+                //EventMessageSendCallback callback = new EventMessageSendCallback(TraceWrited);
+                //Invoke(callback, msg);
+
+                Invoke((Action)(() => TraceWrited(msg)));
             }
             else
             {
-                Control activeControl = ActiveControl;
-                tc_result.SelectedTab = tab_message;
-                ActiveControl = activeControl;
+                if (!_newDataTableResult)
+                {
+                    Control activeControl = ActiveControl;
+                    tc_result.SelectedTab = tab_message;
+                    ActiveControl = activeControl;
+                }
                 WriteMessage(msg);
             }
         }
@@ -1110,8 +1129,10 @@ namespace runsourced
         {
             if (InvokeRequired)
             {
-                SetDataTableEventCallback callback = new SetDataTableEventCallback(EventGridResultSetDataTable);
-                Invoke(callback, dt, sXmlFormat);
+                //SetDataTableEventCallback callback = new SetDataTableEventCallback(EventGridResultSetDataTable);
+                //Invoke(callback, dt, sXmlFormat);
+
+                Invoke((Action)(() => EventGridResultSetDataTable(dt, sXmlFormat)));
             }
             else
             {
@@ -1123,8 +1144,10 @@ namespace runsourced
         {
             if (InvokeRequired)
             {
-                EventGridResultSetDataSetCallback callback = new EventGridResultSetDataSetCallback(EventGridResultSetDataSet);
-                Invoke(callback, ds, sXmlFormat);
+                //EventGridResultSetDataSetCallback callback = new EventGridResultSetDataSetCallback(EventGridResultSetDataSet);
+                //Invoke(callback, ds, sXmlFormat);
+
+                Invoke((Action)(() => EventGridResultSetDataSet(ds, sXmlFormat)));
             }
             else
             {
@@ -1166,18 +1189,20 @@ namespace runsourced
         //    _selectTreeViewResult = true;
         //}
 
-        private void EventErrorResultSet(DataTable dt, string sXmlFormat)
-        {
-            if (InvokeRequired)
-            {
-                SetDataTableEventCallback callback = new SetDataTableEventCallback(EventErrorResultSet);
-                Invoke(callback, dt, sXmlFormat);
-            }
-            else
-            {
-                SetErrorResult(dt, sXmlFormat);
-            }
-        }
+        //private void EventErrorResultSet(DataTable dt, string sXmlFormat)
+        //{
+        //    if (InvokeRequired)
+        //    {
+        //        //SetDataTableEventCallback callback = new SetDataTableEventCallback(EventErrorResultSet);
+        //        //Invoke(callback, dt, sXmlFormat);
+
+        //        Invoke((Action)(() => EventErrorResultSet(dt, sXmlFormat)));
+        //    }
+        //    else
+        //    {
+        //        SetErrorResult(dt, sXmlFormat);
+        //    }
+        //}
 
         private void SetResult(DataTable dt, string sXmlFormat)
         {
@@ -1195,25 +1220,29 @@ namespace runsourced
             _dataTableResult = null;
         }
 
-        private void SetErrorResult(DataTable dt, string sXmlFormat)
-        {
-            _newDataTableResult = true;
-            _errorResult = true;
-            _dataTableResult = dt;
-            _xmlResultFormat = sXmlFormat;
-            _dataSetResult = null;
-        }
+        //private void SetErrorResult(DataTable dt, string sXmlFormat)
+        //{
+        //    _newDataTableResult = true;
+        //    _errorResult = true;
+        //    _dataTableResult = dt;
+        //    _xmlResultFormat = sXmlFormat;
+        //    _dataSetResult = null;
+        //}
 
         private void RazResult()
         {
             // le résultat est conservé d'un appel sur l'autre
-            if (_errorResult)
-            {
-                _dataTableResult = null;
-                _dataSetResult = null;
-                ViewDataTableResult();
-                _errorResult = false;
-            }
+            //if (_errorResult)
+            //{
+            //    _dataTableResult = null;
+            //    _dataSetResult = null;
+            //    ViewDataTableResult();
+            //    _errorResult = false;
+            //}
+            _dataTableResult = null;
+            _dataSetResult = null;
+            ViewDataTableResult();
+
             RazTreeViewResult();
             _newDataTableResult = false;
             _newTreeViewResult = false;
@@ -1356,8 +1385,10 @@ namespace runsourced
         {
             if (InvokeRequired)
             {
-                EventProgressChangeCallback progress = new EventProgressChangeCallback(EventProgressChange);
-                Invoke(progress, iCurrent, iTotal, sMessage, prm);
+                //EventProgressChangeCallback progress = new EventProgressChangeCallback(EventProgressChange);
+                //Invoke(progress, iCurrent, iTotal, sMessage, prm);
+
+                Invoke((Action)(() => EventProgressChange(iCurrent, iTotal, sMessage, prm)));
             }
             else
             {

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<configuration>
+<AssemblyProject>
   <!--
     Compiler\RunSourceExtension.cs
       add : zTrace(), zView(), zViewType(), zSetResult()
@@ -15,8 +15,10 @@
         System.Xml.Linq.dll
         MongoDB.Bson.dll
   -->
-  <Project>
-    <Root                             value = "..\..\..\..\.." />
+  
+  <Root                             value = "..\..\..\..\.." />
+  
+  <!--<Project>-->
 
     <Using                            value = "pb" />
 
@@ -32,5 +34,5 @@
     <Assembly                         value = "System.Xml.Linq.dll" />
     
     <Assembly                         value = "c:\pib\prog\dev\mongodb\driver\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Bson.dll" resolve = "true" resolveName = "MongoDB.Bson, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />
-  </Project>
-</configuration>
+  <!--</Project>-->
+</AssemblyProject>

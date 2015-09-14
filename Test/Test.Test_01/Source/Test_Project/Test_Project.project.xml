@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <configuration>
-	<Project>
-    <Root                             value = "..\..\..\..\.." />
-    <!--<CompilerOptions                  value = "/warn:4" />-->
-    <!--<WarningLevel                     value = "4" />-->
-    <NameSpace                        value = "Test" />
-    <!--<Using                            value = "System.Linq" />
-    <Using                            value = "pb" />-->
+
+  <Root                             value = "..\..\..\..\.." />
+  
+  <Project>
 
     <IncludeProject                   value = "Test_IncludeProject.project.xml" />
 
     <IncludeProject                   value = "$Root$\Source\Lib\pb\Source\Project\RunSourceExtension.project.xml" />
     <IncludeProject                   value = "$Root$\Source\Lib\pb\Source\Project\MongoExtension.project.xml" />
+
+    <!--<CompilerOptions                  value = "/warn:4" />-->
+    <!--<WarningLevel                     value = "4" />-->
+    <NameSpace                        value = "Test" />
+    <!--<Using                            value = "System.Linq" />
+    <Using                            value = "pb" />-->
 
     <!--<Source                           value = "Test_SharpCompressManager.cs" />-->
 

@@ -494,6 +494,9 @@
     <Compile Include="Source\Print\Print\Print\IPrint.cs" />
     <Compile Include="Source\Print\Project\AppData.cs" />
     <None Include="Source\Print\Project\test.cs" />
+    <None Include="Source\Print\Project\download.dll.cs" />
+    <Compile Include="Source\Print\Project\LoadDll.cs" />
+    <Compile Include="Source\Print\Project\DownloadRun.cs" />
     <Compile Include="Source\Print\sites\telecharger-magazine.com\TelechargerMagazine.cs" />
     <Compile Include="Source\Print\sites\telecharger-magazine.com\TelechargerMagazine_Detail.cs" />
     <Compile Include="Source\Print\sites\telecharger-magazine.com\TelechargerMagazine_Header.cs" />
@@ -616,8 +619,11 @@
     <Content Include="Source\Print\Print\Print\_old\le_monde\le_monde_config.xml" />
     <Content Include="Source\Print\Print\Print\_old\le_monde\le_monde_project.xml" />
     <Content Include="Source\Print\Project\download.config.xml" />
+    <Content Include="Source\Print\Project\download.dll.project.xml" />
     <Content Include="Source\Print\Project\test.project.xml" />
-    <Content Include="Source\Print\Project\download.project.xml" />
+    <Content Include="Source\Print\Project\download.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Source\Print\Project\print_config.xml" />
     <Content Include="Source\Print\Project\print_list1.xml" />
     <Content Include="Source\Print\Project\print_list2.xml" />

@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <configuration>
+  
+  <Root                             value = "..\..\..\..\..\..\.." />
+  
 	<Project>
-    <Root                             value = "..\..\..\..\..\..\.." />
+
+    <IncludeProject                   value = "$Root$\Source\Lib\pb\Source\Project\RunSourceExtension.project.xml" />
+    <IncludeProject                   value = "$Root$\Source\Lib\pb\Source\Project\MongoExtension.project.xml" />
+
     <NameSpace                        value = "pb.IO.Test" />
-    <Using                            value = "System.Linq" />
-    <Using                            value = "pb" />
+    <Using                            value = "SharpCompress.Common" />
+    <Using                            value = "SharpCompress.Compressor.Deflate" />
     <Using                            value = "pb.IO" />
     <Using                            value = "pb.IO.Test" />
 

@@ -48,11 +48,11 @@
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\Compiler\ICompilerProject.cs">
       <Link>SourceLnk\Lib\pb\Compiler\ICompilerProject.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Compiler\IGenerateAndExecute.cs">
-      <Link>SourceLnk\Lib\pb\Compiler\IGenerateAndExecute.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\Compiler\IRunSource.cs">
       <Link>SourceLnk\Lib\pb\Compiler\IRunSource.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Compiler\_old\IGenerateAndExecute.cs">
+      <Link>SourceLnk\Lib\pb\Compiler\_old\IGenerateAndExecute.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\IO\FileOption.cs">
       <Link>SourceLnk\Lib\pb\IO\FileOption.cs</Link>

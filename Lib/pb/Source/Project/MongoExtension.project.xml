@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<configuration>
+<AssemblyProject>
   <!--
     Data\Mongo\Mongo.cs
       add :
@@ -17,8 +17,10 @@
         MongoDB.Bson.dll
         MongoDB.Driver.dll
   -->
-  <Project>
-    <Root                             value = "..\..\..\..\.." />
+
+  <Root                             value = "..\..\..\..\.." />
+  
+  <!--<Project>-->
 
     <Using                            value = "pb.Data.Mongo" />
 
@@ -42,5 +44,5 @@
     <Assembly                         value = "System.Xml.Linq.dll" />
     
     -->
-  </Project>
-</configuration>
+  <!--</Project>-->
+</AssemblyProject>

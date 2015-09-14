@@ -34,7 +34,8 @@ namespace pb.Compiler
         string DefaultDir { get; set; }
         IEnumerable<CompilerFile> SourceList { get; }
         IEnumerable<CompilerFile> FileList { get; }
-        IEnumerable<CompilerAssembly> AssemblyList { get; }
+        //IEnumerable<CompilerAssembly> AssemblyList { get; }
+        Dictionary<string, CompilerAssembly> Assemblies { get; }
         /// <summary>CSharp, JScript</summary>
         string Language { get; set; }
         Dictionary<string, string> ProviderOption { get; }
@@ -44,15 +45,17 @@ namespace pb.Compiler
         bool DebugInformation { get; set; }
         int WarningLevel { get; set; }
         string OutputDir { get; set; }
-        string OutputAssembly { get; set; }
+        // set;
+        string OutputAssembly { get; }
         string CompilerOptions { get; set; }
         ResourceCompilerResults ResourceResults { get; }
         CompilerResults Results { get; }
         IEnumerable<string> CopyOutputDirectories { get; }
         bool HasError();
-        void SetParameters(ICompilerProject project, bool includeProject = false);
+        void SetParameters(ICompilerProject project, bool dontSetOutput = false);
+        void SetOutputAssembly(string outputAssembly, ICompilerProject project = null);
         //void SetProviderOption(string name, string value);
-        void SetProviderOptions(IEnumerable<CompilerProviderOption> options);
+        void SetProviderOptions(IEnumerable<CompilerProviderOption> options, ICompilerProject project = null);
         void AddCompilerOptions(IEnumerable<string> options);
         void AddCompilerOption(string option);
         //void AddSources(IEnumerable<string> sources);

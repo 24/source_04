@@ -13,11 +13,9 @@ using System.Xml.XPath;
 using pb.Data.Xml;
 using pb.IO;
 
-//Trace.WriteLine("toto");
-
 namespace pb.Compiler
 {
-    public class RunSource : MarshalByRefObject, IRunSource // IDisposable
+    public partial class RunSource : MarshalByRefObject, IRunSource
     {
         private static RunSource _currentRunSource = null;
         private static string _defaultSuffixProjectName = ".project.xml";
@@ -45,19 +43,14 @@ namespace pb.Compiler
         private XmlConfig _defaultProjectXmlConfig = null;
         private CompilerProject _defaultProject = null;
 
-        private Chrono gExecutionChrono = new Chrono();
         //private AppDomain gDomain = null;
         //private const string gsDefaultAssemblyName = "WRunSource";
         //private const string gsDefaultAssemblyName = "RunSource";
         //private string gsAssemblyPath = null;
         //private MethodInfo gMethodRun = null;
         //private MethodInfo gMethodEnd = null;
-        private GenerateAndExecuteManager _generateAndExecuteManager = null;
-        private Thread gExecutionThread = null;
-        private bool _executionPaused = false;
-        private bool _executionAborted = false;
 
-        private static readonly Encoding gIsoEncoding = Encoding.GetEncoding("iso-8859-1");
+        //private static readonly Encoding gIsoEncoding = Encoding.GetEncoding("iso-8859-1");
 
         //public delegate void fMessageEvent(string sMsg, params object[] prm);
         //public fMessageEvent MessageEvent;
@@ -68,9 +61,6 @@ namespace pb.Compiler
         //public delegate void fDataSetResultEvent(DataSet ds, string sXmlFormat);
         //public fDataSetResultEvent DataSetResultEvent;
 
-        public event OnPauseEvent OnPauseExecution;
-        public OnAbortEvent OnAbortExecution { get; set; }
-
         public event SetDataTableEvent GridResultSetDataTable;
         public event SetDataSetEvent GridResultSetDataSet;
 
@@ -80,14 +70,12 @@ namespace pb.Compiler
         //public delegate void XmlDocumentLoadedEvent(XmlDocument xml, string sUrl, Http http);
         //public event XmlDocumentLoadedEvent XmlDocumentLoaded = null;
 
-
         private bool gbDisableMessage = false; // si true les messages ne doivent plus être affichés
         public event DisableMessageChangedEvent DisableMessageChanged;
 
         private bool gbDisableResultEvent = false; // si true ResultEvent n'est pas appelé quand un nouveau résultat est disponible
-        public event SetDataTableEvent ErrorResultSet;
+        //public event SetDataTableEvent ErrorResultSet;
         public event ProgressChangeEvent ProgressChange;
-        public event EndRunEvent EndRun;
 
         private bool gbDontSelectResultTab = false;
 
@@ -103,7 +91,7 @@ namespace pb.Compiler
         {
             //_trace = pb.Trace.CurrentTrace;
             //_trace.Writed += new WritedEvent(EventWrited);
-            CreateGenerateAndExecute();
+            //CreateGenerateAndExecute();
         }
 
         public void Dispose()
@@ -152,7 +140,6 @@ namespace pb.Compiler
             _currentRunSource = this;
         }
 
-        public IGenerateAndExecuteManager GenerateAndExecuteManager { get { return _generateAndExecuteManager; } }
         public string SourceFile { get { return _sourceFile; } set { _sourceFile = value; } }
         public string ProjectFile { get { return _projectFile; } }
         // set { _projectDirectory = value; }
@@ -177,13 +164,14 @@ namespace pb.Compiler
         public DataTable Result
         {
             get { return gdtResult; }
-            set
-            {
-                gdtResult = value;
-                gdsResult = null;
-                gsXmlResultFormat = null;
-                if (!gbDisableResultEvent && GridResultSetDataTable != null) GridResultSetDataTable(gdtResult, null);
-            }
+            //set
+            //{
+            //    gdtResult = value;
+            //    gdsResult = null;
+            //    gsXmlResultFormat = null;
+            //    if (!gbDisableResultEvent && GridResultSetDataTable != null)
+            //        GridResultSetDataTable(gdtResult, null);
+            //}
         }
 
         public DataSet DataSetResult
@@ -265,16 +253,19 @@ namespace pb.Compiler
         {
             get
             {
-                if (gdtResult == null) return null;
+                if (gdtResult == null)
+                    return null;
                 return gdtResult.DefaultView.Sort;
             }
 
             set
             {
-                if (gdtResult == null) return;
+                if (gdtResult == null)
+                    return;
                 gdtResult.DefaultView.Sort = value;
                 //if (!gbDisableResultEvent && ResultEvent != null) ResultEvent(gdtResult, gsXmlResultFormat);
-                if (!gbDisableResultEvent && GridResultSetDataTable != null) GridResultSetDataTable(gdtResult, gsXmlResultFormat);
+                if (!gbDisableResultEvent && GridResultSetDataTable != null)
+                    GridResultSetDataTable(gdtResult, gsXmlResultFormat);
             }
         }
 
@@ -282,16 +273,19 @@ namespace pb.Compiler
         {
             get
             {
-                if (gdtResult == null) return null;
+                if (gdtResult == null)
+                    return null;
                 return gdtResult.DefaultView.RowFilter;
             }
 
             set
             {
-                if (gdtResult == null) return;
+                if (gdtResult == null)
+                    return;
                 gdtResult.DefaultView.RowFilter = value;
                 //if (!gbDisableResultEvent && ResultEvent != null) ResultEvent(gdtResult, gsXmlResultFormat);
-                if (!gbDisableResultEvent && GridResultSetDataTable != null) GridResultSetDataTable(gdtResult, gsXmlResultFormat);
+                if (!gbDisableResultEvent && GridResultSetDataTable != null)
+                    GridResultSetDataTable(gdtResult, gsXmlResultFormat);
             }
         }
 
@@ -299,11 +293,6 @@ namespace pb.Compiler
         {
             get { return gbDisableResultEvent; }
             set { gbDisableResultEvent = value; }
-        }
-
-        public IChrono ExecutionChrono
-        {
-            get { return gExecutionChrono; }
         }
 
         public void SetRunSourceConfig(string file)
@@ -327,11 +316,6 @@ namespace pb.Compiler
             }
             _refreshRunSourceConfig = false;
             return _runSourceConfig;
-        }
-
-        public CompilerProject GetRunSourceConfigCompilerDefaultValues()
-        {
-            return CompilerProject.Create(GetRunSourceConfig().zGetConfigElement("CompilerDefaultValues"));
         }
 
         // $$ProjectDefaultValues disable
@@ -430,234 +414,7 @@ namespace pb.Compiler
             return _projectFile;
         }
 
-        public bool IsRunning()
-        {
-            return gExecutionThread != null;
-        }
-
-        public bool IsExecutionPaused()
-        {
-            return _executionPaused;
-        }
-
-        public void PauseExecution(bool pause)
-        {
-            _executionPaused = pause;
-            if (OnPauseExecution != null)
-                OnPauseExecution(pause);
-        }
-
-        public bool IsExecutionAborted()
-        {
-            return _executionAborted;
-        }
-
-        public void AbortExecution(bool abort)
-        {
-            if (gExecutionThread == null)
-                return;
-            _executionAborted = abort;
-            if (abort && OnAbortExecution != null)
-                OnAbortExecution();
-        }
-
-        public void ForceAbortExecution()
-        {
-            if (gExecutionThread != null)
-                gExecutionThread.Abort();
-        }
-
-        public bool IsExecutionAlive()
-        {
-            if (gExecutionThread != null)
-                return gExecutionThread.IsAlive;
-            else
-                return false;
-        }
-
-        public void Run(string code, bool useNewThread = true, bool compileWithoutProject = false)
-        {
-            _Run_v1(code, useNewThread, compileWithoutProject);
-            //_Run_v2(code, useNewThread, compileWithoutProject);
-        }
-
-        private void _Run_v2(string code, bool useNewThread = true, bool compileWithoutProject = false)
-        {
-            if (code == "")
-                return;
-
-            bool error = false;
-            if (gExecutionThread != null)
-                throw new PBException("error program already running");
-
-            _refreshRunSourceConfig = true;
-            _refreshProjectConfig = true;
-
-            gExecutionChrono = new Chrono();
-            try
-            {
-                _GenerateCode(code, compileWithoutProject);
-            }
-            catch
-            {
-                error = true;
-                throw;
-            }
-            finally
-            {
-                if (error && EndRun != null)
-                    EndRun(error);
-            }
-        }
-
-        private void _GenerateCode(string code, bool compileWithoutProject = false)
-        {
-        }
-
-        private void _Run_v1(string code, bool useNewThread = true, bool compileWithoutProject = false)
-        {
-            if (code == "")
-                return;
-
-            bool bError = false;
-            if (gExecutionThread != null)
-                throw new PBException("error program already running");
-
-            bool bOk = false;
-            gExecutionChrono = new Chrono();
-            try
-            {
-                AssemblyResolve.Stop();
-                AssemblyResolve.Clear();
-
-                _refreshRunSourceConfig = true;
-                _refreshProjectConfig = true;
-
-                IGenerateAndExecute generateAndExecute = _generateAndExecuteManager.New();
-                _GenerateCodeAndCompile_v2(generateAndExecute, code, compileWithoutProject);
-                if (generateAndExecute.Compiler.HasError())
-                    return;
-
-                MethodInfo runMethod = generateAndExecute.GetAssemblyRunMethod();
-                MethodInfo initMethod = generateAndExecute.GetAssemblyInitMethod();
-                MethodInfo endMethod = generateAndExecute.GetAssemblyEndMethod();
-
-                AssemblyResolve.Start();
-                if (useNewThread)
-                {
-                    gExecutionThread = new Thread(new ThreadStart(() => _Run(runMethod, initMethod, endMethod)));
-                    gExecutionThread.CurrentCulture = FormatInfo.CurrentFormat.CurrentCulture;
-                    gExecutionThread.SetApartmentState(ApartmentState.STA);
-                    gExecutionThread.Start();
-                }
-                else
-                {
-                    Trace.WriteLine("execute on main thread");
-                    _Run(runMethod, initMethod, endMethod);
-                }
-
-                bOk = true;
-            }
-            catch
-            {
-                bError = true;
-                throw;
-            }
-            finally
-            {
-                if (!bOk && EndRun != null)
-                    EndRun(bError);
-            }
-        }
-
-        private void CreateGenerateAndExecute()
-        {
-            _generateAndExecuteManager = new GenerateAndExecuteManager();
-        }
-
-        public void GenerateWRSourceAndCompile(string code, bool compileWithoutProject = false)
-        {
-            _GenerateCodeAndCompile_v2(_generateAndExecuteManager.New(), code, compileWithoutProject);
-        }
-
-        private void _GenerateCodeAndCompile_v2(IGenerateAndExecute generateAndExecute, string code, bool compileWithoutProject = false)
-        {
-            // use CompilerDefaultValues from runsource.runsource.config.xml runsource.runsource.config.local.xml
-
-            if (code == "")
-                return;
-
-            CompilerProject compilerProject = null;
-            //if (!compileWithoutProject && _projectFile != null && zFile.Exists(_projectFile))
-            //{
-            //    compilerProject = CompilerProject.Create(GetProjectConfig().GetConfigElementExplicit("/AssemblyProject"));
-            //}
-            ////else
-            ////    pb.Trace.WriteLine("RunSource._GenerateCodeAndCompile_v2() : dont use project");
-            //else
-            //    compilerProject = GetDefaultProject();
-            if (!compileWithoutProject)
-                compilerProject = GetProjectCompilerProject();
-            if (compilerProject == null)
-                compilerProject = GetDefaultProject();
-
-            if (compilerProject != null)
-            {
-                generateAndExecute.NameSpace = compilerProject.GetNameSpace();
-            }
-
-            // $$ProjectDefaultValues disable
-            //CompilerProject defaultProject = GetRunSourceConfigProjectDefaultValues();
-            //if (defaultProject != null)
-            //    generateAndExecute.AddUsings(defaultProject.GetUsings());
-
-            if (compilerProject != null)
-                generateAndExecute.AddUsings(compilerProject.GetUsings());
-
-            generateAndExecute.GenerateCSharpCode(code);
-
-            SetCompilerValues(generateAndExecute, compilerProject);
-
-            ICompiler compiler = generateAndExecute.Compiler;
-            //Compiler compiler = new Compiler();
-            //compiler.SetOutputAssembly(assemblyFilename);
-            //compiler.AddSource(new CompilerFile(file));
-            compiler.Compile();
-            //Assembly assembly = _compiler.Results.CompiledAssembly;
-
-            if (compiler.HasError())
-            {
-                DataTable dtMessage = compiler.GetCompilerMessagesDataTable();
-                if (dtMessage != null)
-                {
-                    gdtResult = dtMessage;
-                    gdsResult = null;
-                    gsXmlResultFormat = null;
-                    if (ErrorResultSet != null)
-                        ErrorResultSet(gdtResult, null);
-                }
-            }
-            else
-                // trace warning
-                compiler.TraceMessages();
-        }
-
-        public void SetCompilerValues(IGenerateAndExecute generateAndExecute, CompilerProject compilerProject)
-        {
-            ICompiler compiler = generateAndExecute.Compiler;
-            if (compilerProject != null)
-                compiler.DefaultDir = zPath.GetDirectoryName(compilerProject.ProjectFile);
-            // CompilerDefaultValues from runsource.runsource.config.xml runsource.runsource.config.local.xml
-            compiler.SetParameters(GetRunSourceConfigCompilerDefaultValues(), dontSetOutput: true);
-
-            // ProjectDefaultValues from runsource.runsource.config.xml runsource.runsource.config.local.xml
-            // $$ProjectDefaultValues disable
-            //compiler.SetParameters(GetRunSourceConfigProjectDefaultValues(), dontSetOutput: true);
-
-            compiler.SetParameters(compilerProject, dontSetOutput: true);
-        }
-
-        public ICompiler Compile_Project(string projectName)
+        public ICompiler CompileProject(string projectName)
         {
             // - compile assembly project (like runsource.dll.project.xml) and runsource project (like download.project.xml)
             // - for assembly project use CompilerDefaultValues from runsource.runsource.config.xml runsource.runsource.config.local.xml
@@ -695,77 +452,15 @@ namespace pb.Compiler
             string s = null;
             if (compiler.HasError())
             {
-                Result = compiler.GetCompilerMessagesDataTable();
+                //Result = compiler.GetCompilerMessagesDataTable();
+                SetResult(compiler.GetCompilerMessagesDataTable());
                 s = " with error(s)";
             }
+            else
+                // trace warning
+                compiler.TraceMessages();
             Trace.WriteLine("  compiled{0} : {1}", s, compiler.OutputAssembly);
             return compiler;
-        }
-
-        public void DeleteGeneratedAssemblies()
-        {
-            _generateAndExecuteManager.DeleteGeneratedAssemblies();
-        }
-
-        private void _Run(MethodInfo runMethod, MethodInfo initMethod = null, MethodInfo endMethod = null)
-        {
-            bool bError = false;
-            try
-            {
-                _executionAborted = false;
-                try
-                {
-                    if (initMethod != null)
-                    {
-                        gExecutionChrono.Start();
-                        initMethod.Invoke(null, null);
-                        gExecutionChrono.Stop();
-                    }
-
-                    gExecutionChrono.Start();
-                    runMethod.Invoke(null, null);
-                    gExecutionChrono.Stop();
-                }
-                catch (Exception ex)
-                {
-                    gExecutionChrono.Stop();
-                    bError = true;
-                    Trace.CurrentTrace.WriteError(ex);
-                }
-            }
-            finally
-            {
-                try
-                {
-                    if (endMethod != null)
-                    {
-                        gExecutionChrono.Start();
-                        endMethod.Invoke(null, null);
-                        gExecutionChrono.Stop();
-                    }
-                }
-                catch (Exception ex)
-                {
-                    gExecutionChrono.Stop();
-                    bError = true;
-                    Trace.CurrentTrace.WriteError(ex);
-                }
-                finally
-                {
-                    gExecutionThread = null;
-                    _executionPaused = false;
-                    _executionAborted = false;
-                    if (EndRun != null)
-                        EndRun(bError);
-                    #region AppDomain ...
-                    //******************************************************************************************************************************************************************************
-                    //                                                                              AppDomain
-                    //AppDomain.Unload(gDomain);
-                    //gDomain = null;
-                    //******************************************************************************************************************************************************************************
-                    #endregion
-                }
-            }
         }
 
         public void Progress()

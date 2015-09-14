@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+  
+  <Root                             value = "..\..\..\..\..\..\.." />
+  
+	<Project>
+
+    <IncludeProject                   value = "$Root$\Source\Lib\pb\Source\Project\RunSourceExtension.project.xml" />
+    <IncludeProject                   value = "$Root$\Source\Lib\pb\Source\Project\MongoExtension.project.xml" />
+
+    <NameSpace                        value = "pb.IO.Test" />
+    <Using                            value = "pb.IO" />
+    <Using                            value = "pb.IO.Test" />
+
+    <Source                           value = "Test_utf8.cs" />
+
+  </Project>
+</configuration>

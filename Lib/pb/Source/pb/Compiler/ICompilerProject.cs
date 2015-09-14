@@ -13,6 +13,7 @@ namespace pb.Compiler
     {
         public string File = null;
         public Dictionary<string, string> Attributes = new Dictionary<string, string>();
+        public ICompilerProject Project = null;
 
         public CompilerFile(string file)
         {
@@ -25,17 +26,23 @@ namespace pb.Compiler
         public string File = null;
         public bool Resolve = false;
         public string ResolveName = null;
+        public ICompilerProject Project = null;
 
-        public CompilerAssembly(string file, bool resolve = false, string resolveName = null)
+        public CompilerAssembly(string file, bool resolve = false, string resolveName = null, ICompilerProject project = null)
         {
             File = file;
             Resolve = resolve;
             ResolveName = resolveName;
+            Project = project;
         }
     }
 
     public interface ICompilerProject
     {
+        string ProjectFile { get; }
+        string ProjectDirectory { get; }
+        bool IsIncludeProject { get; }
+
         string GetLanguage();
         IEnumerable<CompilerProviderOption> GetProviderOptions();
         string GetResourceCompiler();

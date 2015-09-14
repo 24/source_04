@@ -16,7 +16,13 @@ namespace pb.Compiler
     //public delegate void TreeViewResultAddEvent(string nodeName, XElement xmlElement, XFormat xFormat);
     //public delegate void TreeViewResultSelectEvent();
     public delegate void ProgressChangeEvent(int current, int total, string message, params object[] prm);
-    public delegate void EndRunEvent(bool bError);
+    //public delegate void EndRunEvent(bool bError);
+
+    public class EndRunCodeInfo
+    {
+        public bool Error;
+        public IChrono RunCodeChrono;
+    }
 
     public interface IRunSource : IDisposable
     {
@@ -28,15 +34,16 @@ namespace pb.Compiler
         //event TreeViewResultAddEvent TreeViewResultAdd;
         //event TreeViewResultSelectEvent TreeViewResultSelect;
         event DisableMessageChangedEvent DisableMessageChanged;
-        event SetDataTableEvent ErrorResultSet;
+        //event SetDataTableEvent ErrorResultSet;
         event ProgressChangeEvent ProgressChange;
-        event EndRunEvent EndRun;
+        //event EndRunEvent EndRunCode;
+        Action<EndRunCodeInfo> EndRunCode { get; set; }
 
         //ITrace Trace { get; set; }
-        IGenerateAndExecuteManager GenerateAndExecuteManager { get; }
+        //IGenerateAndExecuteManager GenerateAndExecuteManager { get; }
         string SourceFile { get; set; }
         string ProjectFile { get; }
-        string ProjectDirectory { get; set; }
+        string ProjectDirectory { get; }
         //string ProjectName { get; set; }
         //string ProjectNameSpace { get; set; }
         //string SourceDir { get; set; }
@@ -49,7 +56,7 @@ namespace pb.Compiler
         bool Progress_AddProgressValueToMessage { get; set; }
         bool Progress_PutProgressMessageToWindowsTitle { get; set; }
         int Progress_MinimumMillisecondsBetweenMessage { get; set; }
-        IChrono ExecutionChrono { get; }
+        //IChrono RunCodeChrono { get; }
 
         void SetAsCurrentRunSource();
         void SetRunSourceConfig(string file);
@@ -61,10 +68,10 @@ namespace pb.Compiler
         void AbortExecution(bool abort);
         void ForceAbortExecution();
         bool IsExecutionAlive();
-        void Run(string source, bool useNewThread = true, bool compileWithoutProject = false);
-        void GenerateWRSourceAndCompile(string source, bool compileWithoutProject = false);
+        void RunCode(string source, bool useNewThread = true, bool compileWithoutProject = false);
+        void CompileCode(string source, bool compileWithoutProject = false);
         void DeleteGeneratedAssemblies();
-        ICompiler Compile_Project(string projectName);
+        ICompiler CompileProject(string projectName);
         //string GetProjectConfigPath(string projectName);
         //XmlParameters_v1 CreateParameters();
         //void SaveParameters();

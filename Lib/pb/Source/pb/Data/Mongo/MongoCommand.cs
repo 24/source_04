@@ -50,7 +50,7 @@ namespace pb.Data.Mongo
             return GetDatabase(server, databaseName).GetCollection(collectionName).zFindAll<TDocument>(sort.zToSortByWrapper(), fields.zToFieldsWrapper(), limit, options.zDeserializeToBsonDocument());
         }
 
-        public static FindAndModifyResult FindAndModify(string databaseName, string collectionName, string query, string update, bool upsert = true, string sort = null, string fields = null, string server = null)
+        public static FindAndModifyResult FindAndModify(string databaseName, string collectionName, string query, string update, bool upsert = false, string sort = null, string fields = null, string server = null)
         {
             return GetDatabase(server, databaseName).GetCollection(collectionName).zFindAndModify(query.zToQueryDocument(), update.zToUpdateDocument(), upsert, sort.zToSortByWrapper(), fields.zToFieldsWrapper());
         }
@@ -115,7 +115,9 @@ namespace pb.Data.Mongo
             MongoLog.CurrentMongoLog.LogExport(collection, file, queryDoc, sortWrapper, fieldsWrapper, limit, optionsDoc);
             zfile.CreateFileDirectory(file);
             FileStream fs = new FileStream(file, FileMode.Create, FileAccess.Write, FileShare.Read);
-            StreamWriter sw = new StreamWriter(fs, Encoding.UTF8);
+            //StreamWriter sw = new StreamWriter(fs, Encoding.UTF8);
+            // no bom with new UTF8Encoding()
+            StreamWriter sw = new StreamWriter(fs, new UTF8Encoding());
             try
             {
                 foreach (BsonDocument document in collection.zFind<BsonDocument>(queryDoc, sort: sortWrapper, fields: fieldsWrapper, limit: limit, options: optionsDoc))
@@ -346,7 +348,7 @@ namespace pb.Data.Mongo
         //{
         //}
 
-        public static void FindAndModify(string databaseName, string collectionName, string query, string update, bool upsert = true, string sort = null, string fields = null, string server = null)
+        public static void FindAndModify(string databaseName, string collectionName, string query, string update, bool upsert = false, string sort = null, string fields = null, string server = null)
         {
             MongoCollection collection = MongoCommand.GetDatabase(server, databaseName).GetCollection(collectionName);
 
@@ -566,6 +568,17 @@ namespace pb.Data.Mongo
             finally
             {
                 Trace.WriteLine();
+            }
+        }
+
+        public static void ExportDatabase(string databaseName, string directory, string sort = null, string server = null)
+        {
+            MongoDatabase database = MongoCommand.GetDatabase(server, databaseName);
+            Trace.Write("Export database : {0} to directory \"{1}\"", database.zGetFullName(), directory);
+            foreach (string collection in database.GetCollectionNames())
+            {
+                string file = zPath.Combine(directory, "export_" + collection + ".txt");
+                Export(databaseName, collection, file, sort: sort, server: server);
             }
         }
 

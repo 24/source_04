@@ -18,7 +18,9 @@ namespace pb.IO
             _file = file.zRootPath(zapp.GetAppDirectory());
             _encoding = encoding;
             if (_encoding == null)
-                _encoding = Encoding.UTF8;
+                //_encoding = Encoding.UTF8;
+                // no bom with new UTF8Encoding()
+                _encoding = new UTF8Encoding();
             _appendToFile = appendToFile;
             //if (!append)
             //    zFile.Delete(_file);
@@ -29,7 +31,9 @@ namespace pb.IO
             _generateFile = generateFile;
             _encoding = encoding;
             if (_encoding == null)
-                _encoding = Encoding.UTF8;
+                //_encoding = Encoding.UTF8;
+                // no bom with new UTF8Encoding()
+                _encoding = new UTF8Encoding();
             _appendToFile = appendToFile;
         }
 

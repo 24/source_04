@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Threading;
 
@@ -7,14 +8,15 @@ namespace pb.Compiler
     public class RunCode
     {
         private Assembly _runAssembly = null;
-        private string _runClassName = null;        // "Test.w"
+        private Dictionary<string, CompilerAssembly> _compilerAssemblies = null;
+        //private string _runClassName = null;        // "Test.w"
         private string _runMethodName = null;       // "Test._RunCode.Run"
-        private string _initClassName = null;       // if null use _runClassName
+        //private string _initClassName = null;       // if null use _runClassName
         private string _initMethodName = null;      // "Init", "Test._RunCode.Init", "Test._RunCode.Init, ebook.download, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
-        private string _endClassName = null;        // if null use _runClassName
+        //private string _endClassName = null;        // if null use _runClassName
         private string _endMethodName = null;       // "End"
 
-        private Type _runClass = null;
+        private Type _runType = null;
 
         private Thread _runThread = null;
         private Chrono _runChrono = null;
@@ -25,11 +27,12 @@ namespace pb.Compiler
         }
 
         public Assembly RunAssembly { get { return _runAssembly; } set { _runAssembly = value; } }
-        public string RunClassName { get { return _runClassName; } set { _runClassName = value; } }
+        public Dictionary<string, CompilerAssembly> CompilerAssemblies { get { return _compilerAssemblies; } set { _compilerAssemblies = value; } }
+        //public string RunClassName { get { return _runClassName; } set { _runClassName = value; } }
         public string RunMethodName { get { return _runMethodName; } set { _runMethodName = value; } }
-        public string InitClassName { get { return _initClassName; } set { _initClassName = value; } }
+        //public string InitClassName { get { return _initClassName; } set { _initClassName = value; } }
         public string InitMethodName { get { return _initMethodName; } set { _initMethodName = value; } }
-        public string EndClassName { get { return _endClassName; } set { _endClassName = value; } }
+        //public string EndClassName { get { return _endClassName; } set { _endClassName = value; } }
         public string EndMethodName { get { return _endMethodName; } set { _endMethodName = value; } }
         public Thread RunThread { get { return _runThread; } }
         public Chrono RunChrono { get { return _runChrono; } }
@@ -105,29 +108,61 @@ namespace pb.Compiler
 
         private MethodInfo GetRunMethod()
         {
+            if (_runMethodName == null)
+                throw new PBException("run method name is null");
             MethodElements runMethodElements = Reflection.GetMethodElements(_runMethodName);
             if (runMethodElements.TypeName == null)
                 throw new PBException("bad run method name \"{0}\", run method need type name", _runMethodName);
             if (runMethodElements.QualifiedTypeName != null)
-                _runClass = Reflection.GetType(runMethodElements.QualifiedTypeName, ErrorOptions.ThrowError);
+                _runType = Reflection.GetType(runMethodElements.QualifiedTypeName, ErrorOptions.ThrowError);
             else
-                _runClass = Reflection.GetType(_runAssembly, runMethodElements.TypeName, ErrorOptions.ThrowError);
-            return Reflection.GetMethod(_runClass, runMethodElements.MethodName, ErrorOptions.ThrowError);
+                _runType = Reflection.GetType(_runAssembly, runMethodElements.TypeName, ErrorOptions.ThrowError);
+            return Reflection.GetMethod(_runType, runMethodElements.MethodName, ErrorOptions.ThrowError);
         }
 
         private MethodInfo GetMethod(string methodName)
         {
+            if (methodName == null)
+                return null;
             MethodElements runMethodElements = Reflection.GetMethodElements(methodName);
             Type type;
             if (runMethodElements.TypeName != null)
             {
-                if (runMethodElements.QualifiedTypeName != null)
-                    type = Reflection.GetType(runMethodElements.QualifiedTypeName, ErrorOptions.TraceWarning);
+                //if (runMethodElements.QualifiedTypeName != null)
+                //    type = Reflection.GetType(runMethodElements.QualifiedTypeName, ErrorOptions.TraceWarning);
+                //_compilerAssemblies
+                Assembly assembly = null;
+                if (runMethodElements.AssemblyName != null)
+                {
+                    assembly = Reflection.GetAssembly(runMethodElements.AssemblyName, ErrorOptions.None);
+                    if (assembly == null && _compilerAssemblies != null)
+                    {
+                        string assemblyName = Reflection.GetAssemblyName(runMethodElements.AssemblyName);
+                        if (_compilerAssemblies.ContainsKey(assemblyName))
+                        {
+                            string file = _compilerAssemblies[assemblyName].File;
+                            Trace.WriteLine("load assembly from \"{0}\"", file);
+                            assembly = Assembly.LoadFrom(file);
+                        }
+                    }
+                    //if (runMethodElements.AssemblyName == "ebook.download, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null")
+                    //{
+                    //    string file = @"c:\pib\drive\google\dev\project\Source\Apps\WebData\Source\Print\Project\bin32\ebook.download.dll";
+                    //    Trace.WriteLine("load assembly from \"{0}\"", file);
+                    //    assembly = Assembly.LoadFrom(file);
+                    //}
+                    if (assembly == null)
+                    {
+                        Error.WriteMessage(ErrorOptions.TraceWarning, "unable to load assembly \"{0}\"", runMethodElements.AssemblyName);
+                        return null;
+                    }
+                }
                 else
-                    type = Reflection.GetType(_runAssembly, runMethodElements.TypeName, ErrorOptions.TraceWarning);
+                    assembly = _runAssembly;
+                type = Reflection.GetType(assembly, runMethodElements.TypeName, ErrorOptions.TraceWarning);
             }
             else
-                type = _runClass;
+                type = _runType;
             if (type != null)
                 return Reflection.GetMethod(type, runMethodElements.MethodName, ErrorOptions.ThrowError);
             else

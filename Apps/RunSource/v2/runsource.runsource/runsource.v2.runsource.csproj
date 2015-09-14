@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -102,9 +102,6 @@
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\IO\zFile.cs">
       <Link>SourceLnk\Lib\pb\IO\zFile.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\pb\Source\pb\IO\zPath.cs">
-      <Link>SourceLnk\Lib\pb\IO\zPath.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\Text\Regex.cs">
       <Link>SourceLnk\Lib\pb\Text\Regex.cs</Link>
     </Compile>
@@ -125,6 +122,9 @@
     </Compile>
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\Windows\Forms\zerrf.cs">
       <Link>SourceLnk\Lib\pb\Windows\Forms\zerrf.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\Chrono.cs">
+      <Link>SourceLnk\Lib\pb\_pb\Chrono.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\Convert.cs">
       <Link>SourceLnk\Lib\pb\_pb\Convert.cs</Link>

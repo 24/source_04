@@ -56,6 +56,10 @@
     <Reference Include="MongoDB.Driver">
       <HintPath>..\..\..\..\..\..\..\prog\dev\mongodb\driver\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Driver.dll</HintPath>
     </Reference>
+    <Reference Include="Pri.LongPath, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\LongPath\Pri.LongPath\bin\Debug\Pri.LongPath.dll</HintPath>
+    </Reference>
     <Reference Include="SharpCompress">
       <HintPath>..\..\RuntimeLibrary\SharpCompress\SharpCompress0.10.3\Full\SharpCompress.dll</HintPath>
     </Reference>
@@ -83,11 +87,16 @@
     <None Include="Source\Other\WR_Tools.cs" />
     <None Include="Source\Other\Xml2Data.cs" />
     <Compile Include="Source\pb\Compiler\CompilerProject.cs" />
-    <Compile Include="Source\pb\Compiler\GenerateAndExecute.cs" />
+    <Compile Include="Source\pb\Compiler\_old\GenerateAndExecute.cs" />
+    <Compile Include="Source\pb\Compiler\CSharpCodeWriter.cs" />
+    <Compile Include="Source\pb\Compiler\GenerateAssembly.cs" />
     <Compile Include="Source\pb\Compiler\GenerateCSharpCode.cs" />
     <Compile Include="Source\pb\Compiler\ICompilerExtension.cs" />
     <Compile Include="Source\pb\Compiler\ICompilerProject.cs" />
-    <Compile Include="Source\pb\Compiler\IGenerateAndExecute.cs" />
+    <Compile Include="Source\pb\Compiler\_old\IGenerateAndExecute.cs" />
+    <Compile Include="Source\pb\Compiler\RunCode.cs" />
+    <Compile Include="Source\pb\Compiler\_old\RunSourceRunCode_v1.cs" />
+    <Compile Include="Source\pb\Compiler\RunSourceRunCode.cs" />
     <Compile Include="Source\pb\Data\DataTable.cs" />
     <Compile Include="Source\pb\Data\DataTable2.cs" />
     <Compile Include="Source\pb\Data\IDocumentStore.cs" />
@@ -119,6 +128,8 @@
     <Compile Include="Source\pb\Data\Mongo\_old\MongoDocumentStore_v1.cs" />
     <Compile Include="Source\pb\Data\Mongo\_old\MongoDocumentStore_v2.cs" />
     <Compile Include="Source\pb\Data\Mongo\_old\MongoDocumentStore_v3.cs" />
+    <Compile Include="Source\pb\Data\Mongo\_old\MongoIdGenerator_v1.cs" />
+    <Compile Include="Source\pb\Data\RefreshData.cs" />
     <Compile Include="Source\pb\Data\Xml\Xml.cs" />
     <Compile Include="Source\pb\Data\Xml\Xml1.cs" />
     <Compile Include="Source\pb\Data\Xml\XmlConfig.cs" />
@@ -136,6 +147,7 @@
     <Compile Include="Source\pb\IO\FilenameNumberInfo.cs" />
     <Compile Include="Source\pb\IO\FileOption.cs" />
     <Compile Include="Source\pb\IO\Test\Test_SharpCompressManager.cs" />
+    <Compile Include="Source\pb\IO\Test\Test_utf8.cs" />
     <Compile Include="Source\pb\IO\zDirectory.cs" />
     <Compile Include="Source\pb\IO\zFile.cs" />
     <Compile Include="Source\pb\IO\zPath.cs" />
@@ -329,7 +341,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Source\Other\PB_Library_project.xml" />
+    <Content Include="Source\pb\IO\Test\download.config.xml" />
+    <Content Include="Source\pb\IO\Test\Test_utf8.project.xml" />
     <Content Include="Source\pb\IO\Test\Test_SharpCompressManager.project.xml" />
+    <Content Include="Source\Project\Default.project.xml" />
+    <Content Include="Source\Project\Basic.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Source\Project\MongoExtension.project.xml" />
     <Content Include="Source\Project\RunSourceExtension.project.xml" />
   </ItemGroup>
@@ -338,12 +356,7 @@
       <DependentUpon>LogForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\LongPath\Pri.LongPath\Pri.LongPath.csproj">
-      <Project>{df1f23ca-9dc6-4604-8400-6c4b656e0f5d}</Project>
-      <Name>Pri.LongPath</Name>
-    </ProjectReference>
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

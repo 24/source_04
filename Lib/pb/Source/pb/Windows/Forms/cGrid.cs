@@ -2643,7 +2643,8 @@ namespace pb.Windows.Forms
             {
                 gdt = gXmlDataDef.zXmlToDataTable("value");
                 //var q = from item in gXmlDataDef.Elements("col") select new { Name = item.zAttribValue("Name"), Type = zreflection.GetType(item.zAttribValue("Type")) };
-                var q = from item in gXmlDataDef.Elements("col") select new { Name = item.zAttribValue("Name"), Type = Reflection.GetTypeFromName(item.zAttribValue("Type")) };
+                //var q = from item in gXmlDataDef.Elements("col") select new { Name = item.zAttribValue("Name"), Type = Reflection.GetTypeFromName(item.zAttribValue("Type")) };
+                var q = from item in gXmlDataDef.Elements("col") select new { Name = item.zAttribValue("Name"), Type = Reflection.GetType(item.zAttribValue("System.Type"), ErrorOptions.ThrowError) };
                 foreach (var col in q)
                     //gdt = zdt.ChangeColumnType(gdt, col.Name, col.Type);
                     gdt = gdt.zChangeColumnType(col.Name, col.Type);

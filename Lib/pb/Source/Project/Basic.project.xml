@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<AssemblyProject>
+  <Root                             value = "..\..\..\..\.." />
+  
+  <Using                            value = "System" />
+  <Using                            value = "System.Collections" />
+  <Using                            value = "System.Collections.Generic" />
+  <Using                            value = "System.Data" />
+  <Using                            value = "System.Globalization" />
+  <Using                            value = "System.IO" />
+  <Using                            value = "System.Linq" />
+  <Using                            value = "System.Reflection" />
+  <Using                            value = "System.Text" />
+  <Using                            value = "System.Text.RegularExpressions" />
+  <Using                            value = "System.Windows.Forms" />
+  <Using                            value = "System.Xml" />
+  <Using                            value = "pb" />
+  <Using                            value = "pb.Compiler" />
+  <Using                            value = "pb.Data" />
+  <Using                            value = "pb.Data.Xml" />
+  <Using                            value = "pb.IO" />
+  <Using                            value = "pb.Text" />
+  <Using                            value = "pb.Web" />
+  <Using                            value = "pb.Windows.Win32" />
+  <Assembly                         value = "System.dll" />
+  <Assembly                         value = "System.Core.dll" />
+  <Assembly                         value = "System.Data.dll" />
+  <Assembly                         value = "System.Windows.Forms.dll" />
+  <Assembly                         value = "System.Xml.dll" />
+  <Assembly                         value = "runsource.dll" />
+  <Assembly                         value = "runsource.irunsource.dll" />
+  <GenerateInMemory                 value = "false" />
+  <DebugInformation                 value = "true" />
+  <CompilerOptions                  value = "/define:DEBUG;TRACE" />
+
+</AssemblyProject>

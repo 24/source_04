@@ -45,7 +45,7 @@ namespace Test_AppDomain_08
             //_runSource.TreeViewResultSelect += new TreeViewResultSelectEvent(EventTreeViewResultSelect);
             _runSource.ErrorResultSet += new SetDataTableEvent(EventErrorResultSet);
             _runSource.ProgressChange += new ProgressChangeEvent(EventProgressChange);
-            _runSource.EndRun += new EndRunEvent(EventEndRun);
+            _runSource.EndRunCode += new EndRunEvent(EventEndRun);
 
 
             DateTime dt2;
@@ -53,7 +53,7 @@ namespace Test_AppDomain_08
 
             dt2 = DateTime.Now;
             Console.WriteLine("{0:HH:mm:ss}-{1} execute : {2}", dt2, TimeSpanToString(dt2.Subtract(dt1)), s);
-            _runSource.Run(s);
+            _runSource.RunCode(s);
             while (_runSource.IsRunning())
                 Thread.Sleep(100);
 
@@ -79,7 +79,7 @@ namespace Test_AppDomain_08
             //Thread.Sleep(7200000);
             dt2 = DateTime.Now;
             Console.WriteLine("{0:HH:mm:ss}-{1} execute : {2}", dt2, TimeSpanToString(dt2.Subtract(dt1)), s);
-            _runSource.Run(s);
+            _runSource.RunCode(s);
             while (_runSource.IsRunning())
                 Thread.Sleep(100);
 

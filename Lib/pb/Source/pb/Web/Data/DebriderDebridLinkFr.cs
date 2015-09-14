@@ -31,7 +31,8 @@ namespace pb.Web
 
         public static int DefaultGetLinkRate(string link)
         {
-            return DownloadFileServerInfo.GetLinkRate(DownloadFileServerInfo.GetServerNameFromLink(link));
+            //return DownloadFileServerInfo.GetLinkRate(DownloadFileServerInfo.GetServerNameFromLink(link));
+            return DebridLinkFr.GetLinkRate(DownloadFileServerInfo.GetServerNameFromLink(link));
         }
     }
 }

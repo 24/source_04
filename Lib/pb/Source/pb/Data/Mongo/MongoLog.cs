@@ -76,7 +76,7 @@ namespace pb.Data.Mongo
             _writeToFile.WriteLine();
         }
 
-        public void LogFindAndModify(MongoCollection collection, QueryDocument query, UpdateDocument update, bool upsert, SortByWrapper sort = null, FieldsWrapper fields = null)
+        public void LogFindAndModify(MongoCollection collection, QueryDocument query, UpdateDocument update, bool upsert, SortByWrapper sort, FieldsWrapper fields)
         {
             if (_writeToFile == null)
                 return;
@@ -361,7 +361,7 @@ namespace pb.Data.Mongo
             return MongoLog.CurrentMongoLog.ExecuteAndLogResult(() => collection.FindOneByIdAs<TDocument>(bsonKey));
         }
 
-        public static FindAndModifyResult zFindAndModify(this MongoCollection collection, QueryDocument query, UpdateDocument update, bool upsert = true, SortByWrapper sort = null, FieldsWrapper fields = null)
+        public static FindAndModifyResult zFindAndModify(this MongoCollection collection, QueryDocument query, UpdateDocument update, bool upsert = false, SortByWrapper sort = null, FieldsWrapper fields = null)
         {
             MongoLog.CurrentMongoLog.LogFindAndModify(collection, query, update, upsert, sort, fields);
             FindAndModifyArgs args = new FindAndModifyArgs();

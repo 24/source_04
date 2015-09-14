@@ -35,6 +35,12 @@ namespace Download.Print
             string mongoBackupTmpDirectory = XmlConfig.CurrentConfig.Get("MongoBackupTmpDirectory");
         }
 
+        //
+        public static void Test_Download_01(string file, IEnumerable<string> links)
+        {
+            PostDownloadLinks postDownloadLinks = PostDownloadLinks.Create(links);
+        }
+
         // collectionName : Ebookdz_Detail Vosbooks_Detail TelechargerMagazine_Detail
         // serverName : ebookdz.com vosbooks.net telecharger-magazine.com
         public static IEnumerable<BsonDocument> GetDownloadedInfo(string collectionName, string serverName, bool onlyNotDownloaded = false, bool file = false, string databaseName = "dl", string query = null, string sort = null, int limit = 0, string server = null)

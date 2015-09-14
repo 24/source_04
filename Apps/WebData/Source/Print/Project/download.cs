@@ -1,4 +1,4 @@
-﻿// $$info.manage.print.directory
+// $$info.manage.print.directory
 // $$info.test.regex
 // $$info.debrid-link.fr
 // $$info.test_unit.print
@@ -10,6 +10,8 @@
 
 Trace.WriteLine("toto");
 RunSource.CurrentRunSource.SetProjectFromSource();
+
+RunSource.CurrentRunSource.CompileProject(@"$Root$\Source\Apps\WebData\Source\Print\Project\download.project.xml");
 
 Trace.CurrentTrace.TraceLevel = 0;
 Trace.CurrentTrace.TraceLevel = 1;
@@ -76,12 +78,22 @@ DownloadAutomate_f.Test_DownloadAutomate_01(loadNewPost: true, searchPostToDownl
 
 DownloadAutomate_f.GetMongoDownloadAutomateManager().SetLastRunDateTime(DateTime.Parse("2015-08-21 05:00:00"));
 
+//*************************************************************************************************************************
+//****                                   get downloaded info
+//*************************************************************************************************************************
 DownloadAutomate_f.GetDownloadedInfo("Ebookdz_Detail", "ebookdz.com", limit: 100, onlyNotDownloaded: false, file: false).zView();
 DownloadAutomate_f.GetDownloadedInfo("Ebookdz_Detail", "ebookdz.com", limit: 300, onlyNotDownloaded: true, file: false).zView();
-DownloadAutomate_f.GetDownloadedInfo("Ebookdz_Detail", "ebookdz.com", limit: 100, onlyNotDownloaded: false, file: false).zView();
-DownloadAutomate_f.GetDownloadedInfo("Ebookdz_Detail", "ebookdz.com", limit: 300, onlyNotDownloaded: true, file: false).zView();
+DownloadAutomate_f.GetDownloadedInfo("Vosbooks_Detail", "vosbooks.net", limit: 100, onlyNotDownloaded: false, file: false).zView();
+DownloadAutomate_f.GetDownloadedInfo("Vosbooks_Detail", "vosbooks.net", limit: 300, onlyNotDownloaded: true, file: false).zView();
 DownloadAutomate_f.GetDownloadedInfo("TelechargerMagazine_Detail", "telecharger-magazine.com", limit: 100, onlyNotDownloaded: false, file: false).zView();
 DownloadAutomate_f.GetDownloadedInfo("TelechargerMagazine_Detail", "telecharger-magazine.com", limit: 300, onlyNotDownloaded: true, file: false).zView();
+
+//*************************************************************************************************************************
+//****                                   load new post
+//*************************************************************************************************************************
+Download.Print.Vosbooks.Vosbooks_DetailManager.WebHeaderDetailManager.LoadNewDocuments(maxNbDocumentsLoadedFromStore: 10, startPage: 1, maxPage: 100);
+Download.Print.Ebookdz.Ebookdz_DetailManager.WebHeaderDetailManager.LoadNewDocuments(maxNbDocumentsLoadedFromStore: 7, startPage: 1, maxPage: 1);
+Download.Print.TelechargerMagazine.TelechargerMagazine_DetailManager.WebHeaderDetailManager.LoadNewDocuments(maxNbDocumentsLoadedFromStore: 25, startPage: 1, maxPage: 100);
 
 //*************************************************************************************************************************
 //****                                   mongo pierre
@@ -148,9 +160,12 @@ Download.Print.Vosbooks.Vosbooks_DetailManager.DetailWebDataManager.FindDocument
 // load headers
 RunSource.CurrentRunSource.View(Download.Print.Vosbooks.Vosbooks_HeaderManager.HeaderWebDataPageManager.LoadPages(startPage: 1, maxPage: 2, reload: false, loadImage: false, refreshDocumentStore: false));
 // export Vosbooks_Detail
-pb.Data.Mongo.TraceMongoCommand.Export("dl", "Vosbooks_Detail", Path.Combine(RunSource.CurrentRunSource.DataDir, @"mongo\export\vosbooks.net\export_Vosbooks_Detail.txt"), sort: "{ 'download.PostCreationDate': -1 }");
+TraceMongoCommand.Export("dl", "Vosbooks_Detail", Path.Combine(AppData.DataDirectory, @"mongo\export\vosbooks.net\export_Vosbooks_Detail.txt"), sort: "{ 'download.PostCreationDate': -1 }");
 // try download
 DownloadManager<DownloadPostKey>.Trace = true;
+
+DownloadAutomate_f.Test_TryDownload_02(Vosbooks.Vosbooks_DetailManager.DetailWebDataManager, "{ _id: 94512 }", uncompressFile: true,
+  forceDownloadAgain: false, forceSelect: false, simulateDownload: false, useNewDownloadManager: true, useTestManager: false);
 Download.Print.DownloadAutomate_f.Test_TryDownload_02(Download.Print.Vosbooks.Vosbooks_DetailManager.DetailWebDataManager, "{ _id: { $gt: 78178 } }", downloadDirectory: "vosbooks.net", uncompressFile: true,
   forceDownloadAgain: true, forceSelect: false, simulateDownload: false, useNewDownloadManager: true, useTestManager: true);
 Download.Print.DownloadAutomate_f.Test_TryDownload_02(Download.Print.Vosbooks.Vosbooks_DetailManager.DetailWebDataManager, "{ _id: { $gt: 78178 } }", downloadDirectory: "vosbooks.net", uncompressFile: true,
@@ -186,6 +201,8 @@ pb.Data.Mongo.TraceMongoCommand.Find("dl", "Ebookdz_Detail", "{ 'download.PostCr
 pb.Data.Mongo.TraceMongoCommand.Export("dl", "Ebookdz_Detail", Path.Combine(RunSource.CurrentRunSource.DataDir, @"mongo\export\ebookdz.com\export_Ebookdz_Detail.txt"), sort: "{ 'download.PostCreationDate': -1 }");
 RunSource.CurrentRunSource.View(Download.Print.Ebookdz.Ebookdz_LoadHeaderPagesManager.CurrentLoadHeaderPagesManager.LoadPages(startPage: 1, maxPage: 1, reload: false, loadImage: false, refreshDocumentStore: false));
 // try download
+Download.Print.DownloadAutomate_f.Test_TryDownload_02(Download.Print.Ebookdz.Ebookdz_DetailManager.DetailWebDataManager, "{ _id: 130981 }", uncompressFile: true,
+  forceDownloadAgain: false, forceSelect: false, simulateDownload: false, useNewDownloadManager: true, useTestManager: false);
 Download.Print.DownloadAutomate_f.Test_TryDownload_02(Download.Print.Ebookdz.Ebookdz_DetailManager.DetailWebDataManager, "{ _id: 117468 }", downloadDirectory: "ebookdz.com", uncompressFile: true,
   forceDownloadAgain: false, forceSelect: false, simulateDownload: false, useNewDownloadManager: true, useTestManager: false);
 Download.Print.DownloadAutomate_f.Test_TryDownload_02(Download.Print.Ebookdz.Ebookdz_DetailManager.DetailWebDataManager, "ebookdz.com", "{ _id: 113744 }", uncompressFile: true, forceDownloadAgain: true, forceSelect: false, simulateDownload: false, useNewDownloadManager: false);
@@ -3151,7 +3168,9 @@ DownloadAutomate_f.CreateDebridLinkFr().GetDownloaderStats().zTraceJson();
 DownloadAutomate_f.CreateDebridLinkFr().GetDownloaderList().zTraceJson();
 DownloadAutomate_f.CreateDebridLinkFr().GetDownloaderList().zGet("value").zView();
 DownloadAutomate_f.CreateDebridLinkFr().DownloaderAdd("http://ul.to/2o4ntzs4").zTraceJson();
-DownloadAutomate_f.CreateDebridLinkFr().DownloaderAdd("http://ul.to/pv0j4xgm").zTraceJson();
+DownloadAutomate_f.CreateDebridLinkFr().DownloaderAdd("http://hitfile.net/3P1R").zTraceJson();
+DownloadAutomate_f.CreateDebridLinkFr().DownloaderAdd("http://uploaded.net/file/9t3ylkvn").zTraceJson();
+
 
 DownloadAutomate_f.CreateDebridLinkFr().DownloaderRemove("a0bbc06d1b2762166d9139f3d2b81e89b7e78af5").zTraceJson();
 
@@ -3697,11 +3716,33 @@ Trace.WriteLine("toto".zToJson());
 
 Trace.WriteLine(RunSource.CurrentRunSource.ProjectFile);
 RunSource.CurrentRunSource.SetProjectFromSource();
-RunSource.CurrentRunSource.SetProject(null);
-RunSource.CurrentRunSource.SetProject(@"..\..\..\..\..\Lib\pb\Source\pb\IO\Test\Test_SharpCompressManager.project.xml");
-pb.IO.Test.Test_SharpCompressManager.Test_Compress_01();
+RunSource.CurrentRunSource.SetProject(@"$Root$\Source\Lib\pb\Source\pb\IO\Test\Test_SharpCompressManager.project.xml");
+// CompressionType : None = 0, GZip = 1, BZip2 = 2, PPMd = 3, Deflate = 4, Rar = 5, LZMA = 6, BCJ = 7, BCJ2 = 8, Unknown = 9,
+// ArchiveType : Rar = 0, Zip = 1, Tar = 2, SevenZip = 3, GZip = 4
+//CompressionType compressionType = CompressionType.None;
+CompressionType compressionType = CompressionType.GZip;
+//CompressionType compressionType = CompressionType.BZip2;
+//CompressionType compressionType = CompressionType.PPMd;
+//CompressionType compressionType = CompressionType.Deflate;
+//CompressionType compressionType = CompressionType.Rar;
+//CompressionType compressionType = CompressionType.LZMA;
+//CompressionType compressionType = CompressionType.BCJ;
+//CompressionType compressionType = CompressionType.BCJ2;
+//CompressionType compressionType = CompressionType.Unknown;
+//ArchiveType archiveType = ArchiveType.Zip;
+//ArchiveType archiveType = ArchiveType.Rar;
+//ArchiveType archiveType = ArchiveType.Tar;
+//ArchiveType archiveType = ArchiveType.SevenZip;
+ArchiveType archiveType = ArchiveType.GZip;
+Test_SharpCompressManager.Test_Compress_01(@"c:\pib\_dl\_test\Test_SharpCompressManager\Test_SharpCompressManager.gz",
+	new string[] { @"c:\pib\_dl\_test\Test_SharpCompressManager\export_TelechargerMagazine_Detail.txt" },
+	archiveType: archiveType, compressionType: compressionType, compressionLevel: CompressionLevel.BestCompression);
+string file = @"c:\pib\_dl\_test\Test_SharpCompressManager\export_TelechargerMagazine_Detail.txt";
+string file = @"c:\pib\_dl\_test\Test_SharpCompressManager\export_TelechargerMagazine_Detail_02.txt";
+Test_SharpCompressManager.Test_CompressZip_01(@"c:\pib\_dl\_test\Test_SharpCompressManager\Test_SharpCompressManager.zip",
+	new string[] { file }, compressionLevel: CompressionLevel.BestCompression);
 
-RunSource.CurrentRunSource.SetProject(@"$//Root$\Source\Test\Test.Test_01\Source\Test_Project\Test_Project.project.xml");
+RunSource.CurrentRunSource.SetProject(@"$Root$\Source\Test\Test.Test_01\Source\Test_Project\Test_Project.project.xml");
 Test.Test_Project.Test_IncludeProject.Test_01();
 
 Compiler.TraceLevel = 1;
@@ -3738,3 +3779,220 @@ data.zToJson().zTrace();
 Download.Print.TelechargerMagazine.TelechargerMagazine_DetailManager.WebHeaderDetailManager.LoadNewDocuments(startPage: 1, maxPage: 100, maxNbDocumentsLoadedFromStore: 25);
 
 
+pb.Data.Mongo.TraceMongoCommand.Eval("db.getCollectionNames()", "test");
+pb.Data.Mongo.TraceMongoCommand.Eval("db.system.js.find()", "test");
+pb.Data.Mongo.TraceMongoCommand.Find("test", "system.js", "{}").zTraceJson();
+pb.Data.Mongo.TraceMongoCommand.Find("test", "data01", "{}").zTraceJson();
+pb.Data.Mongo.TraceMongoCommand.Find("test", "data01", "{}").zView();
+pb.Data.Mongo.TraceMongoCommand.Insert("test", "data01", "{ _id: 2, name: 'toto' }");
+pb.Data.Mongo.TraceMongoCommand.Insert("test", "data01", "{ _id: 3, name: 'toto', num: myAddFunction(3, 4) }");
+pb.Data.Mongo.TraceMongoCommand.Remove("test", "data01", "{ name: 'toto' }");
+pb.Data.Mongo.TraceMongoCommand.Count("dl", "DownloadFile3");
+
+pb.Data.Mongo.TraceMongoCommand.Eval("db.getCollectionNames()", "dl");
+pb.Data.Mongo.TraceMongoCommand.Find("test", "data01", "{}").zView();
+pb.Data.Mongo.TraceMongoCommand.Find("dl", "CurrentDownloadFile", "{}", limit: 10).zView();
+pb.Data.Mongo.TraceMongoCommand.Count("dl", "CurrentDownloadFile");
+pb.Data.Mongo.TraceMongoCommand.Find("dl", "Download", "{}", limit: 10).zView();
+pb.Data.Mongo.TraceMongoCommand.Find("dl", "Download", "{}", sort: "{ _id: 1 }", fields: "{ _id: 1 }", limit: 10).zView();
+//pb.Data.Mongo.TraceMongoCommand.Export("dl", "Download", Path.Combine(AppData.DataDirectory, @"mongo\export\id\export_Download.txt"), sort: "{ _id: 1 }");
+pb.Data.Mongo.TraceMongoCommand.Find("dl", "IdGenerator", "{}").zTraceJson();
+
+
+//pb.Data.Mongo.TraceMongoCommand.Eval("db.TestId.drop()", "test");
+TraceMongoCommand.Insert("test", "TestId", "{ _id: 0, LastId: 0 }");
+TraceMongoCommand.Find("test", "TestId", "{}").zTraceJson();
+TraceMongoCommand.Count("dl", "TestId");
+TraceMongoCommand.FindAndModify("test", "TestId", "{ _id: 0 }", "{ $inc: { LastId: 1 } }");
+TraceMongoCommand.FindAndModify("test", "TestId", "{ _id: 0 }", "{ $inc: { LastId: 1 } }", upsert: true);
+TraceMongoCommand.Remove("test", "TestId", "{ _id: 0 }");
+
+//pb.Data.Mongo.TraceMongoCommand.Eval("db.TestId2.drop()", "test");
+TraceMongoCommand.Count("dl", "TestId2");
+TraceMongoCommand.Find("test", "TestId2", "{}").zTraceJson();
+MongoIntIdGenerator.GetNewId("test", "TestId2").zTrace();
+
+TraceMongoCommand.Export("dl", "IdGenerator", Path.Combine(AppData.DataDirectory, @"mongo\export\id\export_IdGenerator.txt"), sort: "{ _id: 1 }");
+//pb.Data.Mongo.TraceMongoCommand.Eval("db.IdGenerator.drop()", "test_id");
+TraceMongoCommand.Import("test_id", "IdGenerator", Path.Combine(AppData.DataDirectory, @"mongo\export\id\export_IdGenerator.txt"));
+TraceMongoCommand.Find("test_id", "IdGenerator", "{}").zView();
+MongoIntIdGenerator.TransfertOldLastId("QueueDownloadFile3", "test_id");
+TraceMongoCommand.Find("test_id", "QueueDownloadFile3", "{}").zTraceJson();
+
+new UpdateDocument { { "$inc", { "LastId", 1 } } }.zTraceJson();
+new UpdateDocument { { "$set", "{ \"LastId\", 1 }" } }.zTraceJson();
+new UpdateDocument { { "$set", new BsonDocument { { "LastId", 1 } } } }.zTraceJson();
+
+MongoCommand.GetDatabase(null, "test").GetCollection("zzzz").FindOneAs<BsonDocument>(new QueryDocument { { "collection", "toto" } }).zTraceJson();
+MongoCommand.GetDatabase(null, "dl").GetCollection("IdGenerator").FindOneAs<BsonDocument>(new QueryDocument { { "collection", "toto" } }).zTraceJson();
+MongoCommand.GetDatabase(null, "dl").GetCollection("IdGenerator").FindOneAs<BsonDocument>(new QueryDocument { { "collection", "DownloadedFile" } }).zTraceJson();
+
+
+TraceMongoCommand.ExportDatabase("test", Path.Combine(AppData.DataDirectory, @"mongo\export\database\test"));
+TraceMongoCommand.ExportDatabase("dl", Path.Combine(AppData.DataDirectory, @"mongo\export\database\dl"), sort: "{ _id: 1 }");
+
+TraceMongoCommand.Eval("{ listDatabases: 1 }");
+MongoCommand.GetDatabase(server: null, databaseName: "admin").zEval("{ listDatabases: 1 }".zToEvalArgs()).zTraceJson();
+MongoCommand.GetDatabase(server: null, databaseName: "admin").zEval("{ listDatabases: 1 }".zToEvalArgs()).zView();
+MongoCommand.GetDatabase(server: null, databaseName: "admin").zEval("{ listDatabases: 1 }".zToEvalArgs())["databases"].zView();
+TraceMongoCommand.ExportDatabase("dl_test", Path.Combine(AppData.DataDirectory, @"mongo\export\database\dl_test"), sort: "{ _id: 1 }");
+
+zmongo.BsonReader<BsonDocument>(@"c:\pib\dev_data\exe\runsource\download\mongo\export\database\dl_01\export_[object Object].txt")
+	.OrderBy(doc => doc["_id"])
+	.zSave(@"c:\pib\dev_data\exe\runsource\download\mongo\export\database\dl_01\sorted\export_[object Object].txt");
+zmongo.BsonReader<BsonDocument>(@"c:\pib\dev_data\exe\runsource\download\mongo\export\database\dl_test_01\export_Images.txt")
+	.OrderBy(doc => doc["_id"])
+	.zSave(@"c:\pib\dev_data\exe\runsource\download\mongo\export\database\dl_test_01\export_Images_02.txt");
+
+
+
+foreach (string file in zDirectory.EnumerateFiles(@"c:\pib\dev_data\exe\runsource\download\mongo\export\database\dl_01"))
+{
+	//file.zTrace();
+	string file2 = zPath.Combine(zPath.GetDirectoryName(file), "sorted", zPath.GetFileName(file));
+	file2.zTrace();
+	// .AsInt32
+	zmongo.BsonReader<BsonDocument>(file).OrderBy(doc => doc["_id"]).zSave(file2);
+}
+
+pb.Data.Mongo.TraceMongoCommand.Eval("db.getCollectionNames()", "dl");
+
+
+pb.Data.Mongo.TraceMongoCommand.Eval("{ listDatabases: 1 }");
+MongoCommand.GetDatabase(server: null, databaseName: "admin").zEval("{ listDatabases: 1 }".zToEvalArgs())["databases"].zView();
+pb.Data.Mongo.TraceMongoCommand.Eval("db.dropDatabase()", "dl");
+pb.Data.Mongo.TraceMongoCommand.Eval("db.copyDatabase('dl_test', 'dl')");
+"".zTrace();
+
+MongoIntIdGenerator.TransfertOldLastId("Download", "dl");
+TraceMongoCommand.Export("dl", "Download", Path.Combine(AppData.DataDirectory, @"mongo\export\database\dl\export_Download.txt"), sort: "{ _id: 1 }");
+MongoIntIdGenerator.TransfertOldLastId("Download2", "dl");
+TraceMongoCommand.Export("dl", "Download2", Path.Combine(AppData.DataDirectory, @"mongo\export\database\dl\export_Download2.txt"), sort: "{ _id: 1 }");
+MongoIntIdGenerator.TransfertOldLastId("DownloadFile3", "dl");
+TraceMongoCommand.Export("dl", "DownloadFile3", Path.Combine(AppData.DataDirectory, @"mongo\export\database\dl\export_DownloadFile3.txt"), sort: "{ _id: 1 }");
+MongoIntIdGenerator.TransfertOldLastId("DownloadedFile", "dl");
+TraceMongoCommand.Export("dl", "DownloadedFile", Path.Combine(AppData.DataDirectory, @"mongo\export\database\dl\export_DownloadedFile.txt"), sort: "{ _id: 1 }");
+MongoIntIdGenerator.TransfertOldLastId("DownloadedFile3", "dl");
+TraceMongoCommand.Export("dl", "DownloadedFile3", Path.Combine(AppData.DataDirectory, @"mongo\export\database\dl\export_DownloadedFile3.txt"), sort: "{ _id: 1 }");
+MongoIntIdGenerator.TransfertOldLastId("DownloadedFile_test", "dl");
+TraceMongoCommand.Export("dl", "DownloadedFile_test", Path.Combine(AppData.DataDirectory, @"mongo\export\database\dl\export_DownloadedFile_test.txt"), sort: "{ _id: 1 }");
+MongoIntIdGenerator.TransfertOldLastId("QueueDownloadFile3", "dl");
+TraceMongoCommand.Export("dl", "QueueDownloadFile3", Path.Combine(AppData.DataDirectory, @"mongo\export\database\dl\export_QueueDownloadFile3.txt"), sort: "{ _id: 1 }");
+MongoIntIdGenerator.TransfertOldLastId("QueueDownloadFile4", "dl");
+TraceMongoCommand.Export("dl", "QueueDownloadFile4", Path.Combine(AppData.DataDirectory, @"mongo\export\database\dl\export_QueueDownloadFile4.txt"), sort: "{ _id: 1 }");
+MongoIntIdGenerator.TransfertOldLastId("QueueDownloadFile_new", "dl");
+TraceMongoCommand.Export("dl", "QueueDownloadFile_new", Path.Combine(AppData.DataDirectory, @"mongo\export\database\dl\export_QueueDownloadFile_new.txt"), sort: "{ _id: 1 }");
+
+//db.copyDatabase('dl', 'dl_test2')
+//pb.Data.Mongo.TraceMongoCommand.Eval("db.IdGenerator.drop()", "dl");
+
+
+
+
+
+Trace.WriteLine(RunSource.CurrentRunSource.ProjectFile);
+RunSource.CurrentRunSource.SetProjectFromSource();
+RunSource.CurrentRunSource.SetProject(@"$Root$\Source\Lib\pb\Source\pb\IO\Test\Test_utf8.project.xml");
+Test_utf8.Test_utf8_01();
+
+XmlConfig.CurrentConfig.ConfigFile.zTrace();
+
+QueryDocument queryDocument = "{ 'downloadedFile.Key.server': 'extreme-down.net' }".zToQueryDocument();
+QueryDocument queryDocument = "{}".zToQueryDocument();
+//string collection = "DownloadedFile";
+string collection = "QueueDownloadFile_new";
+new MongoIntIdGenerator(collection, "dl").GetQueryToSkipIdGeneratorDocument(queryDocument).zTraceJson();
+
+QueryDocument queryDocument = "{ 'downloadedFile.Key.server': 'extreme-down.net' }".zToQueryDocument();
+QueryDocument queryDocument = "{}".zToQueryDocument();
+//string collection = "DownloadedFile";
+string collection = "QueueDownloadFile_new";
+QueryDocument queryDocument2 = new MongoIntIdGenerator(collection, "dl").GetQueryToSkipIdGeneratorDocument(queryDocument);
+zmongo.GetCollection(collection, "dl").zFind<BsonDocument>(queryDocument2, limit: 10, sort: "{ _id: -1 }".zToSortByWrapper()).zView();
+
+QueryDocument queryDocument = "{ _id: 12 }".zToQueryDocument();
+zmongo.GetCollection("DownloadedFile", "dl").zFind<BsonDocument>(queryDocument, limit: 10, sort: "{ _id: -1 }".zToSortByWrapper()).zView();
+
+
+
+MongoCollectionManager_v1<DownloadPostKey, QueueDownloadFile<DownloadPostKey>> mongoQueueDownloadFileManager =
+new MongoCollectionManager_v1<DownloadPostKey, QueueDownloadFile<DownloadPostKey>>(XmlConfig.CurrentConfig.GetElement("DownloadAutomateManager/MongoQueueDownloadFile_new"));
+mongoQueueDownloadFileManager.Find("{}").zTraceJson();
+
+string file = @"$Root$\Source\Apps\RunSource\v2\runsource.irunsource\runsource.irunsource.project.xml".zGetRunSourceProjectVariableValue().zRootPath(RunSource.CurrentRunSource.ProjectDirectory);
+file.zTrace();
+//var config = new XmlConfig(file);
+//Trace.WriteLine("{0}", config.ConfigFile);
+var element = new XmlConfig(@"c:\pib\drive\google\dev\project\Source\Apps\RunSource\v2\runsource.irunsource\runsource.irunsource.project.xml").GetConfigElement("/*");
+Trace.WriteLine("{0} - {1}", element.Element.zGetPath(), element.Element.Name);
+var element = new XmlConfig(@"c:\pib\drive\google\dev\project\Source\Apps\RunSource\v2\runsource.irunsource\runsource.irunsource.project.xml").GetConfigElement("/AssemblyProject");
+Trace.WriteLine("{0} - {1}", element.Element.zGetPath(), element.Element.Name);
+
+XDocument xdocument = XDocument.Load(@"$Root$\Source\Apps\RunSource\v2\runsource.irunsource\runsource.irunsource.project.xml".zGetRunSourceProjectVariableValue());
+Trace.WriteLine("{0}", xdocument.Root.Name);
+
+Trace.WriteLine("{0}", RunSource.CurrentRunSource.GetProjectConfig().ConfigFile);
+
+@"$Roaaot$\Source\Apps\RunSource\v2\runsource.irunsource\runsource.irunsource.project.xml".zGetRunSourceProjectVariableValue().zTrace();
+@"$Roaaot$\Source\Apps\RunSource\v2\runsource.irunsource\runsource.irunsource.project.xml".zGetRunSourceProjectVariableValue(throwError: true).zTrace();
+@"$Root$\Source\Apps\RunSource\v2\runsource.irunsource\runsource.irunsource.project.xml".zGetRunSourceProjectVariableValue().zRootPath(RunSource.CurrentRunSource.ProjectDirectory).zTrace();
+
+
+RunSource.CurrentRunSource.SetProjectFromSource();
+RunSource.CurrentRunSource.SetProject(@"$Root$\Source\Test\Test.Test_01\Source\Test_Reflection\Test_Reflection.project.xml");
+Test_Assembly.Test_Assembly_01();
+Test_Assembly.Test_Assembly_02();
+Test_Assembly.Test_Assembly_Module_01();
+Test_Assembly.Test_Assembly_Type_01();
+Test_Assembly.Test_Assembly_Type_02();
+Test_Assembly.Test_Assembly_Type_03("runsource.irunsource.dll");
+Test_Assembly.Test_AppDomain_Assembly_01();
+Test_Assembly.Test_AppDomain_Assembly_02();
+Test_Assembly.Test_GetType_01("zPath");  // not found
+Test_Assembly.Test_GetType_01("pb.IO.zPath"); // not found
+Test_Assembly.Test_GetType_01("pb.IO.zPath, runsource.irunsource, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"); // found
+Test_Assembly.Test_GetType_01("Test.Test_Reflection.w");  // found
+Test_Assembly.Test_GetType_01("System.Int32");  // System.Int32 : found, System.int : not found, int : not found
+Test_Assembly.Test_GetType_01("int");  // 
+
+Type.GetType("pb.IO.zPath, runsource.irunsource, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null").AssemblyQualifiedName.zTrace();
+Type.GetType("Download.Print._RunCode, ebook.download, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null").AssemblyQualifiedName.zTrace();
+
+
+Assembly.GetCallingAssembly().FullName.zTrace();   // Assembly.GetCallingAssembly()   : FullName = "runsource, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+Assembly.GetEntryAssembly().FullName.zTrace();     // Assembly.GetEntryAssembly()     : FullName = "runsource.runsource, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+Assembly.GetExecutingAssembly().FullName.zTrace(); // Assembly.GetExecutingAssembly() : FullName = "RunCode_00007, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+Assembly.ReflectionOnlyLoadFrom(@"c:\pib\drive\google\dev\project\Source\Apps\WebData\Source\Print\Project\bin32\ebook.download.dll").FullName.zTrace(); // "ebook.download, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+Assembly assembly = Assembly.GetCallingAssembly();
+Trace.WriteLine("FullName : \"{0}\"", assembly.FullName);
+Trace.WriteLine("GetName :");
+assembly.GetName().zTraceJson();
+
+Reflection.GetMethodElements("Init").zTraceJson();
+Reflection.GetMethodElements("Test._RunCode.Init").zTraceJson();
+Reflection.GetMethodElements("Test._RunCode.Init, ebook.download, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null").zTraceJson();
+
+
+
+RunSource.CurrentRunSource.SetProjectFromSource();
+RunSource.CurrentRunSource.SetProject(@"$Root$\Source\Test\Test.Test_01\Source\Test_CS\Test_cs4_project.xml");
+
+
+string s = null;
+s.Substring(10);
+
+int i = 0x0010;
+int i = 0x001F;
+i.zToHex().zTrace();
+(i >> 4).zToHex().zTrace();
+(i >> 4 << 4).zToHex().zTrace();
+
+RunSource.CurrentRunSource.UseNewRunCode.zTrace();
+RunSource.CurrentRunSource.UseNewRunCode = false;
+RunSource.CurrentRunSource.UseNewRunCode = true;
+
+AppDomain.CurrentDomain.GetAssemblies().Select(assembly => new { IsDynamic = assembly.IsDynamic, FullName = assembly.FullName, Location = !assembly.IsDynamic ? assembly.Location : null }).zTraceJson();
+
+
+
+Trace.WriteLine("toto");

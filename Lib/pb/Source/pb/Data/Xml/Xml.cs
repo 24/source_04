@@ -92,16 +92,17 @@ namespace pb.Data.Xml
         //        }));
         //}
 
-        public static string zGetVariableValue(this XElement xe, string value, Func<string, string> getValue = null)
+        public static string zGetVariableValue(this XElement xe, string value, Func<string, string> getValue = null, bool traceError = false)
         {
             string newValue;
-            xe.zTryGetVariableValue(value, out newValue, getValue);
+            xe.zTryGetVariableValue(value, out newValue, getValue, traceError: traceError);
             return newValue;
         }
 
-        public static bool zTryGetVariableValue(this XElement xe, string value, out string newValue, Func<string, string> getValue = null)
+        public static bool zTryGetVariableValue(this XElement xe, string value, out string newValue, Func<string, string> getValue = null, bool traceError = false)
         {
-            if (xe == null || value == null)
+            //if (xe == null || value == null)
+            if (value == null)
             {
                 newValue = null;
                 return true;
@@ -111,20 +112,33 @@ namespace pb.Data.Xml
                 match =>
                 {
                     string xpath = match.Groups[1].Value;
-                    XElement parent = xe.Parent;
-                    string var = null;
+                    //XElement parent = xe.Parent;
+                    //string var = null;
+                    string var;
                     if (getValue != null)
-                        var = getValue(xpath);
-                    if (var == null && parent != null && xpath != xe.Name.LocalName)
-                        var = parent.zXPathValue(xpath);
-                    if (var == null)
-                        var = xe.Document.Root.zXPathValue(xpath);
-                    if (var == null)
                     {
-                        valueNotFound = true;
-                        pb.Trace.WriteLine("can't find xml variable \"${0}$\" from {1}", xpath, xe.zGetPath());
+                        var = getValue(xpath);
+                        if (var != null)
+                            return var;
                     }
-                    return var;
+                    //if (var == null && parent != null && xpath != xe.Name.LocalName)
+                    if (xe != null)
+                    {
+                        XElement parent = xe.Parent;
+                        if (parent != null && xpath != xe.Name.LocalName)
+                        {
+                            var = parent.zXPathValue(xpath);
+                            if (var != null)
+                                return var;
+                        }
+                        var = xe.Document.Root.zXPathValue(xpath);
+                        if (var != null)
+                            return var;
+                    }
+                    valueNotFound = true;
+                    if (traceError)
+                        pb.Trace.WriteLine("can't find xml variable \"${0}$\" from {1}", xpath, xe.zGetPath());
+                    return null;
                 }));
             return !valueNotFound;
         }
@@ -136,7 +150,7 @@ namespace pb.Data.Xml
             foreach (XElement xe in xdocument.Root.DescendantsAndSelf())
             {
                 foreach (XAttribute xa in xe.Attributes())
-                    xa.Value = xe.zGetVariableValue(xa.Value, getValue);
+                    xa.Value = xe.zGetVariableValue(xa.Value, getValue, traceError: true);
             }
         }
 

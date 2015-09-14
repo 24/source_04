@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
 using pb.Data;
+using pb.Data.Xml;
 
 namespace pb.Compiler
 {
@@ -66,5 +67,11 @@ namespace pb.Compiler
         //    Trace.WriteLine("Export(\"{0}\");", file);
         //    zdt_v1.Save(RunSource.CurrentRunSource.Result.DefaultView, file, append, fieldNameHeader, null, System.Text.Encoding.UTF8);
         //}
+
+        public static string zGetRunSourceProjectVariableValue(this string value, bool throwError = false)
+        {
+            return RunSource.CurrentRunSource.GetProjectVariableValue(value, throwError);
+        }
+
     }
 }

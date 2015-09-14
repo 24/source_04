@@ -14,6 +14,7 @@ namespace pb.Compiler
         private string _projectDirectory = null;
         //private XElement _projectXmlElement = null;
         private XmlConfigElement _projectXmlElement = null;
+        private bool _isIncludeProject = false;
 
         //public CompilerProject(XElement projectXmlElement, string projectFile)
         //{
@@ -23,7 +24,7 @@ namespace pb.Compiler
         //        _projectDirectory = zPath.GetDirectoryName(projectFile);
         //}
 
-        public CompilerProject(XmlConfigElement projectXmlElement)
+        private CompilerProject(XmlConfigElement projectXmlElement, bool isIncludeProject = false)
         {
             if (projectXmlElement == null)
                 throw new PBException("projectXmlElement is null when creating pb.Compiler.CompilerProject");
@@ -31,18 +32,20 @@ namespace pb.Compiler
             _projectFile = projectXmlElement.XmlConfig.ConfigFile;
             if (_projectFile != null)
                 _projectDirectory = zPath.GetDirectoryName(_projectFile);
+            _isIncludeProject = isIncludeProject;
         }
 
-        public static CompilerProject Create(XmlConfigElement projectXmlElement)
+        public static CompilerProject Create(XmlConfigElement projectXmlElement, bool isIncludeProject = false)
         {
             if (projectXmlElement != null)
-                return new CompilerProject(projectXmlElement);
+                return new CompilerProject(projectXmlElement, isIncludeProject);
             else
                 return null;
         }
 
         public string ProjectFile { get { return _projectFile; } }
         public string ProjectDirectory { get { return _projectDirectory; } }
+        public bool IsIncludeProject { get { return _isIncludeProject; } }
         //public XElement ProjectXmlElement { get { return _projectXmlElement; } }
         //public XmlConfigElement ProjectXmlElement { get { return _projectXmlElement; } }
 
@@ -113,8 +116,17 @@ namespace pb.Compiler
 
         public string GetNameSpace()
         {
-            //return _projectXmlElement.zXPathValue("NameSpace");
-            return _projectXmlElement.Get("NameSpace");
+            return _projectXmlElement.GetExplicit("NameSpace");
+        }
+
+        public string GetInitMethod()
+        {
+            return _projectXmlElement.Get("InitMethod");
+        }
+
+        public string GetEndMethod()
+        {
+            return _projectXmlElement.Get("EndMethod");
         }
 
         public IEnumerable<ICompilerProject> GetIncludeProjects()
@@ -122,7 +134,8 @@ namespace pb.Compiler
             //return _projectXmlElement.GetValues("IncludeProject").Select(file => CompilerProject.Create(new XmlConfig(file.zRootPath(_projectDirectory)).GetConfigElement("Project"))).Where(compilerProject => compilerProject != null);
             foreach (string includeProject in _projectXmlElement.GetValues("IncludeProject"))
             {
-                CompilerProject compilerProject = CompilerProject.Create(new XmlConfig(includeProject.zRootPath(_projectDirectory)).GetConfigElement("Project"));
+                //CompilerProject compilerProject = CompilerProject.Create(new XmlConfig(includeProject.zRootPath(_projectDirectory)).GetConfigElement("Project"), isIncludeProject: true);
+                CompilerProject compilerProject = CompilerProject.Create(new XmlConfig(includeProject.zRootPath(_projectDirectory)).GetConfigElement("/AssemblyProject"), isIncludeProject: true);
                 if (compilerProject != null)
                     yield return compilerProject;
                 else
@@ -171,6 +184,7 @@ namespace pb.Compiler
         private CompilerFile CreateCompilerFile(XElement xe)
         {
             CompilerFile compilerFile = new CompilerFile(xe.Attribute("value").Value.zRootPath(_projectDirectory));
+            compilerFile.Project = this;
             foreach (XAttribute xa in xe.Attributes())
             {
                 if (xa.Name != "value")
@@ -192,7 +206,7 @@ namespace pb.Compiler
                     string resolveName = xe.zAttribValue("resolveName");
                     if (resolve && resolveName == null)
                         throw new PBException("error to resolve an assembly you must specify a resolveName (\"Test_dll, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null\")");
-                    return new CompilerAssembly(file, resolve, resolveName);
+                    return new CompilerAssembly(file, resolve, resolveName, this);
                 });
         }
 

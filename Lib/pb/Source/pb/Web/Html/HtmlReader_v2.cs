@@ -42,7 +42,9 @@ namespace pb.Web
         // stream du fichier Html
         //private FileStream _fs = null;
         private int _bufferSize = 32000;  // taille buffer de FileStream
-        private Encoding _encoding = Encoding.UTF8; // code caractère : Default = ANSI avec le code page du système
+        //private Encoding _encoding = Encoding.UTF8; // code caractère : Default = ANSI avec le code page du système
+        // no bom with new UTF8Encoding()
+        private Encoding _encoding = new UTF8Encoding(); // code caractère : Default = ANSI avec le code page du système
 
         // stream de lecture de la source Html fichier Html
         private TextReader _textReader = null;

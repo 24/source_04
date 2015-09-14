@@ -128,7 +128,7 @@ namespace pb.IO
                 zFile.SetAttributes(file, attribs & ~FileAttributes.ReadOnly);
         }
 
-        public static void DeleteFile(string file, bool removeReadOnlyAttribute = true)
+        public static void DeleteFile(string file, bool removeReadOnlyAttribute = false)
         {
             if (zFile.Exists(file))
             {
@@ -138,19 +138,19 @@ namespace pb.IO
             }
         }
 
-        public static void DeleteFiles(string pathWithPattern, bool removeReadOnlyAttribute = true)
+        public static void DeleteFiles(string pathWithPattern, bool removeReadOnlyAttribute = false)
         {
             string dir = zPath.GetDirectoryName(pathWithPattern);
             string searchPattern = zPath.GetFileName(pathWithPattern);
             DeleteFiles(dir, searchPattern, removeReadOnlyAttribute);
         }
 
-        public static void DeleteFiles(string dir, string searchPattern, bool removeReadOnlyAttribute = true)
-        {
-            DeleteFiles(dir, searchPattern, true, removeReadOnlyAttribute);
-        }
+        //public static void DeleteFiles(string dir, string searchPattern, bool removeReadOnlyAttribute = false)
+        //{
+        //    DeleteFiles(dir, searchPattern, true, removeReadOnlyAttribute);
+        //}
 
-        public static void DeleteFiles(string dir, string searchPattern, bool throwError, bool removeReadOnlyAttribute = true)
+        public static void DeleteFiles(string dir, string searchPattern, bool removeReadOnlyAttribute = false, bool throwError = true)
         {
             if (!zDirectory.Exists(dir))
                 return;
@@ -327,7 +327,9 @@ namespace pb.IO
             if (dir != "" && !zDirectory.Exists(dir))
                 zDirectory.CreateDirectory(dir);
             if (encoding == null)
-                encoding = Encoding.UTF8;
+                //encoding = Encoding.UTF8;
+                // no bom with new UTF8Encoding()
+                encoding = new UTF8Encoding();
             FileMode fm;
             if (append) fm = FileMode.Append; else fm = FileMode.Create;
             FileStream fs = new FileStream(file, fm, FileAccess.Write, FileShare.Read);
@@ -674,7 +676,9 @@ namespace pb.IO
             else
                 fileMode = FileMode.Create;
             if (encoding == null)
-                encoding = Encoding.UTF8;
+                //encoding = Encoding.UTF8;
+                // no bom with new UTF8Encoding()
+                encoding = new UTF8Encoding();
             return new StreamWriter(new FileStream(file, fileMode, FileAccess.Write, FileShare.Read), encoding);
         }
 

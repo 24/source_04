@@ -55,14 +55,29 @@
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\Compiler\CompilerProject.cs">
       <Link>SourceLnk\Lib\pb\Compiler\CompilerProject.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Compiler\GenerateAndExecute.cs">
-      <Link>SourceLnk\Lib\pb\Compiler\GenerateAndExecute.cs</Link>
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Compiler\CSharpCodeWriter.cs">
+      <Link>SourceLnk\Lib\pb\Compiler\CSharpCodeWriter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Compiler\GenerateAssembly.cs">
+      <Link>SourceLnk\Lib\pb\Compiler\GenerateAssembly.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\Compiler\GenerateCSharpCode.cs">
       <Link>SourceLnk\Lib\pb\Compiler\GenerateCSharpCode.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Compiler\RunCode.cs">
+      <Link>SourceLnk\Lib\pb\Compiler\RunCode.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\Compiler\RunSource.cs">
       <Link>SourceLnk\Lib\pb\Compiler\RunSource.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Compiler\RunSourceRunCode.cs">
+      <Link>SourceLnk\Lib\pb\Compiler\RunSourceRunCode.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Compiler\_old\GenerateAndExecute.cs">
+      <Link>SourceLnk\Lib\pb\Compiler\_old\GenerateAndExecute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Compiler\_old\RunSourceRunCode_v1.cs">
+      <Link>SourceLnk\Lib\pb\Compiler\_old\RunSourceRunCode_v1.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\Data\GClass.cs">
       <Link>SourceLnk\Lib\pb\Data\GClass.cs</Link>

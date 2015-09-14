@@ -1,0 +1,544 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Download>
+  <DataDir                                                       value = "c:\pib\dev_data\exe\runsource\download" />
+  <DataDir2                                                      value = "c:\pib\drive\google\dev_data\exe\runsource\download" />
+  <Log                                                           value = "$DataDir$\log\_log.txt" option = "IndexedFile" />
+  <TestUnitDirectory                                             value = "c:\pib\drive\google\dev_data\exe\runsource\test_unit" />  <!-- c:\pib\dev_data\exe\runsource\test_unit c:\pib\dropbox\pbeuz\Dropbox\dev_data\exe\runsource\test_unit -->
+  <HttpExportDirectory                                           value = "$DataDir$\http" />
+  <MongoLog                                                      value = "$DataDir$\mongo\log\_mongo_log.txt" option = "IndexedFile" />
+  <MongoCache                                                    value = "$DataDir$\mongo\cache\mongo_cache.txt" />
+  <MongoBackupDirectory                                          value = "$DataDir2$\mongo\backup" />
+  <MongoBackupTmpDirectory                                       value = "$DataDir$\mongo\export\_tmp" />
+  <PrintConfig                                                   value = "print_config.xml" />          <!-- ..\pt\pt_config.xml -->
+  <LocalConfig                                                   value = "$DataDir2$\config\download_config_local.xml" />    <!-- c:\pib\dropbox\pbeuz\Dropbox\dev_data\exe\runsource\download\config\download_config_local.xml -->
+  <PrintList1Config                                              value = "print_list1.xml" />
+  <PrintList2Config                                              value = "print_list2.xml" />
+
+  <DownloadAutomateManager>
+    <ServerManagers>
+      <!-- ServerManager default values : enableLoadNewPost = "true"  enableSearchPostToDownload = "true" downloadDirectory = "" -->
+      <!-- <ServerManager                                             name = "Ebookdz"  enableLoadNewPost = "false"  enableSearchPostToDownload = "false"  downloadDirectory = "Ebookdz" /> -->
+      <ServerManager                                             name = "Ebookdz" />
+      <ServerManager                                             name = "Vosbooks" />
+      <ServerManager                                             name = "TelechargerMagazine" />
+      <!--<ServerManager                                             name = "Vosbooks_test" enableLoadNewPost = "false" downloadDirectory = "Vosbooks" />-->
+    </ServerManagers>
+
+    <MongoDownloadAutomate>
+      <MongoServer                                               value = "mongodb://localhost" />
+      <MongoDatabase                                             value = "dl" />
+      <MongoCollection                                           value = "DownloadAutomate3" />
+    </MongoDownloadAutomate>
+    <MongoDownloadFile>  <!-- used only for DownloadManager_v1 as mongoDownloadManager -->
+      <MongoServer                                               value = "mongodb://localhost" />
+      <MongoDatabase                                             value = "dl" />
+      <MongoCollection                                           value = "DownloadFile3" />
+      <MongoDocumentItemName                                     value = "downloadFile" />
+    </MongoDownloadFile>
+    <MongoDownloadedFile> <!-- used only for DownloadManager.MongoDownloadedFileManager -->
+      <MongoServer                                               value = "mongodb://localhost" />
+      <MongoDatabase                                             value = "dl" />
+      <MongoCollection                                           value = "DownloadedFile" />     <!-- DownloadedFile_test -->
+      <MongoDocumentItemName                                     value = "downloadedFile" />
+    </MongoDownloadedFile>
+    <MongoQueueDownloadFile>  <!-- used only for DownloadManager_v1 as mongoQueueDownloadManager -->
+      <MongoServer                                               value = "mongodb://localhost" />
+      <MongoDatabase                                             value = "dl" />
+      <MongoCollection                                           value = "QueueDownloadFile4" />
+      <MongoDocumentItemName                                     value = "queueDownloadFile" />
+    </MongoQueueDownloadFile>
+    <MongoQueueDownloadFile_new>  <!-- used only for DownloadManager.MongoQueueDownloadFileManager -->
+      <MongoServer                                               value = "mongodb://localhost" />
+      <MongoDatabase                                             value = "dl" />
+      <MongoCollection                                           value = "QueueDownloadFile_new" />
+      <MongoDocumentItemName                                     value = "queueDownloadFile" />
+    </MongoQueueDownloadFile_new>
+    <MongoCurrentDownloadFile>  <!-- used only for DownloadManager.MongoCurrentDownloadFileManager -->
+      <MongoServer                                               value = "mongodb://localhost" />
+      <MongoDatabase                                             value = "dl" />
+      <MongoCollection                                           value = "CurrentDownloadFile" />
+      <MongoDocumentItemName                                     value = "currentDownloadFile" />
+    </MongoCurrentDownloadFile>
+    <DownloadManagerClient>
+      <!--<Address                                                   value = "http://localhost:8019/WCFDownloadManager" />-->
+      <Address                                                   value = "http://localhost:8019/DownloadManagerService" />
+    </DownloadManagerClient>
+    <UncompressManager>
+      <ArchiveCompressDirectory                                  value = "c:\pib\_dl\_pib\archive" />
+      <ArchiveErrorCompressDirectory                             value = "c:\pib\_dl\_pib\archive\error" />
+    </UncompressManager>
+    <Mail>
+      <To                                                        value = "pierre.beuzart@gmail.com" />
+      <Subject                                                   value = "download automate" />
+      <Body                                                      value = "files downloaded&#x000D;&#x000A;" />
+    </Mail>
+  </DownloadAutomateManager>
+  
+  <Image>
+    <UseUrlCache                                                 value = "true" />
+    <CacheDirectory                                              value = "$DataDir$\sites\_images" />
+    <UseMongo                                                    value = "true" />
+    <MongoServer                                                 value = "mongodb://localhost" />
+    <MongoDatabase                                               value = "dl" />
+    <MongoCollection                                             value = "Images" />
+    <ImageFilterMinHeight                                        value = "70" />
+  </Image>
+
+  <TextInfos>
+    <ExportData                                                  value = "false" />
+    <ExportDataFile                                              value = "$TestUnitDirectory$\Print\PrintTextValues\PrintTextValues.txt" />
+    <!-- French | PDF | 107 MB -*- French | PDF |  22 Pages | 221 pages | 205/148 pages | 7 MB -*- PDF | 116 pages | 53 Mb | French -*- Micro Application | 2010 | ISBN: 2300028441 | PDF -->
+    <TextInfo regex="(French)" options="IgnoreCase" values="language" />
+    <!-- 29.1 MB -->
+    <TextInfo regex="([0-9]+(\.[0-9]*)?\s*(?:MB))" options="IgnoreCase" values="size" />
+    <!-- 116 pages -->
+    <TextInfo regex="([0-9]+(?:\s*/\s*[0-9]+)?)\s*pages" options="IgnoreCase" values="page_nb" />
+    <!-- 2 Issues -->
+    <TextInfo regex="([0-9]+)\s*issues?" options="IgnoreCase" values="issue_nb" />
+    <!--<TextInfo regex="isbn:?\s*([0-9]+)" options="IgnoreCase" values="isbn" />-->
+    <!-- [Lien Direct] .: Lien Direct :. [PDF] -->
+    <TextInfo regex="(?:\[|.:)\s*(?:liens?|links?)\s*direct\s*(?:\]|:.)" options="IgnoreCase" values="lien direct" />
+    <!-- suppression du . qui mange n'importe quel caractère, ancien regex "(?:\[|.:)?\s*(?:hq)?\s*pdf\s*(?:\]|:.)?"  -->
+    <TextInfo regex="(?:\[|:)?\s*(?:hq)?\s*pdf\s*(?:\]|:.)?" options="IgnoreCase" values="pdf" />
+    <!-- Gratuit Cloudzer Uploaded Bonne lecture -->
+    <TextInfo regex="gratuit|cloudzer|uploaded|bonne\s+lecture" options="IgnoreCase" values="" />
+    <TextInfo regex="^\s*multi\s*/?\s*$" options="IgnoreCase" values="multi" />
+    <TextInfo regex="^\s*epub\s*$" options="IgnoreCase" values="epub" />
+  </TextInfos>
+
+  <ExtremeDown>
+    <DataDir                                                     value = "$DataDir$\sites\extreme-down.net" />
+
+    <Header>
+      <UseUrlCache                                               value = "true" />
+      <CacheDirectory                                            value = "$ExtremeDown/DataDir$\cache\header" />
+      <!--<ImageCacheDirectory                                       value = "image" />-->
+      <!-- default = image -->
+      <!--<UseXml                                                    value = "true" />-->
+      <!--<XmlNodeName                                               value = "PostHeader" />-->
+      <UseMongo                                                  value = "false" />
+      <MongoServer                                               value = "mongodb://localhost" />
+      <MongoDatabase                                             value = "dl" />
+      <MongoCollection                                           value = "ExtremeDown_Header" />
+      <MongoDocumentItemName                                     value = "download" />
+    </Header>
+
+    <Detail>
+      <UseUrlCache                                               value = "true" />
+      <CacheDirectory                                            value = "$ExtremeDown/DataDir$\cache\detail" />
+      <!--<ImageCacheDirectory                                       value = "image" />-->
+      <!-- default = image -->
+      <!--<UseXml                                                    value = "true" />-->
+      <UseMongo                                                  value = "true" />
+      <MongoServer                                               value = "mongodb://localhost" />
+      <MongoDatabase                                             value = "dl" />
+      <MongoCollection                                           value = "ExtremeDown_Detail" />
+      <!-- GoldenDdl_Detail -->
+      <!-- RapideDdl_Detail -->
+      <MongoDocumentItemName                                     value = "download" />
+      <GetLinksExtremeProtect                                    value = "false" />
+    </Detail>
+  </ExtremeDown>
+
+  <DebridLink>
+    <DataDir                                                     value = "$DataDir$\sites\debrid-link.fr" />
+    <ConnexionFile                                               value = "$DebridLink/DataDir$\connexion\Connexion.txt" />
+    <ServerTimeFile                                              value = "$DebridLink/DataDir$\connexion\ServerTime.txt" />
+    <!--<ConnexionTimestamp                                          value = "DebridLink/DataDir$\connexion\ConnexionTimestamp.xml" />-->
+  </DebridLink>
+  
+  <Ebookdz>
+    <DataDir                                                     value = "$DataDir$\sites\ebookdz.com" />
+    <CookiesFile                                                 value = "$Ebookdz/DataDir$\cookies\cookies.txt" />
+
+    <Header>
+      <UseUrlCache                                               value = "true" />
+      <CacheDirectory                                            value = "$Ebookdz/DataDir$\cache\header" />
+      <CacheUrlFileNameType                                      value = "Host, Path, Query" />
+      <!--<ImageCacheDirectory                                       value = "image" />-->
+      <!-- default = image -->
+      <!--<UseXml                                                    value = "true" />-->
+      <!--<XmlNodeName                                               value = "PostHeader" />-->
+      <UseMongo                                                  value = "false" />
+      <MongoServer                                               value = "mongodb://localhost" />
+      <MongoDatabase                                             value = "dl" />
+      <MongoCollection                                           value = "Ebookdz_Header" />
+      <MongoDocumentItemName                                     value = "download" />
+      <MongoDefaultSort                                          value = "{ 'download.id': 1 }" />
+    </Header>
+
+    <Detail>
+      <UseUrlCache                                               value = "true" />
+      <CacheDirectory                                            value = "$Ebookdz/DataDir$\cache\detail" />
+      <CacheUrlFileNameType                                      value = "Path, Query" />
+      <!--<ImageCacheDirectory                                       value = "image" />-->
+      <!-- default = image -->
+      <!--<UseXml                                                    value = "true" />-->
+      <UseMongo                                                  value = "true" />
+      <MongoServer                                               value = "mongodb://localhost" />
+      <MongoDatabase                                             value = "dl" />
+      <MongoCollection                                           value = "Ebookdz_Detail" />
+      <MongoDocumentItemName                                     value = "download" />
+      <MongoDefaultSort                                          value = "{ 'download.id': 1 }" />
+    </Detail>
+
+    <Forum>
+      <UseUrlCache                                               value = "true" />
+      <CacheDirectory                                            value = "$Ebookdz/DataDir$\cache\forum" />
+      <CacheUrlFileNameType                                      value = "Path, Query" />
+      <!--<ImageCacheDirectory                                       value = "image" />-->
+      <!-- default = image -->
+      <!--<UseXml                                                    value = "true" />-->
+      <UseMongo                                                  value = "false" />
+      <MongoServer                                               value = "mongodb://localhost" />
+      <MongoDatabase                                             value = "dl" />
+      <MongoCollection                                           value = "Ebookdz_Forum" />
+      <MongoDocumentItemName                                     value = "download" />
+      <MongoDefaultSort                                          value = "{ 'download.id': 1 }" />
+    </Forum>
+
+    <ForumHeader>
+      <UseUrlCache                                               value = "true" />
+      <CacheDirectory                                            value = "$Ebookdz/DataDir$\cache\forumHeader" />
+      <CacheUrlFileNameType                                      value = "Path, Query" />
+      <!--<ImageCacheDirectory                                       value = "image" />-->
+      <!-- default = image -->
+      <!--<UseXml                                                    value = "true" />-->
+      <UseMongo                                                  value = "false" />
+      <MongoServer                                               value = "mongodb://localhost" />
+      <MongoDatabase                                             value = "dl" />
+      <MongoCollection                                           value = "Ebookdz_ForumHeader" />
+      <MongoDocumentItemName                                     value = "download" />
+      <MongoDefaultSort                                          value = "{ 'download.id': 1 }" />
+    </ForumHeader>
+  </Ebookdz>
+
+  <Vosbooks>
+    <DataDir                                                     value = "$DataDir$\sites\vosbooks.net" />
+    <!--<CookiesFile                                                 value = "$Ebookdz/DataDir$\cookies\cookies.txt" />-->
+
+    <Header>
+      <UseUrlCache                                               value = "true" />
+      <CacheDirectory                                            value = "$Vosbooks/DataDir$\cache\header" />
+      <CacheUrlFileNameType                                      value = "Host, Path, Query" />
+      <UseMongo                                                  value = "false" />
+      <MongoServer                                               value = "mongodb://localhost" />
+      <MongoDatabase                                             value = "dl" />
+      <MongoCollection                                           value = "Vosbooks_Header" />
+      <MongoDocumentItemName                                     value = "download" />
+      <MongoDefaultSort                                          value = "{ 'download.id': 1 }" />
+    </Header>
+
+    <Detail>
+      <UseUrlCache                                               value = "true" />
+      <CacheDirectory                                            value = "$Vosbooks/DataDir$\cache\detail" />
+      <CacheUrlFileNameType                                      value = "Path, Query" />
+      <UseMongo                                                  value = "true" />
+      <MongoServer                                               value = "mongodb://localhost" />
+      <MongoDatabase                                             value = "dl" />
+      <MongoCollection                                           value = "Vosbooks_Detail" />
+      <MongoDocumentItemName                                     value = "download" />
+      <MongoDefaultSort                                          value = "{ 'download.id': 1 }" />
+    </Detail>
+  </Vosbooks>
+
+  <TelechargerMagazine>
+    <DataDir                                                     value = "$DataDir$\sites\telecharger-magazine.com" />
+    <!--<CookiesFile                                                 value = "$Ebookdz/DataDir$\cookies\cookies.txt" />-->
+
+    <Header>
+      <UseUrlCache                                               value = "true" />
+      <CacheDirectory                                            value = "$TelechargerMagazine/DataDir$\cache\header" />
+      <CacheUrlFileNameType                                      value = "Host, Path, Query" />
+      <UseMongo                                                  value = "false" />
+      <MongoServer                                               value = "mongodb://localhost" />
+      <MongoDatabase                                             value = "dl" />
+      <MongoCollection                                           value = "TelechargerMagazine_Header" />
+      <MongoDocumentItemName                                     value = "download" />
+      <MongoDefaultSort                                          value = "{ 'download.id': 1 }" />
+    </Header>
+
+    <Detail>
+      <UseUrlCache                                               value = "true" />
+      <CacheDirectory                                            value = "$TelechargerMagazine/DataDir$\cache\detail" />
+      <CacheUrlFileNameType                                      value = "Path, Query" />
+      <UseMongo                                                  value = "true" />
+      <MongoServer                                               value = "mongodb://localhost" />
+      <MongoDatabase                                             value = "dl" />
+      <MongoCollection                                           value = "TelechargerMagazine_Detail" />
+      <MongoDocumentItemName                                     value = "download" />
+      <MongoDefaultSort                                          value = "{ 'download.id': 1 }" />
+    </Detail>
+  </TelechargerMagazine>
+
+
+  <Telechargementz>
+    <DataDir                                                     value = "$DataDir$\sites\telechargementz.tv" />
+
+    <Header>
+      <UseUrlCache                                               value = "true" />
+      <CacheDirectory                                            value = "$Telechargementz/DataDir$\cache\header" />
+      <!--<ImageCacheDirectory                                       value = "image" />-->
+      <!-- default = image -->
+      <!--<UseXml                                                    value = "true" />-->
+      <!--<XmlNodeName                                               value = "PostHeader" />-->
+      <UseMongo                                                  value = "false" />
+      <MongoServer                                               value = "mongodb://localhost" />
+      <MongoDatabase                                             value = "dl" />
+      <MongoCollection                                           value = "Telechargementz_Header" />
+      <MongoDocumentItemName                                     value = "download" />
+    </Header>
+
+    <Detail>
+      <UseUrlCache                                               value = "true" />
+      <CacheDirectory                                            value = "$Telechargementz/DataDir$\cache\detail" />
+      <!--<ImageCacheDirectory                                       value = "image" />-->
+      <!-- default = image -->
+      <!--<UseXml                                                    value = "true" />-->
+      <UseMongo                                                  value = "true" />
+      <MongoServer                                               value = "mongodb://localhost" />
+      <MongoDatabase                                             value = "dl" />
+      <MongoCollection                                           value = "Telechargementz_Detail" />
+      <MongoDocumentItemName                                     value = "download" />
+    </Detail>
+  </Telechargementz>
+
+  <GoldenDdl>
+    <DataDir                                                     value = "$DataDir$\sites\golden-ddl.net" />
+
+    <Header>
+      <UseUrlCache                                               value = "true" />
+      <CacheDirectory                                            value = "$GoldenDdl/DataDir$\cache\header" />
+      <!--<ImageCacheDirectory                                       value = "image" />-->
+      <!-- default = image -->
+      <!--<UseXml                                                    value = "true" />-->
+      <!--<XmlNodeName                                               value = "PostHeader" />-->
+      <UseMongo                                                  value = "false" />
+      <MongoServer                                               value = "mongodb://localhost" />
+      <MongoDatabase                                             value = "dl" />
+      <MongoCollection                                           value = "GoldenDdl_Header" />
+      <MongoDocumentItemName                                     value = "download" />
+    </Header>
+
+    <Detail>
+      <UseUrlCache                                               value = "true" />
+      <CacheDirectory                                            value = "$GoldenDdl/DataDir$\cache\detail" />
+      <!--<ImageCacheDirectory                                       value = "image" />-->
+      <!-- default = image -->
+      <!--<UseXml                                                    value = "true" />-->
+      <UseMongo                                                  value = "true" />
+      <MongoServer                                               value = "mongodb://localhost" />
+      <MongoDatabase                                             value = "dl" />
+      <MongoCollection                                           value = "GoldenDdl_Detail" />  <!-- GoldenDdl_Detail -->
+      <!-- RapideDdl_Detail -->
+      <MongoDocumentItemName                                     value = "download" />
+    </Detail>
+  </GoldenDdl>
+
+  <FreeTelechargement>
+    <DataDir                                                     value = "$DataDir$\sites\free-telechargement.org" />
+
+    <Header>
+      <UseUrlCache                                               value = "true" />
+      <CacheDirectory                                            value = "$FreeTelechargement/DataDir$\cache\header" />
+      <!--<ImageCacheDirectory                                       value = "image" />-->
+      <!-- default = image -->
+      <!--<UseXml                                                    value = "true" />-->
+      <!--<XmlNodeName                                               value = "PostHeader" />-->
+      <UseMongo                                                  value = "false" />
+      <MongoServer                                               value = "mongodb://localhost" />
+      <MongoDatabase                                             value = "dl" />
+      <MongoCollection                                           value = "FreeTelechargement_Header" />
+      <MongoDocumentItemName                                     value = "download" />
+    </Header>
+
+    <Detail>
+      <UseUrlCache                                               value = "true" />
+      <CacheDirectory                                            value = "$FreeTelechargement/DataDir$\cache\detail" />
+      <!--<ImageCacheDirectory                                       value = "image" />-->
+      <!-- default = image -->
+      <!--<UseXml                                                    value = "true" />-->
+      <UseMongo                                                  value = "true" />
+      <MongoServer                                               value = "mongodb://localhost" />
+      <MongoDatabase                                             value = "dl" />
+      <MongoCollection                                           value = "FreeTelechargement_Detail" />
+      <!-- RapideDdl_Detail -->
+      <MongoDocumentItemName                                     value = "download" />
+    </Detail>
+  </FreeTelechargement>
+
+  <RapideDdl>
+    <DataDir                                                     value = "$DataDir$\sites\rapide-ddl.com" />
+
+    <Header>
+      <UseUrlCache                                               value = "true" />
+      <CacheDirectory                                            value = "$RapideDdl/DataDir$\cache\header" />
+      <!--<ImageCacheDirectory                                       value = "image" />-->
+      <!-- default = image -->
+      <!--<UseXml                                                    value = "true" />-->
+      <!--<XmlNodeName                                               value = "PostHeader" />-->
+      <UseMongo                                                  value = "false" />
+      <MongoServer                                               value = "mongodb://localhost" />
+      <MongoDatabase                                             value = "dl" />
+      <MongoCollection                                           value = "RapideDdl_Header" />
+      <MongoDocumentItemName                                     value = "download" />
+    </Header>
+
+    <Detail>
+      <UseUrlCache                                               value = "true" />
+      <CacheDirectory                                            value = "$RapideDdl/DataDir$\cache\detail" />
+      <!--<ImageCacheDirectory                                       value = "image" />-->
+      <!-- default = image -->
+      <!--<UseXml                                                    value = "true" />-->
+      <UseMongo                                                  value = "true" />
+      <MongoServer                                               value = "mongodb://localhost" />
+      <MongoDatabase                                             value = "dl" />
+      <MongoCollection                                           value = "RapideDdl_Detail2" />  <!-- RapideDdl_Detail2 -->
+      <MongoDocumentItemName                                     value = "download" />
+    </Detail>
+
+    <Parameters>
+      <TextInfos>
+        <!-- French | PDF | 107 MB -*- French | PDF |  22 Pages | 7 MB -*- PDF | 116 pages | 53 Mb | French -*- Micro Application | 2010 | ISBN: 2300028441 | 221 pages | PDF -->
+        <TextInfo regex="(French)" options="IgnoreCase" values="language" />
+        <TextInfo regex="([0-9]+\s*(?:MB))" options="IgnoreCase" values="size" />
+        <TextInfo regex="([0-9]+)\s*pages" options="IgnoreCase" values="page_nb" />
+        <TextInfo regex="isbn:?\s*([0-9]+)" options="IgnoreCase" values="isbn" />
+        <!-- [Lien Direct] .: Lien Direct :. [PDF] -->
+        <TextInfo regex="(?:\[|.:)\s*(?:liens?|links?)\s*direct\s*(?:\]|:.)" options="IgnoreCase" values="lien direct" />
+        <TextInfo regex="(?:\[|.:)?\s*(?:hq)?\s*pdf\s*(?:\]|:.)?" options="IgnoreCase" values="pdf" />
+        <!-- Gratuit Cloudzer Uploaded Bonne lecture -->
+        <TextInfo regex="gratuit|cloudzer|uploaded|bonne\s+lecture" options="IgnoreCase" values="" />
+        <TextInfo regex="^\s*multi\s*/?\s*$" options="IgnoreCase" values="multi" />
+      </TextInfos>
+    </Parameters>
+
+  </RapideDdl>
+
+  <ZoneEbooks>
+    <DataDir                                                     value = "$DataDir$\sites\zone-ebooks" />
+
+    <Header>
+      <UseUrlCache                                               value = "true" />
+      <CacheDirectory                                            value = "$ZoneEbooks/DataDir$\cache\header" />
+      <!--<ImageCacheDirectory                                       value = "image" />-->
+      <!-- default = image -->
+      <!--<UseXml                                                    value = "true" />-->
+      <!--<XmlNodeName                                               value = "PostHeader" />-->
+      <UseMongo                                                  value = "false" />
+      <MongoServer                                               value = "mongodb://localhost" />
+      <MongoDatabase                                             value = "dl" />
+      <MongoCollection                                           value = "ZoneEbooks_Header" />
+      <MongoDocumentItemName                                     value = "download" />
+    </Header>
+
+    <Detail>
+      <UseUrlCache                                               value = "true" />
+      <CacheDirectory                                            value = "$ZoneEbooks/DataDir$\cache\detail" />
+      <!--<ImageCacheDirectory                                       value = "image" />-->
+      <!-- default = image -->
+      <!--<UseXml                                                    value = "true" />-->
+      <UseMongo                                                  value = "true" />
+      <MongoServer                                               value = "mongodb://localhost" />
+      <MongoDatabase                                             value = "dl" />
+      <MongoCollection                                           value = "ZoneEbooks_Detail" />
+      <MongoDocumentItemName                                     value = "download" />
+    </Detail>
+  </ZoneEbooks>
+
+  <TelechargementPlus>
+  <!--
+    <UseUrlCache                                               value = "true" />
+    <CacheDirectory                                            value = "$DataDir$\telechargement-plus\post" />
+   -<ImageCacheDirectory                                       value = "image" />-  - default = image -
+   -<DocumentXml                                               value = "true" />-
+    <DocumentMongoDb                                           value = "true" />
+    <MongoServer                                               value = "mongodb://localhost" />
+    <MongoDatabase                                             value = "dl" />
+    <MongoCollection                                           value = "TelechargementPlus" />
+ -->
+    <DataDir                                                     value = "$DataDir$\sites\telechargement-plus" />
+
+    <Header>
+      <UseUrlCache                                               value = "true" />
+      <CacheDirectory                                            value = "$TelechargementPlus/DataDir$\cache\header" />
+  <!--<ImageCacheDirectory                                       value = "image" />-->  <!-- default = image -->
+  <!--<UseXml                                                    value = "true" />-->
+  <!--<XmlNodeName                                               value = "PostHeader" />-->
+      <UseMongo                                                  value = "false" />
+      <MongoServer                                               value = "mongodb://localhost" />
+      <MongoDatabase                                             value = "dl" />
+      <MongoCollection                                           value = "TelechargementPlusHeader" />
+      <MongoDocumentItemName                                     value = "download" />
+    </Header>
+    
+    <Detail>
+      <UseUrlCache                                               value = "true" />
+      <CacheDirectory                                            value = "$TelechargementPlus/DataDir$\cache\detail" />
+  <!--<ImageCacheDirectory                                       value = "image" />-->  <!-- default = image -->
+  <!--<UseXml                                                    value = "true" />-->
+      <UseMongo                                                  value = "true" />
+      <MongoServer                                               value = "mongodb://localhost" />
+      <MongoDatabase                                             value = "dl" />
+      <MongoCollection                                           value = "TelechargementPlusDetail" />
+      <MongoDocumentItemName                                     value = "download" />
+    </Detail>
+    
+    <!-- French | PDF | 107 MB -*- French | PDF |  22 Pages | 7 MB -*- PDF | 116 pages | 53 Mb | French -*- Micro Application | 2010 | ISBN: 2300028441 | 221 pages | PDF -->
+    <TextInfo regex="(French)" options="IgnoreCase" values="language" />
+    <TextInfo regex="([0-9]+\s*(?:MB))" options="IgnoreCase" values="size" />
+    <TextInfo regex="([0-9]+)\s*pages" options="IgnoreCase" values="page_nb" />
+    <TextInfo regex="isbn:?\s*([0-9]+)" options="IgnoreCase" values="isbn" />
+    <!-- [Lien Direct] .: Lien Direct :. [PDF] -->
+    <TextInfo regex="(?:\[|.:)\s*(?:liens?|links?)\s*direct\s*(?:\]|:.)" options="IgnoreCase" values="lien direct" />
+    <TextInfo regex="(?:\[|.:)?\s*(?:hq)?\s*pdf\s*(?:\]|:.)?" options="IgnoreCase" values="pdf" />
+    <!-- Gratuit Cloudzer Uploaded Bonne lecture -->
+    <TextInfo regex="gratuit|cloudzer|uploaded|bonne\s+lecture" options="IgnoreCase" values="" />
+    <TextInfo regex="^\s*multi\s*/?\s*$" options="IgnoreCase" values="multi" />
+    <ImageToSkip name="ebook-mag"             url="http://www.telechargement-plus.com/templates/film-gratuit/images/prez/livre.png" /> <!-- http://www.telechargement-plus.com/e-book-magazines/87209-les-cahiers-du-monde-de-lintelligence-n-2-novembre-dycembre-2013-janvier-2014-lien-direct.html -->
+    <ImageToSkip name="ebook-mag"             url="http://www.telechargement-plus.com/mesimages/mag.png" /> <!-- http://www.telechargement-plus.com/e-book-magazines/magazines/88221-lien-direct-tyly-7-jours-n2787-26-oct-au-1er-novembre-2013.html -->
+    <ImageToSkip name="journaux"              url="http://www.telechargement-plus.com/mesimages/journaux.png" /> <!-- http://www.telechargement-plus.com/e-book-magazines/journaux/91380-la-croix-du-vendredi-08-novembre-2013-multi.html -->
+    <ImageToSkip name="cloudzer"              url="http://www.hapshack.com/images/0THnp.gif" /> <!-- http://www.telechargement-plus.com/e-book-magazines/87209-les-cahiers-du-monde-de-lintelligence-n-2-novembre-dycembre-2013-janvier-2014-lien-direct.html -->
+    <ImageToSkip name="uploaded"              url="http://www.hapshack.com/images/9MfYk.gif" /> <!-- http://www.telechargement-plus.com/e-book-magazines/87209-les-cahiers-du-monde-de-lintelligence-n-2-novembre-dycembre-2013-janvier-2014-lien-direct.html -->
+    <ImageToSkip name="hulkfile"              url="http://www.hapshack.com/images/Js84x.jpg" /> <!-- http://www.telechargement-plus.com/e-book-magazines/87209-les-cahiers-du-monde-de-lintelligence-n-2-novembre-dycembre-2013-janvier-2014-lien-direct.html -->
+    <ImageToSkip name="turbobit"              url="http://www.hapshack.com/images/QYeW0.gif" /> <!-- http://www.telechargement-plus.com/e-book-magazines/88199-skieur-n-102-septembre-2013-liens-direct.html -->
+    <ImageToSkip name="telechargement"        url="http://i.imgur.com/QNzxIC7.png" /> <!-- http://www.telechargement-plus.com/e-book-magazines/magazines/88221-lien-direct-tyly-7-jours-n2787-26-oct-au-1er-novembre-2013.html -->
+    <ImageToSkip name="uploaded"              url="http://cazanet.org/uploads/1327415933_uploaded.gif" /> <!-- http://www.telechargement-plus.com/e-book-magazines/magazines/88221-lien-direct-tyly-7-jours-n2787-26-oct-au-1er-novembre-2013.html -->
+    <ImageToSkip name="infos sur l'ebook"     url="http://prezup.eu/prez/infossurlebook.png" /> <!-- http://www.telechargement-plus.com/e-book-magazines/86556-01net-hors-syrie-n-76-octobre-2013-lien-direct.html -->
+    <ImageToSkip name="description"           url="http://prezup.eu/prez/description.png" /> <!-- http://www.telechargement-plus.com/e-book-magazines/livres/88022-mycanique-gynyrale.html -->
+    <ImageToSkip name="liens"                 url="http://prezup.eu/prez/liens.png" /> <!-- http://www.telechargement-plus.com/e-book-magazines/livres/88022-mycanique-gynyrale.html -->
+    <ImageToSkip name="infos sur l'ebook"     url="http://prezup.eu/prez/style_2/infossurlebook.png" /> <!-- http://www.telechargement-plus.com/e-book-magazines/livres/87000-60-petits-maux-soignys-par-les-huiles-essentielles.html -->
+    <ImageToSkip name="description"           url="http://prezup.eu/prez/style_2/description.png" /> <!-- http://www.telechargement-plus.com/e-book-magazines/livres/87000-60-petits-maux-soignys-par-les-huiles-essentielles.html -->
+    <ImageToSkip name="liens"                 url="http://prezup.eu/prez/style_2/liens.png" /> <!-- http://www.telechargement-plus.com/e-book-magazines/livres/87000-60-petits-maux-soignys-par-les-huiles-essentielles.html -->
+    <ImageToSkip name="infos sur l'upload"    url="http://prezup.eu/prez/infossurlupload.png" /> <!-- http://www.telechargement-plus.com/e-book-magazines/journaux/91387-l-equipe-du-vendredi-08-novembre-2013-multi.html -->
+    <ImageToSkip name="infos sur l'upload"    url="http://prezup.eu/prez/style_2/infossurlupload.png" /> <!-- http://www.telechargement-plus.com/e-book-magazines/livres/91243-la-vie-passionnye-de-beethoven-carl-von-pidoll.html -->
+    <ImageToSkip name="uploaded"              url="http://nsa32.casimages.com/img/2012/10/10/mini_121010090315919157.gif" /> <!-- http://www.telechargement-plus.com/e-book-magazines/journaux/91392-midi-olympique-du-08-novembre-2013-multi.html -->
+    <ImageToSkip name="file paradox"          url="http://nsa34.casimages.com/img/2013/11/06//131106011501210856.png" /> <!-- http://www.telechargement-plus.com/e-book-magazines/journaux/91392-midi-olympique-du-08-novembre-2013-multi.html -->
+    <ImageToSkip name="turbobit"              url="http://nsa31.casimages.com/img/2012/10/10/mini_121010011546531296.gif" /> <!-- http://www.telechargement-plus.com/e-book-magazines/journaux/91392-midi-olympique-du-08-novembre-2013-multi.html -->
+    <ImageToSkip name="rapigator"             url="http://nsa32.casimages.com/img/2012/10/10/mini_12101001090735749.gif" /> <!-- http://www.telechargement-plus.com/e-book-magazines/journaux/91392-midi-olympique-du-08-novembre-2013-multi.html -->
+    <ImageToSkip name="depositfiles"          url="http://nsa32.casimages.com/img/2012/10/17//121017022210901833.gif" /> <!-- http://www.telechargement-plus.com/e-book-magazines/journaux/91385-le-figaro-du-vendredi-08-novembre-2013-multi.html -->
+    <zImageToSkip name="" url="" /> <!--  -->
+    <zImageToSkip name="" url="" /> <!--  -->
+    <zImageToSkip name="" url="" /> <!--  -->
+    <zImageToSkip name="" url="" /> <!--  -->
+    <zImageToSkip name="" url="" /> <!--  -->
+    <zImageToSkip name="" url="" /> <!--  -->
+    <zImageToSkip name="" url="" /> <!--  -->
+    <zImageToSkip name="" url="" /> <!--  -->
+    <zImageToSkip name="" url="" /> <!--  -->
+    <zImageToSkip name="" url="" /> <!--  -->
+  </TelechargementPlus>
+
+
+  <frboard>
+    <frboardPost>
+      <UseUrlCache                                               value = "true" /> <!-- default = "false" -->
+      <CacheDirectory                                            value = "$DataDir$\sites\frboard\post" />
+      <!-- <ImageCacheDirectory                                       value = "image" /> --> <!-- default = "image" -->
+      <!-- "LES MAGAZINES - JEUDI 15 AOUT 2013 & + [PDF][Liens Direct]" -->
+      <TextInfo regex="\[pdf\]" options="IgnoreCase" values="pdf" />
+      <TextInfo regex="\[Liens?\s*Direct\]" options="IgnoreCase" values="pdf" />
+    </frboardPost>
+  </frboard>
+
+</Download>

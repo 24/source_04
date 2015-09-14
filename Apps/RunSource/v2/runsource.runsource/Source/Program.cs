@@ -56,8 +56,9 @@ namespace runsourced
                 // .zRootPath(zapp.GetAppDirectory())
                 trace.SetWriter(config.Get("Log"), config.Get("Log/@option").zTextDeserialize(FileOption.None));
 
-                runSource.GenerateAndExecuteManager.GenerateAssemblyDirectory = config.Get("GenerateAssemblyDirectory", "run").zRootPath(zapp.GetAppDirectory());
-                runSource.DeleteGeneratedAssemblies();
+                //runSource.GenerateAndExecuteManager.GenerateAssemblyDirectory = config.Get("GenerateAssemblyDirectory", "run").zRootPath(zapp.GetAppDirectory());
+                // ATTENTION appeler DeleteGeneratedAssemblies() après SetRunSourceConfig()
+                //runSource.DeleteGeneratedAssemblies();
                 RunSourceForm form = new RunSourceForm(runSource, trace, config, GetRunSourceRestartParameters());
 
                 //form.UpdateRunsourceFiles += FormUpdateRunsourceFiles;

@@ -1,3 +1,13 @@
+//*************************************************************************************************************************
+//****                                   Automate
+//*************************************************************************************************************************
+// use new download manager
+DownloadAutomate_f.Test_DownloadAutomate_01(loadNewPost: true, searchPostToDownload: true, uncompressFile: true, sendMail: false,
+  version: 3, useNewDownloadManager: true, traceLevel: 0);
+//*************************************************************************************************************************
+//*************************************************************************************************************************
+
+
 Trace.CurrentTrace.TraceLevel = 0;
 Trace.CurrentTrace.TraceLevel = 1;
 
@@ -30,9 +40,6 @@ Trace.WriteLine(RunSource.CurrentRunSource.ProjectFile);
 Trace.WriteLine(RunSource.CurrentRunSource.ProjectDirectory);
 
 
-// use new download manager
-DownloadAutomate_f.Test_DownloadAutomate_01(loadNewPost: true, searchPostToDownload: true, uncompressFile: true, sendMail: false,
-  version: 3, useNewDownloadManager: true, traceLevel: 0);
 // use new download manager, send mail
 Download.Print.DownloadAutomate_f.Test_DownloadAutomate_01(loadNewPost: true, searchPostToDownload: true, uncompressFile: true, sendMail: true,
   version: 3, useNewDownloadManager: true, traceLevel: 0);

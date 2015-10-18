@@ -56,6 +56,11 @@ namespace Download.Print
 
     public static class Download_Exe
     {
+        public static void Test_rv_01()
+        {
+            Trace.WriteLine("Test_rv_01");
+        }
+
         public static void Test_01()
         {
             //string s = null;

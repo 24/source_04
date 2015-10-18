@@ -3994,5 +3994,6 @@ RunSource.CurrentRunSource.UseNewRunCode = true;
 AppDomain.CurrentDomain.GetAssemblies().Select(assembly => new { IsDynamic = assembly.IsDynamic, FullName = assembly.FullName, Location = !assembly.IsDynamic ? assembly.Location : null }).zTraceJson();
 
 
+Download_Exe.Test_rv_01();
 
 Trace.WriteLine("toto");

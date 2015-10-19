@@ -14,6 +14,12 @@ namespace pb.Web.Data
         public int NbDocumentsLoadedFromStore;
     }
 
+    public class HeaderDetail<THeaderData, TDetailData>
+    {
+        public THeaderData Header;
+        public TDetailData Detail;
+    }
+
     public class WebHeaderDetailManager<THeaderKey, THeaderDataPage, THeaderData, TDetailKey, TDetailData>
     {
         private WebDataPageManager<THeaderKey, THeaderDataPage, THeaderData> _headerDataPageManager = null;
@@ -23,6 +29,18 @@ namespace pb.Web.Data
         public WebDataPageManager<THeaderKey, THeaderDataPage, THeaderData> HeaderDataPageManager { get { return _headerDataPageManager; } set { _headerDataPageManager = value; } }
         public WebDataManager<TDetailKey, TDetailData> DetailDataManager { get { return _detailDataManager; } set { _detailDataManager = value; } }
         public Action<WebData<TDetailData>> OnDocumentLoaded { get { return _onDocumentLoaded; } set { _onDocumentLoaded = value; } }
+
+        public IEnumerable<HeaderDetail<THeaderData, TDetailData>> LoadHeaderDetails(int startPage = 1, int maxPage = 1, bool reloadHeaderPage = false, bool reloadDetail = false, bool loadImage = false,
+            bool refreshDocumentStore = false)
+        {
+            foreach (THeaderData header in _headerDataPageManager.LoadPages(startPage, maxPage, reloadHeaderPage, false))
+            {
+                if (!(header is IHeaderData))
+                    throw new PBException("type {0} is not IHeaderData", header.GetType().zGetTypeName());
+                TDetailData detail = _detailDataManager.Load(new WebRequest { HttpRequest = ((IHeaderData)header).GetHttpRequestDetail(), ReloadFromWeb = reloadDetail, LoadImage = loadImage, RefreshDocumentStore = refreshDocumentStore }).Document;
+                yield return new HeaderDetail<THeaderData, TDetailData> { Header = header, Detail = detail };
+            }
+        }
 
         public IEnumerable<TDetailData> LoadDetails(int startPage = 1, int maxPage = 1, bool reloadHeaderPage = false, bool reloadDetail = false, bool loadImage = false,
             bool refreshDocumentStore = false)

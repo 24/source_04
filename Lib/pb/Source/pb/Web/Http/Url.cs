@@ -226,6 +226,14 @@ namespace pb.Web
             return zPath.GetFileName(new Uri(url).AbsolutePath);
         }
 
+        public static string RemoveFragment(string url)
+        {
+            // url syntax : scheme:[//[user:password@]host[:port]][/]path[?query][#fragment]    (https://en.wikipedia.org/wiki/Uniform_Resource_Locator)
+            if (url == null)
+                return url;
+            return new Uri(url).GetLeftPart(UriPartial.Query);
+        }
+
         public static string GetUrl(string baseUrl, string url)
         {
             if (url == null)

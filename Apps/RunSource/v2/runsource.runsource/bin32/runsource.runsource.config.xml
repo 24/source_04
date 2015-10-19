@@ -20,7 +20,7 @@
   
 <!--<GenerateAssemblyDirectory                   value = "" />-->  <!-- default = "run" -->
 <!--<GenerateAssemblyName                        value = "" />-->  <!-- default = "RunCode" -->
-<!--<GenerateCodeRunClassName                    value = "" />-->  <!-- default = "_RunCode" -->
+<!--<GenerateCodeRunTypeName                     value = "" />-->  <!-- default = "_RunCode" -->
 <!--<GenerateCodeRunMethodName                   value = "" />-->  <!-- default = "Run" -->
   
   <CompilerDefaultValues> <!-- attention CompilerDefaultValues and ProjectDefaultValues dont work in _local.xml -->

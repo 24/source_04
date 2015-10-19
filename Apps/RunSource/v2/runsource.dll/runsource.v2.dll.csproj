@@ -73,12 +73,6 @@
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\Compiler\RunSourceRunCode.cs">
       <Link>SourceLnk\Lib\pb\Compiler\RunSourceRunCode.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Compiler\_old\GenerateAndExecute.cs">
-      <Link>SourceLnk\Lib\pb\Compiler\_old\GenerateAndExecute.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Compiler\_old\RunSourceRunCode_v1.cs">
-      <Link>SourceLnk\Lib\pb\Compiler\_old\RunSourceRunCode_v1.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\Data\GClass.cs">
       <Link>SourceLnk\Lib\pb\Data\GClass.cs</Link>
     </Compile>

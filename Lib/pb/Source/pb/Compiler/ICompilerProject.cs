@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using pb.IO;
 
 namespace pb.Compiler
 {
@@ -12,12 +13,23 @@ namespace pb.Compiler
     public class CompilerFile
     {
         public string File = null;
+        public string RelativePath = null;
         public Dictionary<string, string> Attributes = new Dictionary<string, string>();
         public ICompilerProject Project = null;
 
-        public CompilerFile(string file)
+        public CompilerFile(string file, string rootDirectory = null)
         {
-            this.File = file;
+            File = file;
+            if (rootDirectory != null && file.StartsWith(rootDirectory))
+            {
+                RelativePath = file.Substring(rootDirectory.Length);
+                if (RelativePath.StartsWith("\\"))
+                    RelativePath = RelativePath.Substring(1);
+            }
+            else
+                RelativePath = zPath.Combine("NoRoot", zPath.GetFileName(file));
+            //Trace.WriteLine("  CompilerFile.File         : \"{0}\"", File);
+            //Trace.WriteLine("  CompilerFile.RelativePath : \"{0}\"", RelativePath);
         }
     }
 

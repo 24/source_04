@@ -15,6 +15,7 @@ namespace pb.Compiler
         //private XElement _projectXmlElement = null;
         private XmlConfigElement _projectXmlElement = null;
         private bool _isIncludeProject = false;
+        private string _rootDirectory = null;
 
         //public CompilerProject(XElement projectXmlElement, string projectFile)
         //{
@@ -49,6 +50,13 @@ namespace pb.Compiler
         //public XElement ProjectXmlElement { get { return _projectXmlElement; } }
         //public XmlConfigElement ProjectXmlElement { get { return _projectXmlElement; } }
 
+        public string GetRootDirectory()
+        {
+            if (_rootDirectory == null)
+                _rootDirectory = GetFile("Root");
+            return _rootDirectory;
+        }
+
         public string GetLanguage()
         {
             return _projectXmlElement.Get("Language");
@@ -66,12 +74,14 @@ namespace pb.Compiler
 
         public string GetOutputDir()
         {
-            return _projectXmlElement.Get("OutputDir").zRootPath(_projectDirectory);
+            //return _projectXmlElement.Get("OutputDir").zRootPath(_projectDirectory);
+            return GetFile("OutputDir");
         }
 
         public string GetOutput()
         {
-            return _projectXmlElement.Get("Output").zRootPath(_projectDirectory);
+            //return _projectXmlElement.Get("Output").zRootPath(_projectDirectory);
+            return GetFile("Output");
         }
 
         public bool? GetGenerateExecutable()
@@ -101,7 +111,8 @@ namespace pb.Compiler
 
         public string GetKeyFile()
         {
-            return _projectXmlElement.Get("KeyFile").zRootPath(_projectDirectory);
+            //return _projectXmlElement.Get("KeyFile").zRootPath(_projectDirectory);
+            return GetFile("KeyFile");
         }
 
         public string GetTarget()
@@ -111,7 +122,8 @@ namespace pb.Compiler
 
         public string GetIcon()
         {
-            return _projectXmlElement.Get("Icon").zRootPath(_projectDirectory);
+            //return _projectXmlElement.Get("Icon").zRootPath(_projectDirectory);
+            return GetFile("Icon");
         }
 
         public string GetNameSpace()
@@ -131,11 +143,10 @@ namespace pb.Compiler
 
         public IEnumerable<ICompilerProject> GetIncludeProjects()
         {
-            //return _projectXmlElement.GetValues("IncludeProject").Select(file => CompilerProject.Create(new XmlConfig(file.zRootPath(_projectDirectory)).GetConfigElement("Project"))).Where(compilerProject => compilerProject != null);
             foreach (string includeProject in _projectXmlElement.GetValues("IncludeProject"))
             {
-                //CompilerProject compilerProject = CompilerProject.Create(new XmlConfig(includeProject.zRootPath(_projectDirectory)).GetConfigElement("Project"), isIncludeProject: true);
-                CompilerProject compilerProject = CompilerProject.Create(new XmlConfig(includeProject.zRootPath(_projectDirectory)).GetConfigElement("/AssemblyProject"), isIncludeProject: true);
+                //CompilerProject compilerProject = CompilerProject.Create(new XmlConfig(includeProject.zRootPath(_projectDirectory)).GetConfigElement("/AssemblyProject"), isIncludeProject: true);
+                CompilerProject compilerProject = CompilerProject.Create(new XmlConfig(GetPathFile(includeProject)).GetConfigElement("/AssemblyProject"), isIncludeProject: true);
                 if (compilerProject != null)
                     yield return compilerProject;
                 else
@@ -158,32 +169,18 @@ namespace pb.Compiler
 
         public IEnumerable<CompilerFile> GetSources()
         {
-            //foreach (string source in _projectXmlElement.GetValues("Source"))
-            //{
-            //    yield return source.zRootPath(_projectDirectory);
-            //}
-            //return _projectXmlElement.GetValues("Source").Select(file => new CompilerFile(file.zRootPath(_projectDirectory)));
             return _projectXmlElement.GetElements("Source").Select(xe => CreateCompilerFile(xe));
         }
 
         public IEnumerable<CompilerFile> GetFiles()
         {
             return _projectXmlElement.GetElements("File").Select(xe => CreateCompilerFile(xe));
-                //.Select(xe =>
-                //{
-                //    CompilerFile compilerFile = new CompilerFile(xe.Attribute("value").Value.zRootPath(_projectDirectory));
-                //    foreach (XAttribute xa in xe.Attributes())
-                //    {
-                //        if (xa.Name != "value")
-                //            compilerFile.Attributes.Add(xa.Name.LocalName, xa.Value);
-                //    }
-                //    return compilerFile;
-                //});
         }
 
         private CompilerFile CreateCompilerFile(XElement xe)
         {
-            CompilerFile compilerFile = new CompilerFile(xe.Attribute("value").Value.zRootPath(_projectDirectory));
+            //CompilerFile compilerFile = new CompilerFile(xe.Attribute("value").Value.zRootPath(_projectDirectory));
+            CompilerFile compilerFile = new CompilerFile(GetPathFile(xe.Attribute("value").Value), GetRootDirectory());
             compilerFile.Project = this;
             foreach (XAttribute xa in xe.Attributes())
             {
@@ -201,7 +198,8 @@ namespace pb.Compiler
                     string file = xe.zAttribValue("value");
                     string dir = zPath.GetDirectoryName(file);
                     if (dir != "")
-                        file = file.zRootPath(_projectDirectory);
+                        //file = file.zRootPath(_projectDirectory);
+                        file = GetPathFile(file);
                     bool resolve = xe.zAttribValue("resolve").zTryParseAs<bool>(false);
                     string resolveName = xe.zAttribValue("resolveName");
                     if (resolve && resolveName == null)
@@ -213,6 +211,16 @@ namespace pb.Compiler
         public IEnumerable<string> GetCopyOutputs()
         {
             return _projectXmlElement.GetValues("CopyOutput");
+        }
+
+        private string GetFile(string xpath)
+        {
+            return GetPathFile(_projectXmlElement.Get(xpath));
+        }
+
+        private string GetPathFile(string file)
+        {
+            return file.zRootPath(_projectDirectory);
         }
     }
 }

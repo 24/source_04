@@ -12,6 +12,7 @@ Trace.WriteLine("toto");
 RunSource.CurrentRunSource.SetProjectFromSource();
 
 RunSource.CurrentRunSource.CompileProject(@"$Root$\Source\Apps\WebData\Source\Print\Project\download.project.xml");
+RunSource.CurrentRunSource.CopyProjectSourceFiles(@"$Root$\Source\Apps\WebData\Source\Print\Project\download.project.xml", @"bin32\copySource");
 
 Trace.CurrentTrace.TraceLevel = 0;
 Trace.CurrentTrace.TraceLevel = 1;
@@ -3995,5 +3996,9 @@ AppDomain.CurrentDomain.GetAssemblies().Select(assembly => new { IsDynamic = ass
 
 
 Download_Exe.Test_rv_01();
+
+Trace.WriteLine(AppData.DataDirectory);
+
+zDirectory.Delete(@"c:\pib\drive\google\dev\project\Source\Apps\WebData\Source\Print\Project\bin32\copySource\Source\Apps\WebData", true);
 
 Trace.WriteLine("toto");

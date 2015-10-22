@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Data;
@@ -15,56 +15,18 @@ using pb;
 using pb.Data.Xml;
 using pb.IO;
 
-/*******************
- * C# Compiler Options Listed by Category http://msdn.microsoft.com/en-us/library/vstudio/6s2x2bzy.aspx
- * <Language                                  value = "" />  <!-- CSharp, JScript -->
- * <ProviderOption                            name  = "CompilerVersion" value = "v4.0" />
- * ...
- * <ResourceCompiler                          value = "c:\Program Files\Microsoft SDKs\Windows\v7.1\Bin\ResGen.exe"/>
- * <Target                                    value = "" /> <!-- exe (exe console default), library (dll), module (.netmodule), winexe (exe windows) -->
- * <KeyFile                                   value = "" />
- * <Icon                                      value = "" />
- * <OutputDir                                 value = "" />
- * <Output                                    value = "" />
- * <GenerateExecutable                        value = "" />
- * <GenerateInMemory                          value = "" />
- * <DebugInformation                          value = "" />
- * <WarningLevel                              value = "" />              Gets or sets the warning level at which the compiler aborts compilation. FAUX marche comme /warn:option
- * <CompilerOptions                           value = "" />              http://msdn.microsoft.com/en-us/library/2fdbz5xd.aspx   /define:DEBUG;TRACE
- *   /warn:option 0 Désactive l'émission de tous les messages d'avertissement, 1 Affiche les messages d'avertissement grave, 2 Affiche les avertissements de niveau 1 ainsi que quelques avertissements moins graves,
- *                2 Affiche les avertissements de niveau 2 ainsi que quelques avertissements moins graves, 4 Affiche tous les avertissements de niveau 3 plus les avertissements d'information
- * <IncludeProject                            value = "" />
- * ...
- * <Source                                    value = "" [namespace = ""] />
- * ...
- * <File                                      value = "" [destinationFile = ""] />
- * ...
- * <Assembly                                  value = "" resolve = "true" resolveName = "PcapDotNet.Base, Version=0.10.0.20588, Culture=neutral, PublicKeyToken=4b6f3e583145a652" />
- * ...
- * <LocalAssembly                             value = "" resolve = "true" resolveName = "PcapDotNet.Base, Version=0.10.0.20588, Culture=neutral, PublicKeyToken=4b6f3e583145a652" />
- * ...
- * <CopyOutput                                value = "" />
-*******************/
-// <CopyOutput value = "" />
-//   < File                                    value = "" />
-
 namespace pb.Compiler
 {
-    public class CompilerException : Exception
+    public class Compiler_v1 : ICompiler
     {
-        public CompilerException(string sMessage) : base(sMessage) { }
-        public CompilerException(string sMessage, params object[] oPrm) : base(string.Format(sMessage, oPrm)) { }
-        public CompilerException(Exception InnerException, string sMessage) : base(sMessage, InnerException) { }
-        public CompilerException(Exception InnerException, string sMessage, params object[] oPrm) : base(string.Format(sMessage, oPrm), InnerException) { }
-    }
-
-    public class Compiler : ICompiler
-    {
+        //public static ITrace Trace = pb.Trace.CurrentTrace;
         public static int TraceLevel = 1;
 
         private string _defaultDir = null;
+        //private List<CompilerFile> _sourceList = new List<CompilerFile>();
         private Dictionary<string, CompilerFile> _sourceList = new Dictionary<string, CompilerFile>();
         private CompilerFile _appConfig = null;
+        //private List<CompilerFile> _fileList = new List<CompilerFile>();
         private Dictionary<string, CompilerFile> _fileList = new Dictionary<string, CompilerFile>();
         private Dictionary<string, CompilerAssembly> _assemblyList = new Dictionary<string, CompilerAssembly>();
         private string _language = null;           // CSharp, JScript
@@ -84,13 +46,14 @@ namespace pb.Compiler
         private CompilerResults _results = null;
         private List<string> _copyOutputDirectories = new List<string>();
 
-        public Compiler()
+        public Compiler_v1()
         {
         }
 
         public string DefaultDir { get { return _defaultDir; } set { _defaultDir = value; } }
         public IEnumerable<CompilerFile> SourceList { get { return _sourceList.Values; } }
         public IEnumerable<CompilerFile> FileList { get { return _fileList.Values; } }
+        //public IEnumerable<CompilerAssembly> AssemblyList { get { return _assemblyList.Values; } }
         public Dictionary<string, CompilerAssembly> Assemblies { get { return _assemblyList; } }
         public string Language { get { return _language; } set { _language = value; } }
         public Dictionary<string, string> ProviderOption { get { return _providerOption; } }
@@ -100,13 +63,13 @@ namespace pb.Compiler
         public bool DebugInformation { get { return _debugInformation; } set { _debugInformation = value; } }
         public int WarningLevel { get { return _warningLevel; } set { _warningLevel = value; } }
         public string OutputDir { get { return _outputDir; } set { _outputDir = value; } }
+        // set { _outputAssembly = value; }
         public string OutputAssembly { get { return _outputAssembly; } }
         public string CompilerOptions { get { return _compilerOptions; } set { _compilerOptions = value; } }
         public ResourceCompilerResults ResourceResults { get { return _resourceResults; } }
         public CompilerResults Results { get { return _results; } }
         public IEnumerable<string> CopyOutputDirectories { get { return _copyOutputDirectories; } }
 
-        // ICompiler
         public bool HasError()
         {
             if ((_results != null && _results.Errors.HasErrors) || _resourceResults.HasError)
@@ -117,112 +80,113 @@ namespace pb.Compiler
 
 
         // dontSetOutput : true when executing code from runsource, true for CompilerDefaultValues and ProjectDefaultValues, otherwise false
+        //public void SetParameters(ICompilerProject project, bool includeProject = false, bool dontSetOutput = false)
         public void SetParameters(ICompilerProject project, bool dontSetOutput = false)
         {
             if (project == null)
                 return;
             //if (!includeProject)
             //{
-                //compiler.Language = xe.Get("Language", compiler.Language);
-                string s = project.GetLanguage();
+            //compiler.Language = xe.Get("Language", compiler.Language);
+            string s = project.GetLanguage();
+            if (s != null)
+            {
+                if (_language != null)
+                    WriteLine(1, "Compiler warning : redefine language \"{0}\" as \"{1}\" from project \"{2}\"", _language, s, project.ProjectFile);
+                _language = s;
+            }
+
+            //foreach (XElement xe2 in xe.GetElements("ProviderOption"))
+            //    compiler.SetProviderOption(xe2.zAttribValue("name"), xe2.zAttribValue("value"));
+            SetProviderOptions(project.GetProviderOptions(), project);
+
+            //compiler.ResourceCompiler = xe.Get("ResourceCompiler", compiler.ResourceCompiler);
+            s = project.GetResourceCompiler();
+            if (s != null)
+            {
+                if (_resourceCompiler != null)
+                    WriteLine(1, "Compiler warning : redefine resource compiler \"{0}\" as \"{1}\" from project \"{2}\"", _resourceCompiler, s, project.ProjectFile);
+                _resourceCompiler = s;
+            }
+
+            //compiler.OutputDir = xe.Get("OutputDir", compiler.OutputDir);
+            if (!dontSetOutput)
+            {
+                s = project.GetOutputDir();
                 if (s != null)
                 {
-                    if (_language != null)
-                        WriteLine(1, "Compiler warning : redefine language \"{0}\" as \"{1}\" from project \"{2}\"", _language, s, project.ProjectFile);
-                    _language = s;
+                    if (_outputDir != null)
+                        WriteLine(1, "Compiler warning : redefine output directory \"{0}\" as \"{1}\" from project \"{2}\"", _outputDir, s, project.ProjectFile);
+                    _outputDir = s;
                 }
+            }
 
-                //foreach (XElement xe2 in xe.GetElements("ProviderOption"))
-                //    compiler.SetProviderOption(xe2.zAttribValue("name"), xe2.zAttribValue("value"));
-                SetProviderOptions(project.GetProviderOptions(), project);
-
-                //compiler.ResourceCompiler = xe.Get("ResourceCompiler", compiler.ResourceCompiler);
-                s = project.GetResourceCompiler();
+            //compiler.OutputAssembly = xe.Get("Output", compiler.OutputAssembly);
+            if (!dontSetOutput)
+            {
+                s = project.GetOutput();
                 if (s != null)
-                {
-                    if (_resourceCompiler != null)
-                        WriteLine(1, "Compiler warning : redefine resource compiler \"{0}\" as \"{1}\" from project \"{2}\"", _resourceCompiler, s, project.ProjectFile);
-                    _resourceCompiler = s;
-                }
+                    SetOutputAssembly(s, project);
+            }
+            //if (s != null)
+            //    _outputAssembly = s;
+            //string ext = zPath.GetExtension(_outputAssembly);
+            //if (ext != null)
+            //{
+            //    if (ext.ToLower() == ".exe")
+            //        _generateExecutable = true;
+            //    else if (ext.ToLower() == ".dll")
+            //        _generateExecutable = false;
+            //}
 
-                //compiler.OutputDir = xe.Get("OutputDir", compiler.OutputDir);
-                if (!dontSetOutput)
-                {
-                    s = project.GetOutputDir();
-                    if (s != null)
-                    {
-                        if (_outputDir != null)
-                            WriteLine(1, "Compiler warning : redefine output directory \"{0}\" as \"{1}\" from project \"{2}\"", _outputDir, s, project.ProjectFile);
-                        _outputDir = s;
-                    }
-                }
-
-                //compiler.OutputAssembly = xe.Get("Output", compiler.OutputAssembly);
-                if (!dontSetOutput)
-                {
-                    s = project.GetOutput();
-                    if (s != null)
-                        SetOutputAssembly(s, project);
-                }
-                //if (s != null)
-                //    _outputAssembly = s;
-                //string ext = zPath.GetExtension(_outputAssembly);
-                //if (ext != null)
-                //{
-                //    if (ext.ToLower() == ".exe")
-                //        _generateExecutable = true;
-                //    else if (ext.ToLower() == ".dll")
-                //        _generateExecutable = false;
-                //}
-
-                bool? b;
-                //compiler.GenerateExecutable = xe.Get("GenerateExecutable").zTryParseAs(compiler.GenerateExecutable);
-                if (!dontSetOutput)
-                {
-                    b = project.GetGenerateExecutable();
-                    if (b != null)
-                        _generateExecutable = (bool)b;
-                }
-
-                //compiler.GenerateInMemory = xe.Get("GenerateInMemory").zTryParseAs(compiler.GenerateInMemory);
-                if (!dontSetOutput)
-                {
-                    b = project.GetGenerateInMemory();
-                    if (b != null)
-                        _generateInMemory = (bool)b;
-                }
-
-                //compiler.DebugInformation = xe.Get("DebugInformation").zTryParseAs(compiler.DebugInformation);
-                b = project.GetDebugInformation();
+            bool? b;
+            //compiler.GenerateExecutable = xe.Get("GenerateExecutable").zTryParseAs(compiler.GenerateExecutable);
+            if (!dontSetOutput)
+            {
+                b = project.GetGenerateExecutable();
                 if (b != null)
-                    _debugInformation = (bool)b;
+                    _generateExecutable = (bool)b;
+            }
 
-                //compiler.WarningLevel = xe.Get("WarningLevel").zTryParseAs<int>(compiler.WarningLevel);
-                int? i = project.GetWarningLevel();
-                if (i != null)
-                    _warningLevel = (int)i;
+            //compiler.GenerateInMemory = xe.Get("GenerateInMemory").zTryParseAs(compiler.GenerateInMemory);
+            if (!dontSetOutput)
+            {
+                b = project.GetGenerateInMemory();
+                if (b != null)
+                    _generateInMemory = (bool)b;
+            }
 
-                //compiler.AddCompilerOptions(xe.GetValues("CompilerOptions"));
-                AddCompilerOptions(project.GetCompilerOptions());
+            //compiler.DebugInformation = xe.Get("DebugInformation").zTryParseAs(compiler.DebugInformation);
+            b = project.GetDebugInformation();
+            if (b != null)
+                _debugInformation = (bool)b;
 
-                //string keyfile = xe.Get("KeyFile");
-                s = project.GetKeyFile();
+            //compiler.WarningLevel = xe.Get("WarningLevel").zTryParseAs<int>(compiler.WarningLevel);
+            int? i = project.GetWarningLevel();
+            if (i != null)
+                _warningLevel = (int)i;
+
+            //compiler.AddCompilerOptions(xe.GetValues("CompilerOptions"));
+            AddCompilerOptions(project.GetCompilerOptions());
+
+            //string keyfile = xe.Get("KeyFile");
+            s = project.GetKeyFile();
+            if (s != null)
+                AddCompilerOption("/keyfile:\"" + s + "\"");
+
+            //string target = xe.Get("Target");
+            if (!dontSetOutput)
+            {
+                s = project.GetTarget();
                 if (s != null)
-                    AddCompilerOption("/keyfile:\"" + s + "\"");
+                    AddCompilerOption("/target:" + s);
+            }
 
-                //string target = xe.Get("Target");
-                if (!dontSetOutput)
-                {
-                    s = project.GetTarget();
-                    if (s != null)
-                        AddCompilerOption("/target:" + s);
-                }
-
-                //string icon = xe.Get("Icon");
-                s = project.GetIcon();
-                if (s != null)
-                    //AddCompilerOption("/win32icon:" + s);
-                    AddCompilerOption("/win32icon:\"" + s + "\"");
+            //string icon = xe.Get("Icon");
+            s = project.GetIcon();
+            if (s != null)
+                //AddCompilerOption("/win32icon:" + s);
+                AddCompilerOption("/win32icon:\"" + s + "\"");
             //}
 
             foreach (ICompilerProject project2 in project.GetIncludeProjects())
@@ -280,6 +244,13 @@ namespace pb.Compiler
             }
         }
 
+        //public void SetProviderOption(string name, string value)
+        //{
+        //    if (_providerOption.ContainsKey(name)) _providerOption.Remove(name);
+        //    _providerOption.Add(name, value);
+        //}
+
+        //public void AddCompilerOptions(string[] options)
         public void AddCompilerOptions(IEnumerable<string> options)
         {
             foreach (string option in options)
@@ -295,6 +266,11 @@ namespace pb.Compiler
             else
                 _compilerOptions = option;
         }
+
+        //public void AddSources(IEnumerable<string> sources)
+        //{
+        //    AddFiles(_sourceList, sources, _defaultDir);
+        //}
 
         public void AddSources(IEnumerable<CompilerFile> sources)
         {
@@ -314,6 +290,21 @@ namespace pb.Compiler
             }
         }
 
+        //public void AddSources(IEnumerable<XElement> sources)
+        //{
+        //    AddFiles(_sourceList, sources, _defaultDir);
+        //}
+
+        //public void AddSource(string source)
+        //{
+        //    AddFile(_sourceList, source, _defaultDir);
+        //}
+
+        //public void AddFile(string file, string dir)
+        //{
+        //    AddFile(_fileList, file, dir);
+        //}
+
         public void AddFiles(IEnumerable<CompilerFile> files)
         {
             //_fileList.AddRange(files);
@@ -328,6 +319,70 @@ namespace pb.Compiler
                 }
             }
         }
+
+        //public void AddFiles(IEnumerable<XElement> files, string dir = null)
+        //{
+        //    AddFiles(_fileList, files, dir);
+        //}
+
+        //private void AddFiles(List<CompilerFile> list, IEnumerable<string> files, string dir)
+        //{
+        //    foreach (string file in files)
+        //        AddFile(list, file, dir);
+        //}
+
+        //private void AddFiles(List<CompilerFile> list, IEnumerable<XElement> files, string dir = null)
+        //{
+        //    foreach (XElement file in files)
+        //        AddFile(list, file, dir);
+        //}
+
+        //private void AddFile(List<CompilerFile> list, string file, string dir)
+        //{
+        //    list.Add(new CompilerFile(file.zRootPath(dir)));
+        //}
+
+        //private void AddFile(List<CompilerFile> list, XElement xeFile, string dir = null)
+        //{
+        //    string file = xeFile.Attribute("value").Value;
+        //    if (dir == null)
+        //        dir = _defaultDir;
+        //    if (dir != null)
+        //        file = file.zRootPath(dir);
+        //    CompilerFile cf = new CompilerFile(file);
+        //    foreach (XAttribute xa in xeFile.Attributes())
+        //    {
+        //        if (xa.Name != "value")
+        //            cf.Attributes.Add(xa.Name.LocalName, xa.Value);
+        //    }
+        //    list.Add(cf);
+        //}
+
+        //public void AddAssemblies(IEnumerable<XElement> assemblies)
+        //{
+        //    foreach (XElement assembly in assemblies)
+        //    {
+        //        //bool resolve = assembly.zAttribValueBool("resolve", false);
+        //        bool resolve = assembly.zAttribValue("resolve").zTryParseAs<bool>(false);
+        //        string resolveName = assembly.zAttribValue("resolveName");
+        //        if (resolve && resolveName == null)
+        //            throw new PBException("error to resolve an assembly you must specify a resolveName (\"Test_dll, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null\")");
+        //        AddAssembly(assembly.zAttribValue("value"), resolve, resolveName);
+        //    }
+        //}
+
+        //public void AddAssembly(string assembly, bool resolve = false, string resolveName = null)
+        //{
+        //    // sert a ajouter les assembly sans path : System.dll, System.Data.dll
+        //    string dir = zPath.GetDirectoryName(assembly);
+        //    //if (dir != "" && !zPath.IsPathRooted(assembly))
+        //    //    assembly = zPath.Combine(_defaultDir, assembly);
+        //    if (dir != "")
+        //        assembly = assembly.zRootPath(_defaultDir);
+        //    ////WriteLine(1, "  Add assembly          \"{0}\" resolve {1} dir {2}", assembly, resolve, dir);
+        //    if (!_assemblyList.ContainsKey(assembly))
+        //        _assemblyList.Add(assembly, new CompilerAssembly(assembly, resolve, resolveName));
+        //}
 
         public void AddAssemblies(IEnumerable<CompilerAssembly> assemblies)
         {
@@ -361,10 +416,54 @@ namespace pb.Compiler
                 return null;
         }
 
+        //public void AddLocalAssemblies(IEnumerable<XElement> assemblies)
+        //{
+        //    foreach (XElement assembly in assemblies)
+        //    {
+        //        //bool resolve = assembly.zAttribValueBool("resolve", false);
+        //        bool resolve = assembly.zAttribValue("resolve").zTryParseAs<bool>(false);
+        //        string resolveName = assembly.zAttribValue("resolveName");
+        //        if (resolve && resolveName == null)
+        //            throw new PBException("error to resolve an assembly you must specify a resolveName (\"Test_dll, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null\")");
+        //        AddLocalAssembly(assembly.zAttribValue("value"), resolve, resolveName);
+        //    }
+        //}
+
+        //public void AddLocalAssembly(string assembly, bool resolve = false, string resolveName = null)
+        //{
+        //    assembly = assembly.zRootPath(_defaultDir);
+        //    if (!zFile.Exists(assembly))
+        //        return;
+        //    AddAssembly(assembly, resolve, resolveName);
+        //}
+
         public void AddCopyOutputDirectories(IEnumerable<string> directories)
         {
             _copyOutputDirectories.AddRange(directories);
         }
+
+        //public void AddCopyOutputDirectories(IEnumerable<XElement> elements)
+        //{
+        //    foreach (XElement element in elements)
+        //    {
+        //        CopyOutputDirectory cod = new CopyOutputDirectory();
+        //        cod.Directory = zpath.PathMakeRooted(element.zAttribValue("value"), gsDefaultDir);
+        //        AddFiles(cod.Files, element.zXPathElements("File"), gsDefaultDir);
+        //        _copyOutputDirectories.Add(cod);
+        //    }
+        //}
+
+        //public void CloseProcess()
+        //{
+        //    SetFinalOutputAssembly();
+        //    if (_finalOutputAssembly == null) return;
+        //    string processName = zpath.PathGetFileName(_finalOutputAssembly);
+        //    foreach (Process process in Process.GetProcessesByName(processName))
+        //    {
+        //        if (string.Compare(process.MainModule.FileName, _finalOutputAssembly, true) != 0) continue;
+        //        zprocess.CloseProcess(process);
+        //    }
+        //}
 
         public void Compile()
         {
@@ -545,6 +644,178 @@ namespace pb.Compiler
             return SourcesList.ToArray();
         }
 
+        //private void CopyCompileFilesToDirectory(string directory = null)
+        //{
+        //    CopyAssembliesToDirectory(directory);
+        //    CopyFilesToDirectory(directory);
+        //}
+
+        //private void CopyFileToOutputDir()
+        // List<string>
+        // copy files and config file to directory
+        //private void CopyFilesToDirectory(string directory = null)
+        //{
+        //    //List<string> copiedFiles = new List<string>();
+
+        //    if (gResults.PathToAssembly != null)
+        //    {
+        //        //string sOutputDir = zpath.PathGetDirectory(gResults.PathToAssembly);
+
+        //        if (directory == null)
+        //            directory = zpath.PathGetDirectory(gResults.PathToAssembly);
+
+        //        foreach (CompilerFile file in gFileList)
+        //        {
+        //            string destinationFile = null;
+        //            if (file.Attributes.ContainsKey("destinationFile"))
+        //            {
+        //                destinationFile = file.Attributes["destinationFile"];
+        //                WriteLine(2, "  Copy file \"{0}\" to \"{1}\" as \"{2}\"", file.File, directory, destinationFile);
+        //            }
+        //            else
+        //                WriteLine(2, "  Copy file \"{0}\" to \"{1}\"", file.File, directory);
+        //            //string path = zfile.CopyFileToDirectory(file.File, directory, destinationFile, true);
+        //            string path = zfile.CopyFileToDirectory(file.File, directory, destinationFile, CopyFileOptions.OverwriteReadOnly | CopyFileOptions.CopyOnlyIfNewer);
+        //            //if (path != null)
+        //            //    copiedFiles.Add(path);
+        //        }
+
+        //        if (_appConfig != null)
+        //        {
+        //            string appFile = zPath.GetFileName(gResults.PathToAssembly) + ".config";
+        //            WriteLine(2, "Copy file \"{0}\" to \"{1}\" as \"{2}\"", _appConfig.File, directory, appFile);
+        //            //string path = zfile.CopyFileToDirectory(_appConfig.File, directory, appFile, true);
+        //            string path = zfile.CopyFileToDirectory(_appConfig.File, directory, appFile, CopyFileOptions.OverwriteReadOnly | CopyFileOptions.CopyOnlyIfNewer);
+        //            //if (path != null)
+        //            //    copiedFiles.Add(path);
+        //        }
+        //    }
+
+        //    //return copiedFiles;
+        //}
+
+        //private void CopyOutputToDirectories()
+        //{
+        //    foreach (CopyOutputDirectory cod in _copyOutputDirectories)
+        //    {
+        //        List<string> copiedFiles = CopyOutputToDirectory(cod);
+        //        _copyOutputFiles.Add(new KeyValuePair<string, List<string>>(cod.Directory, copiedFiles));
+        //    }
+        //}
+
+        //private void CopyOutputToDirectory(CopyOutputDirectory cod, List<string> files)
+        //private List<string> CopyOutputToDirectory(CopyOutputDirectory cod)
+        //{
+        //    List<string> copiedFiles = new List<string>();
+
+        //    if (gResults.PathToAssembly != null)
+        //    {
+        //        string outputDir = zpath.PathGetDirectory(gResults.PathToAssembly);
+
+        //        WriteLine(1, "Copy output to \"{0}\"", cod.Directory);
+        //        if (!Directory.Exists(cod.Directory))
+        //            Directory.CreateDirectory(cod.Directory);
+
+        //        // copy assembly
+        //        string path = gResults.PathToAssembly;
+        //        WriteLine(2, "  Copy file \"{0}\" to \"{1}\"", path, cod.Directory);
+        //        //string path3 = zfile.CopyFileToDirectory(path, cod.Directory, null, true);
+        //        string path3 = zfile.CopyFileToDirectory(path, cod.Directory, options: CopyFileOptions.OverwriteReadOnly | CopyFileOptions.CopyOnlyIfNewer);
+
+        //        /* Unmerged change from project 'runsource.v2.dll'
+        //        Before:
+        //                        if (path3 != null)
+        //                            copiedFiles.Add(path3);
+
+        //                        // copy assembly pdb
+        //                        string path2 = zpath.PathSetExtension(path, ".pdb");
+        //                        WriteLine(2, "  Copy file \"{0}\" to \"{1}\"", path2, cod.Directory);
+        //                        path3 = zfile.CopyFile(path2, cod.Directory, null, true);
+        //                        if (path3 != null)
+        //        After:
+        //                        if (path3 != null)
+        //        */
+        //        if (path3 != null)
+        //            copiedFiles.Add(path3);
+
+        //        // copy assembly pdb
+        //        string path2 = zpath.PathSetExtension(path, ".pdb");
+        //        WriteLine(2, "  Copy file \"{0}\" to \"{1}\"", path2, cod.Directory);
+        //        //path3 = zfile.CopyFileToDirectory(path2, cod.Directory, null, true);
+        //        path3 = zfile.CopyFileToDirectory(path2, cod.Directory, options: CopyFileOptions.OverwriteReadOnly | CopyFileOptions.CopyOnlyIfNewer);
+        //        if (path3 != null)
+        //            copiedFiles.Add(path3);
+
+        //        // copy assembly pdb
+        //        //string path2 = zpath.PathSetExtension(path, ".pdb");
+        //        //WriteLine(2, "  Copy file \"{0}\" to \"{1}\"", path2, cod.Directory);
+        //        ////path3 = zfile.CopyFileToDirectory(path2, cod.Directory, null, true);
+        //        //path3 = zfile.CopyFileToDirectory(path2, cod.Directory, options: CopyFileOptions.OverwriteReadOnly | CopyFileOptions.CopyOnlyIfNewer);
+        //        //if (path3 != null)
+        //        //    copiedFiles.Add(path3);
+
+        //        // copy assembly config
+        //        path2 = path + ".config";
+        //        WriteLine(2, "  Copy file \"{0}\" to \"{1}\"", path2, cod.Directory);
+        //        //path3 = zfile.CopyFileToDirectory(path2, cod.Directory, null, true);
+        //        path3 = zfile.CopyFileToDirectory(path2, cod.Directory, options: CopyFileOptions.OverwriteReadOnly | CopyFileOptions.CopyOnlyIfNewer);
+        //        if (path3 != null)
+        //            copiedFiles.Add(path3);
+
+        //        // copy referenced assemblies
+        //        //foreach (CompilerAssembly ca in gAssemblyList.Values)
+        //        //{
+        //        //    string assembly = ca.File;
+        //        //    if (!File.Exists(assembly)) continue;
+        //        //    string assembly2 = zpath.PathSetDirectory(assembly, cod.Directory);
+        //        //    if (File.Exists(assembly2))
+        //        //    {
+        //        //        FileInfo fi1 = new FileInfo(assembly);
+        //        //        FileInfo fi2 = new FileInfo(assembly2);
+        //        //        if (fi1.LastWriteTime <= fi2.LastWriteTime) continue;
+        //        //    }
+        //        //    WriteLine(2, "  Copy assembly \"{0}\" to \"{1}\"", assembly, assembly2);
+        //        //    File.Copy(assembly, assembly2, true);
+        //        //    files.Add(assembly2);
+        //        //    path = zpath.PathSetExtension(assembly, ".pdb");
+        //        //    assembly2 = zpath.PathSetExtension(assembly2, ".pdb");
+        //        //    if (File.Exists(path))
+        //        //    {
+        //        //        WriteLine(2, "  Copy assembly \"{0}\" to \"{1}\"", path, assembly2);
+        //        //        File.Copy(path, assembly2, true);
+        //        //        files.Add(assembly2);
+        //        //    }
+        //        //}
+        //        List<string> copiedFiles2 = CopyReferencedAssembliesToDirectory(cod.Directory);
+        //        copiedFiles.AddRange(copiedFiles2);
+
+        //        // copy files and config file to directory
+        //        copiedFiles2 = CopyFilesToDirectory(cod.Directory);
+        //        copiedFiles.AddRange(copiedFiles2);
+
+        //        // copy files
+        //        foreach (CompilerFile file in cod.Files)
+        //        {
+        //            path = file.File;
+        //            if (!zPath.IsPathRooted(path))
+        //                path = zPath.Combine(outputDir, path);
+        //            string destinationFile = null;
+        //            if (file.Attributes.ContainsKey("destinationFile"))
+        //            {
+        //                destinationFile = file.Attributes["destinationFile"];
+        //                WriteLine(2, "  Copy file \"{0}\" to \"{1}\" as \"{2}\"", path, cod.Directory, destinationFile);
+        //            }
+        //            else
+        //                WriteLine(2, "  Copy file \"{0}\" to \"{1}\"", path, cod.Directory);
+        //            //path3 = zfile.CopyFileToDirectory(path, cod.Directory, destinationFile, true);
+        //            path3 = zfile.CopyFileToDirectory(path, cod.Directory, destinationFile, CopyFileOptions.OverwriteReadOnly | CopyFileOptions.CopyOnlyIfNewer);
+        //            if (path3 != null)
+        //                copiedFiles.Add(path3);
+        //        }
+        //    }
+        //    return copiedFiles;
+        //}
+
         public string[] CompileResources(CompilerFile[] resources)
         {
             string outputDir = zPath.Combine(_finalOutputDir, _CompileResourceSubDirectory);
@@ -563,34 +834,34 @@ namespace pb.Compiler
             // resgen [parameters] [/compile]filename.extension [outputFilename.extension] [/str:lang[,namespace[,class[,file]]]]
 
             //   /compile
-            //      Permet de spécifier plusieurs fichiers .resx ou texte à convertir en plusieurs fichiers .resources en une seule opération globale.
-            //      Si vous omettez cette option, vous ne pouvez spécifier qu'un seul argument de fichier d'entrée.
-            //      Cette option ne peut pas être utilisée avec l'option /str:.
+            //      Permet de spÃ©cifier plusieurs fichiers .resx ou texte Ã  convertir en plusieurs fichiers .resources en une seule opÃ©ration globale.
+            //      Si vous omettez cette option, vous ne pouvez spÃ©cifier qu'un seul argument de fichier d'entrÃ©e.
+            //      Cette option ne peut pas Ãªtre utilisÃ©e avec l'option /str:.
             //   /publicClass
-            //      Crée un type de ressources fortement typé comme classe public.
-            //      Cette option est ignorée si l'option /str: n'est pas utilisée.
+            //      CrÃ©e un type de ressources fortement typÃ© comme classe public.
+            //      Cette option est ignorÃ©e si l'option /str: n'est pas utilisÃ©e.
             //   /r:assembly
-            //      Spécifie que les types doivent être chargés à partir d'un assembly.
-            //      Si vous spécifiez cette option, un fichier .resx avec une version antérieure d'un type utilisera le type dans un assembly.
+            //      SpÃ©cifie que les types doivent Ãªtre chargÃ©s Ã  partir d'un assembly.
+            //      Si vous spÃ©cifiez cette option, un fichier .resx avec une version antÃ©rieure d'un type utilisera le type dans un assembly.
             //   /str:language[,namespace[,classname[,filename]]]
-            //      Crée un fichier de classe de ressources fortement typé dans le langage de programmation (cs ou C# pour C#, vb ou visualbasic pour Visual Basic)
-            //      spécifié dans l'option language.
-            //      Vous pouvez utiliser l'option namespace pour spécifier l'espace de noms par défaut du projet,
-            //      l'option classname pour spécifier le nom de la classe générée et l'option filename pour spécifier le nom du fichier de classe.
-            //      Remarque	Dans le .NET Framework version 2.0, classname et filename sont ignorés si namespace n'est pas spécifié. 
-            //      Un seul fichier d'entrée est autorisé lorsque l'option /str: est utilisée, afin qu'il ne puisse pas être utilisé avec l'option /compile.
-            //      Si namespace est spécifié mais que classname ne l'est pas, le nom de la classe est dérivé du nom de fichier de sortie
-            //      (par exemple, les traits de soulignement sont substitués pour les périodes).Les ressources fortement typées peuvent ne pas fonctionner correctement en conséquence.Pour éviter ce problème, spécifiez à la fois le nom de la classe et le nom du fichier de sortie.
+            //      CrÃ©e un fichier de classe de ressources fortement typÃ© dans le langage de programmation (cs ou C# pour C#, vb ou visualbasic pour Visual Basic)
+            //      spÃ©cifiÃ© dans l'option language.
+            //      Vous pouvez utiliser l'option namespace pour spÃ©cifier l'espace de noms par dÃ©faut du projet,
+            //      l'option classname pour spÃ©cifier le nom de la classe gÃ©nÃ©rÃ©e et l'option filename pour spÃ©cifier le nom du fichier de classe.
+            //      Remarque	Dans le .NET Framework version 2.0, classname et filename sont ignorÃ©s si namespace n'est pas spÃ©cifiÃ©. 
+            //      Un seul fichier d'entrÃ©e est autorisÃ© lorsque l'option /str: est utilisÃ©e, afin qu'il ne puisse pas Ãªtre utilisÃ© avec l'option /compile.
+            //      Si namespace est spÃ©cifiÃ© mais que classname ne l'est pas, le nom de la classe est dÃ©rivÃ© du nom de fichier de sortie
+            //      (par exemple, les traits de soulignement sont substituÃ©s pour les pÃ©riodes).Les ressources fortement typÃ©es peuvent ne pas fonctionner correctement en consÃ©quence.Pour Ã©viter ce problÃ¨me, spÃ©cifiez Ã  la fois le nom de la classe et le nom du fichier de sortie.
             //   /usesourcepath
-            //      Précise que le répertoire actif du fichier d'entrée sera utilisé pour résoudre des chemins d'accès de fichier relatif.
+            //      PrÃ©cise que le rÃ©pertoire actif du fichier d'entrÃ©e sera utilisÃ© pour rÃ©soudre des chemins d'accÃ¨s de fichier relatif.
             //
-            //  commande utilisée :
+            //  commande utilisÃ©e :
             //    Resgen.exe resource.resx resource.resources /str:cs,PibLink,PibLink_resource
             //    Resgen.exe PibLink_resource.resx WRunSource.Class.PibLink.PibLink_resource.resources /str:cs,WRunSource.Class.PibLink,PibLink_resource
 
 
 
-            // accès au paramètres de compilation des ressources d'un projet
+            // accÃ¨s au paramÃ¨tres de compilation des ressources d'un projet
             // namespace : Microsoft.VisualStudio.VCProjectEngine
             // class : VCManagedResourceCompilerTool
             //string sPathCompiledResource = cu.PathSetDir(cu.PathSetExt(resource, ".resources"), outputDir);
@@ -666,7 +937,28 @@ namespace pb.Compiler
             _resourceResults.Errors.Add(new ResourceCompilerError(gsResourceCompiling, s));
         }
 
-        // ICompiler
+        //public string GetCompilerMessages()
+        //{
+        //    if ((gResults == null || gResults.Errors.Count == 0) && !gResourceResults.HasError) return null;
+        //    string sError = "";
+        //    if (gResourceResults.HasError)
+        //    {
+        //        sError += "Resource compiler error :\r\n";
+        //        foreach (ResourceCompilerError error in gResourceResults.Errors)
+        //            sError += string.Format("error in {0} : {1}", error.FileName, error.ErrorText) + "\r\n";
+        //    }
+        //    if (gResults != null && gResults.Errors.Count != 0)
+        //    {
+        //        sError += "Compiler error :\r\n";
+        //        foreach (CompilerError error in gResults.Errors)
+        //        {
+        //            string s = "error"; if (error.IsWarning) s = "warning";
+        //            sError += string.Format("{0} {1} in {2} line {3} column {4} : {5}\r\n", s, error.ErrorNumber, error.FileName, error.Line, error.Column, error.ErrorText);
+        //        }
+        //    }
+        //    return sError;
+        //}
+
         public DataTable GetCompilerMessagesDataTable()
         {
             if ((_results == null || _results.Errors.Count == 0) && !_resourceResults.HasError) return null;
@@ -708,7 +1000,6 @@ namespace pb.Compiler
             CopyResultFilesToDirectory(null);
         }
 
-        // ICompiler
         public void CopyResultFilesToDirectory(string directory)
         {
             //List<string> copiedFiles = new List<string>();
@@ -819,33 +1110,21 @@ namespace pb.Compiler
             //    TraceLevel = 1;
         }
 
-        public void CopySourceFiles(string destinationDirectory)
-        {
-            if (zDirectory.Exists(destinationDirectory))
-                zDirectory.Delete(destinationDirectory, true);
-            CopySourceFiles(_sourceList.Values, destinationDirectory);
-            CopySourceFiles(_fileList.Values, destinationDirectory);
-        }
-
-        private void CopySourceFiles(IEnumerable<CompilerFile> files, string destinationDirectory)
-        {
-            foreach (CompilerFile file in files)
-            {
-                //WriteLine(1, "Compiler.CopySourceFiles CompilerFile.File         : \"{0}\"", file.File);
-                //WriteLine(1, "Compiler.CopySourceFiles CompilerFile.RelativePath : \"{0}\"", file.RelativePath);
-                if (zFile.Exists(file.File))
-                {
-                    string destinationFile = zPath.Combine(destinationDirectory, file.RelativePath);
-                    //WriteLine(1, "Compiler.CopySourceFiles destinationFile           : \"{0}\"", destinationFile);
-                    zfile.CreateFileDirectory(destinationFile);
-                    zfile.CopyFile(file.File, destinationFile, CopyFileOptions.OverwriteReadOnly);
-                }
-                else
-                {
-                    WriteLine(1, "Compiler warning can't copy source file : source file \"{0}\" does not exist from project \"{1}\"", file.File, file.Project.ProjectFile);
-                }
-            }
-        }
+        //public void TraceMessages()
+        //{
+        //    if (Trace == null)
+        //        return;
+        //    if (_results != null)
+        //    {
+        //        foreach (CompilerError err in _results.Errors)
+        //            Trace.WriteLine("{0} no {1,-6} source \"{2}\" line {3} col {4} \"{5}\"", err.IsWarning ? "warning" : "error", err.ErrorNumber, zPath.GetFileName(err.FileName), err.Line, err.Column, err.ErrorText);
+        //    }
+        //    if (_resourceResults != null)
+        //    {
+        //        foreach (ResourceCompilerError err in _resourceResults.Errors)
+        //            Trace.WriteLine("source \"{0}\" \"{1}\"", zPath.GetFileName(err.FileName), err.ErrorText);
+        //    }
+        //}
 
         public void TraceMessages()
         {

@@ -14,7 +14,7 @@
   <Source                           value = "Source\Program.cs" />
 	<Source                           value = "Source\RunSourceForm.cs" />
 	<Source                           value = "Source\RunSourceForm.Designer.cs" />
-	<Source                           value = "Source\RunSourceForm.resx" namespace = "runsourced" />
+	<!--<Source                           value = "Source\RunSourceForm.resx" namespace = "runsourced" />-->
 
   <Source                           value = "$Root$\Source\Lib\pb\Source\pb\_pb\Chrono.cs" />
   <Source                           value = "$Root$\Source\Lib\pb\Source\pb\_pb\Convert.cs" />

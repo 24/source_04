@@ -87,6 +87,7 @@
     <None Include="Source\Other\WR_Tools.cs" />
     <None Include="Source\Other\Xml2Data.cs" />
     <Compile Include="Source\pb\Compiler\CompilerProject.cs" />
+    <Compile Include="Source\pb\Compiler\Compiler_v1.cs" />
     <Compile Include="Source\pb\Compiler\_old\GenerateAndExecute.cs" />
     <Compile Include="Source\pb\Compiler\CSharpCodeWriter.cs" />
     <Compile Include="Source\pb\Compiler\GenerateAssembly.cs" />

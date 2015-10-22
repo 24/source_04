@@ -177,9 +177,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="Source\RunSourceForm.resx">
-      <DependentUpon>RunSourceForm.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\runsource.irunsource\runsource.v2.irunsource.csproj">

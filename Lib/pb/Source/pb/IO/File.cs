@@ -13,8 +13,8 @@ namespace pb.IO
     {
         None                        = 0x0000,
         Overwrite                   = 0x0001,
-        CopyIfDestinationIsReadOnly = 0x0002,
-        OverwriteReadOnly           = Overwrite | CopyIfDestinationIsReadOnly,
+        //CopyIfDestinationIsReadOnly = 0x0002,
+        OverwriteReadOnly           = 0x0003, // Overwrite | CopyIfDestinationIsReadOnly,
         CopyOnlyIfNewer             = 0x0004
         //CopyCreationTime            = 0x0008,
         //CopyLastAccessTime          = 0x0010,
@@ -60,7 +60,8 @@ namespace pb.IO
                         return false;
                 }
                 bool removeReadOnlyAttribute = false;
-                if ((options & CopyFileOptions.CopyIfDestinationIsReadOnly) == CopyFileOptions.CopyIfDestinationIsReadOnly)
+                //if ((options & CopyFileOptions.CopyIfDestinationIsReadOnly) == CopyFileOptions.CopyIfDestinationIsReadOnly)
+                if ((options & CopyFileOptions.OverwriteReadOnly) == CopyFileOptions.OverwriteReadOnly)
                     removeReadOnlyAttribute = true;
                 DeleteFile(destinationFile, removeReadOnlyAttribute);
             }

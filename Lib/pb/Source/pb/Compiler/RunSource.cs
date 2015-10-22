@@ -414,39 +414,32 @@ namespace pb.Compiler
             return _projectFile;
         }
 
+        public void CopyProjectSourceFiles(string projectName, string destinationDirectory)
+        {
+            string pathProject = GetPathProject(projectName);
+            Trace.WriteLine("Copy project files \"{0}\" to \"{1}\"", pathProject, destinationDirectory);
+            Compiler compiler = CreateProjectCompiler(pathProject);
+            compiler.CopySourceFiles(destinationDirectory.zRootPath(zPath.GetDirectoryName(pathProject)));
+        }
+
         public ICompiler CompileProject(string projectName)
         {
             // - compile assembly project (like runsource.dll.project.xml) and runsource project (like download.project.xml)
             // - for assembly project use CompilerDefaultValues from runsource.runsource.config.xml runsource.runsource.config.local.xml
             // - for runsource project use CompilerDefaultValues from runsource.runsource.config.xml runsource.runsource.config.local.xml
 
-            Compiler compiler = new Compiler();
-            projectName = GetProjectVariableValue(projectName, throwError: true);
-            string pathProject = GetFilePath(projectName);
-            compiler.DefaultDir = zPath.GetDirectoryName(pathProject);
-            // CompilerDefaultValues from runsource.runsource.config.xml runsource.runsource.config.local.xml
-            compiler.SetParameters(GetRunSourceConfigCompilerDefaultValues(), dontSetOutput: true);
+            //Compiler compiler = new Compiler();
+            //projectName = GetProjectVariableValue(projectName, throwError: true);
+            //string pathProject = GetFilePath(projectName);
+            //compiler.DefaultDir = zPath.GetDirectoryName(pathProject);
+            //// CompilerDefaultValues from runsource.runsource.config.xml runsource.runsource.config.local.xml
+            //compiler.SetParameters(GetRunSourceConfigCompilerDefaultValues(), dontSetOutput: true);
+            //Trace.WriteLine("Compile project \"{0}\"", pathProject);
+            //compiler.SetParameters(CompilerProject.Create(new XmlConfig(pathProject).GetConfigElementExplicit("/AssemblyProject")));
+
+            string pathProject = GetPathProject(projectName);
             Trace.WriteLine("Compile project \"{0}\"", pathProject);
-
-            //XmlConfig projectConfig = new XmlConfig(pathProject);
-            //XmlConfigElement projectElement = null;
-            //if (projectConfig.XDocument.Root.Name == "AssemblyProject")
-            //{
-            //    // assembly project (like runsource.dll.project.xml)
-            //    projectElement = projectConfig.GetConfigElement("/AssemblyProject");
-            //}
-            //else
-            //{
-            //    // runsource project (like download.project.xml)
-            //    projectElement = projectConfig.GetConfigElement("Project");
-            //    // ProjectDefaultValues from runsource.runsource.config.xml runsource.runsource.config.local.xml
-            //    compiler.SetParameters(GetRunSourceConfigProjectDefaultValues(), dontSetOutput: true);
-            //}
-            //if (projectElement == null)
-            //    throw new PBException("unknow project type \"{0}\"", pathProject);
-            //compiler.SetParameters(CompilerProject.Create(projectElement));  // /AssemblyProject
-
-            compiler.SetParameters(CompilerProject.Create(new XmlConfig(pathProject).GetConfigElementExplicit("/AssemblyProject")));
+            Compiler compiler = CreateProjectCompiler(pathProject);
 
             compiler.Compile();
             string s = null;
@@ -460,6 +453,22 @@ namespace pb.Compiler
                 // trace warning
                 compiler.TraceMessages();
             Trace.WriteLine("  compiled{0} : {1}", s, compiler.OutputAssembly);
+            return compiler;
+        }
+
+        private string GetPathProject(string projectName)
+        {
+            projectName = GetProjectVariableValue(projectName, throwError: true);
+            return GetFilePath(projectName);
+        }
+
+        private Compiler CreateProjectCompiler(string pathProject)
+        {
+            Compiler compiler = new Compiler();
+            compiler.DefaultDir = zPath.GetDirectoryName(pathProject);
+            // CompilerDefaultValues from runsource.runsource.config.xml runsource.runsource.config.local.xml
+            compiler.SetParameters(GetRunSourceConfigCompilerDefaultValues(), dontSetOutput: true);
+            compiler.SetParameters(CompilerProject.Create(new XmlConfig(pathProject).GetConfigElementExplicit("/AssemblyProject")));
             return compiler;
         }
 

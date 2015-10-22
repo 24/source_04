@@ -830,12 +830,10 @@ namespace runsourced
             try
             {
                 string updateDir = _config.GetExplicit("UpdateRunSource/UpdateDirectory").zRootPath(zapp.GetEntryAssemblyDirectory());
-                //string projectDir = _config.GetExplicit("UpdateRunSource/ProjectDirectory");
                 Dictionary<string, List<string>> projectFiles = new Dictionary<string, List<string>>();
 
                 foreach (XElement project in _config.GetElements("UpdateRunSource/Project"))
                 {
-                    //ICompiler compiler = Compile_Project(zPath.Combine(projectDir, project.zExplicitAttribValue("value")));
                     ICompiler compiler = CompileProject(project.zExplicitAttribValue("value"));
                     if (compiler.HasError())
                         return;
@@ -852,7 +850,6 @@ namespace runsourced
 
                 foreach (XElement project in _config.GetElements("UpdateRunSource/ProjectRunSourceLaunch"))
                 {
-                    //ICompiler compiler = Compile_Project(zPath.Combine(projectDir, project.zExplicitAttribValue("value")));
                     ICompiler compiler = CompileProject(project.zExplicitAttribValue("value"));
                     if (compiler.HasError())
                         return;

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Download>
+  <DataDir                                                       value = "c:\pib\dev_data\exe\runsource\damien\hts" />
+  <!--<DataDir2                                                      value = "c:\pib\drive\google\dev_data\exe\runsource\download" />-->
+  <Log                                                           value = "$DataDir$\log\_log.txt" option = "IndexedFile" />
+  <!--<TestUnitDirectory                                             value = "c:\pib\drive\google\dev_data\exe\runsource\test_unit" />  --><!-- c:\pib\dev_data\exe\runsource\test_unit c:\pib\dropbox\pbeuz\Dropbox\dev_data\exe\runsource\test_unit -->
+  <HttpExportDirectory                                           value = "$DataDir$\http" />
+  <MongoLog                                                      value = "$DataDir$\mongo\log\_mongo_log.txt" option = "IndexedFile" />
+  <MongoCache                                                    value = "$DataDir$\mongo\cache\mongo_cache.txt" />
+  <!--<MongoBackupDirectory                                          value = "$DataDir2$\mongo\backup" />-->
+  <!--<MongoBackupTmpDirectory                                       value = "$DataDir$\mongo\export\_tmp" />-->
+  <!--<PrintConfig                                                   value = "print_config.xml" />          --><!-- ..\pt\pt_config.xml --><!--
+  <LocalConfig                                                   value = "$DataDir2$\config\download_config_local.xml" />    --><!-- c:\pib\dropbox\pbeuz\Dropbox\dev_data\exe\runsource\download\config\download_config_local.xml --><!--
+  <PrintList1Config                                              value = "print_list1.xml" />
+  <PrintList2Config                                              value = "print_list2.xml" />-->
+
+  <Image>
+    <UseUrlCache                                                 value = "true" />
+    <CacheDirectory                                              value = "$DataDir$\sites\_images" />
+    <UseMongo                                                    value = "true" />
+    <MongoServer                                                 value = "mongodb://localhost" />
+    <MongoDatabase                                               value = "dl" />
+    <MongoCollection                                             value = "Images" />
+    <ImageFilterMinHeight                                        value = "70" />
+  </Image>
+
+  <Handeco>
+    <DataDir                                                     value = "$DataDir$\sites\handeco.org" />
+    <!--<CookiesFile                                                 value = "$Ebookdz/DataDir$\cookies\cookies.txt" />-->
+
+    <Header>
+      <UseUrlCache                                               value = "true" />
+      <CacheDirectory                                            value = "$Handeco/DataDir$\cache\header" />
+      <CacheUrlFileNameType                                      value = "Host, Path, Query" />
+      <UseMongo                                                  value = "false" />
+      <MongoServer                                               value = "mongodb://localhost" />
+      <MongoDatabase                                             value = "htc" />
+      <MongoCollection                                           value = "Handeco_Header" />
+      <MongoDocumentItemName                                     value = "data" />
+      <MongoDefaultSort                                          value = "{ 'data.id': 1 }" />
+    </Header>
+
+    <Detail>
+      <UseUrlCache                                               value = "true" />
+      <CacheDirectory                                            value = "$Handeco/DataDir$\cache\detail" />
+      <CacheUrlFileNameType                                      value = "Path, Query" />
+      <UseMongo                                                  value = "true" />
+      <MongoServer                                               value = "mongodb://localhost" />
+      <MongoDatabase                                             value = "htc" />
+      <MongoCollection                                           value = "Handeco_Detail" />
+      <MongoDocumentItemName                                     value = "data" />
+      <MongoDefaultSort                                          value = "{ 'data.id': 1 }" />
+    </Detail>
+  </Handeco>
+</Download>

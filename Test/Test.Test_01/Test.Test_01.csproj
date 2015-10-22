@@ -144,8 +144,11 @@
     <Compile Include="..\..\Lib\pb\Source\pb\Compiler\CompilerProject.cs">
       <Link>SourceLnk\Lib\pb\Compiler\CompilerProject.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Compiler\GenerateAndExecute.cs">
-      <Link>SourceLnk\Lib\pb\Compiler\GenerateAndExecute.cs</Link>
+    <Compile Include="..\..\Lib\pb\Source\pb\Compiler\CSharpCodeWriter.cs">
+      <Link>SourceLnk\Lib\pb\Compiler\CSharpCodeWriter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Compiler\GenerateAssembly.cs">
+      <Link>SourceLnk\Lib\pb\Compiler\GenerateAssembly.cs</Link>
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Compiler\GenerateCSharpCode.cs">
       <Link>SourceLnk\Lib\pb\Compiler\GenerateCSharpCode.cs</Link>
@@ -159,20 +162,23 @@
     <Compile Include="..\..\Lib\pb\Source\pb\Compiler\ICompilerProject.cs">
       <Link>SourceLnk\Lib\pb\Compiler\ICompilerProject.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Compiler\IGenerateAndExecute.cs">
-      <Link>SourceLnk\Lib\pb\Compiler\IGenerateAndExecute.cs</Link>
-    </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Compiler\IRunSource.cs">
       <Link>SourceLnk\Lib\pb\Compiler\IRunSource.cs</Link>
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Compiler\RemoteRunSource.cs">
       <Link>SourceLnk\Lib\pb\Compiler\RemoteRunSource.cs</Link>
     </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Compiler\RunCode.cs">
+      <Link>SourceLnk\Lib\pb\Compiler\RunCode.cs</Link>
+    </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Compiler\RunSource.cs">
       <Link>SourceLnk\Lib\pb\Compiler\RunSource.cs</Link>
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Compiler\RunSourceExtension.cs">
       <Link>SourceLnk\Lib\pb\Compiler\RunSourceExtension.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Compiler\RunSourceRunCode.cs">
+      <Link>SourceLnk\Lib\pb\Compiler\RunSourceRunCode.cs</Link>
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Data\DataTable.cs">
       <Link>SourceLnk\Lib\pb\Data\DataTable.cs</Link>
@@ -305,6 +311,12 @@
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Web\Html\HtmlReader.cs">
       <Link>SourceLnk\Lib\pb\Web\Html\HtmlReader.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Html\HtmlReaderBase.cs">
+      <Link>SourceLnk\Lib\pb\Web\Html\HtmlReaderBase.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Html\HtmlReader_v2.cs">
+      <Link>SourceLnk\Lib\pb\Web\Html\HtmlReader_v2.cs</Link>
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Web\Html\HtmlTag.cs">
       <Link>SourceLnk\Lib\pb\Web\Html\HtmlTag.cs</Link>
@@ -477,7 +489,7 @@
     <None Include="Source\Test_AppDomain\exe\Test_AppDomain_05_test_01.cs" />
     <Compile Include="Source\Test_AppDomain\exe\Test_AppDomain_06.cs" />
     <Compile Include="Source\Test_AppDomain\exe\Test_AppDomain_07.cs" />
-    <Compile Include="Source\Test_AppDomain\exe\Test_AppDomain_08.cs" />
+    <None Include="Source\Test_AppDomain\exe\Test_AppDomain_08.cs" />
     <None Include="Source\Test_AppDomain\Test_AppDomain.cs" />
     <Compile Include="Source\Test_AppDomain\Test_AppDomain_f.cs" />
     <Compile Include="Source\Test_Basic\Test_CollectionsConcurrent.cs" />
@@ -562,14 +574,14 @@
     <Compile Include="Source\Test_Reflection\Test_Assembly.cs" />
     <Compile Include="Source\Test_Reflection\Test_Reflection.cs" />
     <None Include="Source\Test_RunSource\compile.cs" />
-    <Compile Include="Source\Test_RunSource\Program.cs" />
+    <None Include="Source\Test_RunSource\Program.cs" />
     <Compile Include="Source\Test_RunSource\Test.cs" />
-    <Compile Include="Source\Test_RunSource\Test_RunSourceForm.cs">
+    <None Include="Source\Test_RunSource\Test_RunSourceForm.cs">
       <SubType>form</SubType>
-    </Compile>
-    <Compile Include="Source\Test_RunSource\Test_RunSourceForm.Designer.cs">
+    </None>
+    <None Include="Source\Test_RunSource\Test_RunSourceForm.Designer.cs">
       <DependentUpon>Test_RunSourceForm.cs</DependentUpon>
-    </Compile>
+    </None>
     <None Include="Source\Test_RunSource\Test_RunSource_AssemblyInfo.cs" />
     <Compile Include="Source\Test_Text\Test_Regex_f.cs" />
     <None Include="Source\Test_wcf\compile.cs" />
@@ -653,9 +665,9 @@
     <EmbeddedResource Include="Source\Test_Form\Scintilla01.resx">
       <DependentUpon>Scintilla01.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Source\Test_RunSource\Test_RunSourceForm.resx">
+    <None Include="Source\Test_RunSource\Test_RunSourceForm.resx">
       <DependentUpon>Test_RunSourceForm.cs</DependentUpon>
-    </EmbeddedResource>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Source\Test\test_config.xml" />

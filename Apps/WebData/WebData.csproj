@@ -59,8 +59,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\Lib\pb\Source\pb\Compiler\CSharpCodeWriter.cs">
+      <Link>SourceLnk\Lib\pb\Compiler\CSharpCodeWriter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Compiler\GenerateAssembly.cs">
+      <Link>SourceLnk\Lib\pb\Compiler\GenerateAssembly.cs</Link>
+    </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Compiler\ICompilerProject.cs">
       <Link>SourceLnk\Lib\pb\Compiler\ICompilerProject.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Compiler\RunCode.cs">
+      <Link>SourceLnk\Lib\pb\Compiler\RunCode.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Compiler\RunSourceRunCode.cs">
+      <Link>SourceLnk\Lib\pb\Compiler\RunSourceRunCode.cs</Link>
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\MongoBackup.cs">
       <Link>SourceLnk\Lib\pb\Data\Mongo\MongoBackup.cs</Link>
@@ -98,9 +110,6 @@
     <Compile Include="..\..\Lib\pb\Source\pb\Compiler\CompilerProject.cs">
       <Link>SourceLnk\Lib\pb\Compiler\CompilerProject.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Compiler\GenerateAndExecute.cs">
-      <Link>SourceLnk\Lib\pb\Compiler\GenerateAndExecute.cs</Link>
-    </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Compiler\GenerateCSharpCode.cs">
       <Link>SourceLnk\Lib\pb\Compiler\GenerateCSharpCode.cs</Link>
     </Compile>
@@ -109,9 +118,6 @@
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Compiler\ICompilerExtension.cs">
       <Link>SourceLnk\Lib\pb\Compiler\ICompilerExtension.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Compiler\IGenerateAndExecute.cs">
-      <Link>SourceLnk\Lib\pb\Compiler\IGenerateAndExecute.cs</Link>
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Compiler\IRunSource.cs">
       <Link>SourceLnk\Lib\pb\Compiler\IRunSource.cs</Link>

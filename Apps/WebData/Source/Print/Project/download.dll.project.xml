@@ -68,19 +68,6 @@
   <Assembly                         value = "runsource.dll" />
   <Assembly                         value = "runsource.irunsource.dll" />
   <!--<Assembly                         value = "bin32\ebook.download.dll" resolve = "true" resolveName = "ebook.download, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" />-->
-  <Assembly                         value = "bin32\ebook.download.dll" />
-  <!--
-  <Assembly                         value = "Microsoft.JScript.dll" />
-	<Assembly                         value = "System.Drawing.dll" />
-  <Assembly                         value = "System.IO.Compression.dll" />
-  <Assembly                         value = "System.IO.Compression.FileSystem.dll" />
-  <Assembly                         value = "System.ServiceModel.dll" />
-  <Assembly                         value = "System.Web.dll" />
-  <Assembly                         value = "System.Xml.Linq.dll" />
-	<Assembly                         value = "c:\pib\prog\dev\mongodb\driver\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Bson.dll" resolve = "true" resolveName = "MongoDB.Bson, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />
-	<Assembly                         value = "c:\pib\prog\dev\mongodb\driver\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Driver.dll" resolve = "true" resolveName = "MongoDB.Driver, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />
-  <Assembly                         value = "$Root$\RuntimeLibrary\itextsharp\itextsharp-all-5.5.2\itextsharp.dll" resolve = "true" resolveName = "itextsharp, Version=5.5.2.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca" />
-  <Assembly                         value = "$Root$\RuntimeLibrary\SharpCompress\SharpCompress0.10.3\Full\SharpCompress.dll" resolve = "true" resolveName = "SharpCompress, Version=0.10.3.0, Culture=neutral, PublicKeyToken=beaf6f427e128133" />
-  <Assembly                         value = "$Root$\Source\Lib\LongPath\Pri.LongPath\bin\Debug\Pri.LongPath.dll" />
-  -->
+  <!--<Assembly                         value = "bin32\ebook.download.dll" />-->
+  <Assembly                         value = "c:\pib\prog\tools\runsource\app\ebook.download\ebook.download.dll" />
 </AssemblyProject>

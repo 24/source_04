@@ -64,8 +64,8 @@
       <Address                                                   value = "http://localhost:8019/DownloadManagerService" />
     </DownloadManagerClient>
     <UncompressManager>
-      <ArchiveCompressDirectory                                  value = "c:\pib\_dl\_pib\archive" />
-      <ArchiveErrorCompressDirectory                             value = "c:\pib\_dl\_pib\archive\error" />
+      <ArchiveCompressDirectory                                  value = "c:\pib\_dl\_dl\_pib\archive" />
+      <ArchiveErrorCompressDirectory                             value = "c:\pib\_dl\_dl\_pib\archive\error" />
     </UncompressManager>
     <Mail>
       <To                                                        value = "pierre.beuzart@gmail.com" />

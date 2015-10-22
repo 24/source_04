@@ -8,6 +8,11 @@ namespace pb.IO.Test
 {
     public static class Test_SharpCompressManager
     {
+        public static void Test_SharpCompressManager_01()
+        {
+            Trace.WriteLine("Test_SharpCompressManager_01");
+        }
+
         public static void Test_CompressZip_01(string compressFile, IEnumerable<string> files, string baseDirectory = null, CompressionLevel compressionLevel = CompressionLevel.Default)
         {
             Test_Compress_01(compressFile, files, baseDirectory, compressionLevel: compressionLevel, archiveType: ArchiveType.Zip, compressionType: CompressionType.BZip2);

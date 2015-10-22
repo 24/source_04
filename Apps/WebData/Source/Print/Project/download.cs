@@ -3715,9 +3715,14 @@ Trace.WriteLine("toto");
 Trace.WriteLine("toto".zToJson());
 "toto".zTraceJson();
 
+//*************************************************************************************************************************
+//****                                   Test_SharpCompressManager
+//*************************************************************************************************************************
+
 Trace.WriteLine(RunSource.CurrentRunSource.ProjectFile);
 RunSource.CurrentRunSource.SetProjectFromSource();
 RunSource.CurrentRunSource.SetProject(@"$Root$\Source\Lib\pb\Source\pb\IO\Test\Test_SharpCompressManager.project.xml");
+Test_SharpCompressManager.Test_SharpCompressManager_01();
 // CompressionType : None = 0, GZip = 1, BZip2 = 2, PPMd = 3, Deflate = 4, Rar = 5, LZMA = 6, BCJ = 7, BCJ2 = 8, Unknown = 9,
 // ArchiveType : Rar = 0, Zip = 1, Tar = 2, SevenZip = 3, GZip = 4
 //CompressionType compressionType = CompressionType.None;
@@ -3742,6 +3747,12 @@ string file = @"c:\pib\_dl\_test\Test_SharpCompressManager\export_TelechargerMag
 string file = @"c:\pib\_dl\_test\Test_SharpCompressManager\export_TelechargerMagazine_Detail_02.txt";
 Test_SharpCompressManager.Test_CompressZip_01(@"c:\pib\_dl\_test\Test_SharpCompressManager\Test_SharpCompressManager.zip",
 	new string[] { file }, compressionLevel: CompressionLevel.BestCompression);
+
+
+
+//*************************************************************************************************************************
+//****                                   Test_Project
+//*************************************************************************************************************************
 
 RunSource.CurrentRunSource.SetProject(@"$Root$\Source\Test\Test.Test_01\Source\Test_Project\Test_Project.project.xml");
 Test.Test_Project.Test_IncludeProject.Test_01();

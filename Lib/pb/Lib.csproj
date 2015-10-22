@@ -96,7 +96,7 @@
     <Compile Include="Source\pb\Compiler\ICompilerProject.cs" />
     <Compile Include="Source\pb\Compiler\_old\IGenerateAndExecute.cs" />
     <Compile Include="Source\pb\Compiler\RunCode.cs" />
-    <Compile Include="Source\pb\Compiler\_old\RunSourceRunCode_v1.cs" />
+    <None Include="Source\pb\Compiler\_old\RunSourceRunCode_v1.cs" />
     <Compile Include="Source\pb\Compiler\RunSourceRunCode.cs" />
     <Compile Include="Source\pb\Data\DataTable.cs" />
     <Compile Include="Source\pb\Data\DataTable2.cs" />

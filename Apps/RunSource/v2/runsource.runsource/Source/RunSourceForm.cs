@@ -840,10 +840,10 @@ namespace runsourced
                     string copyOutput = project.zAttribValue("copyOutput").zRootPath(zapp.GetEntryAssemblyDirectory());
                     if (copyOutput != null)
                     {
-                        _trace.WriteLine("  copy result files to directory \"{0}\"", copyOutput);
+                        //_trace.WriteLine("  copy result files to directory \"{0}\"", copyOutput);
                         compiler.CopyResultFilesToDirectory(copyOutput);
                     }
-                    _trace.WriteLine("  copy result files to directory \"{0}\"", updateDir);
+                    //_trace.WriteLine("  copy result files to directory \"{0}\"", updateDir);
                     compiler.CopyResultFilesToDirectory(updateDir);
                     nbProject++;
                 }
@@ -856,7 +856,7 @@ namespace runsourced
                     string copyOutput = project.zAttribValue("copyOutput").zRootPath(zapp.GetEntryAssemblyDirectory());
                     if (copyOutput != null)
                     {
-                        _trace.WriteLine("  copy result files to directory \"{0}\"", copyOutput);
+                        //_trace.WriteLine("  copy result files to directory \"{0}\"", copyOutput);
                         compiler.CopyResultFilesToDirectory(copyOutput);
                     }
                     nbProject++;

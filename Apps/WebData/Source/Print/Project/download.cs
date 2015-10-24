@@ -12,7 +12,6 @@ Trace.WriteLine("toto");
 RunSource.CurrentRunSource.SetProjectFromSource();
 
 RunSource.CurrentRunSource.CompileProject(@"$Root$\Source\Apps\WebData\Source\Print\Project\download.project.xml");
-RunSource.CurrentRunSource.CopyProjectSourceFiles(@"$Root$\Source\Apps\WebData\Source\Print\Project\download.project.xml", @"bin32\copySource");
 
 Trace.CurrentTrace.TraceLevel = 0;
 Trace.CurrentTrace.TraceLevel = 1;
@@ -3740,14 +3739,32 @@ CompressionType compressionType = CompressionType.GZip;
 //ArchiveType archiveType = ArchiveType.Tar;
 //ArchiveType archiveType = ArchiveType.SevenZip;
 ArchiveType archiveType = ArchiveType.GZip;
-Test_SharpCompressManager.Test_Compress_01(@"c:\pib\_dl\_test\Test_SharpCompressManager\Test_SharpCompressManager.gz",
-	new string[] { @"c:\pib\_dl\_test\Test_SharpCompressManager\export_TelechargerMagazine_Detail.txt" },
+Test_SharpCompressManager.Test_Compress_01(@"c:\pib\dev_data\exe\runsource\test\Test_SharpCompressManager\Test_SharpCompressManager.gz",
+	new string[] { @"c:\pib\dev_data\exe\runsource\test\Test_SharpCompressManager\export_TelechargerMagazine_Detail.txt" },
 	archiveType: archiveType, compressionType: compressionType, compressionLevel: CompressionLevel.BestCompression);
-string file = @"c:\pib\_dl\_test\Test_SharpCompressManager\export_TelechargerMagazine_Detail.txt";
-string file = @"c:\pib\_dl\_test\Test_SharpCompressManager\export_TelechargerMagazine_Detail_02.txt";
-Test_SharpCompressManager.Test_CompressZip_01(@"c:\pib\_dl\_test\Test_SharpCompressManager\Test_SharpCompressManager.zip",
+string file = @"c:\pib\dev_data\exe\runsource\test\Test_SharpCompressManager\export_TelechargerMagazine_Detail.txt";
+string file = @"c:\pib\dev_data\exe\runsource\test\Test_SharpCompressManager\export_TelechargerMagazine_Detail_02.txt";
+Test_SharpCompressManager.Test_CompressZip_01(@"c:\pib\dev_data\exe\runsource\test\Test_SharpCompressManager\Test_SharpCompressManager.zip",
 	new string[] { file }, compressionLevel: CompressionLevel.BestCompression);
 
+Test_ZipArchive.Test_ZipArchive_01();
+Test_ZipArchive.Test_ZipArchive_AddEntry_01(@"c:\pib\dev_data\exe\runsource\test\Test_ZipArchive\Test_ZipArchive_AddEntry_01.zip", "Readme.txt");
+Test_ZipArchive.Test_ZipArchive_AddFile_01(@"c:\pib\dev_data\exe\runsource\test\Test_ZipArchive\Test_ZipArchive_AddFile_01.zip",
+	@"c:\pib\dev_data\exe\runsource\test\Test_ZipArchive\export_TelechargerMagazine_Detail.txt",
+	"export_TelechargerMagazine_Detail.txt",
+	System.IO.Compression.CompressionLevel.Optimal, FileMode.OpenOrCreate); // CompressionLevel : Optimal, Fastest, NoCompression
+Test_ZipArchive.Test_ZipArchive_AddFile_01(@"c:\pib\dev_data\exe\runsource\test\Test_ZipArchive\Test_ZipArchive_AddFile_01.zip",
+	@"c:\pib\dev_data\exe\runsource\test\Test_ZipArchive\export_TelechargerMagazine_Detail.txt",
+	"export_TelechargerMagazine_Detail.txt",
+	System.IO.Compression.CompressionLevel.Optimal, FileMode.Create); // CompressionLevel : Optimal, Fastest, NoCompression
+Test_ZipArchive.Test_ZipArchive_AddFile_01(@"c:\pib\dev_data\exe\runsource\test\Test_ZipArchive\Test_ZipArchive_AddFile_01.zip",
+	@"c:\pib\dev_data\exe\runsource\test\Test_ZipArchive\export_TelechargerMagazine_Detail_02.txt",
+	@"data\test\toto\export_TelechargerMagazine_Detail_02.txt",
+	System.IO.Compression.CompressionLevel.Optimal, FileMode.OpenOrCreate); // CompressionLevel : Optimal, Fastest, NoCompression
+Test_ZipArchive.Test_ZipArchive_AddFile_01(@"c:\pib\dev_data\exe\runsource\test\Test_ZipArchive\Test_ZipArchive_AddFile_01.zip",
+	@"c:\pib\dev_data\exe\runsource\test\Test_ZipArchive\export_TelechargerMagazine_Detail_02.txt",
+	@"c:\pib\dev_data\exe\runsource\test\Test_ZipArchive\export_TelechargerMagazine_Detail_02.txt",
+	System.IO.Compression.CompressionLevel.Optimal, FileMode.OpenOrCreate); // CompressionLevel : Optimal, Fastest, NoCompression
 
 
 //*************************************************************************************************************************
@@ -4011,5 +4028,13 @@ Download_Exe.Test_rv_01();
 Trace.WriteLine(AppData.DataDirectory);
 
 zDirectory.Delete(@"c:\pib\drive\google\dev\project\Source\Apps\WebData\Source\Print\Project\bin32\copySource\Source\Apps\WebData", true);
+
+
+//*************************************************************************************************************************
+//****                                   CopyProjectSourceFiles - ZipProjectSourceFiles
+//*************************************************************************************************************************
+RunSource.CurrentRunSource.CopyProjectSourceFiles(@"$Root$\Source\Apps\WebData\Source\Print\Project\download.project.xml", @"bin32\copySource");
+RunSource.CurrentRunSource.ZipProjectSourceFiles(@"$Root$\Source\Apps\WebData\Source\Print\Project\download.project.xml", @"bin32\source.zip");
+
 
 Trace.WriteLine("toto");

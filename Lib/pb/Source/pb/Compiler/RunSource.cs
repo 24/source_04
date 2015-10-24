@@ -414,13 +414,21 @@ namespace pb.Compiler
             return _projectFile;
         }
 
-        public void CopyProjectSourceFiles(string projectName, string destinationDirectory)
-        {
-            string pathProject = GetPathProject(projectName);
-            Trace.WriteLine("Copy project files \"{0}\" to \"{1}\"", pathProject, destinationDirectory);
-            Compiler compiler = CreateProjectCompiler(pathProject);
-            compiler.CopySourceFiles(destinationDirectory.zRootPath(zPath.GetDirectoryName(pathProject)));
-        }
+        //public void CopyProjectSourceFiles(string projectName, string destinationDirectory)
+        //{
+        //    string pathProject = GetPathProject(projectName);
+        //    Trace.WriteLine("Copy project source files \"{0}\" to \"{1}\"", pathProject, destinationDirectory);
+        //    Compiler compiler = CreateProjectCompiler(pathProject);
+        //    compiler.CopySourceFiles(destinationDirectory.zRootPath(zPath.GetDirectoryName(pathProject)));
+        //}
+
+        //public void ZipProjectSourceFiles(string projectName, string zipFile)
+        //{
+        //    string pathProject = GetPathProject(projectName);
+        //    Trace.WriteLine("Zip project source files \"{0}\" to \"{1}\"", pathProject, zipFile);
+        //    Compiler compiler = CreateProjectCompiler(pathProject);
+        //    compiler.ZipSourceFiles(zipFile.zRootPath(zPath.GetDirectoryName(pathProject)));
+        //}
 
         public ICompiler CompileProject(string projectName)
         {
@@ -450,8 +458,13 @@ namespace pb.Compiler
                 s = " with error(s)";
             }
             else
+            {
                 // trace warning
                 compiler.TraceMessages();
+                //string zipFile = "";
+                //Trace.WriteLine("  zip project source files", pathProject, zipFile);
+                //compiler.ZipSourceFiles();
+            }
             Trace.WriteLine("  compiled{0} : {1}", s, compiler.OutputAssembly);
             return compiler;
         }
@@ -465,10 +478,12 @@ namespace pb.Compiler
         private Compiler CreateProjectCompiler(string pathProject)
         {
             Compiler compiler = new Compiler();
-            compiler.DefaultDir = zPath.GetDirectoryName(pathProject);
+            //compiler.DefaultDirectory = zPath.GetDirectoryName(pathProject);
             // CompilerDefaultValues from runsource.runsource.config.xml runsource.runsource.config.local.xml
-            compiler.SetParameters(GetRunSourceConfigCompilerDefaultValues(), dontSetOutput: true);
-            compiler.SetParameters(CompilerProject.Create(new XmlConfig(pathProject).GetConfigElementExplicit("/AssemblyProject")));
+            compiler.SetParameters(GetRunSourceConfigCompilerDefaultValues(), runCode: true);
+            CompilerProject compilerProject = CompilerProject.Create(new XmlConfig(pathProject).GetConfigElementExplicit("/AssemblyProject"));
+            compiler.SetParameters(compilerProject);
+            compiler.SetProjectCompilerFile(compilerProject.GetProjectCompilerFile());
             return compiler;
         }
 

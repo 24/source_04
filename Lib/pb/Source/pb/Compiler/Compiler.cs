@@ -62,10 +62,12 @@ namespace pb.Compiler
     {
         public static int TraceLevel = 1;
 
-        private string _defaultDir = null;
+        private CompilerFile _projectCompilerFile = null;
+        private string _projectDirectory = null;
         private Dictionary<string, CompilerFile> _sourceList = new Dictionary<string, CompilerFile>();
         private CompilerFile _appConfig = null;
         private Dictionary<string, CompilerFile> _fileList = new Dictionary<string, CompilerFile>();
+        private Dictionary<string, CompilerFile> _sourceFileList = new Dictionary<string, CompilerFile>();
         private Dictionary<string, CompilerAssembly> _assemblyList = new Dictionary<string, CompilerAssembly>();
         private string _language = null;           // CSharp, JScript
         private Dictionary<string, string> _providerOption = new Dictionary<string, string>();
@@ -83,14 +85,18 @@ namespace pb.Compiler
         private ResourceCompilerResults _resourceResults = new ResourceCompilerResults();
         private CompilerResults _results = null;
         private List<string> _copyOutputDirectories = new List<string>();
+        private static string __zipSourceFilename = ".source.zip";
+        private bool _copySourceFiles = false;
+        private string _zipSourceFile = null;
 
         public Compiler()
         {
         }
 
-        public string DefaultDir { get { return _defaultDir; } set { _defaultDir = value; } }
+        //public string DefaultDirectory { get { return _defaultDirectory; } set { _defaultDirectory = value; } }
         public IEnumerable<CompilerFile> SourceList { get { return _sourceList.Values; } }
         public IEnumerable<CompilerFile> FileList { get { return _fileList.Values; } }
+        public IEnumerable<CompilerFile> SourceFileList { get { return _sourceFileList.Values; } }
         public Dictionary<string, CompilerAssembly> Assemblies { get { return _assemblyList; } }
         public string Language { get { return _language; } set { _language = value; } }
         public Dictionary<string, string> ProviderOption { get { return _providerOption; } }
@@ -115,9 +121,15 @@ namespace pb.Compiler
                 return false;
         }
 
+        public void SetProjectCompilerFile(CompilerFile projectCompilerFile)
+        {
+            _projectCompilerFile = projectCompilerFile;
+            _projectDirectory = zPath.GetDirectoryName(projectCompilerFile.File);
+        }
 
-        // dontSetOutput : true when executing code from runsource, true for CompilerDefaultValues and ProjectDefaultValues, otherwise false
-        public void SetParameters(ICompilerProject project, bool dontSetOutput = false)
+        // runCode : true when executing code from runsource, true for CompilerDefaultValues and ProjectDefaultValues, otherwise false
+        // bool dontSetOutput = false
+        public void SetParameters(ICompilerProject project, bool runCode = false)
         {
             if (project == null)
                 return;
@@ -146,7 +158,7 @@ namespace pb.Compiler
                 }
 
                 //compiler.OutputDir = xe.Get("OutputDir", compiler.OutputDir);
-                if (!dontSetOutput)
+                if (!runCode)
                 {
                     s = project.GetOutputDir();
                     if (s != null)
@@ -158,7 +170,7 @@ namespace pb.Compiler
                 }
 
                 //compiler.OutputAssembly = xe.Get("Output", compiler.OutputAssembly);
-                if (!dontSetOutput)
+                if (!runCode)
                 {
                     s = project.GetOutput();
                     if (s != null)
@@ -177,7 +189,7 @@ namespace pb.Compiler
 
                 bool? b;
                 //compiler.GenerateExecutable = xe.Get("GenerateExecutable").zTryParseAs(compiler.GenerateExecutable);
-                if (!dontSetOutput)
+                if (!runCode)
                 {
                     b = project.GetGenerateExecutable();
                     if (b != null)
@@ -185,7 +197,7 @@ namespace pb.Compiler
                 }
 
                 //compiler.GenerateInMemory = xe.Get("GenerateInMemory").zTryParseAs(compiler.GenerateInMemory);
-                if (!dontSetOutput)
+                if (!runCode)
                 {
                     b = project.GetGenerateInMemory();
                     if (b != null)
@@ -205,13 +217,20 @@ namespace pb.Compiler
                 //compiler.AddCompilerOptions(xe.GetValues("CompilerOptions"));
                 AddCompilerOptions(project.GetCompilerOptions());
 
+                if (!runCode)
+                {
+                    b = project.GetCopySourceFiles();
+                    if (b != null)
+                        _copySourceFiles = (bool)b;
+                }
+
                 //string keyfile = xe.Get("KeyFile");
                 s = project.GetKeyFile();
                 if (s != null)
                     AddCompilerOption("/keyfile:\"" + s + "\"");
 
                 //string target = xe.Get("Target");
-                if (!dontSetOutput)
+                if (!runCode)
                 {
                     s = project.GetTarget();
                     if (s != null)
@@ -227,8 +246,7 @@ namespace pb.Compiler
 
             foreach (ICompilerProject project2 in project.GetIncludeProjects())
             {
-                //SetParameters(project2, includeProject: true, dontSetOutput: dontSetOutput);
-                SetParameters(project2, dontSetOutput: dontSetOutput);
+                SetParameters(project2, runCode: runCode);
             }
 
             //compiler.AddSources(xe.GetElements("Source"));
@@ -237,13 +255,15 @@ namespace pb.Compiler
             //compiler.AddFiles(xe.GetElements("File"));  // compiler.DefaultDir
             AddFiles(project.GetFiles());
 
+            AddSourceFiles(project.GetSourceFiles());
+
             //compiler.AddAssemblies(xe.GetElements("Assembly"));
             AddAssemblies(project.GetAssemblies());
 
             //compiler.AddLocalAssemblies(xe.GetElements("LocalAssembly"));
 
             //compiler.AddCopyOutputDirectories(xe.GetValues("CopyOutput"));
-            if (!dontSetOutput)
+            if (!runCode)
             {
                 AddCopyOutputDirectories(project.GetCopyOutputs());
             }
@@ -326,6 +346,15 @@ namespace pb.Compiler
                     WriteLine(1, "Compiler warning : duplicate file \"{0}\" from project \"{1}\"", file.File, file.Project.ProjectFile);
                     WriteLine(1, "  already loaded from project \"{0}\"", _fileList[file.File].Project.ProjectFile);
                 }
+            }
+        }
+
+        public void AddSourceFiles(IEnumerable<CompilerFile> files)
+        {
+            foreach (CompilerFile file in files)
+            {
+                if (!_sourceFileList.ContainsKey(file.File))
+                    _sourceFileList.Add(file.File, file);
             }
         }
 
@@ -440,11 +469,11 @@ namespace pb.Compiler
             else
                 throw new CompilerException("error unknow language \"{0}\"", _language);
             //string[] sSources = GetFilesType(".cs");
-            string[] sSources = GetFilesType(sourceExt);
+            string[] sources = GetFilesType(sourceExt);
             //string currentDirectory = zDirectory.GetCurrentDirectory();
             //Directory.SetCurrentDirectory(zapp.GetAppDirectory());
             //cTrace.Trace("Compiler.Compile() : change current directory to {0}", cu.GetAppDirectory());
-            _results = provider.CompileAssemblyFromFile(options, sSources);
+            _results = provider.CompileAssemblyFromFile(options, sources);
             WriteLine(2, "  Compile error warning {0}", _results.Errors.Count);
             WriteLine(2, "  Compile has error     {0}", _results.Errors.HasErrors);
             WriteLine(2, "  Compile has warning   {0}", _results.Errors.HasWarnings);
@@ -466,6 +495,9 @@ namespace pb.Compiler
             //    _outputFiles.AddRange(copiedFiles);
             //}
 
+            if (_copySourceFiles)
+                CopySourceFiles();
+
             if (_results.PathToAssembly != null)
                 CopyResultFilesToDirectory();
 
@@ -486,9 +518,9 @@ namespace pb.Compiler
                 string sDir = zPath.GetDirectoryName(_finalOutputAssembly);
                 _finalOutputAssembly = zPath.GetFileName(_finalOutputAssembly);
                 if (sDir != null && sDir != "")
-                    _finalOutputDir = sDir.zRootPath(_defaultDir);
+                    _finalOutputDir = sDir.zRootPath(_projectDirectory);
             }
-            if (_finalOutputDir == null) _finalOutputDir = "bin".zRootPath(_defaultDir);
+            if (_finalOutputDir == null) _finalOutputDir = "bin".zRootPath(_projectDirectory);
             if (_finalOutputAssembly != null)
             {
                 if (_generateExecutable)
@@ -720,7 +752,7 @@ namespace pb.Compiler
                 return;
 
             if (directory != null)
-                WriteLine(2, "  copy result files to directory \"{0}\"", directory);
+                WriteLine(1, "  copy result files to directory \"{0}\"", directory);
 
             //if (directory != null)
             //    TraceLevel = 2;
@@ -737,6 +769,9 @@ namespace pb.Compiler
                 file = zpath.PathSetExtension(file, ".pdb");
                 if (zfile.CopyFileToDirectory(file, directory, options: CopyFileOptions.OverwriteReadOnly | CopyFileOptions.CopyOnlyIfNewer) != null)
                     WriteLine(2, "  copy assembly \"{0}\" to \"{1}\"", file, directory);
+
+                if (_zipSourceFile != null)
+                    zfile.CopyFileToDirectory(_zipSourceFile, directory, options: CopyFileOptions.OverwriteReadOnly);
             }
 
             if (directory == null)
@@ -782,7 +817,14 @@ namespace pb.Compiler
 
                     file = zpath.PathSetExtension(file, ".pdb");
                     if (zfile.CopyFileToDirectory(file, directory, options: CopyFileOptions.OverwriteReadOnly | CopyFileOptions.CopyOnlyIfNewer) != null)
-                        WriteLine(2, "  copy assembly \"{0}\" to \"{1}\"", file, directory);
+                        WriteLine(2, "  copy assembly debug info \"{0}\" to \"{1}\"", file, directory);
+
+                    if (_copySourceFiles)
+                    {
+                        file = zpath.PathSetExtension(file, __zipSourceFilename);
+                        if (zfile.CopyFileToDirectory(file, directory, options: CopyFileOptions.OverwriteReadOnly | CopyFileOptions.CopyOnlyIfNewer) != null)
+                            WriteLine(2, "  copy assembly source file \"{0}\" to \"{1}\"", file, directory);
+                    }
 
                 }
             }
@@ -812,6 +854,22 @@ namespace pb.Compiler
                 //if (path != null)
                 //    copiedFiles.Add(path);
             }
+
+            //foreach (CompilerAssembly assembly in _assemblyList.Values)
+            //{
+            //    if (assembly.CopySource)
+            //    {
+            //        string zipSourceFile = GetZipSourceFile(assembly.File);
+            //        if (zFile.Exists(zipSourceFile))
+            //        {
+            //            WriteLine(1, "  copy source file \"{0}\" to \"{1}\"", zipSourceFile, directory);
+            //            zfile.CopyFileToDirectory(zipSourceFile, directory, options: CopyFileOptions.OverwriteReadOnly | CopyFileOptions.CopyOnlyIfNewer);
+            //        }
+            //        else
+            //            WriteLine(1, "  warning can't copy source file, file does'nt exists \"{0}\"", zipSourceFile);
+            //    }
+            //}
+
             //}
             //return copiedFiles;
 
@@ -823,11 +881,12 @@ namespace pb.Compiler
         {
             if (zDirectory.Exists(destinationDirectory))
                 zDirectory.Delete(destinationDirectory, true);
-            CopySourceFiles(_sourceList.Values, destinationDirectory);
-            CopySourceFiles(_fileList.Values, destinationDirectory);
+            CopySourceFiles(destinationDirectory, _sourceList.Values);
+            CopySourceFiles(destinationDirectory, _fileList.Values);
+            CopySourceFiles(destinationDirectory, _sourceFileList.Values);
         }
 
-        private void CopySourceFiles(IEnumerable<CompilerFile> files, string destinationDirectory)
+        private void CopySourceFiles(string destinationDirectory, IEnumerable<CompilerFile> files)
         {
             foreach (CompilerFile file in files)
             {
@@ -841,9 +900,49 @@ namespace pb.Compiler
                     zfile.CopyFile(file.File, destinationFile, CopyFileOptions.OverwriteReadOnly);
                 }
                 else
-                {
                     WriteLine(1, "Compiler warning can't copy source file : source file \"{0}\" does not exist from project \"{1}\"", file.File, file.Project.ProjectFile);
-                }
+            }
+        }
+
+        private void CopySourceFiles()
+        {
+            // FileMode.Create will raz existing zip file
+            if (_outputAssembly == null)
+                throw new CompilerException("can't zip source files, output assembly is not defined");
+            //_zipSourceFile = _zipSourceFilename;
+            //if (_projectCompilerFile != null)
+            //{
+            //    string projectFile = zPath.GetFileNameWithoutExtension(_projectCompilerFile.File);
+            //    if (projectFile.EndsWith(".project"))
+            //        projectFile = projectFile.Substring(0, projectFile.Length - 8);
+            //    _zipSourceFile = projectFile + "." + _zipSourceFile;
+            //}
+            //_zipSourceFile = _zipSourceFile.zRootPath(zPath.GetDirectoryName(_outputAssembly));
+            _zipSourceFile = GetZipSourceFile(_outputAssembly);
+            WriteLine(1, "  create zip source file \"{0}\"", _zipSourceFile);
+            using (ZipArchive zipArchive = new ZipArchive(_zipSourceFile, FileMode.Create))
+            {
+                if (_projectCompilerFile != null && zFile.Exists(_projectCompilerFile.File))
+                    zipArchive.AddFile(_projectCompilerFile.File, _projectCompilerFile.RelativePath);
+                ZipSourceFiles(zipArchive, _sourceList.Values);
+                ZipSourceFiles(zipArchive, _fileList.Values);
+                ZipSourceFiles(zipArchive, _sourceFileList.Values);
+            }
+        }
+
+        private static string GetZipSourceFile(string assemblyFile)
+        {
+            return zPath.Combine(zPath.GetDirectoryName(assemblyFile), zPath.GetFileNameWithoutExtension(assemblyFile) + __zipSourceFilename);
+        }
+
+        private void ZipSourceFiles(ZipArchive zipArchive, IEnumerable<CompilerFile> files)
+        {
+            foreach (CompilerFile file in files)
+            {
+                if (zFile.Exists(file.File))
+                    zipArchive.AddFile(file.File, file.RelativePath);
+                else
+                    WriteLine(1, "Compiler warning can't copy source file : source file \"{0}\" does not exist from project \"{1}\"", file.File, file.Project.ProjectFile);
             }
         }
 

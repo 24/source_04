@@ -38,13 +38,16 @@ namespace pb.Compiler
         public string File = null;
         public bool Resolve = false;
         public string ResolveName = null;
+        //public bool CopySource = false;
         public ICompilerProject Project = null;
 
+        // bool copySource = false
         public CompilerAssembly(string file, bool resolve = false, string resolveName = null, ICompilerProject project = null)
         {
             File = file;
             Resolve = resolve;
             ResolveName = resolveName;
+            //CopySource = copySource;
             Project = project;
         }
     }
@@ -67,11 +70,13 @@ namespace pb.Compiler
         IEnumerable<string> GetCompilerOptions();
         string GetKeyFile();
         string GetTarget();
+        bool? GetCopySourceFiles();
         string GetIcon();
         IEnumerable<ICompilerProject> GetIncludeProjects();
         IEnumerable<string> GetUsings();
         IEnumerable<CompilerFile> GetSources();
         IEnumerable<CompilerFile> GetFiles();
+        IEnumerable<CompilerFile> GetSourceFiles();
         IEnumerable<CompilerAssembly> GetAssemblies();
         IEnumerable<string> GetCopyOutputs();
     }

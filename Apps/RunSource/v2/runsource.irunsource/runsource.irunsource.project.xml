@@ -4,7 +4,8 @@
   
   <Target                           value = "library" /> <!-- exe (exe console default), library (dll), module (.netmodule), winexe (exe windows) -->
 	<Output                           value = "bin32\runsource.irunsource.dll" />
-	<NameSpace                        value = "pb" />
+  <CopySourceFiles                  value = "true" />
+  <NameSpace                        value = "pb" />
 	<CompilerOptions                  value = "/platform:x86" />  <!-- x86, Itanium, x64, or anycpu (default). -->
   <Source                           value = "Properties\AssemblyInfo.cs" />
   

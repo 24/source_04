@@ -4,7 +4,8 @@
   
   <Target                           value = "library" /> <!-- exe (exe console default), library (dll), module (.netmodule), winexe (exe windows) -->
 	<Output                           value = "bin32\runsource.dll" />
-	<Icon                             value = "Properties\app.ico" />
+  <CopySourceFiles                  value = "true" />
+  <Icon                             value = "Properties\app.ico" />
 	<NameSpace                        value = "pb" />
 	<CompilerOptions                  value = "/platform:x86" />  <!-- x86, Itanium, x64, or anycpu (default). -->
 <!--<GenerateExecutable               value = "true" />-->
@@ -64,7 +65,8 @@
   <Source                           value = "$Root$\Source\Lib\pb\Source\pb\IO\WriteToFileCreate.cs" />
   <Source                           value = "$Root$\Source\Lib\pb\Source\pb\IO\zDirectory.cs" />
   <Source                           value = "$Root$\Source\Lib\pb\Source\pb\IO\zFile.cs" />
-  
+  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\IO\ZipArchive.cs" />
+
   <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Text\Regex.cs" />
   <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Text\Split.cs" />
   <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Text\String.cs" />
@@ -94,11 +96,13 @@
 	<Assembly                         value = "System.Core.dll" />
 	<Assembly                         value = "System.Data.dll" />
 	<Assembly                         value = "System.Drawing.dll" />
-	<Assembly                         value = "System.Web.dll" />
+  <Assembly                         value = "System.IO.Compression.dll" />
+  <Assembly                         value = "System.IO.Compression.FileSystem.dll" />
+  <Assembly                         value = "System.Web.dll" />
 	<Assembly                         value = "System.Windows.Forms.dll" />
 	<Assembly                         value = "System.Xml.dll" />
 	<Assembly                         value = "System.Xml.Linq.dll" />
-	<Assembly                         value = "Microsoft.JScript.dll" />
+  <Assembly                         value = "Microsoft.JScript.dll" />
   <!--<Assembly                         value = "..\..\..\..\..\RuntimeLibrary\LongPath\LongPath\Pri.LongPath.dll" />-->
   <!--<Assembly                         value = "c:\pib\drive\google\dev\project\RuntimeLibrary\LongPath\LongPath\Pri.LongPath.dll" />-->
   <Assembly                         value = "$Root$\Source\Lib\LongPath\Pri.LongPath\bin\Debug\Pri.LongPath.dll" />

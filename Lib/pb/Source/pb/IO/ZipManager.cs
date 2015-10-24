@@ -16,7 +16,7 @@ namespace pb.IO
             bool renameExistingFile = (options & UncompressBaseOptions.RenameExistingFile) == UncompressBaseOptions.RenameExistingFile;
             List<string> files = new List<string>();
 
-            using (ZipArchive archive = ZipFile.OpenRead(file))
+            using (System.IO.Compression.ZipArchive archive = ZipFile.OpenRead(file))
             {
                 foreach (ZipArchiveEntry entry in archive.Entries)
                 {

@@ -237,11 +237,12 @@ namespace pb.Compiler
             compiler.AddSource(new CompilerFile(sourceFile));
 
             if (compilerProject != null)
-                compiler.DefaultDir = zPath.GetDirectoryName(compilerProject.ProjectFile);
+                //compiler.DefaultDirectory = zPath.GetDirectoryName(compilerProject.ProjectFile);
+                compiler.SetProjectCompilerFile(compilerProject.GetProjectCompilerFile());
 
             // CompilerDefaultValues from runsource.runsource.config.xml runsource.runsource.config.local.xml
-            compiler.SetParameters(GetRunSourceConfigCompilerDefaultValues(), dontSetOutput: true);
-            compiler.SetParameters(compilerProject, dontSetOutput: true);
+            compiler.SetParameters(GetRunSourceConfigCompilerDefaultValues(), runCode: true);
+            compiler.SetParameters(compilerProject, runCode: true);
 
             compiler.Compile();
 

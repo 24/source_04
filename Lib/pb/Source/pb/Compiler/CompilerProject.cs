@@ -50,6 +50,14 @@ namespace pb.Compiler
         //public XElement ProjectXmlElement { get { return _projectXmlElement; } }
         //public XmlConfigElement ProjectXmlElement { get { return _projectXmlElement; } }
 
+
+        public CompilerFile GetProjectCompilerFile()
+        {
+            CompilerFile compilerFile = new CompilerFile(_projectFile, GetRootDirectory());
+            compilerFile.Project = this;
+            return compilerFile;
+        }
+
         public string GetRootDirectory()
         {
             if (_rootDirectory == null)
@@ -120,6 +128,11 @@ namespace pb.Compiler
             return _projectXmlElement.Get("Target");
         }
 
+        public bool? GetCopySourceFiles()
+        {
+            return _projectXmlElement.Get("CopySourceFiles").zTryParseAs<bool?>();
+        }
+
         public string GetIcon()
         {
             //return _projectXmlElement.Get("Icon").zRootPath(_projectDirectory);
@@ -177,6 +190,11 @@ namespace pb.Compiler
             return _projectXmlElement.GetElements("File").Select(xe => CreateCompilerFile(xe));
         }
 
+        public IEnumerable<CompilerFile> GetSourceFiles()
+        {
+            return _projectXmlElement.GetElements("SourceFile").Select(xe => CreateCompilerFile(xe));
+        }
+
         private CompilerFile CreateCompilerFile(XElement xe)
         {
             //CompilerFile compilerFile = new CompilerFile(xe.Attribute("value").Value.zRootPath(_projectDirectory));
@@ -204,6 +222,7 @@ namespace pb.Compiler
                     string resolveName = xe.zAttribValue("resolveName");
                     if (resolve && resolveName == null)
                         throw new PBException("error to resolve an assembly you must specify a resolveName (\"Test_dll, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null\")");
+                    //bool copySource = xe.zAttribValue("copySource").zTryParseAs<bool>(false);
                     return new CompilerAssembly(file, resolve, resolveName, this);
                 });
         }

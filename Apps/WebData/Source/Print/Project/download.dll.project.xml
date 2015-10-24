@@ -69,5 +69,5 @@
   <Assembly                         value = "runsource.irunsource.dll" />
   <!--<Assembly                         value = "bin32\ebook.download.dll" resolve = "true" resolveName = "ebook.download, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" />-->
   <!--<Assembly                         value = "bin32\ebook.download.dll" />-->
-  <Assembly                         value = "c:\pib\prog\tools\runsource\app\ebook.download\ebook.download.dll" />
+  <Assembly                         value = "c:\pib\prog\tools\runsource\app\ebook.download\app\ebook.download.dll" />
 </AssemblyProject>

@@ -4,7 +4,8 @@
   
   <Target                           value = "winexe" /> <!-- exe (exe console default), library (dll), module (.netmodule), winexe (exe windows) -->
 	<Output                           value = "bin32\runsource.runsource.exe" />
-	<Icon                             value = "Properties\app.ico" />
+  <CopySourceFiles                  value = "true" />
+  <Icon                             value = "Properties\app.ico" />
 	<NameSpace                        value = "runsourced" />
 	<CompilerOptions                  value = "/platform:x86" />  <!-- x86, Itanium, x64, or anycpu (default). -->
   <File                             value = "runsource.runsource.config.xml" />
@@ -66,6 +67,6 @@
   <File                             value = "$Root$\RuntimeLibrary\ScintillaNET\ScintillaNET v2.6\SciLexer64.dll" />
   <File                             value = "$Root$\RuntimeLibrary\ScintillaNET\ScintillaNET v2.6\ScintillaNET.xml" />
   <Assembly                         value = "$Root$\Source\Lib\LongPath\Pri.LongPath\bin\Debug\Pri.LongPath.dll" />
-  <Assembly                         value = "$Root$\Source\Apps\RunSource\v2\runsource.irunsource\bin32\runsource.irunsource.dll" />
+  <Assembly                         value = "$Root$\Source\Apps\RunSource\v2\runsource.irunsource\bin32\runsource.irunsource.dll" copySource = "true" />
   <DebugInformation                 value = "true" />
 </AssemblyProject>

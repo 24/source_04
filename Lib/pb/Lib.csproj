@@ -149,8 +149,10 @@
     <Compile Include="Source\pb\IO\FileOption.cs" />
     <Compile Include="Source\pb\IO\Test\Test_SharpCompressManager.cs" />
     <Compile Include="Source\pb\IO\Test\Test_utf8.cs" />
+    <Compile Include="Source\pb\IO\Test\Test_ZipArchive.cs" />
     <Compile Include="Source\pb\IO\zDirectory.cs" />
     <Compile Include="Source\pb\IO\zFile.cs" />
+    <Compile Include="Source\pb\IO\ZipArchive.cs" />
     <Compile Include="Source\pb\IO\zPath.cs" />
     <Compile Include="Source\pb\IO\SharpCompressManager.cs" />
     <Compile Include="Source\pb\IO\UncompressManager.cs" />
@@ -344,7 +346,9 @@
     <Content Include="Source\Other\PB_Library_project.xml" />
     <Content Include="Source\pb\IO\Test\download.config.xml" />
     <Content Include="Source\pb\IO\Test\Test_utf8.project.xml" />
-    <Content Include="Source\pb\IO\Test\Test_SharpCompressManager.project.xml" />
+    <Content Include="Source\pb\IO\Test\Test_SharpCompressManager.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Source\Project\Default.project.xml" />
     <Content Include="Source\Project\Basic.project.xml">
       <SubType>Designer</SubType>

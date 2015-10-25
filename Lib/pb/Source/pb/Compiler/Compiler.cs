@@ -87,6 +87,7 @@ namespace pb.Compiler
         private List<string> _copyOutputDirectories = new List<string>();
         private static string __zipSourceFilename = ".source.zip";
         private bool _copySourceFiles = false;
+        private bool _copyRunSourceSourceFiles = false;
         private string _zipSourceFile = null;
 
         public Compiler()
@@ -111,6 +112,8 @@ namespace pb.Compiler
         public ResourceCompilerResults ResourceResults { get { return _resourceResults; } }
         public CompilerResults Results { get { return _results; } }
         public IEnumerable<string> CopyOutputDirectories { get { return _copyOutputDirectories; } }
+        public static string ZipSourceFilename { get { return __zipSourceFilename; } }
+        public bool CopyRunSourceSourceFiles { get { return _copyRunSourceSourceFiles; } }
 
         // ICompiler
         public bool HasError()
@@ -222,6 +225,10 @@ namespace pb.Compiler
                     b = project.GetCopySourceFiles();
                     if (b != null)
                         _copySourceFiles = (bool)b;
+
+                    b = project.GetCopyRunSourceSourceFiles();
+                    if (b != null)
+                        _copyRunSourceSourceFiles = (bool)b;
                 }
 
                 //string keyfile = xe.Get("KeyFile");

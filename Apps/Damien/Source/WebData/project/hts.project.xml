@@ -5,6 +5,9 @@
   
 	<Target                           value = "library" /> <!-- exe (exe console default), library (dll), module (.netmodule), winexe (exe windows) -->
 	<Output                           value = "bin32\hts.dll" />
+  <CopySourceFiles                  value = "true" />
+  <CopyRunSourceSourceFiles         value = "true" />
+  <CopyOutput                       value = "c:\pib\prog\tools\runsource\app\hts\new" />
 
   <IncludeProject                   value = "$Root$\Source\Lib\pb\Source\Project\Basic.project.xml" />
   <IncludeProject                   value = "$Root$\Source\Lib\pb\Source\Project\RunSourceExtension.project.xml" />
@@ -61,6 +64,11 @@
   <Source                           value = "..\sites\handeco.org\Handeco_Header.cs" />
   <Source                           value = "..\sites\handeco.org\Handeco_Detail.cs" />
   <Source                           value = "..\sites\handeco.org\Handeco_Xml.cs" />
+
+  <Source                           value = "..\sites\onisep.fr\OnisepInstitution.cs" />
+  <Source                           value = "..\sites\onisep.fr\OnisepInstitution_Header.cs" />
+  <Source                           value = "..\sites\onisep.fr\OnisepInstitution_Detail.cs" />
+  <Source                           value = "..\sites\onisep.fr\OnisepInstitution_Xml.cs" />
 
   <!--<Source                           value = "$Root$\Source\Lib\pb\Source\pb\_pb\Application.cs" />-->
   <!--<Source                           value = "$Root$\Source\Lib\pb\Source\pb\_pb\Chrono.cs" />-->

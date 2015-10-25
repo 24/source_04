@@ -10,7 +10,7 @@ using pb.Web.Data;
 
 namespace hts.WebData
 {
-    public class Handeco_Header : IHeaderData
+    public class OnisepInstitution_Header : IHeaderData
     {
         public string SourceUrl;
         public DateTime? LoadFromWebDate;
@@ -20,7 +20,6 @@ namespace hts.WebData
         //public WebImage[] Images;
 
         public string Name = null;
-        //public string Siret = null;
         public string Type = null;
         public string[] Groupes = null;
         public string[] Activités = null;
@@ -32,16 +31,16 @@ namespace hts.WebData
         }
     }
 
-    public class Handeco_HeaderPage : IEnumDataPages<Handeco_Header>
+    public class OnisepInstitution_HeaderPage : IEnumDataPages<OnisepInstitution_Header>
     {
         public int Id;
         public string SourceUrl;
         public DateTime LoadFromWebDate;
 
-        public Handeco_Header[] Headers;
+        public OnisepInstitution_Header[] Headers;
         public string UrlNextPage;
 
-        public IEnumerable<Handeco_Header> GetDataList()
+        public IEnumerable<OnisepInstitution_Header> GetDataList()
         {
             return Headers;
         }
@@ -49,31 +48,31 @@ namespace hts.WebData
         public HttpRequest GetHttpRequestNextPage()
         {
             if (UrlNextPage != null)
-                return new HttpRequest { Url = UrlNextPage, Referer = "https://www.handeco.org/fournisseurs/rechercher" };
+                return new HttpRequest { Url = UrlNextPage };
             else
                 return null;
         }
     }
 
-    public static class Handeco_HeaderManager
+    public static class OnisepInstitution_HeaderManager
     {
         private static string __urlMainPage = "https://www.handeco.org/fournisseurs/rechercher";
         private static string __content = "raisonSociale=&SIRET=&departements%5B%5D=67&departements%5B%5D=68&departements%5B%5D=24&departements%5B%5D=33&departements%5B%5D=40&departements%5B%5D=47&departements%5B%5D=64&departements%5B%5D=03&departements%5B%5D=15&departements%5B%5D=43&departements%5B%5D=63&departements%5B%5D=14&departements%5B%5D=50&departements%5B%5D=61&departements%5B%5D=21&departements%5B%5D=58&departements%5B%5D=71&departements%5B%5D=89&departements%5B%5D=22&departements%5B%5D=29&departements%5B%5D=35&departements%5B%5D=56&departements%5B%5D=18&departements%5B%5D=28&departements%5B%5D=36&departements%5B%5D=37&departements%5B%5D=41&departements%5B%5D=45&departements%5B%5D=08&departements%5B%5D=10&departements%5B%5D=51&departements%5B%5D=52&departements%5B%5D=2A&departements%5B%5D=2B&departements%5B%5D=25&departements%5B%5D=39&departements%5B%5D=70&departements%5B%5D=90&departements%5B%5D=27&departements%5B%5D=76&departements%5B%5D=75&departements%5B%5D=77&departements%5B%5D=78&departements%5B%5D=91&departements%5B%5D=92&departements%5B%5D=93&departements%5B%5D=94&departements%5B%5D=95&departements%5B%5D=11&departements%5B%5D=30&departements%5B%5D=34&departements%5B%5D=48&departements%5B%5D=66&departements%5B%5D=19&departements%5B%5D=23&departements%5B%5D=87&departements%5B%5D=54&departements%5B%5D=55&departements%5B%5D=57&departements%5B%5D=88&departements%5B%5D=09&departements%5B%5D=12&departements%5B%5D=31&departements%5B%5D=32&departements%5B%5D=46&departements%5B%5D=65&departements%5B%5D=81&departements%5B%5D=82&departements%5B%5D=59&departements%5B%5D=62&departements%5B%5D=44&departements%5B%5D=49&departements%5B%5D=53&departements%5B%5D=72&departements%5B%5D=85&departements%5B%5D=02&departements%5B%5D=60&departements%5B%5D=80&departements%5B%5D=16&departements%5B%5D=17&departements%5B%5D=79&departements%5B%5D=86&departements%5B%5D=04&departements%5B%5D=05&departements%5B%5D=06&departements%5B%5D=13&departements%5B%5D=83&departements%5B%5D=84&departements%5B%5D=01&departements%5B%5D=07&departements%5B%5D=26&departements%5B%5D=38&departements%5B%5D=42&departements%5B%5D=69&departements%5B%5D=73&departements%5B%5D=74&departements%5B%5D=971&departements%5B%5D=973&departements%5B%5D=972&departements%5B%5D=974&departements%5B%5D=988&departements%5B%5D=987&departements%5B%5D=975&departements%5B%5D=976&departements%5B%5D=986&experience_cotraitance=0&motsCles=&submitRecherche=Rechercher";
         //                                 raisonSociale=&SIRET=&departements%5B%5D=67&departements%5B%5D=68&departements%5B%5D=24&departements%5B%5D=33&departements%5B%5D=40&departements%5B%5D=47&departements%5B%5D=64&departements%5B%5D=03&departements%5B%5D=15&departements%5B%5D=43&departements%5B%5D=63&departements%5B%5D=14&departements%5B%5D=50&departements%5B%5D=61&departements%5B%5D=21&departements%5B%5D=58&departements%5B%5D=71&departements%5B%5D=89&departements%5B%5D=22&departements%5B%5D=29&departements%5B%5D=35&departements%5B%5D=56&departements%5B%5D=18&departements%5B%5D=28&departements%5B%5D=36&departements%5B%5D=37&departements%5B%5D=41&departements%5B%5D=45&departements%5B%5D=08&departements%5B%5D=10&departements%5B%5D=51&departements%5B%5D=52&departements%5B%5D=2A&departements%5B%5D=2B&departements%5B%5D=25&departements%5B%5D=39&departements%5B%5D=70&departements%5B%5D=90&departements%5B%5D=27&departements%5B%5D=76&departements%5B%5D=75&departements%5B%5D=77&departements%5B%5D=78&departements%5B%5D=91&departements%5B%5D=92&departements%5B%5D=93&departements%5B%5D=94&departements%5B%5D=95&departements%5B%5D=11&departements%5B%5D=30&departements%5B%5D=34&departements%5B%5D=48&departements%5B%5D=66&departements%5B%5D=19&departements%5B%5D=23&departements%5B%5D=87&departements%5B%5D=54&departements%5B%5D=55&departements%5B%5D=57&departements%5B%5D=88&departements%5B%5D=09&departements%5B%5D=12&departements%5B%5D=31&departements%5B%5D=32&departements%5B%5D=46&departements%5B%5D=65&departements%5B%5D=81&departements%5B%5D=82&departements%5B%5D=59&departements%5B%5D=62&departements%5B%5D=44&departements%5B%5D=49&departements%5B%5D=53&departements%5B%5D=72&departements%5B%5D=85&departements%5B%5D=02&departements%5B%5D=60&departements%5B%5D=80&departements%5B%5D=16&departements%5B%5D=17&departements%5B%5D=79&departements%5B%5D=86&departements%5B%5D=04&departements%5B%5D=05&departements%5B%5D=06&departements%5B%5D=13&departements%5B%5D=83&departements%5B%5D=84&departements%5B%5D=01&departements%5B%5D=07&departements%5B%5D=26&departements%5B%5D=38&departements%5B%5D=42&departements%5B%5D=69&departements%5B%5D=73&departements%5B%5D=74&departements%5B%5D=971&departements%5B%5D=973&departements%5B%5D=972&departements%5B%5D=974&departements%5B%5D=988&departements%5B%5D=987&departements%5B%5D=975&departements%5B%5D=976&departements%5B%5D=986&experience_cotraitance=0&motsCles=&submitRecherche=Rechercher
-        private static WebDataPageManager<int, Handeco_HeaderPage, Handeco_Header> __headerWebDataPageManager = null;
+        private static WebDataPageManager<int, OnisepInstitution_HeaderPage, OnisepInstitution_Header> __headerWebDataPageManager = null;
 
-        static Handeco_HeaderManager()
+        static OnisepInstitution_HeaderManager()
         {
-            __headerWebDataPageManager = CreateWebDataPageManager(XmlConfig.CurrentConfig.GetElement("Handeco/Header"));
+            __headerWebDataPageManager = CreateWebDataPageManager(XmlConfig.CurrentConfig.GetElement("OnisepInstitution/Header"));
         }
 
-        public static WebDataPageManager<int, Handeco_HeaderPage, Handeco_Header> HeaderWebDataPageManager { get { return __headerWebDataPageManager; } }
+        public static WebDataPageManager<int, OnisepInstitution_HeaderPage, OnisepInstitution_Header> HeaderWebDataPageManager { get { return __headerWebDataPageManager; } }
 
-        private static WebDataPageManager<int, Handeco_HeaderPage, Handeco_Header> CreateWebDataPageManager(XElement xe)
+        private static WebDataPageManager<int, OnisepInstitution_HeaderPage, OnisepInstitution_Header> CreateWebDataPageManager(XElement xe)
         {
-            WebDataPageManager<int, Handeco_HeaderPage, Handeco_Header> headerWebDataPageManager = new WebDataPageManager<int, Handeco_HeaderPage, Handeco_Header>();
+            WebDataPageManager<int, OnisepInstitution_HeaderPage, OnisepInstitution_Header> headerWebDataPageManager = new WebDataPageManager<int, OnisepInstitution_HeaderPage, OnisepInstitution_Header>();
 
-            headerWebDataPageManager.WebLoadDataManager = new WebLoadDataManager<Handeco_HeaderPage>();
+            headerWebDataPageManager.WebLoadDataManager = new WebLoadDataManager<OnisepInstitution_HeaderPage>();
 
             headerWebDataPageManager.WebLoadDataManager.UrlCache = UrlCache.Create(xe);
 
@@ -81,17 +80,17 @@ namespace hts.WebData
             headerWebDataPageManager.WebLoadDataManager.GetHttpRequestParameters = Handeco.GetHttpRequestParameters;
             headerWebDataPageManager.WebLoadDataManager.GetData = GetData;
 
-            headerWebDataPageManager.DocumentStore = MongoDocumentStore<int, Handeco_HeaderPage>.Create(xe);
+            headerWebDataPageManager.DocumentStore = MongoDocumentStore<int, OnisepInstitution_HeaderPage>.Create(xe);
 
             headerWebDataPageManager.GetHttpRequestPage = GetHttpRequestPage;
             return headerWebDataPageManager;
         }
 
-        private static Handeco_HeaderPage GetData(WebResult webResult)
+        private static OnisepInstitution_HeaderPage GetData(WebResult webResult)
         {
             XXElement xeSource = new XXElement(webResult.Http.zGetXDocument().Root);
             string url = webResult.WebRequest.HttpRequest.Url;
-            Handeco_HeaderPage data = new Handeco_HeaderPage();
+            OnisepInstitution_HeaderPage data = new OnisepInstitution_HeaderPage();
             data.SourceUrl = url;
             data.LoadFromWebDate = webResult.LoadFromWebDate;
             data.Id = GetPageKey(webResult.WebRequest.HttpRequest);
@@ -124,11 +123,13 @@ namespace hts.WebData
             // last page : <span class="disabled">&gt;</span> |
             data.UrlNextPage = zurl.RemoveFragment(zurl.GetUrl(url, xeSource.XPathValue("//div[@class='paginationControl']//*[position()=last()-1]/@href")));
 
+            // <table class="oni_tableSearchResults" style="width: 463px; margin-left: 5px" summary="">
+
             IEnumerable<XXElement> xeHeaders = xeSource.XPathElements("//table//tr[position() > 1]");
-            List<Handeco_Header> headers = new List<Handeco_Header>();
+            List<OnisepInstitution_Header> headers = new List<OnisepInstitution_Header>();
             foreach (XXElement xeHeader in xeHeaders)
             {
-                Handeco_Header header = new Handeco_Header();
+                OnisepInstitution_Header header = new OnisepInstitution_Header();
                 header.SourceUrl = url;
                 header.LoadFromWebDate = DateTime.Now;
                 header.Name = Handeco.Trim(xeHeader.XPathValue(".//td[1]//text()"));

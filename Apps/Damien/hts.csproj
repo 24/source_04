@@ -326,6 +326,9 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Source\WebData\sites\onisep.fr\OnisepInstitution.cs" />
+    <Compile Include="Source\WebData\sites\onisep.fr\OnisepInstitution_Detail.cs" />
+    <Compile Include="Source\WebData\sites\onisep.fr\OnisepInstitution_Header.cs" />
+    <Compile Include="Source\WebData\sites\onisep.fr\OnisepInstitution_Xml.cs" />
     <None Include="Source\WebData\project\hts.cs" />
     <Compile Include="Source\WebData\project\AppData.cs" />
     <Compile Include="Source\WebData\project\Run.cs" />

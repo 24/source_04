@@ -6,6 +6,7 @@
 	<Target                           value = "library" /> <!-- exe (exe console default), library (dll), module (.netmodule), winexe (exe windows) -->
 	<Output                           value = "bin32\ebook.download.dll" />
   <CopySourceFiles                  value = "true" />
+  <CopyRunSourceSourceFiles         value = "true" />
   <CopyOutput                       value = "c:\pib\prog\tools\runsource\app\ebook.download\new" />
 
   <IncludeProject                   value = "$Root$\Source\Lib\pb\Source\Project\Basic.project.xml" />

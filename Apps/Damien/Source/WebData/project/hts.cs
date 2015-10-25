@@ -37,7 +37,7 @@ pb.Data.Mongo.TraceMongoCommand.Eval("db.getCollectionNames()", "htc");
 Handeco_HeaderManager.HeaderWebDataPageManager.LoadPages(startPage: 1, maxPage: 2, reload: true, loadImage: false, refreshDocumentStore: false).zView();
 
 //*************************************************************************************************************************
-//****                                   test
+//****                                   test handeco.org
 //*************************************************************************************************************************
 
 HttpManager.CurrentHttpManager.ExportResult = true;
@@ -58,6 +58,15 @@ Trace.WriteLine(uri.GetLeftPart(UriPartial.Path));
 Trace.WriteLine(uri.GetLeftPart(UriPartial.Query));
 
 uri.zTraceJson();
+
+//*************************************************************************************************************************
+//****                                   test onisep.fr
+//*************************************************************************************************************************
+
+HttpManager.CurrentHttpManager.ExportResult = true;
+HttpRun.Load("http://www.onisep.fr/content/search?searchForm=etab&etabRecherche=1&SearchText=&SubTreeArray=243418&zone_geo=&filters%5Battr_categorie_type_etablissement_t%5D%5B%5D=&etab_autocomplete=&submit=Lancer+la+recherche");
+//http://www.onisep.fr/content/search?searchForm=etab&etabRecherche=1&SearchText=&SubTreeArray=243418&zone_geo=&filters%5Battr_categorie_type_etablissement_t%5D%5B%5D=&etab_autocomplete=&submit=Lancer+la+recherche
+
 
 
 //*************************************************************************************************************************

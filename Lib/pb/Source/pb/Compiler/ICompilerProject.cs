@@ -71,6 +71,7 @@ namespace pb.Compiler
         string GetKeyFile();
         string GetTarget();
         bool? GetCopySourceFiles();
+        bool? GetCopyRunSourceSourceFiles();
         string GetIcon();
         IEnumerable<ICompilerProject> GetIncludeProjects();
         IEnumerable<string> GetUsings();

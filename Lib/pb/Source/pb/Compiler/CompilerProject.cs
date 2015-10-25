@@ -133,6 +133,11 @@ namespace pb.Compiler
             return _projectXmlElement.Get("CopySourceFiles").zTryParseAs<bool?>();
         }
 
+        public bool? GetCopyRunSourceSourceFiles()
+        {
+            return _projectXmlElement.Get("CopyRunSourceSourceFiles").zTryParseAs<bool?>();
+        }
+
         public string GetIcon()
         {
             //return _projectXmlElement.Get("Icon").zRootPath(_projectDirectory);

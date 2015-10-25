@@ -464,6 +464,19 @@ namespace pb.Compiler
                 //string zipFile = "";
                 //Trace.WriteLine("  zip project source files", pathProject, zipFile);
                 //compiler.ZipSourceFiles();
+                if (compiler.CopyRunSourceSourceFiles)
+                {
+                    string runsourceDirectory = GetRunSourceConfig().Get("UpdateRunSource/UpdateDirectory").zRootPath(zapp.GetEntryAssemblyDirectory());
+                    if (runsourceDirectory != null)
+                    {
+                        foreach (string directory in compiler.CopyOutputDirectories)
+                        {
+                            Trace.WriteLine("  copy runsource source files from \"{0}\" to \"{1}\"", runsourceDirectory, directory);
+                            foreach (string file in zDirectory.EnumerateFiles(runsourceDirectory, "*" + Compiler.ZipSourceFilename))
+                                zfile.CopyFileToDirectory(file, directory, options: CopyFileOptions.OverwriteReadOnly | CopyFileOptions.CopyOnlyIfNewer);
+                        }
+                    }
+                }
             }
             Trace.WriteLine("  compiled{0} : {1}", s, compiler.OutputAssembly);
             return compiler;

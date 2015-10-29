@@ -10,19 +10,13 @@ namespace pb.Data.Xml
 {
     public static class zxml
     {
-        public static string XPathValue(XElement xe, string xpath, string defaultValue = null)
+        //public static string XPathValue(XElement xe, string xpath, string defaultValue = null)
+        public static string XPathValue(XNode node, string xpath, string defaultValue = null)
         {
-            if (xe == null)
+            if (node == null)
                 return defaultValue;
-            //object o = xe.XPathEvaluate(xpath);
-            //string value;
-            //if (XPathResultGetValue(o, out value))
-            //    return value;
-            //else
-            //    return defaultValue;
-            //string value = XPathResultGetValue(xe.XPathEvaluate(xpath));
 
-            object xpathResult = xe.XPathEvaluate(xpath);
+            object xpathResult = node.XPathEvaluate(xpath);
             if (xpathResult is IEnumerable)
             {
                 object xpathResult2 = XPathResultGetFirstValue(xpathResult as IEnumerable);
@@ -36,26 +30,24 @@ namespace pb.Data.Xml
                 return defaultValue;
         }
 
-        //public static string[] zXPathValues(this XElement xe, string sXPath)
-        public static IEnumerable<string> XPathValues(XElement xe, string xpath)
+        //public static IEnumerable<string> XPathValues(XElement xe, string xpath)
+        public static IEnumerable<string> XPathValues(XNode node, string xpath)
         {
-            if (xe == null)
+            if (node == null)
                 return new string[0];
-            return XPathResultGetValues(xe.XPathEvaluate(xpath));
+
+            return XPathResultGetValues(node.XPathEvaluate(xpath));
         }
 
-        public static XElement XPathElement(XElement xe, string xpath)
+        //public static XElement XPathElement(XElement xe, string xpath)
+        public static XElement XPathElement(XNode node, string xpath)
         {
-            if (xe == null)
+            if (node == null)
                 return null;
-            object xpathResult = xe.XPathEvaluate(xpath);
+
+            object xpathResult = node.XPathEvaluate(xpath);
             if (xpathResult is IEnumerable)
             {
-                //IEnumerator e = (o as IEnumerable).GetEnumerator();
-                //if (e.MoveNext())
-                //    o = e.Current;
-                //else
-                //    o = null;
                 object xpathResult2 = XPathResultGetFirstValue(xpathResult as IEnumerable);
                 if (xpathResult2 != null)
                     xpathResult = xpathResult2;
@@ -284,36 +276,41 @@ namespace pb.Data.Xml
 
     public static partial class GlobalExtension
     {
-        public static string zXPathValue(this XElement xe, string xpath, string defaultValue = null)
+        //public static string zXPathValue(this XElement xe, string xpath, string defaultValue = null)
+        public static string zXPathValue(this XNode node, string xpath, string defaultValue = null)
         {
-            return zxml.XPathValue(xe, xpath, defaultValue);
+            return zxml.XPathValue(node, xpath, defaultValue);
         }
 
-        public static string zXPathExplicitValue(this XElement xe, string xpath)
+        //public static string zXPathExplicitValue(this XElement xe, string xpath)
+        public static string zXPathExplicitValue(this XNode node, string xpath)
         {
-            if (xe == null)
-                throw new Exception(string.Format("XElement is null xpath \"{0}\" not found", xpath));
-            string value = zxml.XPathValue(xe, xpath);
+            if (node == null)
+                throw new Exception(string.Format("XNode is null xpath \"{0}\" not found", xpath));
+
+            string value = zxml.XPathValue(node, xpath);
             if (value == null)
-                throw new PBException("xpath value not found, xpath \"{0}\" XElement \"{1}\"", xpath, xe.zGetPath());
+                throw new PBException("xpath value not found, xpath \"{0}\" XNode \"{1}\"", xpath, node.zGetPath());
             return value;
         }
 
-        //public static string[] zXPathValues(this XElement xe, string sXPath)
-        public static IEnumerable<string> zXPathValues(this XElement xe, string xpath)
+        //public static IEnumerable<string> zXPathValues(this XElement xe, string xpath)
+        public static IEnumerable<string> zXPathValues(this XNode node, string xpath)
         {
-            return zxml.XPathValues(xe, xpath);
+            return zxml.XPathValues(node, xpath);
         }
 
-        public static XElement zXPathElement(this XElement xe, string xpath)
+        //public static XElement zXPathElement(this XElement xe, string xpath)
+        public static XElement zXPathElement(this XNode node, string xpath)
         {
-            return zxml.XPathElement(xe, xpath);
+            return zxml.XPathElement(node, xpath);
         }
 
-        public static IEnumerable<XElement> zXPathElements(this XElement xe, string xpath)
+        //public static IEnumerable<XElement> zXPathElements(this XElement xe, string xpath)
+        public static IEnumerable<XElement> zXPathElements(this XNode node, string xpath)
         {
-            if (xe != null)
-                return xe.XPathSelectElements(xpath);
+            if (node != null)
+                return node.XPathSelectElements(xpath);
             else
                 return new XElement[0];
         }
@@ -412,6 +409,37 @@ namespace pb.Data.Xml
                 xe = xe.Parent;
             }
             return path;
+        }
+
+        public static string zToString(this XObject xobject, bool attrib = false, bool close = false)
+        {
+            if (xobject is XElement)
+            {
+                if (close)
+                    return "</" + ((XElement)xobject).Name.LocalName + ">";
+                else if (attrib)
+                {
+                    XElement xe = (XElement)xobject;
+                    string s = "<" + xe.Name.LocalName;
+                    foreach (XAttribute attribute in xe.Attributes())
+                        s += " " + attribute.Name.LocalName + "=" + attribute.Value;
+                    s += ">";
+                    return s;
+                }
+                else
+                    return "<" + ((XElement)xobject).Name.LocalName + ">";
+            }
+            else if (xobject is XAttribute)
+            {
+                XAttribute attribute = (XAttribute)xobject;
+                return attribute.Name.LocalName + "=" + attribute.Value;
+            }
+            else if (xobject is XText)
+            {
+                return "\"" + ((XText)xobject).Value + "\"";
+            }
+            else
+                return null;
         }
 
         // used in zGetPath()

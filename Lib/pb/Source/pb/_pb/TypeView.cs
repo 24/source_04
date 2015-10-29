@@ -68,7 +68,8 @@ namespace pb
             set { _withList = value; }
         }
 
-        public List<NamedValue> Values
+        //public List<NamedValue> Values
+        public IEnumerable<NamedValue> Values
         {
             get
             {
@@ -295,7 +296,8 @@ namespace pb
                 {
                     _values.Add(new NamedValue(property.Name, property.PropertyType));
                 }
-                fields = type.GetFields();
+                //fields = type.GetFields();
+                fields = _type.GetFields();
                 foreach (FieldInfo field in fields)
                 {
                     _values.Add(new NamedValue(field.Name, field.FieldType));

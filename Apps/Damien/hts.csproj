@@ -153,6 +153,9 @@
     <Compile Include="..\..\Lib\pb\Source\pb\Data\Xml\XmlDescendant.cs">
       <Link>SourceLnk\Lib\pb\Data\Xml\XmlDescendant.cs</Link>
     </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Data\Xml\XmlExport.cs">
+      <Link>SourceLnk\Lib\pb\Data\Xml\XmlExport.cs</Link>
+    </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Data\Xml\XmlSelect.cs">
       <Link>SourceLnk\Lib\pb\Data\Xml\XmlSelect.cs</Link>
     </Compile>
@@ -320,6 +323,9 @@
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\_pb\TraceSetWriter.cs">
       <Link>SourceLnk\Lib\pb\_pb\TraceSetWriter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\_pb\TypeAccess.cs">
+      <Link>SourceLnk\Lib\pb\_pb\TypeAccess.cs</Link>
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\_pb\TypeView.cs">
       <Link>SourceLnk\Lib\pb\_pb\TypeView.cs</Link>

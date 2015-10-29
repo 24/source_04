@@ -77,6 +77,7 @@
   <!--<Source                           value = "$Root$\Source\Lib\pb\Source\pb\_pb\FormatInfo.cs" />-->
   <Source                           value = "$Root$\Source\Lib\pb\Source\pb\_pb\GlobalExtension.cs" />
   <Source                           value = "$Root$\Source\Lib\pb\Source\pb\_pb\TextSerializer.cs" />
+  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\_pb\TypeAccess.cs" />
   <!--<Source                           value = "$Root$\Source\Lib\pb\Source\pb\_pb\IChrono.cs" />-->
   <!--<Source                           value = "$Root$\Source\Lib\pb\Source\pb\_pb\ITrace.cs" />-->
   <!--<Source                           value = "$Root$\Source\Lib\pb\Source\pb\_pb\PBException.cs" />-->
@@ -119,6 +120,7 @@
   <!--<Source                           value = "$Root$\Source\Lib\pb\Source\pb\Data\Xml\Xml.cs" />-->
   <!--<Source                           value = "$Root$\Source\Lib\pb\Source\pb\Data\Xml\XmlConfig.cs" />-->
   <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Data\Xml\XmlDescendant.cs" />
+  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Data\Xml\XmlExport.cs" />
   <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Data\Xml\XmlSelect.cs" />
   <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Data\Xml\XmlWrite.cs" />
   <!--<Source                           value = "$Root$\Source\Lib\pb\Source\pb\IO\File.cs" />-->

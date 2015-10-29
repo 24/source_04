@@ -621,6 +621,25 @@ namespace pb.Text
             else
                 return char.ToUpperInvariant(text[0]).ToString() + text.Substring(1).ToLowerInvariant();
         }
+
+        public static string ConcatStrings(IEnumerable<string> texts, string separator = null)
+        {
+            if (texts == null)
+                return null;
+            StringBuilder sb = new StringBuilder();
+            bool first = true;
+            foreach (string text in texts)
+            {
+                if (!first && separator != null)
+                    sb.Append(separator);
+                first = false;
+                sb.Append(text);
+            }
+            if (!first)
+                return sb.ToString();
+            else
+                return null;
+        }
     }
 
     public static partial class GlobalExtension
@@ -688,6 +707,11 @@ namespace pb.Text
             if (text == null)
                 return null;
             return zstr.ReplaceControl(text);
+        }
+
+        public static string zConcatStrings(this IEnumerable<string> texts, string separator = null)
+        {
+            return zstr.ConcatStrings(texts, separator);
         }
     }
 }

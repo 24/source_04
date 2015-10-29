@@ -571,4 +571,19 @@ namespace pb.Data.Xml
     }
     ********************************************************/
     #endregion
+
+    public static partial class GlobalExtension
+    {
+        public static string zConfigGetVariableValue(this string value)
+        {
+            XmlConfig config = XmlConfig.CurrentConfig;
+            XElement root = null;
+            if (config != null)
+                root = config.XDocument.Root;
+            string newValue;
+            if (!root.zTryGetVariableValue(value, out newValue, traceError: true))
+                throw new PBException("cant get variable value from \"{0}\"", value);
+            return newValue;
+        }
+    }
 }

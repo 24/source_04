@@ -23,12 +23,14 @@ namespace pb.Data.Xml
     {
         public string ElementName;
         public string ValueName;
+        public Func<object, object> TransformValue;
     }
 
     public class XmlValueExport
     {
         public string ElementName;
         public string ValueName;
+        public Func<object, object> TransformValue;
         public MemberAccess MemberAccess;
         public object Value;
         public IEnumerator Enumerator;
@@ -39,115 +41,71 @@ namespace pb.Data.Xml
         }
     }
 
-    public static class XmlExport
+    public class XmlExport<T>
     {
         //private Type _type = null;
-        //private XmlExportDefinition _xmlDefinition = null;
+        private XmlExportDefinition _xmlDefinition = null;
         //private TypeAccess _typeAccess = null;
-        //private XmlValueExport[] _valuesExport = null;
+        private XmlValueExport[] _valuesExport = null;
+        private XmlWriter _xwriter = null;
 
-        public static void Export<T>(IEnumerable<T> dataList, string file, XmlExportDefinition xmlDefinition = null, bool detail = false)
+        public XmlExport(XmlExportDefinition xmlDefinition = null)
+        {
+            if (xmlDefinition == null)
+                xmlDefinition = new XmlExportDefinition();
+            _xmlDefinition = xmlDefinition;
+        }
+
+        public void Export(IEnumerable<T> dataList, string file, bool detail = false)
         {
             //_type = typeof(T);
 
-            if (xmlDefinition == null)
-                xmlDefinition = new XmlExportDefinition();
             //_xmlDefinition = xmlDefinition;
 
-            XmlValueExport[] valuesExport = CreateXmlValuesExport<T>(xmlDefinition);
+            CreateXmlValuesExport();
 
             XmlWriterSettings settings = new XmlWriterSettings();
-            settings.Encoding = xmlDefinition.Encoding;
-            settings.Indent = xmlDefinition.Indent;
+            settings.Encoding = _xmlDefinition.Encoding;
+            settings.Indent = _xmlDefinition.Indent;
 
             zfile.CreateFileDirectory(file);
 
-            using (XmlWriter xwriter = XmlWriter.Create(file, settings))
+            //using (XmlWriter xwriter = XmlWriter.Create(file, settings))
+            using (_xwriter = XmlWriter.Create(file, settings))
             {
-                xwriter.WriteStartElement(xmlDefinition.RootName);
+                _xwriter.WriteStartElement(_xmlDefinition.RootName);
                 foreach (T data in dataList)
                 {
                     bool first = true;
                     while (true)
                     {
-                        if (!GetValues(data, valuesExport, detail, !first))
+                        if (!GetValues(data, detail, !first))
                             break;
-                        xwriter.WriteStartElement(xmlDefinition.ElementName);
-                        foreach (XmlValueExport valueExport in valuesExport)
-                            WriteValue(xwriter, valueExport.ElementName, valueExport.Value, xmlDefinition);
-                        xwriter.WriteEndElement();
+                        _xwriter.WriteStartElement(_xmlDefinition.ElementName);
+                        foreach (XmlValueExport valueExport in _valuesExport)
+                            WriteValue(valueExport.ElementName, valueExport.Value);
+                        _xwriter.WriteEndElement();
                         first = false;
-
-
-                        //bool detailValue = false;
-                        //foreach (XmlValueExport valueExport in valuesExport)
-                        //{
-                        //    object value = null;
-                        //    if (first)
-                        //    {
-                        //        value = valueExport.GetValue(data);
-                        //        if (value is IEnumerable && !(value is string))
-                        //        {
-                        //            if (detail)
-                        //            {
-                        //                valueExport.Enumerator = ((IEnumerable)value).GetEnumerator();
-                        //                //if (valueExport.Enumerator.MoveNext())
-                        //                //{
-                        //                //    value = valueExport.Enumerator.Current;
-                        //                //    detailValue = true;
-                        //                //}
-                        //            }
-                        //            else
-                        //            {
-                        //                IEnumerator enumerator  = ((IEnumerable)value).GetEnumerator();
-                        //                if (enumerator.MoveNext())
-                        //                    value = enumerator.Current;
-                        //            }
-                        //        }
-                        //    }
-                        //    if (valueExport.Enumerator != null)
-                        //    {
-                        //        if (valueExport.Enumerator.MoveNext())
-                        //        {
-                        //            value = valueExport.Enumerator.Current;
-                        //            detailValue = true;
-                        //        }
-                        //    }
-
-                        //    if (value is Date? && value != null)
-                        //        value = (Date)value;
-                        //    else if (value is DateTime? && value != null)
-                        //        value = (DateTime)value;
-
-                        //    string textValue = null;
-                        //    if (value is Date)
-                        //        textValue = ((Date)value).ToString(xmlDefinition.DateFormat);
-                        //    else if (value is DateTime)
-                        //        textValue = ((DateTime)value).ToString(xmlDefinition.DateTimeFormat);
-                        //    else if (value != null)
-                        //        textValue = value.ToString();
-
-                        //    xwriter.zWriteElementText(valueExport.ElementName, textValue);
-                        //}
-                        //xwriter.WriteEndElement();
-                        //if (!detail || !detailValue)
-                        //    break;
-                        //first = false;
                     }
                 }
-                xwriter.WriteEndElement();
+                _xwriter.WriteEndElement();
             }
         }
 
-        private static bool GetValues<T>(T data, XmlValueExport[] valuesExport, bool detail, bool onlyDetail)
+        private bool GetValues(T data, bool detail, bool onlyDetail)
         {
             bool foundValue = !onlyDetail;
-            foreach (XmlValueExport valueExport in valuesExport)
+            foreach (XmlValueExport valueExport in _valuesExport)
             {
                 object value = null;
                 if (!onlyDetail)
                 {
                     value = valueExport.GetValue(data);
+
+                    if (valueExport.TransformValue != null)
+                        value = valueExport.TransformValue(value);
+
+
                     if (value is IEnumerable && !(value is string))
                     {
                         if (detail)
@@ -175,7 +133,7 @@ namespace pb.Data.Xml
             return foundValue;
         }
 
-        private static void WriteValue(XmlWriter xwriter, string elementName, object value, XmlExportDefinition xmlDefinition)
+        private void WriteValue(string elementName, object value)
         {
             if (value is Date? && value != null)
                 value = (Date)value;
@@ -184,41 +142,45 @@ namespace pb.Data.Xml
 
             string textValue = null;
             if (value is Date)
-                textValue = ((Date)value).ToString(xmlDefinition.DateFormat);
+                textValue = ((Date)value).ToString(_xmlDefinition.DateFormat);
             else if (value is DateTime)
-                textValue = ((DateTime)value).ToString(xmlDefinition.DateTimeFormat);
+                textValue = ((DateTime)value).ToString(_xmlDefinition.DateTimeFormat);
             else if (value != null)
                 textValue = value.ToString();
 
-            xwriter.zWriteElementText(elementName, textValue);
+            _xwriter.zWriteElementText(elementName, textValue);
         }
 
-        private static XmlValueExport[] CreateXmlValuesExport<T>(XmlExportDefinition xmlDefinition)
+        private void CreateXmlValuesExport()
         {
-            XmlValueExport[] valuesExport;
             Type type = typeof(T);
-            //_typeAccess = new TypeAccess(typeof(T));
-            if (xmlDefinition.ValuesDefinition != null)
+            if (_xmlDefinition.ValuesDefinition != null)
             {
                 List<XmlValueExport> valueList = new List<XmlValueExport>();
-                foreach (XmlValueDefinition valueDefinition in xmlDefinition.ValuesDefinition)
+                foreach (XmlValueDefinition valueDefinition in _xmlDefinition.ValuesDefinition)
                 {
                     MemberAccess memberAccess = MemberAccess.Create(type, valueDefinition.ValueName);
                     if (memberAccess != null)
                     {
-                        valueList.Add(new XmlValueExport { ElementName = valueDefinition.ElementName, ValueName = valueDefinition.ValueName, MemberAccess = memberAccess });
+                        valueList.Add(new XmlValueExport { ElementName = valueDefinition.ElementName, ValueName = valueDefinition.ValueName,
+                            TransformValue = valueDefinition.TransformValue, MemberAccess = memberAccess });
                     }
                     else
                         Trace.WriteLine("warning xml export unknow variable \"{0}\" in type {1}", valueDefinition.ValueName, type.zGetTypeName());
                 }
-                valuesExport = valueList.ToArray();
+                _valuesExport = valueList.ToArray();
             }
             else
             {
-                valuesExport = MemberAccess.Create(type).Select(memberAccess => new XmlValueExport { ElementName = memberAccess.Name, ValueName = memberAccess.Name, MemberAccess = memberAccess })
+                _valuesExport = MemberAccess.Create(type).Select(memberAccess => new XmlValueExport { ElementName = memberAccess.Name, ValueName = memberAccess.Name, MemberAccess = memberAccess })
                     .ToArray();
             }
-            return valuesExport;
+        }
+
+        public static void Export(IEnumerable<T> dataList, string file, XmlExportDefinition xmlDefinition = null, bool detail = false)
+        {
+            XmlExport<T> xmlExport = new XmlExport<T>(xmlDefinition);
+            xmlExport.Export(dataList, file, detail);
         }
     }
 
@@ -226,7 +188,7 @@ namespace pb.Data.Xml
     {
         public static void zXmlExport<T>(this IEnumerable<T> dataList, string file, XmlExportDefinition xmlDefinition = null, bool detail = false)
         {
-            XmlExport.Export(dataList, file, xmlDefinition, detail);
+            XmlExport<T>.Export(dataList, file, xmlDefinition, detail);
         }
     }
 

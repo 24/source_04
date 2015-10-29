@@ -7,7 +7,7 @@ RunSource.CurrentRunSource.SetProjectFromSource();
 RunSource.CurrentRunSource.CompileProject(@"$Root$\Source\Apps\Damien\Source\WebData\project\hts.project.xml");
 
 //*************************************************************************************************************************
-//****                                   hts - run
+//****                                   handeco.org - run
 //*************************************************************************************************************************
 
 Handeco_DetailManager.WebHeaderDetailManager.LoadDetails(startPage: 1, maxPage: 2, reloadHeaderPage: true, reloadDetail: false, refreshDocumentStore: false).zTraceJson();
@@ -20,7 +20,7 @@ Handeco_Xml.ExportXml(
 
 
 //*************************************************************************************************************************
-//****                                   mongo
+//****                                   handeco.org - mongo
 //*************************************************************************************************************************
 
 TraceMongoCommand.Export("htc", "Handeco_Detail", Path.Combine(AppData.DataDirectory, @"mongo\export\export_Handeco_Detail.txt"), sort: "{ _id: 1 }");
@@ -31,14 +31,10 @@ pb.Data.Mongo.TraceMongoCommand.Eval("db.getCollectionNames()", "htc");
 //TraceMongoCommand.Eval("db.Handeco_Detail.drop()", "htc");
 
 //*************************************************************************************************************************
-//****                                   hts - test
+//****                                   handeco.org - test
 //*************************************************************************************************************************
 
 Handeco_HeaderManager.HeaderWebDataPageManager.LoadPages(startPage: 1, maxPage: 2, reload: true, loadImage: false, refreshDocumentStore: false).zView();
-
-//*************************************************************************************************************************
-//****                                   test handeco.org
-//*************************************************************************************************************************
 
 HttpManager.CurrentHttpManager.ExportResult = true;
 HttpRun.Load("https://www.handeco.org/fournisseurs/rechercher");
@@ -60,14 +56,127 @@ Trace.WriteLine(uri.GetLeftPart(UriPartial.Query));
 uri.zTraceJson();
 
 //*************************************************************************************************************************
-//****                                   test onisep.fr
+//****                                   onisep.fr - run
 //*************************************************************************************************************************
 
+OnisepInstitution_DetailManager.WebHeaderDetailManager.LoadDetails(startPage: 1, maxPage: 2, reloadHeaderPage: false, reloadDetail: false, refreshDocumentStore: false)
+	.Where(detail => detail.BacLevel >= 3)
+	.zXmlExport(@"$OnisepInstitution/DataDir$\export\OnisepInstitution.xml".zConfigGetVariableValue(), detail: false, xmlDefinition: OnisepInstitution.GetXmlExportDefinition());
+
+OnisepInstitution_DetailManager.WebHeaderDetailManager.LoadDetails(startPage: 1, maxPage: 2, reloadHeaderPage: false, reloadDetail: false, refreshDocumentStore: false)
+	.Where(detail => detail.BacLevel >= 3)
+	.zXmlExport(@"$OnisepInstitution/DataDir$\export\OnisepInstitutionDetail.xml".zConfigGetVariableValue(), detail: true, xmlDefinition: OnisepInstitution.GetXmlExportDefinition());
+
+OnisepInstitution_DetailManager.WebHeaderDetailManager.LoadDetails(startPage: 1, maxPage: 2, reloadHeaderPage: true, reloadDetail: false, refreshDocumentStore: true).Where(detail => detail.BacLevel >= 3).zTraceJson();
+
+
+//*************************************************************************************************************************
+//****                                   onisep.fr - mongo
+//*************************************************************************************************************************
+
+TraceMongoCommand.Export("htc", "OnisepInstitution_Header", @"$OnisepInstitution/DataDir$\mongo\export_OnisepInstitution_Header.txt".zConfigGetVariableValue(), sort: "{ _id: 1 }");
+pb.Data.Mongo.TraceMongoCommand.Count("htc", "OnisepInstitution_Header");
+//TraceMongoCommand.Eval("db.OnisepInstitution_Header.drop()", "htc");
+
+TraceMongoCommand.Export("htc", "OnisepInstitution_Detail", @"$OnisepInstitution/DataDir$\mongo\export_OnisepInstitution_Detail.txt".zConfigGetVariableValue(), sort: "{ _id: 1 }");
+pb.Data.Mongo.TraceMongoCommand.Count("htc", "OnisepInstitution_Detail");
+//TraceMongoCommand.Eval("db.OnisepInstitution_Detail.drop()", "htc");
+
+pb.Data.Mongo.TraceMongoCommand.Eval("{ listDatabases: 1 }");
+pb.Data.Mongo.TraceMongoCommand.Eval("db.getCollectionNames()", "htc");
+
+//*************************************************************************************************************************
+//****                                   onisep.fr - test
+//*************************************************************************************************************************
+
+RunSource.CurrentRunSource.GetProjectVariableValue(@"$OnisepInstitution/DataDir$\export\OnisepInstitution.xml", true).zTrace();
+@"$OnisepInstitution/DataDir$\export\OnisepInstitution.xml".zConfigGetVariableValue().zTrace();
+
+
+
+
+OnisepInstitution_HeaderManager.HeaderWebDataPageManager.LoadPages(startPage: 1, maxPage: 20, reload: true, loadImage: false, refreshDocumentStore: false).zView();
+
 HttpManager.CurrentHttpManager.ExportResult = true;
+
 HttpRun.Load("http://www.onisep.fr/content/search?searchForm=etab&etabRecherche=1&SearchText=&SubTreeArray=243418&zone_geo=&filters%5Battr_categorie_type_etablissement_t%5D%5B%5D=&etab_autocomplete=&submit=Lancer+la+recherche");
-//http://www.onisep.fr/content/search?searchForm=etab&etabRecherche=1&SearchText=&SubTreeArray=243418&zone_geo=&filters%5Battr_categorie_type_etablissement_t%5D%5B%5D=&etab_autocomplete=&submit=Lancer+la+recherche
+HttpRun.Load("http://www.onisep.fr/Ressources/Univers-Postbac/Postbac/Aquitaine/Pyrenees-Atlantiques/Academie-Basque-du-Sport");
+HttpRun.Load("http://www.onisep.fr/Ressources/Univers-Lycee/Lycees/Provence-Alpes-Cote-d-Azur/Alpes-Maritimes/Academie-de-l-esthetique");
+HtmlRun.Select("//div[@class='oni_fiche-info-1']//p[@class='vcard']//text():.:EmptyRow");
+foreach (XNodeInfo node in HttpRun.GetXDocument().zXXElement().XPathElement("//div[@class='oni_fiche-info-1']").DescendantNodesInfos())
+	Trace.WriteLine(node.ToString());
+
+XXElement xe = HttpRun.GetXDocument().zXXElement().XPathElement("//div[@class='oni_fiche-info-1']");
+int i = 1;
+foreach (XNode node in xe.DescendantNodes())
+{
+	//Trace.WriteLine("node {0} type {1} name {2} path {3}", i++, node.NodeType, node.zGetName(), node.zGetPath());
+	Trace.Write("node {0,3}", i++);
+	Trace.Write(" {0,-10}", node.NodeType);
+	if (node.NodeType == XmlNodeType.Element)
+		Trace.Write(" <{0}>", node.zGetName());
+	else if (node.NodeType == XmlNodeType.Text)
+		Trace.Write(" Text \"{0}\"", ((XText)node).Value);
+	Trace.WriteLine();
+	//Trace.WriteLine("********** node {0} **********", i++);
+	//Trace.WriteLine(node.ToString());
+}
+
+XXElement xe = HttpRun.GetXDocument().zXXElement().XPathElement("//div[@id='oni_content-page']//div[@class='oni_innerContent']//div[@id='oni_zoom-block']//div[@class='oni_fiche-info-1']");
+Trace.WriteLine(xe.XElement != null ? "found" : "not found");
+//xe.DescendantNodes().Count().zTrace();
+//xe.DescendantNodes().Select(node => node.zToString(attrib: true)).zTraceJson();
+xe.DescendantTextNodes().Select(xt => OnisepInstitution.Trim(xt.Value)).zTraceJson();
+XNode node = xe.DescendantTextNodes().Where(xt => string.Equals(OnisepInstitution.Trim(xt.Value), "site :", StringComparison.InvariantCultureIgnoreCase)).FirstOrDefault();
+Trace.WriteLine(node != null ? "found" : "not found");
+//object result = node.XPathEvaluate(".//following-sibling::*");
+//object result = node.XPathEvaluate(".//following::*");
+object result = node.XPathEvaluate(".//following::a/@href");
+result.zTrace();
+result.zTraceJson();
+
+node.zXPathValue(".//following-sibling::a/@href").zTrace();
+node.zXPathValue(".//following-sibling::a/@href").zTrace();
+
+xe.DescendantTextNodes().Where(xt => string.Equals(OnisepInstitution.Trim(xt.Value), "site :", StringComparison.InvariantCultureIgnoreCase)).FirstOrDefault()
+	.zXPathValue(".//following-sibling::a/@href").zTrace();
 
 
+XXElement xe = HttpRun.GetXDocument().zXXElement().XPathElement("//div[@class='oni_inner_nav-in-ul_container oni_sclear']//li");
+Trace.WriteLine(xe.XElement != null ? "found" : "not found");
+foreach (XNodeInfo node in HttpRun.GetXDocument().zXXElement().XPathElement("//div[@class='oni_inner_nav-in-ul_container oni_sclear']//li").DescendantNodesInfos())
+	Trace.WriteLine(node.ToString());
+
+foreach (XNodeInfo node in HttpRun.GetXDocument().zXXElement().XPathElement("//div[@class='oni_inner_nav-in-ul_container oni_sclear']//li").DescendantNodesInfos())
+	Trace.WriteLine(node.ToString());
+foreach (XXElement xe in HttpRun.GetXDocument().zXXElement().XPathElements("//div[@id='oni_content-page']//div[@class='oni_innerContent']//div[@id='oni_zoom-block']//div[@class='oni_nav-in']//ul[@class='oni_nav-in-ul']//li"))
+	foreach (XNodeInfo node in xe.DescendantNodesInfos())
+		Trace.WriteLine(node.ToString());
+HttpRun.GetXDocument().zXXElement().XPathElements("//div[@id='oni_content-page']//div[@class='oni_innerContent']//div[@id='oni_zoom-block']//div[@class='oni_nav-in']//ul[@class='oni_nav-in-ul']//li").Select(li => li.DescendantTexts().zConcatStrings()).ToArray().zTraceJson();
+foreach (XNodeInfo node in HttpRun.GetXDocument().zXXElement().XPathElements("//div[@id='oni_content-page']//div[@class='oni_innerContent']//div[@id='oni_zoom-block']//div[@class='oni_nav-in']//ul[@class='oni_nav-in-ul']//li").Select(li => li.DescendantNodesInfos()))
+	Trace.WriteLine(node.ToString());
+
+
+//*************************************************************************************************************************
+//****                                   Test_TypeView
+//*************************************************************************************************************************
+
+Trace.WriteLine(RunSource.CurrentRunSource.ProjectFile);
+RunSource.CurrentRunSource.SetProjectFromSource();
+RunSource.CurrentRunSource.SetProject(@"$Root$\Source\Lib\pb\Source\pb\_pb\Test\Test_Reflection.project.xml");
+
+Test_TypeView.Test_TypeView_01();
+Trace.WriteLine("toto");
+new TypeView(new Test_01 { Name = "toto", Number = 123 }).Values.zTraceJson();
+new TypeView_v2(new Test_01 { Name = "toto", Number = 123 }).GetValues().zTraceJson();
+typeof(Test_01).GetProperties(BindingFlags.Instance | BindingFlags.Public).zTraceJson();
+typeof(Test_01).GetFields(BindingFlags.Instance | BindingFlags.Public).Select(fieldInfo => new { Name = fieldInfo.Name, Type = fieldInfo.FieldType.zGetTypeName() }).zTraceJson();
+typeof(Test_01).GetMembers(BindingFlags.Instance | BindingFlags.Public).Select(memberInfo => new { Name = memberInfo.Name, Type = memberInfo.DeclaringType.zGetTypeName(), ReflectedType = memberInfo.ReflectedType.zGetTypeName(), MemberType = memberInfo.MemberType.ToString() }).zTraceJson();
+BindingFlags.GetField BindingFlags.GetProperty
+typeof(Test_01).GetMembers(BindingFlags.Instance | BindingFlags.Public | BindingFlags.GetProperty).Select(memberInfo => new { Name = memberInfo.Name, Type = memberInfo.GetType().zGetTypeName() }).zTraceJson();
+typeof(Test_01).InvokeMember("Name", BindingFlags.GetField, null, new Test_01 { Name = "toto", Number = 123 }, null).zTraceJson();
+GetMembers()
+fieldInfo.GetValue(variable);
 
 //*************************************************************************************************************************
 //****                                   old

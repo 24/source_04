@@ -20,13 +20,14 @@ namespace pb.Web.Data
         public TDetailData Detail;
     }
 
-    public class WebHeaderDetailManager<THeaderKey, THeaderDataPage, THeaderData, TDetailKey, TDetailData>
+    // modif le 25/10/2015 change THeaderKey to THeaderPageKey
+    public class WebHeaderDetailManager<THeaderPageKey, THeaderDataPage, THeaderData, TDetailKey, TDetailData>
     {
-        private WebDataPageManager<THeaderKey, THeaderDataPage, THeaderData> _headerDataPageManager = null;
+        private WebDataPageManager<THeaderPageKey, THeaderDataPage, THeaderData> _headerDataPageManager = null;
         private WebDataManager<TDetailKey, TDetailData> _detailDataManager = null;
         private Action<WebData<TDetailData>> _onDocumentLoaded = null;
 
-        public WebDataPageManager<THeaderKey, THeaderDataPage, THeaderData> HeaderDataPageManager { get { return _headerDataPageManager; } set { _headerDataPageManager = value; } }
+        public WebDataPageManager<THeaderPageKey, THeaderDataPage, THeaderData> HeaderDataPageManager { get { return _headerDataPageManager; } set { _headerDataPageManager = value; } }
         public WebDataManager<TDetailKey, TDetailData> DetailDataManager { get { return _detailDataManager; } set { _detailDataManager = value; } }
         public Action<WebData<TDetailData>> OnDocumentLoaded { get { return _onDocumentLoaded; } set { _onDocumentLoaded = value; } }
 

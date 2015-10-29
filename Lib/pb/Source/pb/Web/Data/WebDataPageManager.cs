@@ -9,7 +9,8 @@ namespace pb.Web.Data
         HttpRequest GetHttpRequestNextPage();
     }
 
-    public class WebDataPageManager<TKey, TDataPage, TData> : WebDataManager<TKey, TDataPage>
+    // modif le 25/10/2015 change TKey to TPageKey
+    public class WebDataPageManager<TPageKey, TDataPage, TData> : WebDataManager<TPageKey, TDataPage>
     {
         protected Func<int, HttpRequest> _getHttpRequestPage = null;
 

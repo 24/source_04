@@ -133,6 +133,14 @@ namespace pb.Data.Xml
                 return new XNode[0];
         }
 
+        public IEnumerable<XNodeInfo> DescendantNodesInfos(Func<XNode, XNodeFilter> filter = null)
+        {
+            if (_xelement != null)
+                return _xelement.zDescendantNodesInfos(filter);
+            else
+                return new XNodeInfo[0];
+        }
+
         public IEnumerable<string> DescendantTexts(Func<XNode, XNodeFilter> filter = null)
         {
             if (_xelement != null)
@@ -207,6 +215,11 @@ namespace pb.Data.Xml
         public static IEnumerable<XNode> DescendantNodes(this IEnumerable<XXElement> xxelements, Func<XNode, XNodeFilter> filter = null)
         {
             return xxelements.XElements().zDescendantNodes(filter);
+        }
+
+        public static IEnumerable<XNodeInfo> DescendantNodesInfos(this IEnumerable<XXElement> xxelements, Func<XNode, XNodeFilter> filter = null)
+        {
+            return xxelements.XElements().zDescendantNodesInfos(filter);
         }
 
         public static IEnumerable<string> DescendantTexts(this IEnumerable<XXElement> xxelements, Func<XNode, XNodeFilter> filter = null)

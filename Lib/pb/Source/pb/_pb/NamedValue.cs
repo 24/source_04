@@ -5,7 +5,7 @@ namespace pb
     public class NamedValue
     {
         public string Name;
-        public Type type;
+        public Type Type;
         public object Value;
 
         public NamedValue()
@@ -16,14 +16,16 @@ namespace pb
         {
             Name = name;
             Value = value;
-            if (value != null) type = value.GetType();
+            Type = null;
+            if (value != null)
+                Type = value.GetType();
         }
 
         public NamedValue(string name, Type type)
         {
             Name = name;
             Value = null;
-            this.type = type;
+            Type = type;
         }
     }
 }

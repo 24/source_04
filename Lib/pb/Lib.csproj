@@ -136,6 +136,7 @@
     <Compile Include="Source\pb\Data\Xml\XmlConfig.cs" />
     <Compile Include="Source\pb\Data\Xml\XmlDescendant.cs" />
     <Compile Include="Source\pb\Data\Xml\XmlDocumentStore.cs" />
+    <Compile Include="Source\pb\Data\Xml\XmlExport.cs" />
     <Compile Include="Source\pb\Data\Xml\XmlSerializer.cs" />
     <Compile Include="Source\pb\Data\Xml\XmlSelect.cs" />
     <Compile Include="Source\pb\Data\Xml\XmlSerialize.cs" />
@@ -243,12 +244,16 @@
     <Compile Include="Source\pb\_pb\PBTraceListener.cs" />
     <Compile Include="Source\pb\_pb\Reflection.cs" />
     <Compile Include="Source\pb\_pb\TaskManager.cs" />
+    <Compile Include="Source\pb\_pb\Test\Test_Reflection.cs" />
+    <Compile Include="Source\pb\_pb\Test\Test_TypeView.cs" />
     <Compile Include="Source\pb\_pb\TextSerializer.cs" />
     <Compile Include="Source\pb\_pb\TraceError.cs" />
     <Compile Include="Source\pb\_pb\TraceLevel.cs" />
     <Compile Include="Source\pb\_pb\TraceSetWriter.cs" />
     <Compile Include="Source\pb\_pb\Trace.cs" />
+    <Compile Include="Source\pb\_pb\TypeAccess.cs" />
     <Compile Include="Source\pb\_pb\TypeView.cs" />
+    <Compile Include="Source\pb\_pb\TypeView_v2.cs" />
     <Compile Include="Source\pb\_pb\ztrace.cs" />
     <Compile Include="Source\pb\Windows\Forms\cf.cs" />
     <Compile Include="Source\pb\Windows\Forms\cf2.cs" />
@@ -347,6 +352,9 @@
     <Content Include="Source\pb\IO\Test\download.config.xml" />
     <Content Include="Source\pb\IO\Test\Test_utf8.project.xml" />
     <Content Include="Source\pb\IO\Test\Test_SharpCompressManager.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Source\pb\_pb\Test\Test_Reflection.project.xml">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Source\Project\Default.project.xml" />

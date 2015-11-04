@@ -12,13 +12,7 @@ namespace pb.Test
         public static void Test_TypeView_02()
         {
             Trace.WriteLine("Test_TypeView_02");
-            TypeView typeView = new TypeView(new Test_01 { Name = "toto", Number = 123 });
+            //TypeView typeView = new TypeView(new Test_01 { Test_01_Name = "toto", Test_01_Number = 123 });
         }
-    }
-
-    public class Test_01
-    {
-        public string Name;
-        public int Number;
     }
 }

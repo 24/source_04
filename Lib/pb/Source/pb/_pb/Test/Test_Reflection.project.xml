@@ -11,6 +11,7 @@
   <Using                            value = "pb" />
   <Using                            value = "pb.Test" />
 
+  <Source                           value = "Test_Class.cs" />
   <Source                           value = "Test_Reflection.cs" />
   <Source                           value = "Test_TypeView.cs" />
   

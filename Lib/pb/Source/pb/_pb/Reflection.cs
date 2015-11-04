@@ -1,9 +1,113 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Reflection;
 
 namespace pb
 {
+    public class ValueInfo
+    {                                        // ex class Test { public string Title; }
+        public string Name;                  // ex "Title"
+        public string TreeName;              // ex "Title"
+        public string ParentName;            // ex null
+        public Type ValueType;               // ex System.String
+        public bool IsValueType;             // ex true, true for int string DateTime Date Bitmap
+        public bool IsEnumerable;            // ex false
+        public Type DeclaringType;           // ex pb.Test.Test_01
+        public Type ReflectedType;           // ex pb.Test.Test_01
+        public MemberTypes MemberType;       // ex MemberTypes.Field
+        public int MetadataToken;            // ex 67108935
+        public Module Module;                // ex RunCode_00002.dll
+
+        public ValueInfo(MemberInfo memberInfo)
+        {
+            Name = memberInfo.Name;
+            TreeName = memberInfo.Name;
+            ParentName = null;
+
+            Type valueType = memberInfo.zGetValueType();
+            Type enumerableType = null;
+            if (valueType != typeof(string))
+                enumerableType = Reflection.GetEnumerableType(valueType);
+            if (enumerableType != null)
+            {
+                ValueType = enumerableType;
+                IsEnumerable = true;
+            }
+            else
+            {
+                ValueType = valueType;
+                IsEnumerable = false;
+            }
+
+            IsValueType = Reflection.IsValueType(ValueType);
+            DeclaringType = memberInfo.DeclaringType;
+            ReflectedType = memberInfo.ReflectedType;
+            MemberType = memberInfo.MemberType;
+            MetadataToken = memberInfo.MetadataToken;
+            Module = memberInfo.Module;
+        }
+
+        public ValueInfo(Type type)
+        {
+            Name = null;
+            TreeName = null;
+            ParentName = null;
+
+            Type enumerableType = null;
+            if (type != typeof(string))
+                enumerableType = Reflection.GetEnumerableType(type);
+            if (enumerableType != null)
+            {
+                ValueType = enumerableType;
+                IsEnumerable = true;
+            }
+            else
+            {
+                ValueType = type;
+                IsEnumerable = false;
+            }
+
+            IsValueType = Reflection.IsValueType(ValueType);
+            DeclaringType = null;
+            ReflectedType = null;
+            MemberType = 0;
+            MetadataToken = 0;
+            Module = type.Module;
+        }
+    }
+
+    public class TraceValueInfo
+    {
+        public string Name;
+        public string TreeName;
+        public string ParentName;
+        public string ValueType;
+        public bool IsValueType;
+        public bool IsEnumerable;
+        public string DeclaringType;
+        public string ReflectedType;
+        public string MemberType;
+        public int MetadataToken;
+        public string Module;
+
+        public TraceValueInfo(ValueInfo valueInfo)
+        {
+            Name = valueInfo.Name;
+            TreeName = valueInfo.TreeName;
+            ParentName = valueInfo.ParentName;
+            ValueType = valueInfo.ValueType.zGetTypeName();
+            IsValueType = valueInfo.IsValueType;
+            IsEnumerable = valueInfo.IsEnumerable;
+            DeclaringType = valueInfo.DeclaringType.zGetTypeName();
+            ReflectedType = valueInfo.ReflectedType.zGetTypeName();
+            MemberType = valueInfo.MemberType.ToString();
+            MetadataToken = valueInfo.MetadataToken;
+            Module = valueInfo.Module.Name;
+        }
+    }
+
     public class MethodElements
     {
         public string MethodName;
@@ -16,6 +120,8 @@ namespace pb
     {
         public static string GetName(Type type)
         {
+            if (type == null)
+                return null;
             if (!type.IsGenericType)
                 return type.FullName;
             string name = type.Namespace + "." + type.Name + "[";
@@ -157,6 +263,211 @@ namespace pb
             return new MethodElements { MethodName = methodName, TypeName = typeName, QualifiedTypeName = assemblyName != null && typeName != null ? typeName + ", " + assemblyName : null, AssemblyName = assemblyName };
         }
 
+        public static IEnumerable<ValueInfo> GetTypeValuesInfos(Type type, BindingFlags bindingFlags = BindingFlags.Instance | BindingFlags.Public, MemberTypes memberType = MemberTypes.All)
+        {
+            if (type == null)
+                yield break;
+            foreach (MemberInfo memberInfo in type.GetMembers(bindingFlags))
+            {
+                if ((memberInfo.MemberType & memberType) == 0)
+                    continue;
+                //yield return new ValueInfo { Name = memberInfo.Name, ValueType = memberInfo.zGetValueType(), DeclaringType = memberInfo.DeclaringType, ReflectedType = memberInfo.ReflectedType, MemberType = memberInfo.MemberType, MetadataToken = memberInfo.MetadataToken, Module = memberInfo.Module };
+                //yield return memberInfo.zGetValueInfo();
+                yield return new ValueInfo(memberInfo);
+            }
+        }
+
+        // Type.IsValueType :
+        //   true  : int, DateTime, Date, struct
+        //   false : string
+        // Type.GetTypeCode() :
+        //   int = TypeCode.Int32, string = TypeCode.String, DateTime = TypeCode.DateTime, TypeCode (enum) = TypeCode.Int32
+        //   Date = TypeCode.Object, Test_01 (class) = TypeCode.Object
+        public static bool IsValueType(Type type)
+        {
+            // from TypeView_v2.GetValuesFromVariable() : type.IsValueType && properties.Length == 0 && fields.Length == 0
+            if (Type.GetTypeCode(type) != TypeCode.Object && type != typeof(Date) && type != typeof(Bitmap))
+                return true;
+            else
+                return false;
+        }
+
+        public static IEnumerable<TreeValue<ValueInfo>> GetTypeAllValuesInfos(Type type, BindingFlags bindingFlags = BindingFlags.Instance | BindingFlags.Public,
+            Func<ValueInfo, TreeFilter> filter = null, bool verbose = false)
+        {
+            if (type == null)
+                yield break;
+
+            int level = 1;
+            int index = 1;
+
+            ValueInfo valueInfo = new ValueInfo(type);
+
+            TreeValue<ValueInfo> treeValue;
+            TreeFilter treeFilter;
+
+            if (verbose)
+            {
+                treeValue = new TreeValue<ValueInfo> { Index = index++, Value = valueInfo, Level = level, TreeOpe = TreeOpe.Source, Selected = false, Skip = false, Stop = false };
+
+                treeFilter = TreeFilter.Select;
+                if (filter != null)
+                    treeFilter = filter(valueInfo);
+
+                if ((treeFilter & TreeFilter.Stop) == TreeFilter.Stop)
+                {
+                    treeValue.Stop = true;
+                    yield return treeValue;
+                    yield break;
+                }
+
+                if ((treeFilter & TreeFilter.Skip) == TreeFilter.Skip)
+                {
+                    treeValue.Skip = true;
+                    yield return treeValue;
+                    yield break;
+                }
+
+                if ((treeFilter & TreeFilter.DontSelect) == 0)
+                {
+                    treeValue.Selected = true;
+                    yield return treeValue;
+                }
+                else
+                    yield return treeValue;
+            }
+
+            Stack<IEnumerator<ValueInfo>> stack = new Stack<IEnumerator<ValueInfo>>();
+            IEnumerator<ValueInfo> enumerator = null;
+            string treeName = null;
+            while (true)
+            {
+                // get child
+                while (true)
+                {
+                    if (valueInfo.IsValueType)
+                        break;
+
+                    if (enumerator != null)
+                        stack.Push(enumerator);
+
+                    level++;
+                    enumerator = valueInfo.ValueType.zGetTypeValuesInfos(bindingFlags, MemberTypes.Field | MemberTypes.Property).GetEnumerator();
+                    if (!enumerator.MoveNext())
+                        break;
+
+                    treeName = valueInfo.TreeName;
+                    valueInfo = enumerator.Current;
+                    if (treeName != null)
+                    {
+                        valueInfo.TreeName = treeName + "." + valueInfo.TreeName;
+                        valueInfo.ParentName = treeName;
+                    }
+
+                    treeValue = new TreeValue<ValueInfo> { Index = index++, Value = valueInfo, Level = level, TreeOpe = TreeOpe.Child, Selected = false, Skip = false, Stop = false };
+
+                    treeFilter = TreeFilter.Select;
+                    if (filter != null)
+                        treeFilter = filter(valueInfo);
+
+                    if ((treeFilter & TreeFilter.Stop) == TreeFilter.Stop)
+                    {
+                        treeValue.Stop = true;
+                        yield return treeValue;
+                        yield break;
+                    }
+
+                    if ((treeFilter & TreeFilter.Skip) == TreeFilter.Skip)
+                    {
+                        treeValue.Skip = true;
+                        yield return treeValue;
+                        break;
+                    }
+
+                    if ((treeFilter & TreeFilter.DontSelect) == 0)
+                    {
+                        treeValue.Selected = true;
+                        yield return treeValue;
+                    }
+                    else
+                        yield return treeValue;
+                }
+
+                if (enumerator == null)
+                    break;
+
+                // get next sibling node or next sibling node of parent node
+                bool getChild = false;
+                //bool stopNode = false;
+                while (true)
+                {
+                    // next sibling node
+                    while (true)
+                    {
+                        if (!enumerator.MoveNext())
+                            break;
+
+                        valueInfo = enumerator.Current;
+                        if (treeName != null)
+                        {
+                            valueInfo.TreeName = treeName + "." + valueInfo.TreeName;
+                            valueInfo.ParentName = treeName;
+                        }
+                        treeValue = new TreeValue<ValueInfo> { Index = index++, Value = valueInfo, Level = level, TreeOpe = TreeOpe.Siblin, Selected = false, Skip = false, Stop = false };
+
+                        treeFilter = TreeFilter.Select;
+                        if (filter != null)
+                            treeFilter = filter(valueInfo);
+
+                        if ((treeFilter & TreeFilter.Stop) == TreeFilter.Stop)
+                        {
+                            treeValue.Stop = true;
+                            yield return treeValue;
+                            yield break;
+                        }
+
+                        if ((treeFilter & TreeFilter.Skip) == 0)
+                        {
+                            if ((treeFilter & TreeFilter.DontSelect) == 0)
+                            {
+                                treeValue.Selected = true;
+                                yield return treeValue;
+                            }
+                            else
+                                yield return treeValue;
+                            getChild = true;
+                            break;
+                        }
+                        else
+                        {
+                            treeValue.Skip = true;
+                            yield return treeValue;
+                        }
+                    }
+                    if (getChild)
+                        break;
+
+                    level--;
+                    yield return new TreeValue<ValueInfo> { Index = index++, Value = null, Level = level, TreeOpe = TreeOpe.Parent, Selected = false, Skip = false, Stop = false };
+
+                    // parent node
+                    if (stack.Count == 0)
+                    {
+                        //stopNode = true;
+                        yield break;
+                    }
+
+                    enumerator = stack.Pop();
+                    treeName = enumerator.Current.ParentName;
+                    //yield return new TreeValue<ValueInfo> { Index = index++, Value = null, Level = level, TreeOpe = TreeOpe.Parent, Selected = false, Skip = false, Stop = false };
+                    //level--;
+                    //break;
+                }
+                //if (stopNode)
+                //    break;
+            }
+        }
+
         //private static void Error(string errorMessage, bool throwError, bool traceError)
         //{
         //    if (throwError)
@@ -164,6 +475,16 @@ namespace pb
         //    if (traceError)
         //        Trace.WriteLine(errorMessage);
         //}
+
+        public static Type GetEnumerableType(Type type)
+        {
+            foreach (Type intType in type.GetInterfaces())
+            {
+                if (intType.IsGenericType && intType.GetGenericTypeDefinition() == typeof(IEnumerable<>))
+                    return intType.GetGenericArguments()[0];
+            }
+            return null;
+        }
     }
 
     public static partial class GlobalExtension
@@ -176,6 +497,45 @@ namespace pb
         public static string zGetDefinition(this MethodInfo method)
         {
             return Reflection.GetDefinition(method);
+        }
+
+        public static Type zGetValueType(this MemberInfo memberInfo)
+        {
+            if (memberInfo is FieldInfo)
+                return ((FieldInfo)memberInfo).FieldType;
+            else if (memberInfo is PropertyInfo)
+                return ((PropertyInfo)memberInfo).PropertyType;
+            else
+                return null;
+        }
+
+        //public static ValueInfo zGetValueInfo(this MemberInfo memberInfo)
+        //{
+        //    Type valueType = memberInfo.zGetValueType();
+        //    return new ValueInfo { Name = memberInfo.Name, ValueType = valueType, IsValueType = Reflection.IsValueType(valueType), DeclaringType = memberInfo.DeclaringType,
+        //        ReflectedType = memberInfo.ReflectedType, MemberType = memberInfo.MemberType, MetadataToken = memberInfo.MetadataToken, Module = memberInfo.Module };
+        //}
+
+        public static IEnumerable<ValueInfo> zGetTypeValuesInfos(this Type type, BindingFlags bindingFlags = BindingFlags.Instance | BindingFlags.Public, MemberTypes memberType = MemberTypes.All)
+        {
+            return Reflection.GetTypeValuesInfos(type, bindingFlags, memberType);
+        }
+
+        public static IEnumerable<TraceValueInfo> zToTraceValuesInfos(this IEnumerable<ValueInfo> valuesInfos)
+        {
+            return valuesInfos.Select(valueInfo => new TraceValueInfo(valueInfo));
+        }
+
+        public static IEnumerable<TreeValue<ValueInfo>> zGetTypeAllValuesInfos(this Type type, BindingFlags bindingFlags = BindingFlags.Instance | BindingFlags.Public, Func<ValueInfo, TreeFilter> filter = null)
+        {
+            return Reflection.GetTypeAllValuesInfos(type, bindingFlags, filter);
+        }
+
+        public static IEnumerable<TraceTreeValue<TraceValueInfo>> zToTraceTreeValuesInfos(this IEnumerable<TreeValue<ValueInfo>> treeValuesInfos)
+        {
+            return treeValuesInfos.Select(treeValueInfo => new TraceTreeValue<TraceValueInfo> { Index = treeValueInfo.Index,
+                Value = treeValueInfo.Value != null ? new TraceValueInfo(treeValueInfo.Value) : null,
+                Level = treeValueInfo.Level, TreeOpe = treeValueInfo.TreeOpe.ToString(), Selected = treeValueInfo.Selected, Skip = treeValueInfo.Skip, Stop = treeValueInfo.Stop });
         }
     }
 }

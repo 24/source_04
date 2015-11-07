@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace pb.Test
+namespace pb.Reflection.Test
 {
     // typeof(Test_01).zGetTypeValuesInfos(BindingFlags.Instance | BindingFlags.Public, MemberTypes.Field | MemberTypes.Property).zToTraceValuesInfos().zTraceJson();
     //[{

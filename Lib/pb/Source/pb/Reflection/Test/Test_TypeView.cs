@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace pb.Test
+namespace pb.Reflection.Test
 {
     public static class Test_TypeView
     {

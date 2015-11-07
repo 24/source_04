@@ -7,7 +7,7 @@ using System.Reflection;
 using System.Xml.Linq;
 using pb.Data.Xml;
 
-namespace pb
+namespace pb.Reflection
 {
     public class TypeView_v2
     {

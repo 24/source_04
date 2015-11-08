@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Threading;
+using pb.Reflection;
 
 namespace pb.Compiler
 {
@@ -110,21 +111,21 @@ namespace pb.Compiler
         {
             if (_runMethodName == null)
                 throw new PBException("run method name is null");
-            MethodElements runMethodElements = Reflection.GetMethodElements(_runMethodName);
+            MethodElements runMethodElements = zReflection.GetMethodElements(_runMethodName);
             if (runMethodElements.TypeName == null)
                 throw new PBException("bad run method name \"{0}\", run method need type name", _runMethodName);
             if (runMethodElements.QualifiedTypeName != null)
-                _runType = Reflection.GetType(runMethodElements.QualifiedTypeName, ErrorOptions.ThrowError);
+                _runType = zReflection.GetType(runMethodElements.QualifiedTypeName, ErrorOptions.ThrowError);
             else
-                _runType = Reflection.GetType(_runAssembly, runMethodElements.TypeName, ErrorOptions.ThrowError);
-            return Reflection.GetMethod(_runType, runMethodElements.MethodName, ErrorOptions.ThrowError);
+                _runType = zReflection.GetType(_runAssembly, runMethodElements.TypeName, ErrorOptions.ThrowError);
+            return zReflection.GetMethod(_runType, runMethodElements.MethodName, ErrorOptions.ThrowError);
         }
 
         private MethodInfo GetMethod(string methodName)
         {
             if (methodName == null)
                 return null;
-            MethodElements runMethodElements = Reflection.GetMethodElements(methodName);
+            MethodElements runMethodElements = zReflection.GetMethodElements(methodName);
             Type type;
             if (runMethodElements.TypeName != null)
             {
@@ -134,10 +135,10 @@ namespace pb.Compiler
                 Assembly assembly = null;
                 if (runMethodElements.AssemblyName != null)
                 {
-                    assembly = Reflection.GetAssembly(runMethodElements.AssemblyName, ErrorOptions.None);
+                    assembly = zReflection.GetAssembly(runMethodElements.AssemblyName, ErrorOptions.None);
                     if (assembly == null && _compilerAssemblies != null)
                     {
-                        string assemblyName = Reflection.GetAssemblyName(runMethodElements.AssemblyName);
+                        string assemblyName = zReflection.GetAssemblyName(runMethodElements.AssemblyName);
                         if (_compilerAssemblies.ContainsKey(assemblyName))
                         {
                             string file = _compilerAssemblies[assemblyName].File;
@@ -159,12 +160,12 @@ namespace pb.Compiler
                 }
                 else
                     assembly = _runAssembly;
-                type = Reflection.GetType(assembly, runMethodElements.TypeName, ErrorOptions.TraceWarning);
+                type = zReflection.GetType(assembly, runMethodElements.TypeName, ErrorOptions.TraceWarning);
             }
             else
                 type = _runType;
             if (type != null)
-                return Reflection.GetMethod(type, runMethodElements.MethodName, ErrorOptions.ThrowError);
+                return zReflection.GetMethod(type, runMethodElements.MethodName, ErrorOptions.ThrowError);
             else
                 return null;
         }

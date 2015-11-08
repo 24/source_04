@@ -158,12 +158,64 @@ foreach (XNodeInfo node in HttpRun.GetXDocument().zXXElement().XPathElements("//
 
 
 //*************************************************************************************************************************
-//****                                   Test_TypeView
+//****                                   Test_Reflection
 //*************************************************************************************************************************
 
 Trace.WriteLine(RunSource.CurrentRunSource.ProjectFile);
 RunSource.CurrentRunSource.SetProjectFromSource();
-RunSource.CurrentRunSource.SetProject(@"$Root$\Source\Lib\pb\Source\pb\_pb\Test\Test_Reflection.project.xml");
+RunSource.CurrentRunSource.SetProject(@"$Root$\Source\Lib\pb\Source\pb\Reflection\Test\Test_Reflection.project.xml");
+
+Test_Data.GetCompanies(@"c:\pib\dev_data\exe\runsource\test\Test_Reflection\Test_Company.txt").zTraceJson();
+Test_TypeValues.Test_TypeValues_02(@"c:\pib\dev_data\exe\runsource\test\Test_Reflection\Test_Company.txt", "Name", "Numbers", "Contacts.Name", "Contacts.Numbers");
+Test_TypeValues.Test_TypeValues_02(@"c:\pib\dev_data\exe\runsource\test\Test_Reflection\Test_Company.txt", "Contacts.Name", "Contacts.Numbers");
+Test_TypeValues.Test_TypeValues_03(@"c:\pib\dev_data\exe\runsource\test\Test_Reflection\Test_Company.txt");
+zmongo.BsonReader<Test_Company>(@"c:\pib\dev_data\exe\runsource\test\Test_Reflection\Test_Company.txt").zView();
+zmongo.BsonReader<Test_Company>(@"c:\pib\dev_data\exe\runsource\test\Test_Reflection\Test_Company.txt").zView_v2();
+
+MethodInfo methodInfo = typeof(TypeValues<Test_01>).GetRuntimeMethod("AddAllValues", new Type[] { typeof(MemberType) });  // found
+(methodInfo != null ? "found" : "not found").zTrace();
+MethodInfo methodInfo = typeof(TypeValues<Test_01>).GetRuntimeMethod("ToDataTable", new Type[] { typeof(IEnumerable<>), typeof(bool) });  // not found
+MethodInfo methodInfo = typeof(TypeValues<Test_01>).GetRuntimeMethod("ToDataTable", new Type[] { typeof(IEnumerable<Test_01>), typeof(bool) });  // found
+(methodInfo != null ? "found" : "not found").zTrace();
+typeof(TypeValues<Test_01>).GetRuntimeMethods().Select( methodInfo => new { Name = methodInfo.Name }).zView();
+typeof(int).IsValueType.zTrace();
+typeof(string).IsValueType.zTrace();
+typeof(DateTime).IsValueType.zTrace();
+typeof(Date).IsValueType.zTrace();
+typeof(Test_01).IsValueType.zTrace();
+Type.GetTypeCode(typeof(int)).zTrace();        // TypeCode.Int32
+Type.GetTypeCode(typeof(string)).zTrace();     // TypeCode.String
+Type.GetTypeCode(typeof(DateTime)).zTrace();   // TypeCode.DateTime
+Type.GetTypeCode(typeof(Date)).zTrace();       // TypeCode.Object
+Type.GetTypeCode(typeof(TypeCode)).zTrace();   // TypeCode.Int32
+Type.GetTypeCode(typeof(Test_01)).zTrace();    // TypeCode.Object
+
+typeof(Test_01).zGetTypeValuesInfos(BindingFlags.Instance | BindingFlags.Public, MemberTypes.Field | MemberTypes.Property).zToTraceValuesInfos().zTraceJson();
+typeof(Test_01).zGetTypeAllValuesInfos(BindingFlags.Instance | BindingFlags.Public).zToTraceTreeValuesInfos().zTraceJson();
+typeof(Test_01).zGetTypeAllValuesInfos(MemberType.Instance | MemberType.Public | MemberType.Field | MemberType.Property, verbose: false).zToTraceTreeValuesInfos().zView();
+typeof(Test_Company).zGetTypeAllValuesInfos(MemberType.Instance | MemberType.Public | MemberType.Field | MemberType.Property, options: TypeReflectionOptions.ValueType | TypeReflectionOptions.NotValueType).zToTraceTreeValuesInfos().zView();
+typeof(Test_Company).zGetTypeAllValuesInfos(MemberType.Instance | MemberType.Public | MemberType.Field | MemberType.Property, options: TypeReflectionOptions.ValueType | TypeReflectionOptions.NotValueType).zTraceJson();
+
+typeof(Test_02).zGetTypeAllValuesInfos(BindingFlags.Instance | BindingFlags.Public).zToTraceTreeValuesInfos()
+	.Select(tree => new { Index = tree.Index, Level = tree.Level, TreeOpe = tree.TreeOpe,
+	TreeName = tree.Value != null ? tree.Value.TreeName : null, ValueType = tree.Value != null ? tree.Value.ValueType : null,
+	IsValueType = tree.Value != null ? (bool?)tree.Value.IsValueType : null,
+	IsEnumerable = tree.Value != null ? (bool?)tree.Value.IsEnumerable : null }).zTraceJson();
+
+typeof(Test_02).zGetTypeAllValuesInfos(BindingFlags.Instance | BindingFlags.Public, verbose: false).zToTraceTreeValuesInfos()
+	.Select(tree => new { Index = tree.Index, Level = tree.Level, TreeOpe = tree.TreeOpe,
+	TreeName = tree.Value != null ? tree.Value.TreeName : null, ValueType = tree.Value != null ? tree.Value.ValueType : null,
+	IsValueType = tree.Value != null ? (bool?)tree.Value.IsValueType : null,
+	IsEnumerable = tree.Value != null ? (bool?)tree.Value.IsEnumerable : null }).zView();
+
+zReflection.GetEnumerableType(typeof(int[])).zGetTypeName().zTrace();
+int i = 123; i.zTest();
+int[] i = { 123 }; i.zTest();
+int[] i = { 123 }; ((IEnumerable<int>)i).zTest();
+typeof(TypeValues<Test_Company>).zGetTypeName().zTrace();
+typeof(TypeValues<>).MakeGenericType(typeof(Test_Company)).zGetTypeName().zTrace();
+
+new Test_01 { Test_01_Name = "toto", Test_01_Number = 123 }.zView_v2();
 
 Test_TypeView.Test_TypeView_01();
 Trace.WriteLine("toto");
@@ -171,7 +223,24 @@ new TypeView(new Test_01 { Name = "toto", Number = 123 }).Values.zTraceJson();
 new TypeView_v2(new Test_01 { Name = "toto", Number = 123 }).GetValues().zTraceJson();
 typeof(Test_01).GetProperties(BindingFlags.Instance | BindingFlags.Public).zTraceJson();
 typeof(Test_01).GetFields(BindingFlags.Instance | BindingFlags.Public).Select(fieldInfo => new { Name = fieldInfo.Name, Type = fieldInfo.FieldType.zGetTypeName() }).zTraceJson();
-typeof(Test_01).GetMembers(BindingFlags.Instance | BindingFlags.Public).Select(memberInfo => new { Name = memberInfo.Name, Type = memberInfo.DeclaringType.zGetTypeName(), ReflectedType = memberInfo.ReflectedType.zGetTypeName(), MemberType = memberInfo.MemberType.ToString() }).zTraceJson();
+typeof(Test_01).GetMembers(BindingFlags.Instance | BindingFlags.Public).Select(memberInfo => new {
+	Type = memberInfo.GetType().zGetTypeName(),
+	Name = memberInfo.Name,
+	DeclaringType = memberInfo.DeclaringType.zGetTypeName(),
+	ReflectedType = memberInfo.ReflectedType.zGetTypeName(),
+	FieldType = memberInfo is FieldInfo ? ((FieldInfo) memberInfo).FieldType.zGetTypeName() : null,
+	PropertyType = memberInfo is PropertyInfo ? ((PropertyInfo) memberInfo).PropertyType.zGetTypeName() : null,
+	MemberType = memberInfo.MemberType.ToString(),
+	MetadataToken = memberInfo.MetadataToken,
+	Module = memberInfo.Module.Name }).zTraceJson();
+
+typeof(Test_01).GetFields().Select(field => new {
+	Type = field.GetType().zGetTypeName(),
+	Name = field.Name,
+	DeclaringType = field.DeclaringType.zGetTypeName(),
+	ReflectedType = field.ReflectedType.zGetTypeName(),
+	FieldType = field.FieldType.zGetTypeName() }).zTraceJson();
+
 BindingFlags.GetField BindingFlags.GetProperty
 typeof(Test_01).GetMembers(BindingFlags.Instance | BindingFlags.Public | BindingFlags.GetProperty).Select(memberInfo => new { Name = memberInfo.Name, Type = memberInfo.GetType().zGetTypeName() }).zTraceJson();
 typeof(Test_01).InvokeMember("Name", BindingFlags.GetField, null, new Test_01 { Name = "toto", Number = 123 }, null).zTraceJson();

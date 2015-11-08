@@ -199,6 +199,7 @@
   <Source                           value = "$Root$\Source\Lib\pb\Source\pb\IO\FilenameNumberInfo.cs" />
   <Source                           value = "$Root$\Source\Lib\pb\Source\pb\IO\SharpCompressManager.cs" />
   <Source                           value = "$Root$\Source\Lib\pb\Source\pb\IO\UncompressManager.cs" />
+  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\IO\ZipArchive.cs" />
   <Source                           value = "$Root$\Source\Lib\pb\Source\pb\IO\ZipManager.cs" />
 
   <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Linq\Linq.cs" />

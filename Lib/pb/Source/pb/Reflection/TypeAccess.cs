@@ -12,9 +12,10 @@ namespace pb.Reflection
         public Type ValueType;
         public bool IsValueType;
         public bool IsEnumerable;
+        public object Value;
     }
 
-    public class MemberAccess
+    public class MemberAccess : TypeValue
     {
         public MemberAccess(ValueInfo valueInfo, string treeName = null)
         {
@@ -31,14 +32,12 @@ namespace pb.Reflection
         }
 
         public Type SourceType;
-        public string Name;
-        public string TreeName;
-        //public MemberTypes MemberTypes;
+        //public string Name;
+        //public string TreeName;
         public BindingFlags AccessBindingFlag;
-        //public MemberInfo MemberInfo;
-        public Type ValueType;
-        public bool IsValueType;
-        public bool IsEnumerable;
+        //public Type ValueType;
+        //public bool IsValueType;
+        //public bool IsEnumerable;
 
         public object GetValue(object target)
         {

@@ -128,8 +128,7 @@ namespace pb.Reflection
         {
             foreach (MemberValue memberValue in _memberValues.Values)
             {
-                MemberAccess memberAccess = memberValue.MemberAccess;
-                yield return new TypeValue { Name = memberAccess.Name, TreeName = memberAccess.TreeName, ValueType = memberAccess.ValueType, IsValueType = memberAccess.IsValueType, IsEnumerable = memberAccess.IsEnumerable };
+                yield return memberValue.MemberAccess;
             }
         }
 
@@ -140,9 +139,13 @@ namespace pb.Reflection
             RazValues();
         }
 
-        public IEnumerable<object> GetValues()
+        public IEnumerable<TypeValue> GetValues(bool onlyNextValue = false)
         {
-            return null;
+            foreach (MemberValue memberValue in _memberValues.Values)
+            {
+                memberValue.MemberAccess.Value = GetValue(memberValue, onlyNextValue);
+                yield return memberValue.MemberAccess;
+            }
         }
 
         public bool NextValues()
@@ -227,26 +230,27 @@ namespace pb.Reflection
             if (!_memberValues.ContainsKey(name))
                 throw new PBException("unknow value \"{0}\"", name);
             MemberValue memberValue = _memberValues[name];
+            return GetValue(memberValue, onlyNextValue);
+        }
+
+        private object GetValue(MemberValue memberValue, bool onlyNextValue)
+        {
             if (!_nextValue)
-            {
-                GetValue(memberValue);
-                //return memberValue.Value;
-            }
-            // if (!_nextValue || !onlyNextValue || memberValue.FoundNext)
+                _GetValue(memberValue);
             if (!_nextValue || !onlyNextValue || memberValue.FoundNext)
                 return memberValue.Value;
             else
                 return null;
         }
 
-        private void GetValue(MemberValue memberValue)
+        private void _GetValue(MemberValue memberValue)
         {
             if (!memberValue.ValueAvailable)
             {
                 //object data = null;
                 if (memberValue.Parent != null)
                 {
-                    GetValue((MemberValue)memberValue.Parent);
+                    _GetValue((MemberValue)memberValue.Parent);
                     //data = memberValue.Parent.Value;
                 }
                 //else

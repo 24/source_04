@@ -28,18 +28,19 @@
 
   <Source                           value = "$Root$\Source\Lib\pb\Source\pb\_pb\Chrono.cs" />
   <Source                           value = "$Root$\Source\Lib\pb\Source\pb\_pb\Convert.cs" />
+  <!--<Source                           value = "$Root$\Source\Lib\pb\Source\pb\_pb\Date.cs" />-->
   <Source                           value = "$Root$\Source\Lib\pb\Source\pb\_pb\Error.cs" />
   <Source                           value = "$Root$\Source\Lib\pb\Source\pb\_pb\FormatInfo.cs" />
   <Source                           value = "$Root$\Source\Lib\pb\Source\pb\_pb\ParseAs.cs" />
   <Source                           value = "$Root$\Source\Lib\pb\Source\pb\_pb\PBException.cs" />
   <Source                           value = "$Root$\Source\Lib\pb\Source\pb\_pb\Process.cs" />
   <Source                           value = "$Root$\Source\Lib\pb\Source\pb\_pb\Progress.cs" />
-  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\_pb\Reflection.cs" />
   <Source                           value = "$Root$\Source\Lib\pb\Source\pb\_pb\Trace.cs" />
   <Source                           value = "$Root$\Source\Lib\pb\Source\pb\_pb\TraceError.cs" />
   <Source                           value = "$Root$\Source\Lib\pb\Source\pb\_pb\TraceLevel.cs" />
   <Source                           value = "$Root$\Source\Lib\pb\Source\pb\_pb\TraceSetWriter.cs" />
-  
+  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\_pb\Tree.cs" />
+
   <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Compiler\AssemblyResolve.cs" />
   <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Compiler\Compiler.cs" />
   <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Compiler\CompilerProject.cs" />
@@ -66,6 +67,8 @@
   <Source                           value = "$Root$\Source\Lib\pb\Source\pb\IO\zDirectory.cs" />
   <Source                           value = "$Root$\Source\Lib\pb\Source\pb\IO\zFile.cs" />
   <Source                           value = "$Root$\Source\Lib\pb\Source\pb\IO\ZipArchive.cs" />
+
+  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Reflection\Reflection.cs" />
 
   <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Text\Regex.cs" />
   <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Text\Split.cs" />

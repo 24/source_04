@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using pb.IO;
+using pb.Reflection;
 
 namespace pb.Data.Xml
 {
@@ -29,11 +30,43 @@ namespace pb.Data.Xml
     public class XmlValueExport
     {
         public string ElementName;
+        public ValueAccess ValueAccess;
         public string ValueName;
         public Func<object, object> TransformValue;
         public MemberAccess MemberAccess;
         public object Value;
         public IEnumerator Enumerator;
+
+        public object GetValue(object target)
+        {
+            return MemberAccess.GetValue(target);
+        }
+    }
+
+    public class XmlValueExport_v2
+    {
+        public string ElementName;
+        public ValueAccess ValueAccess;
+        //public string ValueName;
+        //public Func<object, object> TransformValue;
+        //public MemberAccess MemberAccess;
+        //public object Value;
+        //public IEnumerator Enumerator;
+
+        //public object GetValue(object target)
+        //{
+        //    return MemberAccess.GetValue(target);
+        //}
+    }
+
+    public class ValueAccess
+    {
+        public string ValueName;
+        public Func<object, object> TransformValue;
+        public MemberAccess MemberAccess;
+        public object Value;
+        public IEnumerator Enumerator;
+        public List<ValueAccess> Childs = new List<ValueAccess>();
 
         public object GetValue(object target)
         {

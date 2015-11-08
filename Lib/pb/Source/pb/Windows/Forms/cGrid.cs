@@ -22,8 +22,8 @@ using DevExpress.XtraGrid.Columns;
 using DevExpress.XtraGrid.Views.Base;
 using DevExpress.XtraGrid.Views.Grid;
 using DevExpress.Utils;
-//using PB_Ado;
 using pb.Data.Xml;
+using pb.Reflection;
 using pb.Text;
 
 //////////////////   Debug pb channel_id
@@ -2644,7 +2644,7 @@ namespace pb.Windows.Forms
                 gdt = gXmlDataDef.zXmlToDataTable("value");
                 //var q = from item in gXmlDataDef.Elements("col") select new { Name = item.zAttribValue("Name"), Type = zreflection.GetType(item.zAttribValue("Type")) };
                 //var q = from item in gXmlDataDef.Elements("col") select new { Name = item.zAttribValue("Name"), Type = Reflection.GetTypeFromName(item.zAttribValue("Type")) };
-                var q = from item in gXmlDataDef.Elements("col") select new { Name = item.zAttribValue("Name"), Type = Reflection.GetType(item.zAttribValue("System.Type"), ErrorOptions.ThrowError) };
+                var q = from item in gXmlDataDef.Elements("col") select new { Name = item.zAttribValue("Name"), Type = zReflection.GetType(item.zAttribValue("System.Type"), ErrorOptions.ThrowError) };
                 foreach (var col in q)
                     //gdt = zdt.ChangeColumnType(gdt, col.Name, col.Type);
                     gdt = gdt.zChangeColumnType(col.Name, col.Type);

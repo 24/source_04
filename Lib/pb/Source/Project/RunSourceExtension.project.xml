@@ -18,21 +18,19 @@
   
   <Root                             value = "..\..\..\..\.." />
   
-  <!--<Project>-->
+  <Using                            value = "pb" />
 
-    <Using                            value = "pb" />
+  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\_pb\Date.cs" />
+  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\_pb\NamedValue.cs" />
+  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Compiler\RunSourceExtension.cs" />
+  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Data\DataTable.cs" />
+  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Data\FieldList.cs" />
+  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Data\Mongo\BsonDocumentsToDataTable.cs" />
+  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Reflection\TypeView.cs" />
 
-    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\_pb\Date.cs" />
-    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\_pb\NamedValue.cs" />
-    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\_pb\TypeView.cs" />
-    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Compiler\RunSourceExtension.cs" />
-    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Data\DataTable.cs" />
-    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Data\FieldList.cs" />
-    <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Data\Mongo\BsonDocumentsToDataTable.cs" />
-
-    <Assembly                         value = "System.Drawing.dll" />
-    <Assembly                         value = "System.Xml.Linq.dll" />
+  <Assembly                         value = "System.Drawing.dll" />
+  <Assembly                         value = "System.Xml.Linq.dll" />
     
-    <Assembly                         value = "c:\pib\prog\dev\mongodb\driver\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Bson.dll" resolve = "true" resolveName = "MongoDB.Bson, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />
-  <!--</Project>-->
+  <!--<Assembly                         value = "c:\pib\prog\dev\mongodb\driver\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Bson.dll" resolve = "true" resolveName = "MongoDB.Bson, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />-->
+  <Assembly                         value = "$Root$\RuntimeLibrary\Mongo\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Bson.dll" resolve = "true" resolveName = "MongoDB.Bson, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />
 </AssemblyProject>

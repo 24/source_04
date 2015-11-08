@@ -2,6 +2,7 @@
 using System.Data;
 using pb.Data;
 using pb.Data.Xml;
+using pb.Reflection;
 
 namespace pb.Compiler
 {
@@ -30,6 +31,22 @@ namespace pb.Compiler
             {
                 if (!(value is DataTable))
                     table = value.zToDataTable();
+                else
+                    table = value as DataTable;
+                RunSource.CurrentRunSource.SetResult(table);
+            }
+            else
+                Trace.WriteLine("value is null");
+            return table;
+        }
+
+        public static DataTable zView_v2<T>(this T value)
+        {
+            DataTable table = null;
+            if (value != null)
+            {
+                if (!(value is DataTable))
+                    table = value.zToDataTable_v2();
                 else
                     table = value as DataTable;
                 RunSource.CurrentRunSource.SetResult(table);

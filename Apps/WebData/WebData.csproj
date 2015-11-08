@@ -83,8 +83,17 @@
     <Compile Include="..\..\Lib\pb\Source\pb\IO\zFile.cs">
       <Link>SourceLnk\Lib\pb\IO\zFile.cs</Link>
     </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\IO\ZipArchive.cs">
+      <Link>SourceLnk\Lib\pb\IO\ZipArchive.cs</Link>
+    </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\IO\zPath.cs">
       <Link>SourceLnk\Lib\pb\IO\zPath.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Reflection\Reflection.cs">
+      <Link>SourceLnk\Lib\pb\Reflection\Reflection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Reflection\TypeView.cs">
+      <Link>SourceLnk\Lib\pb\Reflection\TypeView.cs</Link>
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Text\StringCompare.cs">
       <Link>SourceLnk\Lib\pb\Text\StringCompare.cs</Link>
@@ -446,9 +455,6 @@
     <Compile Include="..\..\Lib\pb\Source\pb\_pb\Progress.cs">
       <Link>SourceLnk\Lib\pb\_pb\Progress.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\_pb\Reflection.cs">
-      <Link>SourceLnk\Lib\pb\_pb\Reflection.cs</Link>
-    </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\_pb\SpecialDays.cs">
       <Link>SourceLnk\Lib\pb\_pb\SpecialDays.cs</Link>
     </Compile>
@@ -469,9 +475,6 @@
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\_pb\TraceSetWriter.cs">
       <Link>SourceLnk\Lib\pb\_pb\TraceSetWriter.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\_pb\TypeView.cs">
-      <Link>SourceLnk\Lib\pb\_pb\TypeView.cs</Link>
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\_pb\ztrace.cs">
       <Link>SourceLnk\Lib\pb\_pb\ztrace.cs</Link>

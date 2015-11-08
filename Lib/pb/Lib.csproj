@@ -50,11 +50,13 @@
       <HintPath>..\..\RuntimeLibrary\Ionic\Ionic.Zip.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.JScript" />
-    <Reference Include="MongoDB.Bson">
-      <HintPath>..\..\..\..\..\..\..\prog\dev\mongodb\driver\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Bson.dll</HintPath>
+    <Reference Include="MongoDB.Bson, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\RuntimeLibrary\Mongo\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Bson.dll</HintPath>
     </Reference>
-    <Reference Include="MongoDB.Driver">
-      <HintPath>..\..\..\..\..\..\..\prog\dev\mongodb\driver\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Driver.dll</HintPath>
+    <Reference Include="MongoDB.Driver, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\RuntimeLibrary\Mongo\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Driver.dll</HintPath>
     </Reference>
     <Reference Include="Pri.LongPath, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -172,6 +174,10 @@
     <Compile Include="Source\pb\IO\zlib\ZInflaterInputStream.cs" />
     <Compile Include="Source\pb\IO\zlib\ZStream.cs" />
     <Compile Include="Source\pb\Linq\Linq.cs" />
+    <Compile Include="Source\pb\Reflection\Test\Test_TypeValues.cs" />
+    <Compile Include="Source\pb\Reflection\TypeReflection.cs" />
+    <Compile Include="Source\pb\Reflection\TypeValues.cs" />
+    <Compile Include="Source\pb\Reflection\TypeValuesDataTable.cs" />
     <Compile Include="Source\pb\Text\Crypt.cs" />
     <Compile Include="Source\pb\Text\FindDateManager.cs" />
     <Compile Include="Source\pb\Text\FindNumberManager.cs" />
@@ -242,18 +248,20 @@
     <Compile Include="Source\pb\_pb\ParseAs.cs" />
     <Compile Include="Source\pb\_pb\PBException.cs" />
     <Compile Include="Source\pb\_pb\PBTraceListener.cs" />
-    <Compile Include="Source\pb\_pb\Reflection.cs" />
+    <Compile Include="Source\pb\Reflection\Reflection.cs" />
     <Compile Include="Source\pb\_pb\TaskManager.cs" />
-    <Compile Include="Source\pb\_pb\Test\Test_Reflection.cs" />
-    <Compile Include="Source\pb\_pb\Test\Test_TypeView.cs" />
+    <Compile Include="Source\pb\Reflection\Test\Test_Class.cs" />
+    <Compile Include="Source\pb\Reflection\Test\Test_Reflection.cs" />
+    <Compile Include="Source\pb\Reflection\Test\Test_TypeView.cs" />
     <Compile Include="Source\pb\_pb\TextSerializer.cs" />
     <Compile Include="Source\pb\_pb\TraceError.cs" />
     <Compile Include="Source\pb\_pb\TraceLevel.cs" />
     <Compile Include="Source\pb\_pb\TraceSetWriter.cs" />
     <Compile Include="Source\pb\_pb\Trace.cs" />
-    <Compile Include="Source\pb\_pb\TypeAccess.cs" />
-    <Compile Include="Source\pb\_pb\TypeView.cs" />
-    <Compile Include="Source\pb\_pb\TypeView_v2.cs" />
+    <Compile Include="Source\pb\_pb\Tree.cs" />
+    <Compile Include="Source\pb\Reflection\TypeAccess.cs" />
+    <Compile Include="Source\pb\Reflection\TypeView.cs" />
+    <Compile Include="Source\pb\Reflection\TypeView_v2.cs" />
     <Compile Include="Source\pb\_pb\ztrace.cs" />
     <Compile Include="Source\pb\Windows\Forms\cf.cs" />
     <Compile Include="Source\pb\Windows\Forms\cf2.cs" />
@@ -354,7 +362,7 @@
     <Content Include="Source\pb\IO\Test\Test_SharpCompressManager.project.xml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Source\pb\_pb\Test\Test_Reflection.project.xml">
+    <Content Include="Source\pb\Reflection\Test\Test_Reflection.project.xml">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Source\Project\Default.project.xml" />

@@ -220,7 +220,7 @@ namespace pb.Data.Xml
 
         public static IEnumerable<XNodeInfo> DescendantNodesInfos(IEnumerable<XNode> nodes, Func<XNode, XNodeFilter> filter = null)
         {
-            bool stop = false;
+            //bool stop = false;
             int level = 1;
             int index = 1;
             foreach (XNode node1 in nodes)
@@ -286,10 +286,10 @@ namespace pb.Data.Xml
 
                         if ((xnodeFilter & XNodeFilter.Stop) == XNodeFilter.Stop)
                         {
-                            stop = true;
+                            //stop = true;
                             nodeInfo.Stop = true;
                             yield return nodeInfo;
-                            break;
+                            yield break;
                         }
 
                         if ((xnodeFilter & XNodeFilter.SkipNode) == XNodeFilter.SkipNode)
@@ -300,18 +300,19 @@ namespace pb.Data.Xml
                         }
 
                         node2 = childNode;
+                        level++;
                         if ((xnodeFilter & XNodeFilter.DontSelectNode) == 0)
                         {
                             //yield return node2;
-                            level++;
+                            //level++;
                             nodeInfo.Selected = true;
                             yield return nodeInfo;
                         }
                         else
                             yield return nodeInfo;
                     }
-                    if (stop)
-                        break;
+                    //if (stop)
+                    //    break;
 
                     // get next sibling node or next sibling node of parent node
                     bool getChild = false;
@@ -342,10 +343,10 @@ namespace pb.Data.Xml
 
                             if ((xnodeFilter & XNodeFilter.Stop) == XNodeFilter.Stop)
                             {
-                                stop = true;
+                                //stop = true;
                                 nodeInfo.Stop = true;
                                 yield return nodeInfo;
-                                break;
+                                yield break;
                             }
 
                             if ((xnodeFilter & XNodeFilter.SkipNode) == 0)
@@ -381,11 +382,12 @@ namespace pb.Data.Xml
                         nodeInfo = new XNodeInfo { Index = index++, Node = node2, Level = level, Ope = NodeOpe.Close, Selected = false, Skip = false, Stop = false };
                         yield return nodeInfo;
                     }
-                    if (stop || stopNode)
+                    //if (stop || stopNode)
+                    if (stopNode)
                         break;
                 }
-                if (stop)
-                    break;
+                //if (stop)
+                //    break;
             }
         }
 

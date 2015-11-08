@@ -43,6 +43,8 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -192,8 +194,23 @@
     <Compile Include="..\..\Lib\pb\Source\pb\IO\zFile.cs">
       <Link>SourceLnk\Lib\pb\IO\zFile.cs</Link>
     </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\IO\ZipArchive.cs">
+      <Link>SourceLnk\Lib\pb\IO\ZipArchive.cs</Link>
+    </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\IO\zPath.cs">
       <Link>SourceLnk\Lib\pb\IO\zPath.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Reflection\Reflection.cs">
+      <Link>SourceLnk\Lib\pb\NewFolder1\Reflection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Reflection\TypeAccess.cs">
+      <Link>SourceLnk\Lib\pb\NewFolder1\TypeAccess.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Reflection\TypeReflection.cs">
+      <Link>SourceLnk\Lib\pb\Reflection\TypeReflection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Reflection\TypeView.cs">
+      <Link>SourceLnk\Lib\pb\NewFolder1\TypeView.cs</Link>
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Text\Regex.cs">
       <Link>SourceLnk\Lib\pb\Text\Regex.cs</Link>
@@ -306,9 +323,6 @@
     <Compile Include="..\..\Lib\pb\Source\pb\_pb\Progress.cs">
       <Link>SourceLnk\Lib\pb\_pb\Progress.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\_pb\Reflection.cs">
-      <Link>SourceLnk\Lib\pb\_pb\Reflection.cs</Link>
-    </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\_pb\TextSerializer.cs">
       <Link>SourceLnk\Lib\pb\_pb\TextSerializer.cs</Link>
     </Compile>
@@ -324,11 +338,8 @@
     <Compile Include="..\..\Lib\pb\Source\pb\_pb\TraceSetWriter.cs">
       <Link>SourceLnk\Lib\pb\_pb\TraceSetWriter.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\_pb\TypeAccess.cs">
-      <Link>SourceLnk\Lib\pb\_pb\TypeAccess.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\_pb\TypeView.cs">
-      <Link>SourceLnk\Lib\pb\_pb\TypeView.cs</Link>
+    <Compile Include="..\..\Lib\pb\Source\pb\_pb\Tree.cs">
+      <Link>SourceLnk\Lib\pb\_pb\Tree.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Source\WebData\sites\onisep.fr\OnisepInstitution.cs" />

@@ -17,10 +17,10 @@
   <Source                           value = "$Root$\Source\Lib\pb\Source\pb\_pb\FormatInfo.cs" />
   <Source                           value = "$Root$\Source\Lib\pb\Source\pb\_pb\ITrace.cs" />
   <Source                           value = "$Root$\Source\Lib\pb\Source\pb\_pb\PBException.cs" />
-  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\_pb\Reflection.cs" />
   <Source                           value = "$Root$\Source\Lib\pb\Source\pb\_pb\TextSerializer.cs" />
   <Source                           value = "$Root$\Source\Lib\pb\Source\pb\_pb\Trace.cs" />
   <Source                           value = "$Root$\Source\Lib\pb\Source\pb\_pb\TraceSetWriter.cs" />
+  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\_pb\Tree.cs" />
   <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Data\Xml\Xml.cs" />
   <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Data\Xml\XmlConfig.cs" />
   <Source                           value = "$Root$\Source\Lib\pb\Source\pb\IO\File.cs" />
@@ -31,6 +31,7 @@
   <Source                           value = "$Root$\Source\Lib\pb\Source\pb\IO\zDirectory.cs" />
   <Source                           value = "$Root$\Source\Lib\pb\Source\pb\IO\zFile.cs" />
   <Source                           value = "$Root$\Source\Lib\pb\Source\pb\IO\zPath.cs" />
+  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Reflection\Reflection.cs" />
   <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Text\Regex.cs" />
   <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Windows\Forms\zerrf.cs" />
   
@@ -46,6 +47,7 @@
   -->
   <Assembly                         value = "System.dll" />
   <Assembly                         value = "System.Core.dll" />
+  <!--<Assembly                         value = "System.Drawing.dll" />-->
   <Assembly                         value = "System.Windows.Forms.dll" />
   <Assembly                         value = "System.Xml.dll" />
   <Assembly                         value = "System.Xml.Linq.dll" />

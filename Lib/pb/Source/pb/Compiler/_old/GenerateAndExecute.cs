@@ -4,6 +4,7 @@ using System.IO;
 using System.Reflection;
 using System.Threading;
 using pb.IO;
+using pb.Reflection;
 
 namespace pb.Compiler
 {

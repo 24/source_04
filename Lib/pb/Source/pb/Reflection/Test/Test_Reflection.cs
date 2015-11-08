@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 
 namespace pb.Reflection.Test
 {
@@ -56,6 +57,18 @@ namespace pb.Reflection.Test
             type.GetFields();
             //type.InvokeMember("", System.Reflection.BindingFlags.Public, null, )
             //System.Reflection.RtFieldInfo
+        }
+
+        public static void Test_Reflection_03()
+        {
+           //System.Reflection.Assembly.GetExecutingAssembly().CreateInstance(string className);
+            //Assembly.GetCallingAssembly().CreateInstance();
+            //return (T)Activator.CreateInstance(typeof(T), new object[] { weight });
+            //Activator.CreateInstance();
+            //Type.GetType()
+            //Type type = typeof(TypeValues<>);
+            //type.MakeGenericType(typeof(Test_Company));
+            //typeof(TypeValues<Test_Company>).zGetTypeName();
         }
     }
 

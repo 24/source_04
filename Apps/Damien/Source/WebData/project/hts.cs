@@ -1,4 +1,11 @@
 //*************************************************************************************************************************
+//****                                   handeco.org
+//****                                   onisep.fr
+//****                                   cdefi.fr
+//*************************************************************************************************************************
+
+
+//*************************************************************************************************************************
 //****                                   hts - tools
 //*************************************************************************************************************************
 
@@ -6,17 +13,42 @@ Trace.WriteLine("toto");
 RunSource.CurrentRunSource.SetProjectFromSource();
 RunSource.CurrentRunSource.CompileProject(@"$Root$\Source\Apps\Damien\Source\WebData\project\hts.project.xml");
 
+HttpManager.CurrentHttpManager.ExportResult = false;
+HttpManager.CurrentHttpManager.ExportResult = true;
+Trace.WriteLine("ExportResult {0} ExportDirectory \"{1}\"", HttpManager.CurrentHttpManager.ExportResult, HttpManager.CurrentHttpManager.ExportDirectory);
+
+//*************************************************************************************************************************
+//****                                   cdefi.fr - run
+//*************************************************************************************************************************
+
+Cdefi_DetailManager.WebHeaderDetailManager.LoadDetails(startPage: 1, maxPage: 0, reloadHeaderPage: false, reloadDetail: false, refreshDocumentStore: false)
+	.zXmlExport(@"$Cdefi/DataDir$\export\Cdefi.xml".zConfigGetVariableValue(), detail: false, xmlDefinition: Cdefi.GetXmlExportDefinition());
+
+TraceMongoCommand.Export("htc", "Cdefi_Header", @"$Cdefi/DataDir$\mongo\export_Cdefi_Header.txt".zConfigGetVariableValue(), sort: "{ _id: 1 }");
+TraceMongoCommand.Export("htc", "Cdefi_Detail", @"$Cdefi/DataDir$\mongo\export_Cdefi_Detail.txt".zConfigGetVariableValue(), sort: "{ _id: 1 }");
+
+//*************************************************************************************************************************
+//****                                   onisep.fr - run
+//*************************************************************************************************************************
+
+OnisepInstitution_DetailManager.WebHeaderDetailManager.LoadDetails(startPage: 1, maxPage: 0, reloadHeaderPage: false, reloadDetail: false, refreshDocumentStore: false)
+	.Where(detail => detail.BacLevel >= 3)
+	.zXmlExport(@"$OnisepInstitution/DataDir$\export\OnisepInstitution.xml".zConfigGetVariableValue(), detail: false, xmlDefinition: OnisepInstitution.GetXmlExportDefinition());
+
+TraceMongoCommand.Export("htc", "OnisepInstitution_Header", @"$OnisepInstitution/DataDir$\mongo\export_OnisepInstitution_Header.txt".zConfigGetVariableValue(), sort: "{ _id: 1 }");
+TraceMongoCommand.Export("htc", "OnisepInstitution_Detail", @"$OnisepInstitution/DataDir$\mongo\export_OnisepInstitution_Detail.txt".zConfigGetVariableValue(), sort: "{ _id: 1 }");
+
+
 //*************************************************************************************************************************
 //****                                   handeco.org - run
 //*************************************************************************************************************************
-
-Handeco_DetailManager.WebHeaderDetailManager.LoadDetails(startPage: 1, maxPage: 2, reloadHeaderPage: true, reloadDetail: false, refreshDocumentStore: false).zTraceJson();
 
 Handeco_Xml.ExportXml(
 	Handeco_DetailManager.WebHeaderDetailManager.LoadHeaderDetails(startPage: 1, maxPage: 0, reloadHeaderPage: true, reloadDetail: false, refreshDocumentStore: false),
 	Path.Combine(AppData.DataDirectory, @"export\Handeco\Handeco.xml"),
 	Path.Combine(AppData.DataDirectory, @"export\Handeco\HandecoDetail.xml"));
 
+TraceMongoCommand.Export("htc", "Handeco_Detail", Path.Combine(AppData.DataDirectory, @"mongo\export\export_Handeco_Detail.txt"), sort: "{ _id: 1 }");
 
 
 //*************************************************************************************************************************
@@ -33,6 +65,8 @@ pb.Data.Mongo.TraceMongoCommand.Eval("db.getCollectionNames()", "htc");
 //*************************************************************************************************************************
 //****                                   handeco.org - test
 //*************************************************************************************************************************
+
+Handeco_DetailManager.WebHeaderDetailManager.LoadDetails(startPage: 1, maxPage: 2, reloadHeaderPage: true, reloadDetail: false, refreshDocumentStore: false).zTraceJson();
 
 Handeco_HeaderManager.HeaderWebDataPageManager.LoadPages(startPage: 1, maxPage: 2, reload: true, loadImage: false, refreshDocumentStore: false).zView();
 
@@ -56,8 +90,12 @@ Trace.WriteLine(uri.GetLeftPart(UriPartial.Query));
 uri.zTraceJson();
 
 //*************************************************************************************************************************
-//****                                   onisep.fr - run
+//****                                   onisep.fr - old
 //*************************************************************************************************************************
+
+OnisepInstitution_DetailManager.WebHeaderDetailManager.LoadDetails(startPage: 1, maxPage: 2, reloadHeaderPage: false, reloadDetail: false, refreshDocumentStore: false)
+	.Where(detail => detail.BacLevel >= 3)
+	.zXmlExport_v2(@"$OnisepInstitution/DataDir$\export\OnisepInstitutionDetail.xml".zConfigGetVariableValue(), detail: true, xmlDefinition: OnisepInstitution.GetXmlExportDefinition());
 
 OnisepInstitution_DetailManager.WebHeaderDetailManager.LoadDetails(startPage: 1, maxPage: 2, reloadHeaderPage: false, reloadDetail: false, refreshDocumentStore: false)
 	.Where(detail => detail.BacLevel >= 3)
@@ -92,12 +130,20 @@ pb.Data.Mongo.TraceMongoCommand.Eval("db.getCollectionNames()", "htc");
 RunSource.CurrentRunSource.GetProjectVariableValue(@"$OnisepInstitution/DataDir$\export\OnisepInstitution.xml", true).zTrace();
 @"$OnisepInstitution/DataDir$\export\OnisepInstitution.xml".zConfigGetVariableValue().zTrace();
 
+TypeValues<OnisepInstitution_Detail> typeValues = new TypeValues<OnisepInstitution_Detail>();
+typeValues.AddAllValues2();
+(typeValues != null ? "created" : "not created").zTrace();
 
 
-
-OnisepInstitution_HeaderManager.HeaderWebDataPageManager.LoadPages(startPage: 1, maxPage: 20, reload: true, loadImage: false, refreshDocumentStore: false).zView();
+OnisepInstitution_HeaderManager.HeaderWebDataPageManager.LoadPages(startPage: 1, maxPage: 2, reload: false, loadImage: false, refreshDocumentStore: false).zView();
+OnisepInstitution_HeaderManager.HeaderWebDataPageManager.LoadPages(startPage: 1, maxPage: 25, reload: false, loadImage: false, refreshDocumentStore: false).zView();
 
 HttpManager.CurrentHttpManager.ExportResult = true;
+
+HttpRun.Load("http://www.onisep.fr/Ressources/Univers-Postbac/Postbac/Alsace/Bas-Rhin/CFA-du-lycee-F.C.-Schweisguth");
+HtmlRun.Select("//div[@class='oni_fiche-info-1']//p[@class='vcard']//text():.:EmptyRow");
+OnisepInstitution_DetailManager.DetailWebDataManager.WebLoadDataManager.UrlCache.GetUrlPath(new HttpRequest { Url = "http://www.onisep.fr/Ressources/Univers-Postbac/Postbac/Aquitaine/Pyrenees-Atlantiques/Academie-Basque-du-Sport" }).zTrace();
+OnisepInstitution_DetailManager.DetailWebDataManager.WebLoadDataManager.UrlCache.GetUrlPath(new HttpRequest { Url = "http://www.onisep.fr/Ressources/Univers-Postbac/Postbac/Alsace/Bas-Rhin/CFA-du-lycee-F.C.-Schweisguth" }).zTrace();
 
 HttpRun.Load("http://www.onisep.fr/content/search?searchForm=etab&etabRecherche=1&SearchText=&SubTreeArray=243418&zone_geo=&filters%5Battr_categorie_type_etablissement_t%5D%5B%5D=&etab_autocomplete=&submit=Lancer+la+recherche");
 HttpRun.Load("http://www.onisep.fr/Ressources/Univers-Postbac/Postbac/Aquitaine/Pyrenees-Atlantiques/Academie-Basque-du-Sport");
@@ -158,12 +204,40 @@ foreach (XNodeInfo node in HttpRun.GetXDocument().zXXElement().XPathElements("//
 
 
 //*************************************************************************************************************************
+//****                                   cdefi.fr - test
+//*************************************************************************************************************************
+
+Cdefi_HeaderManager.HeaderWebDataPageManager.LoadPages(startPage: 1, maxPage: 0, reload: false, loadImage: false, refreshDocumentStore: false).zView();
+Cdefi_DetailManager.WebHeaderDetailManager.LoadDetails(startPage: 1, maxPage: 0, reloadHeaderPage: false, reloadDetail: false, refreshDocumentStore: true).zView();
+Cdefi_DetailManager.DetailWebDataManager.Load(new WebRequest { HttpRequest = new HttpRequest { Url = "http://www.cdefi.fr/fr/ecoles-ingenieurs/78/institut-dingenierie-informatique-de-limoges" }, RefreshDocumentStore = true}).Document.zView();
+
+HttpManager.CurrentHttpManager.ExportResult = false;
+HttpManager.CurrentHttpManager.ExportResult = true;
+HttpManager.CurrentHttpManager.ExportDirectory = @"c:\pib\dev_data\exe\runsource\damien\hts\log\http2";
+Trace.WriteLine("ExportResult {0} ExportDirectory \"{1}\"", HttpManager.CurrentHttpManager.ExportResult, HttpManager.CurrentHttpManager.ExportDirectory);
+Trace.WriteLine("toto");
+
+HttpRun.Load(new HttpRequest { Url = "http://www.cdefi.fr/actions.php", Method = HttpRequestMethod.Post, Referer = "http://www.cdefi.fr/fr/ecoles-ingenieurs", Content = "action=searchSchool&departement=&domaine=&reseau=&academie=" });
+HtmlRun.Select("//div[@class='oni_fiche-info-1']//p[@class='vcard']//text():.:EmptyRow");
+
+HttpRun.Load("http://www.cdefi.fr/fr/ecoles-ingenieurs/78/institut-dingenierie-informatique-de-limoges");
+HtmlRun.Select("//div[@id='body']//div[@class='wBloc']//text():.:EmptyRow");
+HtmlRun.Select("//div[@id='body']//div[@class='wBloc']//div[@class='wPage']:.:EmptyRow");
+HttpRun.GetXDocument().zXXElement().XPathElement("//div[@id='body']//div[@class='wBloc']//div[@class='wPage'][1]").GetPath().zTrace();
+HttpRun.GetXDocument().zXXElement().XPathElement("//div[@id='body']//div[@class='wBloc']//div[@class='wPage'][2]").GetPath().zTrace();
+
+//*************************************************************************************************************************
 //****                                   Test_Reflection
 //*************************************************************************************************************************
 
+Trace.WriteLine("toto");
 Trace.WriteLine(RunSource.CurrentRunSource.ProjectFile);
 RunSource.CurrentRunSource.SetProjectFromSource();
 RunSource.CurrentRunSource.SetProject(@"$Root$\Source\Lib\pb\Source\pb\Reflection\Test\Test_Reflection.project.xml");
+
+Test_Yield test_Yield = new Test_Yield();
+test_Yield.Test();
+
 
 Test_Data.GetCompanies(@"c:\pib\dev_data\exe\runsource\test\Test_Reflection\Test_Company.txt").zTraceJson();
 Test_TypeValues.Test_TypeValues_02(@"c:\pib\dev_data\exe\runsource\test\Test_Reflection\Test_Company.txt", "Name", "Numbers", "Contacts.Name", "Contacts.Numbers");

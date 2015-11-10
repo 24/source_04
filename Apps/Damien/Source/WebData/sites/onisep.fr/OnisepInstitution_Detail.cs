@@ -116,7 +116,7 @@ namespace hts.WebData
             if (s != null)
                 data.Fax = OnisepInstitution.Trim(s.Substring(5));
             s = xe.XPathValue(".//a[@class='email']/@href");
-            if (s.StartsWith("mailto:", StringComparison.InvariantCultureIgnoreCase))
+            if (s != null && s.StartsWith("mailto:", StringComparison.InvariantCultureIgnoreCase))
                 s = s.Substring(7);
             data.Mail = s;
             data.WebSite = xe.DescendantTextNodes().Where(xt => string.Equals(OnisepInstitution.Trim(xt.Value), "site :", StringComparison.InvariantCultureIgnoreCase)).FirstOrDefault()
@@ -218,14 +218,18 @@ namespace hts.WebData
 
         private static string GetGroup(HttpRequest httpRequest)
         {
+            // http://www.onisep.fr/Ressources/Univers-Postbac/Postbac/Aquitaine/Pyrenees-Atlantiques/Academie-Basque-du-Sport => "Aquitaine"
+
             string url = httpRequest.Url;
             if (!url.StartsWith("http://www.onisep.fr/Ressources/Univers-Postbac/Postbac/"))
                 throw new PBException("group not found in url \"{0}\"", url);
             url = url.Substring(56);
             int i = url.IndexOf('/');
             if (i == -1 || i == 0)
-                throw new PBException("group not found in url \"{0}\"", url);
-            return url.Substring(0, i);
+                //throw new PBException("group not found in url \"{0}\"", url);
+                return "_unknow";
+            else
+                return url.Substring(0, i);
         }
     }
 }

@@ -7,6 +7,7 @@ using System.Reflection;
 namespace pb.Reflection
 {
     [Flags]
+    // ValueType non non non
     public enum MemberType
     {
         Instance      = 0x0001,
@@ -17,7 +18,8 @@ namespace pb.Reflection
         Property      = 0x0020
     }
 
-    public class ValueInfo
+    // ValueInfo
+    public class TypeValueInfo
     {                                        // ex class Test { public string Title; }
         public Type SourceType;              // ex pb.Test.Test_01
         public string Name;                  // ex "Title"
@@ -32,7 +34,7 @@ namespace pb.Reflection
         public int MetadataToken;            // ex 67108935
         public Module Module;                // ex RunCode_00002.dll
 
-        public ValueInfo(Type sourceType, MemberInfo memberInfo)
+        public TypeValueInfo(Type sourceType, MemberInfo memberInfo)
         {
             SourceType = sourceType;
             Name = memberInfo.Name;
@@ -62,7 +64,7 @@ namespace pb.Reflection
             Module = memberInfo.Module;
         }
 
-        public ValueInfo(Type valueType)
+        public TypeValueInfo(Type valueType)
         {
             SourceType = null;
             Name = null;
@@ -92,7 +94,8 @@ namespace pb.Reflection
         }
     }
 
-    public class TraceValueInfo
+    // TraceValueInfo
+    public class TraceTypeValueInfo
     {
         public string Name;
         public string TreeName;
@@ -106,19 +109,19 @@ namespace pb.Reflection
         public int MetadataToken;
         public string Module;
 
-        public TraceValueInfo(ValueInfo valueInfo)
+        public TraceTypeValueInfo(TypeValueInfo typeValueInfo)
         {
-            Name = valueInfo.Name;
-            TreeName = valueInfo.TreeName;
-            ParentName = valueInfo.ParentName;
-            ValueType = valueInfo.ValueType.zGetTypeName();
-            IsValueType = valueInfo.IsValueType;
-            IsEnumerable = valueInfo.IsEnumerable;
-            DeclaringType = valueInfo.DeclaringType.zGetTypeName();
-            ReflectedType = valueInfo.ReflectedType.zGetTypeName();
-            MemberType = valueInfo.MemberTypes.ToString();
-            MetadataToken = valueInfo.MetadataToken;
-            Module = valueInfo.Module.Name;
+            Name = typeValueInfo.Name;
+            TreeName = typeValueInfo.TreeName;
+            ParentName = typeValueInfo.ParentName;
+            ValueType = typeValueInfo.ValueType.zGetTypeName();
+            IsValueType = typeValueInfo.IsValueType;
+            IsEnumerable = typeValueInfo.IsEnumerable;
+            DeclaringType = typeValueInfo.DeclaringType.zGetTypeName();
+            ReflectedType = typeValueInfo.ReflectedType.zGetTypeName();
+            MemberType = typeValueInfo.MemberTypes.ToString();
+            MetadataToken = typeValueInfo.MetadataToken;
+            Module = typeValueInfo.Module.Name;
         }
     }
 
@@ -135,7 +138,7 @@ namespace pb.Reflection
     {
         private BindingFlags _bindingFlags;
         private MemberTypes _memberTypes;
-        private Func<ValueInfo, TreeFilter> _filter = null;
+        private Func<TypeValueInfo, TreeFilter> _filter = null;
         //private bool _verbose = false;
         private bool _returnSource = false;
         private bool _returnParent = false;
@@ -143,27 +146,27 @@ namespace pb.Reflection
         private bool _returnNotValueType = false;
         private int _level = 1;
         private int _index = 1;
-        private Stack<IEnumerator<ValueInfo>> _stack = new Stack<IEnumerator<ValueInfo>>();
-        private IEnumerator<ValueInfo> _enumerator = null;
-        private ValueInfo _valueInfo = null;
+        private Stack<IEnumerator<TypeValueInfo>> _stack = new Stack<IEnumerator<TypeValueInfo>>();
+        private IEnumerator<TypeValueInfo> _enumerator = null;
+        private TypeValueInfo _typeValueInfo = null;
         private string _treeName = null;
 
         //public static ValueInfo GetValueInfo(Type type, string name, BindingFlags bindingFlags = BindingFlags.Instance | BindingFlags.Public, MemberTypes memberType = MemberTypes.All)
-        public static ValueInfo GetValueInfo(Type type, string name, MemberType memberType = MemberType.Instance | MemberType.Public | MemberType.Field | MemberType.Property)
+        public static TypeValueInfo GetValueInfo(Type type, string name, MemberType memberType = MemberType.Instance | MemberType.Public | MemberType.Field | MemberType.Property)
         {
             MemberInfo memberInfo = type.GetMember(name, GetBindingFlags(memberType)).FirstOrDefault();
             if (memberInfo != null && (memberInfo.MemberType & GetMemberTypes(memberType)) != 0)
-                return new ValueInfo(type, memberInfo);
+                return new TypeValueInfo(type, memberInfo);
             else
                 return null;
         }
 
-        public static IEnumerable<ValueInfo> GetValuesInfos(Type type, MemberType memberType = MemberType.Instance | MemberType.Public | MemberType.Field | MemberType.Property)
+        public static IEnumerable<TypeValueInfo> GetValuesInfos(Type type, MemberType memberType = MemberType.Instance | MemberType.Public | MemberType.Field | MemberType.Property)
         {
             return GetValuesInfos(type, GetBindingFlags(memberType), GetMemberTypes(memberType));
         }
 
-        public static IEnumerable<ValueInfo> GetValuesInfos(Type type, BindingFlags bindingFlags, MemberTypes memberTypes)
+        public static IEnumerable<TypeValueInfo> GetValuesInfos(Type type, BindingFlags bindingFlags, MemberTypes memberTypes)
         {
             if (type == null)
                 yield break;
@@ -171,12 +174,12 @@ namespace pb.Reflection
             {
                 if ((memberInfo.MemberType & memberTypes) == 0)
                     continue;
-                yield return new ValueInfo(type, memberInfo);
+                yield return new TypeValueInfo(type, memberInfo);
             }
         }
 
-        public static IEnumerable<TreeValue<ValueInfo>> GetAllValuesInfos(Type type, MemberType memberType = MemberType.Instance | MemberType.Public | MemberType.Field | MemberType.Property,
-            TypeReflectionOptions options = TypeReflectionOptions.ValueType | TypeReflectionOptions.NotValueType, Func<ValueInfo, TreeFilter> filter = null)
+        public static IEnumerable<TreeValue<TypeValueInfo>> GetAllValuesInfos(Type type, MemberType memberType = MemberType.Instance | MemberType.Public | MemberType.Field | MemberType.Property,
+            TypeReflectionOptions options = TypeReflectionOptions.ValueType | TypeReflectionOptions.NotValueType, Func<TypeValueInfo, TreeFilter> filter = null)
         {
             TypeReflection typeReflection = new TypeReflection();
             typeReflection._bindingFlags = GetBindingFlags(memberType);
@@ -203,6 +206,9 @@ namespace pb.Reflection
         public static bool IsValueType(Type type)
         {
             // from TypeView_v2.GetValuesFromVariable() : type.IsValueType && properties.Length == 0 && fields.Length == 0
+            Type nullableType = zReflection.GetNullableType(type);
+            if (nullableType != null)
+                type = nullableType;
             if (Type.GetTypeCode(type) != TypeCode.Object && type != typeof(Date) && type != typeof(Bitmap))
                 return true;
             else
@@ -233,14 +239,14 @@ namespace pb.Reflection
             return memberTypes;
         }
 
-        private IEnumerable<TreeValue<ValueInfo>> _GetAllValuesInfos(Type type)
+        private IEnumerable<TreeValue<TypeValueInfo>> _GetAllValuesInfos(Type type)
         {
             if (type == null)
                 yield break;
 
-            _valueInfo = new ValueInfo(type);
+            _typeValueInfo = new TypeValueInfo(type);
 
-            TreeValue<ValueInfo> treeValue;
+            TreeValue<TypeValueInfo> treeValue;
 
             treeValue = GetTreeValue(TreeOpe.Source);
             if (_returnSource)
@@ -262,7 +268,7 @@ namespace pb.Reflection
 
                     treeValue = GetTreeValue(TreeOpe.Child);
                     //if (_verbose || _valueInfo.IsValueType)
-                    if ((_valueInfo.IsValueType && _returnValueType) || (!_valueInfo.IsValueType && _returnNotValueType))
+                    if ((_typeValueInfo.IsValueType && _returnValueType) || (!_typeValueInfo.IsValueType && _returnNotValueType))
                     {
                         _index++;
                         yield return treeValue;
@@ -290,7 +296,7 @@ namespace pb.Reflection
 
                         treeValue = GetTreeValue(TreeOpe.Siblin);
                         //if (_verbose || _valueInfo.IsValueType)
-                        if ((_valueInfo.IsValueType && _returnValueType) || (!_valueInfo.IsValueType && _returnNotValueType))
+                        if ((_typeValueInfo.IsValueType && _returnValueType) || (!_typeValueInfo.IsValueType && _returnNotValueType))
                         {
                             _index++;
                             yield return treeValue;
@@ -309,7 +315,7 @@ namespace pb.Reflection
                         break;
 
                     if (_returnParent)
-                        yield return new TreeValue<ValueInfo> { Index = _index++, Value = null, Level = _level - 1, TreeOpe = TreeOpe.Parent, Selected = false, Skip = false, Stop = false };
+                        yield return new TreeValue<TypeValueInfo> { Index = _index++, Value = null, Level = _level - 1, TreeOpe = TreeOpe.Parent, Selected = false, Skip = false, Stop = false };
 
                     if (!GetParent())
                         yield break;
@@ -317,13 +323,13 @@ namespace pb.Reflection
             }
         }
 
-        private TreeValue<ValueInfo> GetTreeValue(TreeOpe treeOpe)
+        private TreeValue<TypeValueInfo> GetTreeValue(TreeOpe treeOpe)
         {
-            TreeValue<ValueInfo> treeValue = new TreeValue<ValueInfo> { Index = _index, Value = _valueInfo, Level = _level, TreeOpe = treeOpe, Selected = false, Skip = false, Stop = false };
+            TreeValue<TypeValueInfo> treeValue = new TreeValue<TypeValueInfo> { Index = _index, Value = _typeValueInfo, Level = _level, TreeOpe = treeOpe, Selected = false, Skip = false, Stop = false };
 
             TreeFilter treeFilter = TreeFilter.Select;
             if (_filter != null)
-                treeFilter = _filter(_valueInfo);
+                treeFilter = _filter(_typeValueInfo);
 
             if ((treeFilter & TreeFilter.Stop) == TreeFilter.Stop)
             {
@@ -344,19 +350,19 @@ namespace pb.Reflection
 
         private bool GetChild()
         {
-            if (_valueInfo.IsValueType)
+            if (_typeValueInfo.IsValueType)
                 return false;
 
             if (_enumerator != null)
                 _stack.Push(_enumerator);
 
             _level++;
-            _enumerator = GetValuesInfos(_valueInfo.ValueType, _bindingFlags, _memberTypes).GetEnumerator();
+            _enumerator = GetValuesInfos(_typeValueInfo.ValueType, _bindingFlags, _memberTypes).GetEnumerator();
             if (!_enumerator.MoveNext())
                 return false;
 
-            _treeName = _valueInfo.TreeName;
-            _valueInfo = _enumerator.Current;
+            _treeName = _typeValueInfo.TreeName;
+            _typeValueInfo = _enumerator.Current;
             SetTreeName();
             return true;
         }
@@ -366,7 +372,7 @@ namespace pb.Reflection
             if (!_enumerator.MoveNext())
                 return false;
 
-            _valueInfo = _enumerator.Current;
+            _typeValueInfo = _enumerator.Current;
             SetTreeName();
             return true;
         }
@@ -386,46 +392,46 @@ namespace pb.Reflection
         {
             if (_treeName != null)
             {
-                _valueInfo.TreeName = _treeName + "." + _valueInfo.TreeName;
-                _valueInfo.ParentName = _treeName;
+                _typeValueInfo.TreeName = _treeName + "." + _typeValueInfo.TreeName;
+                _typeValueInfo.ParentName = _treeName;
             }
         }
     }
 
     public static partial class GlobalExtension
     {
-        public static ValueInfo zGetTypeValueInfo(this Type type, string name, MemberType memberType = MemberType.Instance | MemberType.Public | MemberType.Field | MemberType.Property)
+        public static TypeValueInfo zGetTypeValueInfo(this Type type, string name, MemberType memberType = MemberType.Instance | MemberType.Public | MemberType.Field | MemberType.Property)
         {
             return TypeReflection.GetValueInfo(type, name, memberType);
         }
 
-        public static IEnumerable<ValueInfo> zGetTypeValuesInfos(this Type type, MemberType memberType = MemberType.Instance | MemberType.Public | MemberType.Field | MemberType.Property)
+        public static IEnumerable<TypeValueInfo> zGetTypeValuesInfos(this Type type, MemberType memberType = MemberType.Instance | MemberType.Public | MemberType.Field | MemberType.Property)
         {
             return TypeReflection.GetValuesInfos(type, memberType);
         }
 
-        public static IEnumerable<ValueInfo> zGetTypeValuesInfos(this Type type, BindingFlags bindingFlags = BindingFlags.Instance | BindingFlags.Public, MemberTypes memberTypes = MemberTypes.All)
+        public static IEnumerable<TypeValueInfo> zGetTypeValuesInfos(this Type type, BindingFlags bindingFlags = BindingFlags.Instance | BindingFlags.Public, MemberTypes memberTypes = MemberTypes.All)
         {
             return TypeReflection.GetValuesInfos(type, bindingFlags, memberTypes);
         }
 
-        public static IEnumerable<TreeValue<ValueInfo>> zGetTypeAllValuesInfos(this Type type, MemberType memberType = MemberType.Instance | MemberType.Public | MemberType.Field | MemberType.Property,
-            TypeReflectionOptions options = TypeReflectionOptions.ValueType | TypeReflectionOptions.NotValueType, Func<ValueInfo, TreeFilter> filter = null)
+        public static IEnumerable<TreeValue<TypeValueInfo>> zGetTypeAllValuesInfos(this Type type, MemberType memberType = MemberType.Instance | MemberType.Public | MemberType.Field | MemberType.Property,
+            TypeReflectionOptions options = TypeReflectionOptions.ValueType | TypeReflectionOptions.NotValueType, Func<TypeValueInfo, TreeFilter> filter = null)
         {
             return TypeReflection.GetAllValuesInfos(type, memberType, options, filter);
         }
 
-        public static IEnumerable<TraceValueInfo> zToTraceValuesInfos(this IEnumerable<ValueInfo> valuesInfos)
+        public static IEnumerable<TraceTypeValueInfo> zToTraceValuesInfos(this IEnumerable<TypeValueInfo> valuesInfos)
         {
-            return valuesInfos.Select(valueInfo => new TraceValueInfo(valueInfo));
+            return valuesInfos.Select(valueInfo => new TraceTypeValueInfo(valueInfo));
         }
 
-        public static IEnumerable<TraceTreeValue<TraceValueInfo>> zToTraceTreeValuesInfos(this IEnumerable<TreeValue<ValueInfo>> treeValuesInfos)
+        public static IEnumerable<TraceTreeValue<TraceTypeValueInfo>> zToTraceTreeValuesInfos(this IEnumerable<TreeValue<TypeValueInfo>> treeValuesInfos)
         {
-            return treeValuesInfos.Select(treeValueInfo => new TraceTreeValue<TraceValueInfo>
+            return treeValuesInfos.Select(treeValueInfo => new TraceTreeValue<TraceTypeValueInfo>
             {
                 Index = treeValueInfo.Index,
-                Value = treeValueInfo.Value != null ? new TraceValueInfo(treeValueInfo.Value) : null,
+                Value = treeValueInfo.Value != null ? new TraceTypeValueInfo(treeValueInfo.Value) : null,
                 Level = treeValueInfo.Level,
                 TreeOpe = treeValueInfo.TreeOpe.ToString(),
                 Selected = treeValueInfo.Selected,

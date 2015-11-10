@@ -19,6 +19,7 @@
   <Root                             value = "..\..\..\..\.." />
   
   <Using                            value = "pb" />
+  <Using                            value = "pb.Reflection" />
 
   <Source                           value = "$Root$\Source\Lib\pb\Source\pb\_pb\Date.cs" />
   <Source                           value = "$Root$\Source\Lib\pb\Source\pb\_pb\NamedValue.cs" />
@@ -26,6 +27,10 @@
   <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Data\DataTable.cs" />
   <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Data\FieldList.cs" />
   <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Data\Mongo\BsonDocumentsToDataTable.cs" />
+  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Reflection\TypeAccess.cs" />
+  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Reflection\TypeReflection.cs" />
+  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Reflection\TypeValues.cs" />
+  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Reflection\TypeValuesDataTable.cs" />
   <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Reflection\TypeView.cs" />
 
   <Assembly                         value = "System.Drawing.dll" />

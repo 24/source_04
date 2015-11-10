@@ -11,7 +11,7 @@ namespace pb.Web
         public static CookieContainer LoadCookies(string file)
         {
             CookieContainer cookies = new CookieContainer();
-            foreach (Cookie cookie in zmongo.BsonReader<Cookie>(file))
+            foreach (Cookie cookie in zmongo.FileBsonReader<Cookie>(file))
                 cookies.Add(cookie);
             return cookies;
         }

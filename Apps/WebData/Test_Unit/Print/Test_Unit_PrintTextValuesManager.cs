@@ -16,7 +16,7 @@ namespace Test.Test_Unit.Print
         public static void Test_01(string file)
         {
             file = zPath.Combine(GetDirectory(), file);
-            foreach (BsonDocument doc in zmongo.BsonReader<BsonDocument>(file))
+            foreach (BsonDocument doc in zmongo.FileBsonReader<BsonDocument>(file))
             {
                 PrintTextValues_v1 textValues = DownloadPrint.PrintTextValuesManager.GetTextValues_v1(doc.zGet("Texts").zAsBsonArray().zAsStrings(), doc.zGet("Title").zAsString());
                 Trace.WriteLine("Texts :");
@@ -30,7 +30,7 @@ namespace Test.Test_Unit.Print
         public static void Test_02(string file)
         {
             file = zPath.Combine(GetDirectory(), file);
-            foreach (BsonDocument doc in zmongo.BsonReader<BsonDocument>(file))
+            foreach (BsonDocument doc in zmongo.FileBsonReader<BsonDocument>(file))
             {
                 PrintTextValues textValues = DownloadPrint.PrintTextValuesManager.GetTextValues(doc.zGet("Texts").zAsBsonArray().zAsStrings(), doc.zGet("Title").zAsString());
                 Trace.WriteLine("Texts :");

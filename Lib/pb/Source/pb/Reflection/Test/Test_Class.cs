@@ -41,7 +41,7 @@ namespace pb.Reflection.Test
         public static IEnumerable<Test_Company> GetCompanies(string file)
         {
             //return BsonSerializer.Deserialize<Test_Company>("");
-            return zmongo.BsonReader<Test_Company>(file);
+            return zmongo.FileBsonReader<Test_Company>(file);
         }
 
     }

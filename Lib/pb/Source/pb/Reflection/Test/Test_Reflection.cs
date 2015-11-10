@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 
 namespace pb.Reflection.Test
@@ -69,6 +70,16 @@ namespace pb.Reflection.Test
             //Type type = typeof(TypeValues<>);
             //type.MakeGenericType(typeof(Test_Company));
             //typeof(TypeValues<Test_Company>).zGetTypeName();
+        }
+    }
+
+    public class Test_Yield
+    {
+        public IEnumerable<string> Test()
+        {
+            Trace.WriteLine("Test begin");
+            yield return "toto";
+            Trace.WriteLine("Test end");
         }
     }
 

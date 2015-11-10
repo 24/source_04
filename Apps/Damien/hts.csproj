@@ -209,6 +209,9 @@
     <Compile Include="..\..\Lib\pb\Source\pb\Reflection\TypeReflection.cs">
       <Link>SourceLnk\Lib\pb\Reflection\TypeReflection.cs</Link>
     </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Reflection\TypeValues.cs">
+      <Link>SourceLnk\Lib\pb\Reflection\TypeValues.cs</Link>
+    </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Reflection\TypeView.cs">
       <Link>SourceLnk\Lib\pb\NewFolder1\TypeView.cs</Link>
     </Compile>
@@ -342,6 +345,9 @@
       <Link>SourceLnk\Lib\pb\_pb\Tree.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Source\WebData\sites\cdefi.fr\Cdefi.cs" />
+    <Compile Include="Source\WebData\sites\cdefi.fr\Cdefi_Detail.cs" />
+    <Compile Include="Source\WebData\sites\cdefi.fr\Cdefi_Header.cs" />
     <Compile Include="Source\WebData\sites\onisep.fr\OnisepInstitution.cs" />
     <Compile Include="Source\WebData\sites\onisep.fr\OnisepInstitution_Detail.cs" />
     <Compile Include="Source\WebData\sites\onisep.fr\OnisepInstitution_Header.cs" />

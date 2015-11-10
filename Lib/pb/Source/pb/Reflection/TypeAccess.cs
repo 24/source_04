@@ -15,20 +15,21 @@ namespace pb.Reflection
         public object Value;
     }
 
-    public class MemberAccess : TypeValue
+    // MemberAccess
+    public class TypeValueAccess : TypeValue
     {
-        public MemberAccess(ValueInfo valueInfo, string treeName = null)
+        public TypeValueAccess(TypeValueInfo typeValueInfo, string treeName = null)
         {
-            SourceType = valueInfo.SourceType;
-            Name = valueInfo.Name;
+            SourceType = typeValueInfo.SourceType;
+            Name = typeValueInfo.Name;
             if (treeName == null)
-                TreeName = valueInfo.Name;
+                TreeName = typeValueInfo.Name;
             else
                 TreeName = treeName;
-            AccessBindingFlag = GetAccessBindingFlag(valueInfo.MemberTypes);
-            ValueType = valueInfo.ValueType;
-            IsValueType = valueInfo.IsValueType;
-            IsEnumerable = valueInfo.IsEnumerable;
+            AccessBindingFlag = GetAccessBindingFlag(typeValueInfo.MemberTypes);
+            ValueType = typeValueInfo.ValueType;
+            IsValueType = typeValueInfo.IsValueType;
+            IsEnumerable = typeValueInfo.IsEnumerable;
         }
 
         public Type SourceType;
@@ -44,7 +45,7 @@ namespace pb.Reflection
             return SourceType.InvokeMember(Name, AccessBindingFlag, null, target, null);
         }
 
-        public static MemberAccess Create(Type type, string name, MemberType memberType = MemberType.Instance | MemberType.Public | MemberType.Field | MemberType.Property)
+        public static TypeValueAccess Create(Type type, string name, MemberType memberType = MemberType.Instance | MemberType.Public | MemberType.Field | MemberType.Property)
         {
             //BindingFlags bindingFlags = BindingFlags.Instance;
             //if ((memberType & pb.Reflection.MemberType.Public) == pb.Reflection.MemberType.Public)
@@ -62,15 +63,15 @@ namespace pb.Reflection
             //    return new MemberAccess { SourceType = type, Name = member.Name, AccessBindingFlag = accessBindingFlag };
             //}
             //return null;
-            ValueInfo valueInfo = type.zGetTypeValueInfo(name, memberType);
-            if (valueInfo != null)
+            TypeValueInfo typeValueInfo = type.zGetTypeValueInfo(name, memberType);
+            if (typeValueInfo != null)
                 //return new MemberAccess { SourceType = type, Name = valueInfo.Name, AccessBindingFlag = GetAccessBindingFlag(valueInfo.MemberTypes) };
-                return new MemberAccess(valueInfo);
+                return new TypeValueAccess(typeValueInfo);
             else
                 return null;
         }
 
-        public static IEnumerable<MemberAccess> Create(Type type, MemberType memberType = MemberType.Instance | MemberType.Public | MemberType.Field | MemberType.Property)
+        public static IEnumerable<TypeValueAccess> Create(Type type, MemberType memberType = MemberType.Instance | MemberType.Public | MemberType.Field | MemberType.Property)
         {
             //BindingFlags bindingFlags = BindingFlags.Instance;
             //if ((memberType & pb.Reflection.MemberType.Public) == pb.Reflection.MemberType.Public)
@@ -88,9 +89,9 @@ namespace pb.Reflection
             //        //yield return new MemberAccess { SourceType = type, Name = member.Name, MemberTypes = member.MemberType, AccessBindingFlag = BindingFlags.GetProperty, MemberInfo = member };
             //        yield return new MemberAccess { SourceType = type, Name = member.Name, AccessBindingFlag = BindingFlags.GetProperty };
             //}
-            foreach (ValueInfo valueInfo in type.zGetTypeValuesInfos(memberType))
+            foreach (TypeValueInfo typeValueInfo in type.zGetTypeValuesInfos(memberType))
                 //yield return new MemberAccess { SourceType = type, Name = valueInfo.Name, AccessBindingFlag = GetAccessBindingFlag(valueInfo.MemberTypes) };
-                yield return new MemberAccess(valueInfo);
+                yield return new TypeValueAccess(typeValueInfo);
         }
 
         public static BindingFlags GetAccessBindingFlag(MemberTypes memberTypes)
@@ -104,10 +105,11 @@ namespace pb.Reflection
         }
     }
 
+    // not used
     public class TypeAccess
     {
         private Type _type = null;
-        private Dictionary<string, MemberAccess> _members = null;
+        private Dictionary<string, TypeValueAccess> _members = null;
 
         public TypeAccess(Type type)
         {
@@ -117,8 +119,8 @@ namespace pb.Reflection
 
         public object GetValue(string name, object target)
         {
-            MemberAccess memberAccess = _members[name];
-            return _type.InvokeMember(memberAccess.Name, memberAccess.AccessBindingFlag, null, target, null);
+            TypeValueAccess typeValueAccess = _members[name];
+            return _type.InvokeMember(typeValueAccess.Name, typeValueAccess.AccessBindingFlag, null, target, null);
         }
 
         public void AddMembers(MemberType memberType = MemberType.Instance | MemberType.Public | MemberType.Field | MemberType.Property)
@@ -144,8 +146,8 @@ namespace pb.Reflection
             //    }
             //}
 
-            foreach (MemberAccess memberAccess in MemberAccess.Create(_type, memberType))
-                _members.Add(memberAccess.Name, memberAccess);
+            foreach (TypeValueAccess typeValueAccess in TypeValueAccess.Create(_type, memberType))
+                _members.Add(typeValueAccess.Name, typeValueAccess);
         }
 
         public void AddMember(string name, MemberType memberType = MemberType.Instance | MemberType.Public | MemberType.Field | MemberType.Property)
@@ -166,9 +168,9 @@ namespace pb.Reflection
             //    _members.Add(member.Name, new MemberAccess { Name = member.Name, AccessBindingFlag = accessBindingFlag });
             //}
 
-            MemberAccess memberAccess = MemberAccess.Create(_type, name, memberType);
-            if (memberAccess != null)
-                _members.Add(memberAccess.Name, memberAccess);
+            TypeValueAccess typeValueAccess = TypeValueAccess.Create(_type, name, memberType);
+            if (typeValueAccess != null)
+                _members.Add(typeValueAccess.Name, typeValueAccess);
         }
     }
 }

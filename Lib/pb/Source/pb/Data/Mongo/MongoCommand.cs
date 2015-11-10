@@ -143,7 +143,7 @@ namespace pb.Data.Mongo
             //{
             //    collection.zSave(document);
             //}
-            zmongo.BsonReader<BsonDocument>(file).zSave(collection, options);
+            zmongo.FileBsonReader<BsonDocument>(file).zSave(collection, options);
         }
     }
 

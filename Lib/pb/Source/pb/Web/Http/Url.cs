@@ -173,6 +173,12 @@ namespace pb.Web
             if (ext == null)
             {
                 ext = zPath.GetExtension(uri.AbsolutePath);
+                // modif le 09/11/2015 appel Http.GetContentTypeFromFileExtension() pour vérifier le type d'extension
+                if (Http.GetContentTypeFromFileExtension(ext) == null)
+                {
+                    file += ext;
+                    ext = "";
+                }
                 if (ext == "")
                     ext = ".html";
                 //else if (!queryOrContent)

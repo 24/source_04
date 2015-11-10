@@ -4,16 +4,17 @@ using System.Collections.Generic;
 
 namespace pb.Reflection
 {
-    public class TreeBase
+    // TreeBase
+    public class NodeBase
     {
         //T Parent { get; }
         //T Child { get; }
         //T Siblin { get; }
-        public TreeBase Parent;
-        public TreeBase Child;
-        public TreeBase Siblin;
+        public NodeBase Parent;
+        public NodeBase Child;
+        public NodeBase Siblin;
 
-        public void SetParent(TreeBase parent)
+        public void SetParent(NodeBase parent)
         {
             if (Parent != null)
                 throw new PBException("TreeBase has already a parent");
@@ -24,7 +25,7 @@ namespace pb.Reflection
                     parent.Child = this;
                 else
                 {
-                    TreeBase siblin = parent.Child;
+                    NodeBase siblin = parent.Child;
                     while (siblin.Siblin != null)
                         siblin = siblin.Siblin;
                     siblin.Siblin = this;
@@ -33,9 +34,10 @@ namespace pb.Reflection
         }
     }
 
-    public class MemberValue : TreeBase
+    // MemberValue
+    public class TypeValueNode : NodeBase
     {
-        public MemberAccess MemberAccess;
+        public TypeValueAccess TypeValueAccess;
         //public MemberValue Parent;
         //public MemberValue Child;
         //public MemberValue Siblin;
@@ -44,7 +46,7 @@ namespace pb.Reflection
         public IEnumerator Enumerator;
         public bool FoundNext;
         public bool ChildFoundNext;
-        public MemberValue ParentEnumerate;
+        public TypeValueNode ParentEnumerate;
 
         //public void SetParent(MemberValue parent)
         //{
@@ -69,8 +71,8 @@ namespace pb.Reflection
     public partial class TypeValues<T>
     {
         private Type _type = null;
-        private Dictionary<string, MemberValue> _memberValues = new Dictionary<string, MemberValue>();
-        private List<MemberValue> _enumerates = null;
+        private Dictionary<string, TypeValueNode> _typeValueNodes = new Dictionary<string, TypeValueNode>();
+        private List<TypeValueNode> _enumerates = null;
         private T _data;
         private bool _nextValue = false;
 
@@ -79,56 +81,62 @@ namespace pb.Reflection
             _type = typeof(T);
         }
 
-        public Dictionary<string, MemberValue> MemberValues { get { return _memberValues; } }
+        public Dictionary<string, TypeValueNode> TypeValueNodes { get { return _typeValueNodes; } }
 
         public void AddAllValues(MemberType memberType = MemberType.Instance | MemberType.Public | MemberType.Field | MemberType.Property)
         {
-            foreach (TreeValue<ValueInfo> treeValueInfo in _type.zGetTypeAllValuesInfos(memberType, options: TypeReflectionOptions.ValueType | TypeReflectionOptions.NotValueType))
+            foreach (TreeValue<TypeValueInfo> treeValueInfo in _type.zGetTypeAllValuesInfos(memberType, options: TypeReflectionOptions.ValueType | TypeReflectionOptions.NotValueType))
             {
-                MemberValue memberValue = new MemberValue { MemberAccess = new MemberAccess(treeValueInfo.Value, treeValueInfo.Value.TreeName) };
-                MemberValue parent = null;
+                TypeValueNode typeValueNode = new TypeValueNode { TypeValueAccess = new TypeValueAccess(treeValueInfo.Value, treeValueInfo.Value.TreeName) };
+                TypeValueNode parent = null;
                 if (treeValueInfo.Value.ParentName != null)
                 {
-                    parent = _memberValues[treeValueInfo.Value.ParentName];
-                    memberValue.SetParent(parent);
+                    parent = _typeValueNodes[treeValueInfo.Value.ParentName];
+                    typeValueNode.SetParent(parent);
                 }
-                _memberValues.Add(treeValueInfo.Value.TreeName, memberValue);
+                //if (typeValueNode.TypeValueAccess.IsValueType)
+                //    yield return typeValueNode;
+                _typeValueNodes.Add(treeValueInfo.Value.TreeName, typeValueNode);
             }
         }
 
-        public void AddValue(string name, MemberType memberType = MemberType.Instance | MemberType.Public | MemberType.Field | MemberType.Property)
+        public TypeValueNode AddValue(string name, MemberType memberType = MemberType.Instance | MemberType.Public | MemberType.Field | MemberType.Property, bool notEnumerable = false)
         {
             string parentName = null;
-            MemberValue parent = null;
+            TypeValueNode parent = null;
             Type type = _type;
+            TypeValueNode typeValueNode = null;
             foreach (string valueName in name.Split('.'))
             {
                 string treeName = valueName;
                 if (parentName != null)
                     treeName = parentName + "." + treeName;
-                MemberValue memberValue = null;
-                if (!_memberValues.ContainsKey(treeName))
+                typeValueNode = null;
+                if (!_typeValueNodes.ContainsKey(treeName))
                 {
-                    ValueInfo valueInfo = type.zGetTypeValueInfo(valueName, memberType);
-                    if (valueInfo == null)
+                    TypeValueInfo typeValueInfo = type.zGetTypeValueInfo(valueName, memberType);
+                    if (typeValueInfo == null)
                         throw new PBException("unknow value \"{0}\" from type {1} memberType {2}", valueName, type.zGetTypeName(), memberType.ToString());
-                    memberValue = new MemberValue { MemberAccess = new MemberAccess(valueInfo, treeName) };
-                    memberValue.SetParent(parent);
-                    _memberValues.Add(treeName, memberValue);
+                    typeValueNode = new TypeValueNode { TypeValueAccess = new TypeValueAccess(typeValueInfo, treeName) };
+                    if (notEnumerable)
+                        typeValueNode.TypeValueAccess.IsEnumerable = false;
+                    typeValueNode.SetParent(parent);
+                    _typeValueNodes.Add(treeName, typeValueNode);
                 }
                 else
-                    memberValue = _memberValues[valueName];
+                    typeValueNode = _typeValueNodes[valueName];
                 parentName = treeName;
-                parent = memberValue;
-                type = memberValue.MemberAccess.ValueType;
+                parent = typeValueNode;
+                type = typeValueNode.TypeValueAccess.ValueType;
             }
+            return typeValueNode;
         }
 
         public IEnumerable<TypeValue> GetTypeValues()
         {
-            foreach (MemberValue memberValue in _memberValues.Values)
+            foreach (TypeValueNode typeValueNode in _typeValueNodes.Values)
             {
-                yield return memberValue.MemberAccess;
+                yield return typeValueNode.TypeValueAccess;
             }
         }
 
@@ -141,10 +149,10 @@ namespace pb.Reflection
 
         public IEnumerable<TypeValue> GetValues(bool onlyNextValue = false)
         {
-            foreach (MemberValue memberValue in _memberValues.Values)
+            foreach (TypeValueNode typeValueNode in _typeValueNodes.Values)
             {
-                memberValue.MemberAccess.Value = GetValue(memberValue, onlyNextValue);
-                yield return memberValue.MemberAccess;
+                typeValueNode.TypeValueAccess.Value = GetValue(typeValueNode, onlyNextValue);
+                yield return typeValueNode.TypeValueAccess;
             }
         }
 
@@ -152,29 +160,29 @@ namespace pb.Reflection
         {
             RazEnumerates();
             bool found = false;
-            foreach (MemberValue memberValue in _enumerates)
+            foreach (TypeValueNode typeValueNode in _enumerates)
             {
-                if (!memberValue.ChildFoundNext)
+                if (!typeValueNode.ChildFoundNext)
                 {
-                    IEnumerator enumerator = memberValue.Enumerator;
+                    IEnumerator enumerator = typeValueNode.Enumerator;
                     if (enumerator != null)
                     {
                         if (enumerator.MoveNext())
                         {
                             found = true;
-                            memberValue.Value = enumerator.Current;
-                            memberValue.FoundNext = true;
+                            typeValueNode.Value = enumerator.Current;
+                            typeValueNode.FoundNext = true;
 
                             // update childs values
-                            UpdateChildsValues(memberValue);
+                            UpdateChildsValues(typeValueNode);
 
-                            MemberValue memberValue2 = memberValue;
+                            TypeValueNode typeValueNode2 = typeValueNode;
                             while (true)
                             {
-                                memberValue2 = memberValue2.ParentEnumerate;
-                                if (memberValue2 == null)
+                                typeValueNode2 = typeValueNode2.ParentEnumerate;
+                                if (typeValueNode2 == null)
                                     break;
-                                memberValue2.ChildFoundNext = true;
+                                typeValueNode2.ChildFoundNext = true;
                             }
                         }
                     }
@@ -184,40 +192,40 @@ namespace pb.Reflection
             return found;
         }
 
-        private void UpdateChildsValues(MemberValue memberValue)
+        private void UpdateChildsValues(TypeValueNode typeValueNode)
         {
             // memberValue.ValueAvailable
             // memberValue.FoundNext = false;
             // memberValue.ChildFoundNext = false;
             //object data = memberValue.Value;
 
-            MemberValue memberValue2 = memberValue;
-            if (memberValue2.Child != null)
+            TypeValueNode typeValueNode2 = typeValueNode;
+            if (typeValueNode2.Child != null)
             {
                 while (true)
                 {
                     // loop on childs
-                    while (memberValue2.Child != null)
+                    while (typeValueNode2.Child != null)
                     {
-                        memberValue2 = (MemberValue)memberValue2.Child;
+                        typeValueNode2 = (TypeValueNode)typeValueNode2.Child;
                         //memberValue2.ValueAvailable = false;
-                        SetValue(memberValue2);
-                        memberValue2.FoundNext = true;
+                        SetValue(typeValueNode2);
+                        typeValueNode2.FoundNext = true;
                     }
 
                     while (true)
                     {
-                        if (memberValue2.Siblin != null)
+                        if (typeValueNode2.Siblin != null)
                         {
-                            memberValue2 = (MemberValue)memberValue2.Siblin;
+                            typeValueNode2 = (TypeValueNode)typeValueNode2.Siblin;
                             //memberValue2.ValueAvailable = false;
-                            SetValue(memberValue2);
-                            memberValue2.FoundNext = true;
+                            SetValue(typeValueNode2);
+                            typeValueNode2.FoundNext = true;
                         }
                         else
                         {
-                            memberValue2 = (MemberValue)memberValue2.Parent;
-                            if (memberValue2 == memberValue)
+                            typeValueNode2 = (TypeValueNode)typeValueNode2.Parent;
+                            if (typeValueNode2 == typeValueNode)
                                 return;
                         }
                     }
@@ -227,30 +235,29 @@ namespace pb.Reflection
 
         public object GetValue(string name, bool onlyNextValue = false)
         {
-            if (!_memberValues.ContainsKey(name))
+            if (!_typeValueNodes.ContainsKey(name))
                 throw new PBException("unknow value \"{0}\"", name);
-            MemberValue memberValue = _memberValues[name];
-            return GetValue(memberValue, onlyNextValue);
+            return GetValue(_typeValueNodes[name], onlyNextValue);
         }
 
-        private object GetValue(MemberValue memberValue, bool onlyNextValue)
+        public object GetValue(TypeValueNode typeValueNode, bool onlyNextValue = false)
         {
             if (!_nextValue)
-                _GetValue(memberValue);
-            if (!_nextValue || !onlyNextValue || memberValue.FoundNext)
-                return memberValue.Value;
+                _GetValue(typeValueNode);
+            if (!_nextValue || !onlyNextValue || typeValueNode.FoundNext)
+                return typeValueNode.Value;
             else
                 return null;
         }
 
-        private void _GetValue(MemberValue memberValue)
+        private void _GetValue(TypeValueNode typeValueNode)
         {
-            if (!memberValue.ValueAvailable)
+            if (!typeValueNode.ValueAvailable)
             {
                 //object data = null;
-                if (memberValue.Parent != null)
+                if (typeValueNode.Parent != null)
                 {
-                    _GetValue((MemberValue)memberValue.Parent);
+                    _GetValue((TypeValueNode)typeValueNode.Parent);
                     //data = memberValue.Parent.Value;
                 }
                 //else
@@ -269,39 +276,39 @@ namespace pb.Reflection
                 //        memberValue.Value = value;
                 //}
                 //memberValue.ValueAvailable = true;
-                SetValue(memberValue);
+                SetValue(typeValueNode);
             }
         }
 
-        private void SetValue(MemberValue memberValue)
+        private void SetValue(TypeValueNode typeValueNode)
         {
             object data;
-            if (memberValue.Parent != null)
-                data = ((MemberValue)memberValue.Parent).Value;
+            if (typeValueNode.Parent != null)
+                data = ((TypeValueNode)typeValueNode.Parent).Value;
             else
                 data = _data;
             if (data != null)
             {
-                object value = memberValue.MemberAccess.GetValue(data);
-                if (memberValue.MemberAccess.IsEnumerable)
+                object value = typeValueNode.TypeValueAccess.GetValue(data);
+                if (typeValueNode.TypeValueAccess.IsEnumerable)
                 {
-                    memberValue.Enumerator = ((IEnumerable)value).GetEnumerator();
-                    if (memberValue.Enumerator != null && memberValue.Enumerator.MoveNext())
-                        memberValue.Value = memberValue.Enumerator.Current;
+                    typeValueNode.Enumerator = ((IEnumerable)value).GetEnumerator();
+                    if (typeValueNode.Enumerator != null && typeValueNode.Enumerator.MoveNext())
+                        typeValueNode.Value = typeValueNode.Enumerator.Current;
                 }
                 else
-                    memberValue.Value = value;
+                    typeValueNode.Value = value;
             }
             else
-                memberValue.Value = null;
-            memberValue.ValueAvailable = true;
+                typeValueNode.Value = null;
+            typeValueNode.ValueAvailable = true;
         }
 
         private void RazValues()
         {
-            foreach (MemberValue memberValue in _memberValues.Values)
+            foreach (TypeValueNode typeValueNode in _typeValueNodes.Values)
             {
-                memberValue.ValueAvailable = false;
+                typeValueNode.ValueAvailable = false;
             }
         }
 
@@ -310,36 +317,36 @@ namespace pb.Reflection
             if (_enumerates == null)
             {
                 //List<MemberValue> enumerates = new List<MemberValue>();
-                _enumerates = new List<MemberValue>();
+                _enumerates = new List<TypeValueNode>();
                 // loop on root values
-                foreach (MemberValue memberValue in _memberValues.Values)
+                foreach (TypeValueNode typeValueNode in _typeValueNodes.Values)
                 {
-                    if (memberValue.Parent == null)
+                    if (typeValueNode.Parent == null)
                     {
-                        MemberValue memberValue2 = memberValue;
-                        while (memberValue2 != null)
+                        TypeValueNode typeValueNode2 = typeValueNode;
+                        while (typeValueNode2 != null)
                         {
                             // loop on childs
-                            while (memberValue2.Child != null)
-                                memberValue2 = (MemberValue)memberValue2.Child;
+                            while (typeValueNode2.Child != null)
+                                typeValueNode2 = (TypeValueNode)typeValueNode2.Child;
 
-                            AddEnumerate(memberValue2);
+                            AddEnumerate(typeValueNode2);
 
                             // take siblin or siblin of parent
                             while (true)
                             {
-                                if (memberValue2.Siblin != null)
+                                if (typeValueNode2.Siblin != null)
                                 {
-                                    memberValue2 = (MemberValue)memberValue2.Siblin;
+                                    typeValueNode2 = (TypeValueNode)typeValueNode2.Siblin;
                                     break;
                                 }
                                 else
                                 {
                                     // no more siblin, test if parent is enumerate
-                                    memberValue2 = (MemberValue)memberValue2.Parent;
-                                    if (memberValue2 == null)
+                                    typeValueNode2 = (TypeValueNode)typeValueNode2.Parent;
+                                    if (typeValueNode2 == null)
                                         break;
-                                    AddEnumerate(memberValue2);
+                                    AddEnumerate(typeValueNode2);
                                 }
                             }
                         }
@@ -349,23 +356,23 @@ namespace pb.Reflection
             }
         }
 
-        private void AddEnumerate(MemberValue memberValue)
+        private void AddEnumerate(TypeValueNode typeValueNode)
         {
             //Trace.WriteLine("test enumerate of {0}", memberValue.MemberAccess.TreeName);
-            if (memberValue.MemberAccess.IsEnumerable)
+            if (typeValueNode.TypeValueAccess.IsEnumerable)
             {
-                _enumerates.Add(memberValue);
+                _enumerates.Add(typeValueNode);
 
                 // set ParentEnumerate
-                MemberValue memberValue2 = memberValue;
-                MemberValue memberValue3 = memberValue;
-                while (memberValue3.Parent != null)
+                TypeValueNode typeValueNode2 = typeValueNode;
+                TypeValueNode typeValueNode3 = typeValueNode;
+                while (typeValueNode3.Parent != null)
                 {
-                    memberValue3 = (MemberValue)memberValue3.Parent;
-                    if (memberValue3.MemberAccess.IsEnumerable)
+                    typeValueNode3 = (TypeValueNode)typeValueNode3.Parent;
+                    if (typeValueNode3.TypeValueAccess.IsEnumerable)
                     {
-                        memberValue2.ParentEnumerate = memberValue3;
-                        memberValue2 = memberValue3;
+                        typeValueNode2.ParentEnumerate = typeValueNode3;
+                        typeValueNode2 = typeValueNode3;
                     }
                 }
             }
@@ -380,10 +387,10 @@ namespace pb.Reflection
             //    memberValue.FoundNext = false;
             //    memberValue.ChildFoundNext = false;
             //}
-            foreach (MemberValue memberValue in _memberValues.Values)
+            foreach (TypeValueNode typeValueNode in _typeValueNodes.Values)
             {
-                memberValue.FoundNext = false;
-                memberValue.ChildFoundNext = false;
+                typeValueNode.FoundNext = false;
+                typeValueNode.ChildFoundNext = false;
             }
         }
     }

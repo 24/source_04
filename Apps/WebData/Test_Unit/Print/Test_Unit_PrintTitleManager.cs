@@ -82,7 +82,7 @@ namespace Test.Test_Unit.Print
             string bsonFile = zpath.PathSetFileNameWithoutExtension(file, zPath.GetFileNameWithoutExtension(file) + "_out_bson");
             Trace.WriteLine("  output to \"{0}\"", bsonFile);
             //zmongo.BsonReader<TestPrint>(file).zFindPrint(downloadAutomate).zSave(bsonFile);
-            zmongo.BsonReader<TestPrintTitle>(file).Select(printTitle => new { Title = printTitle.Title, PrintType = printTitle.PrintType, PrintTitleInfo = printTitleManager.GetPrintTitleInfo(printTitle.Title) }).zSave(bsonFile);
+            zmongo.FileBsonReader<TestPrintTitle>(file).Select(printTitle => new { Title = printTitle.Title, PrintType = printTitle.PrintType, PrintTitleInfo = printTitleManager.GetPrintTitleInfo(printTitle.Title) }).zSave(bsonFile);
             //PrintTitleInfo titleInfo = printTitleManager.GetPrintTitleInfo(title);
         }
 
@@ -104,7 +104,7 @@ namespace Test.Test_Unit.Print
                 JsonWriterSettings settings = new JsonWriterSettings();
                 settings.Indent = true;
                 bsonWriter = JsonWriter.Create(sw, settings);
-                foreach (BsonDocument document in zmongo.BsonReader<BsonDocument>(file))
+                foreach (BsonDocument document in zmongo.FileBsonReader<BsonDocument>(file))
                 {
                     string category = document["category"].AsString;
                     string title = document["title"].AsString;
@@ -153,8 +153,8 @@ namespace Test.Test_Unit.Print
         {
             file = GetFile(file);
             string splitFile = zpath.PathSetFileNameWithoutExtension(file, zPath.GetFileNameWithoutExtension(file) + "_split_bson");
-            zmongo.BsonReader<TestPrintTitleSplit>(file).zSplitTitle().zSave(splitFile);
-            zmongo.BsonReader<TestPrintTitleSplit>(splitFile).zView();
+            zmongo.FileBsonReader<TestPrintTitleSplit>(file).zSplitTitle().zSave(splitFile);
+            zmongo.FileBsonReader<TestPrintTitleSplit>(splitFile).zView();
         }
 
         public static IEnumerable<TestPrintTitleSplit> zSplitTitle(this IEnumerable<TestPrintTitleSplit> prints)

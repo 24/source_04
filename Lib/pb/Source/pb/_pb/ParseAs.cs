@@ -114,13 +114,21 @@ namespace pb
                     throw new PBException("can't parse null string to {0}", asType.zGetTypeName());
             }
 
+            //bool isNullable = false;
+            //if (asType.IsGenericType && asType.GetGenericTypeDefinition() == typeof(Nullable<>))
+            //{
+            //    asType = asType.GetGenericArguments()[0];
+            //    isNullable = true;
+            //}
             // nullable type
+            Type nullableType = zReflection.GetNullableType(asType);
             bool isNullable = false;
-            if (asType.IsGenericType && asType.GetGenericTypeDefinition() == typeof(Nullable<>))
+            if (nullableType != null)
             {
-                asType = asType.GetGenericArguments()[0];
+                asType = nullableType;
                 isNullable = true;
             }
+
             bool parse;
             switch (Type.GetTypeCode(asType))
             {

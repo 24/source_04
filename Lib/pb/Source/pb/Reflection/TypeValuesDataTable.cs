@@ -35,7 +35,7 @@ namespace pb.Reflection
             return dt;
         }
 
-        public void AddToDataTable(DataTable dt, T data, bool onlyNextValue = false)
+        private void AddToDataTable(DataTable dt, T data, bool onlyNextValue = false)
         {
             SetData(data);
             DataRow row = dt.NewRow();

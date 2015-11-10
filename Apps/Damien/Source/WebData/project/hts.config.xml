@@ -81,4 +81,33 @@
       <MongoDefaultSort                                          value = "{ 'data.id': 1 }" />
     </Detail>
   </OnisepInstitution>
+
+  <Cdefi>
+    <DataDir                                                     value = "$DataDir$\sites\cdefi.fr" />
+    <!--<CookiesFile                                                 value = "$Ebookdz/DataDir$\cookies\cookies.txt" />-->
+
+    <Header>
+      <UseUrlCache                                               value = "true" />
+      <CacheDirectory                                            value = "$Cdefi/DataDir$\cache\header" />
+      <CacheUrlFileNameType                                      value = "Host, Path, Query" />
+      <UseMongo                                                  value = "true" />
+      <MongoServer                                               value = "mongodb://localhost" />
+      <MongoDatabase                                             value = "htc" />
+      <MongoCollection                                           value = "Cdefi_Header" />
+      <MongoDocumentItemName                                     value = "data" />
+      <MongoDefaultSort                                          value = "{ 'data.id': 1 }" />
+    </Header>
+
+    <Detail>
+      <UseUrlCache                                               value = "true" />
+      <CacheDirectory                                            value = "$Cdefi/DataDir$\cache\detail" />
+      <CacheUrlFileNameType                                      value = "Path, Query" />
+      <UseMongo                                                  value = "true" />
+      <MongoServer                                               value = "mongodb://localhost" />
+      <MongoDatabase                                             value = "htc" />
+      <MongoCollection                                           value = "Cdefi_Detail" />
+      <MongoDocumentItemName                                     value = "data" />
+      <MongoDefaultSort                                          value = "{ 'data.id': 1 }" />
+    </Detail>
+  </Cdefi>
 </Download>

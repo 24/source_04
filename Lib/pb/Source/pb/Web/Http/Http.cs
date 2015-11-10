@@ -305,11 +305,11 @@ namespace pb.Web
                 {
                     _LoadText();
                     if (_exportResult && _exportDirectory != null)
-                        _exportFile = GetNewHttpFileName(_exportDirectory, GetContentFileExtension(_resultContentType));
+                        _exportFile = GetNewHttpFileName(_exportDirectory, GetFileExtensionFromContentType(_resultContentType));
                     else if (_exportFile != null)
                     {
                         if (zPath.GetExtension(_exportFile) == "")
-                            _exportFile = zpath.PathSetExtension(_exportFile, GetContentFileExtension(_resultContentType));
+                            _exportFile = zpath.PathSetExtension(_exportFile, GetFileExtensionFromContentType(_resultContentType));
                     }
                     if (_exportFile != null)
                         zfile.WriteFile(_exportFile, _resultText);
@@ -666,27 +666,29 @@ namespace pb.Web
             }
             else if (_webResponse is FileWebResponse)
             {
-                Uri uri = new Uri(_httpRequest.Url);
-                string ext = zPath.GetExtension(uri.LocalPath).ToLower();
-                switch (ext)
-                {
-                    case ".xml":
-                        _resultContentType = "text/xml";
-                        break;
-                    case ".htm":
-                    case ".html":
-                    case ".asp":
-                    case ".php":
-                        _resultContentType = "text/html";
-                        break;
-                    case ".txt":
-                        _resultContentType = "text/txt";
-                        break;
-                    default:
-                        if (ext.Length > 1)
-                            _resultContentType = "/" + ext.Substring(1);
-                        break;
-                }
+                //Uri uri = new Uri(_httpRequest.Url);
+                //string ext = zPath.GetExtension(uri.LocalPath).ToLower();
+                //switch (ext)
+                //{
+                //    case ".xml":
+                //        _resultContentType = "text/xml";
+                //        break;
+                //    case ".htm":
+                //    case ".html":
+                //    case ".asp":
+                //    case ".php":
+                //        _resultContentType = "text/html";
+                //        break;
+                //    case ".txt":
+                //        _resultContentType = "text/txt";
+                //        break;
+                //    default:
+                //        if (ext.Length > 1)
+                //            _resultContentType = "/" + ext.Substring(1);
+                //        break;
+                //}
+                // modif le 09/11/2015 ne gère plus les extensions inconnues ("/unknow_ext")
+                _resultContentType = GetContentTypeFromFileExtension(zPath.GetExtension(new Uri(_httpRequest.Url).LocalPath));
             }
         }
 
@@ -738,7 +740,7 @@ namespace pb.Web
         //    return file;
         //}
 
-        private static string GetContentFileExtension(string contentType)
+        private static string GetFileExtensionFromContentType(string contentType)
         {
             contentType = contentType.ToLower();
             // text/html
@@ -749,6 +751,29 @@ namespace pb.Web
                 return ".xml";
             else
                 return ".txt";
+        }
+
+        public static string GetContentTypeFromFileExtension(string ext)
+        {
+            //string contentType
+            switch (ext.ToLower())
+            {
+                case ".xml":
+                    return "text/xml";
+                case ".htm":
+                case ".html":
+                case ".asp":
+                case ".php":
+                    return "text/html";
+                case ".txt":
+                    return "text/txt";
+                default:
+                    return null;
+                //default:
+                //    if (ext.Length > 1)
+                //        _resultContentType = "/" + ext.Substring(1);
+                //    break;
+            }
         }
 
         public static HttpRequestMethod GetHttpRequestMethod(string method)

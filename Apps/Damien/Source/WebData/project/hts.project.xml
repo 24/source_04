@@ -27,7 +27,6 @@
   <Using                            value = "pb.Data" />
   <Using                            value = "pb.Data.Mongo" />
   <Using                            value = "pb.Data.Xml" />
-  <!--<Using                            value = "pb.Linq" />-->
   <Using                            value = "pb.Text" />
   <Using                            value = "pb.Web" />
   <Using                            value = "pb.Web.Data" />
@@ -59,6 +58,10 @@
 
   <Source                           value = "AppData.cs" />
   <Source                           value = "Run.cs" />
+
+  <Source                           value = "..\sites\cdefi.fr\Cdefi.cs" />
+  <Source                           value = "..\sites\cdefi.fr\Cdefi_Header.cs" />
+  <Source                           value = "..\sites\cdefi.fr\Cdefi_Detail.cs" />
 
   <Source                           value = "..\sites\handeco.org\Handeco.cs" />
   <Source                           value = "..\sites\handeco.org\Handeco_Header.cs" />
@@ -120,6 +123,7 @@
   <!--<Source                           value = "$Root$\Source\Lib\pb\Source\pb\Data\Xml\XmlConfig.cs" />-->
   <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Data\Xml\XmlDescendant.cs" />
   <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Data\Xml\XmlExport.cs" />
+  <!--<Source                           value = "$Root$\Source\Lib\pb\Source\pb\Data\Xml\XmlExport_v1.cs" />-->
   <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Data\Xml\XmlSelect.cs" />
   <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Data\Xml\XmlWrite.cs" />
   <!--<Source                           value = "$Root$\Source\Lib\pb\Source\pb\IO\File.cs" />-->
@@ -131,8 +135,6 @@
   <!--<Source                           value = "$Root$\Source\Lib\pb\Source\pb\IO\zDirectory.cs" />-->
   <!--<Source                           value = "$Root$\Source\Lib\pb\Source\pb\IO\zFile.cs" />-->
   <!--<Source                           value = "$Root$\Source\Lib\pb\Source\pb\IO\zPath.cs" />-->
-  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Reflection\TypeAccess.cs" />
-  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Reflection\TypeReflection.cs" />
   <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Text\Regex.cs" />
   <!--<Source                           value = "$Root$\Source\Lib\pb\Source\pb\Text\Split.cs" />-->
   <!--<Source                           value = "$Root$\Source\Lib\pb\Source\pb\Text\String.cs" />-->

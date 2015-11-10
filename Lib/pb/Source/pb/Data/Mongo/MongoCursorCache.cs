@@ -17,7 +17,7 @@ namespace pb.Data.Mongo
             //string cacheFile = zfile.GetNewIndexedFileName(__cacheFile);
             string cacheFile = zfile.GetNewIndexedFileName(__cacheDirectory) + "_" + __cacheFile;
             cursor.zSave(cacheFile);
-            return zmongo.BsonReader<BsonDocument>(cacheFile, deleteFile: deleteTempFile);
+            return zmongo.FileBsonReader<BsonDocument>(cacheFile, deleteFile: deleteTempFile);
         }
 
         public static string CacheFile

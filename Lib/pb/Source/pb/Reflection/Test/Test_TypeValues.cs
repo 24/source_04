@@ -57,7 +57,7 @@ namespace pb.Reflection.Test
 
         public static void Test_TraceCompanies(string file, TypeValues<Test_Company> typeValues, bool onlyNextValue)
         {
-            string[] values = typeValues.MemberValues.Values.Where(memberValue => memberValue.MemberAccess.IsValueType).Select(memberValue => memberValue.MemberAccess.TreeName).ToArray();
+            string[] values = typeValues.TypeValueNodes.Values.Where(memberValue => memberValue.TypeValueAccess.IsValueType).Select(memberValue => memberValue.TypeValueAccess.TreeName).ToArray();
             int index = 1;
             foreach (Test_Company company in Test_Data.GetCompanies(file))
             {

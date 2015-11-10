@@ -354,13 +354,13 @@ namespace Test.Test_Unit.Print
                     sw.Close();
             }
 
-            WriteSelectPost_old(zpath.PathSetFileNameWithoutExtension(file, zPath.GetFileNameWithoutExtension(file) + "_out"), zmongo.BsonReader<BsonDocument>(bsonFile), old: true);
-            WriteSelectPost_old(zpath.PathSetFileNameWithoutExtension(file, zPath.GetFileNameWithoutExtension(file) + "_out_new"), zmongo.BsonReader<BsonDocument>(bsonFile));
-            WriteSelectPost_old(zpath.PathSetFileNameWithoutExtension(file, zPath.GetFileNameWithoutExtension(file) + "_out_hors_serie"), from doc in zmongo.BsonReader<BsonDocument>(bsonFile) where __rgSpecial.IsMatch(doc["postTitle"].zAsString()) select doc);
-            WriteSelectPost_old(zpath.PathSetFileNameWithoutExtension(file, zPath.GetFileNameWithoutExtension(file) + "_out_remain_text"), from doc in zmongo.BsonReader<BsonDocument>(bsonFile) where !string.IsNullOrEmpty(doc["remainText"].zAsString()) select doc);
-            WriteSelectPost_old(zpath.PathSetFileNameWithoutExtension(file, zPath.GetFileNameWithoutExtension(file) + "_out_warning"), from doc in zmongo.BsonReader<BsonDocument>(bsonFile) where doc["warnings"].AsBsonArray.Count > 0 select doc);
-            WriteSelectPost_old(zpath.PathSetFileNameWithoutExtension(file, zPath.GetFileNameWithoutExtension(file) + "_out_no_title"), from doc in zmongo.BsonReader<BsonDocument>(bsonFile) where doc["file"].zAsString() != null && doc["title"].zAsString() == null select doc);
-            WriteSelectPost_NotSelected_old(zpath.PathSetFileNameWithoutExtension(file, zPath.GetFileNameWithoutExtension(file) + "_out_not_selected"), from doc in zmongo.BsonReader<BsonDocument>(bsonFile) where doc["file"].zAsString() == null select doc);
+            WriteSelectPost_old(zpath.PathSetFileNameWithoutExtension(file, zPath.GetFileNameWithoutExtension(file) + "_out"), zmongo.FileBsonReader<BsonDocument>(bsonFile), old: true);
+            WriteSelectPost_old(zpath.PathSetFileNameWithoutExtension(file, zPath.GetFileNameWithoutExtension(file) + "_out_new"), zmongo.FileBsonReader<BsonDocument>(bsonFile));
+            WriteSelectPost_old(zpath.PathSetFileNameWithoutExtension(file, zPath.GetFileNameWithoutExtension(file) + "_out_hors_serie"), from doc in zmongo.FileBsonReader<BsonDocument>(bsonFile) where __rgSpecial.IsMatch(doc["postTitle"].zAsString()) select doc);
+            WriteSelectPost_old(zpath.PathSetFileNameWithoutExtension(file, zPath.GetFileNameWithoutExtension(file) + "_out_remain_text"), from doc in zmongo.FileBsonReader<BsonDocument>(bsonFile) where !string.IsNullOrEmpty(doc["remainText"].zAsString()) select doc);
+            WriteSelectPost_old(zpath.PathSetFileNameWithoutExtension(file, zPath.GetFileNameWithoutExtension(file) + "_out_warning"), from doc in zmongo.FileBsonReader<BsonDocument>(bsonFile) where doc["warnings"].AsBsonArray.Count > 0 select doc);
+            WriteSelectPost_old(zpath.PathSetFileNameWithoutExtension(file, zPath.GetFileNameWithoutExtension(file) + "_out_no_title"), from doc in zmongo.FileBsonReader<BsonDocument>(bsonFile) where doc["file"].zAsString() != null && doc["title"].zAsString() == null select doc);
+            WriteSelectPost_NotSelected_old(zpath.PathSetFileNameWithoutExtension(file, zPath.GetFileNameWithoutExtension(file) + "_out_not_selected"), from doc in zmongo.FileBsonReader<BsonDocument>(bsonFile) where doc["file"].zAsString() == null select doc);
         }
 
         public static string zSaveFindPrint(this IEnumerable<TestFindPrint_v1> findPrintList, string file)
@@ -417,13 +417,13 @@ namespace Test.Test_Unit.Print
                     sw.Close();
             }
 
-            WriteSelectPost(zpath.PathSetFileNameWithoutExtension(file, zPath.GetFileNameWithoutExtension(file) + "_out"), zmongo.BsonReader<BsonDocument>(bsonFile), old: true);
-            WriteSelectPost(zpath.PathSetFileNameWithoutExtension(file, zPath.GetFileNameWithoutExtension(file) + "_out_new"), zmongo.BsonReader<BsonDocument>(bsonFile));
-            WriteSelectPost(zpath.PathSetFileNameWithoutExtension(file, zPath.GetFileNameWithoutExtension(file) + "_out_hors_serie"), from doc in zmongo.BsonReader<BsonDocument>(bsonFile) where __rgSpecial.IsMatch(doc["post_title"].zAsString()) select doc);
-            WriteSelectPost(zpath.PathSetFileNameWithoutExtension(file, zPath.GetFileNameWithoutExtension(file) + "_out_remain_text"), from doc in zmongo.BsonReader<BsonDocument>(bsonFile) where !string.IsNullOrEmpty(doc["findPrint_remainText"].zAsString()) select doc);
-            WriteSelectPost(zpath.PathSetFileNameWithoutExtension(file, zPath.GetFileNameWithoutExtension(file) + "_out_warning"), from doc in zmongo.BsonReader<BsonDocument>(bsonFile) where doc["warnings"].AsBsonArray.Count > 0 select doc);
-            WriteSelectPost(zpath.PathSetFileNameWithoutExtension(file, zPath.GetFileNameWithoutExtension(file) + "_out_no_title"), from doc in zmongo.BsonReader<BsonDocument>(bsonFile) where doc["findPrint_file"].zAsString() != null && doc["findPrint_title"].zAsString() == null select doc);
-            WriteSelectPost_NotSelected(zpath.PathSetFileNameWithoutExtension(file, zPath.GetFileNameWithoutExtension(file) + "_out_not_selected"), from doc in zmongo.BsonReader<BsonDocument>(bsonFile) where doc["findPrint_file"].zAsString() == null select doc);
+            WriteSelectPost(zpath.PathSetFileNameWithoutExtension(file, zPath.GetFileNameWithoutExtension(file) + "_out"), zmongo.FileBsonReader<BsonDocument>(bsonFile), old: true);
+            WriteSelectPost(zpath.PathSetFileNameWithoutExtension(file, zPath.GetFileNameWithoutExtension(file) + "_out_new"), zmongo.FileBsonReader<BsonDocument>(bsonFile));
+            WriteSelectPost(zpath.PathSetFileNameWithoutExtension(file, zPath.GetFileNameWithoutExtension(file) + "_out_hors_serie"), from doc in zmongo.FileBsonReader<BsonDocument>(bsonFile) where __rgSpecial.IsMatch(doc["post_title"].zAsString()) select doc);
+            WriteSelectPost(zpath.PathSetFileNameWithoutExtension(file, zPath.GetFileNameWithoutExtension(file) + "_out_remain_text"), from doc in zmongo.FileBsonReader<BsonDocument>(bsonFile) where !string.IsNullOrEmpty(doc["findPrint_remainText"].zAsString()) select doc);
+            WriteSelectPost(zpath.PathSetFileNameWithoutExtension(file, zPath.GetFileNameWithoutExtension(file) + "_out_warning"), from doc in zmongo.FileBsonReader<BsonDocument>(bsonFile) where doc["warnings"].AsBsonArray.Count > 0 select doc);
+            WriteSelectPost(zpath.PathSetFileNameWithoutExtension(file, zPath.GetFileNameWithoutExtension(file) + "_out_no_title"), from doc in zmongo.FileBsonReader<BsonDocument>(bsonFile) where doc["findPrint_file"].zAsString() != null && doc["findPrint_title"].zAsString() == null select doc);
+            WriteSelectPost_NotSelected(zpath.PathSetFileNameWithoutExtension(file, zPath.GetFileNameWithoutExtension(file) + "_out_not_selected"), from doc in zmongo.FileBsonReader<BsonDocument>(bsonFile) where doc["findPrint_file"].zAsString() == null select doc);
             return bsonFile;
         }
 

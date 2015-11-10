@@ -16,10 +16,9 @@
   <Source                           value = "Test_Reflection.cs" />
   <Source                           value = "Test_TypeView.cs" />
   <Source                           value = "Test_TypeValues.cs" />
-
-  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Reflection\TypeAccess.cs" />
-  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Reflection\TypeReflection.cs" />
-  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Reflection\TypeValues.cs" />
-  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Reflection\TypeValuesDataTable.cs" />
+  
+  <!--
   <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Reflection\TypeView_v2.cs" />
+  -->
+
 </AssemblyProject>

@@ -344,6 +344,14 @@ namespace pb.Reflection
         //        Trace.WriteLine(errorMessage);
         //}
 
+        public static Type GetNullableType(Type type)
+        {
+            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
+                return type.GetGenericArguments()[0];
+            else
+                return null;
+        }
+
         public static Type GetEnumerableType(Type type)
         {
             foreach (Type intType in type.GetInterfaces())

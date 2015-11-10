@@ -138,6 +138,7 @@
     <Compile Include="Source\pb\Data\Xml\XmlConfig.cs" />
     <Compile Include="Source\pb\Data\Xml\XmlDescendant.cs" />
     <Compile Include="Source\pb\Data\Xml\XmlDocumentStore.cs" />
+    <Compile Include="Source\pb\Data\Xml\_old\XmlExport_v1.cs" />
     <Compile Include="Source\pb\Data\Xml\XmlExport.cs" />
     <Compile Include="Source\pb\Data\Xml\XmlSerializer.cs" />
     <Compile Include="Source\pb\Data\Xml\XmlSelect.cs" />
@@ -261,7 +262,7 @@
     <Compile Include="Source\pb\_pb\Tree.cs" />
     <Compile Include="Source\pb\Reflection\TypeAccess.cs" />
     <Compile Include="Source\pb\Reflection\TypeView.cs" />
-    <Compile Include="Source\pb\Reflection\TypeView_v2.cs" />
+    <Compile Include="Source\pb\Reflection\_old\TypeView_v2.cs" />
     <Compile Include="Source\pb\_pb\ztrace.cs" />
     <Compile Include="Source\pb\Windows\Forms\cf.cs" />
     <Compile Include="Source\pb\Windows\Forms\cf2.cs" />

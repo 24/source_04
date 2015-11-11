@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <AssemblyProject>
-  <Root                             value = "..\..\..\..\.." />
+  <!--<Root                             value = "..\..\..\..\.." />-->
   
   <Using                            value = "System" />
   <Using                            value = "System.Collections" />

@@ -11,7 +11,7 @@
 
 Trace.WriteLine("toto");
 RunSource.CurrentRunSource.SetProjectFromSource();
-RunSource.CurrentRunSource.CompileProject(@"$Root$\Source\Apps\Damien\Source\WebData\project\hts.project.xml");
+RunSource.CurrentRunSource.CompileProject(@"$Root$\Apps\Damien\Source\WebData\project\hts.project.xml");
 
 HttpManager.CurrentHttpManager.ExportResult = false;
 HttpManager.CurrentHttpManager.ExportResult = true;

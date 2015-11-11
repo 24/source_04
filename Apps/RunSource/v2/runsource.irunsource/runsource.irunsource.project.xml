@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <AssemblyProject>
-  <Root                             value = "..\..\..\..\.." />
-  
+  <!--<Root                             value = "..\..\..\..\.." />-->
+  <Root                             value = "..\..\..\.." />
+
   <Target                           value = "library" /> <!-- exe (exe console default), library (dll), module (.netmodule), winexe (exe windows) -->
 	<Output                           value = "bin32\runsource.irunsource.dll" />
   <CopySourceFiles                  value = "true" />
@@ -9,20 +10,20 @@
 	<CompilerOptions                  value = "/platform:x86" />  <!-- x86, Itanium, x64, or anycpu (default). -->
   <Source                           value = "Properties\AssemblyInfo.cs" />
   
-  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\_pb\Application.cs" />
-  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\_pb\IChrono.cs" />
-  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\_pb\ITrace.cs" />
-  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\_pb\ITraceError.cs" />
-  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\_pb\ITraceSetWriter.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\Application.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\IChrono.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\ITrace.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\ITraceError.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\ITraceSetWriter.cs" />
   
-  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Compiler\ICompiler.cs" />
-  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Compiler\ICompilerProject.cs" />
-  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Compiler\IRunSource.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Compiler\ICompiler.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Compiler\ICompilerProject.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Compiler\IRunSource.cs" />
 
-  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Compiler\_old\IGenerateAndExecute.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Compiler\_old\IGenerateAndExecute.cs" />
 
-  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\IO\FileOption.cs" />
-  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\IO\zPath.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\FileOption.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\zPath.cs" />
   
   <Assembly                         value = "System.dll" />
 	<Assembly                         value = "System.Core.dll" />
@@ -31,7 +32,7 @@
 	<Assembly                         value = "System.Xml.Linq.dll" />
   <!--<Assembly                         value = "..\..\..\..\..\RuntimeLibrary\LongPath\LongPath\Pri.LongPath.dll" />-->
   <!--<Assembly                         value = "c:\pib\drive\google\dev\project\RuntimeLibrary\LongPath\LongPath\Pri.LongPath.dll" />-->
-  <Assembly                         value = "$Root$\Source\Lib\LongPath\Pri.LongPath\bin\Debug\Pri.LongPath.dll" />
+  <Assembly                         value = "$Root$\Lib\LongPath\Pri.LongPath\bin\Debug\Pri.LongPath.dll" />
   <DebugInformation                 value = "true" />
 </AssemblyProject>
 

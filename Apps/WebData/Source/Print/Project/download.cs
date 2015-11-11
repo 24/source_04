@@ -11,7 +11,7 @@
 Trace.WriteLine("toto");
 RunSource.CurrentRunSource.SetProjectFromSource();
 
-RunSource.CurrentRunSource.CompileProject(@"$Root$\Source\Apps\WebData\Source\Print\Project\download.project.xml");
+RunSource.CurrentRunSource.CompileProject(@"$Root$\Apps\WebData\Source\Print\Project\download.project.xml");
 
 Trace.CurrentTrace.TraceLevel = 0;
 Trace.CurrentTrace.TraceLevel = 1;

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -639,6 +640,77 @@ namespace pb.Text
                 return sb.ToString();
             else
                 return null;
+        }
+
+        // &amp; &#38; &#x26;
+        private static Regex __htmlSpecialCharacter = new Regex("&(?:(?:#([0-9]+))|(?:#x([0-9a-f]+))|([a-z]+));", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        public static string DecodeHtmlSpecialCharacters(string text)
+        {
+            return __htmlSpecialCharacter.Replace(text, ReplaceHtmlSpecialCharacterNum);
+        }
+
+        private static Dictionary<string, char> __htmlSpecialCharacterNames = null;
+        private static void InitHtmlSpecialCharacterNames()
+        {
+            // from http://www.htmlhelp.com/reference/html40/entities/special.html
+            __htmlSpecialCharacterNames = new Dictionary<string,char>();
+            //__htmlSpecialCharacterNames.Add("quot", '"');
+            //__htmlSpecialCharacterNames.Add("amp", '&');
+            //__htmlSpecialCharacterNames.Add("lt", '<');
+            //__htmlSpecialCharacterNames.Add("gt", '>');
+            //__htmlSpecialCharacterNames.Add("OElig", '\u0152');
+            __htmlSpecialCharacterNames.Add("quot",   '\u0022');
+            __htmlSpecialCharacterNames.Add("amp",    '\u0026');
+            __htmlSpecialCharacterNames.Add("lt",     '\u003C');
+            __htmlSpecialCharacterNames.Add("gt",     '\u003E');
+            __htmlSpecialCharacterNames.Add("OElig",  '\u0152');
+            __htmlSpecialCharacterNames.Add("oelig",  '\u0153');
+            __htmlSpecialCharacterNames.Add("Scaron", '\u0160');
+            __htmlSpecialCharacterNames.Add("scaron", '\u0161');
+            __htmlSpecialCharacterNames.Add("Yuml",   '\u0178');
+            __htmlSpecialCharacterNames.Add("circ",   '\u02C6');
+            __htmlSpecialCharacterNames.Add("tilde",  '\u02DC');
+            __htmlSpecialCharacterNames.Add("ensp",   '\u2002');
+            __htmlSpecialCharacterNames.Add("emsp",   '\u2003');
+            __htmlSpecialCharacterNames.Add("thinsp", '\u2009');
+            __htmlSpecialCharacterNames.Add("zwnj",   '\u200C');
+            __htmlSpecialCharacterNames.Add("zwj",    '\u200D');
+            __htmlSpecialCharacterNames.Add("lrm",    '\u200E');
+            __htmlSpecialCharacterNames.Add("rlm",    '\u200F');
+            __htmlSpecialCharacterNames.Add("ndash",  '\u2013');
+            __htmlSpecialCharacterNames.Add("mdash",  '\u2014');
+            __htmlSpecialCharacterNames.Add("lsquo",  '\u2018');
+            __htmlSpecialCharacterNames.Add("rsquo",  '\u2019');
+            __htmlSpecialCharacterNames.Add("sbquo",  '\u201A');
+            __htmlSpecialCharacterNames.Add("ldquo",  '\u201C');
+            __htmlSpecialCharacterNames.Add("rdquo",  '\u201D');
+            __htmlSpecialCharacterNames.Add("bdquo",  '\u201E');
+            __htmlSpecialCharacterNames.Add("dagger", '\u2020');
+            __htmlSpecialCharacterNames.Add("Dagger", '\u2021');
+            __htmlSpecialCharacterNames.Add("permil", '\u2030');
+            __htmlSpecialCharacterNames.Add("lsaquo", '\u2039');
+            __htmlSpecialCharacterNames.Add("rsaquo", '\u203A');
+            __htmlSpecialCharacterNames.Add("euro",   '\u20AC');
+        }
+
+        private static string ReplaceHtmlSpecialCharacterNum(Match match)
+        {
+            string s = match.Groups[1].Value;
+            if (s != "")
+                return ((char)int.Parse(s)).ToString();
+            s = match.Groups[2].Value;
+            if (s != "")
+                return ((char)int.Parse(s, NumberStyles.HexNumber)).ToString();
+            s = match.Groups[3].Value;
+            if (s != "")
+            {
+                if (__htmlSpecialCharacterNames == null)
+                    InitHtmlSpecialCharacterNames();
+                if (!__htmlSpecialCharacterNames.ContainsKey(s))
+                    throw new PBException("unknow html special code \"{0}\"", s);
+                return __htmlSpecialCharacterNames[s].ToString();
+            }
+            throw new PBException("unknow html special code \"{0}\"", match.Value);
         }
     }
 

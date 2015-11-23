@@ -144,32 +144,49 @@ namespace Download.Print
             Trace.WriteLine("{0}", date);
             foreach (EnumFileInfo fileInfo in zdir.EnumerateFilesInfo(sourceDirectory))
             {
-                FindPrint findPrint = findPrintManager.Find(zPath.GetFileNameWithoutExtension(fileInfo.File), PrintType.Print);
-                if (!findPrint.found)
+                try
                 {
-                    Trace.WriteLine("  unknow print \"{0}\"", zPath.GetFileName(fileInfo.File));
-                    continue;
+                    FindPrint findPrint = findPrintManager.Find(zPath.GetFileNameWithoutExtension(fileInfo.File), PrintType.Print, expectedDate: date);
+
+                    if (!findPrint.found)
+                    {
+                        Trace.WriteLine("  unknow print \"{0}\"", zPath.GetFileName(fileInfo.File));
+                        continue;
+                    }
+                    if (findPrint.date == null)
+                    {
+                        Trace.WriteLine("  date not found \"{0}\"", zPath.GetFileName(fileInfo.File));
+                        continue;
+                    }
+                    int dateGap = findPrint.date.Value.Subtract(date).Days;
+                    if (dateGap < -2 || dateGap > 1)
+                    {
+                        Trace.WriteLine("  wrong date found {0} - \"{1}\"", findPrint.date, zPath.GetFileName(fileInfo.File));
+                        continue;
+                    }
+                    string newfile = zPath.Combine(destinationDirectory, findPrint.file) + zPath.GetExtension(fileInfo.File);
+                    newfile = zfile.GetNewFilename(newfile);
+                    //Trace.WriteLine("  rename file \"{0}\" to \"{1}\"", zPath.GetFileName(fileInfo.File), newfile);
+                    Trace.WriteLine("  rename file \"{0}\" to \"{1}\"", zPath.GetFileName(fileInfo.File), zPath.GetDirectoryName(newfile));
+                    Trace.WriteLine("     filename \"{0}\"", zPath.GetFileName(newfile));
+                    if (!simulate)
+                    {
+                        zfile.CreateFileDirectory(newfile);
+                        zFile.Move(fileInfo.File, newfile);
+                    }
                 }
-                if (findPrint.date == null)
+                catch (Exception ex)
                 {
-                    Trace.WriteLine("  date not found \"{0}\"", zPath.GetFileName(fileInfo.File));
-                    continue;
-                }
-                int dateGap = findPrint.date.Value.Subtract(date).Days;
-                if (dateGap < -1 || dateGap > 1)
-                {
-                    Trace.WriteLine("  wrong date found {0} - \"{1}\"", findPrint.date, zPath.GetFileName(fileInfo.File));
-                    continue;
-                }
-                string newfile = zPath.Combine(destinationDirectory, findPrint.file) + zPath.GetExtension(fileInfo.File);
-                newfile = zfile.GetNewFilename(newfile);
-                Trace.WriteLine("  rename file \"{0}\" to \"{1}\"", zPath.GetFileName(fileInfo.File), newfile);
-                if (!simulate)
-                {
-                    zfile.CreateFileDirectory(newfile);
-                    zFile.Move(fileInfo.File, newfile);
+                    Trace.WriteLine("  error print \"{0}\"", zPath.GetFileName(fileInfo.File));
+                    Trace.WriteLine(Error.GetErrorMessage(ex, true, false));
+                    Trace.WriteLine();
                 }
             }
+            Trace.WriteLine();
+
+            // remove empty directories
+            if (!simulate)
+                zdir.DeleteEmptyDirectory(sourceDirectory, deleteOnlySubdirectory: false);
         }
 
         private static Dictionary<string, List<FileGroup_v2>> CreateFileGroups()

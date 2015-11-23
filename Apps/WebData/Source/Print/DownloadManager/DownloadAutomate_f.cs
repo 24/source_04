@@ -35,7 +35,6 @@ namespace Download.Print
             string mongoBackupTmpDirectory = XmlConfig.CurrentConfig.Get("MongoBackupTmpDirectory");
         }
 
-        //
         public static void Test_Download_01(string file, IEnumerable<string> links)
         {
             PostDownloadLinks postDownloadLinks = PostDownloadLinks.Create(links);
@@ -162,16 +161,8 @@ namespace Download.Print
             // sourceDirectory      : g:\pib\media\ebook\_dl\_dl_pib\print\02\print
             // destinationDirectory : g:\pib\media\ebook
             FindPrintManager findPrintManager = CreateFindPrintManager(version);
-            // getSubDirectoryNumber: true
             foreach (EnumDirectoryInfo dir in zdir.EnumerateDirectoriesInfo(zPath.Combine(sourceDirectory, printSubDirectory), 1, 1))
             {
-                // Journaux - 2015-08-06       Journaux - 2015-08-06[1]
-                //Trace.Write("directory \"{0}\" ", dir.Directory);
-                //Trace.Write("subdirectory \"{0}\" date ", dir.SubDirectory);
-                //Date date;
-                //if (Date.TryParseExact(dir.SubDirectory.Substring(11), "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out date))
-                //    Trace.Write("{0}", date);
-                //Trace.WriteLine();
                 PrintFileManager_v2.RenamePrintFiles(findPrintManager, dir.Directory, destinationDirectory, simulate);
             }
         }
@@ -234,184 +225,10 @@ namespace Download.Print
             }
         }
 
-        //public static void Test_TryDownload_v2_01<TKey>(WebDocumentStore_v2<TKey, IPost> webDocumentStore, string downloadDirectory, string query, bool uncompressFile = true, bool forceDownloadAgain = true,
-        //    bool forceSelect = false, bool simulateDownload = false, bool useNewDownloadManager = false, int version = 3)
-        //{
-        //    bool loadNewPost = false;
-        //    //string downloadDirectory = "extreme-down.net";
-        //    bool searchPostToDownload = false;
-        //    bool sendMail = false;
-        //    string sort = "{ 'download.creationDate': -1 }";
-        //    //bool forceDownloadAgain = true;
-        //    //bool useNewDownloadManager = false;
-        //    DownloadAutomateManager downloadAutomate = CreateDownloadAutomate(version, useNewDownloadManager);
-        //    try
-        //    {
-        //        //foreach (ExtremeDown_PostDetail post in ExtremeDown_LoadPostDetail.CurrentLoadPostDetail.FindDocuments(query, sort: sort, loadImage: false))
-        //        foreach (IPost post in webDocumentStore.FindDocuments(query, sort: sort, loadImage: false))
-        //        {
-        //            downloadAutomate.TryDownloadPost(post, downloadDirectory: downloadDirectory, forceDownloadAgain: forceDownloadAgain, forceSelect: forceSelect, simulateDownload: simulateDownload);
-        //        }
-        //        downloadAutomate.Run(loadNewPost: loadNewPost, searchPostToDownload: searchPostToDownload, uncompressFile: uncompressFile, sendMail: sendMail);
-        //    }
-        //    finally
-        //    {
-        //        downloadAutomate.Dispose();
-        //    }
-        //}
-
-        //public static void Test_TryDownload_RapideDdlPost_01(string query, bool uncompressFile = true, bool forceDownloadAgain = true, bool forceSelect = false, bool simulateDownload = false, int version = 3)
-        //{
-        //    bool loadNewPost = false;
-        //    string downloadDirectory = "rapide-ddl.com";
-        //    bool searchPostToDownload = false;
-        //    bool sendMail = false;
-        //    string sort = "{ 'download.creationDate': -1 }";
-        //    //bool forceDownloadAgain = true;
-        //    DownloadAutomateManager downloadAutomate = CreateDownloadAutomate(version);
-        //    try
-        //    {
-        //        foreach (RapideDdl_PostDetail post in RapideDdl_LoadPostDetail.CurrentLoadPostDetail.FindDocuments(query, sort: sort, loadImage: false))
-        //        {
-        //            downloadAutomate.TryDownloadPost(post, downloadDirectory: downloadDirectory, forceDownloadAgain: forceDownloadAgain, forceSelect: forceSelect, simulateDownload: simulateDownload);
-        //        }
-        //        downloadAutomate.Run(loadNewPost: loadNewPost, searchPostToDownload: searchPostToDownload, uncompressFile: uncompressFile, sendMail: sendMail);
-        //    }
-        //    finally
-        //    {
-        //        downloadAutomate.Dispose();
-        //    }
-        //}
-
-        //public static void Test_TryDownload_GoldenDdlPost_01(string query, bool uncompressFile = true, bool forceDownloadAgain = true, bool forceSelect = false, bool simulateDownload = false, int version = 3)
-        //{
-        //    bool loadNewPost = false;
-        //    string downloadDirectory = "golden-ddl.net";
-        //    bool searchPostToDownload = false;
-        //    bool sendMail = false;
-        //    string sort = "{ 'download.creationDate': -1 }";
-        //    //bool forceDownloadAgain = true;
-        //    DownloadAutomateManager downloadAutomate = CreateDownloadAutomate(version);
-        //    try
-        //    {
-        //        foreach (GoldenDdl_PostDetail post in GoldenDdl_LoadPostDetail.CurrentLoadPostDetail.FindDocuments(query, sort: sort, loadImage: false))
-        //        {
-        //            downloadAutomate.TryDownloadPost(post, downloadDirectory: downloadDirectory, forceDownloadAgain: forceDownloadAgain, forceSelect: forceSelect, simulateDownload: simulateDownload);
-        //        }
-        //        downloadAutomate.Run(loadNewPost: loadNewPost, searchPostToDownload: searchPostToDownload, uncompressFile: uncompressFile, sendMail: sendMail);
-        //    }
-        //    finally
-        //    {
-        //        downloadAutomate.Dispose();
-        //    }
-        //}
-
-        //public static void Test_TryDownload_ExtremeDownPost_01(string query, bool uncompressFile = true, bool forceDownloadAgain = true, bool forceSelect = false, bool simulateDownload = false, int version = 3)
-        //{
-        //    bool loadNewPost = false;
-        //    string downloadDirectory = "extreme-down.net";
-        //    bool searchPostToDownload = false;
-        //    bool sendMail = false;
-        //    string sort = "{ 'download.creationDate': -1 }";
-        //    //bool forceDownloadAgain = true;
-        //    bool useNewDownloadManager = true;
-        //    DownloadAutomateManager downloadAutomate = CreateDownloadAutomate(version, useNewDownloadManager);
-        //    try
-        //    {
-        //        foreach (Download.Print.ExtremeDown.ExtremeDown_PostDetail post in Download.Print.ExtremeDown.ExtremeDown_LoadPostDetail.CurrentLoadPostDetail.FindDocuments(query, sort: sort, loadImage: false))
-        //        {
-        //            downloadAutomate.TryDownloadPost(post, downloadDirectory: downloadDirectory, forceDownloadAgain: forceDownloadAgain, forceSelect: forceSelect, simulateDownload: simulateDownload);
-        //        }
-        //        downloadAutomate.Run(loadNewPost: loadNewPost, searchPostToDownload: searchPostToDownload, uncompressFile: uncompressFile, sendMail: sendMail);
-        //    }
-        //    finally
-        //    {
-        //        downloadAutomate.Dispose();
-        //    }
-        //}
-
-        //public static void Test_TryDownload_ExtremeDownPost_FromUrls_01(string[] urls, bool uncompressFile = true, bool forceDownloadAgain = true, bool forceSelect = false,
-        //    bool simulateDownload = false, int version = 3, bool useTestManager = false)
-        //{
-        //    bool loadNewPost = false;
-        //    string downloadDirectory = "extreme-down.net";
-        //    bool searchPostToDownload = false;
-        //    bool sendMail = false;
-        //    //string sort = "{ 'download.creationDate': -1 }";
-        //    //bool forceDownloadAgain = true;
-        //    bool useNewDownloadManager = true;
-        //    DownloadAutomateManager downloadAutomate = CreateDownloadAutomate(version, useNewDownloadManager, useTestManager);
-        //    //downloadAutomate.DownloadManager_new.Trace = true;
-        //    try
-        //    {
-        //        HttpRequestParameters requestParameters = new HttpRequestParameters();
-        //        requestParameters.encoding = Encoding.UTF8;
-        //        foreach (string url in urls)
-        //        {
-        //            RequestFromWeb_v3 request = new RequestFromWeb_v3(url, requestParameters);
-        //            IPost post = Download.Print.ExtremeDown.ExtremeDown_LoadPostDetail.LoadPostDetailFromWebManager.Load(request);
-        //            downloadAutomate.TryDownloadPost(post, downloadDirectory: downloadDirectory, forceDownloadAgain: forceDownloadAgain, forceSelect: forceSelect, simulateDownload: simulateDownload);
-        //        }
-        //        downloadAutomate.Run(loadNewPost: loadNewPost, searchPostToDownload: searchPostToDownload, uncompressFile: uncompressFile, sendMail: sendMail);
-        //    }
-        //    finally
-        //    {
-        //        downloadAutomate.Dispose();
-        //    }
-        //}
-
-        //public static void Test_TryDownload_EbookdzPost_FromUrls_01(string[] urls, bool uncompressFile = true, bool forceDownloadAgain = true, bool forceSelect = false,
-        //    bool simulateDownload = false, int version = 3, bool useTestManager = false)
-        //{
-        //    bool loadNewPost = false;
-        //    //string downloadDirectory = "ebookdz.com";
-        //    string downloadDirectory = null;
-        //    bool searchPostToDownload = false;
-        //    bool sendMail = false;
-        //    //string sort = "{ 'download.creationDate': -1 }";
-        //    //bool forceDownloadAgain = true;
-        //    bool useNewDownloadManager = false;
-        //    DownloadAutomateManager downloadAutomate = CreateDownloadAutomate(version, useNewDownloadManager, useTestManager);
-        //    //downloadAutomate.DownloadManager_new.Trace = true;
-        //    try
-        //    {
-        //        //HttpRequestParameters_new requestParameters = new HttpRequestParameters_new();
-        //        //requestParameters.encoding = Encoding.UTF8;
-        //        foreach (string url in urls)
-        //        {
-        //            RequestFromWeb_new request = new RequestFromWeb_new(new HttpRequest { Url = url });
-        //            IPost post = Ebookdz_LoadPostDetail.LoadPostDetailFromWebManager.LoadData(request);
-        //            downloadAutomate.TryDownloadPost(post, downloadDirectory: downloadDirectory, forceDownloadAgain: forceDownloadAgain, forceSelect: forceSelect, simulateDownload: simulateDownload);
-        //        }
-        //        downloadAutomate.Run(loadNewPost: loadNewPost, searchPostToDownload: searchPostToDownload, uncompressFile: uncompressFile, sendMail: sendMail);
-        //    }
-        //    finally
-        //    {
-        //        downloadAutomate.Dispose();
-        //    }
-        //}
-
         public static void Test_ManagePrintDirectory_01(string[] directories, int level = 1, string journauxDirectory = null, bool simulate = false, bool moveFiles = false)
         {
             CreatePrintFileManager(simulate: simulate, moveFiles: moveFiles).ManageDirectory_v1(GetPrintDirectoryGroups(directories, level, journauxDirectory), directories[0]);
         }
-
-        //public static void Test_Uncompress_01(string file)
-        //{
-        //    //UncompressManager uncompressManager = CreateUncompressManager();
-        //    //uncompressManager.Uncompress();
-        //    CompressManager compressManager = new CompressManager();
-
-        //    string dir = zpath.PathSetExtension(file, "");
-        //    if (Directory.Exists(dir))
-        //    {
-        //        dir = zdir.GetNewDirectory(dir);
-        //    }
-        //    Directory.CreateDirectory(dir);
-
-        //    UncompressResult uncompressResult = compressManager.Uncompress(file, dir, UncompressOptions.ExtractFullPath | UncompressOptions.RenameExistingFile
-        //        | UncompressOptions.UncompressNestedCompressFiles | UncompressOptions.DeleteNestedCompressFiles);
-        //}
 
         public static void Test_GetPrintDirectories_01(string[] directories, int level = 1, string journauxDirectory = null)
         {
@@ -512,78 +329,6 @@ namespace Download.Print
 
         }
 
-        //public static void Test_DownloadAutomate_SelectPost_01(string title)
-        //{
-        //    DownloadAutomateManager downloadAutomate = CreateDownloadAutomate();
-        //    Trace.WriteLine("title : \"{0}\"", title);
-        //    string file = downloadAutomate.TestSelectPost(title);
-        //    Trace.WriteLine("file  : \"{0}\"", title);
-        //}
-
-        //public static void Test_RapideDdl_SelectPost_01(string query = null, string sort = null, int limit = 10, bool loadImage = false)
-        //{
-        //    DownloadAutomateManager downloadAutomate = CreateDownloadAutomate();
-        //    RunSource.CurrentRunSource.View(from findPrint in
-        //                                        from post in RapideDdl_LoadPostDetail.Find(query, sort: sort, limit: limit, loadImage: loadImage)
-        //                                    select new
-        //                                    {
-        //                                        title = post.title,
-        //                                        file = downloadAutomate.TestSelectPost(post.title),
-        //                                        //file2 = downloadAutomate.TestSelectPost2(post.title)
-        //                                        findPrint = downloadAutomate.FindPrintManager.Find(post.title)
-        //                                    }
-        //                                    select new
-        //                                    {
-        //                                        title = findPrint.title,
-        //                                        //identical = findPrint.file == null || findPrint.file == (findPrint.findPrint != null ? findPrint.findPrint.file : null),
-        //                                        identical = findPrint.file == null || findPrint.file == findPrint.findPrint.file,
-        //                                        file = findPrint.file,
-        //                                        file2 = findPrint.findPrint.file,
-        //                                        remainText = findPrint.findPrint.remainText
-        //                                    }
-        //                                    );
-        //}
-
-        //public static void Test_RapideDdl_SelectPost_02(string query = null, string sort = null, int limit = 10, bool loadImage = false)
-        //{
-        //    DownloadAutomateManager downloadAutomate = CreateDownloadAutomate();
-        //    try
-        //    {
-        //        RunSource.CurrentRunSource.View(from findPrint in
-        //                                            from post in RapideDdl_LoadPostDetail.Find(query, sort: sort, limit: limit, loadImage: loadImage)
-        //                                            select new
-        //                                            {
-        //                                                title = post.title,
-        //                                                findPrint = downloadAutomate.FindPrintManager.Find(post.title)
-        //                                            }
-        //                                        select new
-        //                                        {
-        //                                            title = findPrint.title,
-        //                                            file = findPrint.findPrint.file,
-        //                                            remainText = findPrint.findPrint.remainText
-        //                                        }
-        //                                        );
-        //    }
-        //    finally
-        //    {
-        //        downloadAutomate.Dispose();
-        //    }
-        //}
-
-        //public static void Test_UncompressFile_01(string file, bool archiveCompress = false)
-        //{
-        //    DownloadAutomateManager downloadAutomate = CreateDownloadAutomate();
-        //    downloadAutomate.UncompressManager.ArchiveCompress = archiveCompress;
-        //    Trace.WriteLine("Uncompress file   \"{0}\"", file);
-        //    string[] files = downloadAutomate.UncompressFile(file);
-        //    if (files != null)
-        //    {
-        //        Trace.WriteLine("Uncompressed files");
-        //        foreach (string uncompressedFile in files)
-        //            Trace.WriteLine("  \"{0}\"", uncompressedFile);
-        //    }
-        //}
-
         public static PrintDirectoryManager CreatePrintDirectoryManager()
         {
             return new PrintDirectoryManager(XmlConfig.CurrentConfig.GetConfig("PrintList2Config").GetValues("PrintDirectories/Directory").ToArray());
@@ -593,45 +338,45 @@ namespace Download.Print
         {
             // version 2 : utilise le nouveau PrintTitleManager, l'ancien pattern de date FindPrints/Dates/Date avec l'ancien FindDateManager
             // version 3 : version 2 + le nouveau pattern de date FindPrints/Dates/DateNew avec le nouveau FindDateManager_new
-            // version 4 : version 3 + découpe le titre avec "du" ou "-" (PrintTitleManager)
+            // version 4 (not used) : version 3 + découpe le titre avec "du" ou "-" (PrintTitleManager)
+            // version 5 : version 3 +  new find date
 
-            if (version < 3 || version > 4)
+            if (version < 3 || version > 5)
                 throw new PBException("bad version {0}", version);
-
-            //if (printList1Config == null)
-            //    printList1Config = new XmlConfig(RunSource.CurrentRunSource.GetPathSource(XmlConfig.CurrentConfig.GetExplicit("PrintList1Config")));
-
-            //if (version == 2)
-            //{
-            //    FindDateManager_v1 findDateManager = new FindDateManager_v1(printList1Config.GetElements("FindPrints/Dates/Date"), compileRegex: true);
-            //    int year = Date.Today.Year;
-            //    findDateManager.DateRegexList.Add("year", new RegexValues("year", "year", string.Format(@"(?:^|[_\s])({0}|{1}|{2})(?:$|[_\s])", year - 1, year, year + 1), "IgnoreCase", "year", compileRegex: true));
-
-            //    printTitleManager = new PrintTitleManager(findDateManager,
-            //        new FindNumberManager(printList1Config.GetElements("FindPrints/Numbers/Number"), compileRegex: true),
-            //        new RegexValuesList(printList1Config.GetElements("FindPrints/Specials/Special"), compileRegex: true),
-            //        printList1Config.GetExplicit("FindPrints/UnknowPrintDirectory"));
-            //}
-            //FindDateManager findDateManager = new FindDateManager(config.GetConfig("PrintList1Config").GetElements("FindPrints/Dates/DateNew"), compileRegex: true);
-            //FindNumberManager findNumberManager = new FindNumberManager(config.GetConfig("PrintList1Config").GetElements("FindPrints/Numbers/Number"), compileRegex: true);
-            //RegexValuesList findSpecial = new RegexValuesList(config.GetConfig("PrintList1Config").GetElements("FindPrints/Specials/Special"), compileRegex: true);
-            //string unknowPrintDirectory = config.GetConfig("PrintList1Config").GetExplicit("FindPrints/UnknowPrintDirectory");
-            //PrintTitleManager printTitleManager = new PrintTitleManager(findDateManager, findNumberManager, findSpecial, unknowPrintDirectory, splitTitle: splitTitle);
 
             XmlConfig config = XmlConfig.CurrentConfig;
             PrintTitleManager printTitleManager = new PrintTitleManager();
-            printTitleManager.FindDateManager = new FindDateManager(config.GetConfig("PrintList1Config").GetElements("FindPrints/Dates/DateNew"), compileRegex: true);
+            //printTitleManager.FindDateManager = new FindDateManager(config.GetConfig("PrintList1Config").GetElements("FindPrints/Dates/DateNew"), compileRegex: true);
+            printTitleManager.FindDateManager = CreateFindDateManager(version);
             printTitleManager.FindNumberManager = new FindNumberManager(config.GetConfig("PrintList1Config").GetElements("FindPrints/Numbers/Number"), compileRegex: true);
             printTitleManager.FindSpecial = new RegexValuesList(config.GetConfig("PrintList1Config").GetElements("FindPrints/Specials/Special"), compileRegex: true);
             printTitleManager.PrintDirectory = config.GetConfig("PrintList1Config").GetExplicit("FindPrints/UnknowPrintDirectory");
-            if (version == 3)
-                printTitleManager.SplitTitle = false;
-            else if (version == 4)
+            if (version == 4)
                 printTitleManager.SplitTitle = true;
+            else
+                printTitleManager.SplitTitle = false;
             return printTitleManager;
         }
 
-        //private static Dictionary<PrintType, string> GetPostTypeDirectories(XmlConfig printList1Config)
+        public static FindDateManager CreateFindDateManager(int version = 3)
+        {
+            // version 5 : version 3 +  new find date
+            if (version < 3 || version > 5)
+                throw new PBException("bad version {0}", version);
+            FindDateManager findDateManager;
+            if (version < 5)
+                findDateManager = new FindDateManager(XmlConfig.CurrentConfig.GetConfig("PrintList1Config").GetElements("FindPrints/Dates/Date"), compileRegex: true);
+            else
+            {
+                //findDateManager = new FindDateManager(XmlConfig.CurrentConfig.GetConfig("PrintList1Config").GetElements("FindPrints/Dates/Date2"), compileRegex: true);
+                findDateManager = new FindDateManager(XmlConfig.CurrentConfig.GetConfig("PrintList1Config").GetElements("FindPrints/Dates/Date2"),
+                    XmlConfig.CurrentConfig.GetConfig("PrintList1Config").GetElements("FindPrints/Dates/DigitDate"),
+                    compileRegex: true);
+                findDateManager.MultipleSearch = true;
+            }
+            return findDateManager;
+        }
+
         private static Dictionary<PrintType, string> GetPostTypeDirectories()
         {
             XmlConfig config = XmlConfig.CurrentConfig;
@@ -643,103 +388,6 @@ namespace Download.Print
             postTypeDirectories.Add(PrintType.Unknow, config.GetConfig("PrintList1Config").GetExplicit("FindPrints/PostTypeDirectories/UnknowPostType"));
             return postTypeDirectories;
         }
-
-        //public static ServerManager Create_Ebookdz_ServerManager(bool enableLoadNewPost = true, bool enableSearchPostToDownload = true, string downloadDirectory = null)
-        //{
-        //    Action loadNewPost = () => Ebookdz_DetailManager.WebHeaderDetailManager.LoadNewDocuments(maxNbDocumentsLoadedFromStore: 7, startPage: 1, maxPage: 1);
-        //    Func<DateTime, IEnumerable<IPostToDownload>> getPostList =
-        //        lastRunDateTime =>
-        //        {
-        //            string query = string.Format("{{ 'download.PostCreationDate': {{ $gt: ISODate('{0}') }} }}", lastRunDateTime.ToUniversalTime().ToString("o"));
-        //            string sort = "{ 'download.PostCreationDate': -1 }";
-        //            // useCursorCache: true
-        //            return Ebookdz_DetailManager.DetailWebDataManager.FindDocuments(query, sort: sort, loadImage: false);
-        //        };
-        //    Func<int, IPostToDownload> loadPost = id => Ebookdz_DetailManager.DetailWebDataManager.FindDocuments(string.Format("{{ _id: {0} }}", id)).FirstOrDefault();
-        //    return new ServerManager
-        //    {
-        //        name = "ebookdz.com",
-        //        enableLoadNewPost = enableLoadNewPost,
-        //        enableSearchPostToDownload = enableSearchPostToDownload,
-        //        downloadDirectory = downloadDirectory,
-        //        loadNewPost = loadNewPost,
-        //        getPostList = getPostList,
-        //        loadPost = loadPost
-        //    };
-        //}
-
-        //public static ServerManager Create_Ebookdz_ServerManager_old(bool enableLoadNewPost = true, bool enableSearchPostToDownload = true, string downloadDirectory = null)
-        //{
-        //    Action loadNewPost = () => Ebookdz_LoadPostDetail.CurrentLoadPostDetail.LoadNewDocuments(maxNbDocumentLoadedFromStore: 7, startPage: 1, maxPage: 1);
-        //    Func<DateTime, IEnumerable<IPostToDownload>> getPostList =
-        //        lastRunDateTime =>
-        //        {
-        //            string query = string.Format("{{ 'download.PostCreationDate': {{ $gt: ISODate('{0}') }} }}", lastRunDateTime.ToUniversalTime().ToString("o"));
-        //            string sort = "{ 'download.PostCreationDate': -1 }";
-        //            return Ebookdz_LoadPostDetail.CurrentLoadPostDetail.FindDocuments(query, sort: sort, loadImage: false, useCursorCache: true);
-        //        };
-        //    Func<int, IPostToDownload> loadPost = id => Ebookdz_LoadPostDetail.CurrentLoadPostDetail.FindDocuments(string.Format("{{ _id: {0} }}", id)).FirstOrDefault();
-        //    return new ServerManager
-        //    {
-        //        name = "ebookdz.com",
-        //        enableLoadNewPost = enableLoadNewPost,
-        //        enableSearchPostToDownload = enableSearchPostToDownload,
-        //        downloadDirectory = downloadDirectory,
-        //        loadNewPost = loadNewPost,
-        //        getPostList = getPostList,
-        //        loadPost = loadPost
-        //    };
-        //}
-
-        //public static ServerManager Create_RapideDdl_ServerManager(bool enableLoadNewPost = true, bool enableSearchPostToDownload = true, string downloadDirectory = null)
-        //{
-        //    //Action loadNewPost = () => RapideDdl_LoadPostDetail.LoadNewDocuments(maxNbDocumentLoadedFromStore: 7, startPage: 1, maxPage: 20);
-        //    Action loadNewPost = () => RapideDdl_LoadPostDetail.CurrentLoadPostDetail.LoadNewDocuments(maxNbDocumentLoadedFromStore: 7, startPage: 1, maxPage: 20);
-        //    Func<DateTime, IEnumerable<IPostToDownload>> getPostList =
-        //        lastRunDateTime =>
-        //        {
-        //            string query = string.Format("{{ 'download.creationDate': {{ $gt: ISODate('{0}') }} }}", lastRunDateTime.ToUniversalTime().ToString("o"));
-        //            string sort = "{ 'download.creationDate': -1 }";
-        //            //return RapideDdl_LoadPostDetail.Find(query, sort: sort, loadImage: false);
-        //            return RapideDdl_LoadPostDetail.CurrentLoadPostDetail.FindDocuments(query, sort: sort, loadImage: false, useCursorCache: true);
-        //        };
-        //    Func<int, IPostToDownload> loadPost = id => RapideDdl_LoadPostDetail.CurrentLoadPostDetail.FindDocuments(string.Format("{{ _id: {0} }}", id)).FirstOrDefault();
-        //    return new ServerManager
-        //    {
-        //        name = "rapide-ddl.com",
-        //        enableLoadNewPost = enableLoadNewPost,
-        //        enableSearchPostToDownload = enableSearchPostToDownload,
-        //        downloadDirectory = downloadDirectory,
-        //        loadNewPost = loadNewPost,
-        //        getPostList = getPostList,
-        //        loadPost = loadPost
-        //    };
-        //}
-
-        //public static ServerManager Create_GoldenDdl_ServerManager(bool enableLoadNewPost = true, bool enableSearchPostToDownload = true, string downloadDirectory = null)
-        //{
-        //    //Action loadNewPost = () => GoldenDdl_LoadPostDetail.LoadNewDocuments(maxNbDocumentLoadedFromStore: 7, startPage: 1, maxPage: 20);
-        //    Action loadNewPost = () => GoldenDdl_LoadPostDetail.CurrentLoadPostDetail.LoadNewDocuments(maxNbDocumentLoadedFromStore: 7, startPage: 1, maxPage: 20);
-        //    Func<DateTime, IEnumerable<IPostToDownload>> getPostList =
-        //        lastRunDateTime =>
-        //        {
-        //            string query = string.Format("{{ 'download.creationDate': {{ $gt: ISODate('{0}') }} }}", lastRunDateTime.ToUniversalTime().ToString("o"));
-        //            string sort = "{ 'download.creationDate': -1 }";
-        //            //return GoldenDdl_LoadPostDetail.Find(query, sort: sort, loadImage: false);
-        //            return GoldenDdl_LoadPostDetail.CurrentLoadPostDetail.FindDocuments(query, sort: sort, loadImage: false, useCursorCache: true);
-        //        };
-        //    Func<int, IPostToDownload> loadPost = id => GoldenDdl_LoadPostDetail.CurrentLoadPostDetail.FindDocuments(string.Format("{{ _id: {0} }}", id)).FirstOrDefault();
-        //    return new ServerManager
-        //    {
-        //        name = "golden-ddl.net",
-        //        enableLoadNewPost = enableLoadNewPost,
-        //        enableSearchPostToDownload = enableSearchPostToDownload,
-        //        downloadDirectory = downloadDirectory,
-        //        loadNewPost = loadNewPost,
-        //        getPostList = getPostList,
-        //        loadPost = loadPost
-        //    };
-        //}
 
         public static UncompressManager CreateUncompressManager()
         {
@@ -937,30 +585,16 @@ namespace Download.Print
             // version 1 : utilise l'ancien FindPrintManager, l'ancienne liste de print dans print_list1.xml, l'ancien pattern de date FindPrints/Dates/Date avec l'ancien FindDateManager
             // version 2 : version 1 + le nouveau FindPrintManager_new avec le nouveau PrintTitleManager, la nouvelle liste de print dans print_list2.xml,
             // version 3 : version 2 + le nouveau pattern de date FindPrints/Dates/DateNew avec le nouveau FindDateManager_new
-            // version 4 : version 3 + découpe le titre avec "du" ou "-" (PrintTitleManager)
+            // version 4 (not used) : version 3 + découpe le titre avec "du" ou "-" (PrintTitleManager)
+            // version 5 : version 3 +  new find date
 
-            if (version < 3 || version > 4)
+            if (version < 3 || version > 5)
                 throw new PBException("bad version {0}", version);
 
             Trace.WriteLine("create download automate : version {0} useNewDownloadManager {1} useTestManager {2} traceLevel {3}", version, useNewDownloadManager, useTestManager, traceLevel.zToStringOrNull());
 
             XmlConfig config = XmlConfig.CurrentConfig;
             MongoDownloadAutomateManager mongoDownloadAutomateManager = GetMongoDownloadAutomateManager();
-
-            //PrintManager printManager = CreatePrintManager();
-
-            //FindPrintManager findPrintManager_new = new FindPrintManager(
-            //        config.GetConfig("PrintList2Config").GetElements("FindPrints/Prints/Print"),
-            //        CreatePrintTitleManager(version), printManager, compileRegex: true,
-            //        postTypeDirectories: GetPostTypeDirectories(),
-            //        defaultPrintDirectory: config.GetConfig("PrintList1Config").Get("FindPrints/DefaultPrintDirectory"),
-            //        unknowPrintDirectory: config.GetConfig("PrintList1Config").Get("FindPrints/UnknowPrintDirectory"));
-            //FindPrintManager findPrintManager = new FindPrintManager();
-            //findPrintManager.PrintTitleManager = CreatePrintTitleManager(version);
-            //findPrintManager.FindPrint = new RegexValuesList(config.GetConfig("PrintList2Config").GetElements("FindPrints/Prints/Print"), compileRegex: true);
-            //findPrintManager.PostTypeDirectories = GetPostTypeDirectories();
-            //findPrintManager.DefaultPrintDirectory = config.GetConfig("PrintList1Config").Get("FindPrints/DefaultPrintDirectory");
-            //findPrintManager.UnknowPrintDirectory = config.GetConfig("PrintList1Config").Get("FindPrints/UnknowPrintDirectory");
 
             DownloadManager_v1<DownloadPostKey> downloadManager_v1 = null;
             if (!useNewDownloadManager)
@@ -980,7 +614,6 @@ namespace Download.Print
             downloadAutomate.MongoDownloadAutomateManager = mongoDownloadAutomateManager;
             downloadAutomate.DownloadAllPrintType = printType => printType == PrintType.Print || printType == PrintType.Book || printType == PrintType.UnknowEBook;
             downloadAutomate.FindPrintManager = CreateFindPrintManager(version);
-            //downloadAutomate.PrintManager = printManager;
             downloadAutomate.PrintManager = downloadAutomate.FindPrintManager.PrintManager;
             downloadAutomate.DownloadManager_v1 = downloadManager_v1;
             downloadAutomate.DownloadManager = downloadManager;
@@ -1084,182 +717,6 @@ namespace Download.Print
             }
             return null;
         }
-
-        //public static void SetAutomateSelectPost(DownloadAutomateManager downloadAutomate)
-        //{
-        //    // LES JOURNAUX - VENDREDI 15 / 16 AOUT 2014 & + [PDF][Lien Direct]
-        //    // LES JOURNAUX - JEUDI 14 / 15 AOUT 2014 & + [PDF][Lien Direct]
-        //    // LES JOURNAUX - MERCREDI 13 / 14 AOUT 2014 & + [PDF][Lien Direct]
-        //    // LES JOURNAUX - MARDI 12 / 13 AOUT 2014 & + [PDF][Lien Direct]
-        //    // LES JOURNAUX - LUNDI 11 / 12 AOUT 2014 & + [PDF][Lien Direct]
-        //    // LES JOURNAUX -  DIMANCHE 10 / 11 AOUT 2014 & + [PDF][Lien Direct]
-        //    // LES JOURNAUX - SAMEDI 09 / 10 AOUT 2014 & + [PDF][Lien Direct]
-        //    // LES JOURNAUX - VENDREDI 08 / 09 AOUT 2014 & + [PDF][Lien Direct]
-        //    // LES JOURNAUX - VENDREDI 25 / 26 JUILLET 2014 & + [PDF][Lien Direct]
-        //    // LES JOURNAUX - JEUDI 07 / 08 AOUT 2014 & + [PDF][Lien Direct]
-        //    // LES JOURNAUX - MERCREDI 16/ 17 JUILLET 2014 & + [PDF][Lien Direct]
-        //    // LES JOURNAUX - DIMANCHE 20 / 21 JUILLET 2014 & + [PDF][Lien Direct]
-        //    // LES JOURNAUX - MERCREDI 06 / 07 AOUT 2014 & + [PDF][Lien Direct]
-        //    // LES JOURNAUX - JEUDI 31 JUILLET / 01 AOUT 2014 & + [PDF][Lien Direct]
-        //    // LES JOURNAUX - VENDREDI 01 / 02 AOUT 2014 & + [PDF][Lien Direct]
-        //    // LES JOURNAUX - MARDI 22 / 23 JUILLET 2014 & + [PDF][Lien Direct]
-        //    // LES JOURNAUX - JEUDI 24 / 25 JUILLET 2014 & + [PDF][Lien Direct]
-        //    // LES JOURNAUX - SAMEDI 26 / 27 JUILLET 2014 & + [PDF][Lien Direct]
-        //    // LES JOURNAUX - MARDI 29 / 30 JUILLET 2014 & + [PDF][Lien Direct]
-        //    // LES JOURNAUX - LUNDI 21 / 22 JUILLET 2014 & + [PDF][Lien Direct]
-        //    // LES JOURNAUX - JEUDI 17 / 18 JUILLET 2014 & + [PDF][Lien Direct]
-        //    // LES JOURNAUX - LUNDI 04 / 05 AOUT 2014 & + [PDF][Lien Direct]
-        //    // LES JOURNAUX - MERCREDI 23 / 24 JUILLET 2014 & + [PDF][Lien Direct]
-        //    // LES JOURNAUX - DIMANCHE 03 / 04 AOUT 2014 & + [PDF][Lien Direct]
-        //    // LES JOURNAUX - VENDREDI 18 / 19 JUILLET 2014 & + [PDF][Lien Direct]
-        //    // LES JOURNAUX - MERCREDI 30 / 31 JUILLET 2014 & + [PDF][Lien Direct]
-        //    // LES JOURNAUX -  LUNDI 28 / 29 JUILLET 2014 & + [PDF][Lien Direct]
-        //    Regex printJournaux = new Regex(@"^\s*les\s*journaux\s", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-        //    //downloadAutomate.AddSelectPost(
-        //    //    post =>
-        //    //    {
-        //    //        //if (post.title.StartsWith("LES JOURNAUX", StringComparison.InvariantCultureIgnoreCase))
-        //    //        if (printJournaux.IsMatch(post.title))
-        //    //        {
-        //    //            //Match match = printDate.Match(post.title);
-        //    //            //if (match.Success)
-        //    //            //{
-        //    //                //DateTime dt = new DateTime(int.Parse(match.Groups[4].Value), zdate.GetMonthNumber(match.Groups[3].Value), int.Parse(match.Groups[1].Value));
-        //    //            DateTime? dt = GetDate(post.title);
-        //    //            if (dt != null)
-        //    //                return string.Format(@"journaux\journaux_{0:yyyy-MM-dd}", dt);
-        //    //            //}
-        //    //            else
-        //    //            {
-        //    //                Trace.WriteLine("error can't find date in \"{0}\"", post.title);
-        //    //                return @"journaux\journaux_autre";
-        //    //            }
-        //    //        }
-        //    //        return null;
-        //    //    }
-        //    //    );
-        //    downloadAutomate.AddSelectPost(post => SelectPost(printJournaux, post.title, "journaux"));
-
-        //    // L'Equipe du samedi 16 août 2014
-        //    // L'Equipe du vendredi 15 août 2014
-        //    // L'Equipe du jeudi 14 août 2014
-        //    // L'Equipe du mercredi 13 août 2014
-        //    // L'Equipe du mardi 12 août 2014
-        //    // L'Equipe du lundi 11 août 2014
-        //    // L' Equipe du lundi 11 aout 2014
-        //    // L'Equipe du samedi 09 août 2014
-        //    // L'Equipe du vendredi 08 août 2014
-        //    // L'Equipe du jeudi 07 août 2014
-        //    Regex printEquipe = new Regex(@"^\s*(l\s*)?('\s*)?[eé]quipe\s", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-        //    downloadAutomate.AddSelectPost(post => SelectPost(printEquipe, post.title, "l_equipe"));
-
-        //    // Le Parisien + Journal de Paris du samedi 16 août 2014
-        //    // Le Parisien + journal de Paris du vendredi 15 août 2014
-        //    // Le Parisien + Journal de Paris du jeudi 14 août 2014
-        //    // Le Parisien + Journal de Paris du Mercredi 13 aout 2014
-        //    // Le Parisien + Journal de Paris du mardi 12 août 2014
-        //    // Le Parisien + Journal de Paris du lundi 11 août 2014
-        //    // Le Parisien + Journal de Paris du samedi 09 août 2014
-        //    // Le Parisien + journal de Paris du vendredi 08 août 2014
-        //    // Le Parisien + Journal de Paris du jeudi 07 août 2014
-        //    // Le Parisien + journal de Paris du lundi 21 juillet 2014
-        //    Regex printParisien = new Regex(@"^\s*le\s*parisien\s", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-        //    downloadAutomate.AddSelectPost(post => SelectPost(printParisien, post.title, "le_parisien"));
-
-        //    // Les Echos Edition 13 Aout 2014
-        //    // Les Echos du Mardi 12 Août 2014
-        //    // Les Echos du Lundi 11 Août 2014
-        //    // Les Echos - Vendredi 08 & Samedi 09 Août 2014
-        //    // Les Echos du Jeudi 07 Août 2014
-        //    Regex printEchos = new Regex(@"^\s*les\s*[eé]chos\s", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-        //    downloadAutomate.AddSelectPost(post => SelectPost(printEchos, post.title, "les_echos"));
-
-        //    // Libération du Mercredi 13 Août 2014
-        //    // Libération du mardi 12 août 2014
-        //    // Libération du Lundi 11 Août 2014
-        //    // Libération Week-end du samedi 09 et dimanche 10 août 2014
-        //    // Libération du Vendredi 08 Août 2014
-        //    // Libération du Jeudi 07 Août 2014
-        //    Regex printLiberation = new Regex(@"^\s*lib[eé]ration\s", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-        //    downloadAutomate.AddSelectPost(post => SelectPost(printLiberation, post.title, "liberation"));
-
-        //    // Le Figaro du Mardi 12 Août 2014
-        //    // Le Figaro du Lundi 11 Août 2014
-        //    // Le Figaro du samedi 09 et dimanche 10 août 2014
-        //    // Le Figaro du Vendredi 08 Août 2014
-        //    // Le Figaro du Jeudi 07 Août 2014
-        //    Regex printFigaro = new Regex(@"^\s*le\s*figaro\s", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-        //    downloadAutomate.AddSelectPost(post => SelectPost(printFigaro, post.title, "le_figaro"));
-
-        //    // Le Monde du jeudi 14 aout 2014
-        //    // Journal Le Monde - Mardi 12 Août 2014
-        //    // Le Monde - Mardi 29 Juillet 2014
-        //    // Le Monde du Samedi 26 Juillet 2014
-        //    // Journal Le Monde - Mercredi 06 Août 2014
-        //    Regex printLeMonde = new Regex(@"^\s*(journal\s*)?le\s*monde\s", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-        //    downloadAutomate.AddSelectPost(post => SelectPost(printLeMonde, post.title, "le_monde"));
-
-        //    // La Provence de Marseille, du Lundi 11 Août 2014
-        //    // La Provence de Marseille, du Dimanche 10 Août 2014
-        //    // La Provence de Marseille, du Samedi 09 Août 2014
-        //    // La Provence de Marseille, du Jeudi 07 Août 2014
-        //    // La Provence de Marseille, du Lundi 04 Août 2014
-        //    Regex printProvence = new Regex(@"^\s*la\s*provence\s", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-        //    downloadAutomate.AddSelectPost(post => SelectPost(printProvence, post.title, "la_provence"));
-
-        //    // Le Journal du dimanche No.3526 - Dimanche 10 Août 2014
-        //    // Le Journal du dimanche No.3525 - Dimanche 3 Août 2014
-        //    Regex printJournalDuDimanche = new Regex(@"^\s*le\s*journal\s*du\s*dimanche\s", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-        //    downloadAutomate.AddSelectPost(post => SelectPost(printJournalDuDimanche, post.title, "le_journal_du_dimanche"));
-
-        //    // Marianne N°904 - 15 au 21 Aout 2014
-        //    // Marianne N°903 - 08 au 14 Août 2014 [Lien Direct]
-        //    // Marianne N°900 - Vendredi 18/ 24 Juillet 2014 [Lien Direct]
-        //    Regex printMarianne = new Regex(@"^\s*marianne\s", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-        //    downloadAutomate.AddSelectPost(post => SelectPost(printMarianne, post.title, "marianne"));
-
-        //    // Le Point N° 2187 - Du 14 au 20 Août 2014
-        //    // Le Point N 2186 - 7 au 13 Aout 2013
-        //    Regex printLePoint = new Regex(@"^\s*le\s*point\s", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-        //    downloadAutomate.AddSelectPost(post => SelectPost(printLePoint, post.title, "le_point"));
-
-        //    // Le Nouvel Observateur No.2597 - 14 au 20 Août 2014
-        //    // Le Nouvel Observateur N 2596 - 7 au 13 Aout 2014 + Ciné Télé Obs du 2 au 15 Aout 2014
-        //    Regex printLeNouvelObservateur = new Regex(@"^\s*le\s*nouvel\s*observateur\s", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-        //    downloadAutomate.AddSelectPost(post => SelectPost(printLeNouvelObservateur, post.title, "le_nouvel_observateur"));
-
-        //    // Les inRocKuptibles No.976 - 13 au 19 Août 2014
-        //    Regex printLesInRocKuptibles = new Regex(@"^\s*les\s*inrockuptibles\s", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-        //    downloadAutomate.AddSelectPost(post => SelectPost(printLesInRocKuptibles, post.title, "les_inrockuptibles"));
-
-        //    // L'Express N° 3293 - Du 13 au 19 Août 2014
-        //    // L'Express Hors-Série Illustration N° 4 - Juillet-Août-Septembre 2014
-        //    Regex printExpress = new Regex(@"^\s*(l\s*)?('\s*)?express\s", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-        //    downloadAutomate.AddSelectPost(post => SelectPost(printExpress, post.title, "l_express"));
-
-        //    // Investir N° 2119 - Du 16 au 22 août 2014
-        //    // Investir No.2118 - 9 au 15 Août 2014
-        //    Regex printInvestir = new Regex(@"^\s*investir\s", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-        //    downloadAutomate.AddSelectPost(post => SelectPost(printInvestir, post.title, "investir"));
-
-        //    // 01NET N.792 - 20 FEVRIER AU 5 MARS 2014
-        //    // 01net N 791 - 6 Au 19 Février 2014
-        //    // 01net N°782 - 26 Septembre Au 9 Octobre 2013
-        //    // 01Net Hors Série N° 80 - Juin 2014
-        //    // 01net No.802 - 7 Août au 3 Septembre 2014  [PDF Optimisé]
-        //    // 01net N 802 - 7 Aout au 3 Septembre 2014
-        //    Regex print01net = new Regex(@"^\s*01\s*net\s", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-        //    downloadAutomate.AddSelectPost(post => SelectPost(print01net, post.title, "01net"));
-
-        //    // Air & Cosmos N 2416 - 25 au 31 Juillet 2014
-        //    Regex printAirCosmos = new Regex(@"^\s*air\s*(&\s*)?cosmos\s", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-        //    downloadAutomate.AddSelectPost(post => SelectPost(printAirCosmos, post.title, "air_cosmos"));
-
-        //    // Afrique Magazine N° 347-348 - Août-Septembre 2014
-        //    // Science Revue N°45
-        //    // Science revue No.59 - Avril-Mai-Juin 2014
-        //    // Le Monde des Ados N 323 - Aout 2014
-        //}
 
         public static MongoDownloadAutomateManager GetMongoDownloadAutomateManager()
         {

@@ -183,6 +183,8 @@
     <Compile Include="Source\pb\Text\FindDateManager.cs" />
     <Compile Include="Source\pb\Text\FindNumberManager.cs" />
     <Compile Include="Source\pb\Text\StringCompare.cs" />
+    <Compile Include="Source\pb\Text\Test\Test_Regex.cs" />
+    <Compile Include="Source\pb\Text\Test\Test_RegexValues.cs" />
     <Compile Include="Source\pb\Web\Data\Debrider.cs" />
     <Compile Include="Source\pb\Web\Data\DebriderAlldebrid.cs" />
     <Compile Include="Source\pb\Web\Data\DebriderDebridLinkFr.cs" />
@@ -364,6 +366,9 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Source\pb\Reflection\Test\Test_Reflection.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Source\pb\Text\Test\Test_Text.project.xml">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Source\Project\Default.project.xml" />

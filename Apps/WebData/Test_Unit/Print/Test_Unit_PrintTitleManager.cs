@@ -44,9 +44,10 @@ namespace Test.Test_Unit.Print
 
         public static void Test_ExportTitle_TelechargerMagazine_01()
         {
-            string file = "MagazineTitle_TelechargerMagazine.txt";
+            string file = "PrintTitle_TelechargerMagazine.txt";
             TraceMongoCommand.Export("dl", "TelechargerMagazine_Detail", GetFile(file),
               //query: "{ $or: [ { 'download.category': 'Ebooks/Journaux' }, { 'download.category': 'Ebooks/Magazine' } ] }",
+              query: "{ 'download.PrintType': 'Print' }",
               fields: "{ '_id': 0 'download.Title': 1, 'download.PrintType': 1 }",
               limit: 1000,
               sort: "{ _id: -1 }",
@@ -55,9 +56,10 @@ namespace Test.Test_Unit.Print
 
         public static void Test_ExportTitle_Vosbooks_01()
         {
-            string file = "MagazineTitle_Vosbooks.txt";
+            string file = "PrintTitle_Vosbooks.txt";
             TraceMongoCommand.Export("dl", "Vosbooks_Detail", GetFile(file),
-              query: "{ 'download.PrintType': { $ne: 'Comics' } }",
+              //query: "{ 'download.PrintType': { $ne: 'Comics' } }",
+              query: "{ 'download.PrintType': 'Print' }",
               fields: "{ '_id': 0 'download.Title': 1, 'download.PrintType': 1 }",
               limit: 1000,
               sort: "{ 'download.PostCreationDate': -1 }",
@@ -66,16 +68,17 @@ namespace Test.Test_Unit.Print
 
         public static void Test_ExportTitle_Ebookdz_01()
         {
-            string file = "MagazineTitle_Ebookdz.txt";
+            string file = "PrintTitle_Ebookdz.txt";
             TraceMongoCommand.Export("dl", "Ebookdz_Detail", GetFile(file),
-              query: "{ 'download.PrintType': { $ne: 'Comics' } }",
+              //query: "{ 'download.PrintType': { $ne: 'Comics' } }",
+              query: "{ 'download.PrintType': 'Print' }",
               fields: "{ '_id': 0 'download.Title': 1, 'download.PrintType': 1 }",
               limit: 1000,
               sort: "{ 'download.PostCreationDate': -1 }",
               transformDocument: doc => new MongoDB.Bson.BsonDocument { { "Title", doc.zGet("download.Title") }, { "PrintType", doc.zGet("download.PrintType") } });
         }
 
-        public static void Test_PrintMagazineGetTitle_01(PrintTitleManager printTitleManager, string file)
+        public static void Test_GetPrintTitleInfo_01(PrintTitleManager printTitleManager, string file)
         {
             Trace.WriteLine("Test_PrintMagazineGetTitle_01 \"{0}\"", file);
             file = GetFile(file);

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<AssemblyProject>
+  
+  <Root                             value = "..\..\..\..\..\.." />
+  
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\Basic.project.xml" />
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\RunSourceExtension.project.xml" />
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\MongoExtension.project.xml" />
+
+  <NameSpace                        value = "Test.Test_Text" />
+  <Using                            value = "pb" />
+  <Using                            value = "Test.Test_Text" />
+
+  <Source                           value = "Test_Regex.cs" />
+  <Source                           value = "Test_RegexValues.cs" />
+
+  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\GlobalExtension.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\NamedValues.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\ZValue.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Text\RegexValues.cs" />
+  
+  <!--
+  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Reflection\TypeView_v2.cs" />
+  -->
+
+</AssemblyProject>

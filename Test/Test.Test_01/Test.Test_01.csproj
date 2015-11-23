@@ -294,6 +294,9 @@
     <Compile Include="..\..\Lib\pb\Source\pb\Text\Regex.cs">
       <Link>SourceLnk\Lib\pb\Text\Regex.cs</Link>
     </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Text\RegexValues.cs">
+      <Link>SourceLnk\Lib\pb\Text\RegexValues.cs</Link>
+    </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Text\Split.cs">
       <Link>SourceLnk\Lib\pb\Text\Split.cs</Link>
     </Compile>
@@ -414,9 +417,6 @@
     <Compile Include="..\..\Lib\pb\Source\pb\_pb\Progress.cs">
       <Link>SourceLnk\Lib\pb\_pb\Progress.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\_pb\Reflection.cs">
-      <Link>SourceLnk\Lib\pb\_pb\Reflection.cs</Link>
-    </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\_pb\TextSerializer.cs">
       <Link>SourceLnk\Lib\pb\_pb\TextSerializer.cs</Link>
     </Compile>
@@ -431,9 +431,6 @@
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\_pb\TraceSetWriter.cs">
       <Link>SourceLnk\Lib\pb\_pb\TraceSetWriter.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\_pb\TypeView.cs">
-      <Link>SourceLnk\Lib\pb\_pb\TypeView.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Source\Bug\Bug_f_01.cs" />
@@ -583,7 +580,6 @@
       <DependentUpon>Test_RunSourceForm.cs</DependentUpon>
     </None>
     <None Include="Source\Test_RunSource\Test_RunSource_AssemblyInfo.cs" />
-    <Compile Include="Source\Test_Text\Test_Regex_f.cs" />
     <None Include="Source\Test_wcf\compile.cs" />
     <None Include="Source\Test_wcf\Test_DownloadManagerClient\Test_DownloadManagerClient.cs" />
     <Compile Include="Source\Test_wcf\Test_DownloadManagerClient\Test_DownloadManagerClient_f.cs" />

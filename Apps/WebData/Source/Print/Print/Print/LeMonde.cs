@@ -72,6 +72,7 @@ namespace Print
     {
         private LeMondeType _type = LeMondeType.Unknow;
         private string _typeCode = null;
+        private string _dossier = null;
 
         public PrintIssueLeMonde(Print print)
             : base(print)
@@ -88,16 +89,27 @@ namespace Print
         {
         }
 
-        //NamedValues1
+        // type_dossier  : name
         public override bool TrySetValues(NamedValues<ZValue> values)
         {
             if (!base.TrySetValues(values))
                 return false;
+
             LeMondeType type;
             if (!TryGetType(values, out type))
                 return false;
             if (type != LeMondeType.Unknow)
                 _type = type;
+
+            if (values.ContainsKey("type_dossier"))
+            {
+                ZValue v = values["type_dossier"];
+                if (v != null && v is ZString)
+                {
+                    _dossier = (string)v;
+                }
+            }
+
             _typeCode = null;
             return true;
         }
@@ -106,8 +118,10 @@ namespace Print
         {
             if (_typeCode == null)
             {
+                //if ((_type & LeMondeType.Quotidien) == LeMondeType.Quotidien)
+                //    _typeCode = "_quo" + GetTypeCodeSup('+');
                 if ((_type & LeMondeType.Quotidien) == LeMondeType.Quotidien)
-                    _typeCode = "_quo" + GetTypeCodeSup('+');
+                    _typeCode = "";
                 else
                     _typeCode = GetTypeCodeSup('-');
             }
@@ -217,22 +231,34 @@ namespace Print
 
         public override string GetFilename(int index = 0)
         {
-            string file = string.Format("Le monde - {0:yyyy-MM-dd} - no {1} {2}", Date, GetPrintNumber(), GetTypeCode());
-            if (index != 0) file += "_" + index.ToString();
+            //string file = string.Format("Le monde - {0:yyyy-MM-dd} - no {1} {2}", Date, GetPrintNumber(), GetTypeCode());
+            string file = string.Format("Le monde - {0:yyyy-MM-dd} - no {1}", Date, GetPrintNumber());
+            string typeCode = GetTypeCode();
+            if (typeCode != "")
+                file += " " + typeCode;
+            if (_dossier != null)
+                file += " -dossier " + _dossier;
+            if (index != 0)
+                file += "_" + index.ToString();
             return file + ".pdf";
         }
 
-        //NamedValues1
+        // type_code     : quo, arg, arh, dos, mde, edu, aut, peh, liv, mag, mdv, sch, scq, sph, sty, nyt, tel
+        // type_quo      :
+        // fix_type_quo  :
+        // types_quo_sup : argent, culture, dossier, éco, eco, édu, edu, festival, géo, geo, livres, mag, mode, science, sport, style, nyt, tv, document, élection, election, hebdo, sup
+        // type_sup      : argent, culture, dossier, éco, eco, édu, edu, festival, géo, geo, livres, mag, mode, science, sport, style, nyt, tv, document, élection, election, hebdo, sup
+        // type_sups     : argent, culture, dossier, éco, eco, édu, edu, festival, géo, geo, livres, mag, mode, science, sport, style, nyt, tv, document, élection, election, hebdo, sup
+        // fix_type_eco  :
+        // fix_type_tv   :
         public static bool TryGetType(NamedValues<ZValue> values, out LeMondeType type)
         {
             type = LeMondeType.Unknow;
             if (values.ContainsKey("type_code"))
             {
-                //string
                 type = GetTypeCode((string)values["type_code"]);
                 if (type == LeMondeType.Unknow)
                 {
-                    //string
                     values.SetError("error unknow le monde type sup : \"{0}\"", values["type_code"]);
                     return false;
                 }
@@ -242,15 +268,12 @@ namespace Print
                 type = LeMondeType.Quotidien;
                 if (values.ContainsKey("types_quo_sup"))
                 {
-                    //object o = values["types_quo_sup"];
                     ZValue v = values["types_quo_sup"];
-                    //if (o != null && !(o is string[]))
                     if (v != null && !(v is ZStringArray))
                     {
                         values.SetError("error creating LeMonde value types_quo_sup should be a string array : {0}", v);
                         return false;
                     }
-                    //foreach (string s in (string[])o)
                     foreach (string s in (string[])v)
                     {
                         LeMondeType type2 = GetTypeSup(s);
@@ -265,20 +288,54 @@ namespace Print
             }
             else if (values.ContainsKey("type_sup"))
             {
-                //object o = values["type_sup"];
                 ZValue v = values["type_sup"];
-                //if (!(o is string))
                 if (!(v is ZString))
                 {
                     values.SetError("error creating LeMonde value type_sup should be a string : {0}", v);
                     return false;
                 }
-                //type = GetTypeSup((string)o);
                 type = GetTypeSup((string)v);
                 if (type == LeMondeType.Unknow)
                 {
                     values.SetError("error unknow le monde type sup : \"{0}\"", v);
                     return false;
+                }
+            }
+            else if (values.ContainsKey("type_sups"))
+            {
+                ZValue v = values["type_sups"];
+                if (v != null)
+                {
+                    if (v is ZString)
+                    {
+                        LeMondeType type2 = GetTypeSup((string)v);
+                        if (type2 == LeMondeType.Unknow)
+                        {
+                            values.SetError("error unknow le monde type sup : \"{0}\"", (string)v);
+                            return false;
+                        }
+                        type = type2;
+                    }
+                    else if (v is ZStringArray)
+                    {
+                        type = LeMondeType.Unknow;
+                        foreach (string s in (string[])v)
+                        {
+                            LeMondeType type2 = GetTypeSup(s);
+                            if (type2 == LeMondeType.Unknow)
+                            {
+                                values.SetError("error unknow le monde type sup : \"{0}\"", s);
+                                //return false;
+                            }
+                            else
+                                type |= type2;
+                        }
+                    }
+                    else
+                    {
+                        values.SetError("error creating LeMonde value type_sups should be a string or string array : {0}", v);
+                        return false;
+                    }
                 }
             }
             else if (values.ContainsKey("fix_type_eco"))

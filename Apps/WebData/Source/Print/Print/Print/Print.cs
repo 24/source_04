@@ -66,6 +66,15 @@ namespace Print
         //    _noPrintDays = noPrintDays;
         //}
 
+        public Print(string name, string title, string directory)
+        {
+            _name = name;
+            _title = title;
+            _directory = directory;
+            _frequency = PrintFrequency.Unknow;
+            _noDateAndNumberCalculate = true;
+        }
+
         public Print(XElement xe, string baseDirectory = null, Dictionary<string, RegexValuesModel> regexModels = null)
         {
             _name = xe.zXPathValue("Name");
@@ -267,27 +276,39 @@ namespace Print
             }
         }
 
-        public virtual Date GetPrintDate(int printNumber)
+        //public virtual Date GetPrintDate(int printNumber)
+        public virtual void GetPrintDate(int printNumber, out Date date, out DateType dateType)
         {
             if (_noDateAndNumberCalculate || printNumber == 0)
                 throw new PBException("unable to calculate date \"{0}\" noDateAndNumberCalculate {1} printNumber {2}", _name, _noDateAndNumberCalculate, printNumber);
             // pas de fonction zprint.GetDailyPrintDate()
             if (_frequency == PrintFrequency.Weekly)
-                //return zprint.GetWeeklyPrintDate(printNumber, _refPrintNumber, _refPrintDate);
-                return GetPeriodPrintDate(printNumber, 7);
-            if (_frequency == PrintFrequency.EveryTwoWeek)
-                //return zprint.GetEveryTwoWeekPrintDate(printNumber, _refPrintNumber, _refPrintDate);
-                return GetPeriodPrintDate(printNumber, 14);
-            if (_frequency == PrintFrequency.Monthly)
-                //return zprint.GetMonthlyPrintDate(printNumber, _refPrintNumber, _refPrintDate, _noPrintMonths, _noPrintDates, _noPrintNumbers);
-                return GetMonthlyPrintDate(printNumber);
-            if (_frequency == PrintFrequency.Bimonthly)
-                //return zprint.GetMultiMonthlyPrintDate(printNumber, _refPrintNumber, _refPrintDate, _noPrintMonths, _noPrintDates, _noPrintNumbers, 2);
-                return GetMultiMonthlyPrintDate(printNumber, 2);
-            if (_frequency == PrintFrequency.Quarterly)
-                //return zprint.GetMultiMonthlyPrintDate(printNumber, _refPrintNumber, _refPrintDate, _noPrintMonths, _noPrintDates, _noPrintNumbers, 3);
-                return GetMultiMonthlyPrintDate(printNumber, 3);
-            throw new PBException("unable to calculate date \"{0}\" frequency {1}", _name, _frequency);
+            {
+                date = GetPeriodPrintDate(printNumber, 7);
+                dateType = DateType.Day;
+            }
+            else if (_frequency == PrintFrequency.EveryTwoWeek)
+            {
+                date = GetPeriodPrintDate(printNumber, 14);
+                dateType = DateType.Day;
+            }
+            else if (_frequency == PrintFrequency.Monthly)
+            {
+                date = GetMonthlyPrintDate(printNumber);
+                dateType = DateType.Month;
+            }
+            else if (_frequency == PrintFrequency.Bimonthly)
+            {
+                date = GetMultiMonthlyPrintDate(printNumber, 2);
+                dateType = DateType.Month;
+            }
+            else if (_frequency == PrintFrequency.Quarterly)
+            {
+                date = GetMultiMonthlyPrintDate(printNumber, 3);
+                dateType = DateType.Month;
+            }
+            else
+                throw new PBException("unable to calculate date \"{0}\" frequency {1}", _name, _frequency);
         }
 
         public virtual int GetPrintNumber(Date date, bool throwException = true)
@@ -564,6 +585,7 @@ namespace Print
         //private static ITrace _tr = pb.Trace.CurrentTrace;
         protected Print _print = null;
         protected Date? _date = null;
+        protected DateType _dateType = DateType.Unknow;
         protected int _printNumber = 0;
         protected bool _special = false;  // hors-série
         protected bool _specialMonth = false;  // hors-série
@@ -593,31 +615,19 @@ namespace Print
 
         public static bool Trace { get { return _trace; } set { _trace = value; } }
         public Print Print { get { return _print; } }
-        //public Date Date { get { return GetPrintDate(); } }
-        public Date? Date {
-            get
-            {
-                //if (!TryGetPrintDate())
-                //    throw new PBException(_error);
-                //return (Date)_date;
-                TryGetPrintDate();
-                return _date;
-            }
-            set { _date = value; }  // 25/09/2014 used in FindPrintManager2.Find()
-        }
+        public Date? Date { get { TryGetPrintDate(); return _date; } set { _date = value; } }                 // 25/09/2014 set used in FindPrintManager.Find()
+        public DateType DateType { get { return _dateType; } set { _dateType = value; } }                     // set used in FindPrintManager.Find()
         public int PrintNumber { get { return GetPrintNumber(); } set { _printNumber = value; } }
         public bool Special { get { return _special; } set { _special = value; } }
         public bool SpecialMonth { get { return _specialMonth; } }
-        public string SpecialText { get { return _specialText; } set { _specialText = value; } }  // 25/09/2014 used in FindPrintManager2.Find()
+        public string SpecialText { get { return _specialText; } set { _specialText = value; } }              // 25/09/2014 set used in FindPrintManager.Find()
         public string Label { get { return _label; } }
         public int Index { get { return _index; } }
-        //NamedValues1
         public NamedValues<ZValue> PrintValues { get { return _printValues; } }
         public string Error { get { return _error; } }
 
         public virtual bool Control()
         {
-            //Date date = GetPrintDate();
             if (!TryGetPrintDate())
                 return false;
             string error;
@@ -646,7 +656,6 @@ namespace Print
             return true;
         }
 
-        //NamedValues1
         public virtual bool TrySetValues(NamedValues<ZValue> values)
         {
             //_error = null;
@@ -667,11 +676,12 @@ namespace Print
             }
 
             Date? date = _date;
+            DateType dateType = _dateType;
             if (values.ContainsKey("day_near_current_date") || values.ContainsKey("month"))
             {
                 Date date2;
-                DateType dateType;
-                if (!zdate.TryCreateDate(values, out date2, out dateType))
+                DateType dateType2;
+                if (!zdate.TryCreateDate(values, out date2, out dateType2))
                 {
                     //if (values.Error != null)
                     //    _error = values.Error;
@@ -681,6 +691,7 @@ namespace Print
                 if (!ControlDate(date2, out error))
                     return false;
                 date = date2;
+                dateType = dateType2;
                 _printValues.SetValues(values, "day_near_current_date", "day", "month", "year");
             }
 
@@ -697,7 +708,10 @@ namespace Print
                 if (_print.Frequency == PrintFrequency.Daily)
                     printNumber = 0;
                 else
+                {
                     date = null;
+                    dateType = pb.DateType.Unknow;
+                }
             }
 
             string label = _label;
@@ -719,13 +733,13 @@ namespace Print
             _special = special;
             _specialMonth = specialMonth;
             _date = date;
+            _dateType = dateType;
             _printNumber = printNumber;
             _label = label;
             _index = index;
             return true;
         }
 
-        //NamedValues1
         protected virtual bool TryGetPrintNumber(NamedValues<ZValue> values, out int number)
         {
             number = 0;
@@ -735,7 +749,6 @@ namespace Print
                 return false;
             }
             int number2;
-            //string
             if (!int.TryParse((string)values["number"], out number2))
             {
                 SetError("error invalid print number \"{0}\"", values["number"]);
@@ -743,11 +756,13 @@ namespace Print
             }
             if (_print.Frequency != PrintFrequency.Daily && !_special)
             {
-                Date date = _print.GetPrintDate(number2);
+                //Date date = _print.GetPrintDate(number2);
+                Date date;
+                DateType dateType;
+                _print.GetPrintDate(number2, out date, out dateType);
                 string error;
                 if (!ControlDate(date, out error))
                 {
-                    //SetError(error);
                     return false;
                 }
             }
@@ -755,7 +770,6 @@ namespace Print
             return true;
         }
 
-        //NamedValues1
         protected virtual bool TryGetIndex(NamedValues<ZValue> values, out int index)
         {
             index = 0;
@@ -778,21 +792,17 @@ namespace Print
             return true;
         }
 
-        //protected virtual Date GetPrintDate()
         protected virtual bool TryGetPrintDate()
         {
             if (_date == null)
             {
-                //_date = GetPrintDate(_printNumber);
                 if (_special)
                 {
-                    //throw new PBException("unable to calculate date for special issue \"{0}\"", _print.Name);
                     SetError("unable to calculate date for special issue \"{0}\"", _print.Name);
                     return false;
                 }
                 if (_specialMonth || _printNumber == 0)
                 {
-                    //throw new PBException("unable to calculate date \"{0}\"", _print.Name);
                     SetError("unable to calculate date \"{0}\" specialMonth {1} printNumber {2}", _print.Name, _specialMonth, _printNumber);
                     return false;
                 }
@@ -801,20 +811,13 @@ namespace Print
                     SetError("unable to calculate date of Daily print \"{0}\" from printNumber {1}", _print.Name, _printNumber);
                     return false;
                 }
-                _date = _print.GetPrintDate(_printNumber);
+                //_date = _print.GetPrintDate(_printNumber);
+                Date date;
+                _print.GetPrintDate(_printNumber, out date, out _dateType);
+                _date = date;
             }
-            //return (Date)_date;
             return true;
         }
-
-        //public virtual Date GetPrintDate(int printNumber)
-        //{
-        //    if (_special)
-        //        throw new PBException("unable to calculate date for special issue \"{0}\"", _print.Name);
-        //    if (_specialMonth || printNumber == 0)
-        //        throw new PBException("unable to calculate date \"{0}\"", _print.Name);
-        //    return _print.GetPrintDate(printNumber);
-        //}
 
         public virtual bool CanCalculatePrintNumber()
         {
@@ -849,13 +852,18 @@ namespace Print
             if (!_special || !_print.SpecialNoDate)
             {
                 PrintFrequency frequency = _print.Frequency;
-                Date? date = Date;
-                if (date != null)
+                //Date? date = Date;
+                TryGetPrintDate();
+                if (_date != null)
                 {
-                    if ((frequency == PrintFrequency.Daily || frequency == PrintFrequency.Weekly || frequency == PrintFrequency.EveryTwoWeek) && !_specialMonth)
-                        file += string.Format(" - {0:yyyy-MM-dd}", date);
+                    //if ((frequency == PrintFrequency.Daily || frequency == PrintFrequency.Weekly || frequency == PrintFrequency.EveryTwoWeek) && !_specialMonth)
+                    //    file += string.Format(" - {0:yyyy-MM-dd}", date);
+                    //else
+                    //    file += string.Format(" - {0:yyyy-MM}", date);
+                    if (_dateType == pb.DateType.Day)
+                        file += string.Format(" - {0:yyyy-MM-dd}", _date);
                     else
-                        file += string.Format(" - {0:yyyy-MM}", date);
+                        file += string.Format(" - {0:yyyy-MM}", _date);
                 }
             }
             if (!_print.NoNumber)

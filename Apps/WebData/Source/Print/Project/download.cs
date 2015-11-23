@@ -2,6 +2,7 @@
 // $$info.test.regex
 // $$info.debrid-link.fr
 // $$info.test_unit.print
+// $$info.GetPrintTitleInfo
 
 
 //*************************************************************************************************************************
@@ -1712,13 +1713,26 @@ Test.Test_Text.Test_Regex.Test(
 //***********************************************************************************************************************************************************
 // $$info.test_unit.print
 
-Test.Test_Unit.Print.Test_Unit_PrintMagazineGetTitle.Test_ExportTitle_TelechargerMagazine_01();
-Test.Test_Unit.Print.Test_Unit_PrintMagazineGetTitle.Test_ExportTitle_Vosbooks_01();
-Test.Test_Unit.Print.Test_Unit_PrintMagazineGetTitle.Test_ExportTitle_Ebookdz_01();
+Test_Unit_PrintTitleManager.Test_ExportTitle_TelechargerMagazine_01();
+Test_Unit_PrintTitleManager.Test_ExportTitle_Vosbooks_01();
+Test_Unit_PrintTitleManager.Test_ExportTitle_Ebookdz_01();
 
-Test.Test_Unit.Print.Test_Unit_PrintMagazineGetTitle.Test_PrintMagazineGetTitle_01(Download.Print.DownloadAutomate_f.CreatePrintTitleManager(), "MagazineTitle_TelechargerMagazine.txt");
-Test.Test_Unit.Print.Test_Unit_PrintMagazineGetTitle.Test_PrintMagazineGetTitle_01(Download.Print.DownloadAutomate_f.CreatePrintTitleManager(), "MagazineTitle_Vosbooks.txt");
-Test.Test_Unit.Print.Test_Unit_PrintMagazineGetTitle.Test_PrintMagazineGetTitle_01(Download.Print.DownloadAutomate_f.CreatePrintTitleManager(), "MagazineTitle_Ebookdz.txt");
+// version 3 = old find date, version 5 = new find date
+Test_Unit_PrintTitleManager.Test_GetPrintTitleInfo_01(Download.Print.DownloadAutomate_f.CreatePrintTitleManager(version: 5), "PrintTitle_TelechargerMagazine.txt");
+Test_Unit_PrintTitleManager.Test_GetPrintTitleInfo_01(Download.Print.DownloadAutomate_f.CreatePrintTitleManager(version: 5), "PrintTitle_Vosbooks.txt");
+Test_Unit_PrintTitleManager.Test_GetPrintTitleInfo_01(Download.Print.DownloadAutomate_f.CreatePrintTitleManager(version: 5), "PrintTitle_Ebookdz.txt");
+
+//string filename = "PrintTitle_TelechargerMagazine";
+string filename = "PrintTitle_Vosbooks";
+string filename = "PrintTitle_Ebookdz";
+BsonDocumentComparator.CompareBsonDocumentFiles(
+  @"$TestUnitDirectory$\Print\PrintTitle\".zConfigGetVariableValue() + filename + "_out_bson_old.txt",
+  @"$TestUnitDirectory$\Print\PrintTitle\".zConfigGetVariableValue() + filename + "_out_bson.txt",
+  comparatorOptions: BsonDocumentComparatorOptions.ReturnNotEqualDocuments | BsonDocumentComparatorOptions.ResultNotEqualElements,
+  elementsToCompare: new string[] { "PrintTitleInfo.date", "PrintTitleInfo.dateType", "PrintTitleInfo.file" })
+  .Select(result => result.GetResultDocument())
+  .zSave(@"$TestUnitDirectory$\Print\PrintTitle\".zConfigGetVariableValue() + filename + "_out_bson_compare.txt");
+
 
 RunSource.CurrentRunSource.SetResult(pb.Data.Mongo.BsonDocumentsToDataTable_old2.ToDataTable(zmongo.BsonReader<MongoDB.Bson.BsonDocument>(@"c:\pib\dev_data\exe\runsource\test_unit\Print\MagazineTitle\MagazineTitle_out_bson.txt")));
 //RunSource.CurrentRunSource.SetResult(pb.Data.Mongo.BsonDocumentsToDataTable_old2.ToDataTable(zmongo.BsonReader<MongoDB.Bson.BsonDocument>(@"c:\pib\dev_data\exe\runsource\test_unit\Print\MagazineTitle\MagazineTitle.txt")));
@@ -2147,22 +2161,33 @@ Trace.WriteLine("{0}", zfile.AreFileEqual(@"c:\pib\_dl\_pib\dl\golden-ddl.net\pr
 //************************************************************************************************************************************************************************************
 // $$info.manage.print.directory
 
+// manage new print
 string[] directories = new string[] {
-	@"g:\pib\media\ebook\_dl\_dl_pib\print\03\print"
+	@"g:\pib\media\ebook\_dl\_dl_pib\print\07\print"
 	};
 DownloadAutomate_f.Test_ManageDirectories_01(directories, @"g:\pib\media\ebook\print", usePrintDirectories: true, simulate: false, moveFiles: true);
 
+// manage new book
 string[] directories = new string[] {
 	@"g:\pib\media\ebook\_dl\_dl_pib\book\01\book"
 	};
 DownloadAutomate_f.Test_ManageDirectories_01(directories, @"g:\pib\media\ebook\book\unsorted", bonusDirectory: @"g:\pib\media\ebook\book\bonus",
 	usePrintDirectories: false, simulate: false, moveFiles: true);
 
+// manage new Journaux
+DownloadAutomate_f.Test_RenamePrintFiles_01(@"g:\pib\media\ebook\_dl\_dl_pib\journaux\03\print", @"g:\pib\media\ebook\Journaux", simulate: true, version: 5);
+DownloadAutomate_f.Test_RenamePrintFiles_01(@"g:\pib\media\ebook\_dl\_dl_pib\journaux\02\print", @"g:\pib\media\ebook\Journaux", simulate: false, version: 5);
+DownloadAutomate_f.Test_ManageDirectories_01(new string[] { @"g:\pib\media\ebook\Journaux\print" }, @"g:\pib\media\ebook\print", usePrintDirectories: true, simulate: false, moveFiles: true);
+
+
+//************************************************************************************************************************************************************************************
+//************************************************************************************************************************************************************************************
+//************************************************************************************************************************************************************************************
+
+
 DownloadAutomate_f.Test_GetDirectoryInfo_01(@"g:\pib\media\ebook\_dl\_dl_pib\book\01\book", excludeBonusDirectory: true);
 DownloadAutomate_f.Test_GetDirectoryInfo_01(@"g:\pib\media\ebook\_dl\_dl_pib\book\01\book", excludeBonusDirectory: false);
 
-DownloadAutomate_f.Test_RenamePrintFiles_01(@"g:\pib\media\ebook\_dl\_dl_pib\print\02\print", @"g:\pib\media\ebook\Journaux", simulate: false);
-DownloadAutomate_f.Test_RenamePrintFiles_01(@"g:\pib\media\ebook\_dl\_dl_pib\print\02\print", @"g:\pib\media\ebook\Journaux", simulate: true);
 
 string[] directories = new string[] {
 	@"g:\pib\media\ebook\Journaux\print"
@@ -2197,6 +2222,9 @@ PrintFileManager.GetFileGroups(DownloadAutomate_f.CreatePrintDirectoryManager().
 string[] directories = new string[] { @"g:\pib\media\ebook\print", @"g:\pib\media\ebook\_dl\_dl_pib\01\print" };
 string subDirectory = @".03_mensuel\Alternatives économiques";
 DownloadAutomate_f.Test_ManageDirectoryGroup_01(directories, subDirectory, simulate: true, moveFiles: true);
+
+XmlConfig.CurrentConfig.GetConfig("PrintList2Config").Get("FindPrints/Prints/Print/@name").zTrace();
+XmlConfig.CurrentConfig.GetConfig("PrintList2Config").Get("FindPrints/Prints/Print[@name='le_monde']/@regex").zTrace();
 
 //string subDirectory = @".03_mensuel\60 millions de consommateurs";
 //string subDirectory = @".03_mensuel\Afrique magazine";
@@ -2738,7 +2766,142 @@ HtmlRun.Select("//div[@id='dle-content']//div[@class='custom-post']:.:EmptyRow")
 Trace.WriteLine("toto");
 
 
-// $$info.test.regex
+//*************************************************************************************************************************
+//****                                   $$info.test.regex
+//*************************************************************************************************************************
+
+Trace.WriteLine("toto");
+Trace.WriteLine(RunSource.CurrentRunSource.ProjectFile);
+RunSource.CurrentRunSource.SetProjectFromSource();
+RunSource.CurrentRunSource.SetProject(@"$Root$\Lib\pb\Source\pb\Text\Test\Test_Text.project.xml");
+
+Test_RegexValues.Test(
+  new RegexValuesList(XmlConfig.CurrentConfig.GetConfig("PrintList2Config").GetElements("FindPrints/Prints/Print"), compileRegex: true),
+  "La Dernière Heure Namur");
+  "Le Monde dossier Hiroshima");
+  //"Le Monde Culture et Idées");
+  //"Le Monde Culture");
+
+Test.Test_Text.Test_Regex.Test("&(?:(?:#([0-9]+))|(?:#x([0-9a-f]+))|([a-z]+));", "toto&#amp;tata");
+Test.Test_Text.Test_Regex.Test("&(?:(?:#([0-9]+))|(?:#x([0-9a-f]+))|([a-z]+));", "toto&amp;tata");
+Test.Test_Text.Test_Regex.Test("&(?:(?:#([0-9]+))|(?:#x([0-9a-f]+))|([a-z]+));", "toto&#38;tata");
+Test.Test_Text.Test_Regex.Test("&(?:(?:#([0-9]+))|(?:#x([0-9a-f]+))|([a-z]+));", "toto&#x3c;tata");
+
+int.Parse("3c", System.Globalization.NumberStyles.HexNumber).zTrace();
+Encoding.UTF8.GetString(new byte[] { 0x3c }).zTrace();
+Encoding.UTF8.GetString(new byte[] { 0x01, 0x52 }).zTrace();
+Encoding.UTF8.GetString(new byte[] { 0x01, 0x53 }).zTrace();
+((char)0x152).ToString().zTrace();
+((char)0x153).zTrace();
+zstr.DecodeHtmlSpecialCharacters("toto&amp;tata").zTrace();
+zstr.DecodeHtmlSpecialCharacters("toto&#38;tata").zTrace();
+zstr.DecodeHtmlSpecialCharacters("toto&#x3c;tata").zTrace();
+
+// DateNew1 : "(?:^|[_\s])(?:(?:du|des)\s*)?(?:(?:lundi|lun|mardi|mar|mercre?di|mer|jeudi|jeu|vendredi|ven|samedi|sam|dimanche|dim)|((?<![0-9])[0-9]{4})|((?<![0-9])[0-9]{1,2}|1er)|(janvier|janv|f[eé]vrier|mars|avril|mai|juin|juillet|juill|a[o0][uû\s]t?|septembre|sptembre|octobre|novembre|d[eé]cembre|january|february|march|april|may|june|july|august|september|october|november|december|printemps|[eé]t[eé]|automne|hiver)|(?:au|et|/|&)|(?:[_\.,\-/\\\s]+))+[a-z]?$"
+// DateNew2 : "(?:^|[_\s])(?:(?:du|des)\s*)?(?:(?:lundi|lun|mardi|mar|mercre?di|mer|jeudi|jeu|vendredi|ven|samedi|sam|dimanche|dim)|((?<![0-9])[0-9]{4})|((?<![0-9])[0-9]{1,2}|1er)|(janvier|janv|f[eé]vrier|mars|avril|mai|juin|juillet|juill|a[o0][uû\s]t?|septembre|sptembre|octobre|novembre|d[eé]cembre|january|february|march|april|may|june|july|august|september|october|november|december|printemps|[eé]t[eé]|automne|hiver)|(?:au|et|/|&)|(?:[_\.,\-/\\\s]+))+[a-z]?(?:$|[_\s])"
+
+Trace.WriteLine(XmlConfig.CurrentConfig.GetConfig("PrintList1Config").Get("FindPrints/Dates/DateNew/@regex"));
+Trace.WriteLine(XmlConfig.CurrentConfig.GetConfig("PrintList1Config").Get("FindPrints/Dates/DateNew1/@regex"));
+
+"$FindPrints/Dates/Weekday$".zConfigGetVariableValue(XmlConfig.CurrentConfig.GetConfig("PrintList1Config")).zTrace();
+"$FindPrints/Dates/Date2/@regex$".zConfigGetVariableValue(XmlConfig.CurrentConfig.GetConfig("PrintList1Config")).zTrace();
+"$FindPrints/Dates/Date2[3]/@regex$".zConfigGetVariableValue(XmlConfig.CurrentConfig.GetConfig("PrintList1Config")).zTrace();
+
+Test.Test_Text.Test_Regex.Test(
+  "$FindPrints/Dates/Date2/@regex$".zConfigGetVariableValue(XmlConfig.CurrentConfig.GetConfig("PrintList1Config")),
+  "derni__res_nouvelles_d_alsace_du_mardi_04_ao__t_2015");
+
+Test.Test_Text.Test_Regex.Test(
+  "$FindPrints/Dates/Date2[3]/@regex$".zConfigGetVariableValue(XmlConfig.CurrentConfig.GetConfig("PrintList1Config")),
+  "lacr-2015-08-27");
+  //"Les Echos + Echos week-end du vendredi 04 et samedi 05 sepembre 2015");
+  //"La Croix Week-End Du Samedi 12 et Dimanche 13 Septembre 2015");
+  //"Le Parisien + Le Guide De Votre Dimanche Du 18 Octobre 2015");
+  // found no 1 "Dimanche", found no 2 "Du 18 Octobre 2015"
+
+Test.Test_Text.Test_Regex.Test(
+  //"$FindPrints/Dates/DateNew/@regex$".zConfigGetVariableValue(XmlConfig.CurrentConfig.GetConfig("PrintList1Config")),
+  "$FindPrints/Dates/DateNew2/@regex$".zConfigGetVariableValue(XmlConfig.CurrentConfig.GetConfig("PrintList1Config")),
+  "Système D Bricothèmes N°16 - Mars 2014");
+
+  // (?<=^|[_\s])(?:(?:du|des)\s*)?(?:(?:lundi|lun|mardi|mar|mercre?di|mer|jeudi|jeu|vendredi|ven|samedi|sam|dimanche|dim)|((?<![0-9])[0-9]{4})|((?<![0-9])[0-9]{1,2}|1er)|(janvier|janv|f[eé]vrier|mars|avril|mai|juin|juillet|juill|a[o0][uû\s]t?|septembre|sptembre|octobre|novembre|d[eé]cembre|january|february|march|april|may|june|july|august|september|october|november|december|printemps|[eé]t[eé]|automne|hiver)|(?:au|et|/|&)|(?:[_\.,\-/\\\s]+))+(?=$|[_\s])
+  //@"(?<=^|[_\s])(?:(?:du|des)\s*)?(?:mars|2014|[_\.,\-/\\\s])+(?=$|[_\s])",
+  //@"(?<=^|[_\s])(?:(?:du|des)\s*)?(?:mars|2014|[_\.,\-/\\\s])+[a-z]?(?=$|[_\s])",
+  //"(?<=$FindPrints/Dates/BeginSeparator$)(?:$FindPrints/Dates/From$)?(?:(?:$FindPrints/Dates/Weekday$)|($FindPrints/Dates/Year2$)|($FindPrints/Dates/Day2$)|($FindPrints/Dates/Month2$)|(?:$FindPrints/Dates/To$)|(?:$FindPrints/Dates/Separator1$+))+(?=$FindPrints/Dates/EndSeparator$)".zConfigGetVariableValue(XmlConfig.CurrentConfig.GetConfig("PrintList1Config")),
+  //"(?<=$FindPrints/Dates/BeginSeparator$)(?:$FindPrints/Dates/From$)?(?:(?:$FindPrints/Dates/Weekday$)|($FindPrints/Dates/Year2$)|($FindPrints/Dates/Day2$)|($FindPrints/Dates/Month2$)|(?:$FindPrints/Dates/To$)|(?:$FindPrints/Dates/Separator1$+))+[a-z]?(?=$FindPrints/Dates/EndSeparator$)".zConfigGetVariableValue(XmlConfig.CurrentConfig.GetConfig("PrintList1Config")),
+Test.Test_Text.Test_Regex.Test(
+  //"(?<=$FindPrints/Dates/BeginSeparator$)(?:$FindPrints/Dates/From$)?(?:(?:$FindPrints/Dates/Weekday$)|($FindPrints/Dates/Year2$)|($FindPrints/Dates/Month2$)|(?:$FindPrints/Dates/Separator1$+))+[a-z]?(?=$FindPrints/Dates/EndSeparator$)".zConfigGetVariableValue(XmlConfig.CurrentConfig.GetConfig("PrintList1Config")),
+  //"(?<=$FindPrints/Dates/BeginSeparator$)(?:$FindPrints/Dates/From$)?(?:(?:$FindPrints/Dates/Weekday$)|2014|mars|(?:$FindPrints/Dates/Separator1$+))+[a-z]?(?=$FindPrints/Dates/EndSeparator$)".zConfigGetVariableValue(XmlConfig.CurrentConfig.GetConfig("PrintList1Config")),
+  //"(?<=$FindPrints/Dates/BeginSeparator$)(?:$FindPrints/Dates/From$)?(?:(?:lundi|lun|mardi|mar|mercre?di|mer|jeudi|jeu|vendredi|ven|samedi|sam|dimanche|dim)|2014|mars|(?:$FindPrints/Dates/Separator1$+))+[a-z]?(?=$FindPrints/Dates/EndSeparator$)".zConfigGetVariableValue(XmlConfig.CurrentConfig.GetConfig("PrintList1Config")),
+  "(?<=$FindPrints/Dates/BeginSeparator$)(?:$FindPrints/Dates/From$)?(?:(?:mar|mercre?di|mer)|2014|mars|(?:$FindPrints/Dates/Separator1$+))+[a-z]?(?=$FindPrints/Dates/EndSeparator$)".zConfigGetVariableValue(XmlConfig.CurrentConfig.GetConfig("PrintList1Config")),
+  //"(?<=$FindPrints/Dates/BeginSeparator$)(?:$FindPrints/Dates/From$)?(?:($FindPrints/Dates/Year2$)|($FindPrints/Dates/Day2$)|($FindPrints/Dates/Month2$)|(?:$FindPrints/Dates/To$)|(?:$FindPrints/Dates/Separator1$+))+[a-z]?(?=$FindPrints/Dates/EndSeparator$)".zConfigGetVariableValue(XmlConfig.CurrentConfig.GetConfig("PrintList1Config")),
+  "Système D Bricothèmes N°16 - Mars 2014");
+
+Test.Test_Text.Test_Regex.Test(@"([0-9]+)(?:$|[_\s])", "2014");
+
+// DateNew1
+Test.Test_Text.Test_Regex.Test(
+  @"(?:^|[_\s])(?:(?:du|des)\s*)?(?:(?:lundi|lun|mardi|mar|mercre?di|mer|jeudi|jeu|vendredi|ven|samedi|sam|dimanche|dim)|((?<![0-9])[0-9]{4})|((?<![0-9])[0-9]{1,2}|1er)|(janvier|janv|f[eé]vrier|mars|avril|mai|juin|juillet|juill|a[o0][uû\s]t?|septembre|sptembre|octobre|novembre|d[eé]cembre|january|february|march|april|may|june|july|august|september|october|november|december|printemps|[eé]t[eé]|automne|hiver)|(?:au|et|/|&)|(?:[_\.,\-/\\\s]+))+[a-z]?$",
+  "Système D Bricothèmes N°16 - Mars 2014");
+
+  //@"^\s*les\s*[eé]chos(?:\s*(?:\+|et)(?:\s*les)?\s*[eé]chos\s*(?:soci[eé]t[eé]|socit)|week[\-\s]*end|business)?$",
+Test.Test_Text.Test_Regex.Test(
+  @"^\s*les\s*[eé]chos(?:\s*(?:\+|et))?(?:\s*(?:\s*les)?\s*[eé]chos|\s*soci[eé]t[eé]|\s*socit|\s*week[\-\s]*end|\s*business)*$",
+  "Les Echos Business");
+  "Les Echos + Echos week-end");
+  "Les Echos et les Echos Socit");
+  "Les Echos");
+  "Les Echos + échos Société");
+  //"Les echos + echos week-end");
+
+// DateNew2
+Test.Test_Text.Test_Regex.Test(
+  //@"(?:^|[_\s])(?:(?:du|des)\s*)?(?:(?:lundi|lun|mardi|mar|mercre?di|mer|jeudi|jeu|vendredi|ven|samedi|sam|dimanche|dim)|((?<![0-9])[0-9]{4})|((?<![0-9])[0-9]{1,2}|1er)|(janvier|janv|f[eé]vrier|mars|avril|mai|juin|juillet|juill|a[o0][uû\s]t?|septembre|sptembre|octobre|novembre|d[eé]cembre|january|february|march|april|may|june|july|august|september|october|november|december|printemps|[eé]t[eé]|automne|hiver)|(?:au|et|/|&)|(?:[_\.,\-/\\\s]+))+[a-z]?(?:$|[_\s])",
+  //@"(?:^|[_\s])(?:(?:du|des)\s*)?(?:(?:lundi|lun|mardi|mar|mercre?di|mer|jeudi|jeu|vendredi|ven|samedi|sam|dimanche|dim)|((?<![0-9])[0-9]{4})|((?<![0-9])[0-9]{1,2}|1er)|(janvier|janv|f[eé]vrier|mars|avril|mai|juin|juillet|juill|a[o0][uû\s]t?|septembre|sptembre|octobre|novembre|d[eé]cembre|january|february|march|april|may|june|july|august|september|october|november|december|printemps|[eé]t[eé]|automne|hiver)|(?:au|et|/|&)|(?:[_\.,\-/\\\s]+))+[a-z]?(_| |$)",
+  //"(?:$FindPrints/Dates/BeginSeparator$)(?:$FindPrints/Dates/From$)?(?:(?:$FindPrints/Dates/Weekday$)|($FindPrints/Dates/Year2$)|($FindPrints/Dates/Day2$)|($FindPrints/Dates/Month2$)|(?:$FindPrints/Dates/To$)|(?:$FindPrints/Dates/Separator1$+))+[a-z]?(?:$FindPrints/Dates/EndSeparator$)".zConfigGetVariableValue(XmlConfig.CurrentConfig.GetConfig("PrintList1Config")),
+  //"(?:$FindPrints/Dates/BeginSeparator$)(?:($FindPrints/Dates/Month2$)|($FindPrints/Dates/Year2$))+[a-z]?(_| |$)".zConfigGetVariableValue(XmlConfig.CurrentConfig.GetConfig("PrintList1Config")),
+  //"(?:$FindPrints/Dates/BeginSeparator$)(?:($FindPrints/Dates/Month2$)|($FindPrints/Dates/Year2$)|(?:$FindPrints/Dates/Separator1$+))+$".zConfigGetVariableValue(XmlConfig.CurrentConfig.GetConfig("PrintList1Config")),
+  // /* ok */ "(?:$FindPrints/Dates/BeginSeparator$)(?:($FindPrints/Dates/Month2$)|($FindPrints/Dates/Year2$)|(?:$FindPrints/Dates/Separator1$+))+(_| |$)".zConfigGetVariableValue(XmlConfig.CurrentConfig.GetConfig("PrintList1Config")),
+  // /* ok */ "(?:$FindPrints/Dates/BeginSeparator$)(?:($FindPrints/Dates/Month2$)|($FindPrints/Dates/Year2$)|(?:$FindPrints/Dates/Separator1$+))+(?:$FindPrints/Dates/EndSeparator$)".zConfigGetVariableValue(XmlConfig.CurrentConfig.GetConfig("PrintList1Config")),
+  // /* ok */ "(?:$FindPrints/Dates/BeginSeparator$)(?:$FindPrints/Dates/From$)?(?:($FindPrints/Dates/Month2$)|($FindPrints/Dates/Year2$)|(?:$FindPrints/Dates/Separator1$+))+(?:$FindPrints/Dates/EndSeparator$)".zConfigGetVariableValue(XmlConfig.CurrentConfig.GetConfig("PrintList1Config")),
+  // /* ok */ "(?:$FindPrints/Dates/BeginSeparator$)(?:$FindPrints/Dates/From$)?(?:(?:$FindPrints/Dates/Weekday$)|($FindPrints/Dates/Year2$)|($FindPrints/Dates/Day2$)|($FindPrints/Dates/Month2$)|(?:$FindPrints/Dates/Separator1$+))+(?:$FindPrints/Dates/EndSeparator$)".zConfigGetVariableValue(XmlConfig.CurrentConfig.GetConfig("PrintList1Config")),
+  // /* ok */ "(?:$FindPrints/Dates/BeginSeparator$)(?:$FindPrints/Dates/From$)?(?:(?:$FindPrints/Dates/Weekday$)|($FindPrints/Dates/Year2$)|($FindPrints/Dates/Day2$)|($FindPrints/Dates/Month2$)|(?:$FindPrints/Dates/To$)|(?:$FindPrints/Dates/Separator1$+))+(?:$FindPrints/Dates/EndSeparator$)".zConfigGetVariableValue(XmlConfig.CurrentConfig.GetConfig("PrintList1Config")),
+  // (?:^|[_\s])
+  // /* ok */ @"\s(?:du\s+|des\s+)?(?:($FindPrints/Dates/Year2$)|($FindPrints/Dates/Day2$)|($FindPrints/Dates/Month2$)|(?:$FindPrints/Dates/Separator1$+))+(?:$FindPrints/Dates/EndSeparator$)".zConfigGetVariableValue(XmlConfig.CurrentConfig.GetConfig("PrintList1Config")),
+  // /* ok */ @"(?:$FindPrints/Dates/BeginSeparator$)(?:$FindPrints/Dates/From$)?(?:($FindPrints/Dates/Year2$)|($FindPrints/Dates/Day2$)|($FindPrints/Dates/Month2$)|(?:$FindPrints/Dates/Separator1$+))+(?:$FindPrints/Dates/EndSeparator$)".zConfigGetVariableValue(XmlConfig.CurrentConfig.GetConfig("PrintList1Config")),
+  // /* ok */ @"(?:$FindPrints/Dates/BeginSeparator$)(?:$FindPrints/Dates/From$)?(?:($FindPrints/Dates/Year2$)|($FindPrints/Dates/Day2$)|($FindPrints/Dates/Month2$)|(?:$FindPrints/Dates/To$)|(?:$FindPrints/Dates/Separator1$+))+(?:$FindPrints/Dates/EndSeparator$)".zConfigGetVariableValue(XmlConfig.CurrentConfig.GetConfig("PrintList1Config")),
+  /* ok */ @"(?:$FindPrints/Dates/BeginSeparator$)(?:$FindPrints/Dates/From$)?(?:(?:dimanche)|($FindPrints/Dates/Year2$)|($FindPrints/Dates/Day2$)|($FindPrints/Dates/Month2$)|(?:$FindPrints/Dates/To$)|(?:$FindPrints/Dates/Separator1$+))+(?:$FindPrints/Dates/EndSeparator$)".zConfigGetVariableValue(XmlConfig.CurrentConfig.GetConfig("PrintList1Config")),
+  //        "(?:$FindPrints/Dates/BeginSeparator$)(?:$FindPrints/Dates/From$)?(?:(?:$FindPrints/Dates/Weekday$)|($FindPrints/Dates/Year2$)|($FindPrints/Dates/Day2$)|($FindPrints/Dates/Month2$)|(?:$FindPrints/Dates/To$)|(?:$FindPrints/Dates/Separator1$+))+[a-z]?(?:$FindPrints/Dates/EndSeparator$)".zConfigGetVariableValue(XmlConfig.CurrentConfig.GetConfig("PrintList1Config")),
+  //"Système D Bricothèmes N°16 - Mars 2014");
+  "Le Parisien + Le Guide De Votre Dimanche Du 18 Octobre 2015");
+
+Test.Test_Text.Test_Regex.Test(
+  "Le Parisien + Le Guide De Votre Dimanche Du 18 Octobre 2015 ");
+  //@"(?:$FindPrints/Dates/BeginSeparator$)(?:$FindPrints/Dates/From$)?(?:(?:dimanche)|($FindPrints/Dates/Year2$)|($FindPrints/Dates/Day2$)|($FindPrints/Dates/Month2$)|(?:$FindPrints/Dates/To$)|(?:$FindPrints/Dates/Separator1$+))+(?:$FindPrints/Dates/EndSeparator$)".zConfigGetVariableValue(XmlConfig.CurrentConfig.GetConfig("PrintList1Config")),
+  // BeginSep   From                 Weekday       Year2                Day2                      Month2                                                                                                                                                                                                                                            To            Separator1          EndSeparator
+  //@"(?:^|[_\s])(?:(?:du|des)\s*)?(?:(?:dimanche)|((?<![0-9])[0-9]{4})|((?<![0-9])[0-9]{1,2}|1er)|(janvier|janv|f[eé]vrier|mars|avril|mai|juin|juillet|juill|a[o0][uû\s]t?|septembre|sptembre|octobre|novembre|d[eé]cembre|january|february|march|april|may|june|july|august|september|october|november|december|printemps|[eé]t[eé]|automne|hiver)|(?:au|et|/|&)|(?:[_\.,\-/\\\s]+))+(?:$|[_\s])",
+  //@"\s(?:du\s*)?(?:(ddimanche)|([0-9]{4})|([0-9]{1,2})|(octobre)|(?:[_\.,\-/\\\s]+))+(?:$|[_\s])",
+  //@"\s(du\s*)?((dimanche)|([0-9]{4})|([0-9]{1,2})|(octobre)|(\s+))+($|\s)",
+  //@"\s(du\s*)?([0-9]{4}|[0-9]{1,2}|octobre|\s+|dimanche)+($|\s)",
+  //@"\s(du\s)?([0-9]{1,2}|octobre|[0-9]{4}|\s+|dimanche)+($|\s)",
+  //@"\s(du)?(18|octobre|2015|\s|ddimanche)+(_|\s|$)",
+Test.Test_Text.Test_Regex.Test(
+  //@"\s(du)?(18|octobre|2015|\s|dimanche)+\s",  // (_|\s|$)
+  //@"(\sdu)?(\s18|\soctobre|\s2015|\sddimanche)+\s",  // (_|\s|$)
+  //@"(\sdu)?(\s18|\soctobre|\s2015|\sdimanche)+(?=\s)",  // (_|\s|$)
+  @"(\sdu)?(\s18|\soctobre|\s2015|\sdimanche)+(?=$|[_\s])",  // (_|\s|$)
+  "Le Parisien + Le Guide De Votre Dimanche Du 18 Octobre 2015 ");
+
+//^\s*(?:journal\s*)?le\s*monde(?:[\-+,;\s]*|et|le|de|&amp;|(?:[1-4]\s*)?(?:supp|les\s*supp|suppl[eé]ments?|suppl[eé]ments\s*su)|argent|colloque|culture|decine|diplomatique|dosier|dossier|[eé]co|[eé]conomique|entreprise|festival|forme|g[eé]o|g[eé]opol[io]tique|id[eé]es|livres|le\s*monde\s*des\s*livres|monde\s*des\s*livres|m|mag|magazine|le\s*magazine|m[eé]decine|monde|placement|politique|science|sport|monde\s*tv|monde\s*t[eé]l[eé]vision|t[eé]l[eé]|supp\s*t[eé]l[eé]|univ|week[\-\s]*end|br[eé]sil|journal|[0-9]{4})*$
+
+Test.Test_Text.Test_Regex.Test(
+  @"^\s*(?:journal\s*)?le\s*monde(?:[\-+,;\s]*|et|le|de|&amp;|(?:[1-4]\s*)?(?:supp|les\s*supp|suppl[eé]ments?|suppl[eé]ments\s*su)|argent|colloque|culture|decine|diplomatique|dosier|dossier|[eé]co|[eé]conomique|entreprise|festival|forme|g[eé]o|g[eé]opol[io]tique|id[eé]es|livres|le\s*monde\s*des\s*livres|monde\s*des\s*livres|m|mag|magazine|le\s*magazine|m[eé]decine|monde|placement|politique|science|sport|monde\s*tv|monde\s*t[eé]l[eé]vision|t[eé]l[eé]|supp\s*t[eé]l[eé]|univ|week[\-\s]*end|br[eé]sil|journal|[0-9]{4})*$",
+  "Le Monde Culture&amp;Idées");
+  //"Le Monde Culture &amp; Idées");
+  //"Le Monde Culture et Idées");
+  //"Le Monde Culture&amp;Idées");
+  //"le monde");
+  
 
 Test.Test_Text.Test_Regex.Test(
   "(?<number>[0-9]+)(?<name>.*)$",
@@ -3603,6 +3766,61 @@ Trace.WriteLine("file : \"{0}\"", file2);
 zfile.CreateFileDirectory(file2);
 zfile.WriteFile(file2, "tata\r\n");
 
+$$info.GetPrintTitleInfo
+
+DownloadAutomate_f.CreatePrintTitleManager(version: 5).GetPrintTitleInfo("Le Journal du Dimanche n°3576 du 26 juillet 2015").zTraceJson();
+DownloadAutomate_f.CreatePrintTitleManager(version: 5).GetPrintTitleInfo("La Croix Week-End Du Samedi 12 et Dimanche 13 Septembre 2015").zTraceJson();
+DownloadAutomate_f.CreatePrintTitleManager().GetPrintTitleInfo("La Croix Week-End Du Samedi 12 & Dimanche 13 Septembre 2015").zTraceJson();
+DownloadAutomate_f.CreatePrintTitleManager().GetPrintTitleInfo("Nice Matin Du Mardi 1Er Septembre 2015").zTraceJson();
+DownloadAutomate_f.CreatePrintTitleManager().GetPrintTitleInfo("Le Figaro - Samedi 08 &amp; Dimanche 09 Août 2015").zTraceJson();
+DownloadAutomate_f.CreatePrintTitleManager().GetPrintTitleInfo("La Dernière Heure Namur du mardi 04 aout 2015").zTraceJson();
+DownloadAutomate_f.CreatePrintTitleManager().GetPrintTitleInfo("La Voix Du Nord (Lille) - Lundi 27 Juillet 2015").zTraceJson();
+DownloadAutomate_f.CreatePrintTitleManager().GetPrintTitleInfo("Système D Bricothèmes N°16 - Mars 2014").zTraceJson();
+DownloadAutomate_f.CreatePrintTitleManager().GetPrintTitleInfo("Le Parisien du dimanche 02 aout").zTraceJson();
+DownloadAutomate_f.CreatePrintTitleManager().GetPrintTitleInfo("Le Parisien du dimanche 02 aout + Envies dété").zTraceJson();
+DownloadAutomate_f.CreatePrintTitleManager().GetPrintTitleInfo("Le Monde Culture&amp;Idées du samedi 25 juillet 2015").zTraceJson();
+
+
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("DirectMatin-20150925", PrintType.Print, expectedDate: Date.Parse("2015-09-25")).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("Le Journal du Dimanche n°3576 du 26 juillet 2015", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("Les Echos + Echos week-end du vendredi 04 et samedi 05 sepembre 2015", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("Le Monde du vendredi 07 aout 2015", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("20150829_QUO", PrintType.Print, expectedDate: Date.Parse("2015-08-29")).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("20150829_ARH", PrintType.Print, expectedDate: Date.Parse("2015-08-29")).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("vdn_lille_27_08_15", PrintType.Print, expectedDate: Date.Parse("2015-08-27")).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("lesechos_20150903", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("lesechos_20150903", PrintType.Print, expectedDate: Date.Parse("2015-09-03")).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("DirectMatin-20150831", PrintType.Print, expectedDate: Date.Parse("2015-08-31")).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("Le Soir Edition Bruxelles-Peripherie Namurluxembourg Du Lundi 23 Aout 2015", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("Le Soir Edition Bruxelles-Peripherie + Namurluxembourg + Immo Du Jeudi 27 Aout 2015", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("Le Monde 3 en 1 du mercredi 02 septembre 2015", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("lesechos_20150903", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("lacr-2015-08-27", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("Telegramme Du Dimanche 23 Aout 2015", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("Sud Ouest (Gironde) Du Dimanche 13 Septembre 2015", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("Sud Ouest (Bordeaux Rive Gauche) Du Jeudi 10 Septembre 2015", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("Sud Ouest (Rive Gauche) Du Mercredi 10 Septembre 2014", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("SUD OUEST bassin d'Arcachon Jeudi 4 septembre 2014", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("Sud Ouest (Bordeaux Agglo) Du Mardi 24 Aout 2015", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("NICE MATIN MERCREDI 12.08.2015", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("Liberation WEEK-END Du Samedi 08 Dimanche 09 Aout 2015", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("Les Echos et les Echos Socit Du Jeudi 20 Aout 2015", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("Les Echos Week- End  - Vendredi 07 &amp; Samedi 08 Août 2015", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("Les Echos Business Du Lundi 31 Aout 2015", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("Les Echos + Echos week-end du vendredi 04 et samedi 05 sepembre 2015", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("Le Telegramme (Brest ) Du Jeudi 27 Aout 2015", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("Le Midi Olympique week-end du 04 au 06 septembre 2015", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("Le Midi Olympique du 31 aout au 06 septembre 2015", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("Le Figaro WEEK-END Du Samedi 12 Dimanche 13 Septembre 2015", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("La Voix Des Sports Du Lundi 07 Septembre 2015", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("La Dernière Heure + supplément  du jeudi 27 aout 2015", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("La Croix Week-End Du Samedi 12 et Dimanche 13 Septembre 2015", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("La Dernière Heure Namur du mardi 04 aout 2015", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("Le Monde dossier Hiroshima du jeudi 06 aout 2015", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("Le Monde Culture&amp;Idées du samedi 25 juillet 2015", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager().Find("Le Monde Culture&amp;Idées du samedi 25 juillet 2015", PrintType.Print).zToJson().zTrace();
 DownloadAutomate_f.CreateFindPrintManager().Find("Le Figaro du jeudi 23 juillet 2015", PrintType.Print).zToJson().zTrace();
 DownloadAutomate_f.CreateFindPrintManager().Find("La Provence Marseille du jeudi 06 aout 2015", PrintType.Print).zToJson().zTrace();
 DownloadAutomate_f.CreateFindPrintManager().Find("Les Echos Sociétés - Jeudi 06 Août 2015", PrintType.Print).zToJson().zTrace();

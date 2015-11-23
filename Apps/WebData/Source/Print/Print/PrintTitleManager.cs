@@ -120,13 +120,13 @@ namespace Print
         public string PrintDirectory { get { return _printDirectory; } set { _printDirectory = value; } }
         public bool SplitTitle { get { return _splitTitle; } set { _splitTitle = value; } }
 
-        public PrintTitleInfo GetPrintTitleInfo(string title)
+        public PrintTitleInfo GetPrintTitleInfo(string title, Date? expectedDate = null)
         {
             //if (_findDateManager_new == null)
             //    return _GetPrintTitleInfo_v1(title);
             //else
             //    return _GetPrintTitleInfo(title, _splitTitle);
-            return _GetPrintTitleInfo(title, _splitTitle);
+            return _GetPrintTitleInfo(title, _splitTitle, expectedDate);
         }
 
         //private PrintTitleInfo _GetPrintTitleInfo_v1(string title)
@@ -274,7 +274,7 @@ namespace Print
         //}
 
         /// new split
-        private PrintTitleInfo _GetPrintTitleInfo(string title, bool splitTitle = true)
+        private PrintTitleInfo _GetPrintTitleInfo(string title, bool splitTitle, Date? expectedDate)
         {
             // pourquoi split :
             //     "Le Parisien + Votre été du dimanche 24 août 2014"                               date = "été du dimanche 24 août 2014"
@@ -288,6 +288,8 @@ namespace Print
             PrintTitleRequest titleRequest = new PrintTitleRequest();
 
             titleRequest.originalTitle = title;
+
+            title = ReplaceCharacters(title);
 
             // new le 11/08/2015
             //title = GetFormatedText(title);
@@ -311,7 +313,7 @@ namespace Print
                     string title1 = title.Substring(0, i3);
                     string title2 = title.Substring(i3);
 
-                    FindDate findDate = _findDateManager.Find(title2);
+                    FindDate findDate = _findDateManager.Find(title2, expectedDate);
                     if (findDate.found)
                     {
                         titleRequest.date = findDate.date;
@@ -337,7 +339,7 @@ namespace Print
                         string title1 = title.Substring(0, i3);
                         string title2 = title.Substring(i3);
 
-                        FindDate findDate = _findDateManager.Find(title2);
+                        FindDate findDate = _findDateManager.Find(title2, expectedDate);
                         if (findDate.found)
                         {
                             titleRequest.date = findDate.date;
@@ -370,7 +372,9 @@ namespace Print
 
             if (!foundDate)
             {
-                FindDate findDate = _findDateManager.Find(title);
+                FindDate findDate = _findDateManager.Find(title, expectedDate);
+                //Trace.WriteLine("PrintTitleManager._GetPrintTitleInfo() : _findDateManager.Find(\"{0}\")", title);
+                //Trace.WriteLine(findDate.zToJson());
                 if (findDate.found)
                 {
                     titleRequest.date = findDate.date;
@@ -495,9 +499,18 @@ namespace Print
             return new PrintSplitedTitle(title);
         }
 
+        private static string ReplaceCharacters(string text)
+        {
+            //text = text.Replace("&amp;", " et ");
+            text = zstr.DecodeHtmlSpecialCharacters(text);
+            text = text.Replace("&", " et ");
+            // apostrophe 2018 to 201B
+            text = text.Replace('\u2019', '\'');
+            return text;
+        }
+
         private static string GetFormatedText(string text)
         {
-            text = text.Replace("&", " et ");
             Match match = __rgFormatTitle.Match(text);
             if (match.Success)
             {

@@ -72,7 +72,11 @@ namespace Test.Test_Unit.Print
                 printNumber = 1;
             Date date2 = date;
             if (print.Frequency != PrintFrequency.Daily)
-                date2 = print.GetPrintDate(printNumber);
+            {
+                //date2 = print.GetPrintDate(printNumber);
+                DateType dateType;
+                print.GetPrintDate(printNumber, out date2, out dateType);
+            }
             int nb = 0;
             switch (print.Frequency)
             {

@@ -177,7 +177,8 @@ namespace pb
                 if (v is ZString)
                 {
                     int day;
-                    if ((string)v == "1er")
+                    //if ((string)v == "1er")
+                    if (string.Equals((string)v, "1er", StringComparison.InvariantCultureIgnoreCase))
                         dateValues.day = 1;
                     else if (int.TryParse((string)v, out day))
                         dateValues.day = day;
@@ -791,8 +792,10 @@ namespace pb
             _month.Add("a0û", 8);
             _month.Add("aou", 8);
             _month.Add("a0u", 8);
+            _month.Add("ao__t", 8);
             _month.Add("septembre", 9);
             _month.Add("sptembre", 9);
+            _month.Add("sepembre", 9);
             _month.Add("sept", 9);
             _month.Add("octobre", 10);
             _month.Add("oct", 10);
@@ -958,6 +961,22 @@ namespace pb
         public static DateTime UnixTimeStampToDateTime(int timestamp)
         {
             return __epoch.AddSeconds(timestamp);
+        }
+
+        public static int GetDateTypeOrderNumber(DateType dateType)
+        {
+            switch (dateType)
+            {
+                case DateType.Day:
+                    return 1;
+                case DateType.Month:
+                    return 2;
+                case DateType.Year:
+                    return 3;
+                case DateType.Unknow:
+                    return 4;
+            }
+            throw new PBException("unknow DateType {0}", dateType);
         }
     }
 }

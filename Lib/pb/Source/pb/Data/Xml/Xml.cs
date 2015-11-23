@@ -60,7 +60,7 @@ namespace pb.Data.Xml
         }
 
         // "\$([_a-z][_a-z0-9/]*)\$"
-        private static Regex __rgVariables = new Regex(@"\$([_a-z0-9/]*)\$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private static Regex __rgVariables = new Regex(@"\$([_a-z0-9@\[\]/]+)\$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         // get variable "$Ebookdz/DataDir$" value or "$//Root$"
         // function getValue() return constant value like AppDirectory
         //public static string zGetVariableValue(this XElement xe, string value, Func<string, string> getValue = null)

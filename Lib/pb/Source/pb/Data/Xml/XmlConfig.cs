@@ -574,9 +574,11 @@ namespace pb.Data.Xml
 
     public static partial class GlobalExtension
     {
-        public static string zConfigGetVariableValue(this string value)
+        public static string zConfigGetVariableValue(this string value, XmlConfig config = null)
         {
-            XmlConfig config = XmlConfig.CurrentConfig;
+            //XmlConfig config = XmlConfig.CurrentConfig;
+            if (config == null)
+                config = XmlConfig.CurrentConfig;
             XElement root = null;
             if (config != null)
                 root = config.XDocument.Root;

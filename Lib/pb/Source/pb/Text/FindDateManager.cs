@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using System.Xml.Linq;
 
 namespace pb.Text
@@ -13,20 +14,36 @@ namespace pb.Text
         public MatchValues[] matchValuesList = null;
     }
 
+    public class MatchDate
+    {
+        public int Index;
+        public Date? Date = null;
+        public DateType DateType = DateType.Unknow;
+        public MatchValues MatchValues = null;
+    }
+
     public class FindDateManager
     {
         private RegexValuesList _dateRegexList = null;
+        private bool _multipleSearch = false;
+        //private static Regex __sixDigitDate = new Regex("[0-9]{6}", RegexOptions.Compiled);
+        //private static RegexValues __sixDigitDate = new RegexValues("date", "date", "[0-9]{8}", null, null, compileRegex: true);
+        private RegexValuesList _digitDateRegexList = null;
 
-        public FindDateManager(IEnumerable<XElement> xelements, bool compileRegex = false)
+        public FindDateManager(IEnumerable<XElement> dates, IEnumerable<XElement> digitDates = null, bool compileRegex = false)
         {
-            _dateRegexList = new RegexValuesList(xelements, compileRegex: compileRegex);
+            _dateRegexList = new RegexValuesList(dates, compileRegex: compileRegex);
+            if (digitDates != null)
+                _digitDateRegexList = new RegexValuesList(digitDates, compileRegex: compileRegex);
         }
 
         public RegexValuesList DateRegexList { get { return _dateRegexList; } }
+        public bool MultipleSearch { get { return _multipleSearch; } set { _multipleSearch = value; } }
 
-        public FindDate Find(string text)
+        public FindDate Find(string text, Date? expectedDate = null)
         {
             List<MatchValues> matchValuesList = new List<MatchValues>();
+            List<MatchDate> matchDates = new List<MatchDate>();
             foreach (RegexValues rv in _dateRegexList.Values)
             {
                 MatchValues matchValues = rv.Match(text);
@@ -38,13 +55,64 @@ namespace pb.Text
                     DateType dateType;
                     if (zdate.TryCreateDate(matchValues.GetValues(), out date, out dateType))
                     {
-                        return new FindDate { found = true, date = date, dateType = dateType, matchValues = matchValues, matchValuesList = matchValuesList.Count > 0 ? matchValuesList.ToArray() : null };
+                        if (!_multipleSearch)
+                            return new FindDate { found = true, date = date, dateType = dateType, matchValues = matchValues, matchValuesList = matchValuesList.Count > 0 ? matchValuesList.ToArray() : null };
+                        else
+                            matchDates.Add(new MatchDate { Index = matchValuesList.Count, Date = date, DateType = dateType, MatchValues = matchValues });
                     }
                     matchValuesList.Add(matchValues);
                     matchValues = matchValues.Next();
                 }
             }
-            return new FindDate { found = false, matchValuesList = matchValuesList.Count > 0 ? matchValuesList.ToArray() : null };
+
+            MatchDate selectedMatchDate = null;
+            foreach (MatchDate matchDate in matchDates)
+            {
+                if (selectedMatchDate == null || zdate.GetDateTypeOrderNumber(matchDate.DateType) <= zdate.GetDateTypeOrderNumber(selectedMatchDate.DateType))
+                {
+                    selectedMatchDate = matchDate;
+                }
+            }
+
+            // try to find a digit date corresponding to expectedDate : 20150820 20082015
+            if (selectedMatchDate == null && expectedDate != null && _digitDateRegexList != null)
+            {
+                //string date1 = ((Date)expectedDate).ToString("yyyyMMdd");
+                //string date2 = ((Date)expectedDate).ToString("ddMMyyyy");
+                //MatchValues matchValues = __sixDigitDate.Match(text);
+                //while (matchValues.Success)
+                //{
+                //    if (matchValues.Match.Value == date1 || matchValues.Match.Value == date2)
+                //    {
+                //        selectedMatchDate = new MatchDate { Date = (Date)expectedDate, DateType = DateType.Day, Index = -1, MatchValues = matchValues };
+                //        break;
+                //    }
+                //    matchValues = matchValues.Next();
+                //}
+                foreach (RegexValues rv in _digitDateRegexList.Values)
+                {
+                    MatchValues matchValues = rv.Match(text);
+                    while (matchValues.Success)
+                    {
+                        Date date;
+                        DateType dateType;
+                        if (zdate.TryCreateDate(matchValues.GetValues(), out date, out dateType) && date == (Date)expectedDate)
+                        {
+                            return new FindDate { found = true, date = date, dateType = dateType, matchValues = matchValues, matchValuesList = matchValuesList.Count > 0 ? matchValuesList.ToArray() : null };
+                        }
+                        matchValues = matchValues.Next();
+                    }
+                }
+            }
+
+            if (selectedMatchDate != null)
+            {
+                if (selectedMatchDate.Index != -1)
+                    matchValuesList.RemoveAt(selectedMatchDate.Index);
+                return new FindDate { found = true, date = selectedMatchDate.Date, dateType = selectedMatchDate.DateType, matchValues = selectedMatchDate.MatchValues, matchValuesList = matchValuesList.Count > 0 ? matchValuesList.ToArray() : null };
+            }
+            else
+                return new FindDate { found = false, matchValuesList = matchValuesList.Count > 0 ? matchValuesList.ToArray() : null };
         }
     }
 

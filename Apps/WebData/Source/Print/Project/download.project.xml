@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <AssemblyProject>
   
-  <!--<Root                             value = "..\..\..\..\..\.." />-->
   <Root                             value = "..\..\..\..\.." />
 
   <Target                           value = "library" /> <!-- exe (exe console default), library (dll), module (.netmodule), winexe (exe windows) -->

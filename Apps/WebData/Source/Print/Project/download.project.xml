@@ -16,7 +16,13 @@
 
   <NameSpace                        value = "Download.Print" />    <!-- Print.download -->
   
-  <SourceFile                       value = "download.config.xml" />     <!-- file is copied in zip source file but not in output directory -->
+  <!--<SourceFile                       value = "" />-->                 <!-- file is copied in zip source file but not in output directory -->
+  <File                             value = "download.dll.project.xml" destinationFile = "project\download.dll.project.xml" />
+  <File                             value = "download.config.xml" destinationFile = "project\download.config.xml" />
+  <File                             value = "print_list1.xml" destinationFile = "project\print_list1.xml" />
+  <File                             value = "print_list2.xml" destinationFile = "project\print_list2.xml" />
+  <File                             value = "print_config.xml" destinationFile = "project\print_config.xml" />
+  <File                             value = "download.dll.cs" destinationFile = "project\download.dll.cs" />
 
   <InitMethod                       value = "Download.Print.DownloadRun.Init" />      <!-- [{namespace}.{type}.]{method name}[, {assembly name}] default type {namespace}._RunCode -->
   <EndMethod                        value = "Download.Print.DownloadRun.End" />       <!-- [{namespace}.{type}.]{method name}[, {assembly name}] default type {namespace}._RunCode -->

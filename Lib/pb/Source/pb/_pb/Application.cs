@@ -113,14 +113,15 @@ namespace pb
             return Thread.GetDomain().BaseDirectory + sNomFic;
         }
 
-        public static string GetLocalSettingsDirectory()
+        public static string GetLocalSettingsDirectory(string product = null)
         {
             // "C:\Users\Pierre\AppData\Local"
             string directory = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
             // "Pierre Beuzart"
             string company = zapp.GetEntryAssemblyCompany();
             // "runsource.runsource"
-            string product = zapp.GetEntryAssemblyProduct();
+            if (product == null)
+                product = zapp.GetEntryAssemblyProduct();
             if (company == null || product == null)
             {
                 company = zapp.GetExecutingAssemblyCompany();

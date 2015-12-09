@@ -28,20 +28,49 @@ namespace pb.Text
 
     public class RegexValuesList : Dictionary<string, RegexValues>
     {
+        private int _lastKeyNumber = 0;
+
         public RegexValuesList()
         {
         }
 
         public RegexValuesList(IEnumerable<XElement> xelements, bool compileRegex = false, bool renameDuplicateKey = true)
         {
-            int n = 1;
+            //int n = 1;
+            //foreach (XElement xe in xelements)
+            //{
+            //    RegexValues rv = new RegexValues(xe, compileRegex);
+            //    string key = rv.Key;
+            //    if (key == null)
+            //    {
+            //        key = "key" + n++.ToString();
+            //        rv.Key = key;
+            //    }
+            //    if (renameDuplicateKey)
+            //    {
+            //        string key0 = key;
+            //        int i = 1;
+            //        while (ContainsKey(key))
+            //        {
+            //            key = key0 + "_" + i++.ToString();
+            //        }
+            //        rv.Key = key;
+            //    }
+            //    Add(key, rv);
+            //}
+            Add(xelements, compileRegex, renameDuplicateKey);
+        }
+
+        public void Add(IEnumerable<XElement> xelements, bool compileRegex = false, bool renameDuplicateKey = true)
+        {
+            //int n = 1;
             foreach (XElement xe in xelements)
             {
                 RegexValues rv = new RegexValues(xe, compileRegex);
                 string key = rv.Key;
                 if (key == null)
                 {
-                    key = "key" + n++.ToString();
+                    key = "key" + (++_lastKeyNumber).ToString();
                     rv.Key = key;
                 }
                 if (renameDuplicateKey)

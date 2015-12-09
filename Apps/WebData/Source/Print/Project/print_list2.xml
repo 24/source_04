@@ -44,35 +44,73 @@
       <!--  -->
       <!--  -->
       <!--  -->
-      <!--  -->
 
 
 
+      <!-- Le Progres (LEst Lyonnais) Du Mardi 25 Aout 2015 -->
+      <Print                                                name = "le_progres"                                 title = "Le progrès"                                                regex = "^\s*le\s*progr[eè]s(?:\s*\(\s*l['\s]*est\s*lyonnais\s*\))?$" options="IgnoreCase" />
       <!-- LE REPUBLICAIN LORRAIN du mardi 22 septembre 2015 -->
       <Print                                                name = "le_republicain_lorrain"                     title = "Le républicain Lorrain"                                    regex = "^\s*le\s*r[eé]publicain\s*lorrain$" options="IgnoreCase" />
+      <!-- "Journal republicain lorrain-forbach-du" "Journal republicain lorrain-metz-orne-du" "Journal republicain lorrain-saint-avold-du" -->
+      <ShortPrint                                           name = "le_republicain_lorrain"                     title = "Le républicain Lorrain"                                    regex = "^(?:journal[\-\s]*republicain[\-\s]*lorrain[\-\s]*(?:forbach|metz[\-\s]*orne|saint[\-\s]*avold)[\-\s]*du)$" options="IgnoreCase" />
       <!-- 20 minutes 20150831 -->
       <Print                                                name = "20_minutes"                                 title = "20 minutes"                                                regex = "^\s*20\s*minutes$" options="IgnoreCase" />
+      <!-- "20min" "20minut" "2o minutes" "2omino" "2ominut" -->
+      <ShortPrint                                           name = "20_minutes"                                 title = "20 minutes"                                                regex = "^(?:2[0o]min|2[0o]minut|2[0o]\s*minutes|2[0o]mino)$" options="IgnoreCase" />
       <!-- La tribune -->
       <Print                                                name = "la_tribune"                                 title = "La tribune"                                                regex = "^\s*la\s*tribune$" options="IgnoreCase" />
       <!-- DirectMatin-20150831 -->
       <Print                                                name = "direct_matin"                               title = "Direct matin"                                              regex = "^\s*direct\s*matin$" options="IgnoreCase" />
       <!-- Le Soir Edition Bruxelles-Peripherie + Namurluxembourg + Immo Du Jeudi 27 Aout 2015 -->
-      <Print                                                name = "le_soir"                                    title = "Le soir"                                                   regex = "^\s*le\s*soir(?:[\s\-\+]*(?:edition|bruxelles|peripherie|namur|luxembourg|immo))*$" options="IgnoreCase" />
+      <!-- Le Soir Edition Bruxelles-Peripherie Namurluxembourg + 1 Suppl Du Lundi 21 Septembre 2015 -->
+      <!-- Le Soir Edition Bruxelles-Peripherie Namurluxembourg +MAD + Suppl Du Mercredi 23 Septembre 2015 -->
+      <!-- Le Soir Edition Bruxelles-Peripherie - Namurluxembourg+ 1 Supplement Du Lundi 09 Novembre 2015 -->
+      <!-- Le Soir Edition Bruxelles-Peripherie Namurluxem...e Soir Immo +1 Suppl Du Jeudi 12 Novembre 2015 -->
+      <Print                                                name = "le_soir"                                    title = "Le soir"                                                   regex = "^\s*le\s*soir(?:[\s\-\+]*(?:edition|bruxelles|peripherie|namur|luxembourg|luxem\.*e|immo|[0-9]*\s*suppl(?:ement)?|mad|soir))*$" options="IgnoreCase" />
       <!-- NICE MATIN MERCREDI 12.08.2015 -->
       <Print                                                name = "nice_matin"                                 title = "Nice matin"                                                regex = "^\s*nice\s*matin$" options="IgnoreCase" />
       <!-- La Voix Des Sports Du Lundi 07 Septembre 2015 -->
-      <Print                                                name = "la_voix_des_sports"                         title = "La voix des sports"                                        regex = "^\s*la\s*voix\s*des\s*sports$" options="IgnoreCase" />
+      <!-- La Voix Des Sport Du Lundi 03 Aout 2015 -->
+      <Print                                                name = "la_voix_des_sports"                         title = "La voix des sports"                                        regex = "^\s*la\s*voix\s*des\s*sports?$" options="IgnoreCase" />
+      <Print                                                name = "berry_republicain"                          title = "Berry républicain"                                         regex = "^\s*berry\s*r[eé]publicain$" options="IgnoreCase" />
+      <!-- "berry rep 20131010" -->
+      <ShortPrint                                           name = "berry_republicain"                          title = "Berry républicain"                                         regex = "^(?:berry|berry\s*rep)$" options="IgnoreCase" />
+      <!-- "Courrier picard amiens" -->
       <!-- La Voix Du Nord (Lille) - Lundi 27 Juillet 2015 -->
-      <Print                                                name = "la_voix_du_nord"                            title = "La voix du Nord"                                           regex = "^\s*(?:la\s*voix\s*du\s*nord|vdn)(?:\s*[\(_]*\s*lille\s*[\)_]*)?$" options="IgnoreCase" />
+      <!-- vdn_28_lille_15_09_15 -->
+      <!-- La VDN Lille du jeudi 29 octobre 2015 -->
+      <Print                                                name = "la_voix_du_nord"                            title = "La voix du Nord"                                           regex = "^\s*(?:la\s*voix\s*du\s*nord|vdn|la\s*vdn|vdn[_\s]*28)(?:\s*[\(_]*\s*lille\s*[\)_]*)?$" options="IgnoreCase" />
+      <!-- "Vdn13" -->
+      <ShortPrint                                           name = "la_voix_du_nord"                            title = "La voix du Nord"                                           regex = "^(?:vdn)$" options="IgnoreCase" />
+      <!-- "NdLittor14" "Litoral15" "Norlitoral18" "NLitto19" "NorLitto22" "Norlito30" "NordLitto29" "NorLito7" "NorLito7" "NorLitol18" "ZNorLitt5" "N0rlit0" "N0rlitt0" "N0rlitt" "N0rlittoo" "Nord lito" "Nord littoral" "Nord littoral édition" "Norlit0" "Norlitt0" "Norlittol" -->
+      <ShortPrint                                           name = "nord_littoral"                              title = "Nord littoral"                                             regex = "^(?:ndlittor|litoral|norlitoral|nlitto|norlitt?o|nordlitto|norlito|norlito|norlitol|znorlitt|n0rlit0|n0rlitt0|n0rlitto?|n0rlittoo|nord\s*lito|nord\s*littoral|nord\s*littoral\s*[eé]dition|norlit0|norlitt0?|norlittol)$" options="IgnoreCase" />
       <!-- Nouvelle Gazette Charleroi du vendredi 24 juillet 2015 -->
-      <Print                                                name = "nouvelle_gazette_charleroi"                 title = "Nouvelle gazette Charleroi"                                regex = "^\s*nouvelle\s*gazette\s*charleroi$" options="IgnoreCase" />
+      <!-- La nouvelle gazette Belgique Du Jeudi 20 Août 2015 -->
+      <!-- La nouvelle gazette (Belgique) Du Jeudi 12 Novembre 2015 -->
+      <!-- La nouvelle gazette du (Belgique) du jeudi 22 octobre 2015 -->
+      <Print                                                name = "la_nouvelle_gazette_belgique"               title = "La nouvelle gazette Belgique"                              regex = "^\s*(?:la\s*)?nouvelle\s*gazette(?:\s*charleroi|\s*(?:du\s*)?\(?\s*belgique\s*\)?)?$" options="IgnoreCase" />
       <!-- Midi Olympique week end du 24 au 28 juillet -->
       <!-- Le Midi Olympique du 31 aout au 06 septembre 2015 -->
-      <Print                                                name = "midi_olympique"                             title = "Midi Olympique"                                            regex = "^\s*(?:le\s*)?midi\s*olympique(?:\s+week[\s\-]*end)?$" options="IgnoreCase" />
+      <!-- Midi Olympique Rouge du lundi 14 septembre 2015 -->
+      <!-- Midi Olympique Vert Du Vendredi 23 Octobre 2015 -->
+      <!-- Midy Olympique vert du 06 au 08 novembre 2015 -->
+      <Print                                                name = "midi_olympique"                             title = "Midi Olympique"                                            regex = "^\s*(?:le\s*)?mid[iy]\s*olympique(?:\s+week[\s\-]*end|\s*rouge|\s*vert)?$" options="IgnoreCase" />
+      <!-- "Midol12-15A" "Mid0l.16.18" "Midi oly" "Midiol" -->
+      <ShortPrint                                           name = "midi_olympique"                             title = "Midi Olympique"                                            regex = "^(?:midol|mid0l|midi\s*oly|midiol|midol\.)$" options="IgnoreCase" />
       <!-- La Dernière Heure Namur du mardi 04 aout 2015 -->
       <!-- LA DERNIERE HEURE DU 10-09-2014 -->
       <!-- La Dernière Heure + supplément  du jeudi 27 aout 2015 -->
-      <Print                                                name = "la_derniere_heure"                          title = "La dernière heure"                                         regex = "^\s*la\s*derni[eè]re\s*heure(?:\s*(namur)|\s*\+\s*suppl[eé]ment)?$" options="IgnoreCase" values="label" />
+      <!-- La DH  Brababt Wallon du mercredi 19 aout 2015 -->
+      <!-- La DH + supplément loisirs du lundi 14 septembre 2015 -->
+      <!-- La DH Bruxelles du mardi 01 septembre 2015 -->
+      <!-- La Dernière Heure + 2 suppléments du vendredi 11 septembre 2015 -->
+      <!-- La Dernière Heure + supplément Tourisme du mercredi 16 septembre 2015 -->
+      <!-- La Dernière Heure + télé DH + Supplément du samedi 26 septembre 2015 -->
+      <!-- La DH + supplément Euro du lundi 12 octobre 2015 -->
+      <!-- La Dernière Heure + Suppl du Mardi 17 Septembre 2013 -->
+      <Print                                                name = "la_derniere_heure"                          title = "La dernière heure"                                         regex = "^\s*la\s*(?:derni[eè]re\s*heure|dh)(?:\s*namur|\s*\+\s*[0-9]*\s*suppl[eé]ments?(?:\s+\w+)?|\s*suppl|\s*brababt|\s*wallon|\s*loisirs|\s*bruxelles|\s*tourisme|\s*euro|\s*\+\s*t[eé]l[eé]\s*DH)*$" options="IgnoreCase" values="label" />
+      <!-- "DerHeur13" "Derheure" "Dernheur" "Derniereheur" "Dernierheur" "Derniheur" "Dh" "Dheur" "La derniere heuire" "La dernière heure + suppl" -->
+      <ShortPrint                                           name = "la_derniere_heure"                          title = "La dernière heure"                                         regex = "^(?:dern?heure?|derniere?heur|derniheur|dh|dheur|la\s*derniere\s*heuire|la\s*derni[eè]re\s*heure\s*\+\s*suppl)$" options="IgnoreCase" />
       <!-- Le Monde de l'Image N 89 -->
       <Print                                                name = "le_monde_de_l_image"                        title = "Le monde de l'image"                                       regex = "^\s*le\s*monde\s*de\s*l['\s]*image$" options="IgnoreCase" />
       <!-- Le Monde de l'Intelligence N 38 - Septembre-Octobre 2014 -->
@@ -83,14 +121,24 @@
       <Print                                                name = "le_monde_des_sciences"                                                                                          regex = "^\s*le\s*monde\s*des\s*sciences$" options="IgnoreCase" />
       <!-- MEDIAPART 25-07-2014 -->
       <Print                                                name = "mediapart"                                  title = "Mediapart"                directory = ".01_quotidien"      regex = "^\s*m[eé]diapart$" options="IgnoreCase" />
+      <!-- "Media29" "Mediap11" "Journal mediapart" "Mediapar" "Mediapart edition" "Medprt." -->
+      <ShortPrint                                           name = "mediapart"                                  title = "Mediapart"                directory = ".01_quotidien"      regex = "^(?:mediap?|journal\s*mediapart|mediapar|mediapart\s*edition|medprt\.)$" options="IgnoreCase" />
       <!-- Aujourd'hui en France, du Mardi 12 Août 2014 -->
       <Print                                                name = "aujourd_hui_en_france"                      title = "Aujourd'hui en France"    directory = ".01_quotidien"      regex = "^\s*aujourd['\s]*hui\s*en\s*france$" options="IgnoreCase" />
       <!-- DNA Strasbourg 30.07.2014 -->
       <!-- DNA Strasbourg, du Mercredi 06 Août 2014 -->
       <Print                                                name = "dna_strasbourg"                             title = "DNA Strasbourg"           directory = ".01_quotidien"      regex = "^\s*dna\s*strasbourg$" options="IgnoreCase" />
+      <!-- Le Telegramme (4 Editions) Du Mercredi 10 Septembre 2014 -->
+      <!-- LE TELEGRAMME DE BREST -->
+      <!-- Le Telegramme (Brest ) Du Jeudi 27 Aout 2015 -->
+      <!-- Telegramme Du Dimanche 23 Aout 2015 -->
+      <Print                                                name = "le_telegramme"                              title = "Le télégramme"                                             regex = "^\s*(?:le\s*)?t[eé]l[eé]gramme(?:\s*\(4\s*editions\)|\s*de\s*brest|\s*\(\s*brest\s*\))?$" options="IgnoreCase" />
+      <!-- "Telebrest" "Telegram" "Telegramb" "Telegrambre" "Telegrambres" "Telegrammbres" "Telegrammbrest" -->
+      <ShortPrint                                           name = "le_telegramme"                              title = "Le télégramme"                                             regex = "^(?:telebrest|telegram|telegramb|telegrambre|telegrambres|telegrammbres|telegrammbrest)$" options="IgnoreCase" />
       <!-- Courrier international 1246 du 18 au 24 septembre 2014 -->
       <!-- COURRIER INTERNATIONAL N.1239 du 31 juillet au 6 aout 2014 -->
       <!-- Courrier International No.1236, du 10 au 16 Juillet 2014 -->
+      <!-- Courrier international -->
       <Print                                                name = "courrier_international"                     title = "Courrier international"   directory = ".02_hebdo"          regex = "^\s*courrier\s*international$" options="IgnoreCase" />
 
       <!-- Action Commerciale No.342 - Juin / Août 2014 -->
@@ -308,11 +356,6 @@
       <Print                                                name = "l_officiel_de_la_franchise"                 title = "L'officiel de la franchise"                                regex = "^\s*l['\s]*officiel\s*de\s*la\s*franchise$" options="IgnoreCase" />
       <!-- L'Étudiant No.383 - Septembre 2014 -->
       <Print                                                name = "l_etudiant"                                 title = "L'étudiant"                                                regex = "^\s*l['\s]*[eé]tudiant$" options="IgnoreCase" />
-      <!-- LA CROIX DU LUNDI 8 SEPTEMBRE 2014 -->
-      <!-- La Croix Du Mercredi 10 Septembre 2014 -->
-      <!-- La Croix Week-End Du Samedi 12 & Dimanche 13 Septembre 2015 -->
-      <!-- lacr-2015-08-27 -->
-      <Print                                                name = "la_croix"                                                                                                       regex = "^\s*(?:la\s*croix|lacr)(?:\s+week[\s\-]*end)?$" options="IgnoreCase" />
       <!-- La Parisienne - Septembre 2014 -->
       <Print                                                name = "la_parisienne"                              title = "La parisienne"                                             regex = "^\s*la\s*parisienne$" options="IgnoreCase" />
       <!-- La Recherche N° 491 - Septembre 2014 -->
@@ -326,11 +369,6 @@
       <Print                                                name = "le_journal_de_la_maison"                    title = "Le journal de la maison"                                   regex = "^\s*le\s*journal\s*de\s*la\s*maison$" options="IgnoreCase" />
       <!-- Le Marin Hors-Série No.126 - Spécial Yachts - Septembre 2014 -->
       <Print                                                name = "le_marin"                                   title = "Le marin"                                                  regex = "^\s*le\s*marin$" options="IgnoreCase" />
-      <!-- Le Telegramme (4 Editions) Du Mercredi 10 Septembre 2014 -->
-      <!-- LE TELEGRAMME DE BREST -->
-      <!-- Le Telegramme (Brest ) Du Jeudi 27 Aout 2015 -->
-      <!-- Telegramme Du Dimanche 23 Aout 2015 -->
-      <Print                                                name = "le_telegramme"                              title = "Le télégramme"                                             regex = "^\s*(?:le\s*)?t[eé]l[eé]gramme(?:\s*\(4\s*editions\)|\s*de\s*brest|\s*\(\s*brest\s*\))?$" options="IgnoreCase" />
       <!-- Maisons Côté Est No.71 - Septembre-Décembre 2014 -->
       <Print                                                name = "maisons_cote_est"                           title = "Maisons côté est"                                          regex = "^\s*maisons\s*c[oô]t[eé]\s*est$" options="IgnoreCase" />
       <!-- Marketing No.178 - Septembre 2014 -->
@@ -402,11 +440,16 @@
       <!-- L'Equipe Magazine N° 1676 du samedi 30 août 2014 -->
       <!-- L'Equipe Magazine N° 1673 - Samedi 16 Aout 2014 -->
       <Print                                                name = "l_equipe_magazine"                          title = "L'équipe magazine"           directory = ".01_quotidien"   regex = "^\s*(?:l\s*)?(?:'\s*)?[eé]quipe\s*magazine$" options="IgnoreCase" />
+      <!-- "EqMagII" -->
+      <ShortPrint                                           name = "l_equipe_magazine"                          title = "L'équipe magazine"           directory = ".01_quotidien"   regex = "^(?:eqmag)$" options="IgnoreCase" />
       <!-- L'Equipe du samedi 23 août 2014 -->
       <!-- L'Equipe du Mercredi 20 Août 2014 -->
       <Print                                                name = "l_equipe"                                                                                                       regex = "^\s*(?:l\s*)?(?:[';]\s*)?[eé]quipe$" options="IgnoreCase" />
+      <!-- "LEk13" "LEq31" "eqpdd05092013" "Eq11" "Zekuip4" "Zeq5" "3qu12" "Equ" "3quip" -->
+      <ShortPrint                                           name = "l_equipe"                                                                                                       regex = "^(?:lek|leq|eqpdd|eq|zekuip|zeq|3qu|equi?p?|3quip)$" options="IgnoreCase" />
       <!-- Le Parisien Economie Magazine du lundi 08 septembre 2014 -->
-      <Print                                                name = "le_parisien_magazine_economie"              title = "Le parisien magazine économie"   directory = ".01_quotidien"    regex = "^\s*le\s*parisien\s*[eé]conomie\s*magazine$" options="IgnoreCase" />
+      <!-- Parisien économie du lundi 14 septembre 2015 -->
+      <Print                                                name = "le_parisien_magazine_economie"              title = "Le parisien magazine économie"   directory = ".01_quotidien"    regex = "^\s*(?:le\s*)?parisien\s*[eé]conomie(?:\s*magazine)?$" options="IgnoreCase" />
       <!-- Le Parisien Magazine du vendredi 05 septembre 2014 -->
       <!-- Le Magazine du Parisien - Vendredi 08 Août 2014 -->
       <Print                                                name = "le_parisien_magazine"                       title = "Le parisien magazine"        directory = ".01_quotidien"   regex = "^\s*(?:le\s*parisien\s*magazine|le\s*magazine\s*du\s*parisien)$" options="IgnoreCase" />
@@ -414,6 +457,7 @@
       <!-- Le Parisien + Guide de Vos Loisirs du dimanche 31 août 2014 -->
       <!-- Le Parisien + Votre été du dimanche 24 août 2014 -->
       <!-- Le Parisien +  Envie d'été du dimanche 26 juillet 2015 -->
+      <!-- Le Parisien  +Guide d votre dimanche du 18 octobre 2015 -->
       <Parisien_sep                                         value = "(?:\+|et)" />
       <!-- "cahier paris", "cahier" -->
       <Parisien_cahier                                      value = "(?:cahier(?:\s*paris)?)" />
@@ -424,11 +468,20 @@
       <!-- "guide", "guide de vos loisirs", "guide de vo loisirs", "guide des loisirs", "le guide de vos loisirs" -->
       <!-- "guide de votre", "guide de votre dimanche", "guide du dimanche", "le guide du dimanche" -->
       <!--<Parisien_guide1                                      value = "(?:(?:le\s*)?guide(?:des?\s*(?:vos?\s*)?loisirs|de\s*votre|de\s*votre\s*dimanche|du\s*dimanche)?)" />-->
-      <Parisien_guide                                       value = "(?:(?:le\s*)?guide\s*(?:des?\s*(?:vos?\s*)?loisirs|de\s*votre|de\s*votre\s*dimanche|du\s*dimanche)?)" />
+      <Parisien_guide                                       value = "(?:(?:le\s*)?guide\s*(?:des?\s*(?:vos?\s*)?loisirs|de\s*votre|de?\s*votre\s*dimanche|du\s*dimanche)?)" />
       <!-- "journal de paris", "le journal de paris" -->
       <Parisien_journal                                     value = "(?:(?:le\s*)?journal\s*de\s*paris)" />
       <!--<Print                                                name = "le_parisien"                                                                                                    regex = "^\s*le\s*parisien(?:\s*\+\s*journal\s*de\s*paris)?(?:\s*\+\s*guide\s*de\s*vos\s*loisirs)?(?:\s*\+\s*votre\s*[eé]t[eé])?$" options="IgnoreCase" />-->
       <Print                                                name = "le_parisien"                                                                                                    regex = "^\s*le\s*parisien\s*(?:(?:$Parisien_sep$\s*)?(?:$Parisien_cahier$|$Parisien_supp$|$Parisien_magazine$|$Parisien_guide$|$Parisien_journal$)\s*)*$" options="IgnoreCase" />
+      <!-- "Lpari" "LPar13" "Le Par17" "Par18" "PariSupplementEco02" "Eco.Pari.09" "Pari11" "ZPar4" "ParEco01" "Le Pari09" "@P.ari12" "CahierPar2I" -->
+      <ShortPrint                                           name = "le_parisien"                                                                                                    regex = "^(?:lpari?|le\spar|par|parisupplementeco|eco\.pari|pari|zpar|pareco|le\spari|@p\.ari|cahierpar)$" options="IgnoreCase" />
+      <!-- LA CROIX DU LUNDI 8 SEPTEMBRE 2014 -->
+      <!-- La Croix Du Mercredi 10 Septembre 2014 -->
+      <!-- La Croix Week-End Du Samedi 12 & Dimanche 13 Septembre 2015 -->
+      <!-- lacr-2015-08-27 -->
+      <Print                                                name = "la_croix"                                                                                                       regex = "^\s*(?:la\s*croix|lacr)(?:\s+week[\s\-]*end)?$" options="IgnoreCase" />
+      <!-- "Croi02" "cr0i 9" "Cr0ix3O" "La croi" "Lacr0" -->
+      <ShortPrint                                           name = "la_croix"                                                                                                       regex = "^(?:croi|cr0ix?|la\s*croi|lacr[o0]i?)$" options="IgnoreCase" />
       <!-- Enjeux Les Echos N 313 - Septembre 2014 -->
       <Print                                                name = "enjeux_les_echos"                           title = "Enjeux les échos"                                          regex = "^\s*enjeux\s*les\s*[eé]chos$" options="IgnoreCase" />
       <!-- Les Echos Sociétés -  Mardi 28 Juillet 2015 -->
@@ -438,18 +491,32 @@
       <!-- Les Echos et les Echos Socit Du Jeudi 20 Aout 2015 -->
       <!-- Les Echos + Echos week-end du vendredi 04 et samedi 05 sepembre 2015 -->
       <!-- Les Echos Business Du Lundi 31 Aout 2015 -->
+      <!-- Les Echos entreprise & collectivités Du Mercredi 09 Septembre 2015 -->
+      <!-- echos + business  du 14 septembre 2015 -->
+      <!-- Les Echos +  Les Echos Sociétés Du Mardi 10 Novembre 2015 -->
+      <!-- Les Echos + Entreprise et collectivité du mercredi  21 octobre 2015 -->
+      <!-- Les Echos + échos specia & Société du  mardi 20 octobre 2015 -->
+      <!-- Les Echos WEEH-END Du Vendredi 02 Octobre 2015 -->
       <!-- regex = "^\s*les\s*[eé]chos(?:\s*(?:\+|et)(?:\s*les)?\s*[eé]chos\s*(?:soci[eé]t[eé]|socit)|week[\-\s]*end|business)?$" -->
-      <Print                                                name = "les_echos"                                                                                                      regex = "^\s*les\s*[eé]chos(?:\s*(?:\+|et))?(?:\s*(?:\s*les)?\s*[eé]chos|\s*soci[eé]t[eé]|\s*socit|\s*week[\-\s]*end|\s*business)*$" options="IgnoreCase" />
+      <!-- regex = "^\s*(?:les\s*)?[eé]chos(?:\s*(?:\+|et))?(?:\s*(?:\s*les)?\s*[eé]chos|\s*soci[eé]t[eé]s?|\s*socit|\s*week[\-\s]*end|\s*business|\s*entreprise|\s*collectivit[eé]s|\s*et)*$" -->
+      <Print                                                name = "les_echos"                                                                                                      regex = "^\s*(?:les\s*)?[eé]chos(?:\s*\+|\s*et|\s*les|\s*[eé]chos|\s*soci[eé]t[eé]s?|\s*socit|\s*wee[kh][\-\s]*end|\s*business|\s*special?|\s*entreprises?|\s*collectivit[eé]s?)*$" options="IgnoreCase" />
+      <!-- "Eco11" "3cho1O.11.pdf" "3ch0.13" "3ch0s2o" "3ch0" "Ec0" "Ec" "Ec0businezz" "Ec0s" "Ech" "Ech0" "Eco business" "Eco+" "Ecobusine" "Ecoentrep" "Ecoentreprise" "Equo" "Les ech" "Les echos patrimoine" "Les echos societes" -->
+      <ShortPrint                                           name = "les_echos"                                                                                                      regex = "^(?:eco|3ch[o0]s?|ec0?|ec0businezz|ec0s|ech|ech0|eco\s*business|eco\+|ecobusines?s?|ecoentrep|ecoentreprise|equo|les\s*echo?|les\s*echos\s*patrimoine|les\s*echos\s*societes)$" options="IgnoreCase" />
       <!-- Libération du Jeudi 21 Août 2014 -->
       <!-- Liberation WEEK-END Du Samedi 08 Dimanche 09 Aout 2015 -->
       <Print                                                name = "liberation"                                                                                                     regex = "^\s*lib[eé]ration(?:\s+week[\s\-]*end)?$" options="IgnoreCase" />
+      <!-- "BilLib13" "merlib  14  août 2013" "Lib22" "liBil24" "bil.Lib" "ZLib4" "ZLib.4.5" "Libe" "Liberation week-end" "Llbe" -->
+      <ShortPrint                                           name = "liberation"                                                                                                     regex = "^(?:billib|merlib|libe?|libil|bil\.lib|zlib|liberation\s*week-end|llbe)$" options="IgnoreCase" />
       <!-- Le Figaro Magazine - Vendredi 22 et Samedi 23 Aout 2014 -->
       <Print                                                name = "le_figaro_magazine"                         title = "Le figaro magazine"                                        regex = "^\s*le\s*figaro\s*magazine$" options="IgnoreCase" />
       <!-- Madame Figaro - Vendredi 22 et Samedi 23 Aout 2014 -->
       <Print                                                name = "madame_figaro"                              title = "Madame figaro"                                             regex = "^\s*madame\s*figaro$" options="IgnoreCase" />
       <!-- Le Figaro du mardi 19 août 2014 -->
       <!-- Le Figaro WEEK-END Du Samedi 12 Dimanche 13 Septembre 2015 -->
-      <Print                                                name = "le_figaro"                                                                                                      regex = "^\s*le\s*figaro(?:\s+week[\s\-]*end)?$" options="IgnoreCase" />
+      <!-- Journal LE FIGARO du lundi 16 septembre 2013 -->
+      <Print                                                name = "le_figaro"                                                                                                      regex = "^\s*(?:journal\s*)?le\s*figaro(?:\s+week[\s\-]*end)?$" options="IgnoreCase" />
+      <!-- "Cigar0 2I" "LFig17.18" "Le Fig22" "Fig26" "LeFig29" "Figa" "Figaro" "Le figa" "Le figar" "Le figaro" -->
+      <ShortPrint                                           name = "le_figaro"                                                                                                      regex = "^(?:cigar[o0]?|lfig|le\s?fig|fig|figar?|figaro|le\s*figar?)$" options="IgnoreCase" />
       <!-- Le Monde des Ados N 323 - Aout 2014 -->
       <Print                                                name = "le_monde_des_ados"                          title = "Le monde des ados"                                         regex = "^\s*(?:journal\s*)?le\s*monde\s*des\s*ados$" options="IgnoreCase" />
       <!-- Le Monde + Eco&Entreprise du jeudi 28 août 2014 -->
@@ -462,11 +529,14 @@
       <!-- Le Monde Culture&amp;Idées du samedi 25 juillet 2015 -->
       <!-- Le Monde Sport&amp;Forme du samedi 25 juillet 2015 -->
       <!-- Le Monde 3 en 1 du mercredi 02 septembre 2015 -->
+      <!-- Le Mond du Vendredi 21 aout 2015 -->
+      <!-- Le Monde + suppl Du Mercredi 26 Aout 2015 -->
+      <!-- Monde 2 en 1 du dimanche 20 septembre 2015 -->
       <!-- - + , ; et -->
       <!--<LeMonde_sep                                          value = "(?:[\-+,;\s]*|\s*et\s*\+?)" />-->
       <LeMonde_sep                                          value = "[\-+,;\s]*|et|le|de" />
       <!-- "2 supp", "2 suppléments", "3 suppléments", "les supp", "supplément", "suppléments", "suppléments su" -->
-      <LeMonde_supp                                         value = "(?:[1-4]\s*)?(?:supp|les\s*supp|suppl[eé]ments?|suppl[eé]ments\s*su|3\s*en\s*1)" />
+      <LeMonde_supp                                         value = "(?:[1-4]\s*)?(?:supp|suppl|les\s*supp|suppl[eé]ments?|suppl[eé]ments\s*su|[0-9]\s*en\s*1)" />
       <!-- "argent", "colloque", "decine", "diplomatique", "dosier", "dossier", "eco", "economique", "entreprise", "festival", "geo", "géopolotique", -->
       <!-- "livres", "le monde des livres", "monde des livres", "m", "mag", "magazine", "le magazine", "medecine", "monde", "placement", "politique", -->
       <!-- "science", "monde tv", "monde télévision", "télé", "supp télé", "univ", "week end", "brésil", "journal", "1994" -->
@@ -474,22 +544,49 @@
       <LeMonde_words                                        value = "argent|colloque|culture|decine|diplomatique|dosier|dossier|[eé]co|[eé]conomique|entreprise|festival|forme|g[eé]o|g[eé]opol[io]tique|id[eé]es|livres|le\s*monde\s*des\s*livres|monde\s*des\s*livres|m|mag|magazine|le\s*magazine|m[eé]decine|monde|placement|politique|science|sport|monde\s*tv|monde\s*t[eé]l[eé]vision|t[eé]l[eé]|supp\s*t[eé]l[eé]|univ|week[\-\s]*end|br[eé]sil|journal|[0-9]{4}" />
       <!--<Print                                                name = "le_monde"                                                                                                       regex = "^\s*(?:journal\s*)?le\s*monde$" options="IgnoreCase" />-->
       <!--<Print                                                name = "le_monde"                                                                                                       regex = "^\s*(?:journal\s*)?le\s*monde(?:$LeMonde_sep$(?:$LeMonde_supp$|$LeMonde_words$)*)*$" options="IgnoreCase" />-->
+      <!-- quo, arg = argent, arh = culture, dos = dossier, mde = economie, edu = education, aut = festival, peh = geopolitique, liv = livres, mag = magazine, mdv = mode -->
+      <!-- sch = science, scq = economie, sph = sport, sty = style, nyt = thenewyorktimes, tel = tv -->
       <!-- ("journal")le monde(LeMonde_sep|LeMonde_supp|LeMonde_words)* -->
-      <Print                                                name = "le_monde"                                                                                                       regex = "^\s*(?:journal\s*)?le\s*monde(?:$LeMonde_sep$|$LeMonde_supp$|($LeMonde_words$)|dossier\s+([a-z]+))*$" options="IgnoreCase" values="type_sups, type_dossier" />
-      <!-- 20150829_ARH, 20150829_MAG, 20150829_QUO, 20150829_SPH, 20150905_ARH, 20150905_MAG, 20150905_QUO, 20150905_SCQ, 20150905_SPH -->
-      <Print                                                name = "le_monde"                                                                                                       regex = "^_(quo|arg|arh|dos|mde|edu|aut|peh|liv|mag|mdv|sch|scq|sph|sty|nyt|tel)$" options="IgnoreCase" values="type_code" />
+      <Print                                                name = "le_monde"                                                                                                       regex = "^\s*(?:journal\s*)?(?:le\s*)?monde?(?:$LeMonde_sep$|$LeMonde_supp$|($LeMonde_words$)|dossier\s+([a-z]+))*$" options="IgnoreCase" values="type_sups, type_dossier" />
+      <!-- 20150829_ARH, 20150829_MAG, 20150829_QUO, 20150829_SPH, 20150905_ARH, 20150905_MAG, 20150905_QUO, 20150905_SCQ, 20150905_SPH 20131023_Le_Monde.xml -->
+      <Print                                                name = "le_monde"                                                                                                       regex = "^_(quo|arg|arh|dos|mde|edu|aut|peh|liv|mag|mdv|sch|scq|sph|sty|nyt|tel|le_monde)$" options="IgnoreCase" values="type_code" />
+      <!-- "+Wond26" "Mond." "W0nd" "Wond+" "Wonder" -->
+      <ShortPrint                                           name = "le_monde"                                                                                                       regex = "^(?:\+wond|m0nde?|mond\.|w[0o]nde?|wond\+|wonder)$" options="IgnoreCase" />
       <!-- La Provence Marseille du jeudi 04 septembre 2014 -->
+      <!-- La  Provence Marseille du dimanche 15 setembre 2013 -->
       <Print                                                name = "la_provence"                                                                                                    regex = "^\s*la\s*provence(?:\s*marseille)?$" options="IgnoreCase" />
+      <!-- "LProv13" "La Prov17" "Prov29" "LProv01" "Pro07" "ZPr0v4" "Pr0vII" "La povence marseille" "La provence istres-martigues" "La provence marseile" "Journal la provence" "La provencee marseille" "La provence marselle" -->
+      <ShortPrint                                           name = "la_provence"                                                                                                    regex = "^(?:l?prov|la\sprov|pro|zpr0v|pr0v|la\s*povencee?\s*marseille|la\s*provence\s*istres-martigues|la\s*provence\s*marseile|journal\s*la\s*provence|la\s*provence\s*marselle)$" options="IgnoreCase" />
       <!-- Dernières Nouvelles d'Alsace du Jeudi 4 septembre 2014 -->
-      <Print                                                name = "dernieres_nouvelles_d_alsace"                                                                                   regex = "^\s*derni[eè\s]res\s*nouvelles\s*d['\s]*alsace$" options="IgnoreCase" />
+      <!-- "Derni res nouvelles d alsace strasbourg" -->
+      <Print                                                name = "dernieres_nouvelles_d_alsace"                                                                                   regex = "^\s*derni[eè\s]res\s*nouvelles\s*d['\s]*alsace(?:\s*strasbourg)?$" options="IgnoreCase" />
+      <!-- "Dna13" "ZDna4" "Journal dna strasbourg" -->
+      <ShortPrint                                           name = "dernieres_nouvelles_d_alsace"                                                                                   regex = "^(?:dna|zdna|journal\s*dna\s*strasbourg)$" options="IgnoreCase" />
       <!-- SUD OUEST bassin d'Arcachon Jeudi 4 septembre 2014 -->
       <!-- Sud Ouest (Rive Gauche) Du Mercredi 10 Septembre 2014 -->
       <!-- Sud Ouest (Bordeaux Agglo) Du Mardi 24 Aout 2015 -->
       <!-- Sud Ouest (Gironde) Du Dimanche 13 Septembre 2015 -->
+      <!-- sud_ouest_bordeaux_aggglo_jeudi_19_septembre_2013 -->
+      <!-- sud_ouest_dax_sud_landes_jeudi_19_septembre_2013 -->
+      <!-- sud_ouest_mont_de_marsan__jeudi_19_septembre_2013 -->
+      <!-- sud_ouest_pays_basque_jeudi_19__septembre_2013 -->
+      <!-- sud_ouest_royan_jonzac_jeudi_19__septembre_2013 -->
       <!--<Print                                                name = "sud_ouest"                                                                                                      regex = "^\s*sud\s*ouest(?:\s*bassin\s*d['\s]*arcachon|\s*\(\s*rive\s*gauche\s*\)|\s*gironde)?$" options="IgnoreCase" />-->
-      <Print                                                name = "sud_ouest"                                                                                                      regex = "^\s*sud\s*ouest(?:\s*\(?(?:\s*bassin|\s*d?['\s]*arcachon|\s*rive\s*gauche|\s*gironde|\s*bordeaux|\s*agglo|\s*gironde)*\s*\)?)?$" options="IgnoreCase" />
+      <Print                                                name = "sud_ouest"                                                                                                      regex = "^\s*sud\s*ouest(?:\s*\(?(?:\s*bassin|\s*d?['\s]*arcachon|\s*rive\s*gauche|\s*gironde|\s*bordeaux|\s*agglo|\s*aggglo|\s*gironde|\s*dax\s*sud|\s*landes|\s*mont\s*de\s*marsan|\s*pays\s*basque|\s*royan\s*jonzac)*\s*\)?)?$" options="IgnoreCase" />
+      <!-- "Sud0ues13" "Sud0ue27" "Sud0ue30" "Zud0ue4" "Sud oues" "Sud0u" "Sudoue" -->
+      <ShortPrint                                           name = "sud_ouest"                                                                                                      regex = "^(?:sud[o0]uest?|sud0ue|zud0ue|sud\soues|sud0u|sudoue)$" options="IgnoreCase" />
+      <!-- canard enchainé -->
+      <Print                                                name = "canard_enchaine"                            title = "Canard enchainé"                                           regex = "^\s*canard\s*enchain[eé]$" options="IgnoreCase" />
+      <!-- "Canardo.enchaio" "Canardoenchain" "Canarenchain16" "Cannenchai.i9.25" "Canar enchai4" "Canardench o9" "Le canard enchaine" "Canar encha" -->
+      <ShortPrint                                           name = "canard_enchaine"                            title = "Canard enchainé"                                           regex = "^(?:canardo|canard?|cann|le\s*canard)[\.\s]?(?:enchai[no]?|encha?|enchaine)$" options="IgnoreCase" />
       <!-- Le Journal du Dimanche No.3529 - Dimanche 31 Août 2014 -->
-      <Print                                                name = "le_journal_du_dimanche"                                                                                         regex = "^\s*le\s*journal\s*du\s*dimanche$" options="IgnoreCase" />
+      <!-- jdd du 6 septembre 2015 -->
+      <Print                                                name = "le_journal_du_dimanche"                                                                                         regex = "^\s*(?:le\s*journal\s*du\s*dimanche|jdd)$" options="IgnoreCase" />
+      <!-- L'Humanite Dimanche N° 424 - Du 7 au 27 Août 2014 -->
+      <!-- L_Humanité du Jeudi 15 Octobre 2015 -->
+      <Print                                                name = "l_humanite_dimanche"                        title = "L'humanité dimanche"                                       regex = "^\s*l[';\s]*humanit[eé](?:\s*dimanche)?$" options="IgnoreCase" />
+      <!-- "Humanite02" "Uuma10_12" "Huma01" "hum4" "Hum@" "Hum24.25.26" "Uma" "Humawk" "Journal l humanite" "L huma" -->
+      <ShortPrint                                           name = "l_humanite_dimanche"                        title = "L'humanité dimanche"                                       regex = "^(?:humanite|uuma|huma?|hum@|uma|humawk|journal\s*l\s*humanite|l\s*huma?)$" options="IgnoreCase" />
       <!-- Marianne N 905 - 22 au 28 Aout 2014 -->
       <Print                                                name = "marianne"                                                                                                       regex = "^\s*marianne$" options="IgnoreCase" />
       <!-- Le Point No.2189 - 28 Août au 3 Septembre 2014 -->
@@ -507,6 +604,8 @@
       <Print                                                name = "l_express"                                                                                                      regex = "^\s*(?:l\s*)?(?:'\s*)?express$" options="IgnoreCase" />
       <!-- Investir N° 2120 - Du 23 au 29 Août 2014 -->
       <Print                                                name = "investir"                                                                                                       regex = "^\s*investir$" options="IgnoreCase" />
+      <!-- "INV17.23" "INVES24" -->
+      <ShortPrint                                           name = "investir"                                                                                                       regex = "^(?:inv|inves)$" options="IgnoreCase" />
       <!-- 01Net No.803 - 4 au 17 Septembre 2014 -->
       <Print                                                name = "01_net"                                                                                                         regex = "^\s*01\s*net$" options="IgnoreCase" />
       <!-- Air & Cosmos No.2417 - 22 au 28 Août 2014 -->
@@ -680,6 +779,8 @@
       <Print                                                name = "france_dimanche"                            title = "France dimanche"                                           regex = "^\s*france\s*dimanche$" options="IgnoreCase" />
       <!-- France Football N° 3566 - Mardi 19 Août 2014 -->
       <Print                                                name = "france_football"                                                                                                regex = "^\s*france\s*football$" options="IgnoreCase" />
+      <!-- "FF11" "FFoot02" -->
+      <ShortPrint                                           name = "france_football"                                                                                                regex = "^(?:ff|ffoot)$" options="IgnoreCase" />
       <!-- France Terres d'Histoire N° 4 - Septembre 2014 -->
       <Print                                                name = "france_terres_d_histoire"                   title = "France terres d'histoire"                                  regex = "^\s*france\s*terres\s*d['\s]*histoire$" options="IgnoreCase" />
       <!-- Gala No.1106 - 20 au 26 Août 2014 -->
@@ -750,8 +851,6 @@
       <Print                                                name = "l_essentiel_de_la_science"                  title = "L'essentiel de la science"                                 regex = "^\s*l['\s]*essentiel\s*de\s*la\s*science$" options="IgnoreCase" />
       <!-- L'Expansion N 797 - Septembre 2014 -->
       <Print                                                name = "l_expansion"                                                                                                    regex = "^\s*l['\s]*expansion$" options="IgnoreCase" />
-      <!-- L'Humanite Dimanche N° 424 - Du 7 au 27 Août 2014 -->
-      <Print                                                name = "l_humanite_dimanche"                        title = "L'humanité dimanche"                                       regex = "^\s*l[';\s]*humanite(?:\s*dimanche)?$" options="IgnoreCase" />
       <!-- L'Informaticien N°127 - Septembre 2014 -->
       <Print                                                name = "l_informaticien"                                                                                                regex = "^\s*l['\s]*informaticien$" options="IgnoreCase" />
       <!-- L'Officiel Paris - Septembre 2014 -->

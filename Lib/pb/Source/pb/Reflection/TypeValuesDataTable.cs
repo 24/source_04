@@ -64,7 +64,8 @@ namespace pb.Reflection
         }
     }
 
-    public static partial class GlobalExtension
+    //public static partial class GlobalExtension
+    public static class ReflectionGlobalExtension
     {
         public static DataTable zToDataTable_v2<T>(this T value)
         {

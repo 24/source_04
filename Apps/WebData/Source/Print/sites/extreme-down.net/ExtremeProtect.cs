@@ -3,12 +3,42 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using pb.Data.Xml;
+using pb.Data.Mongo;
 using pb.Web;
-using pb.Web.old;
+using MongoDB.Bson.Serialization;
+using MongoDB.Bson;
 
 namespace Download.Print.ExtremeDown
 {
     public class ExtremeProtect : ProtectLink
+    {
+        private static string __host = "http://extreme-protect.net/";
+        private static string __urlUnprotect = "http://extreme-protect.net/api.php";
+
+        public override string[] UnprotectLink(string protectLink)
+        {
+            // protectLink : "http://extreme-protect.net/Ljhl7jL"
+            Uri uri = new Uri(protectLink);
+            string key = uri.Segments[uri.Segments.Length - 1];
+            Http http = HttpManager.CurrentHttpManager.Load(new HttpRequest { Url = __urlUnprotect, Method = HttpRequestMethod.Post, Content = "id=" + key });
+            // result : {"titre":"jrn031215-ED.rar","auteur":"M.sword","liens":[{"hebergeur":"1fichier","lien":"https:\/\/1fichier.com\/?nuu2e5nwhd","taille":"106.28 Mo"}]}
+            BsonDocument result = BsonSerializer.Deserialize<BsonDocument>(http.ResultText);
+            BsonArray resultLinks = result.zGet("liens").zAsBsonArray();
+            string[] links = new string[resultLinks.Count];
+            int i = 0;
+            foreach (BsonValue link in resultLinks)
+                links[i] = link.zAsBsonDocument().zGet("lien").zAsString();
+            return links;
+        }
+
+        public override bool IsLinkProtected(string link)
+        {
+            // http://extreme-protect.net/AVYynltQQ
+            return link.StartsWith(__host);
+        }
+    }
+
+    public class ExtremeProtect_v1 : ProtectLink
     {
         private static string __urlFormulaire = "http://extreme-protect.net/requis/captcha_formulaire.php";
         private static string __host = "http://extreme-protect.net/";

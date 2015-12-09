@@ -3,6 +3,7 @@
 // $$info.debrid-link.fr
 // $$info.test_unit.print
 // $$info.GetPrintTitleInfo
+// $$info.zdate.GetDayInsideDateGap
 
 
 //*************************************************************************************************************************
@@ -144,6 +145,22 @@ pb.Data.Mongo.TraceMongoCommand.Export("dl", "ExtremeDown_Detail", Path.Combine(
 
 // Automate : MongoDownloadAutomate = DownloadAutomate3, MongoDownloadFile = DownloadFile3, MongoDownloadedFile = DownloadedFile,
 //   MongoQueueDownloadFile = QueueDownloadFile4, MongoQueueDownloadFile_new = QueueDownloadFile_new, MongoCurrentDownloadFile = CurrentDownloadFile
+
+//*************************************************************************************************************************
+//****                                   ExtremeDown
+//*************************************************************************************************************************
+
+// load new post
+Download.Print.ExtremeDown.ExtremeDown_DetailManager.WebHeaderDetailManager.LoadNewDocuments(maxNbDocumentsLoadedFromStore: 10, startPage: 1, maxPage: 1000);
+
+// view last post from mongo
+Download.Print.ExtremeDown.ExtremeDown_DetailManager.DetailWebDataManager.FindDocuments(sort: "{ 'download.PostCreationDate': -1 }", limit: 10, loadImage: false).Select(data => CompactPost.Create(data as IPost)).zView();
+
+TraceMongoCommand.Export("dl", "ExtremeDown_Detail", Path.Combine(AppData.DataDirectory, @"sites\extreme-down.net\mongo\export_ExtremeDown_Detail.txt"), sort: "{ 'download.PostCreationDate': -1 }");
+
+
+Download.Print.ExtremeDown.ExtremeDown_DetailManager.DetailWebDataManager.Load(new WebRequest { HttpRequest = new HttpRequest { Url = "http://www.ex-down.com/ebooks/journaux/29287-les-journaux-mardi-08-dgcembre-2015.html" }, ReloadFromWeb = false, LoadImage = false, RefreshDocumentStore = true}).Document.zTraceJson();
+Download.Print.ExtremeDown.ExtremeDown_DetailManager.DetailWebDataManager.Load(new WebRequest { HttpRequest = new HttpRequest { Url = "http://www.ex-down.com/29238-le-labyrinthe-la-terre-brglge-truefrench-bdrip.html" }, ReloadFromWeb = false, LoadImage = false, RefreshDocumentStore = true}).Document.zTraceJson();
 
 //*************************************************************************************************************************
 //****                                   Vosbooks
@@ -1717,19 +1734,21 @@ Test_Unit_PrintTitleManager.Test_ExportTitle_TelechargerMagazine_01();
 Test_Unit_PrintTitleManager.Test_ExportTitle_Vosbooks_01();
 Test_Unit_PrintTitleManager.Test_ExportTitle_Ebookdz_01();
 
-// version 3 = old find date, version 5 = new find date
-Test_Unit_PrintTitleManager.Test_GetPrintTitleInfo_01(Download.Print.DownloadAutomate_f.CreatePrintTitleManager(version: 5), "PrintTitle_TelechargerMagazine.txt");
-Test_Unit_PrintTitleManager.Test_GetPrintTitleInfo_01(Download.Print.DownloadAutomate_f.CreatePrintTitleManager(version: 5), "PrintTitle_Vosbooks.txt");
-Test_Unit_PrintTitleManager.Test_GetPrintTitleInfo_01(Download.Print.DownloadAutomate_f.CreatePrintTitleManager(version: 5), "PrintTitle_Ebookdz.txt");
+// version 3 = old find date, version 5 : version 3 +  new find date, version 6 : version 5 +  printTitleManager version 2 + findPrintManager version 2
+//int version = 3;
+int version = 6;
+Test_Unit_PrintTitleManager.Test_GetPrintTitleInfo_01(Download.Print.DownloadAutomate_f.CreatePrintTitleManager(version: version), "PrintTitle_Ebookdz.txt", version: version);
+Test_Unit_PrintTitleManager.Test_GetPrintTitleInfo_01(Download.Print.DownloadAutomate_f.CreatePrintTitleManager(version: version), "PrintTitle_TelechargerMagazine.txt", version: version);
+Test_Unit_PrintTitleManager.Test_GetPrintTitleInfo_01(Download.Print.DownloadAutomate_f.CreatePrintTitleManager(version: version), "PrintTitle_Vosbooks.txt", version: version);
 
-//string filename = "PrintTitle_TelechargerMagazine";
-string filename = "PrintTitle_Vosbooks";
 string filename = "PrintTitle_Ebookdz";
+string filename = "PrintTitle_TelechargerMagazine";
+//string filename = "PrintTitle_Vosbooks";
 BsonDocumentComparator.CompareBsonDocumentFiles(
-  @"$TestUnitDirectory$\Print\PrintTitle\".zConfigGetVariableValue() + filename + "_out_bson_old.txt",
-  @"$TestUnitDirectory$\Print\PrintTitle\".zConfigGetVariableValue() + filename + "_out_bson.txt",
+  @"$TestUnitDirectory$\Print\PrintTitle\".zConfigGetVariableValue() + filename + "_v3_out_bson.txt",
+  @"$TestUnitDirectory$\Print\PrintTitle\".zConfigGetVariableValue() + filename + "_v6_out_bson.txt",
   comparatorOptions: BsonDocumentComparatorOptions.ReturnNotEqualDocuments | BsonDocumentComparatorOptions.ResultNotEqualElements,
-  elementsToCompare: new string[] { "PrintTitleInfo.date", "PrintTitleInfo.dateType", "PrintTitleInfo.file" })
+  elementsToCompare: new string[] { "PrintTitleInfo.Date", "PrintTitleInfo.DateType", "PrintTitleInfo.File" })
   .Select(result => result.GetResultDocument())
   .zSave(@"$TestUnitDirectory$\Print\PrintTitle\".zConfigGetVariableValue() + filename + "_out_bson_compare.txt");
 
@@ -2175,8 +2194,34 @@ DownloadAutomate_f.Test_ManageDirectories_01(directories, @"g:\pib\media\ebook\b
 	usePrintDirectories: false, simulate: false, moveFiles: true);
 
 // manage new Journaux
-DownloadAutomate_f.Test_RenamePrintFiles_01(@"g:\pib\media\ebook\_dl\_dl_pib\journaux\03\print", @"g:\pib\media\ebook\Journaux", simulate: true, version: 5);
-DownloadAutomate_f.Test_RenamePrintFiles_01(@"g:\pib\media\ebook\_dl\_dl_pib\journaux\02\print", @"g:\pib\media\ebook\Journaux", simulate: false, version: 5);
+//PrintFileManager_v2.RenamePrintFilesDirectory(DownloadAutomate_f.CreateFindPrintManager(version: 6, dailyPrintManager: true),
+//  @"g:\pib\media\ebook\_dl\_dl_pib\journaux\04\print\.01_quotidien\Journaux", @"g:\pib\media\ebook\Journaux", simulate: true);
+//PrintFileManager_v2.RenamePrintFilesDirectory(DownloadAutomate_f.CreateFindPrintManager(version: 5),
+//  @"g:\pib\media\ebook\_dl\_dl_pib\journaux\04\print\.01_quotidien\Journaux", @"g:\pib\media\ebook\Journaux", simulate: false);
+//DownloadAutomate_f.Test_ManageDirectories_01(new string[] { @"g:\pib\media\ebook\Journaux\print" }, @"g:\pib\media\ebook\print", usePrintDirectories: true, simulate: false, moveFiles: true);
+
+//PrintFileManager_v2.RenamePrintFilesDirectory(DownloadAutomate_f.CreateFindPrintManager(version: 6, dailyPrintManager: true, gapDayBefore: 5, gapDayAfter: 2),
+//  @"g:\pib\media\ebook\print\.01_Journaux", @"g:\pib\media\ebook\Journaux", simulate: true);
+//PrintFileManager_v2.RenamePrintFilesDirectory(DownloadAutomate_f.CreateFindPrintManager(version: 6, dailyPrintManager: true, gapDayBefore: 5, gapDayAfter: 2),
+//  @"g:\pib\media\ebook\print\.01_Journaux", @"g:\pib\media\ebook\Journaux", simulate: false);
+//DownloadAutomate_f.Test_ManageDirectories_01(new string[] { @"g:\pib\media\ebook\Journaux\print" }, @"g:\pib\media\ebook\print", usePrintDirectories: true, simulate: false, moveFiles: true);
+
+//PrintFileManager_v2.GetDailyPrintFiles(@"g:\pib\media\ebook\print\.01_Journaux")
+//  .zRenameDailyPrintFiles(DownloadAutomate_f.CreateFindPrintManager(version: 6, dailyPrintManager: true, gapDayBefore: 5, gapDayAfter: 2), @"g:\pib\media\ebook\Journaux", simulate: true);
+
+
+
+// manage new Journaux
+PrintFileManager_v2.GetDailyPrintFiles(@"g:\pib\media\ebook\print\.01_Journaux").zSave(@"c:\pib\dev_data\exe\runsource\download\print\DailyPrintFiles.txt");
+
+zmongo.FileReader<DailyPrintFile>(@"c:\pib\dev_data\exe\runsource\download\print\DailyPrintFiles.txt")
+  .zRenameDailyPrintFiles(DownloadAutomate_f.CreateFindPrintManager(version: 6, dailyPrintManager: true, gapDayBefore: 5, gapDayAfter: 2),  @"g:\pib\media\ebook\Journaux", simulate: true)
+  .zSave(@"c:\pib\dev_data\exe\runsource\download\print\RenamePrintFiles.txt");
+zmongo.FileReader<RenamePrintFile>(@"c:\pib\dev_data\exe\runsource\download\print\RenamePrintFiles.txt").OrderBy(r => r.FormatedTitle).zView();
+zmongo.FileReader<DailyPrintFile>(@"c:\pib\dev_data\exe\runsource\download\print\DailyPrintFiles.txt")
+  .zRenameDailyPrintFiles(DownloadAutomate_f.CreateFindPrintManager(version: 6, dailyPrintManager: true, gapDayBefore: 5, gapDayAfter: 2),  @"g:\pib\media\ebook\Journaux", simulate: false)
+  .zSave(@"c:\pib\dev_data\exe\runsource\download\print\RenamePrintFiles.txt");
+zmongo.FileReader<RenamePrintFile>(@"c:\pib\dev_data\exe\runsource\download\print\RenamePrintFiles.txt").OrderBy(r => r.Title).zView();
 DownloadAutomate_f.Test_ManageDirectories_01(new string[] { @"g:\pib\media\ebook\Journaux\print" }, @"g:\pib\media\ebook\print", usePrintDirectories: true, simulate: false, moveFiles: true);
 
 
@@ -2184,6 +2229,29 @@ DownloadAutomate_f.Test_ManageDirectories_01(new string[] { @"g:\pib\media\ebook
 //************************************************************************************************************************************************************************************
 //************************************************************************************************************************************************************************************
 
+
+FindPrint.TraceWarning = true;
+DownloadAutomate_f.CreateFindPrintManager(version: 6, dailyPrintManager: true, gapDayBefore: 5, gapDayAfter: 1).Find("", PrintType.Print, expectedDate: Date.Parse("2013-10-22")).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 6, dailyPrintManager: true, gapDayBefore: 5, gapDayAfter: 1).Find("", PrintType.Print, expectedDate: Date.Parse("2013-10-22")).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 6, dailyPrintManager: true, gapDayBefore: 5, gapDayAfter: 1).Find("", PrintType.Print, expectedDate: Date.Parse("2013-10-22")).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 6, dailyPrintManager: true, gapDayBefore: 5, gapDayAfter: 1).Find("", PrintType.Print, expectedDate: Date.Parse("2013-10-22")).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 6, dailyPrintManager: true, gapDayBefore: 5, gapDayAfter: 1).Find("z.CanardEnch.o9.I5", PrintType.Print, expectedDate: Date.Parse("2014-05-17")).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 6, dailyPrintManager: true, gapDayBefore: 5, gapDayAfter: 1).Find("Le Figaro Du Mercredi 03 Novembre 2014", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 6, dailyPrintManager: true, gapDayBefore: 5, gapDayAfter: 1).Find("z.Cigaro18.19", PrintType.Print, expectedDate: Date.Parse("2014-10-19")).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 6, dailyPrintManager: true, gapDayBefore: 5, gapDayAfter: 1).Find("Cr0ix3o", PrintType.Print, expectedDate: Date.Parse("2013-12-30")).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 6, dailyPrintManager: true, gapDayBefore: 1, gapDayAfter: 0).Find("LPari18", PrintType.Print, expectedDate: Date.Parse("2013-09-18")).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 6, dailyPrintManager: true, gapDayBefore: 1, gapDayAfter: 0).Find("Croi01", PrintType.Print, expectedDate: Date.Parse("2014-12-01")).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 6, dailyPrintManager: true, gapDayBefore: 1, gapDayAfter: 0).Find("sud_oues mercredi_18_septembre_2013", PrintType.Print, expectedDate: Date.Parse("2014-12-01")).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 6, dailyPrintManager: true, gapDayBefore: 1, gapDayAfter: 0).Find("sud_ouest_bordeaux_aggglo_jeudi_19_septembre_2013", PrintType.Print, expectedDate: Date.Parse("2014-12-01")).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 6, dailyPrintManager: true, gapDayBefore: 5, gapDayAfter: 1).Find("20131023_Le_Monde", PrintType.Print, expectedDate: Date.Parse("2013-10-22")).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 6, dailyPrintManager: true, gapDayBefore: 1, gapDayAfter: 0).Find("COURRIER INTERNATIONAL N°1277 du 23 au 29.04.2015", PrintType.Print, expectedDate: Date.Parse("2014-12-01")).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 6, dailyPrintManager: true, gapDayBefore: 5, gapDayAfter: 1).Find("3ch024.25", PrintType.Print, expectedDate: Date.Parse("2014-01-24")).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 6, dailyPrintManager: true, gapDayBefore: 1, gapDayAfter: 1).Find("3ch024.25", PrintType.Print, expectedDate: Date.Parse("2014-01-24")).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 6, dailyPrintManager: true, gapDayBefore: 1, gapDayAfter: 0).Find("3ch024.25", PrintType.Print, expectedDate: Date.Parse("2014-01-24")).zToJson().zTrace();
+
+
+TypeReflection.IsValueType(typeof(int)).zTrace();
+TypeReflection.IsValueType(typeof(Date)).zTrace();
 
 DownloadAutomate_f.Test_GetDirectoryInfo_01(@"g:\pib\media\ebook\_dl\_dl_pib\book\01\book", excludeBonusDirectory: true);
 DownloadAutomate_f.Test_GetDirectoryInfo_01(@"g:\pib\media\ebook\_dl\_dl_pib\book\01\book", excludeBonusDirectory: false);
@@ -2225,6 +2293,10 @@ DownloadAutomate_f.Test_ManageDirectoryGroup_01(directories, subDirectory, simul
 
 XmlConfig.CurrentConfig.GetConfig("PrintList2Config").Get("FindPrints/Prints/Print/@name").zTrace();
 XmlConfig.CurrentConfig.GetConfig("PrintList2Config").Get("FindPrints/Prints/Print[@name='le_monde']/@regex").zTrace();
+
+zdir.EnumerateDirectoriesInfo(@"g:\pib\media\ebook\_dl\_dl_pib\journaux\04\print\.01_quotidien\Journaux", getSubDirectoryNumber: true).zView_v2();
+new DirectoryInfo(@"g:\pib\media\ebook\_dl\_dl_pib\journaux\04\print\.01_quotidien\Journaux").EnumerateDirectories("*.*", SearchOption.AllDirectories).Select(dir => new { Name = dir.Name, FullName = dir.FullName }).zView_v2();
+PrintFileManager_v2.RenamePrintFilesDirectory(null, @"g:\pib\media\ebook\_dl\_dl_pib\journaux\04\print\.01_quotidien\Journaux", null);
 
 //string subDirectory = @".03_mensuel\60 millions de consommateurs";
 //string subDirectory = @".03_mensuel\Afrique magazine";
@@ -2782,6 +2854,8 @@ Test_RegexValues.Test(
   //"Le Monde Culture et Idées");
   //"Le Monde Culture");
 
+Test.Test_Text.Test_Regex.Test(@"^\s*(?:journal\s*)?le\s*figaro(?:\s+week[\s\-]*end)?$", "Le figaro");
+
 Test.Test_Text.Test_Regex.Test("&(?:(?:#([0-9]+))|(?:#x([0-9a-f]+))|([a-z]+));", "toto&#amp;tata");
 Test.Test_Text.Test_Regex.Test("&(?:(?:#([0-9]+))|(?:#x([0-9a-f]+))|([a-z]+));", "toto&amp;tata");
 Test.Test_Text.Test_Regex.Test("&(?:(?:#([0-9]+))|(?:#x([0-9a-f]+))|([a-z]+));", "toto&#38;tata");
@@ -2838,6 +2912,51 @@ Test.Test_Text.Test_Regex.Test(
   "Système D Bricothèmes N°16 - Mars 2014");
 
 Test.Test_Text.Test_Regex.Test(@"([0-9]+)(?:$|[_\s])", "2014");
+
+"$FindPrints/Dates/ShortDay/@regex$".zConfigGetVariableValue(XmlConfig.CurrentConfig.GetConfig("PrintList1Config")).zTrace();
+Test.Test_Text.Test_Regex.Test(
+  "$FindPrints/Dates/ShortDay/@regex$".zConfigGetVariableValue(XmlConfig.CurrentConfig.GetConfig("PrintList1Config")),
+  "Midol12-15A");
+
+"$FindPrints/Dates/ShortDay/@regex$".zConfigGetVariableValue(XmlConfig.CurrentConfig.GetConfig("PrintList1Config")).zTrace();
+// @"\.?([0123oi][o0-9i]|iii|iv|v|vi|vii)(?:\.(?:[0123oi][o0-9i]|iii|iv|v|vi|vii))?$"
+// @"\.?([0123oi]?(?:[o0-9i]|ii|iii|iv|v|vi|vii))(?:\.?(?:[0123oi](?:[o0-9i]|ii|iii|iv|v|vi|vii)))?$"
+//Regex regex = new Regex(@"\.?([123ivx]|[0-9][0-9]|ii|iii|iv|vi|vii|viii)(?:\.?(?:[123ivx]|[0-9][0-9]|ii|iii|iv|vi|vii|viii))^", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+Regex regex = new Regex("$FindPrints/Dates/ShortDay/@regex$".zConfigGetVariableValue(XmlConfig.CurrentConfig.GetConfig("PrintList1Config")), RegexOptions.IgnoreCase | RegexOptions.Compiled);
+zmongo.FileBsonReader<string>(@"c:\pib\dev_data\exe\runsource\test_unit\Print\PrintDay\test_day_01.txt")
+.Select(text => {
+	Match match = regex.Match(text);
+	return new { Text = text, Found = match.Success, Capture = match.Success ? match.Value : null, Day = match.Success ? match.Groups[1].Value : null, Remain = match.zReplace(text, "") };
+}).zSave(@"c:\pib\dev_data\exe\runsource\test_unit\Print\PrintDay\test_day_01_result.txt");
+zmongo.FileBsonReader<BsonDocument>(@"c:\pib\dev_data\exe\runsource\test_unit\Print\PrintDay\test_day_01_result.txt").zView();
+
+Regex regex = new Regex("$FindPrints/Dates/ShortDay/@regex$".zConfigGetVariableValue(XmlConfig.CurrentConfig.GetConfig("PrintList1Config")), RegexOptions.IgnoreCase | RegexOptions.Compiled);
+zmongo.FileBsonReader<BsonDocument>(@"c:\pib\dev_data\exe\runsource\test_unit\Print\PrintDay\test_day_01_control.txt")
+.Select(doc => {
+	string text = doc.zGet("Text").zAsString();
+	Match match = regex.Match(text);
+	return new { Text = text,
+	  Found = match.Success, Capture = match.Success ? match.Value : null, Day = match.Success ? match.Groups[1].Value : null,
+	  DayNumber = match.Success ? zDay.GetDayNumber(match.Groups[1].Value) : 0, Remain = match.zReplace(text, ""),
+	  CFound = doc.zGet("Found").zAsBoolean(), CCapture = doc.zGet("Capture").zAsString(), CDay = doc.zGet("Day").zAsString(), CDayNumber = doc.zGet("DayNumber").zAsInt(), CRemain = doc.zGet("Remain").zAsString() };
+})
+.Select(r => new { Text = r.Text,
+  Result = r.Found == r.CFound && r.Capture == r.CCapture && r.Day == r.CDay && r.DayNumber == r.CDayNumber && r.Remain == r.CRemain ? "ok" : "bad",
+  RFound = r.Found == r.CFound ? "ok" : "bad", Found = r.Found, CFound = r.CFound,
+  RCapture = r.Capture == r.CCapture ? "ok" : "bad", Capture = r.Capture, CCapture = r.CCapture,
+  RDay = r.Day == r.CDay ? "ok" : "bad", Day = r.Day, CDay = r.CDay,
+  RDayNumber = r.DayNumber == r.CDayNumber ? "ok" : "bad", DayNumber = r.DayNumber, CDayNumber = r.CDayNumber,
+  RRemain = r.Remain == r.CRemain ? "ok" : "bad", Remain = r.Remain, CRemain = r.CRemain
+})
+.zSave(@"c:\pib\dev_data\exe\runsource\test_unit\Print\PrintDay\test_day_01_result.txt");
+zmongo.FileBsonReader<BsonDocument>(@"c:\pib\dev_data\exe\runsource\test_unit\Print\PrintDay\test_day_01_result.txt").zView();
+
+PrintFileManager_v2.GetDayNumber("I8").zTrace();
+zstr.GetNumbersInString("iv").zTraceJson();
+zstr.GetRomanNumberValue("iv").zTrace();
+zstr.GetRomanNumberValue("2i").zTrace();
+((int)'0').zTrace();
+((int)'1').zTrace();
 
 // DateNew1
 Test.Test_Text.Test_Regex.Test(
@@ -3783,6 +3902,96 @@ DownloadAutomate_f.CreatePrintTitleManager().GetPrintTitleInfo("Le Monde Culture
 
 DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("", PrintType.Print).zToJson().zTrace();
 DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 6).Find("Les Journaux (Mardi 08 Décembre 2015)", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("La  Provence Marseille du dimanche 15 setembre 2013", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("Liberation N°10058 du Samedi 14 et dimanche 15 SEPTEMBRE 2013", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("derni__res_nouvelles_d_alsace_strasbourg_du_dimanche_15_septembre_2013", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("liberation 11-09-2013", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 6, dailyPrintManager: true, gapDayBefore: 1, gapDayAfter: 0).Find("", PrintType.Print, expectedDate: Date.Parse("2013-08-13")).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 6, dailyPrintManager: true, gapDayBefore: 1, gapDayAfter: 0).Find("", PrintType.Print, expectedDate: Date.Parse("2013-08-13")).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 6, dailyPrintManager: true, gapDayBefore: 1, gapDayAfter: 0).Find("", PrintType.Print, expectedDate: Date.Parse("2013-08-13")).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 6, dailyPrintManager: true, gapDayBefore: 1, gapDayAfter: 0).Find("", PrintType.Print, expectedDate: Date.Parse("2013-08-13")).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 6, dailyPrintManager: true, gapDayBefore: 1, gapDayAfter: 0).Find("", PrintType.Print, expectedDate: Date.Parse("2013-08-13")).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 6, dailyPrintManager: true, gapDayBefore: 1, gapDayAfter: 0).Find("", PrintType.Print, expectedDate: Date.Parse("2013-08-13")).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 6, dailyPrintManager: true, gapDayBefore: 1, gapDayAfter: 0).Find("", PrintType.Print, expectedDate: Date.Parse("2013-08-13")).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 6, dailyPrintManager: true, gapDayBefore: 1, gapDayAfter: 0).Find("", PrintType.Print, expectedDate: Date.Parse("2013-08-13")).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 6, dailyPrintManager: true, gapDayBefore: 1, gapDayAfter: 0).Find("", PrintType.Print, expectedDate: Date.Parse("2013-08-13")).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 6, dailyPrintManager: true, gapDayBefore: 1, gapDayAfter: 0).Find("", PrintType.Print, expectedDate: Date.Parse("2013-08-13")).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 6, dailyPrintManager: true, gapDayBefore: 1, gapDayAfter: 0).Find("", PrintType.Print, expectedDate: Date.Parse("2013-08-13")).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 6, dailyPrintManager: true, gapDayBefore: 1, gapDayAfter: 0).Find("", PrintType.Print, expectedDate: Date.Parse("2013-08-13")).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 6, dailyPrintManager: true, gapDayBefore: 1, gapDayAfter: 0).Find("", PrintType.Print, expectedDate: Date.Parse("2013-08-13")).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 6, dailyPrintManager: true, gapDayBefore: 1, gapDayAfter: 0).Find("", PrintType.Print, expectedDate: Date.Parse("2013-08-13")).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 6, dailyPrintManager: true, gapDayBefore: 1, gapDayAfter: 0).Find("Cro6", PrintType.Print, expectedDate: Date.Parse("2014-03-06")).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 6, dailyPrintManager: true, gapDayBefore: 1, gapDayAfter: 0).Find("ParEco01", PrintType.Print, expectedDate: Date.Parse("2014-12-01")).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 6, dailyPrintManager: true, gapDayBefore: 1, gapDayAfter: 0).Find("Croi 01", PrintType.Print, expectedDate: Date.Parse("2014-12-01")).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 6, dailyPrintManager: true, gapDayBefore: 1, gapDayAfter: 0).Find("ZLib.4.5", PrintType.Print, expectedDate: Date.Parse("2014-01-05")).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 6, dailyPrintManager: true, gapDayBefore: 1, gapDayAfter: 0).Find("ZPar5", PrintType.Print, expectedDate: Date.Parse("2014-01-05")).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 6, dailyPrintManager: true, gapDayBefore: 5, gapDayAfter: 0).Find("Midol12-15A", PrintType.Print, expectedDate: Date.Parse("2013-08-15")).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 6, dailyPrintManager: true, gapDayBefore: 1, gapDayAfter: 2).Find("20130915_QUO", PrintType.Print, expectedDate: Date.Parse("2013-09-13")).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 6, dailyPrintManager: true, gapDayBefore: 1, gapDayAfter: 0).Find("LProv01", PrintType.Print, expectedDate: Date.Parse("2013-09-01")).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 6, dailyPrintManager: true, gapDayBefore: 1, gapDayAfter: 0).Find("Midol12-15A", PrintType.Print, expectedDate: Date.Parse("2013-08-13")).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 6, dailyPrintManager: true, gapDayBefore: 1, gapDayAfter: 0).Find("20130818_QUO", PrintType.Print, expectedDate: Date.Parse("2013-08-19")).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 6, dailyPrintManager: true).Find("Cigaro1O", PrintType.Print, expectedDate: Date.Parse("2014-01-10")).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 6).Find("Midy Olympique vert du 06 au 08 novembre 2015", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("Midy Olympique vert du 06 au 08 novembre 2015", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("Les Echos WEEH-END Du Vendredi 02 Octobre 2015", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("Les Echos + échos specia & Société du  mardi 20 octobre 2015", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("Les Echos + Les Echos Societes Du Mardi 06 Octobre 2015", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("Les Echos + Entreprises et Collectivités du mercredi 07 octobre 2015", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("Les Echos + Entreprise et collectivité du mercredi  21 octobre 2015", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("Les Echos +  Les Echos Sociétés Du Mardi 10 Novembre 2015", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("Le Soir Edition Bruxelles-Peripherie Namurluxem...e Soir Immo +1 Suppl Du Jeudi 12 Novembre 2015", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("Le Soir Edition Bruxelles-Peripherie - Namurluxembourg+ 1 Supplement Du Lundi 09 Novembre 2015", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("Le Parisien  +Guide d votre dimanche du 18 octobre 2015", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("La nouvelle gazette du (Belgique) du jeudi 22 octobre 2015", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("La nouvelle gazette (Belgique) Du Jeudi 12 Novembre 2015", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("La VDN Lille du jeudi 29 octobre 2015", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("La Dernière Heure + supplément Johnny du mardi 10 novembre 2015", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("La DH + supplément Euro du lundi 12 octobre 2015", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("L_Humanité du Jeudi 15 Octobre 2015", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("DirectMatin-20150925", PrintType.Print, expectedDate: Date.Parse("2015-09-25")).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("vdn_28_lille_15_09_15", PrintType.Print, expectedDate: Date.Parse("2015-09-15")).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("jdd du 6 septembre 2015", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("Les Echos29092015", PrintType.Print, expectedDate: Date.Parse("2015-09-29")).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("echos + echos société du jeudi 17 septembre 2015", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("echos + business  du 14 septembre 2015", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("Parisien économie du lundi 14 septembre 2015", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("Monde 2 en 1 du dimanche 20 septembre 2015", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("Midi Olympique Vert Du Vendredi 23 Octobre 2015", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("Midi Olympique Rouge du lundi 14 septembre 2015", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("Madame Figaro De Vendredi 22 et Samedi 23 Octobre 2015", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("Les Echos entreprisecollectivites Du Mercredi 02 Septembre", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("Les Echos entreprise & collectivités Du Mercredi 09 Septembre 2015", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("Les Echos De Vendredi 23 et Samedi 24 Octobre 2015", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("Le+Parisien+++Journal+De+Paris++Du+Mercredi+29+Juillet+2015", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("Le Soir Edition Bruxelles-Peripherie Namurluxembourg +MAD + Suppl Du Mercredi 23 Septembre 2015", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("Le Soir Edition Bruxelles-Peripherie Namurluxembourg +3 Suppl Du Lundi 28 Septembre 2015", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("Le Soir Edition Bruxelles-Peripherie Namurluxembourg + 1 Suppl Du Lundi 21 Septembre 2015", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("Le Progres (LEst Lyonnais) Du Mardi 25 Aout 2015", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("Le Monde du dimanvhe 09 et lundi 10 aout 2015", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("Le Monde + suppl Du Mercredi 26 Aout 2015", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("Le Mond du Vendredi 21 aout 2015", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("Le Figaro Magazine De Vendredi 23 et Samedi 24 Octobre 2015", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("LaDerniereheuredumardi18aout2015", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("La nouvelle gazette du 05-09-2015 Belgique", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("La nouvelle gazette Belgique Du Jeudi 20 Août 2015", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("La Dernière Heure + télé DH + Supplément du samedi 26 septembre 2015", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("La Dernière Heure + supplément Tourisme du mercredi 16 septembre 2015", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("La Dernière Heure + 2 suppléments du vendredi 11 septembre 2015", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("La DH Bruxelles du mardi 01 septembre 2015", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("La DH + supplément loisirs du lundi 14 septembre 2015", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("La DH  Brababt Wallon du mercredi 19 aout 2015", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("La Dernière Heure + supplément  du jeudi 27 aout 2015", PrintType.Print).zToJson().zTrace();
+DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("La Dernière Heure Namur du mardi 04 aout 2015", PrintType.Print).zToJson().zTrace();
 DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("DirectMatin-20150925", PrintType.Print, expectedDate: Date.Parse("2015-09-25")).zToJson().zTrace();
 DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("Le Journal du Dimanche n°3576 du 26 juillet 2015", PrintType.Print).zToJson().zTrace();
 DownloadAutomate_f.CreateFindPrintManager(version: 5).Find("Les Echos + Echos week-end du vendredi 04 et samedi 05 sepembre 2015", PrintType.Print).zToJson().zTrace();
@@ -4256,3 +4465,79 @@ RunSource.CurrentRunSource.ZipProjectSourceFiles(@"$Root$\Source\Apps\WebData\So
 
 
 Trace.WriteLine("toto");
+
+//*************************************************************************************************************************
+//****                                   $$info.zdate.GetDayInsideDateGap
+//*************************************************************************************************************************
+zdate.GetDayInsideDateGap(10, Date.Parse("2015-10-10"), gapDayBefore: 0, gapDayAfter: 0).zTrace();    // 2015-10-10
+zdate.GetDayInsideDateGap(11, Date.Parse("2015-10-10"), gapDayBefore: 0, gapDayAfter: 0).zTrace();    // value is null
+zdate.GetDayInsideDateGap(9, Date.Parse("2015-10-10"), gapDayBefore: 0, gapDayAfter: 0).zTrace();     // value is null
+
+zdate.GetDayInsideDateGap(10, Date.Parse("2015-10-10"), gapDayBefore: 1, gapDayAfter: 1).zTrace();    // 2015-10-10
+zdate.GetDayInsideDateGap(9, Date.Parse("2015-10-10"), gapDayBefore: 1, gapDayAfter: 1).zTrace();     // 2015-10-09
+zdate.GetDayInsideDateGap(8, Date.Parse("2015-10-10"), gapDayBefore: 1, gapDayAfter: 1).zTrace();     // value is null
+zdate.GetDayInsideDateGap(11, Date.Parse("2015-10-10"), gapDayBefore: 1, gapDayAfter: 1).zTrace();    // 2015-10-11
+zdate.GetDayInsideDateGap(12, Date.Parse("2015-10-10"), gapDayBefore: 1, gapDayAfter: 1).zTrace();    // value is null
+
+zdate.GetDayInsideDateGap(10, Date.Parse("2015-10-10"), gapDayBefore: 2, gapDayAfter: 2).zTrace();    // 2015-10-10
+zdate.GetDayInsideDateGap(9, Date.Parse("2015-10-10"), gapDayBefore: 2, gapDayAfter: 2).zTrace();     // 2015-10-09
+zdate.GetDayInsideDateGap(8, Date.Parse("2015-10-10"), gapDayBefore: 2, gapDayAfter: 2).zTrace();     // 2015-10-08
+zdate.GetDayInsideDateGap(7, Date.Parse("2015-10-10"), gapDayBefore: 2, gapDayAfter: 2).zTrace();     // value is null
+zdate.GetDayInsideDateGap(11, Date.Parse("2015-10-10"), gapDayBefore: 2, gapDayAfter: 2).zTrace();    // 2015-10-11
+zdate.GetDayInsideDateGap(12, Date.Parse("2015-10-10"), gapDayBefore: 2, gapDayAfter: 2).zTrace();    // 2015-10-12
+zdate.GetDayInsideDateGap(13, Date.Parse("2015-10-10"), gapDayBefore: 2, gapDayAfter: 2).zTrace();    // value is null
+
+zdate.GetDayInsideDateGap(1, Date.Parse("2015-10-01"), gapDayBefore: 1, gapDayAfter: 0).zTrace();     // 2015-10-01
+zdate.GetDayInsideDateGap(30, Date.Parse("2015-10-01"), gapDayBefore: 1, gapDayAfter: 0).zTrace();    // 2015-09-30
+zdate.GetDayInsideDateGap(29, Date.Parse("2015-10-01"), gapDayBefore: 1, gapDayAfter: 0).zTrace();    // value is null
+
+zdate.GetDayInsideDateGap(1, Date.Parse("2015-10-01"), gapDayBefore: 2, gapDayAfter: 0).zTrace();     // 2015-10-01
+zdate.GetDayInsideDateGap(30, Date.Parse("2015-10-01"), gapDayBefore: 2, gapDayAfter: 0).zTrace();    // 2015-09-30
+zdate.GetDayInsideDateGap(29, Date.Parse("2015-10-01"), gapDayBefore: 2, gapDayAfter: 0).zTrace();    // 2015-09-29
+zdate.GetDayInsideDateGap(28, Date.Parse("2015-10-01"), gapDayBefore: 2, gapDayAfter: 0).zTrace();    // value is null
+
+zdate.GetDayInsideDateGap(2, Date.Parse("2015-10-02"), gapDayBefore: 2, gapDayAfter: 0).zTrace();     // 2015-10-02
+zdate.GetDayInsideDateGap(1, Date.Parse("2015-10-02"), gapDayBefore: 2, gapDayAfter: 0).zTrace();     // 2015-10-01
+zdate.GetDayInsideDateGap(30, Date.Parse("2015-10-02"), gapDayBefore: 2, gapDayAfter: 0).zTrace();    // 2015-09-30
+zdate.GetDayInsideDateGap(29, Date.Parse("2015-10-02"), gapDayBefore: 2, gapDayAfter: 0).zTrace();    // value is null
+
+zdate.GetDayInsideDateGap(31, Date.Parse("2015-10-31"), gapDayBefore: 0, gapDayAfter: 1).zTrace();    // 2015-10-31
+zdate.GetDayInsideDateGap(1, Date.Parse("2015-10-31"), gapDayBefore: 0, gapDayAfter: 1).zTrace();     // 2015-11-01
+zdate.GetDayInsideDateGap(2, Date.Parse("2015-10-31"), gapDayBefore: 0, gapDayAfter: 1).zTrace();     // value is null
+
+zdate.GetDayInsideDateGap(31, Date.Parse("2015-10-31"), gapDayBefore: 0, gapDayAfter: 2).zTrace();    // 2015-10-31
+zdate.GetDayInsideDateGap(1, Date.Parse("2015-10-31"), gapDayBefore: 0, gapDayAfter: 2).zTrace();     // 2015-11-01
+zdate.GetDayInsideDateGap(2, Date.Parse("2015-10-31"), gapDayBefore: 0, gapDayAfter: 2).zTrace();     // 2015-11-02
+zdate.GetDayInsideDateGap(3, Date.Parse("2015-10-31"), gapDayBefore: 0, gapDayAfter: 2).zTrace();     // value is null
+
+zdate.GetDayInsideDateGap(30, Date.Parse("2015-10-30"), gapDayBefore: 0, gapDayAfter: 2).zTrace();    // 2015-10-30
+zdate.GetDayInsideDateGap(31, Date.Parse("2015-10-30"), gapDayBefore: 0, gapDayAfter: 2).zTrace();    // 2015-10-31
+zdate.GetDayInsideDateGap(1, Date.Parse("2015-10-30"), gapDayBefore: 0, gapDayAfter: 2).zTrace();     // 2015-11-01
+zdate.GetDayInsideDateGap(2, Date.Parse("2015-10-30"), gapDayBefore: 0, gapDayAfter: 2).zTrace();     // value is null
+
+//*************************************************************************************************************************
+//****                                   $$info.test.extreme-protect.net
+//*************************************************************************************************************************
+
+HttpManager.CurrentHttpManager.ExportResult = false;
+HttpManager.CurrentHttpManager.ExportResult = true;
+HttpManager.CurrentHttpManager.ExportDirectory.zTrace();
+HttpManager.CurrentHttpManager.ExportResult.zTrace();
+HttpRun.Load(new HttpRequest { Url = "http://extreme-protect.net/api.php", Method = HttpRequestMethod.Post, Content = "id=Ljhl7jL" });
+// result : {"titre":"jrn031215-ED.rar","auteur":"M.sword","liens":[{"hebergeur":"1fichier","lien":"https:\/\/1fichier.com\/?nuu2e5nwhd","taille":"106.28 Mo"}]}
+Uri uri = new Uri("http://extreme-protect.net/Ljhl7jL");
+uri.Segments[uri.Segments.Length - 1].zTrace();
+Uri uri = new Uri("http://www.extreme-down.net/ebooks/page/2/");
+uri.Segments[uri.Segments.Length - 1].zTrace();
+
+
+new ExtremeProtect().UnprotectLink("http://extreme-protect.net/Ljhl7jL").zTraceJson();
+
+HttpRun.Load("http://www.ex-down.com/29238-le-labyrinthe-la-terre-brglge-truefrench-bdrip.html");
+
+zmongo.FileReader<BsonDocument>(@"c:\pib\drive\google\dev_data\exe\runsource\test_unit\Print\PrintTitle\05\PrintTitle_Vosbooks_out_bson_old_02.txt")
+  .Select(doc => { doc.zSet("PrintTitleInfo.name", doc.zGet("PrintTitleInfo.name").zAsString().Replace('\'', '_')); return doc; })
+  .zSave(@"c:\pib\drive\google\dev_data\exe\runsource\test_unit\Print\PrintTitle\05\PrintTitle_Vosbooks_out_bson_old_03.txt");
+zmongo.FileReader<BsonDocument>(@"c:\pib\drive\google\dev_data\exe\runsource\test_unit\Print\PrintTitle\05\PrintTitle_Vosbooks_out_bson_old_03.txt")
+  .Select(doc => { doc.zSet("PrintTitleInfo.title", doc.zGet("PrintTitleInfo.title").zAsString().Replace("&", " et ")); return doc; })
+  .zSave(@"c:\pib\drive\google\dev_data\exe\runsource\test_unit\Print\PrintTitle\05\PrintTitle_Vosbooks_out_bson_old_04.txt");

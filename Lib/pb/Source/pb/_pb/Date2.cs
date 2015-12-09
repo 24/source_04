@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Text;
 using System.Text.RegularExpressions;
 using pb.Data;
 using pb.Reflection;
@@ -622,6 +621,8 @@ namespace pb
             {
                 foundMonth = true;
                 month = (int)dateValues.month;
+                if (month < 1 || month > 12)
+                    return false;
             }
 
 
@@ -773,6 +774,7 @@ namespace pb
             _month.Add("jan", 1);
             _month.Add("février", 2);
             _month.Add("fevrier", 2);
+            _month.Add("f vrier", 2);
             _month.Add("fév", 2);
             _month.Add("fev", 2);
             _month.Add("mars", 3);
@@ -796,6 +798,7 @@ namespace pb
             _month.Add("septembre", 9);
             _month.Add("sptembre", 9);
             _month.Add("sepembre", 9);
+            _month.Add("setembre", 9);
             _month.Add("sept", 9);
             _month.Add("octobre", 10);
             _month.Add("oct", 10);
@@ -803,6 +806,7 @@ namespace pb
             _month.Add("nov", 11);
             _month.Add("décembre", 12);
             _month.Add("decembre", 12);
+            _month.Add("d cembre", 12);
             _month.Add("déc", 12);
             _month.Add("dec", 12);
             _month.Add("january", 1);
@@ -977,6 +981,60 @@ namespace pb
                     return 4;
             }
             throw new PBException("unknow DateType {0}", dateType);
+        }
+
+        //public static bool IsDayInsideDateGap(int day, Date date, int gapDayBefore = 0, int gapDayAfter = 0)
+        public static Date? GetDayInsideDateGap(int day, Date expectedDate, int gapDayBefore = 0, int gapDayAfter = 0)
+        {
+            int expectedDay = expectedDate.Day;
+            if (day == expectedDay)
+                //return true;
+                return expectedDate;
+
+            if (gapDayBefore > 0)
+            {
+                Date minDate = expectedDate.AddDays(-gapDayBefore);
+                int minDay = minDate.Day;
+                if (minDay < expectedDay)
+                {
+                    if (day >= minDay && day < expectedDay)
+                        //return true;
+                        return new Date(expectedDate.Year, expectedDate.Month, day);
+                }
+                else // previous month
+                {
+                    if (day >= 1 && day < expectedDay)
+                        //return true;
+                        return new Date(expectedDate.Year, expectedDate.Month, day);
+                    if (day >= minDay && day <= Date.DaysInMonth(minDate.Year, minDate.Month))
+                        //return true;
+                        return new Date(minDate.Year, minDate.Month, day);
+                }
+            }
+
+            if (gapDayAfter > 0)
+            {
+                Date maxDate = expectedDate.AddDays(gapDayAfter);
+                int maxDay = maxDate.Day;
+                if (maxDay > expectedDay)
+                {
+                    if (day > expectedDay && day <= maxDay)
+                        //return true;
+                        return new Date(expectedDate.Year, expectedDate.Month, day);
+                }
+                else // next month
+                {
+                    if (day > expectedDay && day <= Date.DaysInMonth(expectedDate.Year, expectedDate.Month))
+                        //return true;
+                        return new Date(expectedDate.Year, expectedDate.Month, day);
+                    if (day >= 1 && day <= maxDay)
+                        //return true;
+                        return new Date(maxDate.Year, maxDate.Month, day);
+                }
+            }
+
+            //return false;
+            return null;
         }
     }
 }

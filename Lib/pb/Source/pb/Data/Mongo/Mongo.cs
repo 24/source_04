@@ -90,7 +90,7 @@ namespace pb.Data.Mongo
             return BsonSerializer.Deserialize<T>(zfile.ReadAllText(file, encoding));
         }
 
-        public static IEnumerable<T> StringBsonReader<T>(string text)
+        public static IEnumerable<T> StringReader<T>(string text)
         {
             using (StringReader stringReader = new StringReader(text))
             {
@@ -102,7 +102,7 @@ namespace pb.Data.Mongo
             }
         }
 
-        public static IEnumerable<T> FileBsonReader<T>(string file, Encoding encoding = null, bool deleteFile = false)
+        public static IEnumerable<T> FileReader<T>(string file, Encoding encoding = null, bool deleteFile = false)
         {
             FileStream fileStream = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.Read);
             try
@@ -124,7 +124,7 @@ namespace pb.Data.Mongo
             }
         }
 
-        public static IEnumerable<T> BsonReader<T>(TextReader textReader)
+        public static IEnumerable<T> Reader<T>(TextReader textReader)
         {
             BsonReader reader = MongoDB.Bson.IO.BsonReader.Create(textReader);
             while (reader.ReadBsonType() != BsonType.EndOfDocument)

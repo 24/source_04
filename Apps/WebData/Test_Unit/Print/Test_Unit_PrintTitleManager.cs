@@ -10,6 +10,7 @@ using pb.Data.Mongo;
 using pb.Data.Xml;
 using pb.IO;
 using Print;
+using MongoDB.Bson.Serialization;
 
 namespace Test.Test_Unit.Print
 {
@@ -78,15 +79,20 @@ namespace Test.Test_Unit.Print
               transformDocument: doc => new MongoDB.Bson.BsonDocument { { "Title", doc.zGet("download.Title") }, { "PrintType", doc.zGet("download.PrintType") } });
         }
 
-        public static void Test_GetPrintTitleInfo_01(PrintTitleManager printTitleManager, string file)
+        public static void Test_GetPrintTitleInfo_01(PrintTitleManager printTitleManager, string file, int? version = null)
         {
             Trace.WriteLine("Test_PrintMagazineGetTitle_01 \"{0}\"", file);
             file = GetFile(file);
-            string bsonFile = zpath.PathSetFileNameWithoutExtension(file, zPath.GetFileNameWithoutExtension(file) + "_out_bson");
+            string suffix = "_out_bson";
+            if (version != null)
+                suffix = "_v" + version.ToString() + suffix;
+            string bsonFile = zpath.PathSetFileNameWithoutExtension(file, zPath.GetFileNameWithoutExtension(file) + suffix);
             Trace.WriteLine("  output to \"{0}\"", bsonFile);
-            //zmongo.BsonReader<TestPrint>(file).zFindPrint(downloadAutomate).zSave(bsonFile);
-            zmongo.FileBsonReader<TestPrintTitle>(file).Select(printTitle => new { Title = printTitle.Title, PrintType = printTitle.PrintType, PrintTitleInfo = printTitleManager.GetPrintTitleInfo(printTitle.Title) }).zSave(bsonFile);
-            //PrintTitleInfo titleInfo = printTitleManager.GetPrintTitleInfo(title);
+            //zmongo.FileReader<TestPrintTitle>(file).Select(printTitle => new { Title = printTitle.Title, PrintType = printTitle.PrintType, PrintTitleInfo = printTitleManager.GetPrintTitleInfo(printTitle.Title) }).zSave(bsonFile);
+            zmongo.FileReader<TestPrintTitle>(file)
+                .Select(printTitle => new { Title = printTitle.Title, PrintType = printTitle.PrintType, PrintTitleInfo = printTitleManager.GetPrintTitleInfo(printTitle.Title) })
+                .Select(printTitle => { BsonDocument document = printTitle.ToBsonDocument(); document.zSet("PrintTitleInfo.File", ".06_unknow_print\\" + PrintTitleManager.GetFile(printTitle.PrintTitleInfo)); return document; })
+                .zSave(bsonFile);
         }
 
         public static void Test_PrintMagazineGetTitle_01_old(PrintTitleManager printTitleManager, string file)
@@ -107,7 +113,7 @@ namespace Test.Test_Unit.Print
                 JsonWriterSettings settings = new JsonWriterSettings();
                 settings.Indent = true;
                 bsonWriter = JsonWriter.Create(sw, settings);
-                foreach (BsonDocument document in zmongo.FileBsonReader<BsonDocument>(file))
+                foreach (BsonDocument document in zmongo.FileReader<BsonDocument>(file))
                 {
                     string category = document["category"].AsString;
                     string title = document["title"].AsString;
@@ -121,21 +127,21 @@ namespace Test.Test_Unit.Print
                     bsonWriter.WriteStartDocument();
                     bsonWriter.zWrite("category", category);
                     bsonWriter.zWrite("originalTitle", title);
-                    bsonWriter.zWrite("file", titleInfo.file);
-                    bsonWriter.zWrite("titleStructure", titleInfo.titleStructure);
-                    bsonWriter.zWrite("title", titleInfo.title);
-                    bsonWriter.zWrite("formatedTitle", titleInfo.formatedTitle);
-                    bsonWriter.zWrite("name", titleInfo.name);
-                    if (prints.ContainsKey(titleInfo.name))
-                        bsonWriter.zWrite("print", titleInfo.name);
+                    //bsonWriter.zWrite("file", titleInfo.File);
+                    bsonWriter.zWrite("titleStructure", titleInfo.TitleStructure);
+                    bsonWriter.zWrite("title", titleInfo.Title);
+                    bsonWriter.zWrite("formatedTitle", titleInfo.FormatedTitle);
+                    bsonWriter.zWrite("name", titleInfo.Name);
+                    if (prints.ContainsKey(titleInfo.Name))
+                        bsonWriter.zWrite("print", titleInfo.Name);
                     else
                         bsonWriter.zWrite("print", (string)null);
-                    bsonWriter.zWrite("remainText", titleInfo.remainText);
-                    bsonWriter.zWrite("special", titleInfo.special);
-                    bsonWriter.zWrite("specialText", titleInfo.specialText);
-                    bsonWriter.zWrite("number", titleInfo.number);
-                    bsonWriter.zWrite("date", titleInfo.date);
-                    bsonWriter.zWrite("dateType", titleInfo.dateType.ToString());
+                    bsonWriter.zWrite("remainText", titleInfo.RemainText);
+                    bsonWriter.zWrite("special", titleInfo.Special);
+                    bsonWriter.zWrite("specialText", titleInfo.SpecialText);
+                    bsonWriter.zWrite("number", titleInfo.Number);
+                    bsonWriter.zWrite("date", titleInfo.Date);
+                    bsonWriter.zWrite("dateType", titleInfo.DateType.ToString());
                     bsonWriter.WriteEndDocument();
                     sw.WriteLine();
                     bsonWriter.WriteName("fake");    // ??? pour éviter l'erreur : WriteString can only be called when State is Value or Initial, not when State is Name (System.InvalidOperationException)
@@ -156,8 +162,8 @@ namespace Test.Test_Unit.Print
         {
             file = GetFile(file);
             string splitFile = zpath.PathSetFileNameWithoutExtension(file, zPath.GetFileNameWithoutExtension(file) + "_split_bson");
-            zmongo.FileBsonReader<TestPrintTitleSplit>(file).zSplitTitle().zSave(splitFile);
-            zmongo.FileBsonReader<TestPrintTitleSplit>(splitFile).zView();
+            zmongo.FileReader<TestPrintTitleSplit>(file).zSplitTitle().zSave(splitFile);
+            zmongo.FileReader<TestPrintTitleSplit>(splitFile).zView();
         }
 
         public static IEnumerable<TestPrintTitleSplit> zSplitTitle(this IEnumerable<TestPrintTitleSplit> prints)

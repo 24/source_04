@@ -96,6 +96,7 @@ namespace pb.Reflection
                 }
                 //if (typeValueNode.TypeValueAccess.IsValueType)
                 //    yield return typeValueNode;
+                // $$$$$$$$$$$$ bug $$$$$$$$$$$$ il peut y avoir des doublons
                 _typeValueNodes.Add(treeValueInfo.Value.TreeName, typeValueNode);
             }
         }

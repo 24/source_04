@@ -4,6 +4,7 @@
   <Log                                         value = "log.txt" />  <!-- option = "None" -->
 <!--<TraceDir                                      value = "Log\Trace" />-->
 <!--<RunsourceTitle                              value = "" />-->  <!-- default = "Run source" -->
+<!--<RunsourceProductName                        value = "" />-->  <!-- default = "runsource.runsource" defined in AssemblyInfo.cs -->
   <RunsourceDllFilename                        value = "runsource.dll" />
   <RunsourceClassName                          value = "pb.Compiler.RunSource" />
   <TraceClassName                              value = "pb.TTrace" />

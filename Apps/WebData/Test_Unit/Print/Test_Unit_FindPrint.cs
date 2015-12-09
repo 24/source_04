@@ -66,10 +66,10 @@ namespace Test.Test_Unit.Print
             //if (downloadAutomate.FindPrintManager != null)
             //    Trace.WriteLine("  FindPrintManager.PrintRegexList  : {0}", downloadAutomate.FindPrintManager.PrintRegexList.Count);
             if (downloadAutomate.FindPrintManager != null)
-                Trace.WriteLine("  FindPrintManager2.PrintRegexList  : {0}", downloadAutomate.FindPrintManager.FindPrint.Count);
+                Trace.WriteLine("  FindPrintManager2.PrintRegexList  : {0}", downloadAutomate.FindPrintManager.FindPrintList.Count);
             file = zPath.Combine(GetDirectory(), file);
             string bsonFile = zpath.PathSetFileNameWithoutExtension(file, zPath.GetFileNameWithoutExtension(file) + "_out_bson");
-            zmongo.FileBsonReader<TestPrint>(file).zFindPrint(downloadAutomate).zSave(bsonFile);
+            zmongo.FileReader<TestPrint>(file).zFindPrint(downloadAutomate).zSave(bsonFile);
             WriteAllFindPrint(bsonFile);
         }
 
@@ -83,12 +83,12 @@ namespace Test.Test_Unit.Print
 
         public static void Test_FindPrintFromMongo(DownloadAutomateManager downloadAutomate, string printName, string query, int limit = 0, string sort = null)
         {
-            Trace.WriteLine("regex {0} : \"{1}\"", printName, downloadAutomate.FindPrintManager.FindPrint[printName].Pattern);
+            Trace.WriteLine("regex {0} : \"{1}\"", printName, downloadAutomate.FindPrintManager.FindPrintList[printName].Pattern);
             string file = zPath.Combine(GetDirectory(), printName + ".txt");
             string bsonFile = zpath.PathSetFileNameWithoutExtension(file, zPath.GetFileNameWithoutExtension(file) + "_out_bson");
             FindPrintFromMongo(downloadAutomate, query, limit, sort).zFindPrint(downloadAutomate).zSave(bsonFile);
             WriteAllFindPrint(bsonFile);
-            zmongo.FileBsonReader<TestFindPrint>(bsonFile).zView();
+            zmongo.FileReader<TestFindPrint>(bsonFile).zView();
         }
 
         public static void Test_Compare(string file1, string file2, string resultFile, IEnumerable<string> elementsToCompare = null, BsonDocumentComparatorOptions options = BsonDocumentComparatorOptions.ReturnNotEqualDocuments)
@@ -104,7 +104,7 @@ namespace Test.Test_Unit.Print
             BsonDocumentComparator.CompareBsonDocumentFilesWithKey(file1, file2, "post_title", "post_title", joinType: pb.Linq.JoinType.InnerJoin, elementsToCompare: elementsToCompare, comparatorOptions: options)
                 // .zSaveToJsonFile
                 .Select(result => result.GetResultDocument()).zSave(resultFile);
-            RunSource.CurrentRunSource.SetResult(zmongo.FileBsonReader<BsonDocument>(resultFile)
+            RunSource.CurrentRunSource.SetResult(zmongo.FileReader<BsonDocument>(resultFile)
                 //.Where(doc => !(doc["result"]["findPrint_file"]["value1"] is BsonNull))
                 .Select(doc => new BsonDocument { { "result", doc["result"] } }).zToDataTable2_old());
         }
@@ -123,11 +123,11 @@ namespace Test.Test_Unit.Print
             //Trace.WriteLine("\"{0}\" count {1}", newFile1, zmongo.BsonReader<TestFindPrint>(newFile1).Count());
             //Trace.WriteLine();
 
-            zmongo.FileBsonReader<TestFindPrint>(file).zJoin(zmongo.FileBsonReader<TestFindPrint>(correctionFile), tfp => tfp.post_title, tfp => tfp.post_title, (tfp1, tfp2) => tfp1,
-                JoinType.LeftOuterJoinWithoutInner).Union(zmongo.FileBsonReader<TestFindPrint>(correctionFile)).zSave(correctedFile);
-            Trace.WriteLine("\"{0}\" count {1}", file, zmongo.FileBsonReader<TestFindPrint>(file).Count());
-            Trace.WriteLine("\"{0}\" count {1}", correctionFile, zmongo.FileBsonReader<TestFindPrint>(correctionFile).Count());
-            Trace.WriteLine("\"{0}\" count {1}", correctedFile, zmongo.FileBsonReader<TestFindPrint>(correctedFile).Count());
+            zmongo.FileReader<TestFindPrint>(file).zJoin(zmongo.FileReader<TestFindPrint>(correctionFile), tfp => tfp.post_title, tfp => tfp.post_title, (tfp1, tfp2) => tfp1,
+                JoinType.LeftOuterJoinWithoutInner).Union(zmongo.FileReader<TestFindPrint>(correctionFile)).zSave(correctedFile);
+            Trace.WriteLine("\"{0}\" count {1}", file, zmongo.FileReader<TestFindPrint>(file).Count());
+            Trace.WriteLine("\"{0}\" count {1}", correctionFile, zmongo.FileReader<TestFindPrint>(correctionFile).Count());
+            Trace.WriteLine("\"{0}\" count {1}", correctedFile, zmongo.FileReader<TestFindPrint>(correctedFile).Count());
         }
 
         public static void Test_ViewDateCapture_01(string bsonFile)
@@ -147,7 +147,7 @@ namespace Test.Test_Unit.Print
             //                findPrint_dateCapture = tfp.findPrint_dateCapture
             //            };
             var query = from tfp2 in
-                        from tfp in zmongo.FileBsonReader<TestFindPrint>(bsonFile)
+                        from tfp in zmongo.FileReader<TestFindPrint>(bsonFile)
                         where tfp.findPrint_date != null
                         orderby tfp.findPrint_dateCapture != null ? tfp.findPrint_dateCapture.capture : null
                         select new
@@ -176,7 +176,7 @@ namespace Test.Test_Unit.Print
         public static void Test_ViewDateCapture_02(string bsonFile)
         {
             bsonFile = zPath.Combine(GetDirectory(), bsonFile);
-            var query = from tfp in zmongo.FileBsonReader<TestFindPrint>(bsonFile)
+            var query = from tfp in zmongo.FileReader<TestFindPrint>(bsonFile)
                             where tfp.findPrint_date == null
                             select new
                             {
@@ -238,7 +238,7 @@ namespace Test.Test_Unit.Print
             //    findPrint = downloadAutomate.FindPrint(print.title, print.category);
             //else if (downloadAutomate.FindPrintManager_new != null)
             //    findPrint = downloadAutomate.FindPrint_new(print.title, print.postType);
-            FindPrint findPrint = downloadAutomate.FindPrint(print.title, print.postType);
+            FindPrintInfo findPrint = downloadAutomate.FindPrint(print.title, print.postType);
             TestFindPrint testFindPrint = new TestFindPrint();
             testFindPrint.post_title = print.title;
             testFindPrint.post_category = print.category;
@@ -251,21 +251,21 @@ namespace Test.Test_Unit.Print
             testFindPrint.findPrint_title = findPrint.title;
             testFindPrint.print_name = findPrint.print != null ? findPrint.print.Name : null;
             testFindPrint.print_title = findPrint.print != null ? findPrint.print.Title : null;
-            testFindPrint.titleInfo_formatedTitle = findPrint.titleInfo != null ? findPrint.titleInfo.formatedTitle : null;
+            testFindPrint.titleInfo_formatedTitle = findPrint.titleInfo != null ? findPrint.titleInfo.FormatedTitle : null;
 
             testFindPrint.findPrint_date = findPrint.date;
             testFindPrint.findPrint_dateType = findPrint.dateType;
             if (findPrint.titleInfo != null)
             {
-                testFindPrint.findPrint_dateCapture = RegexCaptureValues.CreateRegexCaptureValues(findPrint.titleInfo.dateMatch, allValues: true);
-                testFindPrint.findPrint_dateOtherCaptureList = RegexCaptureValues.CreateRegexCaptureValuesList(findPrint.titleInfo.dateOtherMatchList, allValues: true);
+                testFindPrint.findPrint_dateCapture = RegexCaptureValues.CreateRegexCaptureValues(findPrint.titleInfo.DateMatch, allValues: true);
+                testFindPrint.findPrint_dateOtherCaptureList = RegexCaptureValues.CreateRegexCaptureValuesList(findPrint.titleInfo.DateOtherMatchList, allValues: true);
             }
             testFindPrint.findPrint_number = findPrint.number;
             if (findPrint.titleInfo != null)
-                testFindPrint.findPrint_numberCapture = RegexCaptureValues.CreateRegexCaptureValues(findPrint.titleInfo.numberMatch, allValues: true);
+                testFindPrint.findPrint_numberCapture = RegexCaptureValues.CreateRegexCaptureValues(findPrint.titleInfo.NumberMatch, allValues: true);
             testFindPrint.findPrint_special = findPrint.special;
             if (findPrint.titleInfo != null)
-                testFindPrint.findPrint_specialCapture = RegexCaptureValues.CreateRegexCaptureValues(findPrint.titleInfo.specialMatch, allValues: true);
+                testFindPrint.findPrint_specialCapture = RegexCaptureValues.CreateRegexCaptureValues(findPrint.titleInfo.SpecialMatch, allValues: true);
             testFindPrint.findPrint_specialText = findPrint.specialText;
 
             testFindPrint.findPrint_remainText = findPrint.remainText;
@@ -324,13 +324,13 @@ namespace Test.Test_Unit.Print
             string filename = zPath.GetFileNameWithoutExtension(bsonFile);
             if (filename.EndsWith("_bson"))
                 filename = filename.Substring(0, filename.Length - 5);
-            WriteFindPrint(zpath.PathSetFileNameWithoutExtension(bsonFile, filename), zmongo.FileBsonReader<TestFindPrint>(bsonFile), old: true);
-            WriteFindPrint(zpath.PathSetFileNameWithoutExtension(bsonFile, filename + "_new"), zmongo.FileBsonReader<TestFindPrint>(bsonFile));
-            WriteFindPrint(zpath.PathSetFileNameWithoutExtension(bsonFile, filename + "_hors_serie"), from tfp in zmongo.FileBsonReader<TestFindPrint>(bsonFile) where __rgSpecial.IsMatch(tfp.post_title) select tfp);
-            WriteFindPrint(zpath.PathSetFileNameWithoutExtension(bsonFile, filename + "_remain_text"), from tfp in zmongo.FileBsonReader<TestFindPrint>(bsonFile) where !string.IsNullOrEmpty(tfp.findPrint_remainText) select tfp);
-            WriteFindPrint(zpath.PathSetFileNameWithoutExtension(bsonFile, filename + "_warning"), from tfp in zmongo.FileBsonReader<TestFindPrint>(bsonFile) where tfp.warnings.Length > 0 select tfp);
-            WriteFindPrint(zpath.PathSetFileNameWithoutExtension(bsonFile, filename + "_no_title"), from tfp in zmongo.FileBsonReader<TestFindPrint>(bsonFile) where tfp.findPrint_file != null && tfp.findPrint_title == null select tfp);
-            WriteFindPrint_NotSelected(zpath.PathSetFileNameWithoutExtension(bsonFile, filename + "_not_selected"), from tfp in zmongo.FileBsonReader<TestFindPrint>(bsonFile) where tfp.findPrint_file == null select tfp);
+            WriteFindPrint(zpath.PathSetFileNameWithoutExtension(bsonFile, filename), zmongo.FileReader<TestFindPrint>(bsonFile), old: true);
+            WriteFindPrint(zpath.PathSetFileNameWithoutExtension(bsonFile, filename + "_new"), zmongo.FileReader<TestFindPrint>(bsonFile));
+            WriteFindPrint(zpath.PathSetFileNameWithoutExtension(bsonFile, filename + "_hors_serie"), from tfp in zmongo.FileReader<TestFindPrint>(bsonFile) where __rgSpecial.IsMatch(tfp.post_title) select tfp);
+            WriteFindPrint(zpath.PathSetFileNameWithoutExtension(bsonFile, filename + "_remain_text"), from tfp in zmongo.FileReader<TestFindPrint>(bsonFile) where !string.IsNullOrEmpty(tfp.findPrint_remainText) select tfp);
+            WriteFindPrint(zpath.PathSetFileNameWithoutExtension(bsonFile, filename + "_warning"), from tfp in zmongo.FileReader<TestFindPrint>(bsonFile) where tfp.warnings.Length > 0 select tfp);
+            WriteFindPrint(zpath.PathSetFileNameWithoutExtension(bsonFile, filename + "_no_title"), from tfp in zmongo.FileReader<TestFindPrint>(bsonFile) where tfp.findPrint_file != null && tfp.findPrint_title == null select tfp);
+            WriteFindPrint_NotSelected(zpath.PathSetFileNameWithoutExtension(bsonFile, filename + "_not_selected"), from tfp in zmongo.FileReader<TestFindPrint>(bsonFile) where tfp.findPrint_file == null select tfp);
         }
 
         private static void WriteFindPrint(string file, IEnumerable<TestFindPrint> testFindPrintList, bool old = false)

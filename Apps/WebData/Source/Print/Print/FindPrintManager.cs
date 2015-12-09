@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Xml.Linq;
+﻿using System.Collections.Generic;
 using pb;
 using pb.IO;
 using pb.Text;
@@ -24,34 +21,18 @@ namespace Print
         UnknowEBook
     }
 
-    public class FindPrint
-    {
-        public bool found;
-        // source
-        public string sourceTitle;
-        public PrintType printType;
-        // info
-        public string name;
-        public string title;
-        public string directory;
-        public Date? date;
-        public DateType dateType = DateType.Unknow;
-        public int? number;
-        public bool special = false;
-        public string specialText;
-        public string label;
-        public string file;
-        public string remainText;
-        public Print print;
-        public FindPrintType findPrintType;
-        public PrintTitleInfo titleInfo;
-    }
-
     public class FindPrintManager
     {
         private static bool __traceWarning = false;
+        private int _version = 1;
         private PrintTitleManager _printTitleManager = null;
-        private RegexValuesList _findPrint = null;
+
+        private FindDayManager _findDayManager = null;
+        private bool _useFindDay = false;
+        private int _gapDayBefore = 0;
+        private int _gapDayAfter = 0;
+
+        private RegexValuesList _findPrintList = null;
         private PrintManager _printManager = null;
         private Dictionary<PrintType, string> _postTypeDirectories = null;
         private string _defaultPrintDirectory = null;              // .05_new_print
@@ -70,115 +51,59 @@ namespace Print
         //}
 
         public static bool TraceWarning { get { return __traceWarning; } set { __traceWarning = value; } }
+        public int Version { get { return _version; } set { _version = value; } }
         public PrintTitleManager PrintTitleManager { get { return _printTitleManager; } set { _printTitleManager = value; } }
-        public RegexValuesList FindPrint { get { return _findPrint; } set { _findPrint = value; } }
+        public FindDayManager FindDayManager { get { return _findDayManager; } set { _findDayManager = value; } }
+        public bool UseFindDay { get { return _useFindDay; } set { _useFindDay = value; } }
+        public int GapDayBefore { get { return _gapDayBefore; } set { _gapDayBefore = value; } }
+        public int GapDayAfter { get { return _gapDayAfter; } set { _gapDayAfter = value; } }
+        public RegexValuesList FindPrintList { get { return _findPrintList; } set { _findPrintList = value; } }
         public PrintManager PrintManager { get { return _printManager; } set { _printManager = value; } }
         public Dictionary<PrintType, string> PostTypeDirectories { get { return _postTypeDirectories; } set { _postTypeDirectories = value; } }
         public string DefaultPrintDirectory { get { return _defaultPrintDirectory; } set { _defaultPrintDirectory = value; } }
         public string UnknowPrintDirectory { get { return _unknowPrintDirectory; } set { _unknowPrintDirectory = value; } }
 
-        // bool isPrint
-        public FindPrint Find(string title, PrintType printType = PrintType.Unknow, bool forceSelect = false, Date? expectedDate = null)
+        public FindPrintInfo Find(string title, PrintType printType = PrintType.Unknow, bool forceSelect = false, Date? expectedDate = null)
+        {
+            if (_version == 1)
+                return _Find(title, printType, forceSelect, expectedDate);
+            else
+                return FindPrint.Find(this, title, printType, forceSelect, expectedDate);
+        }
+
+        private FindPrintInfo _Find(string title, PrintType printType = PrintType.Unknow, bool forceSelect = false, Date? expectedDate = null)
         {
             PrintTitleInfo titleInfo = _printTitleManager.GetPrintTitleInfo(title, expectedDate: expectedDate);
 
-            FindPrint findPrint = new FindPrint { found = false };
+            FindPrintInfo findPrint = new FindPrintInfo { found = false };
             findPrint.sourceTitle = title;
             findPrint.printType = printType;
-            findPrint.date = titleInfo.date;
-            findPrint.dateType = titleInfo.dateType;
-            findPrint.number = titleInfo.number;
-            findPrint.special = titleInfo.special;
-            findPrint.specialText = titleInfo.specialText;
-            findPrint.remainText = titleInfo.remainText;
+            findPrint.date = titleInfo.Date;
+            findPrint.dateType = titleInfo.DateType;
+            findPrint.number = titleInfo.Number;
+            findPrint.special = titleInfo.Special;
+            findPrint.specialText = titleInfo.SpecialText;
+            findPrint.remainText = titleInfo.RemainText;
             findPrint.titleInfo = titleInfo;
-
-            //FindText_old findText = _printRegexList.Find_old(titleInfo.formatedTitle);
-
 
             FindText findText = null;
 
-            if (titleInfo.formatedTitle != "")
-                findText = _findPrint.Find(titleInfo.formatedTitle);
-            else if (titleInfo.date != null && titleInfo.remainText != "")
-            {
+            if (titleInfo.FormatedTitle != "")
+                findText = _findPrintList.Find(titleInfo.FormatedTitle);
+            else if (titleInfo.Date != null && titleInfo.RemainText != "")
                 // pour fichier du monde 20150829_QUO.pdf formatedTitle=""
-                findText = _findPrint.Find(titleInfo.remainText);
-            }
+                findText = _findPrintList.Find(titleInfo.RemainText);
 
-            if (findText != null && findText.found)
-            {
-                findPrint.found = true;
-                //RegexValues regexValues = findText.regexValues;
-                MatchValues matchValues = findText.matchValues;
-                findPrint.name = matchValues.Name;
+            GetPrintInfo(findPrint, findText);
+            //if (findText != null && findText.found)
+            //{
+                //findPrint.found = true;
+                //MatchValues matchValues = findText.matchValues;
+                //findPrint.name = matchValues.Name;
 
-                Print print = _printManager[findPrint.name];
+                //Print print = _printManager[findPrint.name];
 
-                if (print == null)
-                {
-                    findPrint.findPrintType = FindPrintType.PrintType1;
-                    if (matchValues.Attributes.ContainsKey("title"))
-                        findPrint.title = matchValues.Attributes["title"];
-                    if (matchValues.Attributes.ContainsKey("directory"))
-                        findPrint.directory = matchValues.Attributes["directory"];
-                    string directory;
-                    if (findPrint.directory != null)
-                        directory = findPrint.directory;
-                    else
-                        directory = _defaultPrintDirectory;
-                    //findPrint.file = GetFile(findPrint, directory);
-                    print = new Print(findPrint.name, findPrint.title, GetDirectory(findPrint, directory));
-                }
-                else
-                    findPrint.findPrintType = FindPrintType.PrintType2;
-
-                //if (print != null)
-                //{
-                    //findPrint.findPrintType = FindPrintType.PrintType2;
-                    findPrint.print = print;
-
-                    PrintIssue printIssue = print.NewPrintIssue();
-
-                    if (findPrint.date != null)
-                    {
-                        //PrintIssue printIssue = print.NewPrintIssue((Date)findPrint.date);
-                        printIssue.Date = findPrint.date;
-                        printIssue.DateType = findPrint.dateType;
-                        printIssue.Special = findPrint.special;
-                        printIssue.SpecialText = findPrint.specialText;
-
-                        if (findPrint.number != null)
-                        {
-                            if (printIssue.CanCalculatePrintNumber())
-                            {
-                                int calculatedPrintNumber = printIssue.Print.GetPrintNumber((Date)printIssue.Date);
-                                if (calculatedPrintNumber != (int)findPrint.number)
-                                {
-                                    if (__traceWarning)
-                                        Trace.WriteLine("warning number in title {0} is different than calculated number {1}", (int)findPrint.number, calculatedPrintNumber);
-                                }
-                            }
-                            // utilise de préférence le no du titre plutot que celui calculé
-                            // sauf pour le monde ex : "Le Monde week-end + Magazine + 3 suppléments du samedi 30 aout 2014" le 3 n'est pas le bon numéro
-                            printIssue.PrintNumber = (int)findPrint.number;
-                        }
-                        //findPrint.file = zPath.Combine(print.Directory, zPath.GetFileNameWithoutExtension(printIssue.GetFilename()));
-                    }
-                    else if (findPrint.number != null)
-                    {
-                        //PrintIssue printIssue = print.NewPrintIssue((int)findPrint.number);
-                        printIssue.PrintNumber = (int)findPrint.number;
-                        printIssue.Special = findPrint.special;
-                        //findPrint.file = zPath.Combine(print.Directory, zPath.GetFileNameWithoutExtension(printIssue.GetFilename()));
-                    }
-
-                    printIssue.TrySetValues(findText.matchValues.GetAllValues());
-                    findPrint.label = printIssue.Label;
-
-                    findPrint.file = zPath.Combine(print.Directory, zPath.GetFileNameWithoutExtension(printIssue.GetFilename()));
-                //}
-                //else
+                //if (print == null)
                 //{
                 //    findPrint.findPrintType = FindPrintType.PrintType1;
                 //    if (matchValues.Attributes.ContainsKey("title"))
@@ -190,27 +115,150 @@ namespace Print
                 //        directory = findPrint.directory;
                 //    else
                 //        directory = _defaultPrintDirectory;
-                //    findPrint.file = GetFile(findPrint, directory);
+                //    print = new Print(findPrint.name, findPrint.title, GetDirectory(findPrint, directory));
                 //}
-            }
-            else if (forceSelect)
-            {
-                findPrint.found = true;
-                findPrint.findPrintType = FindPrintType.UnknowPrint;
-                findPrint.name = titleInfo.name;
-                findPrint.title = titleInfo.formatedTitle;
-                string directory = null;
-                if (printType == PrintType.Print)
-                    directory = _unknowPrintDirectory;
+                //else
+                //    findPrint.findPrintType = FindPrintType.PrintType2;
 
-                findPrint.file = GetFile(findPrint, directory);
+                //findPrint.print = print;
+
+                //PrintIssue printIssue = print.NewPrintIssue();
+
+                //if (findPrint.date != null)
+                //{
+                //    //PrintIssue printIssue = print.NewPrintIssue((Date)findPrint.date);
+                //    printIssue.Date = findPrint.date;
+                //    printIssue.DateType = findPrint.dateType;
+                //    printIssue.Special = findPrint.special;
+                //    printIssue.SpecialText = findPrint.specialText;
+
+                //    if (findPrint.number != null)
+                //    {
+                //        if (printIssue.CanCalculatePrintNumber())
+                //        {
+                //            int calculatedPrintNumber = printIssue.Print.GetPrintNumber((Date)printIssue.Date);
+                //            if (calculatedPrintNumber != (int)findPrint.number)
+                //            {
+                //                if (__traceWarning)
+                //                    Trace.WriteLine("warning number in title {0} is different than calculated number {1}", (int)findPrint.number, calculatedPrintNumber);
+                //            }
+                //        }
+                //        // utilise de préférence le no du titre plutot que celui calculé
+                //        // sauf pour le monde ex : "Le Monde week-end + Magazine + 3 suppléments du samedi 30 aout 2014" le 3 n'est pas le bon numéro
+                //        printIssue.PrintNumber = (int)findPrint.number;
+                //    }
+                //}
+                //else if (findPrint.number != null)
+                //{
+                //    printIssue.PrintNumber = (int)findPrint.number;
+                //    printIssue.Special = findPrint.special;
+                //}
+
+                //printIssue.TrySetValues(findText.matchValues.GetAllValues());
+                //findPrint.label = printIssue.Label;
+
+                //findPrint.file = zPath.Combine(print.Directory, zPath.GetFileNameWithoutExtension(printIssue.GetFilename()));
+            //}
+            if (!findPrint.found && forceSelect)
+            {
+                ForceSelect(findPrint, titleInfo, printType);
+                //findPrint.found = true;
+                //findPrint.findPrintType = FindPrintType.UnknowPrint;
+                //findPrint.name = titleInfo.Name;
+                //findPrint.title = titleInfo.FormatedTitle;
+                //string directory = null;
+                //if (printType == PrintType.Print)
+                //    directory = _unknowPrintDirectory;
+
+                //findPrint.file = GetFile(findPrint, directory);
             }
             if (findPrint.found)
                 findPrint.file = GetPostTypeDirectory(findPrint.printType) + "\\" + findPrint.file;
             return findPrint;
         }
 
-        private string GetTitleFileName(FindPrint findPrint)
+        private void ForceSelect(FindPrintInfo findPrint, PrintTitleInfo titleInfo, PrintType printType)
+        {
+            findPrint.found = true;
+            findPrint.findPrintType = FindPrintType.UnknowPrint;
+            findPrint.name = titleInfo.Name;
+            findPrint.title = titleInfo.FormatedTitle;
+            string directory = null;
+            if (printType == PrintType.Print)
+                directory = _unknowPrintDirectory;
+
+            findPrint.file = GetFile(findPrint, directory);
+        }
+
+        private void GetPrintInfo(FindPrintInfo findPrint, FindText findText)
+        {
+            if (findText == null || !findText.found)
+                return;
+
+            findPrint.found = true;
+            MatchValues matchValues = findText.matchValues;
+            findPrint.name = matchValues.Name;
+
+            Print print = _printManager[findPrint.name];
+
+            if (print == null)
+            {
+                findPrint.findPrintType = FindPrintType.PrintType1;
+                if (matchValues.Attributes.ContainsKey("title"))
+                    findPrint.title = matchValues.Attributes["title"];
+                if (matchValues.Attributes.ContainsKey("directory"))
+                    findPrint.directory = matchValues.Attributes["directory"];
+                string directory;
+                if (findPrint.directory != null)
+                    directory = findPrint.directory;
+                else
+                    directory = _defaultPrintDirectory;
+                print = new Print(findPrint.name, findPrint.title, GetDirectory(findPrint, directory));
+            }
+            else
+                findPrint.findPrintType = FindPrintType.PrintType2;
+
+            findPrint.print = print;
+
+            PrintIssue printIssue = print.NewPrintIssue();
+
+            if (findPrint.date != null)
+            {
+                //PrintIssue printIssue = print.NewPrintIssue((Date)findPrint.date);
+                printIssue.Date = findPrint.date;
+                printIssue.DateType = findPrint.dateType;
+                printIssue.Special = findPrint.special;
+                printIssue.SpecialText = findPrint.specialText;
+
+                if (findPrint.number != null)
+                {
+                    if (printIssue.CanCalculatePrintNumber())
+                    {
+                        int calculatedPrintNumber = printIssue.Print.GetPrintNumber((Date)printIssue.Date);
+                        if (calculatedPrintNumber != (int)findPrint.number)
+                        {
+                            if (__traceWarning)
+                                Trace.WriteLine("warning number in title {0} is different than calculated number {1}", (int)findPrint.number, calculatedPrintNumber);
+                        }
+                    }
+                    // utilise de préférence le no du titre plutot que celui calculé
+                    // sauf pour le monde ex : "Le Monde week-end + Magazine + 3 suppléments du samedi 30 aout 2014" le 3 n'est pas le bon numéro
+                    printIssue.PrintNumber = (int)findPrint.number;
+                }
+            }
+            else if (findPrint.number != null)
+            {
+                printIssue.PrintNumber = (int)findPrint.number;
+                printIssue.Special = findPrint.special;
+            }
+
+            printIssue.TrySetValues(findText.matchValues.GetAllValues());
+            findPrint.label = printIssue.Label;
+
+            findPrint.file = zPath.Combine(print.Directory, zPath.GetFileNameWithoutExtension(printIssue.GetFilename()));
+        }
+
+        private string GetTitleFileName(FindPrintInfo findPrint)
         {
             string title;
             if (findPrint.title != null)
@@ -226,12 +274,12 @@ namespace Print
             return title;
         }
 
-        private string GetDirectory(FindPrint findPrint, string directory)
+        private string GetDirectory(FindPrintInfo findPrint, string directory)
         {
             return GetDirectory(findPrint, directory, GetTitleFileName(findPrint));
         }
 
-        private string GetDirectory(FindPrint findPrint, string directory, string titleFileName)
+        private string GetDirectory(FindPrintInfo findPrint, string directory, string titleFileName)
         {
             if (directory != null)
                 directory += "\\";
@@ -252,7 +300,7 @@ namespace Print
             return directory;
         }
 
-        private string GetFile(FindPrint findPrint, string directory)
+        private string GetFile(FindPrintInfo findPrint, string directory)
         {
             //if (directory != null)
             //    directory += "\\";

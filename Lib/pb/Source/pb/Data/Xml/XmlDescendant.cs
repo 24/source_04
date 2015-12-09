@@ -591,5 +591,17 @@ namespace pb.Data.Xml
         {
             return XmlDescendant.DescendantFormItems(element, filter);
         }
+
+        public static IEnumerable<XElement> zFilterElements(this IEnumerable<XElement> elements, Func<XElement, XNodeFilter> filter)
+        {
+            foreach (XElement element in elements)
+            {
+                XNodeFilter xNodeFilter = filter(element);
+                if ((xNodeFilter & XNodeFilter.Stop) == XNodeFilter.Stop)
+                    break;
+                if ((xNodeFilter & XNodeFilter.DontSelectNode) != XNodeFilter.DontSelectNode)
+                    yield return element;
+            }
+        }
     }
 }

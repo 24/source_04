@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using DirectoryInfo = Pri.LongPath.DirectoryInfo;
 
 namespace pb.IO
@@ -38,7 +37,8 @@ namespace pb.IO
     public class EnumDirectoryInfo
     {
         public string Directory;              // path complet avec le numéro (1) ou [1]
-        public string SubDirectory;           // sans le numéro (1) ou [1]
+        public string SubDirectory;           // avec le numéro (1) ou [1]
+        public string Name;                   // sans le numéro (1) ou [1]
         public int Number;                    // (1) ou [1]
         public int Level;
     }
@@ -194,8 +194,16 @@ namespace pb.IO
             {
                 if (enumDirectory.directoryEnum.MoveNext())
                 {
+                    DirectoryInfo directoryInfo = enumDirectory.directoryEnum.Current;
                     EnumDirectoryInfo enumDirectoryInfo = new EnumDirectoryInfo
-                        { Directory = enumDirectory.directoryEnum.Current.FullName, SubDirectory = enumDirectory.directoryEnum.Current.FullName.Substring(l), Level = level };
+                        { Directory = directoryInfo.FullName, SubDirectory = directoryInfo.FullName.Substring(l), Name = directoryInfo.Name, Level = level };
+
+                    if (getSubDirectoryNumber)
+                    {
+                        FilenameNumberInfo directoryNumberInfo = FilenameNumberInfo.GetFilenameNumberInfo(enumDirectoryInfo.Name);
+                        enumDirectoryInfo.Name = directoryNumberInfo.BasePath;
+                        enumDirectoryInfo.Number = directoryNumberInfo.Number;
+                    }
 
                     if (directoryFilter != null)
                         enumDirectoryFilter = directoryFilter(enumDirectoryInfo);
@@ -204,13 +212,13 @@ namespace pb.IO
                     {
                         if (followDirectoryTree != null)
                             followDirectoryTree(enumDirectoryInfo);
-                        if (getSubDirectoryNumber)
-                        {
-                            FilenameNumberInfo directoryNumberInfo = FilenameNumberInfo.GetFilenameNumberInfo(enumDirectoryInfo.SubDirectory);
-                            //enumDirectoryInfo.SubDirectory = directoryNumberInfo.BaseFilename;
-                            enumDirectoryInfo.SubDirectory = directoryNumberInfo.BasePath;
-                            enumDirectoryInfo.Number = directoryNumberInfo.Number;
-                        }
+                        //if (getSubDirectoryNumber)
+                        //{
+                        //    FilenameNumberInfo directoryNumberInfo = FilenameNumberInfo.GetFilenameNumberInfo(enumDirectoryInfo.SubDirectory);
+                        //    //enumDirectoryInfo.SubDirectory = directoryNumberInfo.BaseFilename;
+                        //    enumDirectoryInfo.SubDirectory = directoryNumberInfo.BasePath;
+                        //    enumDirectoryInfo.Number = directoryNumberInfo.Number;
+                        //}
                         yield return enumDirectoryInfo;
                         if (!enumDirectoryFilter.RecurseSubDirectory && followDirectoryTree != null)
                             followDirectoryTree(new EnumDirectoryInfo { Level = level });

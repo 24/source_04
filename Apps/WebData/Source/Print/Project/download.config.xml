@@ -2,11 +2,11 @@
 <Download>
   <DataDir                                                       value = "c:\pib\dev_data\exe\runsource\download" />
   <DataDir2                                                      value = "c:\pib\drive\google\dev_data\exe\runsource\download" />
-  <Log                                                           value = "$DataDir$\log\_log.txt" option = "IndexedFile" />
+  <Log                                                           value = "$DataDir$\log\exe\_log.txt" option = "IndexedFile" />
   <TestUnitDirectory                                             value = "c:\pib\drive\google\dev_data\exe\runsource\test_unit" />  <!-- c:\pib\dev_data\exe\runsource\test_unit c:\pib\dropbox\pbeuz\Dropbox\dev_data\exe\runsource\test_unit -->
-  <HttpExportDirectory                                           value = "$DataDir$\http" />
-  <MongoLog                                                      value = "$DataDir$\mongo\log\_mongo_log.txt" option = "IndexedFile" />
-  <MongoCache                                                    value = "$DataDir$\mongo\cache\mongo_cache.txt" />
+  <HttpExportDirectory                                           value = "$DataDir$\log\http" />
+  <MongoLog                                                      value = "$DataDir$\log\mongo\_mongo_log.txt" option = "IndexedFile" />
+  <MongoCache                                                    value = "$DataDir$\log\mongo.cache\mongo_cache.txt" />
   <MongoBackupDirectory                                          value = "$DataDir2$\mongo\backup" />
   <MongoBackupTmpDirectory                                       value = "$DataDir$\mongo\export\_tmp" />
   <PrintConfig                                                   value = "print_config.xml" />          <!-- ..\pt\pt_config.xml -->
@@ -21,6 +21,7 @@
       <ServerManager                                             name = "Ebookdz" />
       <ServerManager                                             name = "Vosbooks" />
       <ServerManager                                             name = "TelechargerMagazine" />
+      <ServerManager                                             name = "ExtremeDown" />
       <!--<ServerManager                                             name = "Vosbooks_test" enableLoadNewPost = "false" downloadDirectory = "Vosbooks" />-->
     </ServerManagers>
 
@@ -112,6 +113,7 @@
     <Header>
       <UseUrlCache                                               value = "true" />
       <CacheDirectory                                            value = "$ExtremeDown/DataDir$\cache\header" />
+      <CacheUrlFileNameType                                      value = "Host, Path, Query" />
       <!--<ImageCacheDirectory                                       value = "image" />-->
       <!-- default = image -->
       <!--<UseXml                                                    value = "true" />-->
@@ -121,11 +123,13 @@
       <MongoDatabase                                             value = "dl" />
       <MongoCollection                                           value = "ExtremeDown_Header" />
       <MongoDocumentItemName                                     value = "download" />
+      <MongoDefaultSort                                          value = "{ 'download.id': 1 }" />
     </Header>
 
     <Detail>
       <UseUrlCache                                               value = "true" />
       <CacheDirectory                                            value = "$ExtremeDown/DataDir$\cache\detail" />
+      <CacheUrlFileNameType                                      value = "Path, Query" />
       <!--<ImageCacheDirectory                                       value = "image" />-->
       <!-- default = image -->
       <!--<UseXml                                                    value = "true" />-->
@@ -133,10 +137,9 @@
       <MongoServer                                               value = "mongodb://localhost" />
       <MongoDatabase                                             value = "dl" />
       <MongoCollection                                           value = "ExtremeDown_Detail" />
-      <!-- GoldenDdl_Detail -->
-      <!-- RapideDdl_Detail -->
       <MongoDocumentItemName                                     value = "download" />
       <GetLinksExtremeProtect                                    value = "false" />
+      <MongoDefaultSort                                          value = "{ 'download.id': 1 }" />
     </Detail>
   </ExtremeDown>
 

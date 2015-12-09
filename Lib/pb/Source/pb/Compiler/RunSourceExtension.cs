@@ -1,12 +1,11 @@
-﻿using System;
-using System.Data;
+﻿using System.Data;
 using pb.Data;
-using pb.Data.Xml;
 using pb.Reflection;
 
 namespace pb.Compiler
 {
-    public static partial class GlobalExtension
+    //public static partial class GlobalExtension
+    public static class CompilerGlobalExtension
     {
         public static void zTrace<T>(this T value)
         {
@@ -89,6 +88,5 @@ namespace pb.Compiler
         {
             return RunSource.CurrentRunSource.GetProjectVariableValue(value, throwError);
         }
-
     }
 }

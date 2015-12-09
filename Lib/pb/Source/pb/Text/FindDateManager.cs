@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
 using System.Xml.Linq;
 
 namespace pb.Text
@@ -29,6 +28,8 @@ namespace pb.Text
         //private static Regex __sixDigitDate = new Regex("[0-9]{6}", RegexOptions.Compiled);
         //private static RegexValues __sixDigitDate = new RegexValues("date", "date", "[0-9]{8}", null, null, compileRegex: true);
         private RegexValuesList _digitDateRegexList = null;
+        private int _gapDayBefore = 0;
+        private int _gapDayAfter = 0;
 
         public FindDateManager(IEnumerable<XElement> dates, IEnumerable<XElement> digitDates = null, bool compileRegex = false)
         {
@@ -39,6 +40,8 @@ namespace pb.Text
 
         public RegexValuesList DateRegexList { get { return _dateRegexList; } }
         public bool MultipleSearch { get { return _multipleSearch; } set { _multipleSearch = value; } }
+        public int GapDayBefore { get { return _gapDayBefore; } set { _gapDayBefore = value; } }
+        public int GapDayAfter { get { return _gapDayAfter; } set { _gapDayAfter = value; } }
 
         public FindDate Find(string text, Date? expectedDate = null)
         {
@@ -96,7 +99,8 @@ namespace pb.Text
                     {
                         Date date;
                         DateType dateType;
-                        if (zdate.TryCreateDate(matchValues.GetValues(), out date, out dateType) && date == (Date)expectedDate)
+                        //if (zdate.TryCreateDate(matchValues.GetValues(), out date, out dateType) && date == (Date)expectedDate)
+                        if (zdate.TryCreateDate(matchValues.GetValues(), out date, out dateType) && IsDateCorrect(date, (Date)expectedDate))
                         {
                             return new FindDate { found = true, date = date, dateType = dateType, matchValues = matchValues, matchValuesList = matchValuesList.Count > 0 ? matchValuesList.ToArray() : null };
                         }
@@ -113,6 +117,22 @@ namespace pb.Text
             }
             else
                 return new FindDate { found = false, matchValuesList = matchValuesList.Count > 0 ? matchValuesList.ToArray() : null };
+        }
+
+        private bool IsDateCorrect(Date date, Date expectedDate)
+        {
+            TimeSpan gap = expectedDate - date;
+            if (gap.Days < 0)
+            {
+                if (-gap.Days <= _gapDayAfter)
+                    return true;
+            }
+            else
+            {
+                if (gap.Days <= _gapDayBefore)
+                    return true;
+            }
+            return false;
         }
     }
 

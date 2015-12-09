@@ -92,6 +92,18 @@
     <Compile Include="..\..\Lib\pb\Source\pb\Reflection\Reflection.cs">
       <Link>SourceLnk\Lib\pb\Reflection\Reflection.cs</Link>
     </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Reflection\TypeAccess.cs">
+      <Link>SourceLnk\Lib\pb\Reflection\TypeAccess.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Reflection\TypeReflection.cs">
+      <Link>SourceLnk\Lib\pb\Reflection\TypeReflection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Reflection\TypeValues.cs">
+      <Link>SourceLnk\Lib\pb\Reflection\TypeValues.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Reflection\TypeValuesDataTable.cs">
+      <Link>SourceLnk\Lib\pb\Reflection\TypeValuesDataTable.cs</Link>
+    </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Reflection\TypeView.cs">
       <Link>SourceLnk\Lib\pb\Reflection\TypeView.cs</Link>
     </Compile>
@@ -103,6 +115,9 @@
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Web\Html\HtmlReader_v2.cs">
       <Link>SourceLnk\Lib\pb\Web\Html\HtmlReader_v2.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\_pb\Tree.cs">
+      <Link>SourceLnk\Lib\pb\_pb\Tree.cs</Link>
     </Compile>
     <Compile Include="..\MyDownloader\MyDownloader.Core\Service\DownloaderState.cs">
       <Link>SourceLnk\Apps\MyDownloader\MyDownloader.Core\Service\DownloaderState.cs</Link>
@@ -489,6 +504,8 @@
     <Compile Include="Source\Print\DownloadManager\MongoDownloadAutomateManager.cs" />
     <Compile Include="Source\Print\DownloadManager\SelectPostManager_f.cs" />
     <Compile Include="Source\Print\Print\DownloadPrint.cs" />
+    <Compile Include="Source\Print\Print\FindDayManager.cs" />
+    <Compile Include="Source\Print\Print\FindPrint.cs" />
     <Compile Include="Source\Print\Print\FindPrintManager.cs" />
     <Compile Include="Source\Print\Print\IPost.cs" />
     <Compile Include="Source\Print\Print\PrintDirectoryManager.cs" />
@@ -499,13 +516,18 @@
     <Compile Include="Source\Print\Print\PrintManager_v2.cs" />
     <Compile Include="Source\Print\Print\MovePrintFiles.cs" />
     <Compile Include="Source\Print\Print\PrintTextValuesManager.cs" />
+    <Compile Include="Source\Print\Print\PrintTitle.cs" />
     <Compile Include="Source\Print\Print\PrintTitleManager.cs" />
     <Compile Include="Source\Print\Print\Print\IPrint.cs" />
+    <Compile Include="Source\Print\Print\zDay.cs" />
     <Compile Include="Source\Print\Project\AppData.cs" />
     <None Include="Source\Print\Project\test.cs" />
     <None Include="Source\Print\Project\download.dll.cs" />
     <Compile Include="Source\Print\Project\LoadDll.cs" />
     <Compile Include="Source\Print\Project\DownloadRun.cs" />
+    <Compile Include="Source\Print\sites\extreme-down.net\ExtremeDown.cs" />
+    <Compile Include="Source\Print\sites\extreme-down.net\ExtremeDown_Detail.cs" />
+    <Compile Include="Source\Print\sites\extreme-down.net\ExtremeDown_Header.cs" />
     <Compile Include="Source\Print\sites\telecharger-magazine.com\TelechargerMagazine.cs" />
     <Compile Include="Source\Print\sites\telecharger-magazine.com\TelechargerMagazine_Detail.cs" />
     <Compile Include="Source\Print\sites\telecharger-magazine.com\TelechargerMagazine_Header.cs" />
@@ -561,10 +583,10 @@
     <None Include="Source\Print\sites\ebookdz.com\_old\Ebookdz_Forum.cs" />
     <None Include="Source\Print\sites\ebookdz.com\_old\Ebookdz_ForumHeader.cs" />
     <None Include="Source\Print\sites\ebookdz.com\_old\Ebookdz_Header.cs" />
-    <None Include="Source\Print\sites\extreme-down.net\ExtremeDown_Detail.cs" />
+    <None Include="Source\Print\sites\extreme-down.net\_old\ExtremeDown_Detail_v1.cs" />
     <None Include="Source\Print\sites\extreme-down.net\ExtremeDown_f.cs" />
-    <None Include="Source\Print\sites\extreme-down.net\ExtremeDown_Header.cs" />
-    <None Include="Source\Print\sites\extreme-down.net\ExtremeProtect.cs" />
+    <None Include="Source\Print\sites\extreme-down.net\_old\ExtremeDown_Header_v1.cs" />
+    <Compile Include="Source\Print\sites\extreme-down.net\ExtremeProtect.cs" />
     <None Include="Source\Print\sites\free-telechargement.org\FreeTelechargement.cs" />
     <None Include="Source\Print\sites\free-telechargement.org\FreeTelechargement_Detail.cs" />
     <None Include="Source\Print\sites\free-telechargement.org\FreeTelechargement_f.cs" />
@@ -634,8 +656,12 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Source\Print\Project\print_config.xml" />
-    <Content Include="Source\Print\Project\print_list1.xml" />
-    <Content Include="Source\Print\Project\print_list2.xml" />
+    <Content Include="Source\Print\Project\print_list1.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Source\Print\Project\print_list2.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Source\Print\Project\_old\download_test_project.xml" />
     <Content Include="Source\Print\Project\_old\test_project.xml" />
     <Content Include="Source\Print\pt\pt1.config.xml" />

@@ -3,7 +3,7 @@
 //*************************************************************************************************************************
 // use new download manager
 DownloadAutomate_f.Test_DownloadAutomate_01(loadNewPost: true, searchPostToDownload: true, uncompressFile: true, sendMail: false,
-  version: 3, useNewDownloadManager: true, traceLevel: 0);
+  version: 6, useNewDownloadManager: true, traceLevel: 0);
 //*************************************************************************************************************************
 //*************************************************************************************************************************
 

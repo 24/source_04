@@ -589,8 +589,8 @@ namespace pb.Data.Mongo
             IEnumerable<string> elementsToCompare = null)
         {
             IEnumerable<TwoBsonDocuments> query =
-                zmongo.FileBsonReader<BsonDocument>(file1).zJoin(
-                    zmongo.FileBsonReader<BsonDocument>(file2),
+                zmongo.FileReader<BsonDocument>(file1).zJoin(
+                    zmongo.FileReader<BsonDocument>(file2),
                     document1 => document1[key1],
                     document2 => document2[key2],
                     (document1, document2) => new TwoBsonDocuments { Key = document1 != null ? document1.zGet(key1) : document2.zGet(key2), Document1 = document1, Document2 = document2 },
@@ -607,7 +607,7 @@ namespace pb.Data.Mongo
             BsonDocumentComparatorOptions comparatorOptions = BsonDocumentComparatorOptions.ReturnNotEqualDocuments, EnumerateElementsOptions enumerateElementsOptions = EnumerateElementsOptions.None,
             IEnumerable<string> elementsToCompare = null, IEnumerable<string> documentReference = null)
         {
-            var query = EnumarateTwoBsonDocumentsList(zmongo.FileBsonReader<BsonDocument>(file1), zmongo.FileBsonReader<BsonDocument>(file2));
+            var query = EnumarateTwoBsonDocumentsList(zmongo.FileReader<BsonDocument>(file1), zmongo.FileReader<BsonDocument>(file2));
 
             BsonDocumentComparator comparator = new BsonDocumentComparator();
             comparator.SetComparatorOptions(comparatorOptions);

@@ -40,6 +40,11 @@
   <Using                            value = "pb.Web" />
   <Using                            value = "pb.Web.Data" />
   <Using                            value = "Print" />
+  <Using                            value = "Download.Print.Ebookdz" />
+  <Using                            value = "Download.Print.ExtremeDown" />
+  <Using                            value = "Download.Print.Vosbooks" />
+  <Using                            value = "Download.Print.TelechargerMagazine" />
+  
   <Using                            value = "Test" />
   <Using                            value = "Test.Test_Unit" />
   <Using                            value = "Test.Test_Unit.Print" />
@@ -106,6 +111,11 @@
   <Source                           value = "..\sites\telecharger-magazine.com\TelechargerMagazine.cs" />
   <Source                           value = "..\sites\telecharger-magazine.com\TelechargerMagazine_Header.cs" />
   <Source                           value = "..\sites\telecharger-magazine.com\TelechargerMagazine_Detail.cs" />
+  
+  <Source                           value = "..\sites\extreme-down.net\ExtremeDown.cs" />
+  <Source                           value = "..\sites\extreme-down.net\ExtremeDown_Detail.cs" />
+  <Source                           value = "..\sites\extreme-down.net\ExtremeDown_Header.cs" />
+  <Source                           value = "..\sites\extreme-down.net\ExtremeProtect.cs" />
 
   <!--<Source                           value = "..\sites\telechargementz.tv\Telechargementz_f.cs" />
   <Source                           value = "..\sites\telechargementz.tv\Telechargementz_Header.cs" />
@@ -124,6 +134,8 @@
     <Source                           value = "..\sites\extreme-down.net\ExtremeProtect.cs" />-->
 
   <Source                           value = "..\Print\DownloadPrint.cs" />
+  <Source                           value = "..\Print\FindDayManager.cs" />
+  <Source                           value = "..\Print\FindPrint.cs" />
   <Source                           value = "..\Print\FindPrintManager.cs" />
   <Source                           value = "..\Print\IPost.cs" />
   <Source                           value = "..\Print\MovePrintFiles.cs" />
@@ -132,7 +144,9 @@
   <Source                           value = "..\Print\PrintFileManager_v2.cs" />
   <Source                           value = "..\Print\PrintManager.cs" />
   <Source                           value = "..\Print\PrintTextValuesManager.cs" />
+  <Source                           value = "..\Print\PrintTitle.cs" />
   <Source                           value = "..\Print\PrintTitleManager.cs" />
+  <Source                           value = "..\Print\zDay.cs" />
   <Source                           value = "..\Print\zprint.cs" />
 	<Source                           value = "..\Print\Print\Print.cs" />
 	<Source                           value = "..\Print\Print\Print1.cs" />

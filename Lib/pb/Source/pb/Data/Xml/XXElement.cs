@@ -59,14 +59,13 @@ namespace pb.Data.Xml
 
         public IEnumerable<string> XPathValues(string xpath)
         {
-            string[] values = null;
+            //string[] values = null;
+            IEnumerable<string> values = null;
             if (_xelement != null)
-            {
-                return _xelement.zXPathValues(xpath);
-                //object o = _xelement.XPathEvaluate(xpath);
-                //if (!XPathEvaluateToStringArray(o, out values, func))
-                //    WriteLine(1, "error xpath values \"{0}\" from element \"{1}\"", xpath, _xpath);
-            }
+                //return _xelement.zXPathValues(xpath);
+                values = _xelement.zXPathValues(xpath);
+            else
+                values = new string[0];
             WriteLine(2, "get values \"{0}\" from element \"{1}\" (\"{2}\")", xpath, _xpath, values.zToStringValues());
             return values;
         }
@@ -230,6 +229,18 @@ namespace pb.Data.Xml
         public static IEnumerable<XText> DescendantTextNodes(this IEnumerable<XXElement> xxelements, Func<XNode, XNodeFilter> filter = null)
         {
             return xxelements.XElements().zDescendantTextNodes(filter);
+        }
+
+        public static IEnumerable<XXElement> zFilterElements(this IEnumerable<XXElement> elements, Func<XXElement, XNodeFilter> filter)
+        {
+            foreach (XXElement element in elements)
+            {
+                XNodeFilter xNodeFilter = filter(element);
+                if ((xNodeFilter & XNodeFilter.Stop) == XNodeFilter.Stop)
+                    break;
+                if ((xNodeFilter & XNodeFilter.DontSelectNode) != XNodeFilter.DontSelectNode)
+                    yield return element;
+            }
         }
     }
 }

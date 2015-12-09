@@ -353,23 +353,24 @@ namespace pb.Text
             return c;
         }
 
-        private static Regex grxNumber = new Regex(@"[0-9\.,]+", RegexOptions.Compiled);
-        private static Regex grxRomanNumber1 = new Regex("(?<n>[IVXLCDM]{2,})(?<c>[\\s'\"\\-,;\\.:\\(\\)\\[\\]\\{\\}])", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-        private static Regex grxRomanNumber2 = new Regex("(?<c>[\\s'\"\\-,;\\.:\\(\\)\\[\\]\\{\\}])(?<n>[IVXLCDM]{2,})$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-        private static Regex grxRomanNumber3 = new Regex("^(?<n>[IVXLCDM]{2,})$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-        private static Regex grxTrimNumber1 = new Regex(@"[\.,]0+$", RegexOptions.Compiled);
-        private static Regex grxTrimNumber2 = new Regex(@"([\.,][0-9]*?)0+$", RegexOptions.Compiled);
-        private static Regex grxTrimNumber3 = new Regex(@"^0+", RegexOptions.Compiled);
+        private static Regex __number = new Regex(@"[0-9\.,]+", RegexOptions.Compiled);
+        private static Regex __romanNumber1 = new Regex("(?<n>[IVXLCDM]{2,})(?<c>[\\s'\"\\-,;\\.:\\(\\)\\[\\]\\{\\}])", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private static Regex __romanNumber2 = new Regex("(?<c>[\\s'\"\\-,;\\.:\\(\\)\\[\\]\\{\\}])(?<n>[IVXLCDM]{2,})$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private static Regex __romanNumber3 = new Regex("^(?<n>[IVXLCDM]{2,})$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private static Regex __trimNumber1 = new Regex(@"[\.,]0+$", RegexOptions.Compiled);
+        private static Regex __trimNumber2 = new Regex(@"([\.,][0-9]*?)0+$", RegexOptions.Compiled);
+        private static Regex __trimNumber3 = new Regex(@"^0+", RegexOptions.Compiled);
         public static NumbersInString GetNumbersInString(string s)
         {
-            MatchCollection matchs = grxNumber.Matches(s);
+            MatchCollection matchs = __number.Matches(s);
             Match match = null;
             int i = 0;
-            if (i < matchs.Count) match = matchs[i++];
+            if (i < matchs.Count)
+                match = matchs[i++];
 
-            MatchCollection romanMatchs1 = grxRomanNumber1.Matches(s);
-            MatchCollection romanMatchs2 = grxRomanNumber2.Matches(s);
-            MatchCollection romanMatchs3 = grxRomanNumber3.Matches(s);
+            MatchCollection romanMatchs1 = __romanNumber1.Matches(s);
+            MatchCollection romanMatchs2 = __romanNumber2.Matches(s);
+            MatchCollection romanMatchs3 = __romanNumber3.Matches(s);
             Match[] romanMatchs = new Match[romanMatchs1.Count + romanMatchs2.Count + romanMatchs3.Count];
             romanMatchs1.CopyTo(romanMatchs, 0);
             romanMatchs2.CopyTo(romanMatchs, romanMatchs1.Count);
@@ -377,40 +378,52 @@ namespace pb.Text
 
             Match romanMatch = null;
             int i2 = 0;
-            if (i2 < romanMatchs.Length) romanMatch = romanMatchs[i2++];
+            if (i2 < romanMatchs.Length)
+                romanMatch = romanMatchs[i2++];
 
             List<string> numbers = new List<string>();
             while (match != null || romanMatch != null)
             {
-                string sNumber = null;
+                string number = null;
                 if (match != null && (romanMatch == null || match.Index < romanMatch.Index))
                 {
-                    sNumber = match.Value;
-                    sNumber = grxTrimNumber1.Replace(sNumber, "");
-                    sNumber = grxTrimNumber2.Replace(sNumber, "$1");
-                    sNumber = grxTrimNumber3.Replace(sNumber, "");
-                    if (i < matchs.Count) match = matchs[i++]; else match = null;
+                    number = match.Value;
+                    number = __trimNumber1.Replace(number, "");
+                    number = __trimNumber2.Replace(number, "$1");
+                    number = __trimNumber3.Replace(number, "");
+                    if (i < matchs.Count)
+                        match = matchs[i++];
+                    else
+                        match = null;
                 }
                 else
                 {
-                    sNumber = romanMatch.Groups["n"].Value;
-                    sNumber = GetRomanNumberValue(sNumber).ToString();
-                    if (i2 < romanMatchs.Length) romanMatch = romanMatchs[i2++]; else romanMatch = null;
+                    number = romanMatch.Groups["n"].Value;
+                    //number = GetRomanNumberValue(number).ToString();
+                    int value = GetRomanNumberValue(number);
+                    if (value == 0)
+                        return null;
+                    number = value.ToString();
+                    if (i2 < romanMatchs.Length)
+                        romanMatch = romanMatchs[i2++];
+                    else
+                        romanMatch = null;
                 }
-                numbers.Add(sNumber);
+                numbers.Add(number);
             }
 
-            string sCorrectedString = s;
-            sCorrectedString = grxNumber.Replace(sCorrectedString, "");
-            sCorrectedString = grxRomanNumber1.Replace(sCorrectedString, "${c}");
-            sCorrectedString = grxRomanNumber2.Replace(sCorrectedString, "");
-            sCorrectedString = grxRomanNumber3.Replace(sCorrectedString, "");
+            string correctedString = s;
+            correctedString = __number.Replace(correctedString, "");
+            correctedString = __romanNumber1.Replace(correctedString, "${c}");
+            correctedString = __romanNumber2.Replace(correctedString, "");
+            correctedString = __romanNumber3.Replace(correctedString, "");
 
-            string[] StringNumbers = numbers.ToArray();
-            int[] IndexNumbers = new int[StringNumbers.Length]; for (int j = 0; j < StringNumbers.Length; j++) IndexNumbers[j] = j;
-            Array.Sort<string, int>(StringNumbers, IndexNumbers);
-
-            return new NumbersInString() { String = s, CorrectedString = sCorrectedString, StringNumbers = StringNumbers, IndexNumbers = IndexNumbers };
+            string[] stringNumbers = numbers.ToArray();
+            int[] indexNumbers = new int[stringNumbers.Length];
+            for (int j = 0; j < stringNumbers.Length; j++)
+                indexNumbers[j] = j;
+            Array.Sort<string, int>(stringNumbers, indexNumbers);
+            return new NumbersInString() { String = s, CorrectedString = correctedString, StringNumbers = stringNumbers, IndexNumbers = indexNumbers };
         }
 
         public static string GetWordCode(string s)
@@ -462,25 +475,27 @@ namespace pb.Text
         //    return text;
         //}
 
-        public static int GetRomanNumberValue(string sRomanNumber)
+        public static int GetRomanNumberValue(string romanNumber)
         {
-            int iNumber = 0;
-            int iLastDigit = 0;
-            for (int i = sRomanNumber.Length - 1; i >= 0; i--)
+            int number = 0;
+            int lastDigit = 0;
+            for (int i = romanNumber.Length - 1; i >= 0; i--)
             {
-                int iDigit = GetRomanDigitValue(sRomanNumber[i]);
-                if (iLastDigit != 0 && iDigit < iLastDigit)
-                    iNumber -= iDigit;
+                int digit = GetRomanDigitValue(romanNumber[i]);
+                if (digit == 0)
+                    return 0;
+                if (lastDigit != 0 && digit < lastDigit)
+                    number -= digit;
                 else
-                    iNumber += iDigit;
-                iLastDigit = iDigit;
+                    number += digit;
+                lastDigit = digit;
             }
-            return iNumber;
+            return number;
         }
 
-        public static int GetRomanDigitValue(char cRomanDigit)
+        public static int GetRomanDigitValue(char romanDigit)
         {
-            switch (char.ToLower(cRomanDigit))
+            switch (char.ToLower(romanDigit))
             {
                 case 'i':
                     return 1;
@@ -496,8 +511,10 @@ namespace pb.Text
                     return 500;
                 case 'm':
                     return 1000;
+                default:
+                    return 0;
             }
-            throw new PBException("'{0}' is not a roman digit", cRomanDigit);
+            //throw new PBException("'{0}' is not a roman digit", romanDigit);
         }
 
         public static void InitAccents()

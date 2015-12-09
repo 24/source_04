@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Text.RegularExpressions;
 using pb;
-using pb.Compiler;
-using pb.Data.Mongo;
 using pb.IO;
 using pb.Text;
 using Print;
@@ -36,6 +32,46 @@ namespace Download.Print
     {
         public bool IsBonusDirectory;
         public string Directory;
+    }
+
+    public class DailyPrintFile
+    {
+        public string File;
+        public Date Date;
+        public string Directory;
+    }
+
+    //public class RenamePrintFile1
+    //{
+    //    public bool RenameFile;
+    //    public string Title;
+    //    public Date ExpectedDate;
+    //    public string File;
+    //    public string Error;
+    //    public FindPrintInfo FindPrint;
+    //}
+
+    public class RenamePrintFile
+    {
+        public bool RenameFile;
+        public Date ExpectedDate;
+        public string File;
+        public string Title;
+        //public bool FindPrint;
+
+        public string FormatedTitle;
+        public Date? Date;
+        public DateType DateType = DateType.Unknow;
+        public string Name;
+        //public string Title;
+        //public string Directory;
+        public int? Number;
+        public bool Special = false;
+        public string SpecialText;
+        public string Label;
+        public string RemainText;
+        public string PrintName;
+        public string Error;
     }
 
     public class PrintFileManager_v2
@@ -132,61 +168,174 @@ namespace Download.Print
                 zdir.DeleteEmptyDirectory(sourceDirectory, deleteOnlySubdirectory: false);
         }
 
-        public static void RenamePrintFiles(FindPrintManager findPrintManager, string sourceDirectory, string destinationDirectory, bool simulate = true)
+        private static Regex __dailyPrintDirectory = new Regex("Journaux - ([0-9]{4})-([0-9]{2})-([0-9]{2})", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
+        public static IEnumerable<DailyPrintFile> GetDailyPrintFiles(string sourceDirectory)
         {
-            Trace.Write("rename print files from \"{0}\" ", sourceDirectory);
-            Date date;
-            if (!Date.TryParseExact(FilenameNumberInfo.GetFilenameWithoutNumber(zPath.GetFileName(sourceDirectory)).Substring(11), "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out date))
+            Date date = Date.MinValue;
+            Func<EnumDirectoryInfo, EnumDirectoryFilter> directoryFilter = dir =>
             {
-                Trace.WriteLine("date not found");
-                return;
+                Match match = __dailyPrintDirectory.Match(FilenameNumberInfo.GetFilenameWithoutNumber(zPath.GetFileName(dir.SubDirectory)));
+                if (match.Success)
+                {
+                    int year = int.Parse(match.Groups[1].Value);
+                    int month = int.Parse(match.Groups[2].Value);
+                    int day = int.Parse(match.Groups[3].Value);
+                    if (zdate.IsDateValid(year, month, day))
+                    {
+                        date = new Date(year, month, day);
+                        return new EnumDirectoryFilter { Select = true, RecurseSubDirectory = false };
+                    }
+
+                }
+                return new EnumDirectoryFilter { Select = false, RecurseSubDirectory = true };
+            };
+            foreach (EnumDirectoryInfo dir in zdir.EnumerateDirectoriesInfo(sourceDirectory, directoryFilter: directoryFilter))
+            {
+                foreach (EnumFileInfo fileInfo in zdir.EnumerateFilesInfo(dir.Directory))
+                {
+                    yield return new DailyPrintFile { File = fileInfo.File, Date = date, Directory = dir.Directory };
+                }
             }
-            Trace.WriteLine("{0}", date);
+        }
+
+        public static IEnumerable<RenamePrintFile> RenameDailyPrintFiles(IEnumerable<DailyPrintFile> files, FindPrintManager findPrintManager, string destinationDirectory, bool simulate = true)
+        {
+            string lastDirectory = null;
+            foreach (DailyPrintFile file in files)
+            {
+                if (file.Directory != lastDirectory)
+                {
+                    // remove empty directories
+                    if (!simulate && lastDirectory != null)
+                        zdir.DeleteEmptyDirectory(lastDirectory, deleteOnlySubdirectory: false);
+
+                    //Trace.WriteLine();
+                    //Trace.WriteLine("rename print files from \"{0}\"", file.Directory);
+
+                    lastDirectory = file.Directory;
+                }
+                yield return RenamePrintFile(findPrintManager, file.File, file.Date, destinationDirectory, simulate);
+            }
+
+            // remove empty directories
+            if (!simulate && lastDirectory != null)
+                zdir.DeleteEmptyDirectory(lastDirectory, deleteOnlySubdirectory: false);
+        }
+
+        public static void RenameDailyPrintFiles_old(FindPrintManager findPrintManager, string sourceDirectory, string destinationDirectory, bool simulate = true)
+        {
+            Date date = Date.MinValue;
+            Func<EnumDirectoryInfo, EnumDirectoryFilter> directoryFilter = dir =>
+                {
+                    Match match = __dailyPrintDirectory.Match(FilenameNumberInfo.GetFilenameWithoutNumber(zPath.GetFileName(dir.SubDirectory)));
+                    if (match.Success)
+                    {
+                        int year = int.Parse(match.Groups[1].Value);
+                        int month = int.Parse(match.Groups[2].Value);
+                        int day = int.Parse(match.Groups[3].Value);
+                        if (zdate.IsDateValid(year, month, day))
+                        {
+                            date = new Date(year, month, day);
+                            return new EnumDirectoryFilter { Select = true, RecurseSubDirectory = false };
+                        }
+
+                    }
+                    return new EnumDirectoryFilter { Select = false, RecurseSubDirectory = true };
+                };
+            foreach (EnumDirectoryInfo dir in zdir.EnumerateDirectoriesInfo(sourceDirectory, directoryFilter: directoryFilter))
+            {
+                RenamePrintFiles_old(findPrintManager, dir.Directory, date, destinationDirectory, simulate);
+                //Trace.WriteLine("rename print files from \"{0}\" {1}", dir.Directory, date);
+            }
+        }
+
+        private static void RenamePrintFiles_old(FindPrintManager findPrintManager, string sourceDirectory, Date date, string destinationDirectory, bool simulate)
+        {
+            Trace.WriteLine("rename print files from \"{0}\"", sourceDirectory);
             foreach (EnumFileInfo fileInfo in zdir.EnumerateFilesInfo(sourceDirectory))
             {
-                try
-                {
-                    FindPrint findPrint = findPrintManager.Find(zPath.GetFileNameWithoutExtension(fileInfo.File), PrintType.Print, expectedDate: date);
-
-                    if (!findPrint.found)
-                    {
-                        Trace.WriteLine("  unknow print \"{0}\"", zPath.GetFileName(fileInfo.File));
-                        continue;
-                    }
-                    if (findPrint.date == null)
-                    {
-                        Trace.WriteLine("  date not found \"{0}\"", zPath.GetFileName(fileInfo.File));
-                        continue;
-                    }
-                    int dateGap = findPrint.date.Value.Subtract(date).Days;
-                    if (dateGap < -2 || dateGap > 1)
-                    {
-                        Trace.WriteLine("  wrong date found {0} - \"{1}\"", findPrint.date, zPath.GetFileName(fileInfo.File));
-                        continue;
-                    }
-                    string newfile = zPath.Combine(destinationDirectory, findPrint.file) + zPath.GetExtension(fileInfo.File);
-                    newfile = zfile.GetNewFilename(newfile);
-                    //Trace.WriteLine("  rename file \"{0}\" to \"{1}\"", zPath.GetFileName(fileInfo.File), newfile);
-                    Trace.WriteLine("  rename file \"{0}\" to \"{1}\"", zPath.GetFileName(fileInfo.File), zPath.GetDirectoryName(newfile));
-                    Trace.WriteLine("     filename \"{0}\"", zPath.GetFileName(newfile));
-                    if (!simulate)
-                    {
-                        zfile.CreateFileDirectory(newfile);
-                        zFile.Move(fileInfo.File, newfile);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Trace.WriteLine("  error print \"{0}\"", zPath.GetFileName(fileInfo.File));
-                    Trace.WriteLine(Error.GetErrorMessage(ex, true, false));
-                    Trace.WriteLine();
-                }
+                RenamePrintFile(findPrintManager, fileInfo.File, date, destinationDirectory, simulate);
             }
             Trace.WriteLine();
 
             // remove empty directories
             if (!simulate)
                 zdir.DeleteEmptyDirectory(sourceDirectory, deleteOnlySubdirectory: false);
+        }
+
+        private static RenamePrintFile RenamePrintFile(FindPrintManager findPrintManager, string file, Date date, string destinationDirectory, bool simulate)
+        {
+            RenamePrintFile renamePrintFile = new Print.RenamePrintFile();
+            try
+            {
+                renamePrintFile.Title = zPath.GetFileNameWithoutExtension(file);
+                renamePrintFile.ExpectedDate = date;
+                FindPrintInfo findPrint = findPrintManager.Find(renamePrintFile.Title, PrintType.Print, expectedDate: date);
+                //renamePrintFile.FindPrint = findPrint.found;
+                if (findPrint.DayTitle != null)
+                    renamePrintFile.FormatedTitle = findPrint.DayTitle;
+                else
+                    renamePrintFile.FormatedTitle = findPrint.titleInfo.FormatedTitle;
+                renamePrintFile.Name = findPrint.name;
+                renamePrintFile.Date = findPrint.date;
+                renamePrintFile.DateType = findPrint.dateType;
+                renamePrintFile.Number = findPrint.number;
+                renamePrintFile.Special = findPrint.special;
+                renamePrintFile.SpecialText = findPrint.specialText;
+                renamePrintFile.Label = findPrint.label;
+                renamePrintFile.RemainText = findPrint.remainText;
+                if (findPrint.print != null)
+                    renamePrintFile.PrintName = findPrint.print.Name;
+
+                if (!findPrint.found)
+                {
+                    //Trace.WriteLine("  unknow print \"{0}\" date {1} formated title \"{2}\"", zPath.GetFileName(file), findPrint.date, findPrint.titleInfo.FormatedTitle);
+                    renamePrintFile.Error = string.Format("unknow print \"{0}\" date {1} formated title \"{2}\"", zPath.GetFileName(file), findPrint.date, findPrint.titleInfo.FormatedTitle);
+                    //return;
+                }
+                else if (findPrint.date == null)
+                {
+                    //Trace.WriteLine("  date not found \"{0}\"", zPath.GetFileName(file));
+                    renamePrintFile.Error = string.Format("date not found \"{0}\"", zPath.GetFileName(file));
+                    //return;
+                }
+
+                if (findPrint.found && findPrint.date != null)
+                {
+                    int dateGap = findPrint.date.Value.Subtract(date).Days;
+                    //
+                    //if (dateGap < -2 || dateGap > 1)
+                    //if (dateGap < -findPrintManager.PrintTitleManager.GapDayBefore || dateGap > findPrintManager.PrintTitleManager.GapDayAfter)
+                    if (dateGap < -findPrintManager.GapDayBefore || dateGap > findPrintManager.GapDayAfter)
+                    {
+                        //Trace.WriteLine("  wrong date found {0} - \"{1}\"", findPrint.date, zPath.GetFileName(file));
+                        renamePrintFile.Error = string.Format("wrong date found {0} - \"{1}\"", findPrint.date, renamePrintFile.Title);
+                        //return;
+                    }
+                    else
+                    {
+                        renamePrintFile.RenameFile = true;
+                        renamePrintFile.File = findPrint.file + zPath.GetExtension(file);
+                        string newfile = zPath.Combine(destinationDirectory, findPrint.file) + zPath.GetExtension(file);
+                        newfile = zfile.GetNewFilename(newfile);
+                        //Trace.WriteLine("  rename file \"{0}\" to \"{1}\"", zPath.GetFileName(file), zPath.GetDirectoryName(newfile));
+                        //Trace.WriteLine("     filename \"{0}\"", zPath.GetFileName(newfile));
+                        if (!simulate)
+                        {
+                            zfile.CreateFileDirectory(newfile);
+                            zFile.Move(file, newfile);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine("  error print \"{0}\"", zPath.GetFileName(file));
+                Trace.WriteLine(Error.GetErrorMessage(ex, true, false));
+                Trace.WriteLine();
+            }
+            return renamePrintFile;
         }
 
         private static Dictionary<string, List<FileGroup_v2>> CreateFileGroups()
@@ -433,11 +582,11 @@ namespace Download.Print
 
         private void DeleteDuplicateFiles(List<FileGroup_v2> files)
         {
-            for (int i1 = 0; i1 < files.Count - 1; )
+            for (int i1 = 0; i1 < files.Count - 1;)
             {
                 FileGroup_v2 file1 = files[i1];
                 bool deleteFile1 = false;
-                for (int i2 = i1 + 1; i2 < files.Count; )
+                for (int i2 = i1 + 1; i2 < files.Count;)
                 {
                     FileGroup_v2 file2 = files[i2];
                     bool deleteFile2 = false;
@@ -681,6 +830,11 @@ namespace Download.Print
                 if (dictionary.ContainsKey(key))
                     dictionary[key].Add(data);
             }
+        }
+
+        public static IEnumerable<RenamePrintFile> zRenameDailyPrintFiles(this IEnumerable<DailyPrintFile> files, FindPrintManager findPrintManager, string destinationDirectory, bool simulate = true)
+        {
+            return PrintFileManager_v2.RenameDailyPrintFiles(files, findPrintManager, destinationDirectory, simulate);
         }
     }
 }

@@ -436,7 +436,7 @@ namespace Download.Print
         {
             if (_downloadAllPrintType != null)
                 forceSelect = forceSelect || _downloadAllPrintType(post.GetPrintType());
-            FindPrint findPrint = FindPrint(post.GetTitle(), post.GetPrintType(), forceSelect);
+            FindPrintInfo findPrint = FindPrint(post.GetTitle(), post.GetPrintType(), forceSelect);
             if (!findPrint.found)
             {
                 TracePost(post, "post not selected");
@@ -486,13 +486,13 @@ namespace Download.Print
                 return DownloadState.NotDownloaded;
         }
 
-        public FindPrint FindPrint(string title, PrintType postType = PrintType.Unknow, bool forceSelect = false)
+        public FindPrintInfo FindPrint(string title, PrintType postType = PrintType.Unknow, bool forceSelect = false)
         {
-            FindPrint findPrint = null;
+            FindPrintInfo findPrint = null;
             if (Try(() => findPrint = _findPrintManager.Find(title, postType, forceSelect)))
                 return findPrint;
             else
-                return new FindPrint { found = false };
+                return new FindPrintInfo { found = false };
         }
 
         private IPostToDownload LoadPost(DownloadPostKey key)

@@ -1,12 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Xml.Linq;
 using System.Windows.Forms;
@@ -61,16 +58,6 @@ namespace runsourced
         private RunSourceRestartParameters _runSourceParameters = null;
         private string _settingsProjectDirectory = null;
 
-        //private string _sourceDirectory = null;
-
-        //private delegate void EventMessageSendCallback(string sMsg);
-        //private delegate void SetDataTableEventCallback(DataTable dt, string sXmlFormat);
-        //private delegate void EventGridResultSetDataSetCallback(DataSet ds, string sXmlFormat);
-        //private delegate void EventTreeViewResultClearCallback();
-        //private delegate void EventTreeViewResultAddCallback(string nodeName, XElement xmlElement, XFormat xFormat);
-        //private delegate void EventProgressChangeCallback(int iCurrent, int iTotal, string sMessage, params object[] prm);
-        //private delegate void EventEndRunCallback(bool bError);
-        //public UpdateRunsourceFilesEvent UpdateRunsourceFiles;
         public SetRestartRunsourceEvent SetRestartRunsource;
 
         public RunSourceForm(IRunSource runSource, ITrace trace, XmlConfig config, RunSourceRestartParameters runSourceParameters)
@@ -103,19 +90,16 @@ namespace runsourced
 
                 cGrid.Culture = CultureInfo.CurrentUICulture;
 
-                //_gridMaxWidth = _config.Get<int>("GridMaxWidth");
                 _gridMaxWidth = _config.Get("GridMaxWidth").zParseAs<int>();
                 _gridMaxHeight = _config.Get("GridMaxHeight").zParseAs<int>();
                 _dataTableMaxImageWidth = _config.Get("DataTableMaxImageWidth").zParseAs<int>();
                 _dataTableMaxImageHeight = _config.Get("DataTableMaxImageHeight").zParseAs<int>();
 
                 initRunSource();
-                //InitLog();
                 SetFileSaved();
             }
             catch (Exception ex)
             {
-                //_runSource.Trace.WriteError(ex);
                 _trace.WriteError(ex);
                 zerrf.ErrorMessageBox(ex);
             }
@@ -249,51 +233,18 @@ namespace runsourced
         {
             if (_runSource != null)
             {
-                //SaveParameters();
-                //_trace.Writed -= new WritedEvent(TraceWrited);
-                //_trace.RemoveOnWrite("RunSourceForm");
                 _trace.SetViewer(null);
                 _runSource.DisableMessageChanged -= new DisableMessageChangedEvent(EventDisableMessageChanged);
                 _runSource.GridResultSetDataTable -= new SetDataTableEvent(EventGridResultSetDataTable);
                 _runSource.GridResultSetDataSet -= new SetDataSetEvent(EventGridResultSetDataSet);
-                //_runSource.TreeViewResultAdd -= new TreeViewResultAddEvent(EventTreeViewResultAdd);
-                //_runSource.TreeViewResultSelect -= new TreeViewResultSelectEvent(EventTreeViewResultSelect);
-                //_runSource.ErrorResultSet -= new SetDataTableEvent(EventErrorResultSet);
                 _runSource.ProgressChange -= new ProgressChangeEvent(EventProgressChange);
-                //_runSource.EndRun -= new EndRunEvent(EventEndRun);
                 _runSource.EndRunCode -= EventEndRunCode;
                 _runSource = null;
             }
         }
 
-        //private void LoadParameters()
-        //{
-        //    XmlParameters_v1 xp = _runSource.LoadParameters();
-        //    string name = "RunSource_Form_";
-        //    object o1, o2;
-        //    o1 = xp.Get(name + "Form_WindowState");
-        //    if (o1 != null && o1 is int)
-        //        this.WindowState = (FormWindowState)(int)o1;
-        //    o1 = xp.Get(name + "Form_Location_X");
-        //    o2 = xp.Get(name + "Form_Location_Y");
-        //    if (o1 != null && o1 is int && o2 != null && o2 is int)
-        //        this.Location = new Point((int)o1, (int)o2);
-        //    o1 = xp.Get(name + "Form_Size_Width");
-        //    o2 = xp.Get(name + "Form_Size_Height");
-        //    if (o1 != null && o1 is int && o2 != null && o2 is int)
-        //        this.Size = new Size((int)o1, (int)o2);
-        //    //o1 = xp.Get(name + "tc_result_Size_Height");
-        //    //if (o1 != null && o1 is int)
-        //    //    tc_result.Size = new Size(tc_result.Size.Width, (int)o1);
-        //    o1 = xp.Get(name + "pan_top_Size_Height");
-        //    if (o1 != null && o1 is int)
-        //        pan_top.Size = new Size(pan_top.Size.Width, (int)o1);
-        //}
-
         private void LoadSettings()
         {
-            //XmlSerializer xmlSerializer = new XmlSerializer();
-            //xmlSerializer.Load(GetSettingsFile());
             XmlSerializer xmlSerializer = XmlSerializer.Load(GetSettingsFile());
 
             if (xmlSerializer.OpenElement("RunSource_Form") != null)
@@ -347,7 +298,7 @@ namespace runsourced
 
         private string GetSettingsFile()
         {
-            return zPath.Combine(zapp.GetLocalSettingsDirectory(), "settings.xml");
+            return zPath.Combine(zapp.GetLocalSettingsDirectory(_config.Get("RunsourceProductName")), "settings.xml");
         }
 
         private void fWRun_KeyDown(object sender, KeyEventArgs e)

@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
 using pb;
-using pb.Data.Mongo;
 using pb.IO;
 using pb.Text;
 
@@ -14,45 +12,25 @@ using pb.Text;
 
 namespace Print
 {
-    public class PrintTitleInfo
-    {
-        public string originalTitle = null;
-        public string title = null;
-        public string formatedTitle = null;
-        public string name = null;
-        public bool special = false;
-        public MatchValues specialMatch = null;
-        public string specialText = null;
-        public int? number = null;
-        public MatchValues numberMatch = null;
-        public Date? date = null;
-        public DateType dateType = DateType.Unknow;
-        public MatchValues dateMatch = null;
-        public MatchValues[] dateOtherMatchList = null;
-        public string titleStructure = null;
-        public string remainText = null;
-        public string file = null;
-    }
-
     public class PrintTitleRequest
     {
-        public string originalTitle = null;
-        public PrintSplitedTitle splitedTitle;
-        public string title = null;
-        public string formatedTitle = null;
-        public string name = null;
-        public bool special = false;
-        public MatchValues specialMatch = null;
-        public string specialText = null;
-        public int? number = null;
-        public MatchValues numberMatch = null;
-        public Date? date = null;
-        public DateType dateType = DateType.Unknow;
-        public MatchValues dateMatch = null;
-        public MatchValues[] dateOtherMatchList = null;
-        public string titleStructure = null;
-        public string remainText = null;
-        public string file = null;
+        public string OriginalTitle = null;
+        public PrintSplitedTitle SplitedTitle;
+        public string Title = null;
+        public string FormatedTitle = null;
+        public string Name = null;
+        public bool Special = false;
+        public MatchValues SpecialMatch = null;
+        public string SpecialText = null;
+        public int? Number = null;
+        public MatchValues NumberMatch = null;
+        public Date? Date = null;
+        public DateType DateType = DateType.Unknow;
+        public MatchValues DateMatch = null;
+        public MatchValues[] DateOtherMatchList = null;
+        public string TitleStructure = null;
+        public string RemainText = null;
+        public string File = null;
     }
 
     public class PrintSplitedTitle
@@ -92,10 +70,15 @@ namespace Print
         private static Regex __rgFormatTitle = new Regex(@"^(?:([^\s_]+)(?:[\s_]+|$))*$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         //private FindDateManager_v1 _findDateManager_v1 = null;
         private FindDateManager _findDateManager = null;
+        //private FindDayManager _findDayManager = null;
+        //private bool _useFindDay = false;
+        //private int _gapDayBefore = 0;
+        //private int _gapDayAfter = 0;
         private FindNumberManager _findNumberManager = null;
         private RegexValuesList _findSpecial = null;
         private string _printDirectory = null;
         private bool _splitTitle = false;
+        private int _version = 1;
 
         //public PrintTitleManager(FindDateManager_v1 findDateManager_v1, FindNumberManager findNumberManager, RegexValuesList findSpecial, string printDirectory)
         //{
@@ -115,18 +98,24 @@ namespace Print
         //}
 
         public FindDateManager FindDateManager { get { return _findDateManager; } set { _findDateManager = value; } }
+        //public FindDayManager FindDayManager { get { return _findDayManager; } set { _findDayManager = value; } }
+        //public bool UseFindDay { get { return _useFindDay; } set { _useFindDay = value; } }
+        //public int GapDayBefore { get { return _gapDayBefore; } set { _gapDayBefore = value; } }
+        //public int GapDayAfter { get { return _gapDayAfter; } set { _gapDayAfter = value; } }
         public FindNumberManager FindNumberManager { get { return _findNumberManager; } set { _findNumberManager = value; } }
         public RegexValuesList FindSpecial { get { return _findSpecial; } set { _findSpecial = value; } }
         public string PrintDirectory { get { return _printDirectory; } set { _printDirectory = value; } }
         public bool SplitTitle { get { return _splitTitle; } set { _splitTitle = value; } }
+        public int Version { get { return _version; } set { _version = value; } }
 
         public PrintTitleInfo GetPrintTitleInfo(string title, Date? expectedDate = null)
         {
-            //if (_findDateManager_new == null)
-            //    return _GetPrintTitleInfo_v1(title);
-            //else
-            //    return _GetPrintTitleInfo(title, _splitTitle);
-            return _GetPrintTitleInfo(title, _splitTitle, expectedDate);
+            if (_version == 1)
+                return _GetPrintTitleInfo(title, _splitTitle, expectedDate);
+            else if (_version == 2)
+                return PrintTitle.GetPrintTitleInfo(this, title, _splitTitle, expectedDate);
+            else
+                throw new PBException("unknow version {0}", _version);
         }
 
         //private PrintTitleInfo _GetPrintTitleInfo_v1(string title)
@@ -287,7 +276,7 @@ namespace Print
 
             PrintTitleRequest titleRequest = new PrintTitleRequest();
 
-            titleRequest.originalTitle = title;
+            titleRequest.OriginalTitle = title;
 
             title = ReplaceCharacters(title);
 
@@ -299,31 +288,25 @@ namespace Print
             if (splitTitle)
             {
                 // split d'abord avec "du" puis avec "-"
-                //int i1 = title.IndexOf(" du ", StringComparison.InvariantCultureIgnoreCase);
-                //int i2 = title.IndexOf("- ");
                 int i1 = title.LastIndexOf(" du ", StringComparison.InvariantCultureIgnoreCase);
                 int i2 = title.LastIndexOf("- ");
                 int i3 = Math.Max(i1, i2);
                 if (i3 != -1)
                 {
-                    // attention i + 3 pour garder un espace en début de chaine
-                    //PrintSplitedTitle splitedTitle = new PrintSplitedTitle(title.Substring(0, i), title.Substring(i + 3));
-                    //return splitedTitle;
-
                     string title1 = title.Substring(0, i3);
                     string title2 = title.Substring(i3);
 
                     FindDate findDate = _findDateManager.Find(title2, expectedDate);
                     if (findDate.found)
                     {
-                        titleRequest.date = findDate.date;
-                        titleRequest.dateType = findDate.dateType;
-                        titleRequest.dateMatch = findDate.matchValues;
+                        titleRequest.Date = findDate.date;
+                        titleRequest.DateType = findDate.dateType;
+                        titleRequest.DateMatch = findDate.matchValues;
                         title2 = findDate.matchValues.Replace(" $$date$$ ");
                         title = title1 + title2;
                         foundDate = true;
                     }
-                    titleRequest.dateOtherMatchList = findDate.matchValuesList;
+                    titleRequest.DateOtherMatchList = findDate.matchValuesList;
                 }
 
                 if (!foundDate)
@@ -342,14 +325,14 @@ namespace Print
                         FindDate findDate = _findDateManager.Find(title2, expectedDate);
                         if (findDate.found)
                         {
-                            titleRequest.date = findDate.date;
-                            titleRequest.dateType = findDate.dateType;
-                            titleRequest.dateMatch = findDate.matchValues;
+                            titleRequest.Date = findDate.date;
+                            titleRequest.DateType = findDate.dateType;
+                            titleRequest.DateMatch = findDate.matchValues;
                             title2 = findDate.matchValues.Replace(" $$date$$ ");
                             title = title1 + title2;
                             foundDate = true;
                         }
-                        titleRequest.dateOtherMatchList = findDate.matchValuesList;
+                        titleRequest.DateOtherMatchList = findDate.matchValuesList;
                     }
                 }
             }
@@ -357,16 +340,16 @@ namespace Print
             FindText findSpecial = _findSpecial.Find(title);
             if (findSpecial.found)
             {
-                titleRequest.special = true;
-                titleRequest.specialMatch = findSpecial.matchValues;
+                titleRequest.Special = true;
+                titleRequest.SpecialMatch = findSpecial.matchValues;
                 title = findSpecial.matchValues.Replace(" $$special$$ ");
             }
 
             FindNumber findNumber = _findNumberManager.Find(title);
             if (findNumber.found)
             {
-                titleRequest.number = findNumber.number;
-                titleRequest.numberMatch = findNumber.matchValues;
+                titleRequest.Number = findNumber.number;
+                titleRequest.NumberMatch = findNumber.matchValues;
                 title = findNumber.matchValues.Replace(" $$number$$ ");
             }
 
@@ -377,19 +360,19 @@ namespace Print
                 //Trace.WriteLine(findDate.zToJson());
                 if (findDate.found)
                 {
-                    titleRequest.date = findDate.date;
-                    titleRequest.dateType = findDate.dateType;
-                    titleRequest.dateMatch = findDate.matchValues;
+                    titleRequest.Date = findDate.date;
+                    titleRequest.DateType = findDate.dateType;
+                    titleRequest.DateMatch = findDate.matchValues;
                     title = findDate.matchValues.Replace(" $$date$$ ");
                 }
-                titleRequest.dateOtherMatchList = findDate.matchValuesList;
+                titleRequest.DateOtherMatchList = findDate.matchValuesList;
             }
 
             Match match = __rgSpecialLabel.Match(title);
             if (match.Success)
             {
-                titleRequest.specialText = match.Groups[1].Value.Trim(__trimChars);
-                titleRequest.specialText = GetFormatedText(titleRequest.specialText);
+                titleRequest.SpecialText = match.Groups[1].Value.Trim(__trimChars);
+                titleRequest.SpecialText = GetFormatedText(titleRequest.SpecialText);
                 title = match.zReplace(title, "");
             }
 
@@ -404,44 +387,98 @@ namespace Print
             int i = title.IndexOf("$$");
             if (i != -1)
             {
-                titleRequest.title = title.Substring(0, i).Trim(__trimChars);
+                titleRequest.Title = title.Substring(0, i).Trim(__trimChars);
                 title = title.Substring(i);
             }
             else
             {
-                titleRequest.title = title;
+                titleRequest.Title = title;
                 title = null;
             }
 
-            titleRequest.titleStructure = title;
-            titleRequest.formatedTitle = GetFormatedText(titleRequest.title);
-            titleRequest.name = GetName(titleRequest.formatedTitle);
+            titleRequest.TitleStructure = title;
+            titleRequest.FormatedTitle = GetFormatedText(titleRequest.Title);
+            titleRequest.Name = GetName(titleRequest.FormatedTitle);
             if (title != null)
-                titleRequest.remainText = __rgTitleStructureName.Replace(title, "").Trim(__trimChars);
+                titleRequest.RemainText = __rgTitleStructureName.Replace(title, "").Trim(__trimChars);
 
-            titleRequest.file = GetFile(titleRequest);
+            //titleRequest.File = GetFile(titleRequest);
 
             PrintTitleInfo titleInfo = new PrintTitleInfo
             {
-                originalTitle = titleRequest.originalTitle,
-                title = titleRequest.title,
-                formatedTitle = titleRequest.formatedTitle,
-                name = titleRequest.name,
-                special = titleRequest.special,
-                specialMatch = titleRequest.specialMatch,
-                specialText = titleRequest.specialText,
-                number = titleRequest.number,
-                numberMatch = titleRequest.numberMatch,
-                date = titleRequest.date,
-                dateType = titleRequest.dateType,
-                dateMatch = titleRequest.dateMatch,
-                dateOtherMatchList = titleRequest.dateOtherMatchList,
-                titleStructure = titleRequest.titleStructure,
-                remainText = titleRequest.remainText,
-                file = titleRequest.file
+                OriginalTitle = titleRequest.OriginalTitle,
+                Title = titleRequest.Title,
+                FormatedTitle = titleRequest.FormatedTitle,
+                Name = titleRequest.Name,
+                Special = titleRequest.Special,
+                SpecialMatch = titleRequest.SpecialMatch,
+                SpecialText = titleRequest.SpecialText,
+                Number = titleRequest.Number,
+                NumberMatch = titleRequest.NumberMatch,
+                Date = titleRequest.Date,
+                DateType = titleRequest.DateType,
+                DateMatch = titleRequest.DateMatch,
+                DateOtherMatchList = titleRequest.DateOtherMatchList,
+                TitleStructure = titleRequest.TitleStructure,
+                RemainText = titleRequest.RemainText,
+                //File = titleRequest.File
             };
             return titleInfo;
         }
+
+        //private void _SplitTitle(string title, PrintTitleRequest titleRequest, Date? expectedDate)
+        //{
+        //    bool foundDate = false;
+
+        //    // split d'abord avec "du" puis avec "-"
+        //    int i1 = title.LastIndexOf(" du ", StringComparison.InvariantCultureIgnoreCase);
+        //    int i2 = title.LastIndexOf("- ");
+        //    int i3 = Math.Max(i1, i2);
+        //    if (i3 != -1)
+        //    {
+        //        string title1 = title.Substring(0, i3);
+        //        string title2 = title.Substring(i3);
+
+        //        FindDate findDate = _findDateManager.Find(title2, expectedDate);
+        //        if (findDate.found)
+        //        {
+        //            titleRequest.Date = findDate.date;
+        //            titleRequest.DateType = findDate.dateType;
+        //            titleRequest.DateMatch = findDate.matchValues;
+        //            title2 = findDate.matchValues.Replace(" $$date$$ ");
+        //            title = title1 + title2;
+        //            foundDate = true;
+        //        }
+        //        titleRequest.DateOtherMatchList = findDate.matchValuesList;
+        //    }
+
+        //    if (!foundDate)
+        //    {
+        //        // puis split avec "-"
+        //        i3 = Math.Min(i1, i2);
+        //        i3 = title.IndexOf("- ");
+        //        if (i3 != -1)
+        //        {
+        //            // attention i + 1 pour garder un espace en début de chaine
+        //            //return new PrintSplitedTitle(title.Substring(0, i), title.Substring(i + 1));
+
+        //            string title1 = title.Substring(0, i3);
+        //            string title2 = title.Substring(i3);
+
+        //            FindDate findDate = _findDateManager.Find(title2, expectedDate);
+        //            if (findDate.found)
+        //            {
+        //                titleRequest.Date = findDate.date;
+        //                titleRequest.DateType = findDate.dateType;
+        //                titleRequest.DateMatch = findDate.matchValues;
+        //                title2 = findDate.matchValues.Replace(" $$date$$ ");
+        //                title = title1 + title2;
+        //                foundDate = true;
+        //            }
+        //            titleRequest.DateOtherMatchList = findDate.matchValuesList;
+        //        }
+        //    }
+        //}
 
         //private static PrintSplitedTitle SplitTitle_v1(string title)
         //{
@@ -464,40 +501,40 @@ namespace Print
         //}
 
         /// not used
-        private static PrintSplitedTitle _SplitTitle(string title)
-        {
-            //int i = title.IndexOf("- ");
-            //if (i != -1)
-            //{
-            //    // attention i + 1 pour garder un espace en début de chaine
-            //    return new PrintSplitedTitle(title.Substring(0, i), title.Substring(i + 1));
-            //}
-            //else
-            //{
-            //    i = title.IndexOf(" du ", StringComparison.InvariantCultureIgnoreCase);
-            //    if (i != -1)
-            //    {
-            //        // attention i + 3 pour garder un espace en début de chaine
-            //        return new PrintSplitedTitle(title.Substring(0, i), title.Substring(i + 3));
-            //    }
-            //}
+        //private static PrintSplitedTitle _SplitTitle(string title)
+        //{
+        //    //int i = title.IndexOf("- ");
+        //    //if (i != -1)
+        //    //{
+        //    //    // attention i + 1 pour garder un espace en début de chaine
+        //    //    return new PrintSplitedTitle(title.Substring(0, i), title.Substring(i + 1));
+        //    //}
+        //    //else
+        //    //{
+        //    //    i = title.IndexOf(" du ", StringComparison.InvariantCultureIgnoreCase);
+        //    //    if (i != -1)
+        //    //    {
+        //    //        // attention i + 3 pour garder un espace en début de chaine
+        //    //        return new PrintSplitedTitle(title.Substring(0, i), title.Substring(i + 3));
+        //    //    }
+        //    //}
 
-            // split d'abord avec "du" puis avec "-"
-            int i = title.IndexOf(" du ", StringComparison.InvariantCultureIgnoreCase);
-            if (i != -1)
-            {
-                // attention i + 3 pour garder un espace en début de chaine
-                PrintSplitedTitle splitedTitle = new PrintSplitedTitle(title.Substring(0, i), title.Substring(i + 3));
-                return splitedTitle;
-            }
-            i = title.IndexOf("- ");
-            if (i != -1)
-            {
-                // attention i + 1 pour garder un espace en début de chaine
-                return new PrintSplitedTitle(title.Substring(0, i), title.Substring(i + 1));
-            }
-            return new PrintSplitedTitle(title);
-        }
+        //    // split d'abord avec "du" puis avec "-"
+        //    int i = title.IndexOf(" du ", StringComparison.InvariantCultureIgnoreCase);
+        //    if (i != -1)
+        //    {
+        //        // attention i + 3 pour garder un espace en début de chaine
+        //        PrintSplitedTitle splitedTitle = new PrintSplitedTitle(title.Substring(0, i), title.Substring(i + 3));
+        //        return splitedTitle;
+        //    }
+        //    i = title.IndexOf("- ");
+        //    if (i != -1)
+        //    {
+        //        // attention i + 1 pour garder un espace en début de chaine
+        //        return new PrintSplitedTitle(title.Substring(0, i), title.Substring(i + 1));
+        //    }
+        //    return new PrintSplitedTitle(title);
+        //}
 
         private static string ReplaceCharacters(string text)
         {
@@ -555,14 +592,22 @@ namespace Print
         //    return _printDirectory + "\\" + file;
         //}
 
-        private string GetFile(PrintTitleRequest titleRequest)
+        //private string GetFile(PrintTitleRequest titleRequest)
+        //{
+        //    //string file = "";
+        //    //file = _printDirectory + "\\";
+        //    //return file + PrintIssue.GetStandardFilename(titleRequest.formatedTitle, titleRequest.special, titleRequest.date, titleRequest.dateType, titleRequest.number, titleRequest.specialText);
+        //    string file = PrintIssue.GetStandardFilename(titleRequest.FormatedTitle, titleRequest.Special, titleRequest.Date, titleRequest.DateType, titleRequest.Number, titleRequest.SpecialText);
+        //    file = zfile.ReplaceBadFilenameChars(file, "_");
+        //    return _printDirectory + "\\" + file;
+        //}
+
+        //public static string GetFile(PrintTitleRequest titleRequest)
+        public static string GetFile(PrintTitleInfo titleInfo)
         {
-            //string file = "";
-            //file = _printDirectory + "\\";
-            //return file + PrintIssue.GetStandardFilename(titleRequest.formatedTitle, titleRequest.special, titleRequest.date, titleRequest.dateType, titleRequest.number, titleRequest.specialText);
-            string file = PrintIssue.GetStandardFilename(titleRequest.formatedTitle, titleRequest.special, titleRequest.date, titleRequest.dateType, titleRequest.number, titleRequest.specialText);
+            string file = PrintIssue.GetStandardFilename(titleInfo.FormatedTitle, titleInfo.Special, titleInfo.Date, titleInfo.DateType, titleInfo.Number, titleInfo.SpecialText);
             file = zfile.ReplaceBadFilenameChars(file, "_");
-            return _printDirectory + "\\" + file;
+            return file;
         }
     }
 }

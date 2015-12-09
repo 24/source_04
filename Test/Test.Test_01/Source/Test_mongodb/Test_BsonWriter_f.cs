@@ -66,7 +66,7 @@ namespace Test.Test_Bson
             //zmongo.BsonReader<BsonDocument>(file).Select(doc => doc.zGet("PrintTextValues").zDeserialize<TestInfos01>()).zForEach(printTextValues => Trace.WriteLine(printTextValues.zToJson()));
             //zmongo.BsonReader<BsonDocument>(file).Select(doc => doc.zGet("PrintTextValues").zDeserialize<TestInfos01>()).zForEach(printTextValues => Trace.WriteLine(printTextValues.infos.zToJson()));
             //zmongo.BsonReader<BsonDocument>(file).Select(doc => doc.zGet("PrintTextValues").zDeserialize<TestInfos02>()).zForEach(printTextValues => Trace.WriteLine(printTextValues.infos.zToJson()));
-            zmongo.FileBsonReader<BsonDocument>(file).Select(doc => doc.zDeserialize<TestInfos02>()).zForEach(printTextValues => Trace.WriteLine(printTextValues.infos.zToJson()));
+            zmongo.FileReader<BsonDocument>(file).Select(doc => doc.zDeserialize<TestInfos02>()).zForEach(printTextValues => Trace.WriteLine(printTextValues.infos.zToJson()));
         }
     }
 

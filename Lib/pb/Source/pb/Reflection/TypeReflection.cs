@@ -209,7 +209,8 @@ namespace pb.Reflection
             Type nullableType = zReflection.GetNullableType(type);
             if (nullableType != null)
                 type = nullableType;
-            if (Type.GetTypeCode(type) != TypeCode.Object && type != typeof(Date) && type != typeof(Bitmap))
+            //if (Type.GetTypeCode(type) != TypeCode.Object && type != typeof(Date) && type != typeof(Bitmap))
+            if (Type.GetTypeCode(type) != TypeCode.Object || type == typeof(Date) || type == typeof(Bitmap))
                 return true;
             else
                 return false;

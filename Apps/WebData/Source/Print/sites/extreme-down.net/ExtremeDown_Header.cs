@@ -1,195 +1,159 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Xml.Linq;
-using MongoDB.Bson.Serialization;
 using pb;
-using pb.Data;
 using pb.Data.Mongo;
 using pb.Data.Xml;
 using pb.Web;
-using pb.Web.old;
+using pb.Web.Data;
 
 namespace Download.Print.ExtremeDown
 {
-    public class ExtremeDown_PostHeader : IHeaderData_v1
+    public class ExtremeDown_PostHeader : IHeaderData
     {
-        public string sourceUrl;
-        public DateTime? loadFromWebDate;
-        public string urlDetail;
+        public string SourceUrl;
+        public DateTime? LoadFromWebDate;
+        //public string Title;
+        public string UrlDetail;
 
-        public List<WebImage> images;
+        public WebImage[] Images;
 
-        public string GetUrlDetail()
+        public HttpRequest GetHttpRequestDetail()
         {
-            return urlDetail;
+            return new HttpRequest { Url = UrlDetail };
         }
     }
 
-    public class ExtremeDown_HeaderPage : IEnumDataPages_v1<int, IHeaderData_v1>
+    public class ExtremeDown_HeaderPage : IEnumDataPages<ExtremeDown_PostHeader>
     {
-        public int id;
-        public string sourceUrl;
-        public DateTime loadFromWebDate;
+        public int Id;
+        public string SourceUrl;
+        public DateTime LoadFromWebDate;
 
-        public ExtremeDown_PostHeader[] postHeaders;
-        public string urlNextPage;
+        public ExtremeDown_PostHeader[] PostHeaders;
+        public string UrlNextPage;
 
-        public int GetKey()
+        public IEnumerable<ExtremeDown_PostHeader> GetDataList()
         {
-            return id;
+            return PostHeaders;
         }
 
-        public IEnumerable<IHeaderData_v1> GetDataList()
+        public HttpRequest GetHttpRequestNextPage()
         {
-            return postHeaders;
-        }
-
-        public string GetUrlNextPage()
-        {
-            return urlNextPage;
+            if (UrlNextPage != null)
+                return new HttpRequest { Url = UrlNextPage };
+            else
+                return null;
         }
     }
 
-    public class ExtremeDown_LoadHeaderPageFromWebManager : LoadDataFromWebManager_v3<IEnumDataPages_v1<int, IHeaderData_v1>>
+    public static class ExtremeDown_HeaderManager
     {
-        public ExtremeDown_LoadHeaderPageFromWebManager(UrlCache_v1 urlCache = null)
-            : base(urlCache)
+        //private static string __urlMainPage = "http://www.extreme-down.net/ebooks/";
+        private static string __urlMainPage = "http://www.ex-down.com/ebooks/";
+        private static WebDataPageManager<int, ExtremeDown_HeaderPage, ExtremeDown_PostHeader> __headerWebDataPageManager = null;
+
+        static ExtremeDown_HeaderManager()
         {
+            __headerWebDataPageManager = CreateWebDataPageManager(XmlConfig.CurrentConfig.GetElement("ExtremeDown/Header"));
         }
 
-        protected override IEnumDataPages_v1<int, IHeaderData_v1> GetDataFromWeb(LoadDataFromWeb_v3 loadDataFromWeb)
+        public static WebDataPageManager<int, ExtremeDown_HeaderPage, ExtremeDown_PostHeader> HeaderWebDataPageManager { get { return __headerWebDataPageManager; } }
+
+        private static WebDataPageManager<int, ExtremeDown_HeaderPage, ExtremeDown_PostHeader> CreateWebDataPageManager(XElement xe)
         {
-            XXElement xeSource = new XXElement(loadDataFromWeb.GetXmlDocument().Root);
-            string url = loadDataFromWeb.request.Url;
+            WebDataPageManager<int, ExtremeDown_HeaderPage, ExtremeDown_PostHeader> headerWebDataPageManager = new WebDataPageManager<int, ExtremeDown_HeaderPage, ExtremeDown_PostHeader>();
+
+            headerWebDataPageManager.WebLoadDataManager = new WebLoadDataManager<ExtremeDown_HeaderPage>();
+
+            //if (xe.zXPathValue("UseUrlCache").zTryParseAs(false))
+            //{
+            //    UrlCache urlCache = new UrlCache(xe.zXPathValue("CacheDirectory"));
+            //    urlCache.UrlFileNameType = zurl.GetUrlFileNameType(xe.zXPathValue("CacheUrlFileNameType"));
+            //    headerWebDataPageManager.WebLoadDataManager.UrlCache = urlCache;
+            //}
+            headerWebDataPageManager.WebLoadDataManager.UrlCache = UrlCache.Create(xe);
+
+            //headerWebDataPageManager.WebLoadDataManager.InitLoadFromWeb = EbookdzLogin.InitLoadFromWeb;
+            headerWebDataPageManager.WebLoadDataManager.GetHttpRequestParameters = ExtremeDown.GetHttpRequestParameters;
+            headerWebDataPageManager.WebLoadDataManager.GetData = GetData;
+            //detailWebDataManager.GetKeyFromHttpRequest = GetPostDetailKey;
+            //detailWebDataManager.LoadImages = DownloadPrint.LoadImages; // IPost
+
+            //if (xe.zXPathValue("UseMongo").zTryParseAs(false))
+            //{
+            //    MongoDocumentStore<int, Vosbooks_HeaderPage> documentStore = new MongoDocumentStore<int, Vosbooks_HeaderPage>(xe.zXPathValue("MongoServer"), xe.zXPathValue("MongoDatabase"), xe.zXPathValue("MongoCollection"), xe.zXPathValue("MongoDocumentItemName"));
+            //    documentStore.DefaultSort = xe.zXPathValue("MongoDefaultSort");
+            //    headerWebDataPageManager.DocumentStore = documentStore;
+            //}
+            //documentStore.GetDataKey = headerPage => headerPage.GetKey();
+            //documentStore.Deserialize = document => (IEnumDataPages_new<int, IHeaderData_new>)BsonSerializer.Deserialize<Ebookdz_HeaderPage>(document);
+            headerWebDataPageManager.DocumentStore = MongoDocumentStore<int, ExtremeDown_HeaderPage>.Create(xe);
+
+            headerWebDataPageManager.GetHttpRequestPage = GetHttpRequestPage;
+            return headerWebDataPageManager;
+        }
+
+        private static ExtremeDown_HeaderPage GetData(WebResult webResult)
+        {
+            XXElement xeSource = new XXElement(webResult.Http.zGetXDocument().Root);
+            string url = webResult.WebRequest.HttpRequest.Url;
             ExtremeDown_HeaderPage data = new ExtremeDown_HeaderPage();
-            data.sourceUrl = url;
-            data.loadFromWebDate = loadDataFromWeb.loadFromWebDate;
-            data.id = ExtremeDown_LoadHeaderPagesManager.GetHeaderPageKey(url);
+            data.SourceUrl = url;
+            data.LoadFromWebDate = webResult.LoadFromWebDate;
+            data.Id = GetPageKey(webResult.WebRequest.HttpRequest);
 
-            data.urlNextPage = zurl.GetUrl(url, xeSource.XPathValue("//div[@class='navigation ignore-select']//a[starts-with(text(), 'Suivant')]/@href"));
+            data.UrlNextPage = zurl.GetUrl(url, xeSource.XPathValue("//div[@class='navigation ignore-select']//a[starts-with(text(), 'Suivant')]/@href"));
+
             IEnumerable<XXElement> xeHeaders = xeSource.XPathElements("//div[@id='dle-content']//div[@class='blockbox']");
             List<ExtremeDown_PostHeader> headers = new List<ExtremeDown_PostHeader>();
             foreach (XXElement xeHeader in xeHeaders)
             {
                 ExtremeDown_PostHeader header = new ExtremeDown_PostHeader();
-                header.sourceUrl = url;
-                header.loadFromWebDate = loadDataFromWeb.loadFromWebDate;
+                header.SourceUrl = url;
+                header.LoadFromWebDate = webResult.LoadFromWebDate;
 
-                header.urlDetail = xeHeader.XPathValue(".//h2[@class='blocktitle']//a/@href");
+                header.UrlDetail = xeHeader.XPathValue(".//h2[@class='blocktitle']//a/@href");
 
                 headers.Add(header);
             }
-            data.postHeaders = headers.ToArray();
-            return (IEnumDataPages_v1<int, IHeaderData_v1>)data;
-        }
-    }
-
-    public class ExtremeDown_LoadHeaderPagesManager : LoadWebEnumDataPagesManager_v3<int, IEnumDataPages_v1<int, IHeaderData_v1>, IHeaderData_v1>
-    {
-        //  test : RunSource.CurrentRunSource.View(Download.Print.ExtremeDown.ExtremeDown_LoadHeaderPagesManager.CurrentLoadHeaderPagesManager.LoadPages(startPage: 1, maxPage: 2, reload: false, loadImage: false, refreshDocumentStore: false));
-        private static string __url = "http://www.extreme-down.net/ebooks/";
-        private static ExtremeDown_LoadHeaderPagesManager __currentLoadHeaderPagesManager = null;
-
-        private static bool __trace = false;
-
-        private static bool __useUrlCache = false;
-        private static string __cacheDirectory = null;
-        private static UrlFileNameType __urlFileNameType = UrlFileNameType.Path;
-
-        private static bool __useMongo = false;
-        private static string __mongoServer = null;
-        private static string __mongoDatabase = null;
-        private static string __mongoCollectionName = null;
-        private static string __mongoDocumentItemName = null;
-
-        static ExtremeDown_LoadHeaderPagesManager()
-        {
-            ClassInit(XmlConfig.CurrentConfig.GetElement("ExtremeDown/Header"));
+            data.PostHeaders = headers.ToArray();
+            return data;
         }
 
-        public static void ClassInit(XElement xe)
-        {
-            //__useUrlCache = xe.zXPathValueBool("UseUrlCache", false);
-            __useUrlCache = xe.zXPathValue("UseUrlCache").zTryParseAs(false);
-            __cacheDirectory = xe.zXPathValue("CacheDirectory");
-
-            //__useMongo = xe.zXPathValueBool("UseMongo", __useMongo);
-            __useMongo = xe.zXPathValue("UseMongo").zTryParseAs(__useMongo);
-            __mongoServer = xe.zXPathValue("MongoServer", __mongoServer);
-            __mongoDatabase = xe.zXPathValue("MongoDatabase");
-            __mongoCollectionName = xe.zXPathValue("MongoCollection");
-            __mongoDocumentItemName = xe.zXPathValue("MongoDocumentItemName");
-
-            //IDocumentStore_new<int, ExtremeDown_HeaderPage> documentStore = null;
-            IDocumentStore_v3<int, IEnumDataPages_v1<int, IHeaderData_v1>> documentStore = null;
-            if (__useMongo)
-            {
-                //documentStore = new MongoDocumentStore_new<int, ExtremeDown_HeaderPage>(__mongoServer, __mongoDatabase, __mongoCollectionName, __mongoDocumentItemName);
-                MongoDocumentStore_v3<int, IEnumDataPages_v1<int, IHeaderData_v1>> mongoDocumentStore = new MongoDocumentStore_v3<int, IEnumDataPages_v1<int, IHeaderData_v1>>(__mongoServer, __mongoDatabase, __mongoCollectionName, __mongoDocumentItemName);
-                mongoDocumentStore.DefaultSort = "{ 'download.id': 1 }";
-                //mongoDocumentStore.GetDataKey = headerPage => headerPage.id;
-                mongoDocumentStore.GetDataKey = headerPage => headerPage.GetKey();
-                mongoDocumentStore.Deserialize = document => (IEnumDataPages_v1<int, IHeaderData_v1>)BsonSerializer.Deserialize<ExtremeDown_HeaderPage>(document);
-                documentStore = mongoDocumentStore;
-            }
-
-            __currentLoadHeaderPagesManager = new ExtremeDown_LoadHeaderPagesManager(new ExtremeDown_LoadHeaderPageFromWebManager(GetUrlCache()), documentStore);
-        }
-
-        public static UrlCache_v1 GetUrlCache()
-        {
-            UrlCache_v1 urlCache = null;
-            if (__useUrlCache)
-                urlCache = new UrlCache_v1(__cacheDirectory, __urlFileNameType);
-            return urlCache;
-        }
-
-        //public ExtremeDown_LoadHeaderPagesManager(LoadDataFromWebManager<ExtremeDown_HeaderPage> loadDataFromWeb, IDocumentStore_new<int, ExtremeDown_HeaderPage> documentStore = null)
-        public ExtremeDown_LoadHeaderPagesManager(LoadDataFromWebManager_v3<IEnumDataPages_v1<int, IHeaderData_v1>> loadDataFromWeb, IDocumentStore_v3<int, IEnumDataPages_v1<int, IHeaderData_v1>> documentStore = null)
-            : base(loadDataFromWeb, documentStore)
-        {
-        }
-
-        public static bool Trace { get { return __trace; } set { __trace = value; } }
-        public static ExtremeDown_LoadHeaderPagesManager CurrentLoadHeaderPagesManager { get { return __currentLoadHeaderPagesManager; } }
-
-        protected override string GetUrlPage(int page)
-        {
-            // http://www.extreme-down.net/ebooks/page/2/
-            if (page < 1)
-                throw new PBException("error wrong page number {0}", page);
-            string url = __url;
-            if (page > 1)
-                url += string.Format("page/{0}/", page);
-            return url;
-        }
-
-        protected override HttpRequestParameters_v1 GetHttpRequestParameters()
-        {
-            HttpRequestParameters_v1 requestParameters = new HttpRequestParameters_v1();
-            requestParameters.encoding = Encoding.UTF8;
-            return requestParameters;
-        }
-
-        protected override int GetKeyFromUrl(string url)
-        {
-            return GetHeaderPageKey(url);
-        }
-
-        public static int GetHeaderPageKey(string url)
+        private static int GetPageKey(HttpRequest httpRequest)
         {
             // page 1 : http://www.extreme-down.net/ebooks/
             // page 2 : http://www.extreme-down.net/ebooks/page/2/
-            if (url == __url)
+            // new
+            // page 1 : http://www.ex-down.com/ebooks/
+            // page 2 : http://www.ex-down.com/ebooks/page/2/
+            string url = httpRequest.Url;
+            if (url == __urlMainPage)
                 return 1;
             Uri uri = new Uri(url);
             string lastSegment = uri.Segments[uri.Segments.Length - 1];
-            lastSegment = lastSegment.Substring(0, lastSegment.Length - 1);
+            if (lastSegment.EndsWith("/"))
+                lastSegment = lastSegment.Substring(0, lastSegment.Length - 1);
             int page;
             if (!int.TryParse(lastSegment, out page))
                 throw new PBException("header page key not found in url \"{0}\"", url);
             return page;
+        }
+
+        private static HttpRequest GetHttpRequestPage(int page)
+        {
+            // page 1 : http://www.extreme-down.net/ebooks/
+            // page 2 : http://www.extreme-down.net/ebooks/page/2/
+            // new
+            // page 1 : http://www.ex-down.com/ebooks/
+            // page 2 : http://www.ex-down.com/ebooks/page/2/
+            if (page < 1)
+                throw new PBException("error wrong page number {0}", page);
+            string url = __urlMainPage;
+            if (page > 1)
+                url += string.Format("page/{0}/", page);
+            return new HttpRequest { Url = url };
         }
     }
 }

@@ -380,7 +380,8 @@ namespace pb.Compiler
                 _assemblyList.Add(filename, assembly);
             else if (!assembly.Project.IsIncludeProject)
             {
-                CompilerAssembly assembly2 = _assemblyList[assembly.File];
+                //CompilerAssembly assembly2 = _assemblyList[assembly.File];
+                CompilerAssembly assembly2 = _assemblyList[filename];
                 if (!assembly2.Project.IsIncludeProject)
                 {
                     WriteLine(1, "Compiler warning : duplicate assembly \"{0}\" from project \"{1}\"", assembly.File, assembly.Project.ProjectFile);

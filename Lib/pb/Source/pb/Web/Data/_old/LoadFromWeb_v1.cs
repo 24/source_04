@@ -9,7 +9,7 @@ using pb.Web.old;
 
 // *********************************************************** deprecated use LoadDataFromWeb ***********************************************************
 
-namespace pb.Web
+namespace pb.Web.old
 {
     public abstract class LoadListFromWebBasePages_v1<T> : IEnumerable<T>, IEnumerator<T> where T : class
     {

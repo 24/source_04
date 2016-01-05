@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 
-namespace pb.Data.Mongo
+namespace pb.Data.Mongo.old
 {
     public class MongoIdCollection_v1
     {

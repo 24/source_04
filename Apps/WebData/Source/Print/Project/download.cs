@@ -1,5 +1,6 @@
 // $$info.manage.print.directory
-// $$info.test.regex
+// $$info.test.regex  $$info.test.selenium $$info.test.mongo
+// $$info.site
 // $$info.debrid-link.fr
 // $$info.test_unit.print
 // $$info.GetPrintTitleInfo
@@ -101,10 +102,10 @@ Download.Print.TelechargerMagazine.TelechargerMagazine_DetailManager.WebHeaderDe
 //****                                   mongo pierre
 //*************************************************************************************************************************
 
-pb.Data.Mongo.TraceMongoCommand.Eval("{ listDatabases: 1 }");
-pb.Data.Mongo.TraceMongoCommand.Eval("db.getCollectionNames()", "dl");
+TraceMongoCommand.Eval("{ listDatabases: 1 }");
+TraceMongoCommand.Eval("db.getCollectionNames()", "dl");
 // DownloadAutomate
-pb.Data.Mongo.TraceMongoCommand.Export("dl", "DownloadAutomate3", Path.Combine(AppData.DataDirectory, @"mongo\export\DownloadAutomate\export_DownloadAutomate3.txt"));
+TraceMongoCommand.Export("dl", "DownloadAutomate3", Path.Combine(AppData.DataDirectory, @"mongo\export\DownloadAutomate\export_DownloadAutomate3.txt"));
 // DownloadedFile :
 pb.Data.Mongo.TraceMongoCommand.Export("dl", "DownloadedFile", Path.Combine(AppData.DataDirectory, @"mongo\export\Download\export_DownloadedFile.txt"));
 pb.Data.Mongo.TraceMongoCommand.Count("dl", "DownloadedFile");
@@ -129,15 +130,16 @@ pb.Data.Mongo.TraceMongoCommand.Import("dl", "QueueDownloadFile4", Path.Combine(
 //pb.Data.Mongo.TraceMongoCommand.Export("dl", "Download2", Path.Combine(RunSource.CurrentRunSource.DataDir, @"mongo\export\Download\export_Download2.txt"));
 //pb.Data.Mongo.TraceMongoCommand.Export("dl", "QueueDownloadFile3", Path.Combine(RunSource.CurrentRunSource.DataDir, @"mongo\export\Download\export_QueueDownloadFile3.txt"));
 
-pb.Data.Mongo.TraceMongoCommand.Export("dl", "TelechargerMagazine_Detail", Path.Combine(AppData.DataDirectory, @"mongo\export\telecharger-magazine.com\export_TelechargerMagazine_Detail.txt"), sort: "{ '_id': -1 }");
-pb.Data.Mongo.TraceMongoCommand.Export("dl", "Vosbooks_Detail", Path.Combine(AppData.DataDirectory, @"mongo\export\vosbooks.net\export_Vosbooks_Detail.txt"), sort: "{ 'download.PostCreationDate': -1 }");
-pb.Data.Mongo.TraceMongoCommand.Export("dl", "Ebookdz_Detail", Path.Combine(AppData.DataDirectory, @"mongo\export\ebookdz.com\export_Ebookdz_Detail.txt"), sort: "{ 'download.PostCreationDate': -1 }");
-pb.Data.Mongo.TraceMongoCommand.Export("dl", "RapideDdl_Detail2", Path.Combine(AppData.DataDirectory, @"mongo\export\rapide-ddl.com\export_RapideDdl_Detail2.txt"), sort: "{ 'download.creationDate': -1 }");
-pb.Data.Mongo.TraceMongoCommand.Export("dl", "GoldenDdl_Detail", Path.Combine(AppData.DataDirectory, @"mongo\export\golden-ddl.net\export_GoldenDdl_Detail.txt"), sort: "{ 'download.creationDate': -1 }");
-pb.Data.Mongo.TraceMongoCommand.Export("dl", "GoldenDdl_Detail", Path.Combine(AppData.DataDirectory, @"mongo\export\golden-ddl.net\export_GoldenDdl_Detail.txt"), sort: "{ '_id': -1 }");
-pb.Data.Mongo.TraceMongoCommand.Export("dl", "GoldenDdl_Detail2", Path.Combine(AppData.DataDirectory, @"mongo\export\golden-ddl.net\export_GoldenDdl_Detail2.txt"), sort: "{ 'download.creationDate': -1 }");
-pb.Data.Mongo.TraceMongoCommand.Export("dl", "Telechargementz_Detail", Path.Combine(AppData.DataDirectory, @"mongo\export\telechargementz.tv\export_Telechargementz_Detail.txt"), sort: "{ 'download.creationDate': -1 }");
-pb.Data.Mongo.TraceMongoCommand.Export("dl", "ExtremeDown_Detail", Path.Combine(AppData.DataDirectory, @"mongo\export\extreme-down.net\export_ExtremeDown_Detail.txt"), sort: "{ 'download.creationDate': -1 }");
+TraceMongoCommand.Export("dl", "ExtremeDown_Detail", Path.Combine(AppData.DataDirectory, @"sites\extreme-down.net\mongo\export_ExtremeDown_Detail.txt"), sort: "{ 'download.PostCreationDate': -1 }");
+TraceMongoCommand.Export("dl", "TelechargerMagazine_Detail", Path.Combine(AppData.DataDirectory, @"sites\telecharger-magazine.com\mongo\export_TelechargerMagazine_Detail.txt"), sort: "{ '_id': -1 }");
+TraceMongoCommand.Export("dl", "Vosbooks_Detail", Path.Combine(AppData.DataDirectory, @"sites\vosbooks.net\mongo\export_Vosbooks_Detail.txt"), sort: "{ 'download.PostCreationDate': -1 }");
+TraceMongoCommand.Export("dl", "Ebookdz_Detail", Path.Combine(AppData.DataDirectory, @"sites\ebookdz.com\mongo\export_Ebookdz_Detail.txt"), sort: "{ 'download.PostCreationDate': -1 }");
+TraceMongoCommand.Export("dl", "RapideDdl_Detail2", Path.Combine(AppData.DataDirectory, @"mongo\export\rapide-ddl.com\export_RapideDdl_Detail2.txt"), sort: "{ 'download.creationDate': -1 }");
+TraceMongoCommand.Export("dl", "GoldenDdl_Detail", Path.Combine(AppData.DataDirectory, @"mongo\export\golden-ddl.net\export_GoldenDdl_Detail.txt"), sort: "{ 'download.creationDate': -1 }");
+TraceMongoCommand.Export("dl", "GoldenDdl_Detail", Path.Combine(AppData.DataDirectory, @"mongo\export\golden-ddl.net\export_GoldenDdl_Detail.txt"), sort: "{ '_id': -1 }");
+TraceMongoCommand.Export("dl", "GoldenDdl_Detail2", Path.Combine(AppData.DataDirectory, @"mongo\export\golden-ddl.net\export_GoldenDdl_Detail2.txt"), sort: "{ 'download.creationDate': -1 }");
+TraceMongoCommand.Export("dl", "Telechargementz_Detail", Path.Combine(AppData.DataDirectory, @"mongo\export\telechargementz.tv\export_Telechargementz_Detail.txt"), sort: "{ 'download.creationDate': -1 }");
+TraceMongoCommand.Export("dl", "ExtremeDown_Detail", Path.Combine(AppData.DataDirectory, @"mongo\export\extreme-down.net\export_ExtremeDown_Detail.txt"), sort: "{ 'download.creationDate': -1 }");
 //pb.Data.Mongo.TraceMongoCommand.Eval("db.DownloadFile3.drop()", "dl");
 //pb.Data.Mongo.TraceMongoCommand.Eval("db.Telechargementz_Detail.drop()", "dl");
 //pb.Data.Mongo.TraceMongoCommand.Eval("db.DownloadedFile3.drop()", "dl");
@@ -147,7 +149,101 @@ pb.Data.Mongo.TraceMongoCommand.Export("dl", "ExtremeDown_Detail", Path.Combine(
 //   MongoQueueDownloadFile = QueueDownloadFile4, MongoQueueDownloadFile_new = QueueDownloadFile_new, MongoCurrentDownloadFile = CurrentDownloadFile
 
 //*************************************************************************************************************************
-//****                                   ExtremeDown
+//****                                   $$info.site Ebookdz ebookdz.com
+//*************************************************************************************************************************
+
+Download.Print.Ebookdz.Ebookdz.Current.HeaderWebDataPageManager.LoadPages(startPage: 1, maxPage: 1, reload: false, loadImage: false, refreshDocumentStore: false).zView_v3();
+Download.Print.Ebookdz.Ebookdz.Current.HeaderWebDataPageManager.LoadPages(startPage: 1, maxPage: 1, reload: false, loadImage: false, refreshDocumentStore: true).zView_v3();
+Download.Print.Ebookdz.Ebookdz.Current.WebHeaderDetailManager.LoadDetails(startPage: 1, maxPage: 1, reloadHeaderPage: false, reloadDetail: false, loadImage: false, refreshDocumentStore: false).zView_v3();
+Download.Print.Ebookdz.Ebookdz.Current.WebHeaderDetailManager.LoadDetails(startPage: 1, maxPage: 1, reloadHeaderPage: false, reloadDetail: false, loadImage: false, refreshDocumentStore: true).zView_v3();
+Download.Print.Ebookdz.Ebookdz.Current.HeaderWebDataPageManager.Find(query: null, sort: "{ _id: -1 }", limit: 100, loadImage: false).zView_v3();
+Download.Print.Ebookdz.Ebookdz.Current.DetailWebDataManager.Find(query: null, sort: "{ _id: -1 }", limit: 100, loadImage: false).zView_v3();
+
+Download.Print.Ebookdz.Ebookdz_MainForum.Current.LoadPages(startPage: 1, maxPage: 1, reload: false, loadImage: false, refreshDocumentStore: false).zView_v3();
+Download.Print.Ebookdz.EbookdzForum.LoadSubForums(reload: false).zView_v3();
+Download.Print.Ebookdz.EbookdzForum.LoadForumHeaders(reload: false, limit: 100).zView_v3();
+Download.Print.Ebookdz.EbookdzForum.LoadNewDocumentsFromForum(reloadForum: false, reloadForumHeader: false, reloadDetail: false, maxNbDocumentsLoadedFromStore: 5, maxPage: 20, loadImage: false).zTraceJson();
+
+
+TraceMongoCommand.Export("dl_test", "Ebookdz_Forum_Test", Path.Combine(AppData.DataDirectory, @"sites\ebookdz.com.test\mongo\export_Ebookdz_Forum_Test.txt"), sort: "{ '_id': -1 }");
+TraceMongoCommand.Export("dl_test", "Ebookdz_ForumHeader_Test", Path.Combine(AppData.DataDirectory, @"sites\ebookdz.com.test\mongo\export_Ebookdz_ForumHeader_Test.txt"), sort: "{ '_id': -1 }");
+//pb.Data.Mongo.TraceMongoCommand.Eval("db.Ebookdz_Forum_Test.drop()", "dl_test");
+
+//*************************************************************************************************************************
+//****                                   $$info.site TelechargerMagazine telecharger-magazine.com
+//*************************************************************************************************************************
+
+Download.Print.TelechargerMagazine.TelechargerMagazine.Current.HeaderWebDataPageManager.LoadPages(startPage: 1, maxPage: 1, reload: false, loadImage: false, refreshDocumentStore: false).zView_v3();
+Download.Print.TelechargerMagazine.TelechargerMagazine.Current.HeaderWebDataPageManager.LoadPages(startPage: 1, maxPage: 1, reload: false, loadImage: false, refreshDocumentStore: true).zView_v3();
+Download.Print.TelechargerMagazine.TelechargerMagazine.Current.WebHeaderDetailManager.LoadDetails(startPage: 1, maxPage: 1, reloadHeaderPage: false, reloadDetail: false, loadImage: false, refreshDocumentStore: false).zView_v3();
+Download.Print.TelechargerMagazine.TelechargerMagazine.Current.WebHeaderDetailManager.LoadDetails(startPage: 1, maxPage: 1, reloadHeaderPage: false, reloadDetail: false, loadImage: false, refreshDocumentStore: true).zView_v3();
+Download.Print.TelechargerMagazine.TelechargerMagazine.Current.HeaderWebDataPageManager.Find(query: null, sort: "{ _id: -1 }", limit: 100, loadImage: false).zView_v3();
+Download.Print.TelechargerMagazine.TelechargerMagazine.Current.DetailWebDataManager.Find(query: null, sort: "{ _id: -1 }", limit: 100, loadImage: false).zView_v3();
+
+//*************************************************************************************************************************
+//****                                   $$info.site ExtremeDown extreme-down.net
+//*************************************************************************************************************************
+
+Download.Print.ExtremeDown.ExtremeDown.Current.HeaderWebDataPageManager.LoadPages(startPage: 1, maxPage: 1, reload: false, loadImage: false, refreshDocumentStore: false).zView_v3();
+Download.Print.ExtremeDown.ExtremeDown.Current.HeaderWebDataPageManager.LoadPages(startPage: 1, maxPage: 1, reload: false, loadImage: false, refreshDocumentStore: true).zView_v3();
+Download.Print.ExtremeDown.ExtremeDown.Current.WebHeaderDetailManager.LoadDetails(startPage: 1, maxPage: 1, reloadHeaderPage: false, reloadDetail: false, loadImage: false, refreshDocumentStore: false).zView_v3();
+Download.Print.ExtremeDown.ExtremeDown.Current.WebHeaderDetailManager.LoadDetails(startPage: 1, maxPage: 1, reloadHeaderPage: false, reloadDetail: false, loadImage: false, refreshDocumentStore: true).zView_v3();
+Download.Print.ExtremeDown.ExtremeDown.Current.HeaderWebDataPageManager.Find(query: null, sort: "{ _id: -1 }", limit: 100, loadImage: false).zView_v3();
+Download.Print.ExtremeDown.ExtremeDown.Current.DetailWebDataManager.Find(query: null, sort: "{ _id: -1 }", limit: 100, loadImage: false).zView_v3();
+
+//*************************************************************************************************************************
+//****                                   $$info.site MagazinesGratuits magazines-gratuits.info
+//*************************************************************************************************************************
+
+Download.Print.MagazinesGratuits.MagazinesGratuits.Current.HeaderWebDataPageManager.LoadPages(startPage: 1, maxPage: 1, reload: false, loadImage: false, refreshDocumentStore: false).zView_v3();
+Download.Print.MagazinesGratuits.MagazinesGratuits.Current.HeaderWebDataPageManager.LoadPages(startPage: 1, maxPage: 1, reload: false, loadImage: false, refreshDocumentStore: true).zView_v3();
+Download.Print.MagazinesGratuits.MagazinesGratuits.Current.WebHeaderDetailManager.LoadDetails(startPage: 1, maxPage: 1, reloadHeaderPage: false, reloadDetail: false, loadImage: false, refreshDocumentStore: false).zView_v3();
+Download.Print.MagazinesGratuits.MagazinesGratuits.Current.WebHeaderDetailManager.LoadDetails(startPage: 1, maxPage: 1, reloadHeaderPage: false, reloadDetail: false, loadImage: false, refreshDocumentStore: true).zView_v3();
+Download.Print.MagazinesGratuits.MagazinesGratuits.Current.HeaderWebDataPageManager.Find(query: null, sort: "{ _id: -1 }", limit: 100, loadImage: false).zView_v3();
+Download.Print.MagazinesGratuits.MagazinesGratuits.Current.DetailWebDataManager.Find(query: null, sort: "{ _id: -1 }", limit: 100, loadImage: false).zView_v3();
+
+//*************************************************************************************************************************
+//****                                   $$info.site Vosbooks_v2
+//*************************************************************************************************************************
+
+Download.Print.Vosbooks.Vosbooks.Current.HeaderWebDataPageManager.LoadPages(startPage: 1, maxPage: 1, reload: false, loadImage: false, refreshDocumentStore: false).zView();
+Download.Print.Vosbooks.Vosbooks.Current.HeaderWebDataPageManager.LoadPages(startPage: 1, maxPage: 1, reload: false, loadImage: false, refreshDocumentStore: true).zView();
+Download.Print.Vosbooks.Vosbooks.Current.WebHeaderDetailManager.LoadDetails(startPage: 1, maxPage: 1, reloadHeaderPage: false, reloadDetail: false, loadImage: false, refreshDocumentStore: false).zTraceJson();
+Download.Print.Vosbooks.Vosbooks.Current.WebHeaderDetailManager.LoadDetails(startPage: 1, maxPage: 1, reloadHeaderPage: false, reloadDetail: false, loadImage: false, refreshDocumentStore: true).zTraceJson();
+Download.Print.Vosbooks.Vosbooks.Current.HeaderWebDataPageManager.Find(query: null, sort: "{ _id: -1 }", limit: 100, loadImage: false).zView_v3();
+Download.Print.Vosbooks.Vosbooks.Current.DetailWebDataManager.Find(query: null, sort: "{ _id: -1 }", limit: 100, loadImage: false).zView_v3();
+
+Download.Print.Vosbooks.Vosbooks_HeaderManager_v2.HeaderWebDataPageManager.LoadPages(startPage: 1, maxPage: 2, reload: true, loadImage: false, refreshDocumentStore: false).zView();
+Download.Print.Vosbooks.Vosbooks_DetailManager_v2.WebHeaderDetailManager.LoadDetails(startPage: 1, maxPage: 2, reloadHeaderPage: true, reloadDetail: false, loadImage: false, refreshDocumentStore: false).zView();
+Download.Print.Vosbooks.Vosbooks_DetailManager_v2.WebHeaderDetailManager.LoadDetails(startPage: 1, maxPage: 2, reloadHeaderPage: true, reloadDetail: false, loadImage: false, refreshDocumentStore: true).zView();
+
+TraceMongoCommand.Export("dl_test", "Vosbooks_Detail_Test", Path.Combine(AppData.DataDirectory, @"sites\vosbooks.net.test\mongo\export_Vosbooks_Detail_Detail_Test.txt"), sort: "{ 'download.PostCreationDate': -1 }");
+
+Trace.WriteLine("toto");
+Download.Print.Vosbooks.Vosbooks_v2.FakeInit();
+Download.Print.Vosbooks.Vosbooks_HeaderManager_v2.HeaderWebDataPageManager.WebLoadDataManager.UrlCache.CacheDirectory.zTrace();
+Download.Print.Vosbooks.Vosbooks_DetailManager_v2.DetailWebDataManager.WebLoadDataManager.UrlCache.CacheDirectory.zTrace();
+((MongoDocumentStore_v5<Vosbooks_PostDetail_v2>)Download.Print.Vosbooks.Vosbooks_DetailManager_v2.DetailWebDataManager.DocumentStore).CollectionManager.GetCollectionFullName().zTrace();
+
+Download.Print.Vosbooks.Vosbooks_v4.Current.DetailWebDataManager.DocumentStore.zTrace();
+
+
+//*************************************************************************************************************************
+//****                                   old                $$info.site MagazinesGratuits magazines-gratuits.info
+//*************************************************************************************************************************
+
+Download.Print.MagazinesGratuits.MagazinesGratuits_HeaderManager_v2.HeaderWebDataPageManager.LoadPages(startPage: 1, maxPage: 2, reload: true, loadImage: false, refreshDocumentStore: false).zView();
+Download.Print.MagazinesGratuits.MagazinesGratuits_DetailManager_v2.WebHeaderDetailManager.LoadDetails(startPage: 1, maxPage: 2, reloadHeaderPage: true, reloadDetail: false, loadImage: false, refreshDocumentStore: false).zView();
+Download.Print.MagazinesGratuits.MagazinesGratuits_DetailManager_v2.WebHeaderDetailManager.LoadDetails(startPage: 1, maxPage: 2, reloadHeaderPage: true, reloadDetail: false, loadImage: false, refreshDocumentStore: true).zView();
+
+Download.Print.MagazinesGratuits.MagazinesGratuits_DetailManager_v2.DetailWebDataManager.Load(new WebRequest { HttpRequest = new HttpRequest { Url = "" }}).zTraceJson();
+
+TraceMongoCommand.Export("dl_test", "MagazinesGratuits_Detail_Test", Path.Combine(AppData.DataDirectory, @"sites\magazines-gratuits.info.test\mongo\export_MagazinesGratuits_Detail_Test.txt"), sort: "{ 'download.PostCreationDate': -1 }");
+TraceMongoCommand.Eval("db.getCollectionNames()", "dl_test");
+//TraceMongoCommand.Eval("db.MagazinesGratuits_Detail_Test.drop()", "dl_test");
+
+//*************************************************************************************************************************
+//****                                   old                $$info.site ExtremeDown
 //*************************************************************************************************************************
 
 // load new post
@@ -163,7 +259,7 @@ Download.Print.ExtremeDown.ExtremeDown_DetailManager.DetailWebDataManager.Load(n
 Download.Print.ExtremeDown.ExtremeDown_DetailManager.DetailWebDataManager.Load(new WebRequest { HttpRequest = new HttpRequest { Url = "http://www.ex-down.com/29238-le-labyrinthe-la-terre-brglge-truefrench-bdrip.html" }, ReloadFromWeb = false, LoadImage = false, RefreshDocumentStore = true}).Document.zTraceJson();
 
 //*************************************************************************************************************************
-//****                                   Vosbooks
+//****                                   old                $$info.site Vosbooks
 //*************************************************************************************************************************
 
 // load new post
@@ -196,7 +292,17 @@ Download.Print.DownloadAutomate_f.Test_TryDownload_02(Download.Print.Vosbooks.Vo
 76541
 
 //*************************************************************************************************************************
-//****                                   Ebookdz
+//****                                   old                $$info.site Ebookdz_v2  ebookdz.com
+//*************************************************************************************************************************
+
+DownloadPrint.Test.zTrace();
+
+Download.Print.Ebookdz.Ebookdz_DetailManager_v2.WebHeaderDetailManager.LoadDetails(startPage: 1, maxPage: 1, reloadHeaderPage: true, reloadDetail: false, loadImage: false, refreshDocumentStore: false).zView();
+Download.Print.Ebookdz.Ebookdz_DetailManager_v2.LoadForumNewDocuments(reloadForums: false, maxNbDocumentsLoadedFromStore: 5, maxPage: 20, loadImage: true, filter: null).zTraceJson();
+Download.Print.Ebookdz.Ebookdz_MainForumManager_v2.LoadSubForums(reload: false).zView();
+
+//*************************************************************************************************************************
+//****                                   old                $$info.site Ebookdz
 //*************************************************************************************************************************
 
 // load new post
@@ -231,7 +337,7 @@ RunSource.CurrentRunSource.View(Download.Print.Ebookdz.Ebookdz.WebHeaderDetailMa
 RunSource.CurrentRunSource.View(Download.Print.Ebookdz.old.Ebookdz_LoadPostDetail.CurrentLoadPostDetail.LoadDetailItemList());
 
 //*************************************************************************************************************************
-//****                                   Telechargementz
+//****                                   old                $$info.site Telechargementz
 //*************************************************************************************************************************
 
 // load new post
@@ -242,7 +348,7 @@ Download.Print.Telechargementz.Telechargementz_LoadPostDetail.CurrentLoadPostDet
 Download.Print.Download_Exe.Test_LoadDetailItemList_01(Download.Print.Telechargementz.Telechargementz_LoadPostDetail.CurrentLoadPostDetail, limit: 20, loadImage: false);
 
 //*************************************************************************************************************************
-//****                                   ExtremeDown
+//****                                   old                $$info.site ExtremeDown
 //*************************************************************************************************************************
 
 // load new post
@@ -253,7 +359,7 @@ Download.Print.Download_Exe.Test_LoadDetailItemList_01(Download.Print.ExtremeDow
 //Download.Print.ExtremeDown.ExtremeDown_Exe.Test_ExtremeDown_LoadDetailItemList_01(limit: 20, loadImage: false);
 
 //*************************************************************************************************************************
-//****                                   GoldenDdl
+//****                                   old                $$info.site GoldenDdl
 //*************************************************************************************************************************
 
 // load new post
@@ -284,7 +390,7 @@ Download.Print.Download_Exe.Test_LoadDetailItemList_01(Download.Print.GoldenDdl.
 
 
 //*************************************************************************************************************************
-//****                                   GoldenDdl mongo
+//****                                   old                $$info.site GoldenDdl mongo
 //*************************************************************************************************************************
 
 // GoldenDdl_Detail count    ??? creationDate 2014-08-14 to 2014-09-20  (le 20/09/2014)
@@ -296,7 +402,7 @@ pb.Data.Mongo.TraceMongoCommand.Find("dl", "GoldenDdl_Detail", "{}", limit: 0, s
 pb.Data.Mongo.TraceMongoCommand.Export("dl", "GoldenDdl_Detail", Path.Combine(RunSource.CurrentRunSource.DataDir, @"mongo\export\golden-ddl\export_GoldenDdl_Detail.txt"), sort: "{ 'download.creationDate': -1 }");
 
 //*************************************************************************************************************************
-//****                                   RapideDdl
+//****                                   old                $$info.site RapideDdl
 //*************************************************************************************************************************
 
 // load new post
@@ -317,7 +423,7 @@ Download.Print.RapideDdl.RapideDdl_Exe.Test_RapideDdl_LoadDetailItemList_01(limi
 
 
 //*************************************************************************************************************************
-//****                                   RapideDdl mongo
+//****                                   old                $$info.site RapideDdl mongo
 //*************************************************************************************************************************
 
 // RapideDdl_Detail2 count    935 creationDate 2014-08-14 to 2014-09-20  (le 20/09/2014)
@@ -1188,12 +1294,13 @@ pb.Data.Mongo.TraceMongoCommand.Remove("test", "data01", "{}");
 
 
 //*************************************************************************************************************************
-//****                                   test mongo update
+//****                                   $$info.test.mongo    test mongo update
 //*************************************************************************************************************************
 
-pb.Data.Mongo.TraceMongoCommand.Eval("db.getCollectionNames()", "test");
-pb.Data.Mongo.TraceMongoCommand.Eval("test", "db.createCollection('test_update')");
-//pb.Data.Mongo.TraceMongoCommand.Eval("test", "db.test_update.drop()");
+TraceMongoCommand.Eval("db.getCollectionNames()", "test");
+TraceMongoCommand.Eval("test", "db.createCollection('test_update')");
+//TraceMongoCommand.Eval("db.users.drop()", "test");
+// ["TestId", "TestId2", "Test_RapideDdl_Detail", "data01", "entities", "system.indexes", "system.js", "test", "testData", "test_update", "users"]
 pb.Data.Mongo.TraceMongoCommand.Eval("test", "db.test_update.count()");
 pb.Data.Mongo.TraceMongoCommand.FindAs("test", "test_update", "{}");
 // UpdateFlags.None UpdateFlags.Multi UpdateFlags.Upsert
@@ -1204,19 +1311,24 @@ pb.Data.Mongo.TraceMongoCommand.Update("test", "test_update", "{ _id: 2 }", "{ _
 pb.Data.Mongo.TraceMongoCommand.Remove("test", "test_update", "{ _id: 2 }");
 pb.Data.Mongo.TraceMongoCommand.Update("test", "test_update", "{ _id: 3 }", "{ _id: 4, dl: { url: 'http://test/2/', title: 'test 2' } }", UpdateFlags.Upsert);
 
-pb.Data.Mongo.TraceMongoCommand.Find("test", "test", "{}");
-pb.Data.Mongo.TraceMongoCommand.FindAll("test", "test");
-pb.Data.Mongo.TraceMongoCommand.Remove("test", "test", "{}");
-pb.Data.Mongo.TraceMongoCommand.RemoveAll("test", "test");
-pb.Data.Mongo.TraceMongoCommand.Count("test", "test", "{}");
-pb.Data.Mongo.TraceMongoCommand.Update("test", "test", "{ _id: 1 }", "{ $set: { title: 'toto', n: 1 } }", MongoDB.Driver.UpdateFlags.Upsert);
-pb.Data.Mongo.TraceMongoCommand.Update("test", "test", "{ _id: 2 }", "{ $set: { title: 'tata', n: 2 } }", MongoDB.Driver.UpdateFlags.Upsert);
-pb.Data.Mongo.TraceMongoCommand.Update("test", "test", "{ _id: 3 }", "{ $set: { title: 'tutu', n: 3 } }", MongoDB.Driver.UpdateFlags.Upsert);
-pb.Data.Mongo.TraceMongoCommand.FindAndModify("test", "test", "{ _id: 1 }", "{ $inc: { n: 2 } }");
-pb.Data.Mongo.TraceMongoCommand.FindAndRemove("test", "test", "{ _id: 1 }");
+TraceMongoCommand.Find("test", "test", "{}");
+TraceMongoCommand.FindAll("test", "test");
+TraceMongoCommand.Remove("test", "test", "{}");
+TraceMongoCommand.RemoveAll("test", "test");
+TraceMongoCommand.Count("test", "test", "{}");
+TraceMongoCommand.Update("test", "test", "{ _id: 1 }", "{ $set: { title: 'toto', n: 1 } }", MongoDB.Driver.UpdateFlags.Upsert);
+TraceMongoCommand.Update("test", "test", "{ _id: 1 }", "{ $set: { title: 'toto', n: 1 } }", MongoDB.Driver.UpdateFlags.Upsert);
+TraceMongoCommand.Update("test", "test", "{ _id: 2 }", "{ $set: { title: 'tata', n: 2 } }", MongoDB.Driver.UpdateFlags.Upsert);
+TraceMongoCommand.Update("test", "test", "{ _id: 3 }", "{ $set: { title: 'tutu', n: 3 } }", MongoDB.Driver.UpdateFlags.Upsert);
+TraceMongoCommand.FindAndModify("test", "test", "{ _id: 1 }", "{ $inc: { n: 2 } }");
+TraceMongoCommand.FindAndRemove("test", "test", "{ _id: 1 }");
+
+TraceMongoCommand.Insert("test", "test", "{ title: 'toto', n: 1 }");
+TraceMongoCommand.Find("test", "test", "{}").zTraceJson();
+TraceMongoCommand.Find("test", "test", "{}", fields: "{ _id: 1 }").zTraceJson();
 
 
-pb.Data.Mongo.TraceMongoCommand.Eval("db.Images.drop()", "dl");
+TraceMongoCommand.Eval("db.Images.drop()", "dl");
 pb.Data.Mongo.TraceMongoCommand.FindAs("dl", "Images", "{}");
 pb.Data.Mongo.TraceMongoCommand.FindAs<pb.Web.MongoImage>("dl", "Images", "{}");
 
@@ -2182,7 +2294,7 @@ Trace.WriteLine("{0}", zfile.AreFileEqual(@"c:\pib\_dl\_pib\dl\golden-ddl.net\pr
 
 // manage new print
 string[] directories = new string[] {
-	@"g:\pib\media\ebook\_dl\_dl_pib\print\07\print"
+	@"g:\pib\media\ebook\_dl\_dl_pib\print\04\print"
 	};
 DownloadAutomate_f.Test_ManageDirectories_01(directories, @"g:\pib\media\ebook\print", usePrintDirectories: true, simulate: false, moveFiles: true);
 
@@ -2210,6 +2322,16 @@ DownloadAutomate_f.Test_ManageDirectories_01(directories, @"g:\pib\media\ebook\b
 //  .zRenameDailyPrintFiles(DownloadAutomate_f.CreateFindPrintManager(version: 6, dailyPrintManager: true, gapDayBefore: 5, gapDayAfter: 2), @"g:\pib\media\ebook\Journaux", simulate: true);
 
 
+// manage new Journaux
+PrintFileManager_v2.GetDailyPrintFiles(@"g:\pib\media\ebook\_dl\_dl_pib\journaux\02\print\.01_quotidien\Journaux")
+  .zRenameDailyPrintFiles(DownloadAutomate_f.CreateFindPrintManager(version: 6, dailyPrintManager: false, gapDayBefore: 0, gapDayAfter: 0),  @"g:\pib\media\ebook\Journaux", simulate: true)
+  .zSave(@"c:\pib\dev_data\exe\runsource\download\print\RenamePrintFiles.txt");
+PrintFileManager_v2.GetDailyPrintFiles(@"g:\pib\media\ebook\_dl\_dl_pib\journaux\02\print\.01_quotidien\Journaux")
+  .zRenameDailyPrintFiles(DownloadAutomate_f.CreateFindPrintManager(version: 6, dailyPrintManager: true, gapDayBefore: 5, gapDayAfter: 2),  @"g:\pib\media\ebook\Journaux", simulate: false)
+  .zSave(@"c:\pib\dev_data\exe\runsource\download\print\RenamePrintFiles.txt");
+DownloadAutomate_f.Test_ManageDirectories_01(new string[] { @"g:\pib\media\ebook\Journaux\print" }, @"g:\pib\media\ebook\print", usePrintDirectories: true, simulate: false, moveFiles: true);
+
+PrintFileManager_v2.GetDailyPrintFiles(@"g:\pib\media\ebook\_dl\_dl_pib\journaux\01\print\.01_quotidien\Journaux").zSave(@"c:\pib\dev_data\exe\runsource\download\print\DailyPrintFiles.txt");
 
 // manage new Journaux
 PrintFileManager_v2.GetDailyPrintFiles(@"g:\pib\media\ebook\print\.01_Journaux").zSave(@"c:\pib\dev_data\exe\runsource\download\print\DailyPrintFiles.txt");
@@ -2839,6 +2961,65 @@ Trace.WriteLine("toto");
 
 
 //*************************************************************************************************************************
+//****                                   $$info.test.selenium
+//*************************************************************************************************************************
+
+Trace.WriteLine("toto");
+Trace.WriteLine(RunSource.CurrentRunSource.ProjectFile);
+RunSource.CurrentRunSource.SetProjectFromSource();
+RunSource.CurrentRunSource.SetProject(@"$Root$\Test\Test.Test_01\Source\Test_Selenium\Test_Selenium.project.xml");
+
+RunSource.CurrentRunSource.CompileProject(@"$Root$\Lib\pb\Source\Project\pb.Web.WebDriver.dll.project.xml");
+
+AssemblyResolve.Trace = true;
+AssemblyResolve.Trace = false;
+
+
+Test_Selenium.Test_Selenium_01();
+Test_Selenium.Test_Selenium_Firefox_01();
+Test_Selenium.Test_Selenium_Chrome_01();
+Test_Selenium.Test_Selenium_Chrome_02();
+
+ChromeDriverService service = ChromeWebDriverManager.CreateDriverService(@"$Root$\..\library\Selenium\chrome.driver".zGetRunSourceProjectVariableValue().zRootPath(RunSource.CurrentRunSource.ProjectDirectory));
+service.Start();
+ChromeWebDriverManager.CreateWebDriver(Test_Selenium.GetChromeDriverDirectory());
+WebDriverManager.SetCurrentWebDriver(ChromeWebDriverManager.CreateWebDriver(Test_Selenium.GetChromeDriverDirectory()));
+WebDriverManager.CurrentWebDriver.Navigate().GoToUrl("http://www.google.com/");
+WebDriverManager.CurrentWebDriver.Quit();
+
+WebDriverRun.SetDriverDirectory(Test_Selenium.GetChromeDriverDirectory());
+WebDriverRun.CreateChromeWebDriver();
+WebDriverRun.Navigate().GoToUrl("http://www.google.com/");
+WebDriverRun.FindElement(By.Name("q"));
+WebDriverRun.Element.SendKeys("Cheese");
+Trace.WriteLine("  driver.Title : \"{0}\"", WebDriverRun.Title);
+WebDriverRun.Navigate().GoToUrl("http://www.mamega.me/ebooks/2618/investir_n%C2%B02188_du_12_d%C3%A9cembre_2015/");
+// <button id="getlist"
+WebDriverRun.FindElement(By.Id("getlist"));
+WebDriverRun.Element.TagName.zTrace();
+WebDriverRun.Element.Text.zTrace();
+WebDriverRun.Element.Click();
+WebDriverRun.FindElement(By.Id("showlist"));
+WebDriverRun.Element.zFindElement(By.TagName("table"));
+WebDriverRun.Element.zFindElement(By.XPath(".//tr[3]//td[3]//a"));
+//http://www.mamega.me/protect/dl/17244/ebooks/
+WebDriverRun.CurrentWindowHandle.zTrace();
+WebDriverRun.WindowHandles.zToStringValues().zTrace();
+WebDriverRun.SwitchTo().Window("CDwindow-CF554809-306C-4F11-8705-AFC231003863");
+WebDriverRun.SwitchTo().Window("CDwindow-7BC441D5-096E-4180-94A6-FEAEF032C15C");
+// //*[@id="wrapper"]/div[3]/div/div/div/table/tbody/tr[2]
+WebDriverRun.FindElement(By.XPath("//*[@id='wrapper']/div[3]/div/div/div/table/tbody/tr[2]"));
+// //*[@id='recaptcha-anchor']/div[1]
+WebDriverRun.SwitchTo().Window("CDwindow-CF554809-306C-4F11-8705-AFC231003863");
+WebDriverRun.Url.zTrace();
+WebDriverRun.SwitchTo().Frame(0);
+WebDriverRun.FindElement(By.XPath("//*[@id='recaptcha-anchor']/div[1]"));
+WebDriverRun.FindElement(By.XPath("//*[@id='recaptcha-anchor']"));
+WebDriverRun.Element.TagName.zTrace();
+WebDriverRun.Element.Click();
+
+
+//*************************************************************************************************************************
 //****                                   $$info.test.regex
 //*************************************************************************************************************************
 
@@ -2847,6 +3028,9 @@ Trace.WriteLine(RunSource.CurrentRunSource.ProjectFile);
 RunSource.CurrentRunSource.SetProjectFromSource();
 RunSource.CurrentRunSource.SetProject(@"$Root$\Lib\pb\Source\pb\Text\Test\Test_Text.project.xml");
 
+Test_Regex.Test(@"\?f=([0-9]+)(?:&page=([0-9]+))?$", "http://www.ebookdz.com/forum/forumdisplay.php?f=156");
+Test_Regex.Test(@"\?f=([0-9]+)(?:&page=([0-9]+))?$", "http://www.ebookdz.com/forum/forumdisplay.php?f=156&page=2");
+
 Test_RegexValues.Test(
   new RegexValuesList(XmlConfig.CurrentConfig.GetConfig("PrintList2Config").GetElements("FindPrints/Prints/Print"), compileRegex: true),
   "La Dernière Heure Namur");
@@ -2854,7 +3038,27 @@ Test_RegexValues.Test(
   //"Le Monde Culture et Idées");
   //"Le Monde Culture");
 
-Test.Test_Text.Test_Regex.Test(@"^\s*(?:journal\s*)?le\s*figaro(?:\s+week[\s\-]*end)?$", "Le figaro");
+// zparse.__timespan
+string regex = @"^(?:(?:(?:([0-9]+)\.)?(?:([0-9]{1,2}):))?(?:([0-9]{1,2}):))?([0-9]{1,2})(?:\.([0-9]{1,7}))?$";
+Test_Regex.Test(regex, "1.10:30:40.12345");
+Test_Regex.Test(regex, "1.10:30:40");
+Test_Regex.Test(regex, "10:30:40");
+Test_Regex.Test(regex, "30:40");
+Test_Regex.Test(regex, "40");
+Test_Regex.Test(regex, "40.12345");
+// NamedValues.__parseValues
+Test_Regex.Test("\\s*([a-z_]+)\\s*=\\s*(?:([0-9]{2}/[0-9]{2}/[0-9]{4})|([0-9]{2}:[0-9]{2}:[0-9]{2})|([0-9]+)|('[^']*')|(\"[^\"]*\"))\\s*,?\\s*",
+  "date = 01/01/2015, time = 01:35:52, version = 3, text1 = 'toto', text2 = \"toto\"");
+
+
+NamedValues.__parseValuesFormat.zTrace();
+Test_Regex.Test(NamedValues.__parseValuesFormat, "date = 01/01/2015, time = 01:35:52, version = 3, text1 = 'toto', text2 = \"toto\"");
+Test_Regex.Test(NamedValues.__parseValuesFormat, "datetime1 = 01/01/2015 01:35:52.1234567, datetime2 = 2015-01-01 01:35:52.1234567, date1 = 01/01/2015, date2 = 2015-01-01, time = 1.01:35:52.1234567, double = 1.123, int = 3, text1 = 'toto', text2 = \"toto\"");
+Test_Regex.Test(NamedValues.__parseValuesFormat, "datetime = 01/01/2015 01:35:52.1234567");
+Test_Regex.Test(NamedValues.__parseValuesFormat, "datetime = 01/01/2015 01:35:52.1234567, ");
+Test_Regex.Test(NamedValues.__parseValuesFormat, "datetime = 2015-01-01 01:35:52.1234");
+
+Test_Regex.Test(@"^\s*(?:journal\s*)?le\s*figaro(?:\s+week[\s\-]*end)?$", "Le figaro");
 
 Test.Test_Text.Test_Regex.Test("&(?:(?:#([0-9]+))|(?:#x([0-9a-f]+))|([a-z]+));", "toto&#amp;tata");
 Test.Test_Text.Test_Regex.Test("&(?:(?:#([0-9]+))|(?:#x([0-9a-f]+))|([a-z]+));", "toto&amp;tata");
@@ -4529,6 +4733,9 @@ Uri uri = new Uri("http://extreme-protect.net/Ljhl7jL");
 uri.Segments[uri.Segments.Length - 1].zTrace();
 Uri uri = new Uri("http://www.extreme-down.net/ebooks/page/2/");
 uri.Segments[uri.Segments.Length - 1].zTrace();
+Uri uri = new Uri("http://www.magazines-gratuits.info/le-monde-et-supplement-du-dimanche-13-et-lundi-14-decembre-2015.html");
+uri.Segments[uri.Segments.Length - 1].zTrace();
+uri.Segments.Length.zTrace();
 
 
 new ExtremeProtect().UnprotectLink("http://extreme-protect.net/Ljhl7jL").zTraceJson();
@@ -4541,3 +4748,105 @@ zmongo.FileReader<BsonDocument>(@"c:\pib\drive\google\dev_data\exe\runsource\tes
 zmongo.FileReader<BsonDocument>(@"c:\pib\drive\google\dev_data\exe\runsource\test_unit\Print\PrintTitle\05\PrintTitle_Vosbooks_out_bson_old_03.txt")
   .Select(doc => { doc.zSet("PrintTitleInfo.title", doc.zGet("PrintTitleInfo.title").zAsString().Replace("&", " et ")); return doc; })
   .zSave(@"c:\pib\drive\google\dev_data\exe\runsource\test_unit\Print\PrintTitle\05\PrintTitle_Vosbooks_out_bson_old_04.txt");
+
+//*************************************************************************************************************************
+//****                                   $$info.test.magazines-gratuits.info
+//*************************************************************************************************************************
+
+HttpManager.CurrentHttpManager.ExportResult = false;
+HttpManager.CurrentHttpManager.ExportResult = true;
+HttpManager.CurrentHttpManager.ExportDirectory.zTrace();
+HttpManager.CurrentHttpManager.ExportResult.zTrace();
+HttpRun.Load("http://www.magazines-gratuits.info/");
+HtmlRun.Select("//div[@id='wp_page_numbers']//li[last()]:.:EmptyRow", ".//a/@href");
+
+"01:02:03".zTryParseAs<TimeSpan>().zTrace();                                   // 01:02:03           ok
+"01:02:03".zTryParseAs<TimeSpan>().ToString(@"mm\:ss").zTrace();               //    02:03           ok
+"02:03".zTryParseAs<TimeSpan>().zTrace();                                      // 02:03:00           bad
+"02:03".zTryParseAs<TimeSpan>(format: @"mm\:ss").zTrace();                     // 00:02:03           ok
+"02:03.123".zTryParseAs<TimeSpan>(format: @"m\:s\.fff").zTrace();              // 00:02:03.1230000   ok
+"01:02:03".zTryParseAs<TimeSpan>().zTrace();                                   // 01:02:03           ok
+"01:02:03.1234567".zTryParseAs<TimeSpan>().zTrace();                           // 01:02:03.1234567   ok
+CultureInfo.InvariantCulture.GetFormat(typeof(TimeSpan)).zTrace();
+
+"1.02:03:04.1234567".zTryParseAs<TimeSpan>().zTrace();                         // 1.02:03:04.1234567 ok
+"1.02:03:04".zTryParseAs<TimeSpan>().zTrace();                                 // 1.02:03:04         ok
+"02:03:04.1234567".zTryParseAs<TimeSpan>().zTrace();                           //   02:03:04.1234567 ok
+"02:03:04".zTryParseAs<TimeSpan>().zTrace();                                   //   02:03:04         ok
+"03:04.1234567".zTryParseAs<TimeSpan>().zTrace();                              //   00:03:04.1234567 ok          (old   00:00:00         bad)
+"03:04".zTryParseAs<TimeSpan>().zTrace();                                      //   00:03:04         ok          (old   03:04:00         bad)
+"04.1234567".zTryParseAs<TimeSpan>().zTrace();                                 //   00:00:04.1234567 ok          (old   00:00:00         bad)
+"04".zTryParseAs<TimeSpan>().zTrace();                                         //   00:00:04         ok          (old 4.00:00:00         bad)
+"04.123456".zTryParseAs<TimeSpan>().zTrace();                                  //   00:00:04.1234560 ok
+"04.12345".zTryParseAs<TimeSpan>().zTrace();                                   //   00:00:04.1234500 ok
+"04.1234".zTryParseAs<TimeSpan>().zTrace();                                    //   00:00:04.1234000 ok
+"04.123".zTryParseAs<TimeSpan>().zTrace();                                     //   00:00:04.1230000 ok
+"04.12".zTryParseAs<TimeSpan>().zTrace();                                      //   00:00:04.1200000 ok
+"04.1".zTryParseAs<TimeSpan>().zTrace();                                       //   00:00:04.1000000 ok
+
+"123".PadRight(7, '0').zTrace();
+
+NamedValues.ParseValues("datetime1 = 01/01/2015 01:35:52.123, datetime2 = 2015-01-01 01:35:52.123, date1 = 01/01/2015, date2 = 2015-01-01, time = 1.01:35:52.1234567, double = 1.123, int = 3, text1 = 'toto', text2 = \"toto\"").zTraceJson();
+NamedValues.ParseValues("datetime1 = 01/01/2015 01:35:52.123, datetime2 = 2015-01-01 01:35:52.123, date1 = 01/01/2015, date2 = 2015-01-01, time = 1.01:35:52.1234567, double = 1.123, int = 3, bool1 = true, bool2 =  false, text1 = 'toto', text2 = \"toto\"").zTraceJson();
+TimeSpan timespan;
+zparse.TryParseTimeSpan("1.01:35:52.1234567", out timespan);
+timespan.ToString().zTrace();
+
+new TimeSpan(1, 1, 35, 52, 123).zTrace();
+new TimeSpan(0, 0, 0, 0, 123).Ticks.zTrace();
+zparse.CreateTimeSpan(1, 1, 35, 52, 123).zTrace();
+zparse.CreateTimeSpan(0, 0, 0, 0, 123).zTrace();
+new TimeSpan(0, 0, 0, 1, 0).Ticks.zTrace();
+zparse.CreateTimeSpan(0, 0, 0, 1, 0).zTrace();
+zparse.CreateTimeSpan(0, 0, 0, 59, 0).zTrace();
+zparse.CreateTimeSpan(0, 0, 1, 0, 0).zTrace();
+zparse.CreateTimeSpan(0, 0, 2, 0, 0).zTrace();
+zparse.CreateTimeSpan(0, 0, 10, 0, 0).zTrace();
+zparse.CreateTimeSpan(0, 0, 1, 0, 0).zTrace();
+zparse.CreateTimeSpan(0, 0, 59, 0, 0).zTrace();
+
+//*************************************************************************************************************************
+//****                                   $$info.test Automate test
+//*************************************************************************************************************************
+
+WebData.CreateDownloadAutomate_v2("loadNewPost = true, searchPostToDownload = false, sendMail = false").SearchPostToDownload.zTrace();
+WebData.CreateDownloadAutomate_v2("loadNewPost = true, searchPostToDownload = false, sendMail = false").PostDownloadServerLimit.zTrace();
+// run now, load new post, dont search post to download, dont send mail
+WebData.RunDownloadAutomate_v2("runNow = true, loadNewPost = true, searchPostToDownload = false, sendMail = false");
+// run now, load new post, search post to download, dont send mail
+WebData.RunDownloadAutomate_v2("runNow = true, loadNewPost = true, searchPostToDownload = true, sendMail = false");
+
+//*************************************************************************************************************************
+//****                                   $$info.test mongo Automate test
+//*************************************************************************************************************************
+
+TraceMongoCommand.Eval("db.getCollectionNames()", "dl_test");
+TraceMongoCommand.Export("dl_test", "DownloadAutomate3", Path.Combine(AppData.DataDirectory, @"mongo\export\DownloadAutomate_test\export_DownloadAutomate3.txt"));
+TraceMongoCommand.Export("dl_test", "QueueDownloadFile_new", Path.Combine(AppData.DataDirectory, @"mongo\export\DownloadAutomate_test\export_QueueDownloadFile_new.txt"));
+TraceMongoCommand.Export("dl_test", "CurrentDownloadFile", Path.Combine(AppData.DataDirectory, @"mongo\export\DownloadAutomate_test\export_CurrentDownloadFile.txt"));
+TraceMongoCommand.Export("dl_test", "DownloadedFile", Path.Combine(AppData.DataDirectory, @"mongo\export\DownloadAutomate_test\export_DownloadedFile.txt"));
+//TraceMongoCommand.Eval("db.Vosbooks_Header_Test.drop()", "dl_test");
+//TraceMongoCommand.Eval("db.Vosbooks_Detail_Test.drop()", "dl_test");
+//TraceMongoCommand.Eval("db.MagazinesGratuits_Detail_Test.drop()", "dl_test");
+//TraceMongoCommand.Eval("db.Ebookdz_Detail_Test.drop()", "dl_test");
+//TraceMongoCommand.Eval("db.ExtremeDown_Header_Test.drop()", "dl_test");
+//TraceMongoCommand.Eval("db.ExtremeDown_Detail_Test.drop()", "dl_test");
+//TraceMongoCommand.Eval("db.CurrentDownloadFile.drop()", "dl_test");
+//TraceMongoCommand.Eval("db.DownloadedFile.drop()", "dl_test");
+
+TraceMongoCommand.Export("dl_test", "MagazinesGratuits_Header_Test", Path.Combine(AppData.DataDirectory, @"sites\magazines-gratuits.info.test\mongo\export_MagazinesGratuits_Header_Test.txt"), sort: "{ '_id': -1 }");
+TraceMongoCommand.Export("dl_test", "MagazinesGratuits_Detail_Test", Path.Combine(AppData.DataDirectory, @"sites\magazines-gratuits.info.test\mongo\export_MagazinesGratuits_Detail_Test.txt"), sort: "{ 'download.PostCreationDate': -1 }");
+TraceMongoCommand.Export("dl_test", "Vosbooks_Header_Test", Path.Combine(AppData.DataDirectory, @"sites\vosbooks.net.test\mongo\export_Vosbooks_Header_Test.txt"), sort: "{ '_id': -1 }");
+TraceMongoCommand.Export("dl_test", "Vosbooks_Detail_Test", Path.Combine(AppData.DataDirectory, @"sites\vosbooks.net.test\mongo\export_Vosbooks_Detail_Test.txt"), sort: "{ 'download.PostCreationDate': -1 }");
+TraceMongoCommand.Export("dl_test", "Ebookdz_Header_Test", Path.Combine(AppData.DataDirectory, @"sites\ebookdz.com.test\mongo\export_Ebookdz_Header_Test.txt"), sort: "{ '_id': -1 }");
+TraceMongoCommand.Export("dl_test", "Ebookdz_Detail_Test", Path.Combine(AppData.DataDirectory, @"sites\ebookdz.com.test\mongo\export_Ebookdz_Detail_Detail_Test.txt"), sort: "{ 'download.PostCreationDate': -1 }");
+TraceMongoCommand.Export("dl_test", "TelechargerMagazine_Header_Test", Path.Combine(AppData.DataDirectory, @"sites\telecharger-magazine.com.test\mongo\export_TelechargerMagazine_Header_Test.txt"), sort: "{ '_id': -1 }");
+TraceMongoCommand.Export("dl_test", "TelechargerMagazine_Detail_Test", Path.Combine(AppData.DataDirectory, @"sites\telecharger-magazine.com.test\mongo\export_TelechargerMagazine_Detail_Test.txt"), sort: "{ '_id': -1 }");
+TraceMongoCommand.Export("dl_test", "ExtremeDown_Header_Test", Path.Combine(AppData.DataDirectory, @"sites\extreme-down.net.test\mongo\export_ExtremeDown_Header_Test.txt"), sort: "{ '_id': -1 }");
+TraceMongoCommand.Export("dl_test", "ExtremeDown_Detail_Test", Path.Combine(AppData.DataDirectory, @"sites\extreme-down.net.test\mongo\export_ExtremeDown_Detail_Test.txt"), sort: "{ '_id': -1 }");
+
+
+
+BsonArray array = new BsonArray { 1, 2 };
+array.zView_v3();
+array.zView();

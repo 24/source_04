@@ -7,6 +7,8 @@ using pb.Data.Mongo;
 using pb.Data.Xml;
 using pb.Web;
 using pb.Web.Data;
+using pb.Data.Mongo.old;
+using pb.Web.Data.old;
 
 namespace hts.WebData
 {
@@ -60,18 +62,18 @@ namespace hts.WebData
         private static string __urlMainPage = "https://www.handeco.org/fournisseurs/rechercher";
         private static string __content = "raisonSociale=&SIRET=&departements%5B%5D=67&departements%5B%5D=68&departements%5B%5D=24&departements%5B%5D=33&departements%5B%5D=40&departements%5B%5D=47&departements%5B%5D=64&departements%5B%5D=03&departements%5B%5D=15&departements%5B%5D=43&departements%5B%5D=63&departements%5B%5D=14&departements%5B%5D=50&departements%5B%5D=61&departements%5B%5D=21&departements%5B%5D=58&departements%5B%5D=71&departements%5B%5D=89&departements%5B%5D=22&departements%5B%5D=29&departements%5B%5D=35&departements%5B%5D=56&departements%5B%5D=18&departements%5B%5D=28&departements%5B%5D=36&departements%5B%5D=37&departements%5B%5D=41&departements%5B%5D=45&departements%5B%5D=08&departements%5B%5D=10&departements%5B%5D=51&departements%5B%5D=52&departements%5B%5D=2A&departements%5B%5D=2B&departements%5B%5D=25&departements%5B%5D=39&departements%5B%5D=70&departements%5B%5D=90&departements%5B%5D=27&departements%5B%5D=76&departements%5B%5D=75&departements%5B%5D=77&departements%5B%5D=78&departements%5B%5D=91&departements%5B%5D=92&departements%5B%5D=93&departements%5B%5D=94&departements%5B%5D=95&departements%5B%5D=11&departements%5B%5D=30&departements%5B%5D=34&departements%5B%5D=48&departements%5B%5D=66&departements%5B%5D=19&departements%5B%5D=23&departements%5B%5D=87&departements%5B%5D=54&departements%5B%5D=55&departements%5B%5D=57&departements%5B%5D=88&departements%5B%5D=09&departements%5B%5D=12&departements%5B%5D=31&departements%5B%5D=32&departements%5B%5D=46&departements%5B%5D=65&departements%5B%5D=81&departements%5B%5D=82&departements%5B%5D=59&departements%5B%5D=62&departements%5B%5D=44&departements%5B%5D=49&departements%5B%5D=53&departements%5B%5D=72&departements%5B%5D=85&departements%5B%5D=02&departements%5B%5D=60&departements%5B%5D=80&departements%5B%5D=16&departements%5B%5D=17&departements%5B%5D=79&departements%5B%5D=86&departements%5B%5D=04&departements%5B%5D=05&departements%5B%5D=06&departements%5B%5D=13&departements%5B%5D=83&departements%5B%5D=84&departements%5B%5D=01&departements%5B%5D=07&departements%5B%5D=26&departements%5B%5D=38&departements%5B%5D=42&departements%5B%5D=69&departements%5B%5D=73&departements%5B%5D=74&departements%5B%5D=971&departements%5B%5D=973&departements%5B%5D=972&departements%5B%5D=974&departements%5B%5D=988&departements%5B%5D=987&departements%5B%5D=975&departements%5B%5D=976&departements%5B%5D=986&experience_cotraitance=0&motsCles=&submitRecherche=Rechercher";
         //                                 raisonSociale=&SIRET=&departements%5B%5D=67&departements%5B%5D=68&departements%5B%5D=24&departements%5B%5D=33&departements%5B%5D=40&departements%5B%5D=47&departements%5B%5D=64&departements%5B%5D=03&departements%5B%5D=15&departements%5B%5D=43&departements%5B%5D=63&departements%5B%5D=14&departements%5B%5D=50&departements%5B%5D=61&departements%5B%5D=21&departements%5B%5D=58&departements%5B%5D=71&departements%5B%5D=89&departements%5B%5D=22&departements%5B%5D=29&departements%5B%5D=35&departements%5B%5D=56&departements%5B%5D=18&departements%5B%5D=28&departements%5B%5D=36&departements%5B%5D=37&departements%5B%5D=41&departements%5B%5D=45&departements%5B%5D=08&departements%5B%5D=10&departements%5B%5D=51&departements%5B%5D=52&departements%5B%5D=2A&departements%5B%5D=2B&departements%5B%5D=25&departements%5B%5D=39&departements%5B%5D=70&departements%5B%5D=90&departements%5B%5D=27&departements%5B%5D=76&departements%5B%5D=75&departements%5B%5D=77&departements%5B%5D=78&departements%5B%5D=91&departements%5B%5D=92&departements%5B%5D=93&departements%5B%5D=94&departements%5B%5D=95&departements%5B%5D=11&departements%5B%5D=30&departements%5B%5D=34&departements%5B%5D=48&departements%5B%5D=66&departements%5B%5D=19&departements%5B%5D=23&departements%5B%5D=87&departements%5B%5D=54&departements%5B%5D=55&departements%5B%5D=57&departements%5B%5D=88&departements%5B%5D=09&departements%5B%5D=12&departements%5B%5D=31&departements%5B%5D=32&departements%5B%5D=46&departements%5B%5D=65&departements%5B%5D=81&departements%5B%5D=82&departements%5B%5D=59&departements%5B%5D=62&departements%5B%5D=44&departements%5B%5D=49&departements%5B%5D=53&departements%5B%5D=72&departements%5B%5D=85&departements%5B%5D=02&departements%5B%5D=60&departements%5B%5D=80&departements%5B%5D=16&departements%5B%5D=17&departements%5B%5D=79&departements%5B%5D=86&departements%5B%5D=04&departements%5B%5D=05&departements%5B%5D=06&departements%5B%5D=13&departements%5B%5D=83&departements%5B%5D=84&departements%5B%5D=01&departements%5B%5D=07&departements%5B%5D=26&departements%5B%5D=38&departements%5B%5D=42&departements%5B%5D=69&departements%5B%5D=73&departements%5B%5D=74&departements%5B%5D=971&departements%5B%5D=973&departements%5B%5D=972&departements%5B%5D=974&departements%5B%5D=988&departements%5B%5D=987&departements%5B%5D=975&departements%5B%5D=976&departements%5B%5D=986&experience_cotraitance=0&motsCles=&submitRecherche=Rechercher
-        private static WebDataPageManager<int, Handeco_HeaderPage, Handeco_Header> __headerWebDataPageManager = null;
+        private static WebDataPageManager_v1<int, Handeco_HeaderPage, Handeco_Header> __headerWebDataPageManager = null;
 
         static Handeco_HeaderManager()
         {
             __headerWebDataPageManager = CreateWebDataPageManager(XmlConfig.CurrentConfig.GetElement("Handeco/Header"));
         }
 
-        public static WebDataPageManager<int, Handeco_HeaderPage, Handeco_Header> HeaderWebDataPageManager { get { return __headerWebDataPageManager; } }
+        public static WebDataPageManager_v1<int, Handeco_HeaderPage, Handeco_Header> HeaderWebDataPageManager { get { return __headerWebDataPageManager; } }
 
-        private static WebDataPageManager<int, Handeco_HeaderPage, Handeco_Header> CreateWebDataPageManager(XElement xe)
+        private static WebDataPageManager_v1<int, Handeco_HeaderPage, Handeco_Header> CreateWebDataPageManager(XElement xe)
         {
-            WebDataPageManager<int, Handeco_HeaderPage, Handeco_Header> headerWebDataPageManager = new WebDataPageManager<int, Handeco_HeaderPage, Handeco_Header>();
+            WebDataPageManager_v1<int, Handeco_HeaderPage, Handeco_Header> headerWebDataPageManager = new WebDataPageManager_v1<int, Handeco_HeaderPage, Handeco_Header>();
 
             headerWebDataPageManager.WebLoadDataManager = new WebLoadDataManager<Handeco_HeaderPage>();
 
@@ -81,7 +83,7 @@ namespace hts.WebData
             headerWebDataPageManager.WebLoadDataManager.GetHttpRequestParameters = Handeco.GetHttpRequestParameters;
             headerWebDataPageManager.WebLoadDataManager.GetData = GetData;
 
-            headerWebDataPageManager.DocumentStore = MongoDocumentStore<int, Handeco_HeaderPage>.Create(xe);
+            headerWebDataPageManager.DocumentStore = MongoDocumentStore_v4<int, Handeco_HeaderPage>.Create(xe);
 
             headerWebDataPageManager.GetHttpRequestPage = GetHttpRequestPage;
             return headerWebDataPageManager;

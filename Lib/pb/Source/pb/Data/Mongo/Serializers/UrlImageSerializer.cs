@@ -22,6 +22,9 @@ namespace pb.Data.Mongo
             {
                 case BsonType.String:
                     return new WebImage(bsonReader.ReadString());
+                case BsonType.Null:
+                    bsonReader.ReadNull();
+                    return new WebImage(null);
                 default:
                     throw new PBException("error cannot deserialize UrlImage from BsonType {0}.", bsonType);
             }
@@ -34,7 +37,12 @@ namespace pb.Data.Mongo
                 throw new PBException("error serialize UrlImage value is null");
             }
 
-            bsonWriter.WriteString(((WebImage)value).Url);
+            //bsonWriter.WriteString(((WebImage)value).Url);
+            string url = ((WebImage)value).Url;
+            if (url != null)
+                bsonWriter.WriteString(url);
+            else
+                bsonWriter.WriteNull();
         }
     }
 }

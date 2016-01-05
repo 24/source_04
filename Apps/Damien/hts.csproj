@@ -116,9 +116,6 @@
     <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\MongoCursorCache.cs">
       <Link>SourceLnk\Lib\pb\Data\Mongo\MongoCursorCache.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\MongoDocumentStore.cs">
-      <Link>SourceLnk\Lib\pb\Data\Mongo\MongoDocumentStore.cs</Link>
-    </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\MongoLog.cs">
       <Link>SourceLnk\Lib\pb\Data\Mongo\MongoLog.cs</Link>
     </Compile>
@@ -146,6 +143,9 @@
     <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\Serializers\ZValueSerializer.cs">
       <Link>SourceLnk\Lib\pb\Data\Mongo\Serializers\ZValueSerializer.cs</Link>
     </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\_old\MongoDocumentStore_v4.cs">
+      <Link>SourceLnk\Lib\pb\Data\Mongo\_old\MongoDocumentStore_v4.cs</Link>
+    </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Data\Xml\Xml.cs">
       <Link>SourceLnk\Lib\pb\Data\Xml\Xml.cs</Link>
     </Compile>
@@ -169,6 +169,9 @@
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Data\ZValue.cs">
       <Link>SourceLnk\Lib\pb\Data\ZValue.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Data\_old\IDocumentStore_v4.cs">
+      <Link>SourceLnk\Lib\pb\Data\_old\IDocumentStore_v4.cs</Link>
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\IO\File.cs">
       <Link>SourceLnk\Lib\pb\IO\File.cs</Link>
@@ -244,6 +247,15 @@
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\WebLoadManager.cs">
       <Link>SourceLnk\Lib\pb\Web\Data\WebLoadManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\_old\WebDataManager_v1.cs">
+      <Link>SourceLnk\Lib\pb\Web\Data\_old\WebDataManager_v1.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\_old\WebDataPageManager_v1.cs">
+      <Link>SourceLnk\Lib\pb\Web\Data\_old\WebDataPageManager_v1.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\_old\WebHeaderDetailManager_v1.cs">
+      <Link>SourceLnk\Lib\pb\Web\Data\_old\WebHeaderDetailManager_v1.cs</Link>
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Web\Html\HtmlCharCodes.cs">
       <Link>SourceLnk\Lib\pb\Web\Html\HtmlCharCodes.cs</Link>

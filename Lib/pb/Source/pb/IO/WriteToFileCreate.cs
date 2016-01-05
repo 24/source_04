@@ -1,6 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Text;
+﻿using System.Text;
 
 namespace pb.IO
 {
@@ -12,10 +10,7 @@ namespace pb.IO
             {
                 file = file.zRootPath(zapp.GetAppDirectory());
                 if (option == FileOption.IndexedFile)
-                {
-                    file = file.zRootPath(zapp.GetAppDirectory());
                     return new WriteToFile(() => zfile.GetNewIndexedFileName(zPath.GetDirectoryName(file), zPath.GetFileName(file)), encoding);
-                }
                 else
                     return new WriteToFile(file, encoding, appendToFile: option != FileOption.RazFile);
             }

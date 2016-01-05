@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using pb.Web.old;
 
-namespace pb.Web
+namespace pb.Web.old
 {
     public abstract class LoadWebDataPages_v1<T> : IEnumerable<T>, IEnumerator<T>
     {

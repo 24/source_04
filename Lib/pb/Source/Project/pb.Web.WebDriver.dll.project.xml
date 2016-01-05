@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<AssemblyProject>
+  <Root                             value = "..\..\..\.." />
+
+  <Target                           value = "library" />             <!-- exe (exe console default), library (dll), module (.netmodule), winexe (exe windows) -->
+  <Output                           value = "bin32\pb.Web.WebDriver.dll" />
+  <DebugInformation                 value = "true" />
+  <CopySourceFiles                  value = "true" />
+  <NameSpace                        value = "pb.Web.WebDriver" />
+  <CompilerOptions                  value = "/platform:x86" />    <!-- x86, Itanium, x64, or anycpu (default). -->
+
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\WebDriver\ChromeWebDriverManager.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\WebDriver\FirefoxWebDriverManager.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\WebDriver\WebDriverManager.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\WebDriver\WebDriverRun.cs" />
+
+  <Assembly                         value = "System.Drawing.dll" />
+  <Assembly                         value = "$Root$\..\library\Selenium\selenium-dotnet\selenium-dotnet-2.48.0\net40\WebDriver.dll" />
+  <Assembly                         value = "$Root$\..\library\Selenium\selenium-dotnet\selenium-dotnet-2.48.0\net40\WebDriver.Support.dll" />
+</AssemblyProject>

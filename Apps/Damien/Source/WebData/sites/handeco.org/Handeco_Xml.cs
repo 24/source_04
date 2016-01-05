@@ -7,12 +7,13 @@ using pb;
 using pb.Data.Xml;
 using pb.IO;
 using pb.Web.Data;
+using pb.Web.Data.old;
 
 namespace hts.WebData
 {
     public static class Handeco_Xml
     {
-        public static void ExportXml(IEnumerable<HeaderDetail<Handeco_Header, Handeco_Detail>> headerDetails, string headersFile, string detailsFile)
+        public static void ExportXml(IEnumerable<HeaderDetail_v1<Handeco_Header, Handeco_Detail>> headerDetails, string headersFile, string detailsFile)
         {
             Trace.WriteLine("export xml Handeco");
             Trace.WriteLine("   headers file  \"{0}\"", headersFile);
@@ -40,7 +41,7 @@ namespace hts.WebData
             }
         }
 
-        private static void RemoveDuplicate(HeaderDetail<Handeco_Header, Handeco_Detail> headerDetail)
+        private static void RemoveDuplicate(HeaderDetail_v1<Handeco_Header, Handeco_Detail> headerDetail)
         {
             //   company.detail.raisonSociale       company.header.name
             if (headerDetail.Header.Name.Equals(headerDetail.Detail.RaisonSociale, StringComparison.InvariantCultureIgnoreCase))
@@ -67,7 +68,7 @@ namespace hts.WebData
             headerDetail.Header.Activités = headerActivités.ToArray();
         }
 
-        private static void ExportXml(XmlWriter xw, HeaderDetail<Handeco_Header, Handeco_Detail> headerDetail, bool detail)
+        private static void ExportXml(XmlWriter xw, HeaderDetail_v1<Handeco_Header, Handeco_Detail> headerDetail, bool detail)
         {
             IEnumerator<string> detailGroupes = null;
             IEnumerator<string> headerGroupes = null;

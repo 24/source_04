@@ -28,6 +28,7 @@
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\DataTable.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\FieldList.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\BsonDocumentsToDataTable.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\MongoDataTableExtension.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Reflection\TypeAccess.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Reflection\TypeReflection.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Reflection\TypeValues.cs" />

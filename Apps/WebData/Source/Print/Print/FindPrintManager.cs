@@ -55,13 +55,27 @@ namespace Print
         public PrintTitleManager PrintTitleManager { get { return _printTitleManager; } set { _printTitleManager = value; } }
         public FindDayManager FindDayManager { get { return _findDayManager; } set { _findDayManager = value; } }
         public bool UseFindDay { get { return _useFindDay; } set { _useFindDay = value; } }
-        public int GapDayBefore { get { return _gapDayBefore; } set { _gapDayBefore = value; } }
-        public int GapDayAfter { get { return _gapDayAfter; } set { _gapDayAfter = value; } }
+        public int GapDayBefore { get { return _gapDayBefore; } } // set { _gapDayBefore = value; }
+        public int GapDayAfter { get { return _gapDayAfter; } } // set { _gapDayAfter = value; }
         public RegexValuesList FindPrintList { get { return _findPrintList; } set { _findPrintList = value; } }
         public PrintManager PrintManager { get { return _printManager; } set { _printManager = value; } }
         public Dictionary<PrintType, string> PostTypeDirectories { get { return _postTypeDirectories; } set { _postTypeDirectories = value; } }
         public string DefaultPrintDirectory { get { return _defaultPrintDirectory; } set { _defaultPrintDirectory = value; } }
         public string UnknowPrintDirectory { get { return _unknowPrintDirectory; } set { _unknowPrintDirectory = value; } }
+
+        public void SetGapDayBefore(int gap)
+        {
+            _gapDayBefore = gap;
+            if (_printTitleManager != null && _printTitleManager.FindDateManager != null)
+                _printTitleManager.FindDateManager.GapDayBefore = gap;
+        }
+
+        public void SetGapDayAfter(int gap)
+        {
+            _gapDayAfter = gap;
+            if (_printTitleManager != null && _printTitleManager.FindDateManager != null)
+                _printTitleManager.FindDateManager.GapDayAfter = gap;
+        }
 
         public FindPrintInfo Find(string title, PrintType printType = PrintType.Unknow, bool forceSelect = false, Date? expectedDate = null)
         {

@@ -9,6 +9,9 @@ using pb.Data.Mongo;
 using pb.Data.Xml;
 using pb.Web;
 using pb.Web.Data;
+using pb.Data.old;
+using pb.Data.Mongo.old;
+using pb.Web.Data.old;
 
 namespace hts.WebData
 {
@@ -29,7 +32,7 @@ namespace hts.WebData
         }
     }
 
-    public class Cdefi_HeaderPage : IEnumDataPages<Cdefi_Header>, IKeyData<int>
+    public class Cdefi_HeaderPage : IEnumDataPages<Cdefi_Header>, IKeyData_v4<int>
     {
         public int Id;
         public string SourceUrl;
@@ -62,18 +65,18 @@ namespace hts.WebData
         private static string __urlMainPage = "http://www.cdefi.fr/actions.php";
         private static string __urlReferer = "http://www.cdefi.fr/fr/ecoles-ingenieurs";
         private static string __contentRequest = "action=searchSchool&departement=&domaine=&reseau=&academie=";
-        private static WebDataPageManager<int, Cdefi_HeaderPage, Cdefi_Header> __headerWebDataPageManager = null;
+        private static WebDataPageManager_v1<int, Cdefi_HeaderPage, Cdefi_Header> __headerWebDataPageManager = null;
 
         static Cdefi_HeaderManager()
         {
             __headerWebDataPageManager = CreateWebDataPageManager(XmlConfig.CurrentConfig.GetElement("Cdefi/Header"));
         }
 
-        public static WebDataPageManager<int, Cdefi_HeaderPage, Cdefi_Header> HeaderWebDataPageManager { get { return __headerWebDataPageManager; } }
+        public static WebDataPageManager_v1<int, Cdefi_HeaderPage, Cdefi_Header> HeaderWebDataPageManager { get { return __headerWebDataPageManager; } }
 
-        private static WebDataPageManager<int, Cdefi_HeaderPage, Cdefi_Header> CreateWebDataPageManager(XElement xe)
+        private static WebDataPageManager_v1<int, Cdefi_HeaderPage, Cdefi_Header> CreateWebDataPageManager(XElement xe)
         {
-            WebDataPageManager<int, Cdefi_HeaderPage, Cdefi_Header> headerWebDataPageManager = new WebDataPageManager<int, Cdefi_HeaderPage, Cdefi_Header>();
+            WebDataPageManager_v1<int, Cdefi_HeaderPage, Cdefi_Header> headerWebDataPageManager = new WebDataPageManager_v1<int, Cdefi_HeaderPage, Cdefi_Header>();
 
             headerWebDataPageManager.WebLoadDataManager = new WebLoadDataManager<Cdefi_HeaderPage>();
 
@@ -84,7 +87,7 @@ namespace hts.WebData
             headerWebDataPageManager.WebLoadDataManager.GetData = GetData;
             headerWebDataPageManager.GetKeyFromHttpRequest = GetPageKey;
 
-            headerWebDataPageManager.DocumentStore = MongoDocumentStore<int, Cdefi_HeaderPage>.Create(xe);
+            headerWebDataPageManager.DocumentStore = MongoDocumentStore_v4<int, Cdefi_HeaderPage>.Create(xe);
 
             headerWebDataPageManager.GetHttpRequestPage = GetHttpRequestPage;
             return headerWebDataPageManager;

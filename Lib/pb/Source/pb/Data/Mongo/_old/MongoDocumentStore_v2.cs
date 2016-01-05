@@ -4,8 +4,9 @@ using System.Linq;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
+using pb.Data.old;
 
-namespace pb.Data.Mongo
+namespace pb.Data.Mongo.old
 {
     /// <summary>
     /// used to store header page with multiple item

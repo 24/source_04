@@ -9,6 +9,9 @@ using pb.Data.Mongo;
 using pb.Data.Xml;
 using pb.Web;
 using pb.Web.Data;
+using pb.Data.old;
+using pb.Data.Mongo.old;
+using pb.Web.Data.old;
 
 namespace hts.WebData
 {
@@ -32,7 +35,7 @@ namespace hts.WebData
         public string Email;             // e-mail
     }
 
-    public class Handeco_Detail : IKeyData<int> // IPost, IWebData
+    public class Handeco_Detail : IKeyData_v4<int> // IPost, IWebData
     {
         public Handeco_Detail()
         {
@@ -131,8 +134,8 @@ namespace hts.WebData
     public static class Handeco_DetailManager
     {
         private static bool __trace = false;
-        private static WebDataManager<int, Handeco_Detail> __detailWebDataManager = null;
-        private static WebHeaderDetailManager<int, Handeco_HeaderPage, Handeco_Header, int, Handeco_Detail> __webHeaderDetailManager = null;
+        private static WebDataManager_v1<int, Handeco_Detail> __detailWebDataManager = null;
+        private static WebHeaderDetailManager_v1<int, Handeco_HeaderPage, Handeco_Header, int, Handeco_Detail> __webHeaderDetailManager = null;
         private static Regex __badCharacters = new Regex("(\xA0|\t|\r|\n)+", RegexOptions.Compiled);
         private static Regex __lastUpdateRegex = new Regex("[0-9]{2}-[0-9]{2}-[0-9]{4}", RegexOptions.Compiled);  // Dernière mise à jour le 18-01-2013
         private static Regex __email1Regex = new Regex("email1\\s*=\\s*\"([^\"]+)\"", RegexOptions.Compiled | RegexOptions.IgnoreCase);  // email1 = "jeu-ser"
@@ -142,18 +145,18 @@ namespace hts.WebData
         {
             __detailWebDataManager = CreateWebDataManager(XmlConfig.CurrentConfig.GetElement("Handeco/Detail"));
 
-            __webHeaderDetailManager = new WebHeaderDetailManager<int, Handeco_HeaderPage, Handeco_Header, int, Handeco_Detail>();
+            __webHeaderDetailManager = new WebHeaderDetailManager_v1<int, Handeco_HeaderPage, Handeco_Header, int, Handeco_Detail>();
             __webHeaderDetailManager.HeaderDataPageManager = Handeco_HeaderManager.HeaderWebDataPageManager;
             __webHeaderDetailManager.DetailDataManager = __detailWebDataManager;
         }
 
         public static bool Trace { get { return __trace; } set { __trace = value; } }
-        public static WebDataManager<int, Handeco_Detail> DetailWebDataManager { get { return __detailWebDataManager; } }
-        public static WebHeaderDetailManager<int, Handeco_HeaderPage, Handeco_Header, int, Handeco_Detail> WebHeaderDetailManager { get { return __webHeaderDetailManager; } }
+        public static WebDataManager_v1<int, Handeco_Detail> DetailWebDataManager { get { return __detailWebDataManager; } }
+        public static WebHeaderDetailManager_v1<int, Handeco_HeaderPage, Handeco_Header, int, Handeco_Detail> WebHeaderDetailManager { get { return __webHeaderDetailManager; } }
 
-        private static WebDataManager<int, Handeco_Detail> CreateWebDataManager(XElement xe)
+        private static WebDataManager_v1<int, Handeco_Detail> CreateWebDataManager(XElement xe)
         {
-            WebDataManager<int, Handeco_Detail> detailWebDataManager = new WebDataManager<int, Handeco_Detail>();
+            WebDataManager_v1<int, Handeco_Detail> detailWebDataManager = new WebDataManager_v1<int, Handeco_Detail>();
 
             detailWebDataManager.WebLoadDataManager = new WebLoadDataManager<Handeco_Detail>();
 
@@ -172,7 +175,7 @@ namespace hts.WebData
 
             //documentStore.GetDataKey = headerPage => headerPage.GetKey();
             //documentStore.Deserialize = document => (IEnumDataPages_new<int, IHeaderData_new>)BsonSerializer.Deserialize<Handeco_HeaderPage>(document);
-            detailWebDataManager.DocumentStore = MongoDocumentStore<int, Handeco_Detail>.Create(xe);
+            detailWebDataManager.DocumentStore = MongoDocumentStore_v4<int, Handeco_Detail>.Create(xe);
 
             return detailWebDataManager;
         }

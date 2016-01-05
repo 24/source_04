@@ -13,6 +13,14 @@ namespace pb
             return func(value);
         }
 
+        public static T zNotNullFunc<T>(this T value, Func<T, T> func) where T : class
+        {
+            if (value != null)
+                return func(value);
+            else
+                return null;
+        }
+
         public static IEnumerable<T> zAction<T>(this IEnumerable<T> source, Action<T> action)
         {
             foreach (T item in source)

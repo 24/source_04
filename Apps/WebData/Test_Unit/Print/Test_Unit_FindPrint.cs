@@ -15,6 +15,7 @@ using pb.Text;
 using Print;
 using Download.Print;
 using pb.Data.Xml;
+using Download.Print.old;
 
 namespace Test.Test_Unit.Print
 {
@@ -60,7 +61,7 @@ namespace Test.Test_Unit.Print
 
     public static class Test_Unit_FindPrint
     {
-        public static void Test_FindPrint(DownloadAutomateManager downloadAutomate, string file)
+        public static void Test_FindPrint(DownloadAutomateManager_v1 downloadAutomate, string file)
         {
             Trace.WriteLine("Test_FindPrint \"{0}\"", file);
             //if (downloadAutomate.FindPrintManager != null)
@@ -74,14 +75,14 @@ namespace Test.Test_Unit.Print
         }
 
         //public static void Test_OneFindPrint(DownloadAutomateManager downloadAutomate, string title, string category = null, bool isPrint = false)
-        public static void Test_OneFindPrint(DownloadAutomateManager downloadAutomate, string title, string category = null, PrintType postType = PrintType.Unknow)
+        public static void Test_OneFindPrint(DownloadAutomateManager_v1 downloadAutomate, string title, string category = null, PrintType postType = PrintType.Unknow)
         {
             //TestFindPrint testFindPrint = FindPrint(downloadAutomate, new TestPrint { title = title, category = category, isPrint = isPrint });
             TestFindPrint testFindPrint = FindPrint(downloadAutomate, new TestPrint { title = title, category = category, postType = postType });
             Trace.WriteLine(testFindPrint.zToJson());
         }
 
-        public static void Test_FindPrintFromMongo(DownloadAutomateManager downloadAutomate, string printName, string query, int limit = 0, string sort = null)
+        public static void Test_FindPrintFromMongo(DownloadAutomateManager_v1 downloadAutomate, string printName, string query, int limit = 0, string sort = null)
         {
             Trace.WriteLine("regex {0} : \"{1}\"", printName, downloadAutomate.FindPrintManager.FindPrintList[printName].Pattern);
             string file = zPath.Combine(GetDirectory(), printName + ".txt");
@@ -197,7 +198,7 @@ namespace Test.Test_Unit.Print
             return null;
         }
 
-        public static IEnumerable<TestPrint> FindPrintFromMongo(DownloadAutomateManager downloadAutomate, string query, int limit = 0, string sort = null)
+        public static IEnumerable<TestPrint> FindPrintFromMongo(DownloadAutomateManager_v1 downloadAutomate, string query, int limit = 0, string sort = null)
         {
             if (sort == null)
                 sort = "{ 'download.title': 1 }";
@@ -215,7 +216,7 @@ namespace Test.Test_Unit.Print
             return query3;
         }
 
-        public static IEnumerable<TestFindPrint> zFindPrint(this IEnumerable<TestPrint> prints, DownloadAutomateManager downloadAutomate)
+        public static IEnumerable<TestFindPrint> zFindPrint(this IEnumerable<TestPrint> prints, DownloadAutomateManager_v1 downloadAutomate)
         {
             try
             {
@@ -231,7 +232,7 @@ namespace Test.Test_Unit.Print
             }
         }
 
-        public static TestFindPrint FindPrint(DownloadAutomateManager downloadAutomate, TestPrint print)
+        public static TestFindPrint FindPrint(DownloadAutomateManager_v1 downloadAutomate, TestPrint print)
         {
             //FindPrint findPrint = null;
             //if (downloadAutomate.FindPrintManager != null)

@@ -1,8 +1,7 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
 using pb.Web.old;
 
-namespace pb.Web
+namespace pb.Web.old
 {
     public abstract class WebImageCacheManager_v1
     {

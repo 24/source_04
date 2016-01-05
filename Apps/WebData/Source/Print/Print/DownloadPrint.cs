@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Xml.Linq;
-using MongoDB.Bson;
 using MongoDB.Driver;
 using pb;
 using pb.Data.Mongo;
@@ -17,6 +16,7 @@ namespace Download.Print
     public static class DownloadPrint
     {
         //private static bool __trace = false;
+        private static bool __test = false;
         // add '-' 28/12/2014
         private static char[] __trimChars = new char[] { ' ', '\t', '\n', '\r', ',', '»', '&', '+', '/', '|', '*', '=', '»', '.', '_', '-', ':' };
         private static char[] __trimCharsWithoutColon = new char[] { ' ', '\t', '\n', '\r', ',', '»', '&', '+', '/', '|', '*', '=', '»', '.', '_', '-' };
@@ -35,8 +35,11 @@ namespace Download.Print
             Init();
         }
 
+        public static bool Test { get { return __test; } }
+
         public static void Init()
         {
+            __test = XmlConfig.CurrentConfig.Get("Test").zTryParseAs(false);
             InitImage(XmlConfig.CurrentConfig.GetElement("Image"));
             __printTextValuesManager = new PrintTextValuesManager(new RegexValuesList(XmlConfig.CurrentConfig.GetElements("TextInfos/TextInfo")), __trim);
         }
@@ -129,11 +132,6 @@ namespace Download.Print
         //        return null;
         //    }
         //}
-
-        public static void LoadImages(IPost post)
-        {
-            post.SetImages(LoadImages(post.GetImages()).ToArray());
-        }
 
         //public static void LoadImages_new(List<UrlImage> images, HttpRequestParameters_new requestParameters = null)
         //{

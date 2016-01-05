@@ -1,32 +1,70 @@
-﻿using System;
+﻿using MongoDB.Bson;
+using System;
 using System.Collections.Generic;
 using pb.Reflection;
 
 namespace pb.Data
 {
-    public interface IKeyData<TKey>
+    // used by WebDataManager_v2.SaveWithKey(), WebDataManager_v2.Refresh(), DownloadAutomateManager_v2.TryDownloadPost(), DocumentStoreExtension.zGetKey_v2()
+    public interface IKeyData
     {
-        TKey GetKey();
+        BsonValue GetKey();
     }
 
-    public interface IDocumentStore<TKey, TData>
+    // used by WebDataManager_v2.SetDataId(), WebDataManager_v2.Refresh(), DocumentStoreExtension.zGetId), DocumentStoreExtension.zSetId()
+    public interface IIdData
     {
-        string DefaultSort { get; set; }
-        bool DocumentExists(TKey key);
-        TData LoadDocument(TKey key);
-        void SaveDocument(TKey key, TData document);
-        IEnumerable<TData> FindDocuments(string query, string sort = null, int limit = 0, string options = null);
-        int UpdateDocuments(Action<TData> updateDocument, string query = null, string sort = null, int limit = 0);
+        BsonValue GetId();
+        void SetId(BsonValue id);
     }
 
-    public static partial class GlobalExtension
+    public interface IQuery
     {
-        public static TKey zGetKey<TKey, TData>(this TData data)
+        //QueryDocument GetQuery();
+        //string GetQuery();
+        IEnumerable<KeyValuePair<string, object>> GetQueryValues();
+    }
+
+    public interface IDocumentStore<TData>
+    {
+        //string DefaultSort { get; set; }
+        Type NominalType { get; set; }
+        bool GenerateId { get; }
+        bool Exists(BsonValue key);
+        BsonValue GetId(BsonValue key);
+        BsonValue GetNewId();
+        TData LoadFromId(BsonValue id);
+        TData LoadFromKey(BsonValue key);
+        void SaveWithId(BsonValue id, TData document);
+        void SaveWithKey(BsonValue key, TData document);
+        IEnumerable<TData> Find(string query, string sort = null, int limit = 0, string options = null);
+        int Update(Action<TData> updateDocument, string query = null, string sort = null, int limit = 0);
+    }
+
+    public static class DocumentStoreExtension
+    {
+        public static BsonValue zGetKey_v2<TData>(this TData data)
         {
-            if (data is IKeyData<TKey>)
-                return ((IKeyData<TKey>)data).GetKey();
+            if (data is IKeyData)
+                return ((IKeyData)data).GetKey();
             else
-                throw new PBException("type {0} is not IKeyData<{1}>", data.GetType().zGetTypeName(), typeof(TKey).zGetTypeName());
+                throw new PBException("type {0} is not IKeyData", data.GetType().zGetTypeName());
+        }
+
+        public static BsonValue zGetId<TData>(this TData data)
+        {
+            if (data is IIdData)
+                return ((IIdData)data).GetId();
+            else
+                throw new PBException("type {0} is not IIdData", data.GetType().zGetTypeName());
+        }
+
+        public static void zSetId<TData>(this TData data, BsonValue id)
+        {
+            if (data is IIdData)
+                ((IIdData)data).SetId(id);
+            else
+                throw new PBException("type {0} is not IIdData", data.GetType().zGetTypeName());
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace pb.Web
+namespace pb.Web.old
 {
     public interface IWebDataPages_v2<T>
     {

@@ -7,11 +7,14 @@ using pb.Data.Mongo;
 using pb.Data.Xml;
 using pb.Web;
 using pb.Web.Data;
+using pb.Data.old;
+using pb.Data.Mongo.old;
+using pb.Web.Data.old;
 
 namespace hts.WebData
 {
     //Cdefi_Detail
-    public class Cdefi_Detail : IKeyData<int> // IWebData
+    public class Cdefi_Detail : IKeyData_v4<int> // IWebData
     {
         public int Id;
         public string SourceUrl;
@@ -35,25 +38,25 @@ namespace hts.WebData
     public static class Cdefi_DetailManager
     {
         private static bool __trace = false;
-        private static WebDataManager<int, Cdefi_Detail> __detailWebDataManager = null;
-        private static WebHeaderDetailManager<int, Cdefi_HeaderPage, Cdefi_Header, int, Cdefi_Detail> __webHeaderDetailManager = null;
+        private static WebDataManager_v1<int, Cdefi_Detail> __detailWebDataManager = null;
+        private static WebHeaderDetailManager_v1<int, Cdefi_HeaderPage, Cdefi_Header, int, Cdefi_Detail> __webHeaderDetailManager = null;
 
         static Cdefi_DetailManager()
         {
             __detailWebDataManager = CreateWebDataManager(XmlConfig.CurrentConfig.GetElement("Cdefi/Detail"));
 
-            __webHeaderDetailManager = new WebHeaderDetailManager<int, Cdefi_HeaderPage, Cdefi_Header, int, Cdefi_Detail>();
+            __webHeaderDetailManager = new WebHeaderDetailManager_v1<int, Cdefi_HeaderPage, Cdefi_Header, int, Cdefi_Detail>();
             __webHeaderDetailManager.HeaderDataPageManager = Cdefi_HeaderManager.HeaderWebDataPageManager;
             __webHeaderDetailManager.DetailDataManager = __detailWebDataManager;
         }
 
         public static bool Trace { get { return __trace; } set { __trace = value; } }
-        public static WebDataManager<int, Cdefi_Detail> DetailWebDataManager { get { return __detailWebDataManager; } }
-        public static WebHeaderDetailManager<int, Cdefi_HeaderPage, Cdefi_Header, int, Cdefi_Detail> WebHeaderDetailManager { get { return __webHeaderDetailManager; } }
+        public static WebDataManager_v1<int, Cdefi_Detail> DetailWebDataManager { get { return __detailWebDataManager; } }
+        public static WebHeaderDetailManager_v1<int, Cdefi_HeaderPage, Cdefi_Header, int, Cdefi_Detail> WebHeaderDetailManager { get { return __webHeaderDetailManager; } }
 
-        private static WebDataManager<int, Cdefi_Detail> CreateWebDataManager(XElement xe)
+        private static WebDataManager_v1<int, Cdefi_Detail> CreateWebDataManager(XElement xe)
         {
-            WebDataManager<int, Cdefi_Detail> detailWebDataManager = new WebDataManager<int, Cdefi_Detail>();
+            WebDataManager_v1<int, Cdefi_Detail> detailWebDataManager = new WebDataManager_v1<int, Cdefi_Detail>();
 
             detailWebDataManager.WebLoadDataManager = new WebLoadDataManager<Cdefi_Detail>();
 
@@ -73,7 +76,7 @@ namespace hts.WebData
 
             //documentStore.GetDataKey = headerPage => headerPage.GetKey();
             //documentStore.Deserialize = document => (IEnumDataPages_new<int, IHeaderData_new>)BsonSerializer.Deserialize<Handeco_HeaderPage>(document);
-            detailWebDataManager.DocumentStore = MongoDocumentStore<int, Cdefi_Detail>.Create(xe);
+            detailWebDataManager.DocumentStore = MongoDocumentStore_v4<int, Cdefi_Detail>.Create(xe);
 
             return detailWebDataManager;
         }

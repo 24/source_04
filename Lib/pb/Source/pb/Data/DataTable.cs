@@ -104,6 +104,10 @@ namespace pb.Data
         {
             if (v is BsonDocument)
                 return (v as BsonDocument).zToDataTable2();
+            // todo v is BsonValue
+            //else if (v is BsonValue)
+            //{
+            //}
             //else if (v is IEnumerable<BsonDocument>)
             //    return (v as IEnumerable<BsonDocument>).zToDataTable2();
             else if (v is IEnumerable<BsonValue>)

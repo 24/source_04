@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Drawing;
-using System.IO;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
@@ -9,7 +8,7 @@ using pb.Data.Mongo;
 using pb.IO;
 using pb.Web.old;
 
-namespace pb.Web
+namespace pb.Web.old
 {
     public class WebImageMongoCacheManager_v1 : WebImageCacheManager_v1
     {

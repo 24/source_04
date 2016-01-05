@@ -134,7 +134,8 @@ namespace pb
         {
             if (!_onWrites.ContainsKey(name))
                 throw new PBException("unknow OnWrite, can't remove it: \"{0}\"", name);
-            _onWrite += _onWrites[name];
+            //_onWrite += _onWrites[name];
+            _onWrite -= _onWrites[name];
             _onWrites.Remove(name);
         }
     }

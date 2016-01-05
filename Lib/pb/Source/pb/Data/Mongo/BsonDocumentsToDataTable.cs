@@ -70,33 +70,41 @@ namespace pb.Data.Mongo
         private List<BsonArrayToDataTable> _arrays = new List<BsonArrayToDataTable>();
 
         //public static DataTable ToDataTable(IEnumerable<BsonDocument> documents)
-        public static DataTable ToDataTable(IEnumerable<BsonValue> values)
+        public static DataTable ToDataTable(IEnumerable<BsonValue> values, DataTable dt = null)
         {
             //BsonDocumentsToDataTable_v2 documentsToDataTable = new BsonDocumentsToDataTable_v2(documents);
             BsonDocumentsToDataTable_v2 documentsToDataTable = new BsonDocumentsToDataTable_v2(values);
-            return documentsToDataTable.ToDataTable();
+            if (dt == null)
+                dt = new DataTable();
+            documentsToDataTable._dt = dt;
+            documentsToDataTable.ToDataTable();
+            return dt;
         }
 
         //public static DataTable ToDataTable(BsonDocument document)
-        public static DataTable ToDataTable(BsonValue value)
+        public static DataTable ToDataTable(BsonValue value, DataTable dt = null)
         {
             //BsonDocumentsToDataTable_v2 documentsToDataTable = new BsonDocumentsToDataTable_v2(new BsonDocument[] { document });
             BsonDocumentsToDataTable_v2 documentsToDataTable = new BsonDocumentsToDataTable_v2(new BsonValue[] { value });
-            return documentsToDataTable.ToDataTable();
+            if (dt == null)
+                dt = new DataTable();
+            documentsToDataTable._dt = dt;
+            documentsToDataTable.ToDataTable();
+            return dt;
         }
 
         //public BsonDocumentsToDataTable_v2(IEnumerable<BsonDocument> documents)
-        public BsonDocumentsToDataTable_v2(IEnumerable<BsonValue> values)
+        private BsonDocumentsToDataTable_v2(IEnumerable<BsonValue> values)
         {
             //_documents = documents;
             _values = values;
         }
 
-        public DataTable ToDataTable()
+        private void ToDataTable()
         {
             // from http://www.programingqa.com/post/Converting-MongoDB-query-result-to-C-ADONET-DataTable
 
-            _dt = new DataTable();
+            //_dt = new DataTable();
 
             //foreach (BsonDocument document in _documents)
             foreach (BsonValue value in _values)
@@ -108,7 +116,7 @@ namespace pb.Data.Mongo
                 AddToDataTable(null, value);
                 AddArraysToDataTable();
             }
-            return _dt;
+            //return _dt;
         }
 
         private void AddToDataTable(string name, BsonDocument document)
@@ -150,6 +158,8 @@ namespace pb.Data.Mongo
                     dataValue = value.ToString();
                 }
 
+                if (name == null)
+                    name = "value";
                 if (!_dt.Columns.Contains(name))
                 {
                     DataColumn column = _dt.Columns.Add(name);
@@ -157,8 +167,8 @@ namespace pb.Data.Mongo
                 }
                 else
                     _lastColumnIndex = _dt.Columns[name].Ordinal;
-                if (name == null)
-                    name = "value";
+                //if (name == null)
+                //    name = "value";
                 _row[name] = dataValue;
             }
         }
@@ -374,9 +384,9 @@ namespace pb.Data.Mongo
         //    return BsonDocumentsToDataTable_v2.ToDataTable(documents);
         //}
 
-        public static DataTable zToDataTable2(this IEnumerable<BsonValue> values)
+        public static DataTable zToDataTable2(this IEnumerable<BsonValue> values, DataTable dt = null)
         {
-            return BsonDocumentsToDataTable_v2.ToDataTable(values);
+            return BsonDocumentsToDataTable_v2.ToDataTable(values, dt);
         }
 
         //public static DataTable zToDataTable2(this BsonDocument document)
@@ -384,9 +394,9 @@ namespace pb.Data.Mongo
         //    return BsonDocumentsToDataTable_v2.ToDataTable(document);
         //}
 
-        public static DataTable zToDataTable2(this BsonValue value)
+        public static DataTable zToDataTable2(this BsonValue value, DataTable dt = null)
         {
-            return BsonDocumentsToDataTable_v2.ToDataTable(value);
+            return BsonDocumentsToDataTable_v2.ToDataTable(value, dt);
         }
 
         public static DataTable zToDataTable2_old(this IEnumerable<BsonDocument> documents)

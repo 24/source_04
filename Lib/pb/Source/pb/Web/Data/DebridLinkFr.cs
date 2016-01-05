@@ -1,13 +1,12 @@
 ﻿using System;
-using System.IO;
 using System.Text;
-using System.Text.RegularExpressions;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using pb.Data.Mongo;
 using pb.Data.Xml;
 using pb.IO;
 using pb.Text;
+using pb.Data.TraceData;
 
 namespace pb.Web
 {
@@ -59,10 +58,11 @@ namespace pb.Web
         }
     }
 
-    public class DebridLinkFr
+    public class DebridLinkFr : ITraceData
     {
         private static bool __trace = false;
         private static string __url = "https://api.debrid-link.fr/rest";
+        private TraceData _traceData = null;
         private string _login = null;
         private string _password = null;
         private string _publicKey = null;
@@ -80,6 +80,11 @@ namespace pb.Web
         //    _password = password;
         //}
 
+        public DebridLinkFr()
+        {
+            TraceDataRegistry.CurrentTraceDataRegistry.Register("DebridLinkFr", this);
+        }
+
         public static bool Trace { get { return __trace; } set { __trace = value; } }
         public string Login { get { return _login; } set { _login = value; } }
         public string Password { get { return _password; } set { _password = value; } }
@@ -87,6 +92,16 @@ namespace pb.Web
         public DebridLinkConnexionLifetime ConnexionLifetime { get { return _connexionLifetime; } set { _connexionLifetime = value; } }
         public string ConnexionFile { get { return _connexionFile; } set { _connexionFile = value; } }
         //public string ServerTimeFile { get { return _serverTimeFile; } set { _serverTimeFile = value; } }
+
+        public void ActivateTraceData(TraceData traceData)
+        {
+            _traceData = traceData;
+        }
+
+        public void DesactivateTraceData()
+        {
+            _traceData = null;
+        }
 
         public void Connexion()
         {
@@ -398,6 +413,10 @@ namespace pb.Web
                 {
                     pb.Trace.WriteLine("warning : nombre de liens maximum atteint pour cet hébergeur. link \"{0}\"", link);
                 }
+            }
+            if (_traceData != null)
+            {
+                _traceData.Trace(new BsonDocument { { "OpeType", "Debrider" }, { "Ope", "DebridLinkFr" }, { "Link", link }, { "Result", result } });
             }
             return result;
             // {

@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using pb.Data;
-using pb.Linq;
 using pb.Web.old;
+using pb.Data.old;
 
-namespace pb.Web
+namespace pb.Web.old
 {
     public abstract class WebDocumentStore_v1<TKey, TData>
     {

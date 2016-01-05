@@ -5,8 +5,9 @@ using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 using MongoDB.Driver.Wrappers;
+using pb.Data.old;
 
-namespace pb.Data.Mongo
+namespace pb.Data.Mongo.old
 {
     // BsonValue.Create(object value) use key as an object
     public class MongoDocumentStore_v3<TKey, TData> : IDocumentStore_v3<TKey, TData>

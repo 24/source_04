@@ -10,18 +10,31 @@
   <MongoBackupDirectory                                          value = "$DataDir2$\mongo\backup" />
   <MongoBackupTmpDirectory                                       value = "$DataDir$\mongo\export\_tmp" />
   <PrintConfig                                                   value = "print_config.xml" />          <!-- ..\pt\pt_config.xml -->
-  <LocalConfig                                                   value = "$DataDir2$\config\download_config_local.xml" />    <!-- c:\pib\dropbox\pbeuz\Dropbox\dev_data\exe\runsource\download\config\download_config_local.xml -->
+  <LocalConfig                                                   value = "$DataDir2$\config\download.config.local.xml" />    <!-- c:\pib\dropbox\pbeuz\Dropbox\dev_data\exe\runsource\download\config\download_config_local.xml -->
   <PrintList1Config                                              value = "print_list1.xml" />
   <PrintList2Config                                              value = "print_list2.xml" />
+  <Test                                                          value = "true" />
+  <!--<Test                                                          value = "true" />-->
 
   <DownloadAutomateManager>
+    <Version                                                     value = "6" /> <!-- default = 3 -->
+    <!--<UseTestManager                                              value = "false" /> --><!-- default = false -->
+    <!--<TraceLevel                                                  value = "1" /> --><!-- default = null -->
+    <!--<DailyPrintManager                                           value = "true" /> --><!-- default = false -->
+    <!--<GapDayBefore                                                value = "5" /> --><!-- default = 0 -->
+    <!--<GapDayAfter                                                 value = "2" /> --><!-- default = 0 -->
+    <!--<WaitTimeBetweenOperation                                    value = "5" /> --><!-- default = 5 sec -->
+    <!--<MailWaitDownloadFinish                                      value = "10:00" /> --><!-- default = 10 minutes -->
+    <!--<PostDownloadServerLimit                                     value = "3" /> --><!-- default = 0 -->
+
     <ServerManagers>
       <!-- ServerManager default values : enableLoadNewPost = "true"  enableSearchPostToDownload = "true" downloadDirectory = "" -->
       <!-- <ServerManager                                             name = "Ebookdz"  enableLoadNewPost = "false"  enableSearchPostToDownload = "false"  downloadDirectory = "Ebookdz" /> -->
-      <ServerManager                                             name = "Ebookdz" />
-      <ServerManager                                             name = "Vosbooks" />
-      <ServerManager                                             name = "TelechargerMagazine" />
-      <ServerManager                                             name = "ExtremeDown" />
+      <ServerManager                                             name = "ebookdz.com" />  <!-- Ebookdz -->
+      <ServerManager                                             name = "vosbooks.net" />
+      <ServerManager                                             name = "telecharger-magazine.com" />  <!-- TelechargerMagazine -->
+      <ServerManager                                             name = "extreme-down.net" />  <!-- ExtremeDown -->
+      <ServerManager                                             name = "magazines-gratuits.info" />
       <!--<ServerManager                                             name = "Vosbooks_test" enableLoadNewPost = "false" downloadDirectory = "Vosbooks" />-->
     </ServerManagers>
 
@@ -74,7 +87,87 @@
       <Body                                                      value = "files downloaded&#x000D;&#x000A;" />
     </Mail>
   </DownloadAutomateManager>
-  
+
+  <DownloadAutomateManager_Test>
+    <Version                                                     value = "6" /> <!-- default = 3 -->
+    <!--<UseTestManager                                              value = "false" /> --><!-- default = false -->
+    <!--<TraceLevel                                                  value = "1" /> --><!-- default = null -->
+    <!--<DailyPrintManager                                           value = "true" /> --><!-- default = false -->
+    <!--<GapDayBefore                                                value = "5" /> --><!-- default = 0 -->
+    <!--<GapDayAfter                                                 value = "2" /> --><!-- default = 0 -->
+    <!--<WaitTimeBetweenOperation                                    value = "5" /> --><!-- default = 5 sec -->
+    <!--<MailWaitDownloadFinish                                      value = "10:00" /> --><!-- default = 10 minutes -->
+    <PostDownloadServerLimit                                     value = "3" /> <!-- default = 0 -->
+    
+    <ServerManagers>
+      <!-- ServerManager default values : enableLoadNewPost = "true"  enableSearchPostToDownload = "true" downloadDirectory = "" -->
+      <!-- <ServerManager                                             name = "Ebookdz"  enableLoadNewPost = "false"  enableSearchPostToDownload = "false"  downloadDirectory = "Ebookdz" /> -->
+      <!--<ServerManager                                             name = "vosbooks.net" downloadDirectory = "vosbooks.net" />-->
+      <!--<ServerManager                                             name = "ebookdz.com" downloadDirectory = "ebookdz.com" />-->
+      <!--<ServerManager                                             name = "magazines-gratuits.info" downloadDirectory = "magazines-gratuits.info" />-->
+      <!--<ServerManager                                             name = "telecharger-magazine.com" downloadDirectory = "telecharger-magazine.com" />-->
+      <ServerManager                                             name = "extreme-down.net" downloadDirectory = "extreme-down.net" />
+      <!--<ServerManager                                             name = "Ebookdz" downloadDirectory = "Ebookdz" />-->
+      <!--<ServerManager                                             name = "MagazinesGratuits" />-->
+      <!--<ServerManager                                             name = "Vosbooks_test" enableLoadNewPost = "false" downloadDirectory = "Vosbooks" />-->
+    </ServerManagers>
+
+    <MongoDownloadAutomate>
+      <MongoServer                                               value = "mongodb://localhost" />
+      <MongoDatabase                                             value = "dl_test" />
+      <MongoCollection                                           value = "DownloadAutomate3" />
+    </MongoDownloadAutomate>
+    <MongoDownloadFile>
+      <!-- used only for DownloadManager_v1 as mongoDownloadManager -->
+      <MongoServer                                               value = "mongodb://localhost" />
+      <MongoDatabase                                             value = "dl_test" />
+      <MongoCollection                                           value = "DownloadFile3" />
+      <MongoDocumentItemName                                     value = "downloadFile" />
+    </MongoDownloadFile>
+    <MongoDownloadedFile>
+      <!-- used only for DownloadManager.MongoDownloadedFileManager -->
+      <MongoServer                                               value = "mongodb://localhost" />
+      <MongoDatabase                                             value = "dl_test" />
+      <MongoCollection                                           value = "DownloadedFile" />
+      <!-- DownloadedFile_test -->
+      <MongoDocumentItemName                                     value = "downloadedFile" />
+    </MongoDownloadedFile>
+    <MongoQueueDownloadFile>
+      <!-- used only for DownloadManager_v1 as mongoQueueDownloadManager -->
+      <MongoServer                                               value = "mongodb://localhost" />
+      <MongoDatabase                                             value = "dl_test" />
+      <MongoCollection                                           value = "QueueDownloadFile4" />
+      <MongoDocumentItemName                                     value = "queueDownloadFile" />
+    </MongoQueueDownloadFile>
+    <MongoQueueDownloadFile_new>
+      <!-- used only for DownloadManager.MongoQueueDownloadFileManager -->
+      <MongoServer                                               value = "mongodb://localhost" />
+      <MongoDatabase                                             value = "dl_test" />
+      <MongoCollection                                           value = "QueueDownloadFile_new" />
+      <MongoDocumentItemName                                     value = "queueDownloadFile" />
+    </MongoQueueDownloadFile_new>
+    <MongoCurrentDownloadFile>
+      <!-- used only for DownloadManager.MongoCurrentDownloadFileManager -->
+      <MongoServer                                               value = "mongodb://localhost" />
+      <MongoDatabase                                             value = "dl_test" />
+      <MongoCollection                                           value = "CurrentDownloadFile" />
+      <MongoDocumentItemName                                     value = "currentDownloadFile" />
+    </MongoCurrentDownloadFile>
+    <DownloadManagerClient>
+      <!--<Address                                                   value = "http://localhost:8019/WCFDownloadManager" />-->
+      <Address                                                   value = "http://localhost:8019/DownloadManagerService" />
+    </DownloadManagerClient>
+    <UncompressManager>
+      <ArchiveCompressDirectory                                  value = "c:\pib\_dl\_dl\_pib\archive" />
+      <ArchiveErrorCompressDirectory                             value = "c:\pib\_dl\_dl\_pib\archive\error" />
+    </UncompressManager>
+    <Mail>
+      <To                                                        value = "pierre.beuzart@gmail.com" />
+      <Subject                                                   value = "download automate" />
+      <Body                                                      value = "files downloaded&#x000D;&#x000A;" />
+    </Mail>
+  </DownloadAutomateManager_Test>
+
   <Image>
     <UseUrlCache                                                 value = "true" />
     <CacheDirectory                                              value = "$DataDir$\sites\_images" />
@@ -106,6 +199,83 @@
     <TextInfo regex="^\s*multi\s*/?\s*$" options="IgnoreCase" values="multi" />
     <TextInfo regex="^\s*epub\s*$" options="IgnoreCase" values="epub" />
   </TextInfos>
+
+
+  <MagazinesGratuits>
+    <DataDir                                                     value = "$DataDir$\sites\magazines-gratuits.info" />
+
+    <Header>
+      <UseUrlCache                                               value = "true" />
+      <CacheDirectory                                            value = "$MagazinesGratuits/DataDir$\cache\header" />
+      <CacheUrlFileNameType                                      value = "Host, Path, Query" />
+      <!--<ImageCacheDirectory                                       value = "image" />-->
+      <!-- default = image -->
+      <!--<UseXml                                                    value = "true" />-->
+      <!--<XmlNodeName                                               value = "PostHeader" />-->
+      <UseMongo                                                  value = "false" />
+      <MongoServer                                               value = "mongodb://localhost" />
+      <MongoDatabase                                             value = "dl" />
+      <MongoCollection                                           value = "MagazinesGratuits_Header" />
+      <MongoDocumentItemName                                     value = "download" />
+      <MongoDefaultSort                                          value = "{ 'download.id': 1 }" />
+    </Header>
+
+    <Detail>
+      <UseUrlCache                                               value = "true" />
+      <CacheDirectory                                            value = "$MagazinesGratuits/DataDir$\cache\detail" />
+      <CacheUrlFileNameType                                      value = "Path, Query" />
+      <!--<ImageCacheDirectory                                       value = "image" />-->
+      <!-- default = image -->
+      <!--<UseXml                                                    value = "true" />-->
+      <UseMongo                                                  value = "true" />
+      <MongoServer                                               value = "mongodb://localhost" />
+      <MongoDatabase                                             value = "dl" />
+      <MongoCollection                                           value = "MagazinesGratuits_Detail" />
+      <MongoDocumentItemName                                     value = "download" />
+      <MongoGenerateId                                           value = "true" type = "int" />
+      <MongoKeyElementName                                       value = "download.Key" />
+      <GetLinksExtremeProtect                                    value = "false" />
+      <MongoDefaultSort                                          value = "{ 'download.id': 1 }" />
+    </Detail>
+  </MagazinesGratuits>
+
+  <MagazinesGratuits_Test>
+    <DataDir                                                     value = "$DataDir$\sites\magazines-gratuits.info.test" />
+
+    <Header>
+      <UseUrlCache                                               value = "true" />
+      <CacheDirectory                                            value = "$MagazinesGratuits_Test/DataDir$\cache\header" />
+      <CacheUrlFileNameType                                      value = "Host, Path, Query" />
+      <!--<ImageCacheDirectory                                       value = "image" />-->
+      <!-- default = image -->
+      <!--<UseXml                                                    value = "true" />-->
+      <!--<XmlNodeName                                               value = "PostHeader" />-->
+      <UseMongo                                                  value = "true" />
+      <MongoServer                                               value = "mongodb://localhost" />
+      <MongoDatabase                                             value = "dl_test" />
+      <MongoCollection                                           value = "MagazinesGratuits_Header_Test" />
+      <MongoDocumentItemName                                     value = "download" />
+      <MongoDefaultSort                                          value = "{ 'download.id': 1 }" />
+    </Header>
+
+    <Detail>
+      <UseUrlCache                                               value = "true" />
+      <CacheDirectory                                            value = "$MagazinesGratuits_Test/DataDir$\cache\detail" />
+      <CacheUrlFileNameType                                      value = "Path, Query" />
+      <!--<ImageCacheDirectory                                       value = "image" />-->
+      <!-- default = image -->
+      <!--<UseXml                                                    value = "true" />-->
+      <UseMongo                                                  value = "true" />
+      <MongoServer                                               value = "mongodb://localhost" />
+      <MongoDatabase                                             value = "dl_test" />
+      <MongoCollection                                           value = "MagazinesGratuits_Detail_Test" />
+      <MongoDocumentItemName                                     value = "download" />
+      <MongoGenerateId                                           value = "true" type = "int" />
+      <MongoKeyElementName                                       value = "download.Key" />
+      <GetLinksExtremeProtect                                    value = "false" />
+      <MongoDefaultSort                                          value = "{ 'download.id': 1 }" />
+    </Detail>
+  </MagazinesGratuits_Test>
 
   <ExtremeDown>
     <DataDir                                                     value = "$DataDir$\sites\extreme-down.net" />
@@ -142,6 +312,42 @@
       <MongoDefaultSort                                          value = "{ 'download.id': 1 }" />
     </Detail>
   </ExtremeDown>
+
+  <ExtremeDown_Test>
+    <DataDir                                                     value = "$DataDir$\sites\extreme-down.net.test" />
+
+    <Header>
+      <UseUrlCache                                               value = "true" />
+      <CacheDirectory                                            value = "$ExtremeDown_Test/DataDir$\cache\header" />
+      <CacheUrlFileNameType                                      value = "Host, Path, Query" />
+      <!--<ImageCacheDirectory                                       value = "image" />-->
+      <!-- default = image -->
+      <!--<UseXml                                                    value = "true" />-->
+      <!--<XmlNodeName                                               value = "PostHeader" />-->
+      <UseMongo                                                  value = "true" />
+      <MongoServer                                               value = "mongodb://localhost" />
+      <MongoDatabase                                             value = "dl_test" />
+      <MongoCollection                                           value = "ExtremeDown_Header_Test" />
+      <MongoDocumentItemName                                     value = "download" />
+      <MongoDefaultSort                                          value = "{ 'download.id': 1 }" />
+    </Header>
+
+    <Detail>
+      <UseUrlCache                                               value = "true" />
+      <CacheDirectory                                            value = "$ExtremeDown_Test/DataDir$\cache\detail" />
+      <CacheUrlFileNameType                                      value = "Path, Query" />
+      <!--<ImageCacheDirectory                                       value = "image" />-->
+      <!-- default = image -->
+      <!--<UseXml                                                    value = "true" />-->
+      <UseMongo                                                  value = "true" />
+      <MongoServer                                               value = "mongodb://localhost" />
+      <MongoDatabase                                             value = "dl_test" />
+      <MongoCollection                                           value = "ExtremeDown_Detail_Test" />
+      <MongoDocumentItemName                                     value = "download" />
+      <GetLinksExtremeProtect                                    value = "false" />
+      <MongoDefaultSort                                          value = "{ 'download.id': 1 }" />
+    </Detail>
+  </ExtremeDown_Test>
 
   <DebridLink>
     <DataDir                                                     value = "$DataDir$\sites\debrid-link.fr" />
@@ -216,6 +422,72 @@
     </ForumHeader>
   </Ebookdz>
 
+  <Ebookdz_Test>
+    <DataDir                                                     value = "$DataDir$\sites\ebookdz.com.test" />
+    <CookiesFile                                                 value = "$Ebookdz_Test/DataDir$\cookies\cookies.txt" />
+
+    <Header>
+      <UseUrlCache                                               value = "true" />
+      <CacheDirectory                                            value = "$Ebookdz_Test/DataDir$\cache\header" />
+      <CacheUrlFileNameType                                      value = "Host, Path, Query" />
+      <!--<ImageCacheDirectory                                       value = "image" />-->
+      <!-- default = image -->
+      <!--<UseXml                                                    value = "true" />-->
+      <!--<XmlNodeName                                               value = "PostHeader" />-->
+      <UseMongo                                                  value = "true" />
+      <MongoServer                                               value = "mongodb://localhost" />
+      <MongoDatabase                                             value = "dl_test" />
+      <MongoCollection                                           value = "Ebookdz_Header_Test" />
+      <MongoDocumentItemName                                     value = "download" />
+      <MongoDefaultSort                                          value = "{ 'download.id': 1 }" />
+    </Header>
+
+    <Detail>
+      <UseUrlCache                                               value = "true" />
+      <CacheDirectory                                            value = "$Ebookdz_Test/DataDir$\cache\detail" />
+      <CacheUrlFileNameType                                      value = "Path, Query" />
+      <!--<ImageCacheDirectory                                       value = "image" />-->
+      <!-- default = image -->
+      <!--<UseXml                                                    value = "true" />-->
+      <UseMongo                                                  value = "true" />
+      <MongoServer                                               value = "mongodb://localhost" />
+      <MongoDatabase                                             value = "dl_test" />
+      <MongoCollection                                           value = "Ebookdz_Detail_Test" />
+      <MongoDocumentItemName                                     value = "download" />
+      <MongoDefaultSort                                          value = "{ 'download.id': 1 }" />
+    </Detail>
+
+    <Forum>
+      <UseUrlCache                                               value = "true" />
+      <CacheDirectory                                            value = "$Ebookdz_Test/DataDir$\cache\forum" />
+      <CacheUrlFileNameType                                      value = "Path, Query" />
+      <!--<ImageCacheDirectory                                       value = "image" />-->
+      <!-- default = image -->
+      <!--<UseXml                                                    value = "true" />-->
+      <UseMongo                                                  value = "true" />
+      <MongoServer                                               value = "mongodb://localhost" />
+      <MongoDatabase                                             value = "dl_test" />
+      <MongoCollection                                           value = "Ebookdz_Forum_Test" />
+      <MongoDocumentItemName                                     value = "download" />
+      <MongoDefaultSort                                          value = "{ 'download.id': 1 }" />
+    </Forum>
+
+    <ForumHeader>
+      <UseUrlCache                                               value = "true" />
+      <CacheDirectory                                            value = "$Ebookdz_Test/DataDir$\cache\forumHeader" />
+      <CacheUrlFileNameType                                      value = "Path, Query" />
+      <!--<ImageCacheDirectory                                       value = "image" />-->
+      <!-- default = image -->
+      <!--<UseXml                                                    value = "true" />-->
+      <UseMongo                                                  value = "true" />
+      <MongoServer                                               value = "mongodb://localhost" />
+      <MongoDatabase                                             value = "dl_test" />
+      <MongoCollection                                           value = "Ebookdz_ForumHeader_Test" />
+      <MongoDocumentItemName                                     value = "download" />
+      <MongoDefaultSort                                          value = "{ 'download.id': 1 }" />
+    </ForumHeader>
+  </Ebookdz_Test>
+  
   <Vosbooks>
     <DataDir                                                     value = "$DataDir$\sites\vosbooks.net" />
     <!--<CookiesFile                                                 value = "$Ebookdz/DataDir$\cookies\cookies.txt" />-->
@@ -244,6 +516,35 @@
       <MongoDefaultSort                                          value = "{ 'download.id': 1 }" />
     </Detail>
   </Vosbooks>
+
+  <Vosbooks_Test>
+    <DataDir                                                     value = "$DataDir$\sites\vosbooks.net.test" />
+    <!--<CookiesFile                                                 value = "$Ebookdz/DataDir$\cookies\cookies.txt" />-->
+
+    <Header>
+      <UseUrlCache                                               value = "true" />
+      <CacheDirectory                                            value = "$Vosbooks_Test/DataDir$\cache\header" />
+      <CacheUrlFileNameType                                      value = "Host, Path, Query" />
+      <UseMongo                                                  value = "true" />
+      <MongoServer                                               value = "mongodb://localhost" />
+      <MongoDatabase                                             value = "dl_test" />
+      <MongoCollection                                           value = "Vosbooks_Header_Test" />
+      <MongoDocumentItemName                                     value = "download" />
+      <MongoDefaultSort                                          value = "{ 'download.id': 1 }" />
+    </Header>
+
+    <Detail>
+      <UseUrlCache                                               value = "true" />
+      <CacheDirectory                                            value = "$Vosbooks_Test/DataDir$\cache\detail" />
+      <CacheUrlFileNameType                                      value = "Path, Query" />
+      <UseMongo                                                  value = "true" />
+      <MongoServer                                               value = "mongodb://localhost" />
+      <MongoDatabase                                             value = "dl_test" />
+      <MongoCollection                                           value = "Vosbooks_Detail_Test" />
+      <MongoDocumentItemName                                     value = "download" />
+      <MongoDefaultSort                                          value = "{ 'download.id': 1 }" />
+    </Detail>
+  </Vosbooks_Test>
 
   <TelechargerMagazine>
     <DataDir                                                     value = "$DataDir$\sites\telecharger-magazine.com" />
@@ -274,6 +575,34 @@
     </Detail>
   </TelechargerMagazine>
 
+  <TelechargerMagazine_Test>
+    <DataDir                                                     value = "$DataDir$\sites\telecharger-magazine.com.test" />
+    <!--<CookiesFile                                                 value = "$Ebookdz/DataDir$\cookies\cookies.txt" />-->
+
+    <Header>
+      <UseUrlCache                                               value = "true" />
+      <CacheDirectory                                            value = "$TelechargerMagazine_Test/DataDir$\cache\header" />
+      <CacheUrlFileNameType                                      value = "Host, Path, Query" />
+      <UseMongo                                                  value = "true" />
+      <MongoServer                                               value = "mongodb://localhost" />
+      <MongoDatabase                                             value = "dl_test" />
+      <MongoCollection                                           value = "TelechargerMagazine_Header_Test" />
+      <MongoDocumentItemName                                     value = "download" />
+      <MongoDefaultSort                                          value = "{ 'download.id': 1 }" />
+    </Header>
+
+    <Detail>
+      <UseUrlCache                                               value = "true" />
+      <CacheDirectory                                            value = "$TelechargerMagazine_Test/DataDir$\cache\detail" />
+      <CacheUrlFileNameType                                      value = "Path, Query" />
+      <UseMongo                                                  value = "true" />
+      <MongoServer                                               value = "mongodb://localhost" />
+      <MongoDatabase                                             value = "dl_test" />
+      <MongoCollection                                           value = "TelechargerMagazine_Detail_Test" />
+      <MongoDocumentItemName                                     value = "download" />
+      <MongoDefaultSort                                          value = "{ 'download.id': 1 }" />
+    </Detail>
+  </TelechargerMagazine_Test>
 
   <Telechargementz>
     <DataDir                                                     value = "$DataDir$\sites\telechargementz.tv" />

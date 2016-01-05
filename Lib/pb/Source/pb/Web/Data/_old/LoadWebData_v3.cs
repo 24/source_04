@@ -1,8 +1,7 @@
-﻿using System;
-using pb.Data;
-using pb.Web.Data;
+﻿using pb.Web.Data;
+using pb.Data.old;
 
-namespace pb.Web
+namespace pb.Web.old
 {
     public class RequestWebData_v3 : RequestFromWeb_v3
     {
@@ -356,7 +355,7 @@ namespace pb.Web
     public class LoadWebData_v6<TKey> : ILoadDocument_v6<TKey>
     {
         private RequestWebData_v6<TKey> _request;
-        private IKeyData<TKey> _document;
+        private IKeyData_v4<TKey> _document;
         private bool _documentLoaded;
         private bool _documentLoadedFromWeb;
         private bool _documentLoadedFromStore;
@@ -367,7 +366,7 @@ namespace pb.Web
         }
 
         public RequestWebData_v6<TKey> Request { get { return _request; } }
-        public IKeyData<TKey> Document { get { return _document; } set { _document = value; } }
+        public IKeyData_v4<TKey> Document { get { return _document; } set { _document = value; } }
         public bool DocumentLoaded { get { return _documentLoaded; } set { _documentLoaded = value; } }
         public bool DocumentLoadedFromWeb { get { return _documentLoadedFromWeb; } set { _documentLoadedFromWeb = value; } }
         public bool DocumentLoadedFromStore { get { return _documentLoadedFromStore; } set { _documentLoadedFromStore = value; } }
@@ -376,13 +375,13 @@ namespace pb.Web
     public class LoadWebDataManager_v6<TKey>
     {
         //private LoadDataFromWebManager_new2<TData> _loadDataFromWebManager = null;
-        private LoadDataFromWebManager_v5<IKeyData<TKey>> _loadDataFromWebManager = null;
+        private LoadDataFromWebManager_v5<IKeyData_v4<TKey>> _loadDataFromWebManager = null;
         //private IDocumentStore_new<TKey, TData> _documentStore = null;
-        private IDocumentStore_v3<TKey, IKeyData<TKey>> _documentStore = null;
+        private IDocumentStore_v3<TKey, IKeyData_v4<TKey>> _documentStore = null;
         private bool _desactivateDocumentStore = false;
 
-        public LoadDataFromWebManager_v5<IKeyData<TKey>> LoadDataFromWebManager { get { return _loadDataFromWebManager; } set { _loadDataFromWebManager = value; } }
-        public IDocumentStore_v3<TKey, IKeyData<TKey>> DocumentStore { get { return _documentStore; } set { _documentStore = value; } }
+        public LoadDataFromWebManager_v5<IKeyData_v4<TKey>> LoadDataFromWebManager { get { return _loadDataFromWebManager; } set { _loadDataFromWebManager = value; } }
+        public IDocumentStore_v3<TKey, IKeyData_v4<TKey>> DocumentStore { get { return _documentStore; } set { _documentStore = value; } }
         public bool DesactivateDocumentStore { get { return _desactivateDocumentStore; } set { _desactivateDocumentStore = value; } }
 
         //public LoadWebData_new2<TKey, TData> Load(RequestWebData_new2<TKey> request)

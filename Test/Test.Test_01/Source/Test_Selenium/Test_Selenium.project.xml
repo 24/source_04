@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<AssemblyProject>
+  
+  <Root                             value = "..\..\..\.." />
+  
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\Basic.project.xml" />
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\RunSourceExtension.project.xml" />
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\MongoExtension.project.xml" />
+
+  <NameSpace                        value = "Test.Test_Selenium" />
+  
+  <Using                            value = "OpenQA.Selenium" />
+  <Using                            value = "OpenQA.Selenium.Chrome" />
+  <Using                            value = "OpenQA.Selenium.Firefox" />
+  <Using                            value = "pb" />
+  <Using                            value = "pb.Web.WebDriver" />
+  <Using                            value = "Test.Test_Selenium" />
+
+  <Source                           value = "Test_Selenium.cs" />
+
+  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\GlobalExtension.cs" />
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\_pb\GlobalExtension.cs" />-->
+  
+  <!--
+  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Reflection\TypeView_v2.cs" />
+  -->
+
+  <Assembly                         value = "$Root$\Lib\pb\Source\Project\bin32\pb.Web.WebDriver.dll" />
+  <Assembly                         value = "$Root$\..\library\Selenium\selenium-dotnet\selenium-dotnet-2.48.0\net40\WebDriver.dll" />
+  <Assembly                         value = "$Root$\..\library\Selenium\selenium-dotnet\selenium-dotnet-2.48.0\net40\WebDriver.Support.dll" />
+
+</AssemblyProject>

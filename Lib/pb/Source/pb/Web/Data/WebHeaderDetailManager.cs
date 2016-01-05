@@ -21,17 +21,19 @@ namespace pb.Web.Data
         public TDetailData Detail;
     }
 
-    // modif le 25/10/2015 change THeaderKey to THeaderPageKey
-    public class WebHeaderDetailManager<THeaderPageKey, THeaderDataPage, THeaderData, TDetailKey, TDetailData>
+    public class WebHeaderDetailManager<THeaderData, TDetailData>
     {
-        private WebDataPageManager<THeaderPageKey, THeaderDataPage, THeaderData> _headerDataPageManager = null;
-        private WebDataManager<TDetailKey, TDetailData> _detailDataManager = null;
+        //private WebDataPageManager_v2<IHeaderData> _headerDataPageManager = null;
+        private WebDataPageManager<THeaderData> _headerDataPageManager = null;
+        private WebDataManager<TDetailData> _detailDataManager = null;
         private Action<WebData<TDetailData>> _onDocumentLoaded = null;
 
-        public WebDataPageManager<THeaderPageKey, THeaderDataPage, THeaderData> HeaderDataPageManager { get { return _headerDataPageManager; } set { _headerDataPageManager = value; } }
-        public WebDataManager<TDetailKey, TDetailData> DetailDataManager { get { return _detailDataManager; } set { _detailDataManager = value; } }
+        public WebDataPageManager<THeaderData> HeaderDataPageManager { get { return _headerDataPageManager; } set { _headerDataPageManager = value; } }
+        public WebDataManager<TDetailData> DetailDataManager { get { return _detailDataManager; } set { _detailDataManager = value; } }
         public Action<WebData<TDetailData>> OnDocumentLoaded { get { return _onDocumentLoaded; } set { _onDocumentLoaded = value; } }
 
+        //public IEnumerable<HeaderDetail_v2<TDetailData>> LoadHeaderDetails(int startPage = 1, int maxPage = 1, bool reloadHeaderPage = false, bool reloadDetail = false, bool loadImage = false,
+        //    bool refreshDocumentStore = false)
         public IEnumerable<HeaderDetail<THeaderData, TDetailData>> LoadHeaderDetails(int startPage = 1, int maxPage = 1, bool reloadHeaderPage = false, bool reloadDetail = false, bool loadImage = false,
             bool refreshDocumentStore = false)
         {
@@ -39,6 +41,7 @@ namespace pb.Web.Data
             {
                 if (!(header is IHeaderData))
                     throw new PBException("type {0} is not IHeaderData", header.GetType().zGetTypeName());
+                //TDetailData detail = _detailDataManager.Load(new WebRequest { HttpRequest = header.GetHttpRequestDetail(), ReloadFromWeb = reloadDetail, LoadImage = loadImage, RefreshDocumentStore = refreshDocumentStore }).Document;
                 TDetailData detail = _detailDataManager.Load(new WebRequest { HttpRequest = ((IHeaderData)header).GetHttpRequestDetail(), ReloadFromWeb = reloadDetail, LoadImage = loadImage, RefreshDocumentStore = refreshDocumentStore }).Document;
                 yield return new HeaderDetail<THeaderData, TDetailData> { Header = header, Detail = detail };
             }
@@ -51,6 +54,8 @@ namespace pb.Web.Data
             {
                 if (!(header is IHeaderData))
                     throw new PBException("type {0} is not IHeaderData", header.GetType().zGetTypeName());
+                //yield return _detailDataManager.Load(
+                //    new WebRequest { HttpRequest = header.GetHttpRequestDetail(), ReloadFromWeb = reloadDetail, LoadImage = loadImage, RefreshDocumentStore = refreshDocumentStore }).Document;
                 yield return _detailDataManager.Load(
                     new WebRequest { HttpRequest = ((IHeaderData)header).GetHttpRequestDetail(), ReloadFromWeb = reloadDetail, LoadImage = loadImage, RefreshDocumentStore = refreshDocumentStore }).Document;
             }
@@ -68,6 +73,7 @@ namespace pb.Web.Data
             return _LoadNewDocuments(_headerDataPageManager.LoadPages(httpRequest, maxPage, reload: true, loadImage: false), maxNbDocumentsLoadedFromStore, loadImage);
         }
 
+        //private LoadNewDocumentsResult _LoadNewDocuments(IEnumerable<IHeaderData> headers, int maxNbDocumentsLoadedFromStore = 5, bool loadImage = true)
         private LoadNewDocumentsResult _LoadNewDocuments(IEnumerable<THeaderData> headers, int maxNbDocumentsLoadedFromStore = 5, bool loadImage = true)
         {
             bool refreshDocumentStore = false;    // obligatoire sinon nbDocumentLoadedFromStore reste à 0
@@ -77,6 +83,7 @@ namespace pb.Web.Data
             {
                 if (!(header is IHeaderData))
                     throw new PBException("type {0} is not IHeaderData", header.GetType().zGetTypeName());
+                //WebData<TDetailData> webData = _detailDataManager.Load(new WebRequest { HttpRequest = header.GetHttpRequestDetail(), ReloadFromWeb = false, LoadImage = loadImage, RefreshDocumentStore = refreshDocumentStore });
                 WebData<TDetailData> webData = _detailDataManager.Load(new WebRequest { HttpRequest = ((IHeaderData)header).GetHttpRequestDetail(), ReloadFromWeb = false, LoadImage = loadImage, RefreshDocumentStore = refreshDocumentStore });
                 if (webData.DocumentLoadedFromStore)
                     nbDocumentsLoadedFromStore++;

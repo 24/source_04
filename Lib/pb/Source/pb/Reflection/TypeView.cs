@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Reflection;
 using System.Xml.Linq;
 using pb.Data.Xml;
+using MongoDB.Bson;
 
 namespace pb.Reflection
 {
@@ -103,6 +104,10 @@ namespace pb.Reflection
                 return;
             }
             if (iDepth++ > 10) return;
+
+            if (oVariable is BsonValue)
+                oVariable = ConvertBsonValue(oVariable as BsonValue);
+
             Type type = oVariable.GetType();
 
             PropertyInfo[] properties = type.GetProperties(BindingFlags.Instance | BindingFlags.Public);
@@ -159,6 +164,17 @@ namespace pb.Reflection
                 //    if (o is XElement) bPath = false;
                 //}
                 AddFields(iDepth, sName, oVariable, bPath, fields, false);
+            }
+        }
+
+        private static object ConvertBsonValue(BsonValue value)
+        {
+            switch (value.BsonType)
+            {
+                case BsonType.Int32:
+                    return (int)value;
+                default:
+                    return value;
             }
         }
 

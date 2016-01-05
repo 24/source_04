@@ -2,8 +2,9 @@
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
+using pb.Data.old;
 
-namespace pb.Data.Mongo
+namespace pb.Data.Mongo.old
 {
     public class MongoDocumentStore_v1<T> : IDocumentStore_v1<T>
     {

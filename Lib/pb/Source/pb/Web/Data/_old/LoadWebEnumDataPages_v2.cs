@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace pb.Web
+namespace pb.Web.old
 {
     //public abstract class LoadEnumDataPagesFromWeb_new<T> : LoadDataFromWebManager<IEnumDataPages<T>>
     //{

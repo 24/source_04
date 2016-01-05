@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using pb.Web.Data;
 
-namespace pb.Data
+namespace pb.Data.old
 {
     //public interface ILoadDocument<T>
     //{
@@ -31,7 +31,7 @@ namespace pb.Data
 
     public interface ILoadDocument_v6<TKey>
     {
-        IKeyData<TKey> Document { get; set; }
+        IKeyData_v4<TKey> Document { get; set; }
         bool DocumentLoaded { get; set; }
     }
 

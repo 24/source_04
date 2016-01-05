@@ -11,15 +11,40 @@ namespace pb.Data
             return (value != null) ? (ZValue)new ZString(value) : null;
         }
 
+        public static implicit operator ZValue(bool value)
+        {
+            return new ZBool(value);
+        }
+
         public static implicit operator ZValue(int value)
         {
             return new ZInt(value);
         }
 
+        public static implicit operator ZValue(double value)
+        {
+            return new ZDouble(value);
+        }
+
+        public static implicit operator ZValue(Date value)
+        {
+            return new ZDate(value);
+        }
+
+        public static implicit operator ZValue(DateTime value)
+        {
+            return new ZDateTime(value);
+        }
+
+        public static implicit operator ZValue(TimeSpan value)
+        {
+            return new ZTimeSpan(value);
+        }
+
         public static explicit operator string(ZValue v)
         {
             if (v != null)
-                return ((ZString)v).value;
+                return ((ZString)v).Value;
             else
                 return null;
         }
@@ -27,40 +52,80 @@ namespace pb.Data
         public static explicit operator string[](ZValue v)
         {
             if (v != null)
-                return ((ZStringArray)v).values;
+                return ((ZStringArray)v).Values;
             else
                 return new string[0];
+        }
+
+        public static explicit operator bool(ZValue v)
+        {
+            if (v != null)
+                return ((ZBool)v).Value;
+            else
+                return false;
         }
 
         public static explicit operator int(ZValue v)
         {
             if (v != null)
-                return ((ZInt)v).value;
+                return ((ZInt)v).Value;
             else
                 return 0;
+        }
+
+        public static explicit operator double(ZValue v)
+        {
+            if (v != null)
+                return ((ZDouble)v).Value;
+            else
+                return 0;
+        }
+
+        public static explicit operator Date(ZValue v)
+        {
+            if (v != null)
+                return ((ZDate)v).Value;
+            else
+                return Date.MinValue;
+        }
+
+        public static explicit operator DateTime(ZValue v)
+        {
+            if (v != null)
+                return ((ZDateTime)v).Value;
+            else
+                return DateTime.MinValue;
+        }
+
+        public static explicit operator TimeSpan(ZValue v)
+        {
+            if (v != null)
+                return ((ZTimeSpan)v).Value;
+            else
+                return TimeSpan.Zero;
         }
     }
 
     public class ZString : ZValue
     {
-        public string value;
+        public string Value;
 
         public ZString(string value)
         {
-            this.value = value;
+            Value = value;
         }
 
         public static explicit operator string(ZString v)
         {
             if (v != null)
-                return v.value;
+                return v.Value;
             else
                 return null;
         }
 
         public override string ToString()
         {
-            return value;
+            return Value;
         }
     }
 
@@ -72,17 +137,17 @@ namespace pb.Data
 
     public class ZStringArray : ZValue
     {
-        public string[] values;
+        public string[] Values;
 
         public ZStringArray(string[] values)
         {
-            this.values = values;
+            Values = values;
         }
 
         public static explicit operator string[](ZStringArray v)
         {
             if (v != null)
-                return v.values;
+                return v.Values;
             else
                 return new string[0];
         }
@@ -111,31 +176,145 @@ namespace pb.Data
 
         public override string ToString()
         {
-            return values.zToStringValues(s => "\"" + s + "\"");
+            return Values.zToStringValues(s => "\"" + s + "\"");
+        }
+    }
+
+    public class ZBool : ZValue
+    {
+        public bool Value;
+
+        public ZBool(bool value)
+        {
+            Value = value;
+        }
+
+        public static explicit operator bool(ZBool v)
+        {
+            if (v != null)
+                return v.Value;
+            else
+                return false;
+        }
+
+        public override string ToString()
+        {
+            return Value.ToString();
         }
     }
 
     public class ZInt : ZValue
     {
-        public int value;
+        public int Value;
 
         public ZInt(int value)
         {
-            this.value = value;
+            Value = value;
         }
 
         public static explicit operator int(ZInt v)
         {
             if (v != null)
-                return v.value;
+                return v.Value;
             else
                 return 0;
         }
 
         public override string ToString()
         {
-            return value.ToString();
+            return Value.ToString();
         }
     }
 
+    public class ZDouble : ZValue
+    {
+        public double Value;
+
+        public ZDouble(double value)
+        {
+            Value = value;
+        }
+
+        public static explicit operator double(ZDouble v)
+        {
+            if (v != null)
+                return v.Value;
+            else
+                return 0;
+        }
+
+        public override string ToString()
+        {
+            return Value.ToString();
+        }
+    }
+
+    public class ZDate : ZValue
+    {
+        public Date Value;
+
+        public ZDate(Date value)
+        {
+            Value = value;
+        }
+
+        public static explicit operator Date(ZDate v)
+        {
+            if (v != null)
+                return v.Value;
+            else
+                return Date.MinValue;
+        }
+
+        public override string ToString()
+        {
+            return Value.ToString();
+        }
+    }
+
+    public class ZDateTime : ZValue
+    {
+        public DateTime Value;
+
+        public ZDateTime(DateTime value)
+        {
+            Value = value;
+        }
+
+        public static explicit operator DateTime(ZDateTime v)
+        {
+            if (v != null)
+                return v.Value;
+            else
+                return DateTime.MinValue;
+        }
+
+        public override string ToString()
+        {
+            return Value.ToString();
+        }
+    }
+
+    public class ZTimeSpan : ZValue
+    {
+        public TimeSpan Value;
+
+        public ZTimeSpan(TimeSpan value)
+        {
+            Value = value;
+        }
+
+        public static explicit operator TimeSpan(ZTimeSpan v)
+        {
+            if (v != null)
+                return v.Value;
+            else
+                return TimeSpan.Zero;
+        }
+
+        public override string ToString()
+        {
+            return Value.ToString();
+        }
+    }
 }

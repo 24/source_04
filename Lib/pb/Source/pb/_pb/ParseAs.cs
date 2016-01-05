@@ -1,11 +1,94 @@
 ﻿using System;
 using System.Globalization;
 using pb.Reflection;
+using System.Text.RegularExpressions;
 
 namespace pb
 {
     public static class zparse
     {
+        public static TimeSpan CreateTimeSpan(int days, int hours, int minutes, int seconds, int ticks)
+        {
+            return TimeSpan.FromTicks( (((((((days * 24L) + hours) * 60L) + minutes) * 60L) + seconds) * 10000000L) + ticks );
+        }
+
+        // 1.10:30:40.12345
+        // Groups[1] days, Groups[2] hours, Groups[3] minutes, Groups[4] seconds, Groups[5] seconds decimales
+        private static Regex __timespan = new Regex(@"^(?:(?:(?:([0-9]+)\.)?(?:([0-9]{1,2}):))?(?:([0-9]{1,2}):))?([0-9]{1,2})(?:\.([0-9]{1,7}))?$", RegexOptions.Compiled);
+        public static bool TryParseTimeSpan(string text, out TimeSpan timespan)
+        {
+            Match match = __timespan.Match(text);
+            if (match.Success)
+            {
+                //long ticks = 0;
+
+                //// days
+                //string group = match.Groups[1].Value;
+                //if (group != "")
+                //    ticks += int.Parse(group);
+
+                //// hours
+                //ticks *= 24;
+                //group = match.Groups[2].Value;
+                //if (group != "")
+                //    ticks += int.Parse(group);
+
+                //// minutes
+                //ticks *= 60;
+                //group = match.Groups[3].Value;
+                //if (group != "")
+                //    ticks += int.Parse(group);
+
+                //// seconds
+                //ticks *= 60;
+                //group = match.Groups[4].Value;
+                //if (group != "")
+                //    ticks += int.Parse(group);
+
+                //// seconds decimales 1 234 567
+                //ticks *= 10000000;
+                //group = match.Groups[5].Value;
+                //if (group != "")
+                //    ticks += int.Parse(group.PadRight(7, '0'));
+
+                //timespan = TimeSpan.FromTicks(ticks);
+
+                int days = 0;
+                string group = match.Groups[1].Value;
+                if (group != "")
+                    days = int.Parse(group);
+
+                int hours = 0;
+                group = match.Groups[2].Value;
+                if (group != "")
+                    hours = int.Parse(group);
+
+                int minutes = 0;
+                group = match.Groups[3].Value;
+                if (group != "")
+                    minutes = int.Parse(group);
+
+                int seconds = 0;
+                group = match.Groups[4].Value;
+                if (group != "")
+                    seconds = int.Parse(group);
+
+                // ticks 1 234 567
+                int ticks = 0;
+                group = match.Groups[5].Value;
+                if (group != "")
+                    ticks = int.Parse(group.PadRight(7, '0'));
+
+                timespan = CreateTimeSpan(days, hours, minutes, seconds, ticks);
+                return true;
+            }
+            else
+            {
+                timespan = TimeSpan.Zero;
+                return false;
+            }
+        }
+
         public static object ParseAs(string text, Type asType, object defaultValue = null, bool tryParse = false, string format = null)
         {
             if (text == null)
@@ -76,7 +159,14 @@ namespace pb
                         if (!tryParse)
                         {
                             if (format == null)
-                                return TimeSpan.Parse(text);
+                            {
+                                //return TimeSpan.Parse(text);
+                                if (TryParseTimeSpan(text, out timeSpanValue))
+                                    return timeSpanValue;
+                                else
+                                    throw new PBException("wrong TimeSpan value \"{0}\"", text);
+
+                            }
                             else
                                 return TimeSpan.ParseExact(text, format, CultureInfo.InvariantCulture);
                         }
@@ -84,7 +174,8 @@ namespace pb
                         {
                             if (format == null)
                             {
-                                if (TimeSpan.TryParse(text, out timeSpanValue))
+                                //if (TimeSpan.TryParse(text, out timeSpanValue))
+                                if (TryParseTimeSpan(text, out timeSpanValue))
                                     return timeSpanValue;
                                 else
                                     return defaultValue;
@@ -252,37 +343,12 @@ namespace pb
                 default:
                     if (asType == typeof(TimeSpan))
                     {
-                        //TimeSpan timeSpanValue;
-                        //if (!tryParse)
-                        //{
-                        //    if (format == null)
-                        //        timeSpanValue = TimeSpan.Parse(text);
-                        //    else
-                        //        timeSpanValue = TimeSpan.ParseExact(text, format, CultureInfo.InvariantCulture);
-                        //    return __refvalue(__makeref(timeSpanValue), T);
-                        //}
-                        //else
-                        //{
-                        //    if (format == null)
-                        //    {
-                        //        if (TimeSpan.TryParse(text, out timeSpanValue))
-                        //            return __refvalue(__makeref(timeSpanValue), T);
-                        //        else
-                        //            return defaultValue;
-                        //    }
-                        //    else
-                        //    {
-                        //        if (TimeSpan.TryParseExact(text, format, CultureInfo.InvariantCulture, out timeSpanValue))
-                        //            return __refvalue(__makeref(timeSpanValue), T);
-                        //        else
-                        //            return defaultValue;
-                        //    }
-                        //}
                         TimeSpan timeSpanValue;
                         if (format != null)
                             parse = TimeSpan.TryParseExact(text, format, CultureInfo.InvariantCulture, out timeSpanValue);
                         else
-                            parse = TimeSpan.TryParse(text, out timeSpanValue);
+                            //parse = TimeSpan.TryParse(text, out timeSpanValue);
+                            parse = TryParseTimeSpan(text, out timeSpanValue);
                         if (parse)
                         {
                             if (!isNullable)

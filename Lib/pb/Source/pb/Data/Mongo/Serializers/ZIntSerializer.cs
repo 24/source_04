@@ -72,7 +72,7 @@ namespace pb.Data.Mongo
             }
 
             var zint = (ZInt)value;
-            bsonWriter.WriteInt32(zint.value);
+            bsonWriter.WriteInt32(zint.Value);
         }
     }
 }

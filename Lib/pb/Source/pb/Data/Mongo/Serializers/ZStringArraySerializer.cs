@@ -55,7 +55,7 @@ namespace pb.Data.Mongo
                 throw new PBException("error serialize ZStringArray value is null");
             }
 
-            string[] stringValues = ((ZStringArray)value).values;
+            string[] stringValues = ((ZStringArray)value).Values;
 
             if (stringValues == null)
                 bsonWriter.WriteNull();

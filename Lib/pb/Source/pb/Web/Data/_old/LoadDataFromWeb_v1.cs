@@ -4,7 +4,7 @@ using System.Xml.Linq;
 using pb.IO;
 using pb.Web.old;
 
-namespace pb.Web
+namespace pb.Web.old
 {
     public abstract class LoadDataFromWeb_v1<T>
     {

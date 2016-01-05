@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using pb.Data;
-using pb.Web.Data;
+﻿using System.Collections.Generic;
 using pb.Web.old;
+using pb.Data.old;
 
-namespace pb.Web
+namespace pb.Web.old
 {
     public interface IEnumDataPages_v1<TKey, TData>
     {
@@ -20,7 +18,7 @@ namespace pb.Web
         HttpRequest GetHttpRequestNextPage();
     }
 
-    public interface IEnumDataPages_v3<TKey, TData> : IKeyData<TKey>
+    public interface IEnumDataPages_v3<TKey, TData> : IKeyData_v4<TKey>
     {
         //TKey GetKey();
         IEnumerable<TData> GetDataList();
@@ -123,7 +121,7 @@ namespace pb.Web
         public IEnumerable<TData> LoadPages(HttpRequest httpRequest, int maxPage = 1, bool reload = false, bool loadImage = false, bool refreshDocumentStore = false)
         {
             //IEnumDataPages_new<TKey, TData> dataPage = Load(new RequestWebData_new2<TKey>(new RequestFromWeb_new(httpRequest, reload, loadImage), GetKeyFromHttpRequest(httpRequest), refreshDocumentStore)).Document;
-            IEnumDataPages_v3<TKey, IKeyData<TKey>> dataPage = (IEnumDataPages_v3<TKey, IKeyData<TKey>>)Load(new RequestWebData_v6<TKey>(new RequestFromWeb_v4(httpRequest, reload, loadImage), refreshDocumentStore)).Document;
+            IEnumDataPages_v3<TKey, IKeyData_v4<TKey>> dataPage = (IEnumDataPages_v3<TKey, IKeyData_v4<TKey>>)Load(new RequestWebData_v6<TKey>(new RequestFromWeb_v4(httpRequest, reload, loadImage), refreshDocumentStore)).Document;
 
             if (dataPage == null)
                 yield break;
@@ -138,7 +136,7 @@ namespace pb.Web
                 if (httpRequest == null)
                     break;
                 //dataPage = Load(new RequestWebData_new2<TKey>(new RequestFromWeb_new(httpRequest, reload, loadImage), GetKeyFromHttpRequest(httpRequest), refreshDocumentStore)).Document;
-                dataPage = (IEnumDataPages_v3<TKey, IKeyData<TKey>>)Load(new RequestWebData_v6<TKey>(new RequestFromWeb_v4(httpRequest, reload, loadImage), refreshDocumentStore)).Document;
+                dataPage = (IEnumDataPages_v3<TKey, IKeyData_v4<TKey>>)Load(new RequestWebData_v6<TKey>(new RequestFromWeb_v4(httpRequest, reload, loadImage), refreshDocumentStore)).Document;
                 foreach (TData data in dataPage.GetDataList())
                 {
                     yield return data;

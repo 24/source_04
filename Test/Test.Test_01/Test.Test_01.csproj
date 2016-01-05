@@ -124,6 +124,12 @@
     <Reference Include="Tamir.IPLib.SharpPcap">
       <HintPath>..\..\..\RuntimeLibrary\Tamir.IPLib\Tamir.IPLib.SharpPcap.dll</HintPath>
     </Reference>
+    <Reference Include="WebDriver">
+      <HintPath>..\..\..\library\Selenium\selenium-dotnet\selenium-dotnet-2.48.0\net40\WebDriver.dll</HintPath>
+    </Reference>
+    <Reference Include="WebDriver.Support">
+      <HintPath>..\..\..\library\Selenium\selenium-dotnet\selenium-dotnet-2.48.0\net40\WebDriver.Support.dll</HintPath>
+    </Reference>
     <Reference Include="wpcap_dn_x86">
       <HintPath>..\..\..\RuntimeLibrary\wpcap_dn\wpcap_dn_x86\wpcap_dn_x86.dll</HintPath>
     </Reference>
@@ -582,6 +588,7 @@
     <None Include="Source\Test_RunSource\Test_RunSource_AssemblyInfo.cs" />
     <None Include="Source\Test_wcf\compile.cs" />
     <None Include="Source\Test_wcf\Test_DownloadManagerClient\Test_DownloadManagerClient.cs" />
+    <Compile Include="Source\Test_Selenium\Test_Selenium.cs" />
     <Compile Include="Source\Test_wcf\Test_DownloadManagerClient\Test_DownloadManagerClient_f.cs" />
     <Compile Include="Source\Test_wcf\Test_wcf\Test_wcf_f.cs" />
     <None Include="Source\Test_wcf\Test_wcf_service_01\AssemblyInfo.cs" />
@@ -717,6 +724,9 @@
     <Content Include="Source\Test_RunSource\app.ico" />
     <Content Include="Source\Test_RunSource\Test_RunSource_config_std.xml" />
     <Content Include="Source\Test_RunSource\Test_RunSource_project.xml" />
+    <Content Include="Source\Test_Selenium\Test_Selenium.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Source\Test_wcf\PB_Note.txt" />
     <Content Include="Source\Test_wcf\Test_DownloadManagerClient\Test_DownloadManagerClient_project.xml" />
     <Content Include="Source\Test_wcf\Test_wcf\Test_wcf.project.xml" />

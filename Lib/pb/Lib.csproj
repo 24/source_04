@@ -77,6 +77,12 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="WebDriver">
+      <HintPath>..\..\..\library\Selenium\selenium-dotnet\selenium-dotnet-2.48.0\net40\WebDriver.dll</HintPath>
+    </Reference>
+    <Reference Include="WebDriver.Support">
+      <HintPath>..\..\..\library\Selenium\selenium-dotnet\selenium-dotnet-2.48.0\net40\WebDriver.Support.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -102,16 +108,21 @@
     <Compile Include="Source\pb\Compiler\RunSourceRunCode.cs" />
     <Compile Include="Source\pb\Data\DataTable.cs" />
     <Compile Include="Source\pb\Data\DataTable2.cs" />
+    <Compile Include="Source\pb\Data\_old\IDocumentStore_v4.cs" />
     <Compile Include="Source\pb\Data\IDocumentStore.cs" />
     <Compile Include="Source\pb\Data\Mongo\BsonDocumentComparator.cs" />
     <Compile Include="Source\pb\Data\Mongo\BsonDocumentsToDataTable.cs" />
     <Compile Include="Source\pb\Data\Mongo\EnumerateBsonDocumentElements.cs" />
     <Compile Include="Source\pb\Data\Mongo\Mongo.cs" />
     <Compile Include="Source\pb\Data\Mongo\MongoBackup.cs" />
+    <Compile Include="Source\pb\Data\Mongo\_old\MongoCollectionManager_v1.cs" />
     <Compile Include="Source\pb\Data\Mongo\MongoCollectionManager.cs" />
     <Compile Include="Source\pb\Data\Mongo\MongoCommand.cs" />
     <Compile Include="Source\pb\Data\Mongo\MongoCursorCache.cs" />
+    <Compile Include="Source\pb\Data\Mongo\MongoDataTableExtension.cs" />
+    <Compile Include="Source\pb\Data\Mongo\_old\MongoDocumentStore_v4.cs" />
     <Compile Include="Source\pb\Data\Mongo\MongoDocumentStore.cs" />
+    <Compile Include="Source\pb\Data\Mongo\_old\MongoIdGenerator_v2.cs" />
     <Compile Include="Source\pb\Data\Mongo\MongoIdGenerator.cs" />
     <Compile Include="Source\pb\Data\Mongo\MongoLog.cs" />
     <Compile Include="Source\pb\Data\Mongo\PBBsonEnumerateValues.cs" />
@@ -128,11 +139,20 @@
     <Compile Include="Source\pb\Data\Mongo\Serializers\ZStringArraySerializer.cs" />
     <Compile Include="Source\pb\Data\Mongo\Serializers\ZStringSerializer.cs" />
     <Compile Include="Source\pb\Data\Mongo\Serializers\ZValueSerializer.cs" />
+    <Compile Include="Source\pb\Data\Mongo\TraceData\JsonTraceDataWriter.cs" />
+    <Compile Include="Source\pb\Data\Mongo\TraceData\JsonTraceDataWriterIndexedFile.cs" />
+    <Compile Include="Source\pb\Data\Mongo\_old\WebDataPageMongoManagerBase_v1.cs" />
+    <Compile Include="Source\pb\Data\Mongo\WebDataPageMongoManagerBase.cs" />
+    <Compile Include="Source\pb\Data\Mongo\WebHeaderDetailMongoManagerBase.cs" />
     <Compile Include="Source\pb\Data\Mongo\_old\MongoDocumentStore_v1.cs" />
     <Compile Include="Source\pb\Data\Mongo\_old\MongoDocumentStore_v2.cs" />
     <Compile Include="Source\pb\Data\Mongo\_old\MongoDocumentStore_v3.cs" />
     <Compile Include="Source\pb\Data\Mongo\_old\MongoIdGenerator_v1.cs" />
     <Compile Include="Source\pb\Data\RefreshData.cs" />
+    <Compile Include="Source\pb\Data\TraceData\ITraceData.cs" />
+    <Compile Include="Source\pb\Data\TraceData\TraceData.cs" />
+    <Compile Include="Source\pb\Data\TraceData\TraceDataRegistry.cs" />
+    <Compile Include="Source\pb\Data\TraceData\TraceDataWriter.cs" />
     <Compile Include="Source\pb\Data\Xml\Xml.cs" />
     <Compile Include="Source\pb\Data\Xml\Xml1.cs" />
     <Compile Include="Source\pb\Data\Xml\XmlConfig.cs" />
@@ -191,8 +211,13 @@
     <Compile Include="Source\pb\Web\Data\DebridLinkFr.cs" />
     <Compile Include="Source\pb\Web\Data\DownloadFileServerInfo.cs" />
     <Compile Include="Source\pb\Web\Data\ProtectLink.cs" />
+    <Compile Include="Source\pb\Web\Data\_old\WebDataManager_v1.cs" />
     <Compile Include="Source\pb\Web\Data\WebDataManager.cs" />
+    <Compile Include="Source\pb\Web\Data\_old\WebDataPageManager_v1.cs" />
     <Compile Include="Source\pb\Web\Data\WebDataPageManager.cs" />
+    <Compile Include="Source\pb\Web\Data\_old\WebHeaderDetailManager_v1.cs" />
+    <Compile Include="Source\pb\Data\Mongo\_old\WebHeaderDetailMongoManagerBase_v1.cs" />
+    <Compile Include="Source\pb\Web\Data\_old\WebHeaderDetailManager_v2.cs" />
     <Compile Include="Source\pb\Web\Data\WebHeaderDetailManager.cs" />
     <Compile Include="Source\pb\Web\Data\WebImage.cs" />
     <Compile Include="Source\pb\Web\Data\WebImageCacheManager.cs" />
@@ -239,6 +264,10 @@
     <Compile Include="Source\pb\Web\Http\_old\Http_v3.cs" />
     <Compile Include="Source\pb\Web\Http\_old\UrlCache_v1.cs" />
     <Compile Include="Source\pb\Web\MailSender.cs" />
+    <Compile Include="Source\pb\Web\WebDriver\ChromeWebDriverManager.cs" />
+    <Compile Include="Source\pb\Web\WebDriver\FirefoxWebDriverManager.cs" />
+    <Compile Include="Source\pb\Web\WebDriver\WebDriverManager.cs" />
+    <Compile Include="Source\pb\Web\WebDriver\WebDriverRun.cs" />
     <Compile Include="Source\pb\Windows\Forms\Menu.cs" />
     <Compile Include="Source\pb\Windows\Forms\ProgressControl.cs" />
     <Compile Include="Source\pb\_pb\AsyncManager.cs" />
@@ -284,9 +313,7 @@
     </Compile>
     <Compile Include="Source\pb\Windows\Forms\TrayIcon.cs" />
     <Compile Include="Source\pb\Windows\Forms\TreeView.cs" />
-    <Compile Include="Source\pb\Windows\Forms\WinProc.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Source\pb\Windows\Forms\WinProc.cs" />
     <Compile Include="Source\pb\Windows\Forms\XtraGrid.cs" />
     <Compile Include="Source\pb\Windows\Forms\zerrf.cs" />
     <Compile Include="Source\pb\Data\Pdf\PdfDataReader.cs" />
@@ -376,6 +403,7 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Source\Project\MongoExtension.project.xml" />
+    <Content Include="Source\Project\pb.Web.WebDriver.dll.project.xml" />
     <Content Include="Source\Project\RunSourceExtension.project.xml" />
   </ItemGroup>
   <ItemGroup>

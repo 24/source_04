@@ -1,31 +1,47 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Net.Mail;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading;
 using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
 using pb;
 using pb.Compiler;
 using pb.Data;
-using pb.IO;
-using pb.Web;
 using pb.Web.Data;
+using pb.Web;
 using Print;
+using System.Xml.Linq;
+using pb.Data.Xml;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace Download.Print
 {
-    // used by mongo
-    public interface IPostToDownload : IKeyData<int>, IWebData
+    // IKeyData.GetKey() used in DownloadAutomateManager_v2.TryDownloadPost()
+    public interface IPostToDownload : IHttpRequestData, IKeyData
     {
         string GetServer();
         string GetTitle();
         PrintType GetPrintType();
-        string[] GetDownloadLinks();
-        PostDownloadLinks GetDownloadLinks_new();
+        //string[] GetDownloadLinks();
+        PostDownloadLinks GetDownloadLinks();
+    }
+
+    // from old DownloadPostKey
+    public class ServerKey : IQuery
+    {
+        public string Server;
+        public BsonValue Id;
+
+        public IEnumerable<KeyValuePair<string, object>> GetQueryValues()
+        {
+            yield return new KeyValuePair<string, object>("server", Server);
+            yield return new KeyValuePair<string, object>("id", Id);
+        }
+
+        public override string ToString()
+        {
+            return string.Format("{0} id {1}", Server, Id);
+        }
     }
 
     public class PostDownloadLinks : IRequestDownloadLinks
@@ -186,70 +202,18 @@ namespace Download.Print
         }
     }
 
-    public class DownloadPost
-    {
-        public DownloadPostKey key;
-        public string downloadLink;
-        public string file;
-    }
-
-    public class DownloadPostKey
-    {
-        public string server;
-        public int id;
-        public override string ToString()
-        {
-            return string.Format("{0} id {1}", server, id);
-        }
-    }
-
-    public static class ServerManagers
-    {
-        private static Dictionary<string, ServerManager> __servers = new Dictionary<string, ServerManager>();
-
-        public static void Add(string name, ServerManager serverManager)
-        {
-            if (__servers.ContainsKey(name))
-                throw new PBException("ServerManager \"{0}\" already in ServerManagers list", name);
-            __servers.Add(name, serverManager);
-        }
-
-        public static ServerManager Get(string name)
-        {
-            if (!__servers.ContainsKey(name))
-                throw new PBException("unknow ServerManager \"{0}\" in ServerManagers list", name);
-            return __servers[name];
-        }
-    }
-
-    //public delegate IEnumerable<BsonDocument> GetPostInfoListDelegate(string query = null, string sort = null, int limit = 0);
-
-    public class ServerManager
-    {
-        public string Name;
-        public bool EnableLoadNewPost;
-        public bool EnableSearchPostToDownload;
-        public string DownloadDirectory;
-        public Action LoadNewPost = null;
-        public Func<DateTime, IEnumerable<IPostToDownload>> GetPostList = null;
-        //public GetPostInfoListDelegate GetPostInfoList = null;
-        public Func<int, IPostToDownload> LoadPost = null;
-        public Action Backup = null;
-    }
-
     public class DownloadAutomateManager
     {
         private Dictionary<string, ServerManager> _servers = new Dictionary<string, ServerManager>();
         private MongoDownloadAutomateManager _mongoDownloadAutomateManager = null;
         private Func<PrintType, bool> _downloadAllPrintType = null;
         private FindPrintManager _findPrintManager = null;
-        private PrintManager _printManager = null;
-        private DownloadManager_v1<DownloadPostKey> _downloadManager_v1 = null;
-        private DownloadManager<DownloadPostKey> _downloadManager = null;
+        private DownloadManager _downloadManager = null;
         private MailSender _mailSender = null;
         private MailMessage _mailMessage = null;
         private TimeSpan _waitTimeBetweenOperation = TimeSpan.FromSeconds(5);     // 5 sec
         private TimeSpan _mailWaitDownloadFinish = TimeSpan.FromMinutes(10);      // 10 minutes
+        private int _postDownloadServerLimit = 0;
 
         private StringBuilder _mailBody = new StringBuilder();
         private int _mailBodyLineNumber = 0;
@@ -257,15 +221,20 @@ namespace Download.Print
 
         private bool _desactivateFilterTracePost = false;
 
+        private bool _runNow = false;
+        private bool _loadNewPost = true;
+        private bool _searchPostToDownload = true;
+        private bool _sendMail = false;
+
         public DownloadAutomateManager()
         {
+            //Init(test: DownloadPrint.Test);
         }
 
         public void Dispose()
         {
-            //Stop();
-            if (_downloadManager_v1 != null)
-                _downloadManager_v1.Dispose();
+            //if (_downloadManager_v1 != null)
+            //    _downloadManager_v1.Dispose();
             if (_downloadManager != null)
                 _downloadManager.Dispose();
         }
@@ -273,14 +242,67 @@ namespace Download.Print
         public MongoDownloadAutomateManager MongoDownloadAutomateManager { get { return _mongoDownloadAutomateManager; } set { _mongoDownloadAutomateManager = value; } }
         public Func<PrintType, bool> DownloadAllPrintType { get { return _downloadAllPrintType; } set { _downloadAllPrintType = value; } }
         public FindPrintManager FindPrintManager { get { return _findPrintManager; } set { _findPrintManager = value; } }
-        public PrintManager PrintManager { get { return _printManager; } set { _printManager = value; } }
-        public DownloadManager_v1<DownloadPostKey> DownloadManager_v1 { get { return _downloadManager_v1; } set { _downloadManager_v1 = value; } }
-        public DownloadManager<DownloadPostKey> DownloadManager { get { return _downloadManager; } set { _downloadManager = value; } }
+        public DownloadManager DownloadManager { get { return _downloadManager; } set { _downloadManager = value; } }
         public MailSender MailSender { get { return _mailSender; } set { _mailSender = value; } }
         public MailMessage MailMessage { get { return _mailMessage; } set { _mailMessage = value; } }
         public TimeSpan WaitTimeBetweenOperation { get { return _waitTimeBetweenOperation; } set { _waitTimeBetweenOperation = value; } }
         public TimeSpan MailWaitDownloadFinish { get { return _mailWaitDownloadFinish; } set { _mailWaitDownloadFinish = value; } }
+        public int PostDownloadServerLimit { get { return _postDownloadServerLimit; } set { _postDownloadServerLimit = value; } }
         public bool DesactivateFilterTracePost { get { return _desactivateFilterTracePost; } set { _desactivateFilterTracePost = value; } }
+        public bool RunNow { get { return _runNow; } set { _runNow = value; } }
+        public bool LoadNewPost { get { return _loadNewPost; } set { _loadNewPost = value; } }
+        public bool SearchPostToDownload { get { return _searchPostToDownload; } set { _searchPostToDownload = value; } }
+        public bool SendMail { get { return _sendMail; } set { _sendMail = value; } }
+
+        public void Init(XElement xe)
+        {
+            //if (!test)
+            //    xe = XmlConfig.CurrentConfig.GetElement("DownloadAutomateManager");
+            //else
+            //{
+            //    Trace.WriteLine("DownloadAutomateManager (v2) init for test");
+            //    xe = XmlConfig.CurrentConfig.GetElement("DownloadAutomateManager_Test");
+            //}
+            _waitTimeBetweenOperation = xe.zXPathValue("WaitTimeBetweenOperation").zTryParseAs(TimeSpan.FromSeconds(5));
+            _mailWaitDownloadFinish = xe.zXPathValue("MailWaitDownloadFinish").zTryParseAs(TimeSpan.FromMinutes(10));
+            _postDownloadServerLimit = xe.zXPathValue("PostDownloadServerLimit").zTryParseAs(0);
+        }
+
+        public void SetParameters(NamedValues<ZValue> parameters)
+        {
+            if (parameters == null)
+                return;
+            foreach (KeyValuePair<string, ZValue> parameter in parameters)
+                SetParameter(parameter);
+        }
+
+        public void SetParameter(KeyValuePair<string, ZValue> parameter)
+        {
+            switch (parameter.Key.ToLower())
+            {
+                case "waittimebetweenoperation":
+                    _waitTimeBetweenOperation = (TimeSpan)parameter.Value;
+                    break;
+                case "mailwaitdownloadfinish":
+                    _mailWaitDownloadFinish = (TimeSpan)parameter.Value;
+                    break;
+                case "postdownloadserverlimit":
+                    _postDownloadServerLimit = (int)parameter.Value;
+                    break;
+                case "runnow":
+                    _runNow = (bool)parameter.Value;
+                    break;
+                case "loadnewpost":
+                    _loadNewPost = (bool)parameter.Value;
+                    break;
+                case "searchposttodownload":
+                    _searchPostToDownload = (bool)parameter.Value;
+                    break;
+                case "sendmail":
+                    _sendMail = (bool)parameter.Value;
+                    break;
+            }
+        }
 
         public void AddServerManager(ServerManager server)
         {
@@ -289,11 +311,11 @@ namespace Download.Print
 
         public virtual void Start()
         {
-            if (_downloadManager_v1 != null)
-            {
-                _downloadManager_v1.OnDownloaded = Downloaded;
-                _downloadManager_v1.StartThread();
-            }
+            //if (_downloadManager_v1 != null)
+            //{
+            //    _downloadManager_v1.OnDownloaded = Downloaded;
+            //    _downloadManager_v1.StartThread();
+            //}
             if (_downloadManager != null)
             {
                 _downloadManager.OnDownloaded = Downloaded;
@@ -303,13 +325,14 @@ namespace Download.Print
 
         public virtual void Stop()
         {
-            if (_downloadManager_v1 != null)
-                _downloadManager_v1.Stop();
+            //if (_downloadManager_v1 != null)
+            //    _downloadManager_v1.Stop();
             if (_downloadManager != null)
                 _downloadManager.Stop();
         }
 
-        public void Run(bool loadNewPost = true, bool searchPostToDownload = true, bool uncompressFile = true, bool sendMail = false)
+        // bool loadNewPost = true, bool searchPostToDownload = true, bool uncompressFile = true, bool sendMail = false
+        public void Run()
         {
             DateTime nextRunDateTime = _mongoDownloadAutomateManager.GetNextRunDateTime();
             bool messageNextRun = true;
@@ -317,19 +340,20 @@ namespace Download.Print
             {
                 if (RunSource.CurrentRunSource.IsExecutionAborted())
                     break;
-                if (DateTime.Now >= nextRunDateTime)
+                if (_runNow || DateTime.Now >= nextRunDateTime)
                 {
-                    if (loadNewPost)
-                        //Try(() => LoadNewPost());
-                        LoadNewPost();
+                    _runNow = false;
 
-                    if (searchPostToDownload)
+                    if (_loadNewPost)
+                        _LoadNewPost();
+
+                    if (_searchPostToDownload)
                     {
                         DateTime? lastRunDateTime = _mongoDownloadAutomateManager.GetLastRunDateTime();
                         if (lastRunDateTime == null)
                             lastRunDateTime = DateTime.Now.AddDays(-3);
 
-                        SearchPostToDownload((DateTime)lastRunDateTime);
+                        _SearchPostToDownload((DateTime)lastRunDateTime);
 
                         _mongoDownloadAutomateManager.SetLastRunDateTime(DateTime.Now);
                         nextRunDateTime = _mongoDownloadAutomateManager.GetNextRunDateTime();
@@ -339,14 +363,11 @@ namespace Download.Print
                 }
                 else
                 {
-                    Try(() => SendMail(sendMail));
+                    Try(() => _SendMail(_sendMail));
                 }
-                //if (!searchPostToDownload && _downloadManager.DownloadFilesCount == 0 && _downloadManager.QueueDownloadFilesCount == 0 && TaskManager.CurrentTaskManager.Count == 0)
-                //Trace.WriteLine("TaskManager.CurrentTaskManager.Count {0}", TaskManager.CurrentTaskManager.Count);
-                if (!searchPostToDownload && !ActiveDownload() && TaskManager.CurrentTaskManager.Count == 0)
+                if (!_searchPostToDownload && !ActiveDownload() && TaskManager.CurrentTaskManager.Count == 0)
                     break;
 
-                //if (_downloadManager.DownloadFilesCount == 0 && _downloadManager.QueueDownloadFilesCount == 0 && TaskManager.CurrentTaskManager.Count == 0 && messageNextRun)
                 if (!ActiveDownload() && TaskManager.CurrentTaskManager.Count == 0 && messageNextRun)
                 {
                     Trace.WriteLine("{0:dd-MM-yyyy HH:mm:ss} - next run {1:dd-MM-yyyy HH:mm:ss}", DateTime.Now, nextRunDateTime);
@@ -359,24 +380,20 @@ namespace Download.Print
 
         private bool ActiveDownload()
         {
-            if (_downloadManager_v1 != null)
-            {
-                //Trace.WriteLine("_downloadManager.DownloadFilesCount      {0}", _downloadManager.DownloadFilesCount);
-                //Trace.WriteLine("_downloadManager.QueueDownloadFilesCount {0}", _downloadManager.QueueDownloadFilesCount);
-                if (_downloadManager_v1.DownloadFilesCount != 0 || _downloadManager_v1.QueueDownloadFilesCount != 0)
-                    return true;
-            }
+            //if (_downloadManager_v1 != null)
+            //{
+            //    if (_downloadManager_v1.DownloadFilesCount != 0 || _downloadManager_v1.QueueDownloadFilesCount != 0)
+            //        return true;
+            //}
             if (_downloadManager != null)
             {
-                //Trace.WriteLine("_downloadManager_new.DownloadFilesCount      {0}", _downloadManager_new.DownloadFilesCount);
-                //Trace.WriteLine("_downloadManager_new.QueueDownloadFilesCount {0}", _downloadManager_new.QueueDownloadFilesCount);
                 if (_downloadManager.DownloadFilesCount != 0 || _downloadManager.QueueDownloadFilesCount != 0)
                     return true;
             }
             return false;
         }
 
-        private void LoadNewPost()
+        private void _LoadNewPost()
         {
             foreach (ServerManager server in _servers.Values)
             {
@@ -395,7 +412,7 @@ namespace Download.Print
             }
         }
 
-        private void SearchPostToDownload(DateTime lastRunDateTime)
+        private void _SearchPostToDownload(DateTime lastRunDateTime)
         {
             //Trace.WriteLine("{0:dd-MM-yyyy HH:mm:ss} - Search download from {1:dd-MM-yyyy HH:mm:ss}", DateTime.Now, lastRunDateTime);
             bool download = false;
@@ -405,13 +422,18 @@ namespace Download.Print
                 if (server.EnableSearchPostToDownload)
                 {
                     Trace.WriteLine("{0:dd-MM-yyyy HH:mm:ss} - Search download on {1} from {2:dd-MM-yyyy HH:mm:ss}", DateTime.Now, server.Name, lastRunDateTime);
+                    int nb = 0;
                     foreach (IPostToDownload post in server.GetPostList(lastRunDateTime))
                     {
                         if (RunSource.CurrentRunSource.IsExecutionAborted())
                             break;
 
                         if (TryDownloadPost(post, server.DownloadDirectory))
+                        {
                             download = true;
+                            if (_postDownloadServerLimit != 0 && ++nb == _postDownloadServerLimit)
+                                break;
+                        }
                     }
                 }
             }
@@ -419,19 +441,17 @@ namespace Download.Print
                 Trace.WriteLine("{0:dd-MM-yyyy HH:mm:ss} - Nothing to download", DateTime.Now);
         }
 
-        // used to download multiple posts
         public bool TryDownloadPosts(IEnumerable<IPostToDownload> posts, string downloadDirectory = null, bool forceDownloadAgain = false, bool forceSelect = false, bool simulateDownload = false)
         {
             bool ret = false;
             foreach (IPostToDownload post in posts)
             {
                 if (TryDownloadPost(post, downloadDirectory, forceDownloadAgain, forceSelect, simulateDownload))
-                ret = true;
+                    ret = true;
             }
             return ret;
         }
 
-        // used to download one post
         public bool TryDownloadPost(IPostToDownload post, string downloadDirectory = null, bool forceDownloadAgain = false, bool forceSelect = false, bool simulateDownload = false)
         {
             if (_downloadAllPrintType != null)
@@ -443,9 +463,8 @@ namespace Download.Print
                 return false;
             }
 
-            // corrigé le 20/11/2014
-            //DownloadPostKey key = new DownloadPostKey { server = post.server, id = post.id };
-            DownloadPostKey key = new DownloadPostKey { server = post.GetServer(), id = post.GetKey() };
+            //DownloadPostKey key = new DownloadPostKey { server = post.GetServer(), id = post.GetKey() };
+            ServerKey key = new ServerKey { Server = post.GetServer(), Id = post.GetKey() };
             // state : NotDownloaded, WaitToDownload, DownloadStarted, DownloadCompleted, DownloadFailed
             DownloadState state = GetDownloadFileState(key);
             //if (state != DownloadState.NotDownloaded && !forceDownloadAgain)
@@ -468,19 +487,19 @@ namespace Download.Print
             else
                 TracePost(post, "start download", file);
 
-            if (_downloadManager_v1 != null)
-                Try(() => _downloadManager_v1.DownloadFile(key, post.GetDownloadLinks(), file));
+            //if (_downloadManager_v1 != null)
+            //    Try(() => _downloadManager_v1.DownloadFile(key, post.GetDownloadLinks(), file));
             if (_downloadManager != null)
-                Try(() => _downloadManager.AddFileToDownload(key, post.GetDownloadLinks_new(), file));
+                Try(() => _downloadManager.AddFileToDownload(key, post.GetDownloadLinks(), file));
 
             return true;
         }
 
-        private DownloadState GetDownloadFileState(DownloadPostKey key)
+        private DownloadState GetDownloadFileState(ServerKey key)
         {
-            if (_downloadManager_v1 != null)
-                return _downloadManager_v1.GetDownloadFileState(key);
-            else if (_downloadManager != null)
+            //if (_downloadManager_v1 != null)
+            //    return _downloadManager_v1.GetDownloadFileState(key);
+            if (_downloadManager != null)
                 return _downloadManager.GetDownloadFileState(key);
             else
                 return DownloadState.NotDownloaded;
@@ -495,42 +514,20 @@ namespace Download.Print
                 return new FindPrintInfo { found = false };
         }
 
-        private IPostToDownload LoadPost(DownloadPostKey key)
+        private IPostToDownload LoadPost(ServerKey key)
         {
-            if (!_servers.ContainsKey(key.server))
+            if (!_servers.ContainsKey(key.Server))
             {
-                Trace.WriteLine("error unknow server \"{0}\"", key.server);
+                Trace.WriteLine("error unknow server \"{0}\"", key.Server);
                 return null;
             }
-            return _servers[key.server].LoadPost(key.id);
+            return _servers[key.Server].LoadPost(key.Id);
         }
 
-        private void Downloaded(DownloadedFile_v1<DownloadPostKey> downloadFile)
-        {
-            string message = GetDownloadStateText2(downloadFile.state);
-            IPostToDownload post = LoadPost(downloadFile.key);
-            if (post != null)
-                TracePost(post, message, downloadFile.downloadedFile, downloadFile.downloadLink);
-            MailAddLine(string.Format("{0} {1} {2:dd-MM-yyyy HH:mm:ss}", zPath.GetFileName(downloadFile.downloadedFile), message, DateTime.Now));
-            if (downloadFile.state == DownloadState.DownloadCompleted)
-            {
-                if (downloadFile.uncompressFiles != null)
-                {
-                    foreach (string uncompressFile in downloadFile.uncompressFiles)
-                    {
-                        //Trace.WriteLine("  \"{0}\"", uncompressFile);
-                        MailAddLine(string.Format("  {0}", zPath.GetFileName(uncompressFile)));
-                    }
-                }
-            }
-        }
-
-        private void Downloaded(DownloadedFile<DownloadPostKey> downloadedFile)
+        private void Downloaded(DownloadedFile downloadedFile)
         {
             string message = GetDownloadStateText2(downloadedFile.State);
             IPostToDownload post = LoadPost(downloadedFile.Key);
-            //if (post != null)
-            //    TracePost(post, message, null, null);
             StringBuilder sb = new StringBuilder();
             sb.AppendLine(GetPostMessage(post, message));
             if (downloadedFile.DownloadedFiles != null)
@@ -545,7 +542,6 @@ namespace Download.Print
             }
             Trace.Write(sb.ToString());
 
-            //MailAddLine(string.Format("{0} {1:dd-MM-yyyy HH:mm:ss}", message, DateTime.Now));
             MailAddLine(GetPostMessage(post, message, formated: false));
             if (downloadedFile.DownloadedFiles != null)
             {
@@ -557,16 +553,6 @@ namespace Download.Print
                 foreach (string file in downloadedFile.UncompressFiles)
                     MailAddLine(string.Format("  uncompress file : \"{0}\"", file));
             }
-            //if (downloadedFile.State == DownloadState.DownloadCompleted)
-            //{
-            //    if (downloadedFile.UncompressFiles != null)
-            //    {
-            //        foreach (string uncompressFile in downloadedFile.UncompressFiles)
-            //        {
-            //            MailAddLine(string.Format("  {0}\r\n", zPath.GetFileName(uncompressFile)));
-            //        }
-            //    }
-            //}
         }
 
         private void MailAddLine(string message)
@@ -578,12 +564,10 @@ namespace Download.Print
                 _mailBodyDateTime = DateTime.Now;
         }
 
-        private void SendMail(bool sendMail)
+        private void _SendMail(bool sendMail)
         {
             if (_mailBodyLineNumber == 0)
                 return;
-            //if ((_downloadManager.DownloadFilesCount == 0 && _downloadManager.QueueDownloadFilesCount == 0)
-            //  || DateTime.Now.Subtract((DateTime)_mailBodyDateTime) >= _mailWaitDownloadFinish)
             if (!ActiveDownload() || DateTime.Now.Subtract((DateTime)_mailBodyDateTime) >= _mailWaitDownloadFinish)
             {
                 try

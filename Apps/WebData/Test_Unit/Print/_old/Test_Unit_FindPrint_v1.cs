@@ -12,6 +12,7 @@ using pb.IO;
 using Print;
 using Download.Print;
 using pb.Data.Xml;
+using Download.Print.old;
 
 namespace Test.Test_Unit.Print
 {
@@ -274,7 +275,7 @@ namespace Test.Test_Unit.Print
         //    RunSource.CurrentRunSource.View(query2);
         //}
 
-        public static IEnumerable<BsonDocument> FindPrintFromMongo(DownloadAutomateManager downloadAutomate, string query, int limit = 0, string sort = null)
+        public static IEnumerable<BsonDocument> FindPrintFromMongo(DownloadAutomateManager_v1 downloadAutomate, string query, int limit = 0, string sort = null)
         {
             if (sort == null)
                 sort = "{ 'download.title': 1 }";

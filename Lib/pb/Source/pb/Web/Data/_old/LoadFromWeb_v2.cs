@@ -4,7 +4,7 @@ using System.Xml.Linq;
 using pb.IO;
 using pb.Web.old;
 
-namespace pb.Web
+namespace pb.Web.old
 {
     // not used : ???
     public class LoadFromWeb_v2

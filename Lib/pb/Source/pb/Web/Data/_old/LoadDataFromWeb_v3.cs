@@ -1,10 +1,9 @@
 ﻿using System;
-using System.IO;
 using System.Xml.Linq;
 using pb.IO;
 using pb.Web.old;
 
-namespace pb.Web
+namespace pb.Web.old
 {
     public class RequestFromWeb_v3
     {

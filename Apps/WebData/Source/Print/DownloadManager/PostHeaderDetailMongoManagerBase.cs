@@ -160,7 +160,8 @@ namespace Download.Print
                 DownloadDirectory = null,
                 LoadNewPost = loadNewPost,
                 GetPostList = getPostList,
-                LoadPost = LoadDocument
+                LoadPost = LoadDocument,
+                Backup = dir => Backup(dir)
             };
         }
 

@@ -14,7 +14,7 @@ namespace Download.Print
         public Action LoadNewPost = null;
         public Func<DateTime, IEnumerable<IPostToDownload>> GetPostList = null;
         public Func<BsonValue, IPostToDownload> LoadPost = null;
-        public Action Backup = null;
+        public Func<string, IEnumerable<string>> Backup = null;
     }
 
     public static class ServerManagers

@@ -8,9 +8,9 @@ namespace Download.Print
 {
     public static class WebData
     {
-        public static void RunDownloadAutomate_v2(string parameters = null)
+        public static void RunDownloadAutomate(string parameters = null)
         {
-            DownloadAutomateManager downloadAutomateManager = CreateDownloadAutomate_v2(parameters);
+            DownloadAutomateManager downloadAutomateManager = CreateDownloadAutomate(parameters);
             try
             {
                 downloadAutomateManager.Start();
@@ -23,7 +23,7 @@ namespace Download.Print
             }
         }
 
-        public static DownloadAutomateManager CreateDownloadAutomate_v2(string parameters = null)
+        public static DownloadAutomateManager CreateDownloadAutomate(string parameters = null)
         {
             // parameters : version = 6, traceLevel = 0, useTestManager = true
             //   waitTimeBetweenOperation = 00:05, mailWaitDownloadFinish = 10:00, postDownloadServerLimit = 3

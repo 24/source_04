@@ -199,14 +199,14 @@ namespace Download.Print
             }
         }
 
-        public static MongoBackup CreateMongoBackup(params MongoCollection[] collections)
-        {
-            MongoBackup mongoBackup = new MongoBackup();
-            mongoBackup.BackupDirectory = XmlConfig.CurrentConfig.GetExplicit("MongoBackupDirectory");
-            mongoBackup.TmpBackupDirectory = XmlConfig.CurrentConfig.GetExplicit("MongoBackupTmpDirectory");
-            mongoBackup.AddCollections(collections);
-            return mongoBackup;
-        }
+        //public static MongoBackup CreateMongoBackup(params MongoCollection[] collections)
+        //{
+        //    MongoBackup mongoBackup = new MongoBackup();
+        //    mongoBackup.BackupDirectory = XmlConfig.CurrentConfig.GetExplicit("MongoBackupDirectory");
+        //    mongoBackup.TempBackupDirectory = XmlConfig.CurrentConfig.GetExplicit("MongoBackupTmpDirectory");
+        //    mongoBackup.AddCollections(collections);
+        //    return mongoBackup;
+        //}
 
         //public static IEnumerable<BsonDocument> GetPostInfoList(MongoCollection mongoCollection, string server, string query = null, string sort = null, int limit = 0)
         //{

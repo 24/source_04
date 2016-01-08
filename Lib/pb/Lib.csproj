@@ -167,6 +167,7 @@
     <Compile Include="Source\pb\Data\Xml\XXElement.cs" />
     <Compile Include="Source\pb\Data\Xml\_old\Xml.cs" />
     <Compile Include="Source\pb\Data\_old\IDocumentStore_v1.cs" />
+    <Compile Include="Source\pb\IO\Backup.cs" />
     <Compile Include="Source\pb\IO\CompressBaseManager.cs" />
     <Compile Include="Source\pb\IO\CompressManager.cs" />
     <Compile Include="Source\pb\IO\FilenameNumberInfo.cs" />

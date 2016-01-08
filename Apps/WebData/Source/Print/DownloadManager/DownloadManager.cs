@@ -217,6 +217,13 @@ namespace Download.Print
         public int DownloadFilesCount { get { return _queueDownloadFiles.Count; } }
         public long QueueDownloadFilesCount { get { return _mongoQueueDownloadFileManager.Count(); } }
 
+        public void InitBackup(Backup backup)
+        {
+            backup.Add(dir => MongoBackup.Backup(_mongoDownloadedFileManager.GetCollection(), dir));
+            backup.Add(dir => MongoBackup.Backup(_mongoQueueDownloadFileManager.GetCollection(), dir));
+            backup.Add(dir => MongoBackup.Backup(_mongoCurrentDownloadFileManager.GetCollection(), dir));
+        }
+
         public void StartThread()
         {
             TaskManager.StartTaskManager();

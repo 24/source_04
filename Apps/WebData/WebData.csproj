@@ -125,6 +125,9 @@
     <Compile Include="..\..\Lib\pb\Source\pb\Data\_old\IDocumentStore_v4.cs">
       <Link>SourceLnk\Lib\pb\Data\_old\IDocumentStore_v4.cs</Link>
     </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\IO\Backup.cs">
+      <Link>SourceLnk\Lib\pb\IO\Backup.cs</Link>
+    </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\IO\zDirectory.cs">
       <Link>SourceLnk\Lib\pb\IO\zDirectory.cs</Link>
     </Compile>

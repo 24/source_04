@@ -1,15 +1,39 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 
 namespace pb.IO
 {
+    //public static class TestZipArchive
+    //{
+    //    public static void Zip(System.Collections.Generic.IEnumerable<string> files)
+    //    {
+    //        using (ZipArchive zipArchive = new ZipArchive("zipfile.zip", FileMode.Create))
+    //        {
+    //            foreach (string file in files)
+    //            {
+    //                zipArchive.AddFile(file, entryName: zPath.GetFileName(file));
+    //            }
+    //        }
+    //    }
+    //}
+
+    [Flags]
+    public enum ZipArchiveOptions
+    {
+        None                = 0x0000,
+        StorePath           = 0x0001,
+        StorePartialPath    = 0x0002,
+        DeleteSourceFiles   = 0x0004
+    }
+
     public class ZipArchive : IDisposable
     {
         private string _file = null;
         private FileStream _fileStream = null;
         private System.IO.Compression.ZipArchive _zipArchive = null;
-        private string _rootPath = null;     // used to generate entryName
+        private string _rootDirectory = null;     // used to generate entryName
         private CompressionLevel _compressionLevel = CompressionLevel.Optimal;
 
         public ZipArchive(string file, FileMode fileMode)
@@ -23,7 +47,7 @@ namespace pb.IO
             Close();
         }
 
-        public string RootPath { get { return _rootPath; } set { _rootPath = value; if (!_rootPath.EndsWith("\\")) _rootPath = _rootPath + "\\"; } }
+        public string RootDirectory { get { return _rootDirectory; } set { _rootDirectory = value; if (_rootDirectory != null && !_rootDirectory.EndsWith("\\")) _rootDirectory = _rootDirectory + "\\"; } }
         public CompressionLevel CompressionLevel { get { return _compressionLevel; } set { _compressionLevel = value; } }
 
         private void Open(FileMode fileMode)
@@ -46,14 +70,14 @@ namespace pb.IO
             }
         }
 
-        public void AddFile(string file, string entryName = null, bool noDirectory = false)
+        public void AddFile(string file, string entryName = null, bool entryAsFilename = false)
         {
             if (entryName == null)
             {
-                if (noDirectory)
+                if (entryAsFilename)
                     entryName = zPath.GetFileName(file);
-                else if (_rootPath != null && file.StartsWith(_rootPath))
-                    entryName = file.Substring(_rootPath.Length);
+                else if (_rootDirectory != null && file.StartsWith(_rootDirectory))
+                    entryName = file.Substring(_rootDirectory.Length);
                 else
                     entryName = file;
             }
@@ -64,5 +88,36 @@ namespace pb.IO
         //{
         //    return new ZipArchive(file, fileMode);
         //}
+
+        public static void Zip(string zipFile, IEnumerable<string> files, FileMode fileMode = FileMode.Create, ZipArchiveOptions options = ZipArchiveOptions.None, string rootDirectory = null)
+        {
+            bool entryAsFilename = false;
+            if ((options & ZipArchiveOptions.StorePartialPath) == ZipArchiveOptions.StorePartialPath)
+            {
+                if (rootDirectory == null)
+                    throw new PBException("need root directory to store partial path in zip file");
+            }
+            else
+            {
+                rootDirectory = null;
+                if ((options & ZipArchiveOptions.StorePath) != ZipArchiveOptions.StorePath)
+                    entryAsFilename = true;
+            }
+            using (ZipArchive zipArchive = new ZipArchive(zipFile, fileMode))
+            {
+                zipArchive.RootDirectory = rootDirectory;
+                foreach (string file in files)
+                {
+                    zipArchive.AddFile(file, entryAsFilename: entryAsFilename);
+                }
+            }
+            if ((options & ZipArchiveOptions.DeleteSourceFiles) == ZipArchiveOptions.DeleteSourceFiles)
+            {
+                foreach (string file in files)
+                {
+                    zFile.Delete(file);
+                }
+            }
+        }
     }
 }

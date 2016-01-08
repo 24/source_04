@@ -236,6 +236,11 @@ namespace pb.Data.Mongo
             return nb;
         }
 
+        public IEnumerable<string> Backup(string directory)
+        {
+            yield return MongoBackup.Backup(GetCollection(), directory);
+        }
+
         protected virtual BsonDocument Serialize(TData data)
         {
             Type type = _nominalType;

@@ -71,6 +71,19 @@ RunSource.CurrentRunSource.Compile_Project(@"..\..\..\..\PibApp\Pib.project.xml"
 RunSource.CurrentRunSource.Compile_Project(@"..\..\..\..\Test\Test.Test_01\Source\Test_wcf\Test_wcf_service_01\Test_wcf_service_01.project.xml");
 RunSource.CurrentRunSource.Compile_Project(@"..\..\..\..\Test\Test.Test_01\Source\Test_wcf\Test_wcf_service_02\Test_wcf_service_02.project.xml");
 
+//*************************************************************************************************************************
+//****                                   Automate
+//*************************************************************************************************************************
+
+// run now, load new post, dont search post to download, dont send mail
+WebData.RunDownloadAutomate("runNow = true, loadNewPost = true, searchPostToDownload = false, sendMail = false");
+// run now, load new post, search post to download, dont send mail
+WebData.RunDownloadAutomate("runNow = true, loadNewPost = true, searchPostToDownload = true, sendMail = false");
+// Backup
+WebData.CreateDownloadAutomate("loadNewPost = false, searchPostToDownload = false, sendMail = false").Backup();
+// SetTimeBetweenRun
+WebData.CreateDownloadAutomate("loadNewPost = false, searchPostToDownload = false, sendMail = false").MongoDownloadAutomateManager.SetTimeBetweenRun(TimeSpan.FromHours(2));
+TraceMongoCommand.Find("dl", "DownloadAutomate3", "{}").zView_v3();
 
 //*************************************************************************************************************************
 //****                                   Automate
@@ -4809,12 +4822,12 @@ zparse.CreateTimeSpan(0, 0, 59, 0, 0).zTrace();
 //****                                   $$info.test Automate test
 //*************************************************************************************************************************
 
-WebData.CreateDownloadAutomate_v2("loadNewPost = true, searchPostToDownload = false, sendMail = false").SearchPostToDownload.zTrace();
-WebData.CreateDownloadAutomate_v2("loadNewPost = true, searchPostToDownload = false, sendMail = false").PostDownloadServerLimit.zTrace();
+WebData.CreateDownloadAutomate("loadNewPost = true, searchPostToDownload = false, sendMail = false").SearchPostToDownload.zTrace();
+WebData.CreateDownloadAutomate("loadNewPost = true, searchPostToDownload = false, sendMail = false").PostDownloadServerLimit.zTrace();
 // run now, load new post, dont search post to download, dont send mail
-WebData.RunDownloadAutomate_v2("runNow = true, loadNewPost = true, searchPostToDownload = false, sendMail = false");
+WebData.RunDownloadAutomate("runNow = true, loadNewPost = true, searchPostToDownload = false, sendMail = false");
 // run now, load new post, search post to download, dont send mail
-WebData.RunDownloadAutomate_v2("runNow = true, loadNewPost = true, searchPostToDownload = true, sendMail = false");
+WebData.RunDownloadAutomate("runNow = true, loadNewPost = true, searchPostToDownload = true, sendMail = false");
 
 //*************************************************************************************************************************
 //****                                   $$info.test mongo Automate test
@@ -4832,6 +4845,7 @@ TraceMongoCommand.Export("dl_test", "DownloadedFile", Path.Combine(AppData.DataD
 //TraceMongoCommand.Eval("db.ExtremeDown_Header_Test.drop()", "dl_test");
 //TraceMongoCommand.Eval("db.ExtremeDown_Detail_Test.drop()", "dl_test");
 //TraceMongoCommand.Eval("db.CurrentDownloadFile.drop()", "dl_test");
+//TraceMongoCommand.Eval("db.QueueDownloadFile_new.drop()", "dl_test");
 //TraceMongoCommand.Eval("db.DownloadedFile.drop()", "dl_test");
 
 TraceMongoCommand.Export("dl_test", "MagazinesGratuits_Header_Test", Path.Combine(AppData.DataDirectory, @"sites\magazines-gratuits.info.test\mongo\export_MagazinesGratuits_Header_Test.txt"), sort: "{ '_id': -1 }");
@@ -4846,7 +4860,62 @@ TraceMongoCommand.Export("dl_test", "ExtremeDown_Header_Test", Path.Combine(AppD
 TraceMongoCommand.Export("dl_test", "ExtremeDown_Detail_Test", Path.Combine(AppData.DataDirectory, @"sites\extreme-down.net.test\mongo\export_ExtremeDown_Detail_Test.txt"), sort: "{ '_id': -1 }");
 
 
+//*************************************************************************************************************************
+//****                                   $$info.test backup automate
+//*************************************************************************************************************************
+
+WebData.CreateDownloadAutomate("loadNewPost = false, searchPostToDownload = false, sendMail = false").Backup();
+
+//*************************************************************************************************************************
+//****                                   $$info.test mongo rename field DownloadLinks_new to DownloadLinks ExtremeDown_Detail
+//*************************************************************************************************************************
+
+// db.students.update( { _id: 1 }, { $rename: { 'nickname': 'alias', 'cell': 'mobile' } } )
+TraceMongoCommand.Export("dl", "ExtremeDown_Detail", Path.Combine(AppData.DataDirectory, @"sites\extreme-down.net\mongo\export_ExtremeDown_Detail.txt"), sort: "{ '_id': -1 }");
+//TraceMongoCommand.Eval("db.ExtremeDown_Detail_Test2.drop()", "dl_test");
+TraceMongoCommand.Import("dl_test", "ExtremeDown_Detail_Test2", Path.Combine(AppData.DataDirectory, @"sites\extreme-down.net\mongo\export_ExtremeDown_Detail.txt"));
+TraceMongoCommand.Export("dl_test", "ExtremeDown_Detail_Test2", Path.Combine(AppData.DataDirectory, @"sites\extreme-down.net\mongo\export_ExtremeDown_Detail_Test2_04.txt"), sort: "{ '_id': -1 }");
+Download.Print.ExtremeDown.ExtremeDown.Current.DetailWebDataManager.Find(query: null, sort: "{ _id: -1 }", limit: 0, loadImage: false).zView_v3();
+TraceMongoCommand.Count("dl_test", "ExtremeDown_Detail_Test2");
+TraceMongoCommand.Count("dl_test", "ExtremeDown_Detail_Test2", query: "{ 'download.DownloadLinks_new': { $exists: true } }");
+TraceMongoCommand.Count("dl_test", "ExtremeDown_Detail_Test2", query: "{ 'download.downloadLinks_new': { $exists: true } }");
+TraceMongoCommand.Find("dl_test", "ExtremeDown_Detail_Test2", query: null, sort: "{ _id: -1 }", limit: 0).zView_v3();
+
+
+TraceMongoCommand.Update("dl_test", "ExtremeDown_Detail_Test2", "{ 'download.sourceUrl': { $exists: true } }",
+  "{ $rename: { 'download.sourceUrl': 'download.SourceUrl', 'download.loadFromWebDate': 'download.LoadFromWebDate', 'download.title': 'download.Title'"
+  + ", 'download.printType': 'download.PrintType', 'download.originalTitle': 'download.OriginalTitle', 'download.postAuthor': 'download.PostAuthor'"
+  + ", 'download.creationDate': 'download.CreationDate', 'download.category': 'download.Category', 'download.description': 'download.Description'"
+  + ", 'download.language': 'download.Language', 'download.size': 'download.Size', 'download.nbPages': 'download.NbPages', 'download.infos': 'download.Infos'"
+  + ", 'download.images': 'download.Images', 'download.downloadLinks_new': 'download.DownloadLinks_new' } }",
+  MongoDB.Driver.UpdateFlags.Upsert | MongoDB.Driver.UpdateFlags.Multi);
+TraceMongoCommand.Update("dl_test", "ExtremeDown_Detail_Test2", "{ 'download.DownloadLinks_new': { $exists: true } }", "{ $rename: { 'download.DownloadLinks_new': 'download.DownloadLinks' } }", MongoDB.Driver.UpdateFlags.Upsert | MongoDB.Driver.UpdateFlags.Multi);
+TraceMongoCommand.Update("dl_test", "ExtremeDown_Detail_Test2", "{ 'download.CreationDate': { $exists: true } }", "{ $rename: { 'download.CreationDate': 'download.PostCreationDate' } }", MongoDB.Driver.UpdateFlags.Upsert | MongoDB.Driver.UpdateFlags.Multi);
+
+
+TraceMongoCommand.Update("dl", "ExtremeDown_Detail", "{ 'download.sourceUrl': { $exists: true } }",
+  "{ $rename: { 'download.sourceUrl': 'download.SourceUrl', 'download.loadFromWebDate': 'download.LoadFromWebDate', 'download.title': 'download.Title'"
+  + ", 'download.printType': 'download.PrintType', 'download.originalTitle': 'download.OriginalTitle', 'download.postAuthor': 'download.PostAuthor'"
+  + ", 'download.creationDate': 'download.CreationDate', 'download.category': 'download.Category', 'download.description': 'download.Description'"
+  + ", 'download.language': 'download.Language', 'download.size': 'download.Size', 'download.nbPages': 'download.NbPages', 'download.infos': 'download.Infos'"
+  + ", 'download.images': 'download.Images', 'download.downloadLinks_new': 'download.DownloadLinks_new' } }",
+  MongoDB.Driver.UpdateFlags.Upsert | MongoDB.Driver.UpdateFlags.Multi);
+TraceMongoCommand.Update("dl", "ExtremeDown_Detail", "{ 'download.DownloadLinks_new': { $exists: true } }", "{ $rename: { 'download.DownloadLinks_new': 'download.DownloadLinks' } }", MongoDB.Driver.UpdateFlags.Upsert | MongoDB.Driver.UpdateFlags.Multi);
+TraceMongoCommand.Update("dl", "ExtremeDown_Detail", "{ 'download.CreationDate': { $exists: true } }", "{ $rename: { 'download.CreationDate': 'download.PostCreationDate' } }", MongoDB.Driver.UpdateFlags.Upsert | MongoDB.Driver.UpdateFlags.Multi);
+
 
 BsonArray array = new BsonArray { 1, 2 };
 array.zView_v3();
 array.zView();
+
+
+//*************************************************************************************************************************
+//****                                   $$info.test ZipArchive
+//*************************************************************************************************************************
+ZipArchive.Zip(@"c:\pib\_dl\_test\log.zip", zDirectory.EnumerateFiles(@"c:\pib\_dl\_test\data"));
+ZipArchive.Zip(@"c:\pib\_dl\_test\log.zip", zDirectory.EnumerateFiles(@"c:\pib\_dl\_test\data"), options: ZipArchiveOptions.StorePath);
+ZipArchive.Zip(@"c:\pib\_dl\_test\log.zip", zDirectory.EnumerateFiles(@"c:\pib\_dl\_test\data"), options: ZipArchiveOptions.StorePartialPath, rootDirectory: @"c:\pib\_dl");
+ZipArchive.Zip(@"c:\pib\_dl\_test\log.zip", zDirectory.EnumerateFiles(@"c:\pib\_dl\_test\data"), options: ZipArchiveOptions.StorePartialPath | ZipArchiveOptions.DeleteSourceFiles, rootDirectory: @"c:\pib\_dl");
+ZipArchive.Zip(@"c:\pib\_dl\_test\log.zip", zDirectory.EnumerateFiles(@"c:\pib\_dl\_test\data"), options: ZipArchiveOptions.DeleteSourceFiles);
+
+

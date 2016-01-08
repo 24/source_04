@@ -256,13 +256,14 @@
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Xml\XmlSelect.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Xml\XXElement.cs" />
 
+  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\Backup.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\IO\CompressBaseManager.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\IO\CompressManager.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\IO\Directory.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\IO\FilenameNumberInfo.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\IO\SharpCompressManager.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\IO\UncompressManager.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\ZipArchive.cs" />
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\IO\ZipArchive.cs" />-->
   <Source                           value = "$Root$\Lib\pb\Source\pb\IO\ZipManager.cs" />
 
   <Source                           value = "$Root$\Lib\pb\Source\pb\Linq\Linq.cs" />

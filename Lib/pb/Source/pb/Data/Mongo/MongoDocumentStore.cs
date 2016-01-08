@@ -69,6 +69,11 @@ namespace pb.Data.Mongo
             return _collectionManager.Update(update, query, sort, limit);
         }
 
+        public IEnumerable<string> Backup(string directory)
+        {
+            return _collectionManager.Backup(directory);
+        }
+
         private IEnumerable<KeyValuePair<string, object>> GetIdValue(BsonValue id)
         {
             yield return new KeyValuePair<string, object>(__idElementName, id);

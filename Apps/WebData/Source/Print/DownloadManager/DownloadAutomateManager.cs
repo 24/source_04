@@ -13,6 +13,8 @@ using Print;
 using System.Xml.Linq;
 using pb.Data.Xml;
 using MongoDB.Bson.Serialization.Attributes;
+using pb.Data.Mongo;
+using pb.IO;
 
 namespace Download.Print
 {
@@ -214,6 +216,9 @@ namespace Download.Print
         private TimeSpan _waitTimeBetweenOperation = TimeSpan.FromSeconds(5);     // 5 sec
         private TimeSpan _mailWaitDownloadFinish = TimeSpan.FromMinutes(10);      // 10 minutes
         private int _postDownloadServerLimit = 0;
+        //private MongoBackup _mongoBackup = null;
+        private Backup _backup = null;
+        //private string _backupDirectory = null;
 
         private StringBuilder _mailBody = new StringBuilder();
         private int _mailBodyLineNumber = 0;
@@ -266,6 +271,23 @@ namespace Download.Print
             _waitTimeBetweenOperation = xe.zXPathValue("WaitTimeBetweenOperation").zTryParseAs(TimeSpan.FromSeconds(5));
             _mailWaitDownloadFinish = xe.zXPathValue("MailWaitDownloadFinish").zTryParseAs(TimeSpan.FromMinutes(10));
             _postDownloadServerLimit = xe.zXPathValue("PostDownloadServerLimit").zTryParseAs(0);
+            InitBackup(xe);
+        }
+
+        private void InitBackup(XElement xe)
+        {
+            _backup = new Backup();
+            //_backupDirectory = xe.zXPathValue("BackupDirectory");
+            _backup.TempBackupDirectory = xe.zXPathValue("TempBackupDirectory");
+            _backup.BackupDirectory = xe.zXPathValue("BackupDirectory");
+            _backup.ZipFilename = xe.zXPathValue("ZipFilename", "BackupAutomate");
+            //_mongoBackup.AddCollection(_mongoDownloadAutomateManager.GetCollection());
+            _backup.Add(dir => MongoBackup.Backup(_mongoDownloadAutomateManager.GetCollection(), dir));
+            _downloadManager.InitBackup(_backup);
+            foreach (ServerManager server in _servers.Values)
+            {
+                _backup.Add(dir => server.Backup(dir));
+            }
         }
 
         public void SetParameters(NamedValues<ZValue> parameters)
@@ -307,6 +329,11 @@ namespace Download.Print
         public void AddServerManager(ServerManager server)
         {
             _servers.Add(server.Name, server);
+        }
+
+        public void Backup()
+        {
+            _backup.DoBackup();
         }
 
         public virtual void Start()

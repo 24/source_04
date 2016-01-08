@@ -13,7 +13,7 @@
   <LocalConfig                                                   value = "$DataDir2$\config\download.config.local.xml" />    <!-- c:\pib\dropbox\pbeuz\Dropbox\dev_data\exe\runsource\download\config\download_config_local.xml -->
   <PrintList1Config                                              value = "print_list1.xml" />
   <PrintList2Config                                              value = "print_list2.xml" />
-  <Test                                                          value = "true" />
+  <!--<Test                                                          value = "true" />-->
   <!--<Test                                                          value = "true" />-->
 
   <DownloadAutomateManager>
@@ -26,15 +26,18 @@
     <!--<WaitTimeBetweenOperation                                    value = "5" /> --><!-- default = 5 sec -->
     <!--<MailWaitDownloadFinish                                      value = "10:00" /> --><!-- default = 10 minutes -->
     <!--<PostDownloadServerLimit                                     value = "3" /> --><!-- default = 0 -->
+    <TempBackupDirectory                                         value = "$DataDir$\log\temp" />
+    <BackupDirectory                                             value = "$DataDir2$\backup" />
+    <!--<ZipFilename                                                 value = "BackupAutomate" />--><!-- default = "BackupAutomate" -->
 
     <ServerManagers>
       <!-- ServerManager default values : enableLoadNewPost = "true"  enableSearchPostToDownload = "true" downloadDirectory = "" -->
       <!-- <ServerManager                                             name = "Ebookdz"  enableLoadNewPost = "false"  enableSearchPostToDownload = "false"  downloadDirectory = "Ebookdz" /> -->
-      <ServerManager                                             name = "ebookdz.com" />  <!-- Ebookdz -->
-      <ServerManager                                             name = "vosbooks.net" />
-      <ServerManager                                             name = "telecharger-magazine.com" />  <!-- TelechargerMagazine -->
-      <ServerManager                                             name = "extreme-down.net" />  <!-- ExtremeDown -->
       <ServerManager                                             name = "magazines-gratuits.info" />
+      <ServerManager                                             name = "extreme-down.net" />
+      <ServerManager                                             name = "ebookdz.com" />
+      <ServerManager                                             name = "vosbooks.net" />
+      <ServerManager                                             name = "telecharger-magazine.com" />
       <!--<ServerManager                                             name = "Vosbooks_test" enableLoadNewPost = "false" downloadDirectory = "Vosbooks" />-->
     </ServerManagers>
 
@@ -98,6 +101,9 @@
     <!--<WaitTimeBetweenOperation                                    value = "5" /> --><!-- default = 5 sec -->
     <!--<MailWaitDownloadFinish                                      value = "10:00" /> --><!-- default = 10 minutes -->
     <PostDownloadServerLimit                                     value = "3" /> <!-- default = 0 -->
+    <TempBackupDirectory                                         value = "$DataDir$\log\temp" />
+    <BackupDirectory                                             value = "$DataDir2$\backup" />
+    <!--<ZipFilename                                                 value = "BackupAutomate" />--><!-- default = "BackupAutomate" -->
     
     <ServerManagers>
       <!-- ServerManager default values : enableLoadNewPost = "true"  enableSearchPostToDownload = "true" downloadDirectory = "" -->
@@ -341,8 +347,8 @@
       <!--<UseXml                                                    value = "true" />-->
       <UseMongo                                                  value = "true" />
       <MongoServer                                               value = "mongodb://localhost" />
-      <MongoDatabase                                             value = "dl_test" />
-      <MongoCollection                                           value = "ExtremeDown_Detail_Test" />
+      <MongoDatabase                                             value = "dl_test" />  <!-- dl_test -->
+      <MongoCollection                                           value = "ExtremeDown_Detail_Test2" /> <!-- ExtremeDown_Detail_Test2 -->
       <MongoDocumentItemName                                     value = "download" />
       <GetLinksExtremeProtect                                    value = "false" />
       <MongoDefaultSort                                          value = "{ 'download.id': 1 }" />

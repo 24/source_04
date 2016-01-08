@@ -196,6 +196,14 @@ namespace pb.Web.Data
             return nb;
         }
 
+        public IEnumerable<string> Backup(string directory)
+        {
+            if (_documentStore != null)
+                return _documentStore.Backup(directory);
+            else
+                return new string[0];
+        }
+
         private BsonValue _GetKeyFromHttpRequest(HttpRequest httpRequest)
         {
             if (_getKeyFromHttpRequest != null)

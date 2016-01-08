@@ -168,6 +168,9 @@ namespace Download.Print
             //InitServers();
             CreateServerManagers();
 
+            _downloadAutomateManager.Init(_xeConfig);
+            _downloadAutomateManager.SetParameters(_parameters);
+
             TraceResult();
 
             if (!ControlDownloadManagerClient())
@@ -304,14 +307,14 @@ namespace Download.Print
         private DownloadAutomateManager _CreateDownloadAutomateManager()
         {
             DownloadAutomateManager downloadAutomateManager = new DownloadAutomateManager();
-            downloadAutomateManager.Init(_xeConfig);
-            downloadAutomateManager.SetParameters(_parameters);
             downloadAutomateManager.MongoDownloadAutomateManager = _mongoDownloadAutomateManager;
             downloadAutomateManager.DownloadAllPrintType = printType => printType == PrintType.Print;
             downloadAutomateManager.FindPrintManager = _findPrintManager;
             downloadAutomateManager.DownloadManager = _downloadManager;
             downloadAutomateManager.MailSender = _mailSender;
             downloadAutomateManager.MailMessage = _mailMessage;
+            //downloadAutomateManager.Init(_xeConfig);
+            //downloadAutomateManager.SetParameters(_parameters);
             return downloadAutomateManager;
         }
 

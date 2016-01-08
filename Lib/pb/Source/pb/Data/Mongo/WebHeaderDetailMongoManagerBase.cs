@@ -1,6 +1,8 @@
 ﻿using MongoDB.Bson;
 using pb.Data.Mongo;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 
@@ -132,6 +134,11 @@ namespace pb.Web.Data
             _webHeaderDetailManager = new WebHeaderDetailManager<THeaderData, TDetailData>();
             _webHeaderDetailManager.HeaderDataPageManager = _headerWebDataPageManager;
             _webHeaderDetailManager.DetailDataManager = _detailWebDataManager;
+        }
+
+        public virtual IEnumerable<string> Backup(string directory)
+        {
+            return _headerWebDataPageManager.Backup(directory).Union(_detailWebDataManager.Backup(directory));
         }
     }
 }

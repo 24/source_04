@@ -39,6 +39,7 @@ namespace pb.Data
         void SaveWithKey(BsonValue key, TData document);
         IEnumerable<TData> Find(string query, string sort = null, int limit = 0, string options = null);
         int Update(Action<TData> updateDocument, string query = null, string sort = null, int limit = 0);
+        IEnumerable<string> Backup(string directory);
     }
 
     public static class DocumentStoreExtension

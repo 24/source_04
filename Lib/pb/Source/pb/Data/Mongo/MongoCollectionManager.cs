@@ -294,7 +294,7 @@ namespace pb.Data.Mongo
             }
             //IEnumerable<KeyValuePair<string, object>> keyValues = key.GetQueryValues();
             if (prefixName != null)
-                queryValues = queryValues.Select(keyValue => new KeyValuePair<string, object>(prefixName + keyValue.Key, keyValue.Value));
+                queryValues = queryValues.Select(keyValue => new KeyValuePair<string, object>(prefixName + "." + keyValue.Key, keyValue.Value));
             return new QueryDocument(queryValues);
         }
 

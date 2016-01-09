@@ -36,8 +36,8 @@ namespace Download.Print
 
         public IEnumerable<KeyValuePair<string, object>> GetQueryValues()
         {
-            yield return new KeyValuePair<string, object>("server", Server);
-            yield return new KeyValuePair<string, object>("id", Id);
+            yield return new KeyValuePair<string, object>("Server", Server);
+            yield return new KeyValuePair<string, object>("_id", Id);
         }
 
         public override string ToString()

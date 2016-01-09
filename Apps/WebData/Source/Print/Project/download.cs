@@ -4903,6 +4903,16 @@ TraceMongoCommand.Update("dl", "ExtremeDown_Detail", "{ 'download.sourceUrl': { 
 TraceMongoCommand.Update("dl", "ExtremeDown_Detail", "{ 'download.DownloadLinks_new': { $exists: true } }", "{ $rename: { 'download.DownloadLinks_new': 'download.DownloadLinks' } }", MongoDB.Driver.UpdateFlags.Upsert | MongoDB.Driver.UpdateFlags.Multi);
 TraceMongoCommand.Update("dl", "ExtremeDown_Detail", "{ 'download.CreationDate': { $exists: true } }", "{ $rename: { 'download.CreationDate': 'download.PostCreationDate' } }", MongoDB.Driver.UpdateFlags.Upsert | MongoDB.Driver.UpdateFlags.Multi);
 
+//*************************************************************************************************************************
+//****                                   $$info.test mongo rename DownloadedFile field downloadedFile.Key.server to downloadedFile.Key.Server
+//*************************************************************************************************************************
+
+TraceMongoCommand.Export("dl", "DownloadedFile", Path.Combine(AppData.DataDirectory, @"mongo\export\Download\export_DownloadedFile.txt"), sort: "{ _id: 1 }");
+TraceMongoCommand.Count("dl", "DownloadedFile");  // 27193
+TraceMongoCommand.Count("dl", "DownloadedFile", query: "{ 'downloadedFile.Key.server': { $exists: true } }");  // 26074
+TraceMongoCommand.Count("dl", "DownloadedFile", query: "{ 'downloadedFile.Key.Server': { $exists: true } }");  //  1118
+TraceMongoCommand.Update("dl", "DownloadedFile", "{ 'downloadedFile.Key.server': { $exists: true } }", "{ $rename: { 'downloadedFile.Key.server': 'downloadedFile.Key.Server' } }", MongoDB.Driver.UpdateFlags.Upsert | MongoDB.Driver.UpdateFlags.Multi);
+
 
 BsonArray array = new BsonArray { 1, 2 };
 array.zView_v3();
@@ -4918,4 +4928,8 @@ ZipArchive.Zip(@"c:\pib\_dl\_test\log.zip", zDirectory.EnumerateFiles(@"c:\pib\_
 ZipArchive.Zip(@"c:\pib\_dl\_test\log.zip", zDirectory.EnumerateFiles(@"c:\pib\_dl\_test\data"), options: ZipArchiveOptions.StorePartialPath | ZipArchiveOptions.DeleteSourceFiles, rootDirectory: @"c:\pib\_dl");
 ZipArchive.Zip(@"c:\pib\_dl\_test\log.zip", zDirectory.EnumerateFiles(@"c:\pib\_dl\_test\data"), options: ZipArchiveOptions.DeleteSourceFiles);
 
+
+WebData.CreateDownloadAutomate("loadNewPost = true, searchPostToDownload = false, sendMail = false").DownloadManager
+  .GetDownloadedFile(new ServerKey { Server = "magazines-gratuits.info", Id = 71 }).zTraceJson();
+TraceMongoCommand.Export("dl", "MagazinesGratuits_Detail", Path.Combine(AppData.DataDirectory, @"sites\magazines-gratuits.info\mongo\export_MagazinesGratuits_Detail.txt"), sort: "{ 'download.PostCreationDate': -1 }");
 

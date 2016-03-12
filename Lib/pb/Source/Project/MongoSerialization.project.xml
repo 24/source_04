@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<AssemblyProject>
+  <Root                             value = "..\..\..\.." />
+
+  <Using                            value = "pb.Data.Mongo" />
+  <Using                            value = "pb.Data.Mongo.Serializers" />
+
+  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\Convert.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\Date.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\GlobalExtension.cs" />
+
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\ZValue.cs" />
+
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\BsonPBSerializationProvider.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\DateSerializer.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\DefaultMongoSerializer.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\UrlImageSerializer.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\ZIntSerializer.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\ZStringArraySerializer.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\ZStringSerializer.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\ZValueSerializer.cs" />
+
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Text\Regex.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Text\Split.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Text\String.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Text\StringZones.cs" />
+
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebImage.cs" />
+
+  <Assembly                         value = "System.dll" />
+  <Assembly                         value = "System.Core.dll" />
+  <Assembly                         value = "System.Drawing.dll" />
+  <Assembly                         value = "$Root$\..\library\Mongo\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Bson.dll" resolve = "true" resolveName = "MongoDB.Bson, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />
+  <Assembly                         value = "runsource.dll" />
+
+  <!--
+  <Assembly                         value = "runsource.dll" />
+  <Assembly                         value = "$Root$\..\library\Mongo\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Driver.dll" resolve = "true" resolveName = "MongoDB.Driver, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />-->
+</AssemblyProject>

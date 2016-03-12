@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Text;
-using System.Text.RegularExpressions;
 using pb.IO;
 using pb.Text;
 
@@ -23,6 +22,8 @@ using pb.Text;
 //   - nouvelle classe pour gérer la lecture des caractères
 //     GetChar(), UnreadChar(), ReadChar(), PeekChar(), PeekChar(int i)
 
+// TraceHtmlReader_v2
+// _traceJsonSettings
 
 namespace pb.Web
 {
@@ -54,6 +55,12 @@ namespace pb.Web
         private static bool __tracePeekChar = false;
         //private string _traceHtmlReaderFile = null;
         private StreamWriter _traceHtmlReaderStreamWriter = null;
+        private Action<HtmlNode> _trace = null;
+        //private bool _disableScriptMarkInProgress = false;
+        private bool _disableScriptTreatment = false;
+        private bool _useReadAttributeValue_v2 = false;
+        
+        //private JsonWriterSettings _traceJsonSettings = null;
         private int _traceIndex = 1;
 
         // export du flux Html dans path
@@ -100,7 +107,7 @@ namespace pb.Web
         private string _markName = null;
         private string _propertyName = null;
         private string _propertyValue = null;
-        private string _propertyQuote;
+        private string _propertyQuote = null;
         private string _text = null;
         private string _comment = null;
         private string _docType = null;
@@ -146,6 +153,8 @@ namespace pb.Web
             {
                 FileStream fs = new FileStream(__traceHtmlReaderFile, FileMode.Create, FileAccess.Write, FileShare.Read, _bufferSize);
                 _traceHtmlReaderStreamWriter = new StreamWriter(fs, _encoding);
+                //_traceJsonSettings = new JsonWriterSettings();
+                //_traceJsonSettings.Indent = true;
                 _traceIndex = 1;
             }
         }
@@ -156,7 +165,50 @@ namespace pb.Web
             {
                 _traceHtmlReaderStreamWriter.Close();
                 _traceHtmlReaderStreamWriter = null;
+                //_traceJsonSettings = null;
             }
+        }
+
+        private void TraceHtmlReader_v2()
+        {
+            if (_trace == null)
+                return;
+            //if (_traceHtmlReaderStreamWriter == null)
+            //    return;
+            //HtmlNode htmlNode = null;
+            if (_isDocType)
+                //_traceHtmlReaderStreamWriter.WriteLine(new HtmlNodeDocType { Index = _traceIndex++, DocType = _docType }.ToJson(_traceJsonSettings));
+                _trace(new HtmlNodeDocType { Index = _traceIndex++, DocType = _docType });
+            if (_isComment)
+                //_traceHtmlReaderStreamWriter.WriteLine(new HtmlNodeComment { Index = _traceIndex++, Comment = _comment.zReplaceControl() }.ToJson(_traceJsonSettings));
+                _trace(new HtmlNodeComment { Index = _traceIndex++, Comment = _comment.zReplaceControl() });
+            if (_isText)
+            {
+                if (_scriptMarkInProgress)
+                    //_traceHtmlReaderStreamWriter.WriteLine(new HtmlNodeScript { Index = _traceIndex++, Script = _text.zReplaceControl() }.ToJson(_traceJsonSettings));
+                    _trace(new HtmlNodeScript { Index = _traceIndex++, Script = _text.zReplaceControl() });
+                else
+                    //_traceHtmlReaderStreamWriter.WriteLine(new HtmlNodeText { Index = _traceIndex++, Text = _text.zReplaceControl(), IsTextSeparator = _isTextSeparator }.ToJson(_traceJsonSettings));
+                    _trace(new HtmlNodeText { Index = _traceIndex++, Text = _text.zReplaceControl(), IsTextSeparator = _isTextSeparator });
+            }
+            if (_isMarkBegin && !_isDocType)
+                //_traceHtmlReaderStreamWriter.WriteLine(new HtmlNodeOpenTag { Index = _traceIndex++, Name = _markName, IsScript = _scriptMarkInProgress }.ToJson(_traceJsonSettings));
+                _trace(new HtmlNodeOpenTag { Index = _traceIndex++, Name = _markName, IsScript = _scriptMarkInProgress });
+            if (_isMarkEnd)
+                //_traceHtmlReaderStreamWriter.WriteLine(new HtmlNodeEndTag { Index = _traceIndex++, Name = _markName }.ToJson(_traceJsonSettings));
+                _trace(new HtmlNodeEndTag { Index = _traceIndex++, Name = _markName });
+            if (_isProperty)
+                //_traceHtmlReaderStreamWriter.WriteLine(new HtmlNodeProperty { Index = _traceIndex++, Name = _propertyName, Value = _propertyValue, Quote = _propertyQuote[0] }.ToJson(_traceJsonSettings));
+                _trace(new HtmlNodeProperty { Index = _traceIndex++, Name = _propertyName, Value = _propertyValue, Quote = _propertyQuote != null && _propertyQuote.Length >= 1 ? (char?)_propertyQuote[0] : null });
+            if (_isMarkBeginEnd)
+            {
+                //_traceHtmlReaderStreamWriter.WriteLine(new HtmlNodeEndTag { Index = _traceIndex++, Name = _markName }.ToJson(_traceJsonSettings));
+                if (!_isProperty)
+                    _trace(new HtmlNodeOpenTag { Index = _traceIndex++, Name = _markName, IsScript = _scriptMarkInProgress });
+                _trace(new HtmlNodeEndTag { Index = _traceIndex++, Name = _markName });
+            }
+            //if (htmlNode != null)
+            //    _trace(htmlNode);
         }
 
         private void TraceHtmlReader()
@@ -186,7 +238,8 @@ namespace pb.Web
             }
             if (_isMarkEnd)
             {
-                _traceHtmlReaderStreamWriter.Write("   mark end : \"{0}\"", _markName);
+                //_traceHtmlReaderStreamWriter.Write("   mark end : \"{0}\"", _markName);
+                _traceHtmlReaderStreamWriter.Write(" mark end : \"{0}\"", _markName);
             }
             //if (htmlReader.IsMarkInProgress)
             //{
@@ -235,11 +288,14 @@ namespace pb.Web
         //public string TraceHtmlReaderFile { get { return _traceHtmlReaderFile; } set { _traceHtmlReaderFile = value; } }
         public static string TraceHtmlReaderFile { get { return __traceHtmlReaderFile; } set { __traceHtmlReaderFile = value; } }
         public static bool TracePeekChar { get { return __tracePeekChar; } set { __tracePeekChar = value; } }
+        public Action<HtmlNode> Trace { get { return _trace; } set { _trace = value; } }
+        public bool DisableScriptTreatment { get { return _disableScriptTreatment; } set { _disableScriptTreatment = value; } }
+        public bool UseReadAttributeValue_v2 { get { return _useReadAttributeValue_v2; } set { _useReadAttributeValue_v2 = value; } }
         public string ExportHtmlFile { get { return _exportHtmlFile; } set { _exportHtmlFile = value; } }
         public override bool ReadCommentInText { get { return _readCommentInText; } set { _readCommentInText = value; } }
         public Encoding encoding { get { return _encoding; } set { _encoding = value; } }
-        public int Line { get { return _line; } }
-        public int Column { get { return _column; } }
+        public override int Line { get { return _line; } }
+        public override int Column { get { return _column; } }
         public override bool IsMarkBegin { get { return _isMarkBegin; } }
         public override bool IsMarkEnd { get { return _isMarkEnd; } }
         public override bool IsMarkBeginEnd { get { return _isMarkBeginEnd; } }
@@ -312,6 +368,7 @@ namespace pb.Web
             _isDocType = false;
             _propertyName = null;
             _propertyValue = null;
+            _propertyQuote = null;
             _text = null;
             _comment = null;
             _docType = null;
@@ -343,8 +400,21 @@ namespace pb.Web
                     ReadMarkName();
                     // $$bug iframe
                     //if (_char == ' ' || _char == '\t' || _char == '\r' || _char == '\n')
-                    if ((_char == ' ' || _char == '\t' || _char == '\r' || _char == '\n') && !_isMarkEnd)
-                        _markInProgress = true;
+                    //if ((_char == ' ' || _char == '\t' || _char == '\r' || _char == '\n') && !_isMarkEnd)
+                    //    _markInProgress = true;
+                    if (_char == ' ' || _char == '\t' || _char == '\r' || _char == '\n')
+                    {
+                        if (!_isMarkEnd)
+                            _markInProgress = true;
+                        else
+                        {
+                            // $$bug iframe
+                            // on a une marque de fin sans ">", ex : "</iframe"
+                            // comprend pas pourquoi il faut 2 UnreadChar() mais sinon ça ne marche pas
+                            UnreadChar();
+                            UnreadChar();
+                        }
+                    }
                     else if (_char != '>')
                         UnreadChar();
                     ret = true;
@@ -368,7 +438,10 @@ namespace pb.Web
                 }
             }
             if (ret)
+            {
                 TraceHtmlReader();
+                TraceHtmlReader_v2();
+            }
             return ret;
         }
 
@@ -449,7 +522,11 @@ namespace pb.Web
                 ReadDocType();
                 return;
             }
-            if (string.Compare(_markName, "script", true) == 0 && _isMarkBegin) _scriptMarkInProgress = true;
+            //if (string.Compare(_markName, "script", true) == 0 && _isMarkBegin) _scriptMarkInProgress = true;
+            if (!_disableScriptTreatment && string.Compare(_markName, "script", true) == 0 && _isMarkBegin)
+            {
+                _scriptMarkInProgress = true;
+            }
             if (_char == ' ' || _char == '\t' || _char == '\r' || _char == '\n')
                 ReadSeparator();
             if (_char == '/')
@@ -564,7 +641,8 @@ namespace pb.Web
         private void ReadStringValue()
         {
             bool quote = false;
-            _propertyQuote = "";
+            //_propertyQuote = "";
+            _propertyQuote = null;
             char quoteChar = (char)PeekChar();
             if (quoteChar == '"' || quoteChar == '\'')
             {
@@ -573,15 +651,59 @@ namespace pb.Web
                 GetChar();
             }
 
+            Func<bool> isString_v1 = () =>
+            {
+                if (_charInt == -1
+                    || (quote && (_char == quoteChar || ((_char == '"' || _char == '\'') && PeekChar() == '>')))
+                    || (!quote && (_char == ' ' || _char == '\t' || _char == '\r' || _char == '\n'))
+                    // bad test see _useReadAttributeValue_v2
+                    || _char == '>' || (_char == '/' && PeekChar() == '>')
+                    )
+                    return false;
+                else
+                    return true;
+            };
+
+            Func<bool> isString_v2 = () =>
+            {
+                if (_charInt == -1
+                    || (quote && (_char == quoteChar || ((_char == '"' || _char == '\'') && PeekChar() == '>')))
+                    || (!quote && (_char == ' ' || _char == '\t' || _char == '\r' || _char == '\n'))
+                    //|| _char == '>' || (_char == '/' && PeekChar() == '>')
+                    )
+                    return false;
+                else
+                    return true;
+            };
+
+            Func<bool> isString;
+            if (!_useReadAttributeValue_v2)
+                isString = isString_v1;
+            else
+                isString = isString_v2;
+
+
             _stringBuilder.Remove(0, _stringBuilder.Length);
             while (true)
             {
                 GetChar();
-                if (_charInt == -1
-                    || (quote && (_char == quoteChar || ((_char == '"' || _char == '\'') && PeekChar() == '>')))
-                    || (!quote && (_char == ' ' || _char == '\t' || _char == '\r' || _char == '\n'))
-                    || _char == '>' || (_char == '/' && PeekChar() == '>')
-                    )
+                //if (_charInt == -1
+                //    || (quote && (_char == quoteChar || ((_char == '"' || _char == '\'') && PeekChar() == '>')))
+                //    || (!quote && (_char == ' ' || _char == '\t' || _char == '\r' || _char == '\n'))
+                //    || _char == '>' || (_char == '/' && PeekChar() == '>')
+                //    )
+                //    break;
+                //if (!_useReadAttributeValue_v2)
+                //{
+                //    if (!IsString(quote, quoteChar))
+                //        break;
+                //}
+                //else
+                //{
+                //    if (!IsString_v2(quote, quoteChar))
+                //        break;
+                //}
+                if (!isString())
                     break;
                 _stringBuilder.Append(_char);
             }
@@ -589,10 +711,35 @@ namespace pb.Web
             _propertyValue = HtmlCharCodes.TranslateCode(_propertyValue);
         }
 
+        //private bool IsString(bool quote, char quoteChar)
+        //{
+        //    if (_charInt == -1
+        //        || (quote && (_char == quoteChar || ((_char == '"' || _char == '\'') && PeekChar() == '>')))
+        //        || (!quote && (_char == ' ' || _char == '\t' || _char == '\r' || _char == '\n'))
+        //        || _char == '>' || (_char == '/' && PeekChar() == '>')
+        //        )
+        //        return false;
+        //    else
+        //        return true;
+        //}
+
+        //private bool IsString_v2(bool quote, char quoteChar)
+        //{
+        //    if (_charInt == -1
+        //        || (quote && (_char == quoteChar || ((_char == '"' || _char == '\'') && PeekChar() == '>')))
+        //        || (!quote && (_char == ' ' || _char == '\t' || _char == '\r' || _char == '\n'))
+        //        //|| _char == '>' || (_char == '/' && PeekChar() == '>')
+        //        )
+        //        return false;
+        //    else
+        //        return true;
+        //}
+
         private void ReadStringValue2()
         {
             bool quote = false;
-            _propertyQuote = "";
+            //_propertyQuote = "";
+            _propertyQuote = null;
             char quoteChar = (char)PeekChar();
             if (quoteChar == '"' || quoteChar == '\'')
             {

@@ -1,15 +1,8 @@
 using System;
-using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Data;
-//using System.Diagnostics;
-using System.IO;
-using System.Reflection;
 using System.Security.Permissions;
-using System.Text;
-using System.Threading;
 using System.Xml.Linq;
-using System.Xml.XPath;
 using pb.Data.Xml;
 using pb.IO;
 
@@ -19,6 +12,7 @@ namespace pb.Compiler
     {
         private static RunSource _currentRunSource = null;
         private static string _defaultSuffixProjectName = ".project.xml";
+        private static string __sourceSuffixName = ".run.cs";
         //private ITrace _trace = null;
         //private string gsDir = null;
         private string _dataDirectory = null;                                             // not used inside RunSource class
@@ -398,6 +392,10 @@ namespace pb.Compiler
                 //file = newFile;
                 file = GetProjectVariableValue(file, throwError: true);
                 //Trace.WriteLine("SetProject : \"{0}\"", file);
+
+                //__sourceSuffixName
+                if (file.ToLower().EndsWith(__sourceSuffixName.ToLower()))
+                    file = file.Substring(0, file.Length - __sourceSuffixName.Length) + zPath.GetExtension(file);
 
                 if (!file.ToLower().EndsWith(_defaultSuffixProjectName.ToLower()))
                     file = zpath.PathSetFileName(file, zPath.GetFileNameWithoutExtension(file) + _defaultSuffixProjectName);

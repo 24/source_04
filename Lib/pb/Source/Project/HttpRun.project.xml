@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<AssemblyProject>
+  <Root                             value = "..\..\..\.." />
+
+  <!--<Using                            value = "pb.Data.Mongo" />-->
+
+  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\Convert.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\Progress.cs" />
+
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Image.cs" />
+
+  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\StreamTransfer.cs" />
+
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Text\Regex.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Text\Split.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Text\String.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Text\StringZones.cs" />
+
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Html\HtmlCharCodes.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Html\HtmlReader.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Html\HtmlReader_v2.cs" />
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Web\Html\HtmlReader_v3.cs" />-->
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Html\HtmlReaderBase.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Html\HtmlTag.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Html\HtmlToXml.cs" />
+
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\Http.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\HttpRequest.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\HttpRun.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\HttpXml.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\Url.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\XmlDocumentSourceType.cs" />
+
+  <Assembly                         value = "System.dll" />
+  <Assembly                         value = "System.Core.dll" />
+  <Assembly                         value = "System.Drawing.dll" />
+  <Assembly                         value = "System.Web.dll" />
+  <Assembly                         value = "System.Xml.dll" />
+  <Assembly                         value = "System.Xml.Linq.dll" />
+  <Assembly                         value = "runsource.dll" />
+  <Assembly                         value = "runsource.irunsource.dll" />
+
+  <!--
+  <Assembly                         value = "System.Core.dll" />
+  <Assembly                         value = "runsource.dll" />
+  <Assembly                         value = "$Root$\..\library\Mongo\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Bson.dll" resolve = "true" resolveName = "MongoDB.Bson, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />
+  <Assembly                         value = "$Root$\..\library\Mongo\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Driver.dll" resolve = "true" resolveName = "MongoDB.Driver, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />-->
+</AssemblyProject>

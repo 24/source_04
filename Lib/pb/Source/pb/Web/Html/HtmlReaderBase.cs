@@ -5,6 +5,8 @@ namespace pb.Web
     public abstract class HtmlReaderBase : IDisposable
     {
         public abstract bool ReadCommentInText { get; set; }
+        public abstract int Line { get; }
+        public abstract int Column { get; }
         public abstract bool IsMarkBegin { get; }
         public abstract bool IsMarkEnd { get; }
         public abstract bool IsMarkBeginEnd { get; }

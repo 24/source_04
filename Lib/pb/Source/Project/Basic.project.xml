@@ -19,9 +19,6 @@
   <Using                            value = "pb.Data" />
   <Using                            value = "pb.Data.Xml" />
   <Using                            value = "pb.IO" />
-  <Using                            value = "pb.Text" />
-  <Using                            value = "pb.Web" />
-  <Using                            value = "pb.Windows.Win32" />
   <Assembly                         value = "System.dll" />
   <Assembly                         value = "System.Core.dll" />
   <Assembly                         value = "System.Data.dll" />

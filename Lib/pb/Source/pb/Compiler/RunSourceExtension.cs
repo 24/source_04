@@ -5,7 +5,6 @@ using pb.Reflection;
 
 namespace pb.Compiler
 {
-    //public static partial class GlobalExtension
     public static class CompilerGlobalExtension
     {
         public static void zTrace<T>(this T value)

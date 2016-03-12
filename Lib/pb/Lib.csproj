@@ -86,6 +86,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="Source\Project\Test\TestHttpRun.run.cs" />
+    <None Include="Source\Project\Test\TestMongoSerialization.run.cs" />
+    <None Include="Source\Project\Test\TestMongoExtension.run.cs" />
+    <None Include="Source\Project\Test\TestRunSourceExtension.run.cs" />
+    <None Include="Source\Project\Test\TestBasic.run.cs" />
     <None Include="Source\Other\compile.cs" />
     <Compile Include="Source\Other\CradleOfRomeWatcher.cs" />
     <None Include="Source\Other\PagesJaunes.cs" />
@@ -168,6 +173,7 @@
     <Compile Include="Source\pb\Data\Xml\_old\Xml.cs" />
     <Compile Include="Source\pb\Data\_old\IDocumentStore_v1.cs" />
     <Compile Include="Source\pb\IO\Backup.cs" />
+    <Compile Include="Source\pb\IO\CharStreamReader.cs" />
     <Compile Include="Source\pb\IO\CompressBaseManager.cs" />
     <Compile Include="Source\pb\IO\CompressManager.cs" />
     <Compile Include="Source\pb\IO\FilenameNumberInfo.cs" />
@@ -248,9 +254,14 @@
     <Compile Include="Source\pb\Web\Html\HtmlReaderBase.cs" />
     <Compile Include="Source\pb\Web\Html\HtmlReader_v2.cs" />
     <Compile Include="Source\pb\Web\Html\HtmlReader.cs" />
+    <Compile Include="Source\pb\Web\Html\HtmlReader_v3.cs" />
+    <Compile Include="Source\pb\Web\Html\HtmlReader_v4.cs" />
     <Compile Include="Source\pb\Web\Html\HtmlRun.cs" />
     <Compile Include="Source\pb\Web\Html\HtmlTag.cs" />
     <Compile Include="Source\pb\Web\Html\HtmlToXml.cs" />
+    <Compile Include="Source\pb\Web\Html\TestUnit\TestUnit_HtmlToXml.cs" />
+    <None Include="Source\pb\Web\Html\TestUnit\TestUnit.HtmlToXml.run.cs" />
+    <Compile Include="Source\pb\Web\Html\TestUnit\TestUnit_HtmlToXmlRun.cs" />
     <Compile Include="Source\pb\Web\Html\_old\HtmlToXml_v1.cs" />
     <Compile Include="Source\pb\Web\Http\Cookies.cs" />
     <Compile Include="Source\pb\Web\Http\Http.cs" />
@@ -399,13 +410,33 @@
     <Content Include="Source\pb\Text\Test\Test_Text.project.xml">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Source\pb\Web\Html\TestUnit\TestUnit.HtmlToXml.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Source\Project\Default.project.xml" />
     <Content Include="Source\Project\Basic.project.xml">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Source\Project\HttpRun.project.xml" />
+    <Content Include="Source\Project\MongoSerialization.project.xml" />
     <Content Include="Source\Project\MongoExtension.project.xml" />
     <Content Include="Source\Project\pb.Web.WebDriver.dll.project.xml" />
     <Content Include="Source\Project\RunSourceExtension.project.xml" />
+    <Content Include="Source\Project\Test\TestHttpRun.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Source\Project\Test\TestMongoSerialization.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Source\Project\Test\TestMongoExtension.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Source\Project\Test\TestRunSourceExtension.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Source\Project\Test\TestBasic.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Source\pb\Windows\Forms\LogForm.resx">

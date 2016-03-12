@@ -82,6 +82,11 @@ namespace pb.Web
                 throw new PBException("unknow HtmlReader version {0}", __htmlReaderVersion);
         }
 
+        public HtmlToXml(HtmlReaderBase htmlReader)
+        {
+            _htmlReader = htmlReader;
+        }
+
         public void Dispose()
         {
             if (_htmlReader != null)
@@ -361,7 +366,7 @@ namespace pb.Web
                         }
                         catch (Exception ex)
                         {
-                            Trace.WriteLine("error in HtmlToXml.GenerateXml() :");
+                            Trace.WriteLine("error in HtmlToXml.GenerateXml() : line {0} column {1}", _htmlReader.Line, _htmlReader.Column);
                             Trace.WriteLine(ex.Message);
                         }
                     }

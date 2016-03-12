@@ -56,7 +56,6 @@
     <Compile Include="Source\Test_Unit_f.cs" />
     <Compile Include="Source\Text\Test_Unit_Regex.cs" />
     <Compile Include="Source\Text\Test_Unit_RegexValues.cs" />
-    <Compile Include="Source\Web\Test_Unit_HtmlToXml.cs" />
     <Compile Include="Source\Web\Test_Unit_HttpArchive.cs" />
     <Compile Include="Source\Web\Test_Unit_HttpRequest.cs" />
     <Compile Include="Source\Web\Test_Unit_UrlToFileName.cs" />

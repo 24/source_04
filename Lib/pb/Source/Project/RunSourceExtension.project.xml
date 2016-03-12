@@ -20,10 +20,13 @@
   <Root                             value = "..\..\..\.." />
 
   <Using                            value = "pb" />
+  <Using                            value = "pb.Compiler" />
   <Using                            value = "pb.Reflection" />
 
+  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\Convert.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\Date.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\NamedValue.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\Tree.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Compiler\RunSourceExtension.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\DataTable.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\FieldList.cs" />
@@ -34,10 +37,20 @@
   <Source                           value = "$Root$\Lib\pb\Source\pb\Reflection\TypeValues.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Reflection\TypeValuesDataTable.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Reflection\TypeView.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Text\Regex.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Text\Split.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Text\String.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Text\StringZones.cs" />
 
+  <Assembly                         value = "System.dll" />
+  <Assembly                         value = "System.Core.dll" />
+  <Assembly                         value = "System.Data.dll" />
   <Assembly                         value = "System.Drawing.dll" />
+  <Assembly                         value = "System.Xml.dll" />
   <Assembly                         value = "System.Xml.Linq.dll" />
-    
+  <Assembly                         value = "runsource.dll" />
+  <Assembly                         value = "runsource.irunsource.dll" />
+
   <!--<Assembly                         value = "c:\pib\prog\dev\mongodb\driver\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Bson.dll" resolve = "true" resolveName = "MongoDB.Bson, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />-->
   <Assembly                         value = "$Root$\..\library\Mongo\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Bson.dll" resolve = "true" resolveName = "MongoDB.Bson, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />
 </AssemblyProject>

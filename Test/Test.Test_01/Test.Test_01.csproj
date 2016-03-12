@@ -559,9 +559,11 @@
     <Compile Include="Source\Test_iTextSharp\iTextSharp\xpdf.cs" />
     <None Include="Source\Test_iTextSharp\Test_iTextSharp.cs" />
     <None Include="Source\Test_iTextSharp\Test_iTextSharp_f.cs" />
+    <None Include="Source\Test_iTextSharp\Test_iTextSharp_02.cs" />
     <Compile Include="Source\Test_iTextSharp\Test_iTextSharp_f2.cs" />
     <None Include="Source\Test_JScript\compile.cs" />
     <None Include="Source\Test_JScript\Test_JScript.cs" />
+    <Compile Include="Source\Test_iTextSharp\Test_iTextSharp_f3.cs" />
     <Compile Include="Source\Test_JScript\Test_JScript_01_exe\Test_JScript_01_exe.cs" />
     <None Include="Source\Test_JScript\Test_JScript_assembly_attributes\Test_JScript_01_AssemblyInfo.cs" />
     <Compile Include="Source\Test_JScript\Test_JScript_f.cs" />
@@ -703,6 +705,7 @@
     <Content Include="Source\Test_InspectType\Test_InspectType_config.xml" />
     <Content Include="Source\Test_InspectType\Test_InspectType_project.xml" />
     <Content Include="Source\Test_iTextSharp\Test_iTextSharp_config.xml" />
+    <Content Include="Source\Test_iTextSharp\Test_iTextSharp_02.project.xml" />
     <Content Include="Source\Test_iTextSharp\Test_iTextSharp_project.xml" />
     <Content Include="Source\Test_iTextSharp\xpdf_project.xml" />
     <Content Include="Source\Test_JScript\magazine3k_js\magazine3k.js" />

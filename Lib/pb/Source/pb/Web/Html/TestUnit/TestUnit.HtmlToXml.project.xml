@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<AssemblyProject>
+  
+  <Root                             value = "..\..\..\..\..\..\.." />
+  
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\Basic.project.xml" />
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\RunSourceExtension.project.xml" />
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\MongoExtension.project.xml" />
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\MongoSerialization.project.xml" />
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\HttpRun.project.xml" />
+
+  <NameSpace                        value = "pb.Web.TestUnit" />
+
+  <InitMethod                       value = "pb.Web.TestUnit.TestUnit_HtmlToXmlRun.Init" />
+  <EndMethod                        value = "pb.Web.TestUnit.TestUnit_HtmlToXmlRun.End" />
+
+  <Using                            value = "pb" />
+
+  <Source                           value = "TestUnit_HtmlToXmlRun.cs" />
+  <Source                           value = "TestUnit_HtmlToXml.cs" />
+
+  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\CharStreamReader.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\Directory.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\FilenameNumberInfo.cs" />
+
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Html\HtmlReader_v3.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Html\HtmlReader_v4.cs" />
+  
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\_pb\GlobalExtension.cs" />
+
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\ZValue.cs" />
+  
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\BsonPBSerializationProvider.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\DateSerializer.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\DefaultMongoSerializer.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\UrlImageSerializer.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\ZIntSerializer.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\ZStringArraySerializer.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\ZStringSerializer.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\ZValueSerializer.cs" />
+
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebImage.cs" />
+  
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Html\HtmlReader_v3.cs" />-->
+
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\_pb\GlobalExtension.cs" />-->
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Data\NamedValues.cs" />-->
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Data\ZValue.cs" />-->
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Text\RegexValues.cs" />-->
+  
+  <!--
+  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Reflection\TypeView_v2.cs" />
+  -->
+  
+  <Assembly                         value = "$Root$\Lib\LongPath\Pri.LongPath\bin\Debug\Pri.LongPath.dll" />
+
+</AssemblyProject>

@@ -4,15 +4,8 @@ using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Xml.Linq;
-using System.Xml.XPath;
 using Microsoft.CSharp;
 using Microsoft.JScript;
-using pb;
-using pb.Data.Xml;
 using pb.IO;
 
 /*******************
@@ -334,11 +327,11 @@ namespace pb.Compiler
         {
             if (!_sourceList.ContainsKey(source.File))
                 _sourceList.Add(source.File, source);
-            else
-            {
-                WriteLine(1, "Compiler warning : duplicate source file \"{0}\" from project \"{1}\"", source.File, source.Project.ProjectFile);
-                WriteLine(1, "  already loaded from project \"{0}\"", _sourceList[source.File].Project.ProjectFile);
-            }
+            //else
+            //{
+            //    WriteLine(1, "Compiler warning : duplicate source file \"{0}\" from project \"{1}\"", source.File, source.Project.ProjectFile);
+            //    WriteLine(1, "  already loaded from project \"{0}\"", _sourceList[source.File].Project.ProjectFile);
+            //}
         }
 
         public void AddFiles(IEnumerable<CompilerFile> files)

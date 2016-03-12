@@ -87,7 +87,7 @@ namespace pb.IO
                 return null;
         }
 
-        public static string CopyFileToDirectory(string file, string destinationDir, string destinationFile = null, bool overwrite = false, bool copyOnlyIfNewer = false)
+        public static string CopyFileToDirectory_v1(string file, string destinationDir, string destinationFile = null, bool overwrite = false, bool copyOnlyIfNewer = false)
         {
             if (!zDirectory.Exists(destinationDir))
                 zDirectory.CreateDirectory(destinationDir);
@@ -763,6 +763,13 @@ namespace pb.IO
                     fs2.Close();
             }
 
+        }
+
+        public static StreamReader OpenText(string file, Encoding encoding = null)
+        {
+            if (encoding == null)
+                encoding = Encoding.UTF8;
+            return new StreamReader(zFile.Open(file, FileMode.Open, FileAccess.Read, FileShare.Read), encoding);
         }
     }
 

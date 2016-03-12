@@ -219,8 +219,8 @@ namespace pb.Web
         public string ExportHtmlFile { get { return _exportHtmlFile; } set { _exportHtmlFile = value; } }
         public override bool ReadCommentInText { get { return _readCommentInText; } set { _readCommentInText = value; } }
         public Encoding encoding { get { return _encoding; } set { _encoding = value; } }
-        public int Line { get { return _line; } }
-        public int Column { get { return _column; } }
+        public override int Line { get { return _line; } }
+        public override int Column { get { return _column; } }
         public override bool IsMarkBegin { get { return _isMarkBegin; } }
         public override bool IsMarkEnd { get { return _isMarkEnd; } }
         public override bool IsMarkBeginEnd { get { return _isMarkBeginEnd; } }

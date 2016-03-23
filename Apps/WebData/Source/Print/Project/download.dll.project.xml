@@ -33,7 +33,7 @@
   <Using                            value = "pb.IO" />
   <Using                            value = "pb.Text" />
   <Using                            value = "pb.Web" />
-  <Using                            value = "pb.Windows.Win32" />
+  <!--<Using                            value = "pb.Windows.Win32" />-->
 
   <!--<Source                           value = "LoadDll.cs" />-->
 

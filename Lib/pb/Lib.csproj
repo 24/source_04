@@ -263,6 +263,7 @@
     <None Include="Source\pb\Web\Html\TestUnit\TestUnit.HtmlToXml.run.cs" />
     <Compile Include="Source\pb\Web\Html\TestUnit\TestUnit_HtmlToXmlRun.cs" />
     <Compile Include="Source\pb\Web\Html\_old\HtmlToXml_v1.cs" />
+    <Compile Include="Source\pb\Web\Http\Certificate.cs" />
     <Compile Include="Source\pb\Web\Http\Cookies.cs" />
     <Compile Include="Source\pb\Web\Http\Http.cs" />
     <Compile Include="Source\pb\Web\Http\HttpArchive.cs" />

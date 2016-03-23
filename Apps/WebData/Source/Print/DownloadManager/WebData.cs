@@ -10,7 +10,7 @@ namespace Download.Print
     {
         public static void RunDownloadAutomate(string parameters = null)
         {
-            DownloadAutomateManager downloadAutomateManager = CreateDownloadAutomate(parameters);
+            DownloadAutomateManager downloadAutomateManager = CreateDownloadAutomateManager(parameters);
             try
             {
                 downloadAutomateManager.Start();
@@ -23,19 +23,32 @@ namespace Download.Print
             }
         }
 
-        public static DownloadAutomateManager CreateDownloadAutomate(string parameters = null)
+        public static DownloadAutomateManagerCreator GetDownloadAutomateManagerCreator(string parameters = null, bool initServers = true)
+        {
+            if (initServers)
+                InitServers();
+            DownloadAutomateManagerCreator createDownloadAutomateManager = new DownloadAutomateManagerCreator();
+            createDownloadAutomateManager.Init(GetDownloadAutomateManagerConfig());
+            if (parameters != null)
+                createDownloadAutomateManager.SetParameters(NamedValues.ParseValues(parameters));
+            return createDownloadAutomateManager;
+        }
+
+        public static DownloadAutomateManager CreateDownloadAutomateManager(string parameters = null)
         {
             // parameters : version = 6, traceLevel = 0, useTestManager = true
             //   waitTimeBetweenOperation = 00:05, mailWaitDownloadFinish = 10:00, postDownloadServerLimit = 3
             //   dailyPrintManager = true, gapDayBefore = 5, gapDayAfter = 2
             //   runNow = true, loadNewPost = true, searchPostToDownload = true, sendMail = true
 
-            InitServers();
-            CreateDownloadAutomateManager createDownloadAutomateManager = new CreateDownloadAutomateManager();
-            createDownloadAutomateManager.Init(GetDownloadAutomateManagerConfig());
-            if (parameters != null)
-                createDownloadAutomateManager.SetParameters(NamedValues.ParseValues(parameters));
-            return createDownloadAutomateManager.Create();
+            //InitServers();
+            //CreateDownloadAutomateManager createDownloadAutomateManager = new CreateDownloadAutomateManager();
+            //createDownloadAutomateManager.Init(GetDownloadAutomateManagerConfig());
+            //if (parameters != null)
+            //    createDownloadAutomateManager.SetParameters(NamedValues.ParseValues(parameters));
+            //return createDownloadAutomateManager.Create();
+
+            return GetDownloadAutomateManagerCreator(parameters, initServers: true).Create();
         }
 
         public static FindPrintManager CreateFindPrintManager(string parameters = null)

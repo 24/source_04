@@ -188,6 +188,9 @@
     <Compile Include="..\..\Lib\pb\Source\pb\Web\Html\HtmlReader_v2.cs">
       <Link>SourceLnk\Lib\pb\Web\Html\HtmlReader_v2.cs</Link>
     </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Http\Certificate.cs">
+      <Link>SourceLnk\Lib\pb\Web\Http\Certificate.cs</Link>
+    </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\_pb\Tree.cs">
       <Link>SourceLnk\Lib\pb\_pb\Tree.cs</Link>
     </Compile>
@@ -549,7 +552,7 @@
       <Link>SourceLnk\Lib\pb\_pb\ztrace.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Source\Print\DownloadManager\CreateDownloadAutomateManager.cs" />
+    <Compile Include="Source\Print\DownloadManager\DownloadAutomateManagerCreator.cs" />
     <Compile Include="Source\Print\DownloadManager\CreateFindPrintManager.cs" />
     <Compile Include="Source\Print\DownloadManager\CreatePrintTitleManager.cs" />
     <Compile Include="Source\Print\DownloadManager\_old\DownloadAutomateManager_v1.cs" />
@@ -585,10 +588,10 @@
     <Compile Include="Source\Print\Print\Print\IPrint.cs" />
     <Compile Include="Source\Print\Print\zDay.cs" />
     <Compile Include="Source\Print\Project\AppData.cs" />
-    <None Include="Source\Print\Project\test.cs" />
     <None Include="Source\Print\Project\download.dll.cs" />
     <Compile Include="Source\Print\Project\LoadDll.cs" />
     <Compile Include="Source\Print\Project\DownloadRun.cs" />
+    <Compile Include="Source\Print\Project\TestCertificate.cs" />
     <Compile Include="Source\Print\sites\default.cs" />
     <Compile Include="Source\Print\sites\_old\default_v1.cs" />
     <Compile Include="Source\Print\sites\ebookdz.com\Ebookdz.cs" />
@@ -745,7 +748,6 @@
     <Content Include="Source\Print\Print\Print\_old\le_monde\le_monde_project.xml" />
     <Content Include="Source\Print\Project\download.config.xml" />
     <Content Include="Source\Print\Project\download.dll.project.xml" />
-    <Content Include="Source\Print\Project\test.project.xml" />
     <Content Include="Source\Print\Project\download.project.xml">
       <SubType>Designer</SubType>
     </Content>

@@ -1,4 +1,4 @@
-// $$info.manage.print.directory
+*// $$info.manage.print.directory
 // $$info.test.regex  $$info.test.selenium $$info.test.mongo
 // $$info.site
 // $$info.debrid-link.fr
@@ -80,9 +80,9 @@ WebData.RunDownloadAutomate("runNow = true, loadNewPost = true, searchPostToDown
 // run now, load new post, search post to download, dont send mail
 WebData.RunDownloadAutomate("runNow = true, loadNewPost = true, searchPostToDownload = true, sendMail = false");
 // Backup
-WebData.CreateDownloadAutomate("loadNewPost = false, searchPostToDownload = false, sendMail = false").Backup();
+WebData.CreateDownloadAutomateManager("loadNewPost = false, searchPostToDownload = false, sendMail = false").Backup();
 // SetTimeBetweenRun
-WebData.CreateDownloadAutomate("loadNewPost = false, searchPostToDownload = false, sendMail = false").MongoDownloadAutomateManager.SetTimeBetweenRun(TimeSpan.FromHours(2));
+WebData.CreateDownloadAutomateManager("loadNewPost = false, searchPostToDownload = false, sendMail = false").MongoDownloadAutomateManager.SetTimeBetweenRun(TimeSpan.FromHours(2));
 TraceMongoCommand.Find("dl", "DownloadAutomate3", "{}").zView_v3();
 
 //*************************************************************************************************************************
@@ -4822,8 +4822,8 @@ zparse.CreateTimeSpan(0, 0, 59, 0, 0).zTrace();
 //****                                   $$info.test Automate test
 //*************************************************************************************************************************
 
-WebData.CreateDownloadAutomate("loadNewPost = true, searchPostToDownload = false, sendMail = false").SearchPostToDownload.zTrace();
-WebData.CreateDownloadAutomate("loadNewPost = true, searchPostToDownload = false, sendMail = false").PostDownloadServerLimit.zTrace();
+WebData.CreateDownloadAutomateManager("loadNewPost = true, searchPostToDownload = false, sendMail = false").SearchPostToDownload.zTrace();
+WebData.CreateDownloadAutomateManager("loadNewPost = true, searchPostToDownload = false, sendMail = false").PostDownloadServerLimit.zTrace();
 // run now, load new post, dont search post to download, dont send mail
 WebData.RunDownloadAutomate("runNow = true, loadNewPost = true, searchPostToDownload = false, sendMail = false");
 // run now, load new post, search post to download, dont send mail
@@ -4864,7 +4864,7 @@ TraceMongoCommand.Export("dl_test", "ExtremeDown_Detail_Test", Path.Combine(AppD
 //****                                   $$info.test backup automate
 //*************************************************************************************************************************
 
-WebData.CreateDownloadAutomate("loadNewPost = false, searchPostToDownload = false, sendMail = false").Backup();
+WebData.CreateDownloadAutomateManager("loadNewPost = false, searchPostToDownload = false, sendMail = false").Backup();
 
 //*************************************************************************************************************************
 //****                                   $$info.test mongo rename field DownloadLinks_new to DownloadLinks ExtremeDown_Detail
@@ -4929,7 +4929,34 @@ ZipArchive.Zip(@"c:\pib\_dl\_test\log.zip", zDirectory.EnumerateFiles(@"c:\pib\_
 ZipArchive.Zip(@"c:\pib\_dl\_test\log.zip", zDirectory.EnumerateFiles(@"c:\pib\_dl\_test\data"), options: ZipArchiveOptions.DeleteSourceFiles);
 
 
-WebData.CreateDownloadAutomate("loadNewPost = true, searchPostToDownload = false, sendMail = false").DownloadManager
+WebData.CreateDownloadAutomateManager("loadNewPost = true, searchPostToDownload = false, sendMail = false").DownloadManager
   .GetDownloadedFile(new ServerKey { Server = "magazines-gratuits.info", Id = 71 }).zTraceJson();
 TraceMongoCommand.Export("dl", "MagazinesGratuits_Detail", Path.Combine(AppData.DataDirectory, @"sites\magazines-gratuits.info\mongo\export_MagazinesGratuits_Detail.txt"), sort: "{ 'download.PostCreationDate': -1 }");
 
+
+Trace.WriteLine("toto");
+//RunSource.CurrentRunSource.SetProject(@"$Root$\Lib\pb\Source\Project\HttpRun.project.xml");
+RunSource.CurrentRunSource.SetProject(@"$Root$\Lib\pb\Source\Project\Test\TestHttpRun.project.xml");
+RunSource.CurrentRunSource.SetProjectFromSource();
+
+Debrider debrider = WebData.GetDownloadAutomateManagerCreator(parameters: null, initServers: true).CreateDebriderDebridLinkFr();
+//TestCertificate.Init();
+Certificate.ActivateCertificateValidation();
+Certificate.DesactivateCertificateValidation();
+// http://www.magazines-gratuits.xyz/les-journaux-du-mardi-22-mars-2016.html
+debrider.DebridLink("http://uptobox.com/8tdjg6ejitfr").zTrace();
+
+// Load("https://api.debrid-link.fr/rest/token/jx0O9nm1hVlnN26R/new");
+// Load("https://secure.debrid-link.fr/user/10_125eb8b6e28c328f1e91b6d884f710b10885dbe535589194/login");
+// 22/03/2016 19:50:18 Error : The remote certificate is invalid according to the validation procedure. (System.Security.Authentication.AuthenticationException)
+// The underlying connection was closed: Could not establish trust relationship for the SSL/TLS secure channel. (System.Net.WebException)
+
+// c# pass through invalid certificate SSL/TLS
+// C# Ignore certificate errors? http://stackoverflow.com/questions/2675133/c-sharp-ignore-certificate-errors
+
+// https://api.debrid-link.fr/rest/token/jx0O9nm1hVlnN26R/new
+//{"result":"OK","value":{
+// "token":"10_b0073ac74cbd1c568f180e4c5134a5ce7e1604e011760884",
+// "validTokenUrl":"https:\/\/secure.debrid-link.fr\/user\/10_b0073ac74cbd1c568f180e4c5134a5ce7e1604e011760884\/login",
+// "key":"p2NY8r8x9M8bQQLD"},"ts":1458672590}
+// https://secure.debrid-link.fr/user/10_b0073ac74cbd1c568f180e4c5134a5ce7e1604e011760884/login

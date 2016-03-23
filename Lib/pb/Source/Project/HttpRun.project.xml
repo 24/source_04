@@ -19,7 +19,7 @@
   <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Html\HtmlCharCodes.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Html\HtmlReader.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Html\HtmlReader_v2.cs" />
-  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Web\Html\HtmlReader_v3.cs" />-->
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Html\HtmlReader_v3.cs" />        <!-- HtmlReader_v2 need HtmlNode -->
   <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Html\HtmlReaderBase.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Html\HtmlTag.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Html\HtmlToXml.cs" />

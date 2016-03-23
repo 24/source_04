@@ -204,7 +204,7 @@ namespace Download.Print
         }
     }
 
-    public class DownloadAutomateManager
+    public class DownloadAutomateManager: IDisposable
     {
         private Dictionary<string, ServerManager> _servers = new Dictionary<string, ServerManager>();
         private MongoDownloadAutomateManager _mongoDownloadAutomateManager = null;
@@ -230,6 +230,7 @@ namespace Download.Print
         private bool _loadNewPost = true;
         private bool _searchPostToDownload = true;
         private bool _sendMail = false;
+        private bool _desactivateServerCertificateValidation = false;
 
         public DownloadAutomateManager()
         {
@@ -242,6 +243,8 @@ namespace Download.Print
             //    _downloadManager_v1.Dispose();
             if (_downloadManager != null)
                 _downloadManager.Dispose();
+            if (_desactivateServerCertificateValidation)
+                Certificate.ActivateServerCertificateValidation();
         }
 
         public MongoDownloadAutomateManager MongoDownloadAutomateManager { get { return _mongoDownloadAutomateManager; } set { _mongoDownloadAutomateManager = value; } }
@@ -258,6 +261,7 @@ namespace Download.Print
         public bool LoadNewPost { get { return _loadNewPost; } set { _loadNewPost = value; } }
         public bool SearchPostToDownload { get { return _searchPostToDownload; } set { _searchPostToDownload = value; } }
         public bool SendMail { get { return _sendMail; } set { _sendMail = value; } }
+        public bool DesactivateServerCertificateValidation { get { return _desactivateServerCertificateValidation; } set { _desactivateServerCertificateValidation = value; } }
 
         public void Init(XElement xe)
         {
@@ -323,6 +327,9 @@ namespace Download.Print
                 case "sendmail":
                     _sendMail = (bool)parameter.Value;
                     break;
+                case "desactivateservercertificatevalidation":
+                    _desactivateServerCertificateValidation = (bool)parameter.Value;
+                    break;
             }
         }
 
@@ -348,6 +355,8 @@ namespace Download.Print
                 _downloadManager.OnDownloaded = Downloaded;
                 _downloadManager.StartThread();
             }
+            if (_desactivateServerCertificateValidation)
+                Certificate.DesactivateServerCertificateValidation();
         }
 
         public virtual void Stop()

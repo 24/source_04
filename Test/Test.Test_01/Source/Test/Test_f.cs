@@ -8,9 +8,6 @@ using pb.Compiler;
 using pb.Data.Xml;
 using pb.IO;
 
-
-// toto toto
-
 namespace Test
 {
     class test

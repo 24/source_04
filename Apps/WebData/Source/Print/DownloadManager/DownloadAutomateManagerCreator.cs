@@ -12,7 +12,7 @@ using System.Collections.Generic;
 
 namespace Download.Print
 {
-    public class CreateDownloadAutomateManager
+    public class DownloadAutomateManagerCreator
     {
         // parameters
         //private bool _test = false;
@@ -48,7 +48,7 @@ namespace Download.Print
         //public int GapDayBefore { get { return _gapDayBefore; } set { _gapDayBefore = value; } }
         //public int GapDayAfter { get { return _gapDayAfter; } set { _gapDayAfter = value; } }
 
-        public CreateDownloadAutomateManager()
+        public DownloadAutomateManagerCreator()
         {
         }
 
@@ -70,6 +70,11 @@ namespace Download.Print
             //_dailyPrintManager = xe.zXPathValue("DailyPrintManager").zTryParseAs(false);
             //_gapDayBefore = xe.zXPathValue("GapDayBefore").zTryParseAs(0);
             //_gapDayAfter = xe.zXPathValue("GapDayAfter").zTryParseAs(0);
+
+            _config = XmlConfig.CurrentConfig;
+            _localConfig = _config.GetConfig("LocalConfig");
+            _printList1Config = _config.GetConfig("PrintList1Config");
+            _printList2Config = _config.GetConfig("PrintList2Config");
         }
 
         public void SetParameters(NamedValues<ZValue> parameters)
@@ -137,10 +142,11 @@ namespace Download.Print
 
             Trace.WriteLine("create download automate : version {0} useTestManager {1} traceLevel {2}", _version, _useTestManager, _traceLevel.zToStringOrNull());
 
-            _config = XmlConfig.CurrentConfig;
-            _localConfig = _config.GetConfig("LocalConfig");
-            _printList1Config = _config.GetConfig("PrintList1Config");
-            _printList2Config = _config.GetConfig("PrintList2Config");
+            // moved to Init()
+            //_config = XmlConfig.CurrentConfig;
+            //_localConfig = _config.GetConfig("LocalConfig");
+            //_printList1Config = _config.GetConfig("PrintList1Config");
+            //_printList2Config = _config.GetConfig("PrintList2Config");
 
             //if (!_test)
             //    _xeConfig = XmlConfig.CurrentConfig.GetElement("DownloadAutomateManager");

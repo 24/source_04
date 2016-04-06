@@ -1,12 +1,118 @@
 ﻿using System;
-using System.Text;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using pb.Data.Mongo;
-using pb.Data.Xml;
+using pb.Data.TraceData;
+using System.Text;
 using pb.IO;
 using pb.Text;
-using pb.Data.TraceData;
+using pb.Data.Xml;
+
+// doc : https://debrid-link.fr/api_doc/#/home
+//
+// - pb with http://turbobit.net/hpm4eqz0x9vk.html from Le Revenu - 1 au 7 Avril 2016 http://www.vosbooks.me/117207-journaux/le-revenu-1-au-7-avril-2016.html
+//   /downloader/add return link http://dl7-3.debrid-link.fr/dl/10_af8bb87b19a90cbda5d5e387c55b45be83151a4989898437/c28396420754c1a00aa08f2fe3fd4c00f6f876c4/Le%252BRevenu%252B-%252B1%252Bau%252B7%252BAvril%252B2016.pdf
+//   but the link http://dl7-3.debrid-link.fr/... return an html with an error "This file is not available on the hoster"
+//
+// - pb with http://uptobox.com/hchg16pjds5y from L'Express Style N°3371 Du 30 Mars au 5 Avril 2016 http://www.telecharger-magazine.com/femme/12970-lexpress-style-n3371-du-30-mars-au-5-avril-2016.html
+//   /downloader/add return link http://dl7-3.debrid-link.fr/dl/10_af8bb87b19a90cbda5d5e387c55b45be83151a4989898437/bde4db943779612a8db40751822f24f136466c89/Style-3371.rar
+//   but the link http://dl7-3.debrid-link.fr/... return 404 System.Net.WebException The remote server returned an error: (404) Not Found.
+
+
+// login : get new token and login with that token
+// 
+//   1) get new token
+//      HttpRun.Load("https://debrid-link.fr/api/token/1R6858wC6lO15X8i/new").ResultText.zTrace();
+//      result : {"result":"OK","value":{"token":"2_21c744ba958f13fac08ee5c8855f72ab9a3b3e3224789126","validTokenUrl":"https:\/\/debrid-link.fr\/user\/2_21c744ba958f13fac08ee5c8855f72ab9a3b3e3224789126\/login","key":"4YzXFXWRqpaIZKcW"},"ts":1459760940}
+//   2) load login page
+//      HttpRun.Load("https://debrid-link.fr/user/2_21c744ba958f13fac08ee5c8855f72ab9a3b3e3224789126/login", new HttpRequestParameters { Encoding = Encoding.UTF8 });
+//      - open login url in chrome
+//      - open inspect
+//      - validate login
+//      - in inspect go to network tab, right click on login request and save it as har
+//      request :
+//        url    : https://debrid-link.fr/login
+//        method : POST
+//        Origin : https://debrid-link.fr
+//        Host         : debrid-link.fr
+//        Content-Type : application/x-www-form-urlencoded
+//        Referer      : https://debrid-link.fr/login
+//        postData     :
+//          mimeType   : application/x-www-form-urlencoded
+//          text       : user=xxxxxxxx&password=xxxxxx&understand=true
+//
+//   note :
+//     login page https://debrid-link.fr/user/2_21c744ba958f13fac08ee5c8855f72ab9a3b3e3224789126/login
+//     - change automaticaly url to https://debrid-link.fr/login in script
+//       script :
+// 	       if (window!=window.top) { top.location.href='https://debrid-link.fr/login'; }
+//     - form
+//       <form class="form-horizontal col-sm-7 col-lg-6 col-sm-offset-2 col-lg-offset-3" action="" method="POST">
+//         <input type="text" class="form-control" placeholder="Pseudo" name="user">
+//         <input type="password" class="form-control" placeholder="Mot de passe" name="password">
+//         <input type="hidden" name="understand" value="true">
+//         <button type="submit" class="btn btn-default btn-block">Connexion</button>
+//       </form>
+//   3) send login validation
+//      HttpRun.Load(new HttpRequest { Url = "https://debrid-link.fr/login", Method = HttpRequestMethod.Post, Content = "user=xxxxxxxx&password=xxxxxx&understand=true" }, new HttpRequestParameters { Encoding = Encoding.UTF8 }); 
+//      verify :
+//        <div class="alert alert-success">
+//          Vous avez &eacute;t&eacute; connect&eacute; avec succ&egrave;s.
+//          Vous pouvez utiliser l'application pib download manager
+//        </div>
+
+
+
+// error :
+//
+//  bad timestamp : badSign
+//{
+//  "result" : "KO",
+//  "ERR" : "badSign",
+//  "ERRID" : "#G-339",
+//  "ts" : 1459754173
+//}
+//
+// token not connected : hidedToken
+//{
+//  "result" : "KO",
+//  "ERR" : "hidedToken",
+//  "validTokenUrl" : "https://debrid-link.fr/user/2_f9d86c798772f2c5a716e8b9ac4d2f7b3b776e6142035094/login",
+//  "ts" : 1459755326
+//}
+//
+// bad token : badToken
+//{
+//  "result" : "KO",
+//  "ERR" : "badToken",
+//  "ERRID" : "#G-311",
+//  "ts" : 1459755447
+//}
+
+// error host not valid
+//{
+//  "result" : "KO",
+//  "ERR" : "hostNotValid",
+//  "IDERR" : "#act.aD-64",
+//  "ts" : 1459711997
+//}
+
+// error with inactive link
+//{
+//  "result" : "KO",
+//  "ERR" : "notDebrid",
+//  "IDERR" : "#act.aD-101",
+//  "ts" : 1459715607
+//}
+
+// error with inactive link http://turbobit.net/xxmlsgc7jrrt.html
+//{
+//  "result" : "KO",
+//  "ERR" : "fileNotFound",
+//  "IDERR" : "#act.aD-104",
+//  "ts" : 1459717822
+//}
+
 
 namespace pb.Web
 {
@@ -31,58 +137,32 @@ namespace pb.Web
         public TimeSpan ServerTimeGap;         // ConnexionTime - ServerConnexionTime
     }
 
-    //public class DebridLinkServerTime
-    //{
-    //    public DateTime ConnexionTime;
-    //    public DateTime ServerConnexionTime;
-    //    public TimeSpan ServerTimeGap;         // ConnexionTime - ServerConnexionTime
-    //}
-
-    public class DebridLinkFrInfo : DebridLinkInfo
+    public class DebridLinkFrRequestResult
     {
-        public string ErrorCode;
-
-        public override string GetErrorMessage()
-        {
-            if (ErrorCode == null)
-                return null;
-            switch (ErrorCode.ToLower())
-            {
-                case "maxlinkhost":
-                    return string.Format("warning : nombre de liens maximum atteint pour cet hébergeur, link \"{0}\"", Link);
-                case "hostnotvalid":
-                    return string.Format("warning : host not valid, link \"{0}\"", Link);
-                default:
-                    return string.Format("unknow error code \"{0}\"", ErrorCode);
-            }
-        }
+        public DateTime RequestTime;
+        public BsonDocument Result;
     }
 
     public class DebridLinkFr : ITraceData
     {
         private static bool __trace = false;
-        private static string __url = "https://api.debrid-link.fr/rest";
+        private static string __url = "https://debrid-link.fr/api";
+        private static string __loginUrl = "https://debrid-link.fr/login";
         private TraceData _traceData = null;
         private string _login = null;
         private string _password = null;
         private string _publicKey = null;
         private DebridLinkConnexionLifetime _connexionLifetime = DebridLinkConnexionLifetime.OneHour;
         private string _connexionFile = null;
-        //private string _serverTimeFile = null;
         private DebridLinkConnexion _connexion = null;
-        //private DebridLinkServerTime _serverTime = null;
-
-        //public DebriderDebridLink(string login, string password)
-        //{
-        //    if (login == null || login == "" || password == null || password == "")
-        //        throw new PBException("error debrid-link.fr missing login or password");
-        //    _login = login;
-        //    _password = password;
-        //}
+        private HttpRequestParameters _requestParameters = null;
+        private HttpRequestParameters _authenticateRequestParameters = null;
 
         public DebridLinkFr()
         {
-            TraceDataRegistry.CurrentTraceDataRegistry.Register("DebridLinkFr", this);
+            TraceDataRegistry.CurrentTraceDataRegistry.Register("DebridLinkFr_v2", this);
+            _requestParameters = new HttpRequestParameters { Encoding = Encoding.UTF8 };
+            _authenticateRequestParameters = new HttpRequestParameters { Encoding = Encoding.UTF8 };
         }
 
         public static bool Trace { get { return __trace; } set { __trace = value; } }
@@ -91,7 +171,6 @@ namespace pb.Web
         public string PublicKey { get { return _publicKey; } set { _publicKey = value; } }
         public DebridLinkConnexionLifetime ConnexionLifetime { get { return _connexionLifetime; } set { _connexionLifetime = value; } }
         public string ConnexionFile { get { return _connexionFile; } set { _connexionFile = value; } }
-        //public string ServerTimeFile { get { return _serverTimeFile; } set { _serverTimeFile = value; } }
 
         public void ActivateTraceData(TraceData traceData)
         {
@@ -103,162 +182,152 @@ namespace pb.Web
             _traceData = null;
         }
 
-        public void Connexion()
+        public BsonDocument GetAccountInfos()
         {
-            if (_connexionFile == null)
-                throw new PBException("DebriderDebridLink connexion file is null");
-            //if (_serverTimeFile == null)
-            //    throw new PBException("DebriderDebridLink server time file is null");
+            //return ExecutePostCommand("/account/infos");
+            BsonDocument result = ExecuteCommand("/account/infos", HttpRequestMethod.Get);
+            if (_traceData != null)
+                _traceData.Trace(new BsonDocument { { "OpeType", "Debrider.DebridLinkFr" }, { "Ope", "AccountInfos" }, { "Param", new BsonDocument { } }, { "Result", result } });
+            return result;
 
-            pb.Trace.WriteLine("{0:dd-MM-yyyy HH:mm:ss} - new connexion to debrid-link.fr", DateTime.Now);
-
-            if (__trace)
-            {
-                pb.Trace.WriteLine("DebriderDebridLink.Connexion() :");
-            }
-
-            string url = __url + string.Format("/token/{0}/new", _publicKey);
-
-            HttpRequestParameters requestParameters = new HttpRequestParameters { Encoding = Encoding.UTF8 };
-            DateTime dt = DateTime.Now;
-            Http http = HttpManager.CurrentHttpManager.Load(new HttpRequest { Url = url }, requestParameters);
-            BsonDocument result = BsonSerializer.Deserialize<BsonDocument>(http.ResultText);
-            if (__trace)
-            {
-                pb.Trace.WriteLine("  result                      :");
-                pb.Trace.WriteLine(result.zToJson());
-            }
-            DebridLinkConnexion connexion = new DebridLinkConnexion();
-            //DebridLinkServerTime serverTime = new DebridLinkServerTime();
-            connexion.ConnexionTime = dt;
-            //string token = doc.zGet("value.token").zAsString();
-            connexion.Token = result.zGet("value.token").zAsString();
-            string validTokenUrl = result.zGet("value.validTokenUrl").zAsString();
-            //string key = doc.zGet("value.key").zAsString();
-            connexion.Key = result.zGet("value.key").zAsString();
-            int ts = result.zGet("ts").zAsInt();
-            connexion.ClientTime = dt;
-            connexion.ServerTime = zdate.UnixTimeStampToDateTime(ts);
-            connexion.ServerTimeGap = connexion.ServerTime - dt;
-            connexion.ConnexionLifetime = _connexionLifetime;
-            connexion.EndConnexionTime = connexion.ConnexionTime + GetConnexionTimespan(connexion.ConnexionLifetime) - TimeSpan.FromMinutes(5);
-            if (__trace)
-            {
-                pb.Trace.WriteLine("  request time                : \"{0:dd/MM/yyyy HH:mm:ss}\"", dt);
-                pb.Trace.WriteLine("  result                      : \"{0}\"", result.zGet("result").zAsString());
-                pb.Trace.WriteLine("  token                       : \"{0}\"", connexion.Token);
-                pb.Trace.WriteLine("  validTokenUrl               : \"{0}\"", validTokenUrl);
-                pb.Trace.WriteLine("  key                         : \"{0}\"", connexion.Key);
-                pb.Trace.WriteLine("  server time                 : {0} - {1:dd/MM/yyyy HH:mm:ss}", ts, connexion.ServerTime);
-                pb.Trace.WriteLine("  server time gap             : {0}", connexion.ServerTimeGap);
-            }
-
-            // validTokenUrl : "https://secure.debrid-link.fr/user/2_2d481d8991e4db60f43d24d9d387b75699db7a0157182967/login"
-            http = HttpManager.CurrentHttpManager.Load(new HttpRequest { Url = validTokenUrl }, requestParameters);
-
-            // <script>if (window!=window.top) { top.location.href='https://secure.debrid-link.fr/login'; }</script>
-            // <form action='' method='POST' class='form-horizontal'>
-            // <input type='text' class='form-control' name='user'>
-            // <input type='password' class='form-control' name='password'>
-            // <select name='sessidTime' class='form-control'>
-            // <option value='all'  selected='selected'> Toujours</option>
-            // ...
-            // </select>
-            // <input type='hidden' value='10_a3a206c4398f195283a4843d44f017f3211275e443747173' name='token'>
-            // <button type='submit' name='authorizedToken' value='1' class='btn btn-dl'>Envoyer</button>
-            // <input type='submit' style='display:none'>
-
-            XXElement xeSource = http.zGetXDocument().zXXElement();
-
-            // le script n'est plus là dans la page html 24/03/2015
-            // script : if (window!=window.top) { top.location.href='https://secure.debrid-link.fr/login'; }
-            //string script = xeSource.XPathValue("//head//script//text()");
-            //if (script == null)
+            //https://debrid-link.fr/api/account/infos
             //{
-            //    //Trace.WriteLine("//head//script not found");
-            //    //return;
-            //    throw new PBException("DebriderDebridLink.Connect() : //head//script not found");
+            //  "result" : "OK",
+            //  "value" : {
+            //    "pseudo" : "la_beuze",
+            //    "email" : "la*****euz@gm*****om",
+            //    "accountType" : 1,
+            //    "premiumLeft" : 71018,
+            //    "pts" : 411,
+            //    "trafishare" : "7663028224",
+            //    "vouchersUrl" : "https://debrid-link.fr/user/10_af8bb87b19a90cbda5d5e387c55b45be83151a4989898437/account/vouchers",
+            //    "editPasswordUrl" : "https://debrid-link.fr/user/10_af8bb87b19a90cbda5d5e387c55b45be83151a4989898437/account/edit_password",
+            //    "editEmailUrl" : "https://debrid-link.fr/user/10_af8bb87b19a90cbda5d5e387c55b45be83151a4989898437/account/config_email",
+            //    "viewSessidUrl" : "https://debrid-link.fr/user/10_af8bb87b19a90cbda5d5e387c55b45be83151a4989898437/account/view_sessid",
+            //    "upgradeAccountUrl" : "https://debrid-link.fr/user/10_af8bb87b19a90cbda5d5e387c55b45be83151a4989898437/premium",
+            //    "upgradePtsUrl" : "https://debrid-link.fr/user/10_af8bb87b19a90cbda5d5e387c55b45be83151a4989898437/premium/pts",
+            //    "upgradeTraficshareUrl" : "https://debrid-link.fr/user/10_af8bb87b19a90cbda5d5e387c55b45be83151a4989898437/premium/traficshare",
+            //    "registerDate" : ""
+            //  },
+            //  "ts" : 1459705150
             //}
-            //if (__trace)
-            //    pb.Trace.WriteLine("  script                      : \"{0}\"", script);
-            //Regex rg = new Regex("top\\.location\\.href=[\"'](.*)[\"']", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
-            //Match match = rg.Match(script);
-            //if (!match.Success)
-            //{
-            //    //Trace.WriteLine("top.location.href='...' not found in script");
-            //    //return;
-            //    throw new PBException("DebriderDebridLink.Connect() : top.location.href='...' not found in script");
-            //}
-            //url = match.Groups[1].Value;
 
-            url = "https://secure.debrid-link.fr/login";
-            if (__trace)
-                pb.Trace.WriteLine("  login url                   : \"{0}\"", url);
+        }
 
-            XXElement xeForm = xeSource.XPathElement("//form");
-            string action = xeForm.AttribValue("action");
-            if (__trace)
-                pb.Trace.WriteLine("  form action                 : \"{0}\"", action);
-            if (action != null && action != "")
-                url = action;
-            HttpRequestMethod method = Http.GetHttpRequestMethod(xeForm.AttribValue("method"));
-            if (__trace)
-                pb.Trace.WriteLine("  form method                 : {0}", method);
-
-            StringBuilder content = new StringBuilder();
-            bool first = true;
-            string name, value;
-            foreach (XXElement xe in xeForm.DescendantFormItems())
+        public BsonDocument DownloaderAdd(string link)
+        {
+            BsonDocument result = ExecuteCommand("/downloader/add", HttpRequestMethod.Post, "link=" + link);
+            if (result.zGet("result").zAsString() == "KO")
             {
-                name = xe.AttribValue("name");
-                if (name == null)
-                    continue;
-                if (name == "user")
-                    value = _login;
-                else if (name == "password")
-                    value = _password;
-                else if (name == "sessidTime")
-                    value = GetConnexionLifetime(_connexionLifetime);
-                else
-                    value = xe.AttribValue("value");
-                if (!first)
-                    content.Append('&');
-                content.AppendFormat("{0}={1}", name, value);
-                if (__trace)
+                if (result.zGet("ERR").zAsString() == "maxLinkHost")
                 {
-                    if (name != "password")
-                        pb.Trace.WriteLine("  {0}={1}", name, value);
-                    else
-                        pb.Trace.WriteLine("  {0}=xxx", name);
+                    pb.Trace.WriteLine("warning : nombre de liens maximum atteint pour cet hébergeur. link \"{0}\"", link);
                 }
-                first = false;
+            }
+            if (_traceData != null)
+                _traceData.Trace(new BsonDocument { { "OpeType", "Debrider.DebridLinkFr" }, { "Ope", "DebridLink" }, { "Param", new BsonDocument { { "Link", link } } }, { "Result", result } });
+            return result;
+            //{
+            //  "result" : "OK",
+            //  "value" : {
+            //    "time" : 1459711231,
+            //    "id" : "b386ad062459387f7b5139d26dff594ebc34dae9",
+            //    "link" : "http://turbobit.net/ck3xrhxjx7d9.html",
+            //    "downloadLink" : "http://dl7-3.debrid-link.fr/dl/10_af8bb87b19a90cbda5d5e387c55b45be83151a4989898437/b386ad062459387f7b5139d26dff594ebc34dae9/Society28.pdf",
+            //    "filename" : "Society28.pdf",
+            //    "otherLinks" : []
+            //  },
+            //  "ts" : 1459711232
+            //}
+
+            // old version
+            // {
+            //   "result" : "OK",
+            //   "value" : {
+            //     "time" : 1425914492,
+            //     "id" : "39ffe0467b5e56d85f8b50aea2e6be0795bad733",
+            //     "link" : "http://uploaded.net/file/2o4ntzs4",
+            //     "downloadLink" : "http://dl7-5.debrid-link.fr/dl/10_8ce50454790e4b66d5c40812b0a2860e67af51df88019505/39ffe0467b5e56d85f8b50aea2e6be0795bad733/j090315-ED.rar",
+            //     "filename" : "j090315-ED.rar",
+            //     "chunk" : 16,
+            //     "resume" : true
+            //   },
+            //   "ts" : 1425914492
+            // }
+
+        }
+
+        public BsonDocument ExecuteCommand(string requestPath, HttpRequestMethod method, string content = null)
+        {
+            // from https://debrid-link.fr/api_doc/#/home
+            // URL : https://debrid-link.fr/api/account/infos
+            // X-DL-TOKEN : 10_d82555567e30c1e7137828eee6bf35429706d27e43319312
+            // X-DL-SIGN : ab90fa6a2c9f1bc2bbd7988ff266971b5c10583c
+            // X-DL-TS : 1418758917
+            // Sign decoded : 1418758917/account/infosi619yOI4Kt8WB02g
+
+            Connect();
+            string url = __url + requestPath;
+            if (__trace)
+                pb.Trace.WriteLine("DebriderDebridLink.ExecuteGetCommand() :");
+            //HttpRequestParameters requestParameters = new HttpRequestParameters { Encoding = Encoding.UTF8 };
+
+            // test de décalage du timestamp
+            //timestamp -= 15;  // KO avec -15 ou +15
+            //if (__trace)
+            //    pb.Trace.WriteLine("  server time + 60 sec        : {0}", zdate.UnixTimeStampToDateTime(timestamp));
+            int timestamp = GetServerTimestamp();
+            string signature = GetSignature(timestamp, requestPath, _connexion.Key);
+
+            // set token, signature and timestamp as param in url
+            //StringBuilder paramBuilder = new StringBuilder();
+            //paramBuilder.Append('?');
+            //paramBuilder.AppendFormat("x-dl-token={0}", _connexion.Token);
+            //paramBuilder.AppendFormat("&x-dl-sign={0}", signature);
+            //paramBuilder.AppendFormat("&x-dl-ts={0}", timestamp);
+            //url += paramBuilder.ToString();
+
+            // set token, signature and timestamp as headers of http request
+            _authenticateRequestParameters.Headers["x-dl-token"] = _connexion.Token;
+            _authenticateRequestParameters.Headers["x-dl-sign"] = signature;
+            _authenticateRequestParameters.Headers["x-dl-ts"] = timestamp.ToString();
+
+            if (__trace)
+            {
+                pb.Trace.WriteLine("  http method                 : {0}", method);
+                pb.Trace.WriteLine("  http header                 : \"{0}\" = \"{1}\"", "x-dl-token", _authenticateRequestParameters.Headers["x-dl-token"]);
+                pb.Trace.WriteLine("  http header                 : \"{0}\" = \"{1}\"", "x-dl-sign", _authenticateRequestParameters.Headers["x-dl-sign"]);
+                pb.Trace.WriteLine("  http header                 : \"{0}\" = \"{1}\"", "x-dl-ts", _authenticateRequestParameters.Headers["x-dl-ts"]);
+                if (content != null)
+                    pb.Trace.WriteLine("  http content                : \"{0}\"", content);
             }
 
-            // "user=la_beuze&password=xxxxxx&sessidTime=all&token=10_56b51ee12ad5dabcac620230cda436cab94bd37154742765&authorizedToken=1"
+            DateTime dt = DateTime.Now;
+            Http http = HttpManager.CurrentHttpManager.Load(new HttpRequest { Url = url, Method = method, Content = content }, _authenticateRequestParameters);
+
+            BsonDocument result = BsonDocument.Parse(http.ResultText);
+
             //if (__trace)
-            //    pb.Trace.WriteLine("content : \"{0}\"", content.ToString());
+            //{
+            int newTimestamp = result.zGet("ts").zAsInt();
+            DateTime newServerTime = zdate.UnixTimeStampToDateTime(newTimestamp);
+            TimeSpan newServerTimeGap = newServerTime - dt;
+            // gap gap {2}    newServerTimeGap - _connexion.ServerTimeGap
+            pb.Trace.WriteLine("  new server time             : {0} gap {1} timestamp {2} timestamp gap {3}", newServerTime, newServerTimeGap, newTimestamp, timestamp - newTimestamp);
+            //}
 
-            http = HttpManager.CurrentHttpManager.Load(new HttpRequest { Url = url, Method = method, Content = content.ToString() }, requestParameters);
+            //if (__trace)
+            //{
+            //    pb.Trace.WriteLine("  result                      :");
+            //    pb.Trace.WriteLine(result.zToJson());
+            //}
+            return result;
+        }
 
-            // <div class='panel-body'>
-            // <div class='alert alert-success'>
-            // La session a bien été activée. Vous pouvez utiliser l'application API Test
-            // </div>
-            // </div>
-            xeSource = http.zGetXDocument().zXXElement();
-            //string loginMessage = xeSource.ExplicitXPathValue("//div[@class='panel-body']//text()");
-            string loginMessage = xeSource.ExplicitXPathValue("//div[@class='alert alert-success']//text()");
-            if (__trace)
-                pb.Trace.WriteLine("  login message               : \"{0}\"", loginMessage);
-            //if (loginMessage == null || !loginMessage.Trim().StartsWith("La session a bien été activée", StringComparison.InvariantCultureIgnoreCase))
-            if (loginMessage == null || !loginMessage.Trim().StartsWith("Vous avez été connecté avec succès", StringComparison.InvariantCultureIgnoreCase))
-                throw new PBException("DebriderDebridLink.Connect() : wrong login message \"{0}\"", loginMessage);
-
-
-            connexion.zSave(_connexionFile);
-            _connexion = connexion;
-            //serverTime.zSave(_serverTimeFile);
-            //_serverTime = serverTime;
+        private void Connect(bool forceNewConnexion = false)
+        {
+            if (forceNewConnexion || !IsConnected())
+                Connexion();
         }
 
         public bool IsConnected()
@@ -278,244 +347,223 @@ namespace pb.Web
                 // la connection n'est plus valable, il faut se reconnecter
                 return false;
             }
-
-            //if (_serverTime == null)
-            //{
-
-            //    if (_serverTimeFile == null)
-            //        throw new PBException("DebriderDebridLink server time file is null");
-
-            //    if (!zFile.Exists(_serverTimeFile))
-            //        return false;
-
-            //    _serverTime = zmongo.ReadFileAs<DebridLinkServerTime>(_serverTimeFile);
-            //}
-
             return true;
         }
 
-        public BsonDocument GetAccountInfos()
+        public void Connexion()
         {
-            return ExecutePostCommand("/account/infos");
-            // https://api.debrid-link.fr/rest/account/infos
-            // {
-            // "result":"OK",
-            // "value":{
-            //    "pseudo":"la_beuze",
-            //    "email":"labe***euz@gmai**com",
-            //    "accountType":1,
-            //    "premiumLeft":1984656,
-            //    "pts":195,
-            //    "trafishare":32212254720,
-            //    "vouchersUrl":"https:\/\/secure.debrid-link.fr\/user\/2_f843bb5a464171c9bc6304db373e5c9956d7f2b250566148\/create_voucher",
-            //    "editPasswordUrl":"https:\/\/secure.debrid-link.fr\/user\/2_f843bb5a464171c9bc6304db373e5c9956d7f2b250566148\/editPassword",
-            //    "editEmailUrl":"https:\/\/secure.debrid-link.fr\/user\/2_f843bb5a464171c9bc6304db373e5c9956d7f2b250566148\/editEmail",
-            //    "viewSessidUrl":"https:\/\/secure.debrid-link.fr\/user\/2_f843bb5a464171c9bc6304db373e5c9956d7f2b250566148\/sessid",
-            //    "upgradeAccountUrl":"https:\/\/secure.debrid-link.fr\/user\/2_f843bb5a464171c9bc6304db373e5c9956d7f2b250566148\/premium",
-            //    "upgradePtsUrl":"https:\/\/secure.debrid-link.fr\/user\/2_f843bb5a464171c9bc6304db373e5c9956d7f2b250566148\/premium\/pts",
-            //    "upgradeTraficshareUrl":"https:\/\/secure.debrid-link.fr\/user\/2_f843bb5a464171c9bc6304db373e5c9956d7f2b250566148\/premium\/traficshare",
-            //    "registerDate":"2013-02-08"
-            //    },
-            // "ts":1425823512
-            // }
-        }
+            pb.Trace.WriteLine("{0:dd-MM-yyyy HH:mm:ss} - new connexion to debrid-link.fr", DateTime.Now);
 
-        public BsonDocument GetTorrentActivity()
-        {
-            return ExecutePostCommand("/seedbox/activity");
-        }
-
-        public BsonDocument GetTorrentStats()
-        {
-            return ExecutePostCommand("/seedbox/stats");
-        }
-
-        public BsonDocument GetTorrentPoints()
-        {
-            return ExecutePostCommand("/seedbox/points");
-            // {
-            //   "result" : "OK",
-            //   "value" : {
-            //     "duration" : 4007211,
-            //     "usage_day" : 4,
-            //     "usage_next_day" : 4
-            //   },
-            //   "ts" : 1425913089
-            // }
-        }
-
-        public BsonDocument GetTorrentList()
-        {
-            return ExecutePostCommand("/seedbox/list");
-        }
-
-        public BsonDocument AddTorrent(string torrentUrl)
-        {
-            return ExecutePostCommand("/seedbox/add", "torrentUrl=" + torrentUrl);
-        }
-
-        public BsonDocument StopTorrents(params string[] torrentIds)
-        {
-            return ExecutePostCommand("/seedbox/ids/" + GetJsonValue(torrentIds) + "/stop");
-            // {
-            //   "result" : "OK",
-            //   "value" : ["44654f844ce2ad4c678"],
-            //   "ts" : 1425904891
-            // }
-        }
-
-        public BsonDocument ResumeTorrents(params string[] torrentIds)
-        {
-            return ExecutePostCommand("/seedbox/ids/" + GetJsonValue(torrentIds) + "/resume");
-            // {
-            //   "result" : "OK",
-            //   "value" : ["44654f844ce2ad4c678"],
-            //   "ts" : 1425904891
-            // }
-        }
-
-        public BsonDocument RemoveTorrents(params string[] torrentIds)
-        {
-            return ExecutePostCommand("/seedbox/ids/" + GetJsonValue(torrentIds) + "/remove");
-            // {
-            //   "result" : "OK",
-            //   "value" : ["44654f844ce2ad4c678"],
-            //   "ts" : 1425904891
-            // }
-        }
-
-        public BsonDocument GetDownloaderStatus()
-        {
-            return ExecuteGetCommand("/downloader/status");
-        }
-
-        public BsonDocument GetDownloaderTraffic()
-        {
-            return ExecutePostCommand("/downloader/traffic");
-        }
-
-        public BsonDocument GetDownloaderStats()
-        {
-            return ExecutePostCommand("/downloader/stats");
-        }
-
-        public BsonDocument GetDownloaderList()
-        {
-            return ExecutePostCommand("/downloader/list");
-        }
-
-        public BsonDocument DownloaderAdd(string link)
-        {
-            BsonDocument result = ExecutePostCommand("/downloader/add", "link=" + link);
-            if (result.zGet("result").zAsString() == "KO")
+            if (__trace)
             {
-                if (result.zGet("ERR").zAsString() == "maxLinkHost")
+                pb.Trace.WriteLine("DebriderDebridLink.Connexion() :");
+            }
+            DebridLinkFrRequestResult tokenResult = GetNewToken();
+            DebridLinkConnexion connexion = CreateDebridLinkConnexion(tokenResult);
+            string validTokenUrl = tokenResult.Result.zGet("value.validTokenUrl").zAsString();
+
+            if (__trace)
+            {
+                pb.Trace.WriteLine("  request time                : \"{0:dd/MM/yyyy HH:mm:ss}\"", tokenResult.RequestTime);
+                pb.Trace.WriteLine("  result                      : \"{0}\"", tokenResult.Result.zGet("result").zAsString());
+                pb.Trace.WriteLine("  token                       : \"{0}\"", connexion.Token);
+                pb.Trace.WriteLine("  validTokenUrl               : \"{0}\"", validTokenUrl);
+                pb.Trace.WriteLine("  key                         : \"{0}\"", connexion.Key);
+                pb.Trace.WriteLine("  server time                 : {0} - {1:dd/MM/yyyy HH:mm:ss}", tokenResult.Result.zGet("ts").zAsInt(), connexion.ServerTime);
+                pb.Trace.WriteLine("  server time gap             : {0}", connexion.ServerTimeGap);
+            }
+
+            _Login(validTokenUrl);
+
+            connexion.zSave(_connexionFile);
+            _connexion = connexion;
+
+            if (_traceData != null)
+                _traceData.Trace(new BsonDocument { { "OpeType", "Debrider.DebridLinkFr" }, { "Ope", "Login" }, { "Param", new BsonDocument { } }, { "Result", connexion.ToBsonDocument() } });
+        }
+
+        private DebridLinkFrRequestResult GetNewToken()
+        {
+            // request : https://debrid-link.fr/api/token/:publickey/new
+            // result  :
+            //{
+            //  "result":"OK",
+            //  "value":
+            //  {
+            //    "token":"10_2d600afa935e73e12898abac9ff075673c20625d99452393",
+            //    "validTokenUrl":"https:\/\/debrid-link.fr\/user\/10_2d600afa935e73e12898abac9ff075673c20625d99452393\/login",
+            //    "key":"sQ0bhf6k2A3yav5I"
+            //  },
+            //  "ts":1458902940
+            //}
+
+            string url = __url + string.Format("/token/{0}/new", _publicKey);
+            DateTime requestTime = DateTime.Now;
+            BsonDocument result = null;
+            Exception ex = null;
+            try
+            {
+                Http http = HttpManager.CurrentHttpManager.Load(new HttpRequest { Url = url }, _requestParameters);
+                result = BsonSerializer.Deserialize<BsonDocument>(http.ResultText);
+            }
+            catch (Exception ex2)
+            {
+                ex = ex2;
+                throw;
+            }
+            finally
+            {
+                if (_traceData != null)
                 {
-                    pb.Trace.WriteLine("warning : nombre de liens maximum atteint pour cet hébergeur. link \"{0}\"", link);
+                    _traceData.Trace(new BsonDocument { { "Category", "DebridLinkFr_v2" }, { "Ope", "GetNewToken" }, { "Key", "HttpRequest" }, { "Data", new BsonDocument { { "Url", url }, { "Result", result } } } }, ex);
+                }
+                if (__trace)
+                {
+                    pb.Trace.WriteLine("  get new token               : \"{0}\"", url);
+                    pb.Trace.WriteLine("  result                      :");
+                    pb.Trace.WriteLine(result.zToJson());
                 }
             }
-            if (_traceData != null)
+
+            return new DebridLinkFrRequestResult { RequestTime = requestTime, Result = result };
+        }
+
+        private DebridLinkConnexion CreateDebridLinkConnexion(DebridLinkFrRequestResult tokenResult)
+        {
+            DebridLinkConnexion connexion = new DebridLinkConnexion();
+            connexion.ConnexionTime = tokenResult.RequestTime;
+            connexion.Token = tokenResult.Result.zGet("value.token").zAsString();
+            connexion.Key = tokenResult.Result.zGet("value.key").zAsString();
+            int ts = tokenResult.Result.zGet("ts").zAsInt();
+            connexion.ClientTime = tokenResult.RequestTime;
+            connexion.ServerTime = zdate.UnixTimeStampToDateTime(ts);
+            connexion.ServerTimeGap = connexion.ServerTime - tokenResult.RequestTime;
+            connexion.ConnexionLifetime = _connexionLifetime;
+            connexion.EndConnexionTime = connexion.ConnexionTime + GetConnexionTimespan(connexion.ConnexionLifetime) - TimeSpan.FromMinutes(5);
+            return connexion;
+        }
+
+        private void _Login(string url)
+        {
+            // https://debrid-link.fr/user/2_21c744ba958f13fac08ee5c8855f72ab9a3b3e3224789126/login
+            Http http = HttpManager.CurrentHttpManager.Load(new HttpRequest { Url = url }, _requestParameters);
+            XXElement xeSource = HttpManager.CurrentHttpManager.GetXDocument(http).zXXElement();
+
+            string loginUrl = __loginUrl;
+            XXElement xeForm = xeSource.XPathElement("//form");
+
+            string action = xeForm.AttribValue("action");
+            if (action != null && action != "")
+                loginUrl = action;
+
+            string method = xeForm.AttribValue("method");
+            HttpRequestMethod httpMethod = HttpRequestMethod.Get;
+            if (method != null && method != "")
+                httpMethod = Http.GetHttpRequestMethod(method);
+
+            StringBuilder content = new StringBuilder();
+            bool first = true;
+            string name, value;
+            foreach (XXElement xe in xeForm.DescendantFormItems())
             {
-                _traceData.Trace(new BsonDocument { { "OpeType", "Debrider" }, { "Ope", "DebridLinkFr" }, { "Link", link }, { "Result", result } });
+                name = xe.AttribValue("name");
+                if (name == null)
+                    continue;
+                if (name == "user")
+                    value = _login;
+                else if (name == "password")
+                    value = _password;
+                //else if (name == "sessidTime")
+                //    value = GetConnexionLifetime(_connexionLifetime);
+                else
+                    value = xe.AttribValue("value");
+                if (!first)
+                    content.Append('&');
+                content.AppendFormat("{0}={1}", name, value);
+                if (__trace)
+                {
+                    if (name != "password")
+                        pb.Trace.WriteLine("  {0}={1}", name, value);
+                    else
+                        pb.Trace.WriteLine("  {0}=xxx", name);
+                }
+                first = false;
             }
-            return result;
-            // {
-            //   "result" : "OK",
-            //   "value" : {
-            //     "time" : 1425914492,
-            //     "id" : "39ffe0467b5e56d85f8b50aea2e6be0795bad733",
-            //     "link" : "http://uploaded.net/file/2o4ntzs4",
-            //     "downloadLink" : "http://dl7-5.debrid-link.fr/dl/10_8ce50454790e4b66d5c40812b0a2860e67af51df88019505/39ffe0467b5e56d85f8b50aea2e6be0795bad733/j090315-ED.rar",
-            //     "filename" : "j090315-ED.rar",
-            //     "chunk" : 16,
-            //     "resume" : true
-            //   },
-            //   "ts" : 1425914492
-            // }
-        }
 
-        public BsonDocument DownloaderRemove(params string[] idLinks)
-        {
-            return ExecutePostCommand("/downloader/ids/" + GetJsonValue(idLinks) + "/remove");
-            // {
-            //   "result" : "OK",
-            //   "value" : ["a0bbc06d1b2762166d9139f3d2b81e89b7e78af5"],
-            //   "ts" : 1425916912
-            // }
-        }
-
-        public BsonDocument GetRemoteHostList()
-        {
-            return ExecutePostCommand("/remote/host/list");
-        }
-
-        private void Connect(bool forceNewConnexion = false)
-        {
-            if (forceNewConnexion || !IsConnected())
-                Connexion();
-        }
-
-        public BsonDocument ExecuteGetCommand(string requestPath)
-        {
-            string url = __url + requestPath;
-            if (__trace)
-                pb.Trace.WriteLine("DebriderDebridLink.ExecuteGetCommand() :");
-            HttpRequestParameters requestParameters = new HttpRequestParameters { Encoding = Encoding.UTF8 };
-
-            Http http = HttpManager.CurrentHttpManager.Load(new HttpRequest { Url = url }, requestParameters);
-            BsonDocument result = BsonDocument.Parse(http.ResultText);
-            if (__trace)
-            {
-                pb.Trace.WriteLine("  result                      :");
-                pb.Trace.WriteLine(result.zToJson());
-            }
-            return result;
-        }
-
-        public BsonDocument ExecutePostCommand(string requestPath, string content = null)
-        {
-            Connect();
-            string url = __url + requestPath;
-            if (__trace)
-                pb.Trace.WriteLine("DebriderDebridLink.ExecutePostCommand() :");
-            HttpRequestParameters requestParameters = new HttpRequestParameters { Encoding = Encoding.UTF8 };
-            StringBuilder contentBuilder = new StringBuilder();
-            contentBuilder.AppendFormat("token={0}", _connexion.Token);
-
-            int timestamp = GetServerTimestamp();
-
-            // test de décalage du timestamp
-            //timestamp -= 15;  // KO avec -15 ou +15
-            //if (__trace)
-            //    pb.Trace.WriteLine("  server time + 60 sec        : {0}", zdate.UnixTimeStampToDateTime(timestamp));
-
-            contentBuilder.AppendFormat("&sign={0}", GetSignature(_connexion.Key, timestamp, requestPath));
-            if (content != null)
-            {
-                contentBuilder.Append('&');
-                contentBuilder.Append(content);
-            }
-            contentBuilder.AppendFormat("&ts={0}", timestamp);
-            if (__trace)
-                pb.Trace.WriteLine("  content                     : \"{0}\"", contentBuilder.ToString());
-            DateTime dt = DateTime.Now;
-            Http http = HttpManager.CurrentHttpManager.Load(new HttpRequest { Url = url, Method = HttpRequestMethod.Post, Content = contentBuilder.ToString() }, requestParameters);
-            BsonDocument result = BsonDocument.Parse(http.ResultText);
-            //if (__trace)
-            //{
-            int newTimestamp = result.zGet("ts").zAsInt();
-            DateTime newServerTime = zdate.UnixTimeStampToDateTime(newTimestamp);
-            TimeSpan newServerTimeGap = newServerTime - dt;
-            // gap gap {2}    newServerTimeGap - _connexion.ServerTimeGap
-            pb.Trace.WriteLine("  new server time             : {0} gap {1} timestamp {2} timestamp gap {3}", newServerTime, newServerTimeGap, newTimestamp, timestamp - newTimestamp);
-            //}
             if (__trace)
             {
-                pb.Trace.WriteLine("  result                      :");
-                pb.Trace.WriteLine(result.zToJson());
+                pb.Trace.WriteLine("  form login url              : \"{0}\"", loginUrl);
+                pb.Trace.WriteLine("  form action                 : \"{0}\"", action);
+                pb.Trace.WriteLine("  form method                 : {0}", httpMethod);
+                //pb.Trace.WriteLine("  form values                 : {0}", content.ToString());
             }
-            return result;
+
+            http = HttpManager.CurrentHttpManager.Load(new HttpRequest { Url = loginUrl, Method = httpMethod, Content = content.ToString() }, _requestParameters);
+
+            xeSource = http.zGetXDocument().zXXElement();
+            //<div class="alert alert-success">
+            XXElement xeLogin = xeSource.XPathElement("//div[@class='alert alert-success']");
+            if (xeLogin.XElement == null)
+                throw new PBException("can't login to debrid-link.fr");
         }
+
+        //public BsonDocument ExecutePostCommand(string requestPath, string content = null)
+        //{
+        //    // from https://debrid-link.fr/api_doc/#/home
+        //    // URL : https://debrid-link.fr/api/account/infos
+        //    // X-DL-TOKEN : 10_d82555567e30c1e7137828eee6bf35429706d27e43319312
+        //    // X-DL-SIGN : ab90fa6a2c9f1bc2bbd7988ff266971b5c10583c
+        //    // X-DL-TS : 1418758917
+        //    // Sign decoded : 1418758917/account/infosi619yOI4Kt8WB02g
+
+        //    Connect();
+        //    string url = __url + requestPath;
+        //    if (__trace)
+        //        pb.Trace.WriteLine("DebriderDebridLink.ExecutePostCommand() :");
+        //    HttpRequestParameters requestParameters = new HttpRequestParameters { Encoding = Encoding.UTF8 };
+        //    StringBuilder contentBuilder = new StringBuilder();
+        //    //contentBuilder.AppendFormat("token={0}", _connexion.Token);
+        //    contentBuilder.AppendFormat("x-dl-token={0}", _connexion.Token);
+
+        //    int timestamp = GetServerTimestamp();
+
+        //    // test de décalage du timestamp
+        //    //timestamp -= 15;  // KO avec -15 ou +15
+        //    //if (__trace)
+        //    //    pb.Trace.WriteLine("  server time + 60 sec        : {0}", zdate.UnixTimeStampToDateTime(timestamp));
+
+        //    //contentBuilder.AppendFormat("&sign={0}", GetSignature(_connexion.Key, timestamp, requestPath));
+        //    contentBuilder.AppendFormat("&x-dl-sign={0}", GetSignature(timestamp, requestPath, _connexion.Key));
+
+        //    if (content != null)
+        //    {
+        //        contentBuilder.Append('&');
+        //        contentBuilder.Append(content);
+        //    }
+
+        //    //contentBuilder.AppendFormat("&ts={0}", timestamp);
+        //    contentBuilder.AppendFormat("&x-dl-ts={0}", timestamp);
+
+        //    if (__trace)
+        //        pb.Trace.WriteLine("  content                     : \"{0}\"", contentBuilder.ToString());
+        //    DateTime dt = DateTime.Now;
+        //    Http http = HttpManager.CurrentHttpManager.Load(new HttpRequest { Url = url, Method = HttpRequestMethod.Post, Content = contentBuilder.ToString() }, requestParameters);
+        //    BsonDocument result = BsonDocument.Parse(http.ResultText);
+        //    //if (__trace)
+        //    //{
+        //    int newTimestamp = result.zGet("ts").zAsInt();
+        //    DateTime newServerTime = zdate.UnixTimeStampToDateTime(newTimestamp);
+        //    TimeSpan newServerTimeGap = newServerTime - dt;
+        //    // gap gap {2}    newServerTimeGap - _connexion.ServerTimeGap
+        //    pb.Trace.WriteLine("  new server time             : {0} gap {1} timestamp {2} timestamp gap {3}", newServerTime, newServerTimeGap, newTimestamp, timestamp - newTimestamp);
+        //    //}
+        //    if (__trace)
+        //    {
+        //        pb.Trace.WriteLine("  result                      :");
+        //        pb.Trace.WriteLine(result.zToJson());
+        //    }
+        //    return result;
+        //}
 
         private int GetServerTimestamp()
         {
@@ -523,13 +571,12 @@ namespace pb.Web
             int timestamp = zdate.DateTimeToUnixTimeStamp(time);
             if (__trace)
             {
-                //pb.Trace.WriteLine("  time                        : {0}", DateTime.Now);
                 pb.Trace.WriteLine("  calculated server time      : {0} gap {1} timestamp {2}", time, _connexion.ServerTimeGap, timestamp);
             }
             return timestamp;
         }
 
-        private static string GetSignature(string key, int timestamp, string requestPath)
+        public static string GetSignature(int timestamp, string requestPath, string key)
         {
             // The signature is the SHA1 result of (Timestamp + Route + key) (from http://debrid-link.fr/api_doc/#/home)
             // Timestamp : server unix timestamp
@@ -540,28 +587,16 @@ namespace pb.Web
             string signature = timestamp.ToString() + requestPath + key;
 
             string hash = Crypt.ComputeSHA1Hash(signature).zToHex(lowercase: true);
+
+            if (__trace)
+                pb.Trace.WriteLine("  signature                   : timestamp+request+key \"{0}\" = \"{1}\"", signature, hash);
+
             //if (__trace)
             //{
             //    pb.Trace.WriteLine("  signature                   : \"{0}\"", signature);
             //    pb.Trace.WriteLine("  signature sha1              : \"{0}\"", hash);
             //}
             return hash;
-        }
-
-        private string GetJsonValue(string[] torrentIds)
-        {
-            StringBuilder sb = new StringBuilder();
-            sb.Append('[');
-            bool first = true;
-            foreach (string torrentId in torrentIds)
-            {
-                if (!first)
-                    sb.Append(',');
-                first = false;
-                sb.AppendFormat("\"{0}\"", torrentId);
-            }
-            sb.Append(']');
-            return sb.ToString();
         }
 
         public static DebridLinkConnexionLifetime GetConnexionLifetime(string connexionLifetime)
@@ -583,26 +618,7 @@ namespace pb.Web
             }
         }
 
-        public static string GetConnexionLifetime(DebridLinkConnexionLifetime connexionLifetime)
-        {
-            switch (connexionLifetime)
-            {
-                case DebridLinkConnexionLifetime.All:
-                    return "all";
-                case DebridLinkConnexionLifetime.OneHour:
-                    return "1";
-                case DebridLinkConnexionLifetime.SixHours:
-                    return "6";
-                case DebridLinkConnexionLifetime.TwelveHours:
-                    return "12";
-                case DebridLinkConnexionLifetime.TwentyFourHours:
-                    return "24";
-                default:
-                    throw new PBException("unknow DebridLink connexion lifetime {0}", connexionLifetime);
-            }
-        }
-
-        public static TimeSpan? GetConnexionTimespan(DebridLinkConnexionLifetime connexionLifetime)
+        private static TimeSpan? GetConnexionTimespan(DebridLinkConnexionLifetime connexionLifetime)
         {
             switch (connexionLifetime)
             {

@@ -459,7 +459,7 @@ namespace pb.Web
         {
             string url = __url + requestPath;
             if (__trace)
-                pb.Trace.WriteLine("DebriderDebridLink.ExecutePostCommand() :");
+                pb.Trace.WriteLine("DebriderDebridLink.ExecuteGetCommand() :");
             HttpRequestParameters requestParameters = new HttpRequestParameters { Encoding = Encoding.UTF8 };
 
             Http http = HttpManager.CurrentHttpManager.Load(new HttpRequest { Url = url }, requestParameters);

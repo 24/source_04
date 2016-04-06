@@ -1,10 +1,11 @@
-*// $$info.manage.print.directory
+// $$info.manage.print.directory
 // $$info.test.regex  $$info.test.selenium $$info.test.mongo
 // $$info.site
 // $$info.debrid-link.fr
 // $$info.test_unit.print
 // $$info.GetPrintTitleInfo
 // $$info.zdate.GetDayInsideDateGap
+// $$info.Backup
 
 
 //*************************************************************************************************************************
@@ -15,6 +16,7 @@ Trace.WriteLine("toto");
 RunSource.CurrentRunSource.SetProjectFromSource();
 
 RunSource.CurrentRunSource.CompileProject(@"$Root$\Apps\WebData\Source\Print\Project\download.project.xml");
+RunSource.CurrentRunSource.CompileProject(@"$Root$\Lib\pb\Source\Project\Extension_01.project.xml");
 
 Trace.CurrentTrace.TraceLevel = 0;
 Trace.CurrentTrace.TraceLevel = 1;
@@ -24,6 +26,9 @@ Trace.WriteLine("TraceLevel {0}", Trace.CurrentTrace.TraceLevel);
 //Trace.WriteLine("TraceLevel {0} TraceDir \"{1}\"", Trace.CurrentTrace.TraceLevel, Trace.CurrentTrace.TraceDir);
 
 Http.Trace = true;
+HttpManager.CurrentHttpManager.ExportResult = false;
+HttpManager.CurrentHttpManager.ExportResult = true;
+Trace.WriteLine("ExportResult {0} ExportDirectory \"{1}\"", HttpManager.CurrentHttpManager.ExportResult, HttpManager.CurrentHttpManager.ExportDirectory);
 
 Compiler.TraceLevel = 1;
 Compiler.TraceLevel = 2;
@@ -79,7 +84,7 @@ RunSource.CurrentRunSource.Compile_Project(@"..\..\..\..\Test\Test.Test_01\Sourc
 WebData.RunDownloadAutomate("runNow = true, loadNewPost = true, searchPostToDownload = false, sendMail = false");
 // run now, load new post, search post to download, dont send mail
 WebData.RunDownloadAutomate("runNow = true, loadNewPost = true, searchPostToDownload = true, sendMail = false");
-// Backup
+// $$info.Backup
 WebData.CreateDownloadAutomateManager("loadNewPost = false, searchPostToDownload = false, sendMail = false").Backup();
 // SetTimeBetweenRun
 WebData.CreateDownloadAutomateManager("loadNewPost = false, searchPostToDownload = false, sendMail = false").MongoDownloadAutomateManager.SetTimeBetweenRun(TimeSpan.FromHours(2));
@@ -4946,6 +4951,18 @@ Certificate.DesactivateCertificateValidation();
 // http://www.magazines-gratuits.xyz/les-journaux-du-mardi-22-mars-2016.html
 debrider.DebridLink("http://uptobox.com/8tdjg6ejitfr").zTrace();
 
+// https://debrid-link.fr/api/
+// /token/:publickey/new
+// https://debrid-link.fr/api/token/jx0O9nm1hVlnN26R/new
+// {"result":"OK","value":{"token":"10_abc19d5dd27e16f30a248760e0ba8c16cd83a38257394387","validTokenUrl":"https:\/\/debrid-link.fr\/user\/10_abc19d5dd27e16f30a248760e0ba8c16cd83a38257394387\/login","key":"5A1Mf26lntITx7PW"},"ts":1458851196}
+// https://debrid-link.fr/user/10_abc19d5dd27e16f30a248760e0ba8c16cd83a38257394387/login
+
+HttpManager.CurrentHttpManager.ExportResult = true;
+HttpRun.Load("https://debrid-link.fr/api/token/jx0O9nm1hVlnN26R/new");
+HttpRun.Load("https://debrid-link.fr/user/2_b4e20c1c93be840e449a98fc70679afeccd0606f31996047/login");
+//HtmlRun.Select("//div[@id='dle-content']//div[@class='custom-post']:.:EmptyRow");
+
+
 // Load("https://api.debrid-link.fr/rest/token/jx0O9nm1hVlnN26R/new");
 // Load("https://secure.debrid-link.fr/user/10_125eb8b6e28c328f1e91b6d884f710b10885dbe535589194/login");
 // 22/03/2016 19:50:18 Error : The remote certificate is invalid according to the validation procedure. (System.Security.Authentication.AuthenticationException)
@@ -4960,3 +4977,92 @@ debrider.DebridLink("http://uptobox.com/8tdjg6ejitfr").zTrace();
 // "validTokenUrl":"https:\/\/secure.debrid-link.fr\/user\/10_b0073ac74cbd1c568f180e4c5134a5ce7e1604e011760884\/login",
 // "key":"p2NY8r8x9M8bQQLD"},"ts":1458672590}
 // https://secure.debrid-link.fr/user/10_b0073ac74cbd1c568f180e4c5134a5ce7e1604e011760884/login
+
+
+HttpRun.Load("https://www.google.fr");
+HtmlRun.Select("//div:.:EmptyRow");
+
+
+Trace.WriteLine("toto");
+RunSource.CurrentRunSource.SetProjectFromSource();
+RunSource.CurrentRunSource.SetProject(@"$Root$\Lib\pb\Source\pb\Web\Data\Test\Test_DebridLinkFr.project.xml");
+
+// get new token
+HttpRun.Load("https://debrid-link.fr/api/token/1R6858wC6lO15X8i/new").ResultText.zTrace();
+// {"result":"OK","value":{"token":"2_1d94f57b95ecf70df6f60b7fb3dbb723cec0b0f952682335","validTokenUrl":"https:\/\/debrid-link.fr\/user\/2_1d94f57b95ecf70df6f60b7fb3dbb723cec0b0f952682335\/login","key":"95Rj55l5baz3gIwk"},"ts":1459854305}
+// "token":"2_1d94f57b95ecf70df6f60b7fb3dbb723cec0b0f952682335","key":"95Rj55l5baz3gIwk"
+HttpRequestParameters httpRequestParameters = new HttpRequestParameters { Encoding = Encoding.UTF8 };
+HttpRun.Load("https://debrid-link.fr/user/2_1d94f57b95ecf70df6f60b7fb3dbb723cec0b0f952682335/login", httpRequestParameters);
+HttpRun.Load(new HttpRequest { Url = "https://debrid-link.fr/login", Method = HttpRequestMethod.Post, Content = "user=&password=&understand=true" }, httpRequestParameters); 
+
+Test_DebridLinkFr.Test_Connexion_v2_01();
+Test_DebridLinkFr.CreateDebridLinkFr(trace: true).GetAccountInfos().zTraceJson();
+Test_DebridLinkFr.CreateDebridLinkFr(trace: false).GetAccountInfos().zTraceJson();
+
+
+Test_DebridLinkFr.CreateDebridLinkFr(trace: false).DownloaderAdd("http://uptobox.com/zm775fcbqtx6").zTraceJson();
+Test_DebridLinkFr.CreateDebridLinkFr(trace: false).DownloaderAdd("").zTraceJson();
+Test_DebridLinkFr.CreateDebridLinkFr(trace: false).DownloaderAdd("").zTraceJson();
+Test_DebridLinkFr.CreateDebridLinkFr(trace: false).DownloaderAdd("").zTraceJson();
+Test_DebridLinkFr.CreateDebridLinkFr(trace: false).DownloaderAdd("").zTraceJson();
+
+
+System.TimeSpan.Parse("-01:00:00.1085934").ToString().zTrace();
+
+// {"result":"OK","value":{"token":"2_885e0f35d4eee08b2c693b40803e52fab4d0c09988736874","validTokenUrl":"https:\/\/debrid-link.fr\/user\/2_885e0f35d4eee08b2c693b40803e52fab4d0c09988736874\/login","key":"hoW2L5mvdu1aS7Wk"},"ts":1459852197}
+// "token":"2_885e0f35d4eee08b2c693b40803e52fab4d0c09988736874" "key":"hoW2L5mvdu1aS7Wk"
+HttpRequestParameters httpRequestParameters = new HttpRequestParameters { Encoding = Encoding.UTF8 };
+HttpRun.Load("https://debrid-link.fr/user/2_885e0f35d4eee08b2c693b40803e52fab4d0c09988736874/login", httpRequestParameters);
+HttpRun.Load(new HttpRequest { Url = "https://debrid-link.fr/login", Method = HttpRequestMethod.Post, Content = "user=&password=&understand=true" }, httpRequestParameters); 
+
+Test_DebridLinkFr_v2.CreateDebridLinkFr_v2().GetAccountInfos().zTraceJson();
+Test_DebridLinkFr_v2.CreateDebridLinkFr_v2().DownloaderAdd("http://ul.to/ufot1q5a").zTraceJson();
+Test_DebridLinkFr_v2.CreateDebridLinkFr_v2().DownloaderAdd("http://turbobit.net/ck3xrhxjx7d9.html").zTraceJson();
+Test_DebridLinkFr_v2.CreateDebridLinkFr_v2().DownloaderAdd("http://uptobox.com/5b5oqihb0sr4").zTraceJson();
+Test_DebridLinkFr_v2.CreateDebridLinkFr_v2().DownloaderAdd("http://toto.com/5b5oqihb0sr4").zTraceJson();
+Test_DebridLinkFr_v2.CreateDebridLinkFr_v2().DownloaderAdd("http://uptobox.com/mtwi5iuajdgp").zTraceJson();
+Test_DebridLinkFr_v2.CreateDebridLinkFr_v2().DownloaderAdd("http://uptobox.com/wyo12nzg7cd8").zTraceJson();
+Test_DebridLinkFr_v2.CreateDebridLinkFr_v2().DownloaderAdd("http://ul.to/1f30ukyh").zTraceJson();
+Test_DebridLinkFr_v2.CreateDebridLinkFr_v2().DownloaderAdd("http://uptobox.com/8qsksweh3xre").zTraceJson();
+Test_DebridLinkFr_v2.CreateDebridLinkFr_v2().DownloaderAdd("http://uptobox.com/icdmwwidhd17").zTraceJson();
+Test_DebridLinkFr_v2.CreateDebridLinkFr_v2().DownloaderAdd("http://ul.to/t5l2x53r").zTraceJson();
+Test_DebridLinkFr_v2.CreateDebridLinkFr_v2().DownloaderAdd("http://ul.to/e746w4pn").zTraceJson();
+Test_DebridLinkFr_v2.CreateDebridLinkFr_v2().DownloaderAdd("http://turbobit.net/hpm4eqz0x9vk.html").zTraceJson();
+HttpRun.Load("http://dl7-3.debrid-link.fr/dl/10_af8bb87b19a90cbda5d5e387c55b45be83151a4989898437/c28396420754c1a00aa08f2fe3fd4c00f6f876c4/Le%252BRevenu%252B-%252B1%252Bau%252B7%252BAvril%252B2016.pdf");
+Test_DebridLinkFr_v2.CreateDebridLinkFr_v2().DownloaderAdd("http://ul.to/ew1hqwuu").zTraceJson();
+Test_DebridLinkFr_v2.CreateDebridLinkFr_v2().DownloaderAdd("http://ul.to/clnclgpk").zTraceJson();
+Test_DebridLinkFr_v2.CreateDebridLinkFr_v2().DownloaderAdd("http://ul.to/bwa3mpa4").zTraceJson();
+Test_DebridLinkFr_v2.CreateDebridLinkFr_v2().DownloaderAdd("http://ul.to/4xhk8owq").zTraceJson();
+Test_DebridLinkFr_v2.CreateDebridLinkFr_v2().DownloaderAdd("http://uptobox.com/hchg16pjds5y").zTraceJson();
+HttpRun.Load("http://dl7-3.debrid-link.fr/dl/10_af8bb87b19a90cbda5d5e387c55b45be83151a4989898437/bde4db943779612a8db40751822f24f136466c89/Style-3371.rar");
+Test_DebridLinkFr_v2.CreateDebridLinkFr_v2().DownloaderAdd("http://ul.to/udrym4wc").zTraceJson();
+Test_DebridLinkFr_v2.CreateDebridLinkFr_v2().DownloaderAdd("http://turbobit.net/xxmlsgc7jrrt.html").zTraceJson();
+Test_DebridLinkFr_v2.CreateDebridLinkFr_v2().DownloaderAdd("http://uptobox.com/r804g5kifbzv").zTraceJson();
+Test_DebridLinkFr_v2.CreateDebridLinkFr_v2().DownloaderAdd("http://uptobox.com/z8hu1p94nprj").zTraceJson();
+Test_DebridLinkFr_v2.CreateDebridLinkFr_v2().DownloaderAdd("http://ul.to/7dy4iq61").zTraceJson();
+
+
+
+
+
+
+
+
+
+
+
+
+
+Trace.WriteLine("ExportResult {0} ExportDirectory \"{1}\"", HttpManager.CurrentHttpManager.ExportResult, HttpManager.CurrentHttpManager.ExportDirectory);
+HttpRun.Load("https://debrid-link.fr/api/account/infos").ResultText.zTrace();
+HttpRun.Load("https://debrid-link.fr/api/account/infos?x-dl-token=10_af8bb87b19a90cbda5d5e387c55b45be83151a4989898437").ResultText.zTrace();
+HttpRun.Load("https://debrid-link.fr/api/account/infos?X-DL-TOKEN=10_af8bb87b19a90cbda5d5e387c55b45be83151a4989898437").ResultText.zTrace();
+HttpRun.Load("https://debrid-link.fr/api/account/infos?token=10_af8bb87b19a90cbda5d5e387c55b45be83151a4989898437").ResultText.zTrace();
+
+
+System.Collections.Specialized.NameValueCollection values = new System.Collections.Specialized.NameValueCollection();
+values.Add("x-dl-token", "toto");
+values.Add("x-dl-token", "tata");
+//values["x-dl-token"] = "toto";
+values["x-dl-token"].zTrace();
+

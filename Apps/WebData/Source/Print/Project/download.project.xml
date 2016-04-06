@@ -9,11 +9,13 @@
   <CopyRunSourceSourceFiles         value = "true" />
   <CopyOutput                       value = "c:\pib\prog\tools\runsource\app\ebook.download\new" />
 
-  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\Basic.project.xml" />
+  <!--<IncludeProject                   value = "$Root$\Lib\pb\Source\Project\Basic.project.xml" />
   <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\RunSourceExtension.project.xml" />
   <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\MongoExtension.project.xml" />
   <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\MongoSerialization.project.xml" />
-  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\HttpRun.project.xml" />
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\HtmlRun.project.xml" />-->
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\Extension_01.dll.project.xml" />
+
 
   <NameSpace                        value = "Download.Print" />    <!-- Print.download -->
   
@@ -199,7 +201,7 @@
   <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\AsyncManager.cs" />
   <!--<Source                           value = "$Root$\Lib\pb\Source\pb\_pb\Date.cs" />-->
   <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\Date2.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\GlobalExtension.cs" />
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\_pb\GlobalExtension.cs" />-->
   <!--<Source                           value = "$Root$\Lib\pb\Source\pb\_pb\NamedValue.cs" />-->
   <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\PBTraceListener.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\SpecialDays.cs" />
@@ -214,9 +216,9 @@
   <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Data\FieldList.cs" />-->
   <!--aaaaaaaaaaaaaa<Source                           value = "$Root$\Lib\pb\Source\pb\Data\_old\IDocumentStore_v4.cs" />-->
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\IDocumentStore.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\GClass.cs" />
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Data\GClass.cs" />-->
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\NamedValues.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\ZValue.cs" />
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Data\ZValue.cs" />-->
     
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\BsonDocumentComparator.cs" />
   <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\BsonDocumentsToDataTable.cs" />-->
@@ -239,17 +241,17 @@
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\PBBsonWriter.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\WebDataPageMongoManagerBase.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\WebHeaderDetailMongoManagerBase.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\BsonPBSerializationProvider.cs" />
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\BsonPBSerializationProvider.cs" />-->
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\DateSerializer.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\DefaultMongoSerializer.cs" />
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\DefaultMongoSerializer.cs" />-->
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\NameValueCollectionSerializer.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\PBDictionarySerializer.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\PBKeyValuePairSerializer.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\UrlImageSerializer.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\ZIntSerializer.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\ZStringArraySerializer.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\ZStringSerializer.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\ZValueSerializer.cs" />
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\ZIntSerializer.cs" />-->
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\ZStringArraySerializer.cs" />-->
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\ZStringSerializer.cs" />-->
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\ZValueSerializer.cs" />-->
 
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\TraceData\ITraceData.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\TraceData\TraceData.cs" />
@@ -257,7 +259,7 @@
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\TraceData\TraceDataWriter.cs" />
 
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Xml\XmlDescendant.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Xml\XmlSelect.cs" />
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Data\Xml\XmlSelect.cs" />-->
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Xml\XXElement.cs" />
 
   <Source                           value = "$Root$\Lib\pb\Source\pb\IO\Backup.cs" />
@@ -291,12 +293,12 @@
   <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebDataManager.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebDataPageManager.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebHeaderDetailManager.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebImage.cs" />
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebImage.cs" />-->
   <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebImageCacheManager.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebImageMongoCacheManager.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebLoadDataManager.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebLoadManager.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Html\HtmlRun.cs" />
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Web\Html\HtmlRun.cs" />-->
   <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\Certificate.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\Cookies.cs" />
   <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\HttpArchive.cs" />-->

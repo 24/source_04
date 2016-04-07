@@ -65,7 +65,8 @@ namespace runsourced
                 form.SetRestartRunsource += FormSetRestartRunsource;
                 Application.Run(form);
                 //if (_projectFiles != null)
-                SetRunSourceUpdateAndRestartParameters();
+                SetRunSourceRestartParameters();
+                //SetRunSourceUpdateParameters();
 
                 //if (_updateProgram)
                 //{
@@ -93,11 +94,18 @@ namespace runsourced
             _runSourceRestartParameters = runSourceRestartParameters;
         }
 
-        static void SetRunSourceUpdateAndRestartParameters()
+        //static void SetRunSourceUpdateAndRestartParameters()
+        static void SetRunSourceRestartParameters()
         {
             if (_runSourceRestartParameters != null)
                 AppDomain.CurrentDomain.SetData("RunSourceRestartParameters", _runSourceRestartParameters.zXmlSerialize());
         }
+
+        //static void SetRunSourceUpdateParameters()
+        //{
+        //    AppDomain.CurrentDomain.SetData("RunSourceUpdateParameters", );
+        //}
+
         static RunSourceRestartParameters GetRunSourceRestartParameters()
         {
             RunSourceRestartParameters runSourceRestartParameters = null;

@@ -3,5 +3,5 @@ Trace.WriteLine("toto");
 "toto".zView();
 "toto".zView_v2();
 "toto".zView_v3();
-"toto".zViewType();
+"toto".zViewType().zSetResult();
 "$Root$".zGetRunSourceProjectVariableValue().zTrace();

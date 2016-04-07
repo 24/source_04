@@ -2,7 +2,13 @@
 <AssemblyProject>
   <Root                             value = "..\..\..\.." />
 
-  <!--<Using                            value = "pb.Data.Mongo" />-->
+  <DebugInformation                 value = "true" />
+  <CompilerOptions                  value = "/define:DEBUG;TRACE" />
+	<Output                           value = "bin32\HttpRun\HttpRun.dll" />
+  <CopySourceFiles                  value = "true" />
+  <CopyOutput                       value = "$Root$\..\library\pib\HttpRun\new" />
+
+  <Using                            value = "pb.Web" />
 
   <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\Convert.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\Progress.cs" />
@@ -25,6 +31,8 @@
   <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Html\HtmlToXml.cs" />
 
   <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\Http.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\HttpManager.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\HttpManagerXml.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\HttpRequest.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\HttpRun.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\HttpXml.cs" />

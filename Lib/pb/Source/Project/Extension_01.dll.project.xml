@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<AssemblyProject>
+  
+  <Root                             value = "..\..\..\.." />
+
+  <Using                            value = "pb" />
+  <Using                            value = "pb.Compiler" />
+  <Using                            value = "pb.Data.Mongo" />
+  <Using                            value = "pb.Data.Mongo.Serializers" />
+  <Using                            value = "pb.Reflection" />
+  <Using                            value = "pb.Web" />
+
+  <Assembly                         value = "$Root$\..\library\pib\Extension_01\Extension_01.dll" />
+
+  <Assembly                         value = "System.dll" />
+  <Assembly                         value = "System.Core.dll" />
+  <Assembly                         value = "System.Data.dll" />
+  <Assembly                         value = "System.Drawing.dll" />
+  <Assembly                         value = "System.Web.dll" />
+  <Assembly                         value = "System.Xml.dll" />
+  <Assembly                         value = "System.Xml.Linq.dll" />
+  <Assembly                         value = "runsource.dll" />
+  <Assembly                         value = "runsource.irunsource.dll" />
+  <Assembly                         value = "$Root$\..\library\Mongo\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Bson.dll" resolve = "true" resolveName = "MongoDB.Bson, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />
+  <Assembly                         value = "$Root$\..\library\Mongo\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Driver.dll" resolve = "true" resolveName = "MongoDB.Driver, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />
+</AssemblyProject>

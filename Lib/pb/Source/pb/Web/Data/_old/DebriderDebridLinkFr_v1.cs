@@ -3,11 +3,11 @@ using pb.Data.Mongo;
 
 namespace pb.Web
 {
-    public class DebriderDebridLinkFr : Debrider
+    public class DebriderDebridLinkFr_v1 : Debrider
     {
-        private DebridLinkFr _debridLinkFr = null;
+        private DebridLinkFr_v1 _debridLinkFr = null;
 
-        public DebridLinkFr DebridLinkFr { get { return _debridLinkFr; } set { _debridLinkFr = value; } }
+        public DebridLinkFr_v1 DebridLinkFr { get { return _debridLinkFr; } set { _debridLinkFr = value; } }
 
         public override string DebridLink(string link)
         {
@@ -31,7 +31,7 @@ namespace pb.Web
         public static int DefaultGetLinkRate(string link)
         {
             //return DownloadFileServerInfo.GetLinkRate(DownloadFileServerInfo.GetServerNameFromLink(link));
-            return DebridLinkFr.GetLinkRate(DownloadFileServerInfo.GetServerNameFromLink(link));
+            return DebridLinkFr_v1.GetLinkRate(DownloadFileServerInfo.GetServerNameFromLink(link));
         }
     }
 }

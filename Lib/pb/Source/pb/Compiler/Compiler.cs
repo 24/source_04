@@ -40,6 +40,10 @@ using pb.IO;
 *******************/
 // <CopyOutput value = "" />
 //   < File                                    value = "" />
+//
+// UpdateDirectory : (_updateDirectories)
+//   pas besoin de faire UpdateDirectory par exemple Extension_01.dll est copié dans runsource\exe\run donc on peut maj Extension_01.dll dans library\pib\Extension_01
+//   <UpdateDirectory                  source = "$Root$\..\library\pib\Extension_01\new" destination = "$Root$\..\library\pib\Extension_01" />
 
 namespace pb.Compiler
 {
@@ -53,7 +57,7 @@ namespace pb.Compiler
 
     public class Compiler : ICompiler
     {
-        public static int TraceLevel = 1;
+        public static int __traceLevel = 1;
 
         private CompilerFile _projectCompilerFile = null;
         private string _projectDirectory = null;
@@ -78,6 +82,7 @@ namespace pb.Compiler
         private ResourceCompilerResults _resourceResults = new ResourceCompilerResults();
         private CompilerResults _results = null;
         private List<string> _copyOutputDirectories = new List<string>();
+        //private List<CompilerUpdateDirectory> _updateDirectories = new List<CompilerUpdateDirectory>();
         private static string __zipSourceFilename = ".source.zip";
         private bool _copySourceFiles = false;
         private bool _copyRunSourceSourceFiles = false;
@@ -87,6 +92,7 @@ namespace pb.Compiler
         {
         }
 
+        public static int TraceLevel { get { return __traceLevel; } set { __traceLevel = value; } }
         //public string DefaultDirectory { get { return _defaultDirectory; } set { _defaultDirectory = value; } }
         public IEnumerable<CompilerFile> SourceList { get { return _sourceList.Values; } }
         public IEnumerable<CompilerFile> FileList { get { return _fileList.Values; } }
@@ -105,6 +111,7 @@ namespace pb.Compiler
         public ResourceCompilerResults ResourceResults { get { return _resourceResults; } }
         public CompilerResults Results { get { return _results; } }
         public IEnumerable<string> CopyOutputDirectories { get { return _copyOutputDirectories; } }
+        //public IEnumerable<CompilerUpdateDirectory> UpdateDirectories { get { return _updateDirectories; } }
         public static string ZipSourceFilename { get { return __zipSourceFilename; } }
         public bool CopyRunSourceSourceFiles { get { return _copyRunSourceSourceFiles; } }
 
@@ -125,7 +132,7 @@ namespace pb.Compiler
 
         // runCode : true when executing code from runsource, true for CompilerDefaultValues and ProjectDefaultValues, otherwise false
         // bool dontSetOutput = false
-        public void SetParameters(ICompilerProject project, bool runCode = false)
+        public void SetParameters(ICompilerProject project, bool runCode = false, bool includeProject = false)
         {
             if (project == null)
                 return;
@@ -166,7 +173,7 @@ namespace pb.Compiler
                 }
 
                 //compiler.OutputAssembly = xe.Get("Output", compiler.OutputAssembly);
-                if (!runCode)
+                if (!runCode && !includeProject)
                 {
                     s = project.GetOutput();
                     if (s != null)
@@ -185,7 +192,7 @@ namespace pb.Compiler
 
                 bool? b;
                 //compiler.GenerateExecutable = xe.Get("GenerateExecutable").zTryParseAs(compiler.GenerateExecutable);
-                if (!runCode)
+                if (!runCode && !includeProject)
                 {
                     b = project.GetGenerateExecutable();
                     if (b != null)
@@ -213,7 +220,7 @@ namespace pb.Compiler
                 //compiler.AddCompilerOptions(xe.GetValues("CompilerOptions"));
                 AddCompilerOptions(project.GetCompilerOptions());
 
-                if (!runCode)
+                if (!runCode && !includeProject)
                 {
                     b = project.GetCopySourceFiles();
                     if (b != null)
@@ -225,12 +232,15 @@ namespace pb.Compiler
                 }
 
                 //string keyfile = xe.Get("KeyFile");
+                if (!includeProject)
+                {
                 s = project.GetKeyFile();
                 if (s != null)
                     AddCompilerOption("/keyfile:\"" + s + "\"");
+                }
 
                 //string target = xe.Get("Target");
-                if (!runCode)
+                if (!runCode && !includeProject)
                 {
                     s = project.GetTarget();
                     if (s != null)
@@ -238,15 +248,18 @@ namespace pb.Compiler
                 }
 
                 //string icon = xe.Get("Icon");
+                if (!includeProject)
+                {
                 s = project.GetIcon();
                 if (s != null)
                     //AddCompilerOption("/win32icon:" + s);
                     AddCompilerOption("/win32icon:\"" + s + "\"");
+                }
             //}
 
             foreach (ICompilerProject project2 in project.GetIncludeProjects())
             {
-                SetParameters(project2, runCode: runCode);
+                SetParameters(project2, runCode: runCode, includeProject: true);
             }
 
             //compiler.AddSources(xe.GetElements("Source"));
@@ -263,10 +276,15 @@ namespace pb.Compiler
             //compiler.AddLocalAssemblies(xe.GetElements("LocalAssembly"));
 
             //compiler.AddCopyOutputDirectories(xe.GetValues("CopyOutput"));
-            if (!runCode)
+            if (!runCode && !includeProject)
             {
                 AddCopyOutputDirectories(project.GetCopyOutputs());
             }
+
+            //if (!runCode && !includeProject)
+            //{
+            //    AddUpdateDirectory(project.GetUpdateDirectory());
+            //}
         }
 
         public void SetOutputAssembly(string outputAssembly, ICompilerProject project = null)
@@ -395,6 +413,11 @@ namespace pb.Compiler
         {
             _copyOutputDirectories.AddRange(directories);
         }
+
+        //public void AddUpdateDirectory(IEnumerable<CompilerUpdateDirectory> updateDirectories)
+        //{
+        //    _updateDirectories.AddRange(updateDirectories);
+        //}
 
         public void Compile()
         {
@@ -741,6 +764,13 @@ namespace pb.Compiler
             CopyResultFilesToDirectory(null);
         }
 
+        //private void SaveUpdateDirectories()
+        //{
+        //    foreach (CompilerUpdateDirectory updateDirectory in _updateDirectories)
+        //    {
+        //    }
+        //}
+
         // ICompiler
         public void CopyResultFilesToDirectory(string directory)
         {
@@ -765,18 +795,21 @@ namespace pb.Compiler
             {
                 string file = _results.PathToAssembly;
                 if (zfile.CopyFileToDirectory(file, directory, options: CopyFileOptions.OverwriteReadOnly | CopyFileOptions.CopyOnlyIfNewer) != null)
-                    WriteLine(2, "  copy assembly \"{0}\" to \"{1}\"", file, directory);
+                    WriteLine(2, "    copy assembly \"{0}\" to \"{1}\"", file, directory);
 
                 file = zpath.PathSetExtension(file, ".pdb");
                 if (zfile.CopyFileToDirectory(file, directory, options: CopyFileOptions.OverwriteReadOnly | CopyFileOptions.CopyOnlyIfNewer) != null)
-                    WriteLine(2, "  copy assembly \"{0}\" to \"{1}\"", file, directory);
+                    WriteLine(2, "    copy assembly \"{0}\" to \"{1}\"", file, directory);
 
                 if (_zipSourceFile != null)
                     zfile.CopyFileToDirectory(_zipSourceFile, directory, options: CopyFileOptions.OverwriteReadOnly);
             }
 
             if (directory == null)
+            {
                 directory = zPath.GetDirectoryName(_results.PathToAssembly);
+                WriteLine(2, "  copy result files to directory \"{0}\"", directory);
+            }
 
             //string sOutputDir = zpath.PathGetDirectory(gResults.PathToAssembly);
             if (!_generateInMemory)
@@ -804,7 +837,7 @@ namespace pb.Compiler
                     //File.Copy(assembly, assembly2, true);
 
                     if (zfile.CopyFileToDirectory(file, directory, options: CopyFileOptions.OverwriteReadOnly | CopyFileOptions.CopyOnlyIfNewer) != null)
-                        WriteLine(2, "  copy assembly \"{0}\" to \"{1}\"", file, directory);
+                        WriteLine(2, "    copy assembly \"{0}\" to \"{1}\"", file, directory);
 
                     //copiedFiles.Add(assembly2);
                     //string pdb = zpath.PathSetExtension(assembly, ".pdb");
@@ -818,13 +851,13 @@ namespace pb.Compiler
 
                     file = zpath.PathSetExtension(file, ".pdb");
                     if (zfile.CopyFileToDirectory(file, directory, options: CopyFileOptions.OverwriteReadOnly | CopyFileOptions.CopyOnlyIfNewer) != null)
-                        WriteLine(2, "  copy assembly debug info \"{0}\" to \"{1}\"", file, directory);
+                        WriteLine(2, "    copy assembly debug info \"{0}\" to \"{1}\"", file, directory);
 
                     if (_copySourceFiles)
                     {
                         file = zpath.PathSetExtension(file, __zipSourceFilename);
                         if (zfile.CopyFileToDirectory(file, directory, options: CopyFileOptions.OverwriteReadOnly | CopyFileOptions.CopyOnlyIfNewer) != null)
-                            WriteLine(2, "  copy assembly source file \"{0}\" to \"{1}\"", file, directory);
+                            WriteLine(2, "    copy assembly source file \"{0}\" to \"{1}\"", file, directory);
                     }
 
                 }
@@ -836,10 +869,10 @@ namespace pb.Compiler
                 if (compilerFile.Attributes.ContainsKey("destinationFile"))
                 {
                     destinationFile = compilerFile.Attributes["destinationFile"];
-                    WriteLine(2, "  copy file \"{0}\" to \"{1}\" as \"{2}\"", compilerFile.File, directory, destinationFile);
+                    WriteLine(2, "    copy file \"{0}\" to \"{1}\" as \"{2}\"", compilerFile.File, directory, destinationFile);
                 }
                 else
-                    WriteLine(2, "  copy file \"{0}\" to \"{1}\"", compilerFile.File, directory);
+                    WriteLine(2, "    copy file \"{0}\" to \"{1}\"", compilerFile.File, directory);
                 //string path = zfile.CopyFileToDirectory(file.File, directory, destinationFile, true);
                 string path = zfile.CopyFileToDirectory(compilerFile.File, directory, destinationFile, CopyFileOptions.OverwriteReadOnly | CopyFileOptions.CopyOnlyIfNewer);
                 //if (path != null)
@@ -849,7 +882,7 @@ namespace pb.Compiler
             if (_appConfig != null)
             {
                 string appFile = zPath.GetFileName(_results.PathToAssembly) + ".config";
-                WriteLine(2, "  copy file \"{0}\" to \"{1}\" as \"{2}\"", _appConfig.File, directory, appFile);
+                WriteLine(2, "    copy file \"{0}\" to \"{1}\" as \"{2}\"", _appConfig.File, directory, appFile);
                 //string path = zfile.CopyFileToDirectory(_appConfig.File, directory, appFile, true);
                 string path = zfile.CopyFileToDirectory(_appConfig.File, directory, appFile, CopyFileOptions.OverwriteReadOnly | CopyFileOptions.CopyOnlyIfNewer);
                 //if (path != null)
@@ -964,7 +997,7 @@ namespace pb.Compiler
         private void WriteLine(int traceLevel, string msg, params object[] prm)
         {
             //if (Trace == null || traceLevel > TraceLevel)
-            if (traceLevel > TraceLevel)
+            if (traceLevel > __traceLevel)
                 return;
             pb.Trace.WriteLine(msg, prm);
         }

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<AssemblyProject>
+  
+  <Root                             value = "..\..\..\..\.." />
+  
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\Basic.project.xml" />
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\Extension_01.project.xml" />
+
+  <NameSpace                        value = "pb.Test" />
+
+  <InitMethod                       value = "pb.Compiler.RunSourceHtmlRun.Init" />
+  <EndMethod                        value = "pb.Compiler.RunSourceHtmlRun.End" />
+
+  <Using                            value = "pb" />
+  
+  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\AssemblyExtension.cs" />
+
+</AssemblyProject>

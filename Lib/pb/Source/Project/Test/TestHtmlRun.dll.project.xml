@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<AssemblyProject>
+  
+  <Root                             value = "..\..\..\..\.." />
+  
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\HtmlRun.dll.project.xml" />
+
+  <NameSpace                        value = "pb.Test" />
+
+  <InitMethod                       value = "pb.Compiler.RunSourceHtmlRun.Init, HtmlRun, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" />
+  <EndMethod                        value = "pb.Compiler.RunSourceHtmlRun.End, HtmlRun, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" />
+
+  <Using                            value = "pb" />
+
+</AssemblyProject>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<AssemblyProject>
+  
+  <Root                             value = "..\..\..\..\..\..\.." />
+
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\Extension_01.dll.project.xml" />
+
+  <NameSpace                        value = "pb.Test" />
+
+  <InitMethod                       value = "pb.Compiler.RunSourceHtmlRun.Init, Extension_01, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" />
+  <EndMethod                        value = "pb.Compiler.RunSourceHtmlRun.End, Extension_01, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" />
+
+  <Using                            value = "System.Text" />
+  <Using                            value = "pb" />
+  <Using                            value = "pb.Web.Test" />
+
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\Test\Test_DebridLinkFr.cs" />
+
+  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\Date2.cs" />
+
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\NamedValues.cs" />
+
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\TraceData\ITraceData.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\TraceData\TraceData.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\TraceData\TraceDataRegistry.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\TraceData\TraceDataWriter.cs" />
+
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Xml\XmlDescendant.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Xml\XXElement.cs" />
+
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Text\Crypt.cs" />
+  
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\Debrider.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\DebridLinkFr.cs" />
+
+</AssemblyProject>

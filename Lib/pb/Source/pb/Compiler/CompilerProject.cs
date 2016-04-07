@@ -234,8 +234,18 @@ namespace pb.Compiler
 
         public IEnumerable<string> GetCopyOutputs()
         {
-            return _projectXmlElement.GetValues("CopyOutput");
+            // modif le 26/03/2016
+            //return _projectXmlElement.GetValues("CopyOutput");
+            return _projectXmlElement.GetValues("CopyOutput").Select(dir => GetPathFile(dir));
         }
+
+        //public IEnumerable<CompilerUpdateDirectory> GetUpdateDirectory()
+        //{
+        //    foreach (XElement element in _projectXmlElement.GetElements("UpdateDirectory"))
+        //    {
+        //        yield return new CompilerUpdateDirectory { SourceDirectory = GetPathFile(element.zAttribValue("source")), DestinationDirectory = GetPathFile(element.zAttribValue("destination")) };
+        //    }
+        //}
 
         private string GetFile(string xpath)
         {

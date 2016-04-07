@@ -14,8 +14,7 @@
   <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\MongoExtension.project.xml" />
   <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\MongoSerialization.project.xml" />
   <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\HtmlRun.project.xml" />-->
-  <!--<IncludeProject                   value = "$Root$\Lib\pb\Source\Project\Extension_01.dll.project.xml" />-->
-  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\Extension_01.project.xml" />
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\Extension_01.dll.project.xml" />
 
 
   <NameSpace                        value = "Download.Print" />    <!-- Print.download -->

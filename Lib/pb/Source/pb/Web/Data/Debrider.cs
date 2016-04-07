@@ -3,12 +3,12 @@ using System.Linq;
 
 namespace pb.Web
 {
-    public abstract class DebridLinkInfo
-    {
-        public string Link;
-        public string DebridedLink;
-        public abstract string GetErrorMessage();
-    }
+    //public abstract class DebridLinkInfo
+    //{
+    //    public string Link;
+    //    public string DebridedLink;
+    //    public abstract string GetErrorMessage();
+    //}
 
     public abstract class Debrider
     {

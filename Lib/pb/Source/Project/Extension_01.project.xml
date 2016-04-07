@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<AssemblyProject>
+  
+  <Root                             value = "..\..\..\.." />
+
+  <DebugInformation                 value = "true" />
+  <CompilerOptions                  value = "/define:DEBUG;TRACE" />
+  <Output                           value = "bin32\Extension_01\Extension_01.dll" />
+  <CopySourceFiles                  value = "true" />
+  <CopyOutput                       value = "$Root$\..\library\pib\Extension_01" />
+
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\RunSourceExtension.project.xml" />
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\MongoExtension.project.xml" />
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\MongoSerialization.project.xml" />
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\HtmlRun.project.xml" />
+
+</AssemblyProject>

@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<AssemblyProject>
+  <Root                             value = "..\..\..\.." />
+
+  <Using                            value = "pb.Web" />
+
+  <Assembly                         value = "$Root$\..\library\pib\HtmlRun\HtmlRun.dll" />
+
+  <Assembly                         value = "System.dll" />
+  <!--<Assembly                         value = "System.Core.dll" />-->
+  <Assembly                         value = "System.Data.dll" />
+  <!--<Assembly                         value = "System.Drawing.dll" />-->
+  <!--<Assembly                         value = "System.Web.dll" />-->
+  <Assembly                         value = "System.Xml.dll" />
+  <!--<Assembly                         value = "System.Xml.Linq.dll" />-->
+  <Assembly                         value = "runsource.dll" />
+  <Assembly                         value = "runsource.irunsource.dll" />
+</AssemblyProject>

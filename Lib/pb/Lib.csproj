@@ -86,6 +86,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="Source\Project\Test\TestExtension_01.dll.run.cs" />
+    <None Include="Source\Project\Test\TestExtension_01.run.cs" />
+    <None Include="Source\Project\Test\TestHtmlRun.dll.run.cs" />
+    <None Include="Source\Project\Test\TestHtmlRun.run.cs" />
+    <None Include="Source\Project\Test\TestHttpRun.dll.run.cs" />
     <None Include="Source\Project\Test\TestHttpRun.run.cs" />
     <None Include="Source\Project\Test\TestMongoSerialization.run.cs" />
     <None Include="Source\Project\Test\TestMongoExtension.run.cs" />
@@ -101,6 +106,8 @@
     <None Include="Source\Other\Xml2Data.cs" />
     <Compile Include="Source\pb\Compiler\CompilerProject.cs" />
     <Compile Include="Source\pb\Compiler\Compiler_v1.cs" />
+    <Compile Include="Source\pb\Compiler\RunSourceHtmlRun.cs" />
+    <Compile Include="Source\pb\Compiler\RunSourceUpdate.cs" />
     <Compile Include="Source\pb\Compiler\_old\GenerateAndExecute.cs" />
     <Compile Include="Source\pb\Compiler\CSharpCodeWriter.cs" />
     <Compile Include="Source\pb\Compiler\GenerateAssembly.cs" />
@@ -215,9 +222,12 @@
     <Compile Include="Source\pb\Web\Data\Debrider.cs" />
     <Compile Include="Source\pb\Web\Data\DebriderAlldebrid.cs" />
     <Compile Include="Source\pb\Web\Data\DebriderDebridLinkFr.cs" />
+    <Compile Include="Source\pb\Web\Data\_old\DebriderDebridLinkFr_v1.cs" />
+    <Compile Include="Source\pb\Web\Data\_old\DebridLinkFr_v1.cs" />
     <Compile Include="Source\pb\Web\Data\DebridLinkFr.cs" />
     <Compile Include="Source\pb\Web\Data\DownloadFileServerInfo.cs" />
     <Compile Include="Source\pb\Web\Data\ProtectLink.cs" />
+    <Compile Include="Source\pb\Web\Data\Test\Test_DebridLinkFr.cs" />
     <Compile Include="Source\pb\Web\Data\_old\WebDataManager_v1.cs" />
     <Compile Include="Source\pb\Web\Data\WebDataManager.cs" />
     <Compile Include="Source\pb\Web\Data\_old\WebDataPageManager_v1.cs" />
@@ -267,6 +277,8 @@
     <Compile Include="Source\pb\Web\Http\Cookies.cs" />
     <Compile Include="Source\pb\Web\Http\Http.cs" />
     <Compile Include="Source\pb\Web\Http\HttpArchive.cs" />
+    <Compile Include="Source\pb\Web\Http\HttpManager.cs" />
+    <Compile Include="Source\pb\Web\Http\HttpManagerXml.cs" />
     <Compile Include="Source\pb\Web\Http\HttpRequest.cs" />
     <Compile Include="Source\pb\Web\Http\HttpRun.cs" />
     <Compile Include="Source\pb\Web\Http\HttpXml.cs" />
@@ -283,6 +295,7 @@
     <Compile Include="Source\pb\Web\WebDriver\WebDriverRun.cs" />
     <Compile Include="Source\pb\Windows\Forms\Menu.cs" />
     <Compile Include="Source\pb\Windows\Forms\ProgressControl.cs" />
+    <Compile Include="Source\pb\_pb\AssemblyExtension.cs" />
     <Compile Include="Source\pb\_pb\AsyncManager.cs" />
     <Compile Include="Source\pb\_pb\Convert.cs" />
     <Compile Include="Source\pb\_pb\GlobalExtension.cs" />
@@ -411,6 +424,9 @@
     <Content Include="Source\pb\Text\Test\Test_Text.project.xml">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Source\pb\Web\Data\Test\Test_DebridLinkFr.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Source\pb\Web\Html\TestUnit\TestUnit.HtmlToXml.project.xml">
       <SubType>Designer</SubType>
     </Content>
@@ -418,11 +434,32 @@
     <Content Include="Source\Project\Basic.project.xml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Source\Project\HttpRun.project.xml" />
+    <Content Include="Source\Project\Extension_01.dll.project.xml" />
+    <Content Include="Source\Project\HtmlRun.dll.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Source\Project\HttpRun.dll.project.xml" />
+    <Content Include="Source\Project\HtmlRun.project.xml" />
+    <Content Include="Source\Project\HttpRun.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Source\Project\MongoSerialization.project.xml" />
     <Content Include="Source\Project\MongoExtension.project.xml" />
     <Content Include="Source\Project\pb.Web.WebDriver.dll.project.xml" />
+    <Content Include="Source\Project\Extension_01.project.xml" />
     <Content Include="Source\Project\RunSourceExtension.project.xml" />
+    <Content Include="Source\Project\Test\TestExtension_01.dll.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Source\Project\Test\TestHtmlRun.dll.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Source\Project\Test\TestHttpRun.dll.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Source\Project\Test\TestHtmlRun.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Source\Project\Test\TestHttpRun.project.xml">
       <SubType>Designer</SubType>
     </Content>
@@ -430,6 +467,9 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Source\Project\Test\TestMongoExtension.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Source\Project\Test\TestExtension_01.project.xml">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Source\Project\Test\TestRunSourceExtension.project.xml">

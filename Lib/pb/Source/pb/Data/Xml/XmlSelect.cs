@@ -173,8 +173,8 @@ namespace pb.Data.Xml
         {
         }
 
-        public object this[int i] { get { return GetValue(i); } }
-        public object this[string name] { get { return GetValue(name); } }
+        //public object this[int i] { get { return GetValue(i); } }
+        //public object this[string name] { get { return GetValue(name); } }
         public XNode SourceNode { get { return gSourceNode; } set { gSourceNode = value; } }
         public XmlSelectParameters SelectPrm { get { return gSelectPrm; } set { gSelectPrm = value; } }
 
@@ -438,18 +438,21 @@ namespace pb.Data.Xml
             return false;
         }
 
-        public object GetValue(int i)
-        {
-            string s = gsValues[i];
-            //object v = zconvert.TryParse(gXPathValues[i].TypeValue, s);
-            //if (v != null)
-            //    return v;
-            return s;
-        }
+        //public object GetValue(int i)
+        //public string GetValue(int i)
+        //{
+        //    string s = gsValues[i];
+        //    //object v = zconvert.TryParse(gXPathValues[i].TypeValue, s);
+        //    //if (v != null)
+        //    //    return v;
+        //    return s;
+        //}
 
-        public object GetValue(string name)
+        //public object GetValue(string name)
+        public string GetValue(string name)
         {
-            return GetValue(gValueNames[name]);
+            //return GetValue(gValueNames[name]);
+            return gsValues[gValueNames[name]];
         }
 
         private static string[] XPath_GetValues(XObject node, XPath xp)
@@ -985,9 +988,26 @@ namespace pb.Data.Xml
         //}
     }
 
+    public class XmlSelectValue
+    {
+        public string Path;
+        public string[] Values;
+    }
+
     public static partial class GlobalExtension
     {
-        public static DataTable zToDataTable(this XmlSelect select)
+        public static IEnumerable<XmlSelectValue> zGetValues(this XmlSelect select)
+        {
+            int nb = select.SourceXPathValues.Length;
+            while (select.Get())
+            {
+                string[] values = new string[nb];
+                select.Values.CopyTo(values, 0);
+                yield return new XmlSelectValue { Path = select.PathCurrentNode, Values = values };
+            }
+        }
+
+        public static DataTable zToDataTable_v1(this XmlSelect select)
         {
             DataTable dtResult = CreateSelectDatatable(select);
 
@@ -996,9 +1016,27 @@ namespace pb.Data.Xml
                 DataRow row = dtResult.NewRow();
                 //row[0] = select.TranslatedPathCurrentNode;
                 row[0] = select.PathCurrentNode;
-                row[1] = select.Values[0];
-                for (int i = 1; i < select.SourceXPathValues.Length; i++)
-                    row[i + 1] = select.GetValue(i);
+                //row[1] = select.Values[0];
+                //for (int i = 1; i < select.SourceXPathValues.Length; i++)
+                //    row[i + 1] = select.GetValue(i);
+                int i = 1;
+                foreach (string value in select.Values)
+                    row[i++] = value;
+                dtResult.Rows.Add(row);
+            }
+            return dtResult;
+        }
+
+        public static DataTable zToDataTable(this XmlSelect select)
+        {
+            DataTable dtResult = CreateSelectDatatable(select);
+            foreach (XmlSelectValue value in select.zGetValues())
+            {
+                DataRow row = dtResult.NewRow();
+                row[0] = value.Path;
+                int i = 1;
+                foreach (string value2 in value.Values)
+                    row[i++] = value2;
                 dtResult.Rows.Add(row);
             }
             return dtResult;

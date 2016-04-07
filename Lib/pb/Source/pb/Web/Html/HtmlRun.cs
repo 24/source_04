@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data;
+using System.Linq;
 using System.Xml.Linq;
 using pb.Data.Xml;
 
@@ -19,6 +20,16 @@ namespace pb.Web
 
         // html
         //private static string __html = null;
+        public static void Test()
+        {
+            Trace.WriteLine("HtmlRun.Test()");
+        }
+
+        public static void Test2()
+        {
+            Trace.WriteLine("HtmlRun.Test2()");
+            System.AppDomain.CurrentDomain.GetAssemblies().Select(assembly => new { assembly.FullName, assembly.GetName().Name, assembly.Location  });
+        }
 
         public static Action<DataTable> SetResult = null;
 
@@ -31,6 +42,7 @@ namespace pb.Web
         {
             if (node == null)
             {
+                Trace.WriteLine("warning no xml");
                 _SetResult(null);
                 return null;
             }
@@ -46,7 +58,10 @@ namespace pb.Web
 
             //XmlSelect select = pb.old.Xml.Select(node, new XmlSelectParameters(t, _url, _traceFunction), xpath, values);
             if (xpath == null)
+            {
+                Trace.WriteLine("warning no xpath");
                 return null;
+            }
 
             XmlSelect xmlSelect = new XmlSelect();
             xmlSelect.SourceNode = node;
@@ -56,6 +71,7 @@ namespace pb.Web
 
             //DataTable dt = pb.old.Xml.ReadSelect(select);
             DataTable dt = xmlSelect.zToDataTable();
+            Trace.WriteLine("found {0} elements", dt.Rows.Count);
 
             _SetResult(dt);
             return dt;

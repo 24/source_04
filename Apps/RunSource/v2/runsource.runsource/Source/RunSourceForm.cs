@@ -205,11 +205,13 @@ namespace runsourced
 
         private void initRunSource()
         {
+            _trace.SetViewer(TraceWrited);
             _runSource.SetRunSourceConfig(_config.ConfigFile);
+            _runSource.StartAssemblyResolve();
             _runSource.DeleteGeneratedAssemblies();
             //_trace.Writed += new WritedEvent(TraceWrited);
             //_trace.AddOnWrite("RunSourceForm", TraceWrited);
-            _trace.SetViewer(TraceWrited);
+            //_trace.SetViewer(TraceWrited);
             _runSource.DisableMessageChanged += new DisableMessageChangedEvent(EventDisableMessageChanged);
             _runSource.GridResultSetDataTable += new SetDataTableEvent(EventGridResultSetDataTable);
             _runSource.GridResultSetDataSet += new SetDataSetEvent(EventGridResultSetDataSet);
@@ -541,6 +543,7 @@ namespace runsourced
             }
             catch (Exception ex)
             {
+                _trace.WriteError(ex);
                 zerrf.ErrorMessageBox(ex);
             }
         }
@@ -969,35 +972,45 @@ namespace runsourced
                 }
                 catch (Exception ex)
                 {
+                    _trace.WriteError(ex);
                     zerrf.ErrorMessageBox(ex);
                 }
                 Control activeControl = ActiveControl;
 
-                if (_newDataTableResult)
-                    ViewDataTableResult();
-                if (_newTreeViewResult)
-                    ViewTreeViewResult();
-
-                bool error = endRunCodeInfo.Error;
-
-                // on sélectionne l'onglet sauf si :
-                //   - DontSelectResultTab = true, gbErrorResult = false et bError = false
-                //if (!_runSource.DontSelectResultTab || _errorResult || error)
-                if (!_runSource.DontSelectResultTab || error)
+                try
                 {
-                    if (_selectTreeViewResult && !error)
-                        tc_result.SelectedTab = tab_result4;
-                    else if (_newDataTableResult && !error)
+
+                    if (_newDataTableResult)
+                        ViewDataTableResult();
+                    if (_newTreeViewResult)
+                        ViewTreeViewResult();
+
+                    bool error = endRunCodeInfo.Error;
+
+                    // on sélectionne l'onglet sauf si :
+                    //   - DontSelectResultTab = true, gbErrorResult = false et bError = false
+                    //if (!_runSource.DontSelectResultTab || _errorResult || error)
+                    if (!_runSource.DontSelectResultTab || error)
                     {
-                        if (_xmlResultFormat != null || _dataSetResult != null)
-                            tc_result.SelectedTab = tab_result;
+                        if (_selectTreeViewResult && !error)
+                            tc_result.SelectedTab = tab_result4;
+                        else if (_newDataTableResult && !error)
+                        {
+                            if (_xmlResultFormat != null || _dataSetResult != null)
+                                tc_result.SelectedTab = tab_result;
+                            else
+                                tc_result.SelectedTab = tab_result2;
+                        }
+                        else if (_newTreeViewResult && !error)
+                            tc_result.SelectedTab = tab_result4;
                         else
-                            tc_result.SelectedTab = tab_result2;
+                            tc_result.SelectedTab = tab_message;
                     }
-                    else if (_newTreeViewResult && !error)
-                        tc_result.SelectedTab = tab_result4;
-                    else
-                        tc_result.SelectedTab = tab_message;
+                }
+                catch(Exception ex)
+                {
+                    _trace.WriteError(ex);
+                    //zerrf.ErrorMessageBox(ex);
                 }
 
                 ActiveControl = activeControl;
@@ -1201,36 +1214,43 @@ namespace runsourced
         {
             if (_dataTableResult != null)
             {
-                ResizeDataTableImages(_dataTableResult);
-                cGrid.GridSetDataSource(grid_result, _dataTableResult, _xmlResultFormat);
+                Try(() => ResizeDataTableImages(_dataTableResult));
+                Try(() => cGrid.GridSetDataSource(grid_result, _dataTableResult, _xmlResultFormat));
 
-                _gridResult2.SuspendLayout();
-                _gridResult2.DataSource = null;
-                if (_gridResult2.DataSource != _dataTableResult.DefaultView)
+                Try(() =>
                 {
-                    _gridResult2.DataSource = _dataTableResult.DefaultView;
-                    _gridResult2.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
-                    _gridResult2.AutoResizeRows(DataGridViewAutoSizeRowsMode.AllCells);
-                    SetGridMaxColumnsWidthAndRowsHeight();
-                    _gridResult2.AllowUserToOrderColumns = true;
-                    _gridResult2.ReadOnly = false;
-                }
-                _gridResult2.ResumeLayout();
-                grid_result3.DataSource = _dataTableResult.DefaultView;
+                    _gridResult2.SuspendLayout();
+                    _gridResult2.DataSource = null;
+                    if (_gridResult2.DataSource != _dataTableResult.DefaultView)
+                    {
+                        _gridResult2.DataSource = _dataTableResult.DefaultView;
+                        _gridResult2.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
+                        _gridResult2.AutoResizeRows(DataGridViewAutoSizeRowsMode.AllCells);
+                        SetGridMaxColumnsWidthAndRowsHeight();
+                        _gridResult2.AllowUserToOrderColumns = true;
+                        _gridResult2.ReadOnly = false;
+                    }
+                    _gridResult2.ResumeLayout();
+                });
+
+                Try(() => grid_result3.DataSource = _dataTableResult.DefaultView);
             }
             else if (_dataSetResult != null)
             {
-                cGrid.GridSetDataSource(grid_result, _dataSetResult.Tables[0], _xmlResultFormat);
+                Try(() => cGrid.GridSetDataSource(grid_result, _dataSetResult.Tables[0], _xmlResultFormat));
 
-                _gridResult2.SuspendLayout();
-                _gridResult2.DataSource = _dataSetResult.Tables[0];
-                _gridResult2.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
-                _gridResult2.AutoResizeRows(DataGridViewAutoSizeRowsMode.AllCells);
-                _gridResult2.AllowUserToOrderColumns = true;
-                _gridResult2.ReadOnly = false;
-                _gridResult2.ResumeLayout();
+                Try(() =>
+                {
+                    _gridResult2.SuspendLayout();
+                    _gridResult2.DataSource = _dataSetResult.Tables[0];
+                    _gridResult2.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
+                    _gridResult2.AutoResizeRows(DataGridViewAutoSizeRowsMode.AllCells);
+                    _gridResult2.AllowUserToOrderColumns = true;
+                    _gridResult2.ReadOnly = false;
+                    _gridResult2.ResumeLayout();
+                });
 
-                grid_result3.DataSource = _dataSetResult;
+                Try(() => grid_result3.DataSource = _dataSetResult);
             }
             else
             {
@@ -1392,6 +1412,18 @@ namespace runsourced
             finally
             {
                 this.Cursor = Cursors.Default;
+            }
+        }
+
+        private void Try(Action action)
+        {
+            try
+            {
+                action();
+            }
+            catch (Exception ex)
+            {
+                _trace.WriteError(ex);
             }
         }
 

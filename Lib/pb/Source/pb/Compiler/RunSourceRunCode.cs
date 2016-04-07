@@ -1,11 +1,12 @@
 ﻿using System;
-using System.Data;
 using System.Reflection;
-using System.Threading;
 using pb.Data.Xml;
 using pb.IO;
 
 // todo
+//   - gérer une liste de méthodes pour Init et End (26/03/2016).
+//     cela permet de déclarer InitMethod, EndMethod dans un IncludeProject
+//     voir RunCode_ExecuteCode()
 //   ok gérer gExecutionThread
 //   ok DeleteGeneratedAssemblies_v2()
 //   ok gérer Chrono

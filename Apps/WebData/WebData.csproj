@@ -191,6 +191,9 @@
     <Compile Include="..\..\Lib\pb\Source\pb\Web\Http\Certificate.cs">
       <Link>SourceLnk\Lib\pb\Web\Http\Certificate.cs</Link>
     </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Http\HttpManager.cs">
+      <Link>SourceLnk\Lib\pb\Web\Http\HttpManager.cs</Link>
+    </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\_pb\Tree.cs">
       <Link>SourceLnk\Lib\pb\_pb\Tree.cs</Link>
     </Compile>
@@ -653,7 +656,7 @@
     <None Include="Source\Print\Print\Print\_old\le_monde\le_monde_f.cs" />
     <Compile Include="Source\Print\Print\Print\_old\le_monde\le_monde_f2.cs" />
     <Compile Include="Source\Print\Print\zprint.cs" />
-    <None Include="Source\Print\Project\download.cs" />
+    <None Include="Source\Print\Project\download.test.run.cs" />
     <None Include="Source\Print\Project\download2.cs" />
     <Compile Include="Source\Print\Project\_old\download_f.cs" />
     <None Include="Source\Print\Project\_old\compile.cs" />
@@ -748,6 +751,9 @@
     <Content Include="Source\Print\Print\Print\_old\le_monde\le_monde_project.xml" />
     <Content Include="Source\Print\Project\download.config.xml" />
     <Content Include="Source\Print\Project\download.dll.project.xml" />
+    <Content Include="Source\Print\Project\download.test.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Source\Print\Project\download.project.xml">
       <SubType>Designer</SubType>
     </Content>

@@ -128,12 +128,12 @@ TraceMongoCommand.Export("dl", "DownloadAutomate3", Path.Combine(AppData.DataDir
 pb.Data.Mongo.TraceMongoCommand.Export("dl", "DownloadedFile", Path.Combine(AppData.DataDirectory, @"mongo\export\Download\export_DownloadedFile.txt"));
 pb.Data.Mongo.TraceMongoCommand.Count("dl", "DownloadedFile");
 // queue
-pb.Data.Mongo.TraceMongoCommand.Export("dl", "QueueDownloadFile_new", Path.Combine(AppData.DataDirectory, @"mongo\export\Download\export_QueueDownloadFile_new.txt"), sort: "{ _id: 1 }");
-pb.Data.Mongo.TraceMongoCommand.Export("dl", "CurrentDownloadFile", Path.Combine(AppData.DataDirectory, @"mongo\export\Download\export_CurrentDownloadFile.txt"), sort: "{ _id: 1 }");
-pb.Data.Mongo.TraceMongoCommand.Count("dl", "QueueDownloadFile_new");
-pb.Data.Mongo.TraceMongoCommand.Count("dl", "CurrentDownloadFile");
-//pb.Data.Mongo.TraceMongoCommand.Eval("db.QueueDownloadFile_new.drop()", "dl");
-//pb.Data.Mongo.TraceMongoCommand.Eval("db.CurrentDownloadFile.drop()", "dl");
+TraceMongoCommand.Export("dl", "QueueDownloadFile_new", Path.Combine(AppData.DataDirectory, @"mongo\export\Download\export_QueueDownloadFile_new.txt"), sort: "{ _id: 1 }");
+TraceMongoCommand.Export("dl", "CurrentDownloadFile", Path.Combine(AppData.DataDirectory, @"mongo\export\Download\export_CurrentDownloadFile.txt"), sort: "{ _id: 1 }");
+TraceMongoCommand.Count("dl", "QueueDownloadFile_new");
+TraceMongoCommand.Count("dl", "CurrentDownloadFile");
+//TraceMongoCommand.Eval("db.QueueDownloadFile_new.drop()", "dl");
+//TraceMongoCommand.Eval("db.CurrentDownloadFile.drop()", "dl");
 
 // old DownloadedFile : DownloadFile3
 pb.Data.Mongo.TraceMongoCommand.Export("dl", "DownloadFile3", Path.Combine(AppData.DataDirectory, @"mongo\export\Download\export_DownloadFile3.txt"), sort: "{ _id: 1 }");
@@ -170,6 +170,7 @@ TraceMongoCommand.Export("dl", "ExtremeDown_Detail", Path.Combine(AppData.DataDi
 //****                                   $$info.site Ebookdz ebookdz.com
 //*************************************************************************************************************************
 
+Download.Print.Ebookdz.Ebookdz.Current.HeaderWebDataPageManager.LoadPages(startPage: 1, maxPage: 1, reload: true, loadImage: false, refreshDocumentStore: false).zView_v3();
 Download.Print.Ebookdz.Ebookdz.Current.HeaderWebDataPageManager.LoadPages(startPage: 1, maxPage: 1, reload: false, loadImage: false, refreshDocumentStore: false).zView_v3();
 Download.Print.Ebookdz.Ebookdz.Current.HeaderWebDataPageManager.LoadPages(startPage: 1, maxPage: 1, reload: false, loadImage: false, refreshDocumentStore: true).zView_v3();
 Download.Print.Ebookdz.Ebookdz.Current.WebHeaderDetailManager.LoadDetails(startPage: 1, maxPage: 1, reloadHeaderPage: false, reloadDetail: false, loadImage: false, refreshDocumentStore: false).zView_v3();
@@ -5065,4 +5066,8 @@ values.Add("x-dl-token", "toto");
 values.Add("x-dl-token", "tata");
 //values["x-dl-token"] = "toto";
 values["x-dl-token"].zTrace();
+
+HttpManager.CurrentHttpManager.ExportResult = true;
+Trace.WriteLine("ExportResult {0} ExportDirectory \"{1}\"", HttpManager.CurrentHttpManager.ExportResult, HttpManager.CurrentHttpManager.ExportDirectory);
+HttpRun.Load("http://www.ebookdz.com/");
 

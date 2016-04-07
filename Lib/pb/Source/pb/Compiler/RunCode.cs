@@ -89,9 +89,10 @@ namespace pb.Compiler
             //if (endMethod != null)
             //    Trace.WriteLine("found init method \"{0}\"", _endMethodName);
 
-            AssemblyResolve.Stop();
+            // AssemblyResolve.Start(); is in RunSource constructor
+            //AssemblyResolve.Stop();
             AssemblyResolve.Clear();
-            AssemblyResolve.Start();
+            //AssemblyResolve.Start();
 
             if (useNewThread)
             {
@@ -138,13 +139,17 @@ namespace pb.Compiler
                     assembly = zReflection.GetAssembly(runMethodElements.AssemblyName, ErrorOptions.None);
                     if (assembly == null && _compilerAssemblies != null)
                     {
-                        string assemblyName = zReflection.GetAssemblyName(runMethodElements.AssemblyName);
+                        // Compiler.AddAssembly() generate _compilerAssemblies with lower case key (ToLowerInvariant)
+                        //string assemblyName = zReflection.GetAssemblyName(runMethodElements.AssemblyName);
+                        string assemblyName = zReflection.GetAssemblyName(runMethodElements.AssemblyName).ToLowerInvariant();
                         if (_compilerAssemblies.ContainsKey(assemblyName))
                         {
                             string file = _compilerAssemblies[assemblyName].File;
                             Trace.WriteLine("load assembly from \"{0}\"", file);
                             assembly = Assembly.LoadFrom(file);
                         }
+                        else
+                            Trace.WriteLine("unknow assembly \"{0}\"", assemblyName);
                     }
                     //if (runMethodElements.AssemblyName == "ebook.download, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null")
                     //{

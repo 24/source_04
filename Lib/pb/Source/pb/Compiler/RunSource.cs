@@ -98,6 +98,7 @@ namespace pb.Compiler
                 gdtResult.Dispose();
                 gdtResult = null;
             }
+            AssemblyResolve.Stop();
             //_trace.Writed -= new WritedEvent(EventWrited);
         }
 
@@ -181,7 +182,13 @@ namespace pb.Compiler
             //}
         }
 
-        public void SetResult(DataTable table, string xmlFormat = null)
+        public void SetResult(DataTable table)
+        {
+            SetResult(table, null);
+        }
+
+        //public void SetResult(DataTable table, string xmlFormat = null)
+        public void SetResult(DataTable table, string xmlFormat)
         {
             gdtResult = table;
             gsXmlResultFormat = xmlFormat;
@@ -310,6 +317,17 @@ namespace pb.Compiler
             }
             _refreshRunSourceConfig = false;
             return _runSourceConfig;
+        }
+
+        public void StartAssemblyResolve()
+        {
+            XmlConfig config = GetRunSourceConfig();
+            if (config != null)
+            {
+                AssemblyResolve.TraceAssemblyResolve = config.Get("TraceAssemblyResolve").zTryParseAs(false);
+                AssemblyResolve.TraceAssemblyLoad = config.Get("TraceAssemblyLoad").zTryParseAs(false);
+            }
+            AssemblyResolve.Start();
         }
 
         // $$ProjectDefaultValues disable
@@ -475,6 +493,7 @@ namespace pb.Compiler
                         }
                     }
                 }
+
             }
             Trace.WriteLine("  compiled{0} : {1}", s, compiler.OutputAssembly);
             return compiler;

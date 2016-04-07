@@ -8,10 +8,13 @@
   <RunsourceDllFilename                        value = "runsource.dll" />
   <RunsourceClassName                          value = "pb.Compiler.RunSource" />
   <TraceClassName                              value = "pb.TTrace" />
-<!--<RunSourceDomainName                           value = "RunSource" />-->  <!-- default: "RunSource" -->
-<!--<CreateRunSourceDomain                         value = "true" />-->      <!-- default = false, true, attention si CreateRunSourceDomain = true runsource.launch.exe ne peut pas mettre à jour runsource.runsourced32.exe -->
+  <!--<TraceAssemblyLoad                           value = "true" /> --><!-- default = "false" -->
+  <!--<TraceAssemblyResolve                        value = "true" /> --><!-- default = "false" -->
+  <!--<RunSourceDomainName                           value = "RunSource" />-->  <!-- default: "RunSource" -->
+  <!--<CreateRunSourceDomain                         value = "true" />-->      <!-- default = false, true, attention si CreateRunSourceDomain = true runsource.launch.exe ne peut pas mettre à jour runsource.runsourced32.exe -->
   <UpdateRunSource>
-    <UpdateDirectory                           value = "..\update" />
+    <UpdateDirectory                           value = "..\update" /> <!-- default = false -->
+    <TraceUpdate                               value = "true" />
     <!--<ProjectDirectory                          value = "$ProjectDirectory$\Apps\RunSource\v2" />-->  <!-- c:\pib\drive\google\dev\project\Source\RunSource\v2 -->
     <Project                                   value = "$ProjectDirectory$\Apps\RunSource\v2\runsource.irunsource\runsource.irunsource.project.xml" />
     <Project                                   value = "$ProjectDirectory$\Apps\RunSource\v2\runsource.dll\runsource.dll.project.xml" copyOutput = "..\new" />

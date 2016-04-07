@@ -17,6 +17,7 @@
   <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\Error.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\FormatInfo.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\ITrace.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\ParseAs.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\PBException.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\TextSerializer.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\Trace.cs" />

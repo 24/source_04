@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace pb.Data.TraceData
 {
@@ -23,10 +24,10 @@ namespace pb.Data.TraceData
             _writers.Remove(name);
         }
 
-        public void Trace<T>(T data)
+        public void Trace<T>(T data, Exception ex = null)
         {
             foreach (TraceDataWriter writer in _writers.Values)
-                writer.Write(data);
+                writer.Write(data, ex);
         }
     }
 }

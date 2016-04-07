@@ -67,17 +67,8 @@ namespace pb.Web
             {
                 if (__xmlDocumentSourceType == XmlDocumentSourceType.Http)
                 {
-                    __xDocument = __http.zGetXDocument();
-                    //if (_trace.TraceLevel >= 2)
-                    //{
-                    //    //string sPath = GetNewUrlFileName(gsUrl, ".xml");
-                    //    //if (gXDocument != null && sPath != null)
-                    //    //{
-                    //    //    gXDocument.Save(sPath);
-                    //    //    gsWebXmlExportPath = sPath;
-                    //    //}
-                    //    _webXmlExportPath = _http.XmlExportPath;
-                    //}
+                    //__xDocument = __http.zGetXDocument();
+                    __xDocument = HttpManager.CurrentHttpManager.GetXDocument(__http);
                 }
                 else if (__xmlDocumentSourceType == XmlDocumentSourceType.XmlFile)
                     __xDocument = XDocument.Load(__xmlFile);

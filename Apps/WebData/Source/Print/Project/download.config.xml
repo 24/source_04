@@ -15,8 +15,12 @@
   <PrintList2Config                                              value = "print_list2.xml" />
   <!--<Test                                                          value = "true" />-->
   <!--<Test                                                          value = "true" />-->
+  
+  <UpdateRunSource>
+    <Directory                                                   source = "c:\pib\drive\google\dev\project\library\pib\Extension_01\new" destination = "c:\pib\drive\google\dev\project\library\pib\Extension_01" />
+  </UpdateRunSource>
 
-  <DownloadAutomateManager>
+      <DownloadAutomateManager>
     <Version                                                     value = "6" /> <!-- default = 3 -->
     <!--<UseTestManager                                              value = "false" /> --><!-- default = false -->
     <!--<TraceLevel                                                  value = "1" /> --><!-- default = null -->

@@ -60,6 +60,7 @@ namespace pb.Compiler
 
         void SetAsCurrentRunSource();
         void SetRunSourceConfig(string file);
+        void StartAssemblyResolve();
         string SetProject(string file);
         bool IsRunning();
         bool IsExecutionPaused();

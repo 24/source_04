@@ -52,6 +52,12 @@ namespace pb.Compiler
         }
     }
 
+    //public class CompilerUpdateDirectory
+    //{
+    //    public string SourceDirectory = null;
+    //    public string DestinationDirectory = null;
+    //}
+
     public interface ICompilerProject
     {
         string ProjectFile { get; }
@@ -80,5 +86,6 @@ namespace pb.Compiler
         IEnumerable<CompilerFile> GetSourceFiles();
         IEnumerable<CompilerAssembly> GetAssemblies();
         IEnumerable<string> GetCopyOutputs();
+        //IEnumerable<CompilerUpdateDirectory> GetUpdateDirectory();
     }
 }

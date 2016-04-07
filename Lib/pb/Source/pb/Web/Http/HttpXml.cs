@@ -7,10 +7,7 @@ namespace pb.Web
     {
         public static XDocument zGetXDocument(this Http http)
         {
-            //if (Http_new.Trace)
-            //    pb.old.Trace.WriteLine("GlobalExtension.zGetXmlDocument()");
             XDocument xml = null;
-            //Http_new http = loadDataFromWeb.Http;
             if (http.ResultContentType == "text/html")
             {
                 HtmlToXml hx = new HtmlToXml(new StringReader(http.ResultText));
@@ -24,15 +21,10 @@ namespace pb.Web
             else
                 throw new PBException("Error can't transform http content \"{0}\" to xml", http.ResultContentType);
 
-            if (http.ExportResult && http.ExportDirectory != null)
-            {
-                string xmlExportPath = http.GetNewHttpFileName(http.ExportDirectory, ".xml");
-                xml.Save(xmlExportPath);
-            }
-            //else if (_xmlExportPath != null)
+            //if (http.ExportResult && http.ExportDirectory != null)
             //{
-            //    if (zpath.PathGetExtension(_textExportPath) == "")
-            //        _xmlExportPath = zpath.PathSetExtension(_textExportPath, ".xml");
+            //    string xmlExportPath = http.GetNewHttpFileName(http.ExportDirectory, ".xml");
+            //    xml.Save(xmlExportPath);
             //}
             return xml;
         }

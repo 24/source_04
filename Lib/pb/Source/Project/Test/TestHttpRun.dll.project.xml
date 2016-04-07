@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<AssemblyProject>
+  
+  <Root                             value = "..\..\..\..\.." />
+  
+  <!--<IncludeProject                   value = "$Root$\Lib\pb\Source\Project\HttpRun.project.xml" />-->
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\HttpRun.dll.project.xml" />
+
+  <NameSpace                        value = "pb.Test" />
+
+  <!--<InitMethod                       value = "pb.Web.TestUnit.TestUnit_HtmlToXmlRun.Init" />-->
+  <!--<EndMethod                        value = "pb.Web.TestUnit.TestUnit_HtmlToXmlRun.End" />-->
+
+  <Using                            value = "pb" />
+  <Using                            value = "pb.Web" />
+
+</AssemblyProject>

@@ -104,6 +104,9 @@
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\ITrace.cs">
       <Link>SourceLnk\Lib\pb\_pb\ITrace.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\ParseAs.cs">
+      <Link>SourceLnk\Lib\pb\_pb\ParseAs.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\PBException.cs">
       <Link>SourceLnk\Lib\pb\_pb\PBException.cs</Link>
     </Compile>

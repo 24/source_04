@@ -11,7 +11,9 @@ namespace Download.Print.Ebookdz
 {
     public static class EbookdzLogin
     {
-        private static string __urlMainPage = "http://www.ebookdz.com/";
+        //private static string __urlMainPage = "http://www.ebookdz.com/";
+        // modif le 07/04/2016
+        private static string __urlMainPage = "http://www.ebookdz.com/index.php";
         private static bool __isLoggedIn = false;
         private static string __cookiesFile = null;
         private static CookieContainer __cookies = null;
@@ -44,7 +46,7 @@ namespace Download.Print.Ebookdz
                 http = Login(xeSource);
                 SaveCookies(http.RequestParameters.Cookies);
                 if (!IsLoggedIn())
-                    throw new PBException("unable login to http://www.ebookdz.com/");
+                    throw new PBException("unable login to http://www.ebookdz.com/index.php");
             }
             __isLoggedIn = true;
         }

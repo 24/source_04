@@ -1,6 +1,6 @@
 // $$info.manage.print.directory
 // $$info.test.regex  $$info.test.selenium $$info.test.mongo
-// $$info.site
+// $$info.site          $$info.site Ebookdz ebookdz.com
 // $$info.debrid-link.fr
 // $$info.test_unit.print
 // $$info.GetPrintTitleInfo
@@ -173,6 +173,7 @@ TraceMongoCommand.Export("dl", "ExtremeDown_Detail", Path.Combine(AppData.DataDi
 Download.Print.Ebookdz.Ebookdz.Current.HeaderWebDataPageManager.LoadPages(startPage: 1, maxPage: 1, reload: true, loadImage: false, refreshDocumentStore: false).zView_v3();
 Download.Print.Ebookdz.Ebookdz.Current.HeaderWebDataPageManager.LoadPages(startPage: 1, maxPage: 1, reload: false, loadImage: false, refreshDocumentStore: false).zView_v3();
 Download.Print.Ebookdz.Ebookdz.Current.HeaderWebDataPageManager.LoadPages(startPage: 1, maxPage: 1, reload: false, loadImage: false, refreshDocumentStore: true).zView_v3();
+Download.Print.Ebookdz.Ebookdz.Current.WebHeaderDetailManager.LoadDetails(startPage: 1, maxPage: 1, reloadHeaderPage: true, reloadDetail: false, loadImage: false, refreshDocumentStore: false).zView_v3();
 Download.Print.Ebookdz.Ebookdz.Current.WebHeaderDetailManager.LoadDetails(startPage: 1, maxPage: 1, reloadHeaderPage: false, reloadDetail: false, loadImage: false, refreshDocumentStore: false).zView_v3();
 Download.Print.Ebookdz.Ebookdz.Current.WebHeaderDetailManager.LoadDetails(startPage: 1, maxPage: 1, reloadHeaderPage: false, reloadDetail: false, loadImage: false, refreshDocumentStore: true).zView_v3();
 Download.Print.Ebookdz.Ebookdz.Current.HeaderWebDataPageManager.Find(query: null, sort: "{ _id: -1 }", limit: 100, loadImage: false).zView_v3();
@@ -5069,5 +5070,42 @@ values["x-dl-token"].zTrace();
 
 HttpManager.CurrentHttpManager.ExportResult = true;
 Trace.WriteLine("ExportResult {0} ExportDirectory \"{1}\"", HttpManager.CurrentHttpManager.ExportResult, HttpManager.CurrentHttpManager.ExportDirectory);
-HttpRun.Load("http://www.ebookdz.com/");
+HttpRun.Load("http://www.ebookdz.com/index.php", exportFile: @"c:\pib\drive\google\dev_data\exe\runsource\download\sites\ebookdz.com\model\header\new\ebookdz.com_index.php_not_logged_01_01.html");
+HttpRun.Load("http://www.ebookdz.com/index.php");
+HtmlRun.Select("//div[@id='vba_news4']//div[@class='collapse']//h2[@class='blockhead']//a[2]");
 
+Trace.WriteLine("toto");
+Trace.WriteLine(AppDomain.CurrentDomain.FriendlyName);
+AppDomain.CurrentDomain
+foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
+{
+	if (assembly.FullName.StartsWith("System"))
+		continue;
+	if (assembly.FullName.StartsWith("Microsoft"))
+		continue;
+	if (assembly.FullName.StartsWith("DevExpress"))
+		continue;
+	Trace.WriteLine(assembly.FullName);
+}
+Path.Combine("", "");
+
+
+
+
+
+Download.Print.Ebookdz.Ebookdz.Current.HeaderWebDataPageManager.LoadPages(startPage: 1, maxPage: 1, reload: true, loadImage: false, refreshDocumentStore: false).zView_v3();
+Download.Print.Ebookdz.Ebookdz.Current.HeaderWebDataPageManager.LoadPages(startPage: 1, maxPage: 1, reload: false, loadImage: false, refreshDocumentStore: false).zView_v3();
+Download.Print.Ebookdz.Ebookdz.Current.HeaderWebDataPageManager.LoadPages(startPage: 1, maxPage: 1, reload: false, loadImage: false, refreshDocumentStore: true).zView_v3();
+Download.Print.Ebookdz.Ebookdz.Current.WebHeaderDetailManager.LoadDetails(startPage: 1, maxPage: 1, reloadHeaderPage: true, reloadDetail: false, loadImage: false, refreshDocumentStore: false).zView_v3();
+Download.Print.Ebookdz.Ebookdz.Current.WebHeaderDetailManager.LoadDetails(startPage: 1, maxPage: 1, reloadHeaderPage: false, reloadDetail: false, loadImage: false, refreshDocumentStore: false).zView_v3();
+Download.Print.Ebookdz.Ebookdz.Current.WebHeaderDetailManager.LoadDetails(startPage: 1, maxPage: 1, reloadHeaderPage: false, reloadDetail: false, loadImage: false, refreshDocumentStore: true).zView_v3();
+TraceMongoCommand.Export("dl", "Ebookdz_Detail", Path.Combine(AppData.DataDirectory, @"sites\ebookdz.com\mongo\export_Ebookdz_Detail.txt"), sort: "{ 'download.PostCreationDate': -1 }");
+
+Download.Print.Test.Test_Download.Test_01();
+Download.Print.Test.Test_Download.Test_08();
+Download.Print.Test.Test_Download.Test_02();
+Download.Print.Test.Test_Download.Test_03();
+Download.Print.Test.Test_Download.Test_04();
+Download.Print.Test.Test_Download.Test_05();
+Download.Print.Test.Test_Download.Test_06();
+Download.Print.Test.Test_Download.Test_07();

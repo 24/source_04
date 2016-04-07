@@ -50,8 +50,10 @@ namespace pb.Web.Data
         public IEnumerable<TDetailData> LoadDetails(int startPage = 1, int maxPage = 1, bool reloadHeaderPage = false, bool reloadDetail = false, bool loadImage = false,
             bool refreshDocumentStore = false)
         {
+            //int i = 1;
             foreach (THeaderData header in _headerDataPageManager.LoadPages(startPage, maxPage, reloadHeaderPage, false))
             {
+                //Trace.WriteLine("************ {0}", i++);
                 if (!(header is IHeaderData))
                     throw new PBException("type {0} is not IHeaderData", header.GetType().zGetTypeName());
                 //yield return _detailDataManager.Load(

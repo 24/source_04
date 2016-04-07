@@ -20,17 +20,17 @@ namespace pb.Web
 
         public static Http Http { get { return __http; } }
 
-        public static Http Load(string url, HttpRequestParameters requestParameters = null)
+        public static Http Load(string url, HttpRequestParameters requestParameters = null, string exportFile = null, bool setExportFileExtension = false)
         {
-            return Load(new HttpRequest { Url = url }, requestParameters);
+            return Load(new HttpRequest { Url = url }, requestParameters, exportFile, setExportFileExtension);
         }
 
-        public static Http Load(HttpRequest httpRequest, HttpRequestParameters requestParameters = null)
+        public static Http Load(HttpRequest httpRequest, HttpRequestParameters requestParameters = null, string exportFile = null, bool setExportFileExtension = false)
         {
             RazSource();
             __xmlDocumentSourceType = XmlDocumentSourceType.Http;
             //__http = __httpManager.Load(httpRequest, requestParameters);
-            __http = HttpManager.CurrentHttpManager.Load(httpRequest, requestParameters);
+            __http = HttpManager.CurrentHttpManager.Load(httpRequest, requestParameters, exportFile, setExportFileExtension);
             return __http;
         }
 

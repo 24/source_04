@@ -297,8 +297,8 @@ namespace pb.Web
                 //Trace.CurrentTrace.WriteLine("Http : charset encoding \"{0}\"", encoding.zToStringOrNull());
                 if (encoding == null)
                     // modif le 05/04/2016 set default encoding to utf8
-                    //encoding = Encoding.Default;
-                    encoding = Encoding.UTF8;
+                    // attention ne pas changer l'encoding par défaut, il est utilisé par le cache
+                    encoding = Encoding.Default;
             }
             //Trace.CurrentTrace.WriteLine("Http : encoding \"{0}\"", encoding.zToStringOrNull());
             _streamReader = new StreamReader(_stream, encoding);

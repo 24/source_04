@@ -26,7 +26,7 @@ namespace pb.Web
         public bool ExportResult { get { return _exportResult; } set { _exportResult = value; } }
         public string ExportDirectory { get { return _exportDirectory; } set { _exportDirectory = value; } }
 
-        public Http Load(HttpRequest httpRequest, HttpRequestParameters requestParameters = null)
+        public Http Load(HttpRequest httpRequest, HttpRequestParameters requestParameters = null, string exportFile = null, bool setExportFileExtension = false)
         {
             try
             {
@@ -35,7 +35,7 @@ namespace pb.Web
                 {
                     try
                     {
-                        return _Load(httpRequest, requestParameters);
+                        return _Load(httpRequest, requestParameters, exportFile, setExportFileExtension);
                     }
                     catch (Exception ex)
                     {
@@ -54,7 +54,7 @@ namespace pb.Web
                         Trace.WriteLine(1, "Error : \"{0}\" ({1})", ex.Message, ex.GetType().ToString());
                     }
                 }
-                return _Load(httpRequest, requestParameters);
+                return _Load(httpRequest, requestParameters, exportFile, setExportFileExtension);
             }
             catch (Exception ex)
             {
@@ -82,12 +82,13 @@ namespace pb.Web
             }
         }
 
-        private Http _Load(HttpRequest httpRequest, HttpRequestParameters requestParameters = null)
+        private Http _Load(HttpRequest httpRequest, HttpRequestParameters requestParameters = null, string exportFile = null, bool setExportFileExtension = false)
         {
             //if (Trace.CurrentTrace.TraceLevel >= 1)
             //    Trace.WriteLine("Load(\"{0}\");", httpRequest.Url);
-            Trace.WriteLine(1, "Load(\"{0}\");", httpRequest.Url);
-            Http http = CreateHttp(httpRequest, requestParameters);
+            //Trace.WriteLine(1, "Load(\"{0}\");", httpRequest.Url);
+            Trace.WriteLine(1, "Load \"{0}\" ({1}){2}", httpRequest.Url, httpRequest.Method, exportFile != null ? "(\"" + exportFile + "\")" : null);
+            Http http = CreateHttp(httpRequest, requestParameters, exportFile, setExportFileExtension);
 
             http.LoadAsText();
 
@@ -203,7 +204,7 @@ namespace pb.Web
             }
         }
 
-        public Http CreateHttp(HttpRequest httpRequest, HttpRequestParameters requestParameters = null)
+        public Http CreateHttp(HttpRequest httpRequest, HttpRequestParameters requestParameters = null, string exportFile = null, bool setExportFileExtension = false)
         {
             Http http = new Http(httpRequest, requestParameters);
             //http.HttpRetry += new Http.fnHttpRetry(LoadRetryEvent);
@@ -211,7 +212,12 @@ namespace pb.Web
             //http.ReadCommentInText = _webReadCommentInText;
             //http.ExportResult = _exportResult;
             //http.ExportDirectory = _exportDirectory;
-            if (_exportResult && _exportDirectory != null)
+            if (exportFile != null)
+            {
+                http.ExportFile = exportFile;
+                http.SetExportFileExtension = setExportFileExtension;
+            }
+            else if (_exportResult && _exportDirectory != null)
             {
                 http.ExportFile = GetNewHttpFileName(httpRequest);
                 http.SetExportFileExtension = true;

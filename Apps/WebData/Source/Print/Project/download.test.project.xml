@@ -9,7 +9,8 @@
   <CopyRunSourceSourceFiles         value = "true" />
   <CopyOutput                       value = "c:\pib\prog\tools\runsource\app\ebook.download\new" />
 
-  <!--<IncludeProject                   value = "$Root$\Lib\pb\Source\Project\Basic.project.xml" />
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\Basic.project.xml" />
+  <!--
   <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\RunSourceExtension.project.xml" />
   <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\MongoExtension.project.xml" />
   <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\MongoSerialization.project.xml" />
@@ -30,6 +31,7 @@
   <InitMethod                       value = "Download.Print.DownloadRun.Init" />      <!-- [{namespace}.{type}.]{method name}[, {assembly name}] default type {namespace}._RunCode -->
   <EndMethod                        value = "Download.Print.DownloadRun.End" />       <!-- [{namespace}.{type}.]{method name}[, {assembly name}] default type {namespace}._RunCode -->
 
+  <Using                            value = "System.IO" />
   <Using                            value = "System.Linq" />
   <Using                            value = "System.Xml.Linq" />
   <Using                            value = "System.Xml.XPath" />
@@ -53,12 +55,12 @@
   <Using                            value = "Test.Test_Unit" />
   <Using                            value = "Test.Test_Unit.Print" />
   
-  <Assembly                         value = "Microsoft.JScript.dll" />
+  <!--<Assembly                         value = "Microsoft.JScript.dll" />-->
 	<!--<Assembly                         value = "System.Drawing.dll" />-->
-  <Assembly                         value = "System.IO.Compression.dll" />
-  <Assembly                         value = "System.IO.Compression.FileSystem.dll" />
+  <!--<Assembly                         value = "System.IO.Compression.dll" />-->
+  <!--<Assembly                         value = "System.IO.Compression.FileSystem.dll" />-->
   <Assembly                         value = "System.ServiceModel.dll" />
-  <Assembly                         value = "System.Web.dll" />
+  <!--<Assembly                         value = "System.Web.dll" />-->
   <!--<Assembly                         value = "System.Xml.Linq.dll" />-->
 	<!--<Assembly                         value = "bin\magazine3k.dll" resolve = "true" resolveName="magazine3k, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />-->
 	<!--<Assembly                         value = "c:\pib\prog\dev\mongodb\driver\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Bson.dll" resolve = "true" resolveName = "MongoDB.Bson, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />
@@ -71,7 +73,7 @@
 
   <!--<Assembly                         value = "..\..\..\..\..\..\RuntimeLibrary\LongPath\LongPath\Pri.LongPath.dll" />-->
   <!--<Assembly                         value = "..\..\..\..\..\Lib\LongPath\Pri.LongPath\bin\Debug\Pri.LongPath.dll" />-->
-  <Assembly                         value = "$Root$\Lib\LongPath\Pri.LongPath\bin\Debug\Pri.LongPath.dll" />
+  <!--<Assembly                         value = "$Root$\Lib\LongPath\Pri.LongPath\bin\Debug\Pri.LongPath.dll" />-->
 
 
   <!-- temp source   -->
@@ -82,6 +84,8 @@
   <Source                           value = "AppData.cs" />
   <!--<Source                           value = "TestCertificate.cs" />-->
 
+  <Source                           value = "..\Test\Test_Download.cs" />
+  
   <!--<Source                           value = "..\..\..\..\MyDownloader\MyDownloader.Core\Service\DownloaderState.cs" />-->
   <!--<Source                           value = "..\..\..\..\MyDownloader\MyDownloader.Core\Service\IDownloadManagerService.cs" />-->
   <Source                           value = "$Root$\Apps\MyDownloader\MyDownloader.Core\Service\DownloaderState.cs" />

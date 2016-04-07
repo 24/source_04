@@ -631,6 +631,7 @@
     <Compile Include="Source\Print\sites\vosbooks.net\_old\Vosbooks_v3.cs" />
     <Compile Include="Source\Print\sites\vosbooks.net\_old\Vosbooks_v2.cs" />
     <Compile Include="Source\Print\sites\vosbooks.net\_old\Vosbooks_v4.cs" />
+    <Compile Include="Source\Print\Test\Test_Download.cs" />
     <Compile Include="Test_Unit\Print\Test_Unit_FindPrint.cs" />
     <Compile Include="Test_Unit\Print\Test_Unit_Print.cs" />
     <Compile Include="Test_Unit\Print\Test_Unit_PrintTitleManager.cs" />

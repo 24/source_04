@@ -39,6 +39,10 @@ namespace Test_AppDomain
         public static void Test_01()
         {
             _tr.WriteLine("Test_01");
+            //AppDomain.CurrentDomain.FriendlyName
+            //System.Diagnostics.Process.GetCurrentProcess();
+            //AppDomain.CurrentDomain.GetAssemblies();
+            //System.Reflection.Assembly.GetExecutingAssembly().FullName
         }
 
         public static void Test_AppDomain_01()

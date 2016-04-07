@@ -41,7 +41,9 @@ namespace Download.Print.Ebookdz
         private static string __serverName = "ebookdz.com";
         private static string __configName = "Ebookdz";
         private static Ebookdz __current = null;
-        private static string __urlMainPage = "http://www.ebookdz.com/";
+        //private static string __urlMainPage = "http://www.ebookdz.com/";
+        // modif le 07/04/2016
+        private static string __urlMainPage = "http://www.ebookdz.com/index.php";
 
         static Ebookdz()
         {
@@ -129,6 +131,8 @@ namespace Download.Print.Ebookdz
 
                 //xe = xeHeader.XPathElement(".//div[@class='morelink']//span[@class='arg']");
                 //header.category = xe.DescendantTextList(".//a").Select(RapideDdl.TrimFunc1).Where(s => !s.StartsWith("Commentaires")).zToStringValues("/");
+
+                //pb.Trace.WriteLine(header.Title);
 
                 headers.Add(header);
             }

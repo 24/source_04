@@ -128,13 +128,13 @@ namespace Test.Test_Unit.Print
             FindDate findDate = findDateManager.Find(text);
             TestFindDate testFindDate = new TestFindDate();
             testFindDate.text = text;
-            testFindDate.foundDate = findDate.found;
-            if (findDate.found)
+            testFindDate.foundDate = findDate.Found;
+            if (findDate.Found)
             {
                 //testFindDate.dateFound = findDate.regexValues.MatchValue_old.Value;
                 testFindDate.dateFound = findDate.matchValues.Match.Value;
-                testFindDate.date = findDate.date;
-                testFindDate.dateType = findDate.dateType;
+                testFindDate.date = findDate.Date;
+                testFindDate.dateType = findDate.DateType;
                 //testFindDate.remainText = findDate.regexValues.MatchReplace_old("_");
                 testFindDate.remainText = findDate.matchValues.Replace("_");
                 //testFindDate.namedValues = findDate.regexValues.GetValues_old();
@@ -151,13 +151,13 @@ namespace Test.Test_Unit.Print
                 FindDate findDate = findDateManager.Find(text.text);
                 TestFindDate testFindDate = new TestFindDate();
                 testFindDate.text = text.text;
-                testFindDate.foundDate = findDate.found;
-                if (findDate.found)
+                testFindDate.foundDate = findDate.Found;
+                if (findDate.Found)
                 {
                     //testFindDate.dateFound = findDate.regexValues.MatchValue_old.Value;
                     testFindDate.dateFound = findDate.matchValues.Match.Value;
-                    testFindDate.date = findDate.date;
-                    testFindDate.dateType = findDate.dateType;
+                    testFindDate.date = findDate.Date;
+                    testFindDate.dateType = findDate.DateType;
                     //testFindDate.remainText = findDate.regexValues.MatchReplace_old("_");
                     testFindDate.remainText = findDate.matchValues.Replace("_");
                     //testFindDate.namedValues = findDate.regexValues.GetValues_old();
@@ -222,7 +222,7 @@ namespace Test.Test_Unit.Print
                     //FindDate_old findDate = FindDate(findDateManager, text);
                     FindDate findDate = FindDate(findDateManager, text);
 
-                    if (findDate.found)
+                    if (findDate.Found)
                         nbDateFound++;
 
                     nb++;
@@ -249,14 +249,14 @@ namespace Test.Test_Unit.Print
             FindDate findDate = findDateManager.Find(text);
 
             Trace.WriteLine("search date in  : \"{0}\"", text);
-            if (findDate.found)
+            if (findDate.Found)
             {
                 //Trace.WriteLine("    found date  : \"{0}\"", findDate.regexValues.MatchValue_old);
                 Trace.WriteLine("    found date  : \"{0}\"", findDate.matchValues.Match.Value);
                 //Trace.WriteLine("    remain text : \"{0}\"", findDate.regexValues.MatchReplace_old("_"));
                 Trace.WriteLine("    remain text : \"{0}\"", findDate.matchValues.Replace("_"));
 
-                Trace.WriteLine("    date        : {0:dd-MM-yyyy} type {1}", findDate.date, findDate.dateType);
+                Trace.WriteLine("    date        : {0:dd-MM-yyyy} type {1}", findDate.Date, findDate.DateType);
                 //Trace.Write("not found ");
 
                 Trace.Write("    values      : ");

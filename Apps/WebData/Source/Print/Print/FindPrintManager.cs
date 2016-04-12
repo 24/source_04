@@ -109,70 +109,6 @@ namespace Print
                 findText = _findPrintList.Find(titleInfo.RemainText);
 
             GetPrintInfo(findPrint, findText);
-            //if (findText != null && findText.found)
-            //{
-                //findPrint.found = true;
-                //MatchValues matchValues = findText.matchValues;
-                //findPrint.name = matchValues.Name;
-
-                //Print print = _printManager[findPrint.name];
-
-                //if (print == null)
-                //{
-                //    findPrint.findPrintType = FindPrintType.PrintType1;
-                //    if (matchValues.Attributes.ContainsKey("title"))
-                //        findPrint.title = matchValues.Attributes["title"];
-                //    if (matchValues.Attributes.ContainsKey("directory"))
-                //        findPrint.directory = matchValues.Attributes["directory"];
-                //    string directory;
-                //    if (findPrint.directory != null)
-                //        directory = findPrint.directory;
-                //    else
-                //        directory = _defaultPrintDirectory;
-                //    print = new Print(findPrint.name, findPrint.title, GetDirectory(findPrint, directory));
-                //}
-                //else
-                //    findPrint.findPrintType = FindPrintType.PrintType2;
-
-                //findPrint.print = print;
-
-                //PrintIssue printIssue = print.NewPrintIssue();
-
-                //if (findPrint.date != null)
-                //{
-                //    //PrintIssue printIssue = print.NewPrintIssue((Date)findPrint.date);
-                //    printIssue.Date = findPrint.date;
-                //    printIssue.DateType = findPrint.dateType;
-                //    printIssue.Special = findPrint.special;
-                //    printIssue.SpecialText = findPrint.specialText;
-
-                //    if (findPrint.number != null)
-                //    {
-                //        if (printIssue.CanCalculatePrintNumber())
-                //        {
-                //            int calculatedPrintNumber = printIssue.Print.GetPrintNumber((Date)printIssue.Date);
-                //            if (calculatedPrintNumber != (int)findPrint.number)
-                //            {
-                //                if (__traceWarning)
-                //                    Trace.WriteLine("warning number in title {0} is different than calculated number {1}", (int)findPrint.number, calculatedPrintNumber);
-                //            }
-                //        }
-                //        // utilise de préférence le no du titre plutot que celui calculé
-                //        // sauf pour le monde ex : "Le Monde week-end + Magazine + 3 suppléments du samedi 30 aout 2014" le 3 n'est pas le bon numéro
-                //        printIssue.PrintNumber = (int)findPrint.number;
-                //    }
-                //}
-                //else if (findPrint.number != null)
-                //{
-                //    printIssue.PrintNumber = (int)findPrint.number;
-                //    printIssue.Special = findPrint.special;
-                //}
-
-                //printIssue.TrySetValues(findText.matchValues.GetAllValues());
-                //findPrint.label = printIssue.Label;
-
-                //findPrint.file = zPath.Combine(print.Directory, zPath.GetFileNameWithoutExtension(printIssue.GetFilename()));
-            //}
             if (!findPrint.found && forceSelect)
             {
                 ForceSelect(findPrint, titleInfo, printType);
@@ -206,11 +142,12 @@ namespace Print
 
         private void GetPrintInfo(FindPrintInfo findPrint, FindText findText)
         {
-            if (findText == null || !findText.found)
+            if (findText == null || !findText.Found)
                 return;
 
             findPrint.found = true;
             MatchValues matchValues = findText.matchValues;
+            //MatchValuesInfos matchValues = findText.MatchValues;
             findPrint.name = matchValues.Name;
 
             Print print = _printManager[findPrint.name];
@@ -267,6 +204,7 @@ namespace Print
             }
 
             printIssue.TrySetValues(findText.matchValues.GetAllValues());
+            //printIssue.TrySetValues(findText.MatchValues.GetAllValues());
             findPrint.label = printIssue.Label;
 
             findPrint.file = zPath.Combine(print.Directory, zPath.GetFileNameWithoutExtension(printIssue.GetFilename()));

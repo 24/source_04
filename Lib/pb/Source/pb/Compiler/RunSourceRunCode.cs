@@ -2,8 +2,11 @@
 using System.Reflection;
 using pb.Data.Xml;
 using pb.IO;
+using System.Collections.Generic;
+using System.Collections.Concurrent;
 
 // todo
+//   - nouvelle version (3) pour gérer plusieurs exécutions => RunCode _runCode devient ConcurrentDictionary<int, RunCode> _runCodes
 //   - gérer une liste de méthodes pour Init et End (26/03/2016).
 //     cela permet de déclarer InitMethod, EndMethod dans un IncludeProject
 //     voir RunCode_ExecuteCode()
@@ -15,39 +18,34 @@ using pb.IO;
 //   ok paramétrer Init et End dans CompileProject, utilisation des qualified name pour le type
 //   ok pb si error ds compile runsource l'onglet message est affiché et pas l'onglet result
 //   ok remplacer class par type dans GenerateCSharpCode et ...
-//   faire une classe qui remplace RunCode_v2()
-
-// $$RunSourceRunCode_v1
+//   ?? faire une classe qui remplace RunCode_v2()
 
 namespace pb.Compiler
 {
     public partial class RunSource
     {
-        // $$RunSourceRunCode_v1
-        //public bool UseNewRunCode = true;
-
         private bool _executionPaused = false;
         private bool _executionAborted = false;
-        private RunCode _runCode = null;
-        //private Chrono _runCodeChrono = null;  // new Chrono()
-        //private static string __defaultGenerateAssemblySubdirectory = "run";     // c:\pib\prog\tools\runsource\exe\run
-        //private static string __defaultGenerateAssemblyName = "RunSource";       // RunSource_00001.cs RunSource_00001.dll RunSource_00001.pdb
+        private bool _allowMultipleExecution = false;
+        //private RunCode _runCode = null;
+        //private List<RunCode> _runCodes = new List<RunCode>();
+        private RunSourceInitEndMethods _runSourceInitEndMethods = new RunSourceInitEndMethods();
+        private ConcurrentDictionary<int, RunCode> _runCodes = new ConcurrentDictionary<int, RunCode>();
+        private int _runCodeId = 0;
         private GenerateAssembly _generateAssembly = null;
 
-        //public event EndRunEvent EndRun;
         private Action<EndRunCodeInfo> _endRunCode;
         public event OnPauseEvent OnPauseExecution;
 
         public OnAbortEvent OnAbortExecution { get; set; }
-        //public IChrono RunCodeChrono { get { if (_runCode != null) return _runCode.RunChrono; else return _runCodeChrono; } }
-        //public IChrono RunCodeChrono { get { return _runCodeChrono; } }
         public Action<EndRunCodeInfo> EndRunCode { get { return _endRunCode; } set { _endRunCode = value; } }
+        public bool AllowMultipleExecution { get { return _allowMultipleExecution; } set { _allowMultipleExecution = value; } }
+        public bool CallInit { get { return _runSourceInitEndMethods.CallInit; } set { _runSourceInitEndMethods.CallInit = value; } }
 
         public bool IsRunning()
         {
-            // $$RunSourceRunCode_v1
-            //return _runCode != null || _runCodeThread != null;
-            return _runCode != null;
+            //return _runCode != null;
+            return _runCodes.Count > 0;
         }
 
         public bool IsExecutionPaused()
@@ -69,8 +67,6 @@ namespace pb.Compiler
 
         public void AbortExecution(bool abort)
         {
-            //if (gExecutionThread == null)
-            //    return;
             if (!IsRunning())
                 return;
             _executionAborted = abort;
@@ -80,49 +76,46 @@ namespace pb.Compiler
 
         public void ForceAbortExecution()
         {
-            if (_runCode != null && _runCode.RunThread != null)
-                _runCode.RunThread.Abort();
-            // $$RunSourceRunCode_v1
-            //if (_runCodeThread != null)
-            //    _runCodeThread.Abort();
+            //if (_runCode != null && _runCode.RunThread != null)
+            //    _runCode.RunThread.Abort();
+            foreach (RunCode runCode in _runCodes.Values)
+            {
+                if (runCode.RunThread != null)
+                    runCode.RunThread.Abort();
+            }
+            //_runCodes.Clear();
         }
 
         public bool IsExecutionAlive()
         {
-            if (_runCode != null && _runCode.RunThread != null)
-                return _runCode.RunThread.IsAlive;
-            // $$RunSourceRunCode_v1
-            //if (_runCodeThread != null)
-            //    return _runCodeThread.IsAlive;
-            else
-                return false;
+            //if (_runCode != null && _runCode.RunThread != null)
+            //    return _runCode.RunThread.IsAlive;
+            //else
+            //    return false;
+            foreach (RunCode runCode in _runCodes.Values)
+            {
+                if (runCode.RunThread != null)
+                {
+                    if (runCode.RunThread.IsAlive)
+                        return true;
+                }
+            }
+            return false;
         }
 
         public void RunCode(string code, bool useNewThread = true, bool compileWithoutProject = false)
         {
-            //if (!UseNewRunCode)
-            //    // $$RunSourceRunCode_v1
-            //    RunCode_v1(code, useNewThread, compileWithoutProject);
-            //else
-                _RunCode(code, useNewThread, compileWithoutProject);
+            _RunCode(code, useNewThread, compileWithoutProject);
         }
 
         public void CompileCode(string code, bool compileWithoutProject = false)
         {
-            //if (!UseNewRunCode)
-            //    // $$RunSourceRunCode_v1
-            //    CompileCode_v1(code, compileWithoutProject);
-            //else
-                _RunCode(code, compileWithoutProject: compileWithoutProject, dontRunCode: true);
+            _RunCode(code, compileWithoutProject: compileWithoutProject, dontRunCode: true);
         }
 
         public void DeleteGeneratedAssemblies()
         {
-            //if (!UseNewRunCode)
-            //    // $$RunSourceRunCode_v1
-            //    DeleteGeneratedAssemblies_v1();
-            //else
-                GetGenerateAssembly().DeleteGeneratedAssemblies();
+            GetGenerateAssembly().DeleteGeneratedAssemblies();
         }
 
         private GenerateAssembly GetGenerateAssembly()
@@ -146,10 +139,11 @@ namespace pb.Compiler
             if (code == "")
                 return;
 
-            // $$RunSourceRunCode_v1
-            //if (!dontRunCode && (_runCode != null || _runCodeThread != null))
-            if (!dontRunCode && _runCode != null)
-                throw new PBException("error program already running");
+            //if (!dontRunCode && _runCode != null)
+            //    throw new PBException("error program already running");
+            //_allowMultipleExecution
+            if (!dontRunCode && _runCodes.Count > 0 && !_allowMultipleExecution)
+                throw new PBException("error program already running and multiple execution is not allowed");
 
             bool error = false;
             bool doEndRun = true;
@@ -157,7 +151,6 @@ namespace pb.Compiler
             _refreshRunSourceConfig = true;
             _refreshProjectConfig = true;
 
-            //_runCodeChrono = new Chrono();
             try
             {
                 CompilerProject compilerProject = null;
@@ -166,7 +159,6 @@ namespace pb.Compiler
                 if (compilerProject == null)
                     compilerProject = GetDefaultProject();
 
-                //string assemblyFile = RunCode_GetNewAssemblyFile();
                 string assemblyFile = GetGenerateAssembly().GetNewAssemblyFile();
 
                 GenerateCSharpCodeResult codeResult = RunCode_GenerateCode(code, compilerProject, assemblyFile);
@@ -175,7 +167,6 @@ namespace pb.Compiler
 
                 if (compiler.HasError())
                 {
-                    //SetResultCompilerMessages(compiler);
                     SetResult(compiler.GetCompilerMessagesDataTable());
                 }
                 else
@@ -197,24 +188,10 @@ namespace pb.Compiler
             }
             finally
             {
-                //if (error && EndRun != null)
-                //    EndRun(error);
-                // call RunCode_EndRun() only if exception has bin catched (error = true)
-                //if (error || dontRunCode)
-                //    RunCode_EndRun(error);
                 if (doEndRun)
-                    RunCode_EndRun(error);
+                    RunCode_EndRun(null, error);
             }
         }
-
-        //private static string RunCode_GetNewAssemblyFile()
-        //{
-        //    // "c:\pib\prog\tools\runsource\exe\run\RunSource_00001"
-        //    if (!zDirectory.Exists(__defaultGenerateAssemblySubdirectory))
-        //        zDirectory.CreateDirectory(__defaultGenerateAssemblySubdirectory);
-        //    int i = zfile.GetLastFileNameIndex(__defaultGenerateAssemblySubdirectory) + 1;
-        //    return zPath.Combine(__defaultGenerateAssemblySubdirectory, __defaultGenerateAssemblyName + string.Format("_{0:00000}", i));
-        //}
 
         private GenerateCSharpCodeResult RunCode_GenerateCode(string code, CompilerProject compilerProject, string assemblyFilename)
         {
@@ -238,7 +215,6 @@ namespace pb.Compiler
             compiler.AddSource(new CompilerFile(sourceFile));
 
             if (compilerProject != null)
-                //compiler.DefaultDirectory = zPath.GetDirectoryName(compilerProject.ProjectFile);
                 compiler.SetProjectCompilerFile(compilerProject.GetProjectCompilerFile());
 
             // CompilerDefaultValues from runsource.runsource.config.xml runsource.runsource.config.local.xml
@@ -254,55 +230,50 @@ namespace pb.Compiler
         // if no error thrown RunCode_ExecuteCode must call RunCode_EndRun()
         private void RunCode_ExecuteCode(Assembly assembly, GenerateCSharpCodeResult codeResult, CompilerProject compilerProject, Compiler compiler, bool useNewThread)
         {
-            _runCode = new RunCode();
-            _runCode.RunAssembly = assembly;
-            _runCode.CompilerAssemblies = compiler.Assemblies;
-            //_runCode.RunClassName = codeResult.GetFullClassName();
-            //_runCode.RunMethodName = codeResult.RunMethodName;
-            _runCode.RunMethodName = codeResult.GetFullRunMethodName();
-            _runCode.InitMethodName = compilerProject.GetInitMethod();  // "Init"
-            _runCode.EndMethodName = compilerProject.GetEndMethod();    // "End"
-            _runCode.EndRun += RunCode_EndRun;
+            //_runCode = new RunCode();
+            RunCode runCode = new RunCode(++_runCodeId);
+            runCode.RunAssembly = assembly;
+            runCode.CompilerAssemblies = compiler.Assemblies;
+            runCode.RunMethodName = codeResult.GetFullRunMethodName();
+            //runCode.InitMethodName = compilerProject.GetInitMethod();  // "Init"
+            //runCode.EndMethodName = compilerProject.GetEndMethod();    // "End"
+            runCode.EndRun += error => RunCode_EndRun(runCode, error);
+            if (!_runCodes.TryAdd(runCode.Id, runCode))
+                throw new PBException("unable to add RunCode id {0} to ConcurrentDictionary", runCode.Id);
 
             _executionAborted = false;
 
-            _runCode.Run(useNewThread);
-            //_runCodeThread = runCode.RunThread;
+            _runSourceInitEndMethods.CallInitMethods(compilerProject.GetInitMethods(), compilerProject.GetEndMethods(), methodName => runCode.GetMethod(methodName));
+
+            runCode.Run(useNewThread);
         }
 
-        private void RunCode_EndRun(bool error)
+        //private void RunCode_EndRun(bool error)
+        private void RunCode_EndRun(RunCode runCode, bool error)
         {
             IChrono runCodeChrono;
-            if (_runCode != null)
+            if (runCode != null)
             {
-                //_runCodeChrono = _runCode.RunChrono;
-                runCodeChrono = _runCode.RunChrono;
-                _runCode = null;
+                runCodeChrono = runCode.RunChrono;
+                //runCode = null;
             }
             else
             {
-                //_runCodeChrono = new Chrono();
                 runCodeChrono = new Chrono();
             }
             _executionPaused = false;
             _executionAborted = false;
-            //if (EndRun != null)
-            //    EndRun(error);
+
+            RunCode runCode2;
+            bool errRemoveRunCode = false;
+            if (runCode != null)
+                errRemoveRunCode = !_runCodes.TryRemove(runCode.Id, out runCode2);
+            //Trace.WriteLine("RunCode_EndRun : runCode.Id {0} errRemoveRunCode {1}", runCode.Id, errRemoveRunCode);
+
             if (_endRunCode != null)
                 _endRunCode(new EndRunCodeInfo { Error = error, RunCodeChrono = runCodeChrono });
+            if (errRemoveRunCode)
+                throw new PBException("unable to remove RunCode id {0} from ConcurrentDictionary", runCode.Id);
         }
-
-        //private void SetResultCompilerMessages(ICompiler compiler)
-        //{
-        //    DataTable messages = compiler.GetCompilerMessagesDataTable();
-        //    if (messages != null)
-        //    {
-        //        gdtResult = messages;
-        //        gdsResult = null;
-        //        gsXmlResultFormat = null;
-        //        if (ErrorResultSet != null)
-        //            ErrorResultSet(gdtResult, null);
-        //    }
-        //}
     }
 }

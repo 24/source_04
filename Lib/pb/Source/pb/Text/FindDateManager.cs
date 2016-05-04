@@ -6,19 +6,24 @@ namespace pb.Text
 {
     public class FindDate
     {
-        public bool found = false;
-        public Date? date = null;
-        public DateType dateType = DateType.Unknow;
+        //public bool found = false;
+        public bool Found = false;
+        //public Date? date = null;
+        public Date? Date = null;
+        //public DateType dateType = DateType.Unknow;
+        public DateType DateType = DateType.Unknow;
         public MatchValues matchValues = null;
-        public MatchValues[] matchValuesList = null;
+        //public MatchValuesInfos MatchValues = null;
+        //public MatchValues[] matchValuesList = null;
     }
 
     public class MatchDate
     {
-        public int Index;
+        //public int Index;
         public Date? Date = null;
         public DateType DateType = DateType.Unknow;
         public MatchValues MatchValues = null;
+        //public MatchValuesInfos MatchValues = null;
     }
 
     public class FindDateManager
@@ -45,25 +50,27 @@ namespace pb.Text
 
         public FindDate Find(string text, Date? expectedDate = null)
         {
-            List<MatchValues> matchValuesList = new List<MatchValues>();
+            //List<MatchValues> matchValuesList = new List<MatchValues>();
             List<MatchDate> matchDates = new List<MatchDate>();
             foreach (RegexValues rv in _dateRegexList.Values)
             {
                 MatchValues matchValues = rv.Match(text);
                 while (matchValues.Success)
                 {
-                    //matchValuesList.Add(matchValues);
-                    //Trace.WriteLine("date capture \"{0}\"", matchValues.Match.Value);
                     Date date;
                     DateType dateType;
                     if (zdate.TryCreateDate(matchValues.GetValues(), out date, out dateType))
                     {
                         if (!_multipleSearch)
-                            return new FindDate { found = true, date = date, dateType = dateType, matchValues = matchValues, matchValuesList = matchValuesList.Count > 0 ? matchValuesList.ToArray() : null };
+                            //return new FindDate { found = true, date = date, dateType = dateType, matchValues = matchValues, matchValuesList = matchValuesList.Count > 0 ? matchValuesList.ToArray() : null };
+                            return new FindDate { Found = true, Date = date, DateType = dateType, matchValues = matchValues };
+                            //return new FindDate { Found = true, Date = date, DateType = dateType, MatchValues = matchValues.GetValuesInfos() };
                         else
-                            matchDates.Add(new MatchDate { Index = matchValuesList.Count, Date = date, DateType = dateType, MatchValues = matchValues });
+                            //matchDates.Add(new MatchDate { Index = matchValuesList.Count, Date = date, DateType = dateType, MatchValues = matchValues });
+                            matchDates.Add(new MatchDate { Date = date, DateType = dateType, MatchValues = matchValues });
+                            //matchDates.Add(new MatchDate { Date = date, DateType = dateType, MatchValues = matchValues.GetValuesInfos() });
                     }
-                    matchValuesList.Add(matchValues);
+                    //matchValuesList.Add(matchValues);
                     matchValues = matchValues.Next();
                 }
             }
@@ -102,7 +109,9 @@ namespace pb.Text
                         //if (zdate.TryCreateDate(matchValues.GetValues(), out date, out dateType) && date == (Date)expectedDate)
                         if (zdate.TryCreateDate(matchValues.GetValues(), out date, out dateType) && IsDateCorrect(date, (Date)expectedDate))
                         {
-                            return new FindDate { found = true, date = date, dateType = dateType, matchValues = matchValues, matchValuesList = matchValuesList.Count > 0 ? matchValuesList.ToArray() : null };
+                            //return new FindDate { Found = true, Date = date, DateType = dateType, matchValues = matchValues, matchValuesList = matchValuesList.Count > 0 ? matchValuesList.ToArray() : null };
+                            return new FindDate { Found = true, Date = date, DateType = dateType, matchValues = matchValues };
+                            //return new FindDate { Found = true, Date = date, DateType = dateType, MatchValues = matchValues.GetValuesInfos() };
                         }
                         matchValues = matchValues.Next();
                     }
@@ -111,12 +120,15 @@ namespace pb.Text
 
             if (selectedMatchDate != null)
             {
-                if (selectedMatchDate.Index != -1)
-                    matchValuesList.RemoveAt(selectedMatchDate.Index);
-                return new FindDate { found = true, date = selectedMatchDate.Date, dateType = selectedMatchDate.DateType, matchValues = selectedMatchDate.MatchValues, matchValuesList = matchValuesList.Count > 0 ? matchValuesList.ToArray() : null };
+                //if (selectedMatchDate.Index != -1)
+                //    matchValuesList.RemoveAt(selectedMatchDate.Index);
+                //return new FindDate { Found = true, Date = selectedMatchDate.Date, DateType = selectedMatchDate.DateType, matchValues = selectedMatchDate.MatchValues, matchValuesList = matchValuesList.Count > 0 ? matchValuesList.ToArray() : null };
+                return new FindDate { Found = true, Date = selectedMatchDate.Date, DateType = selectedMatchDate.DateType, matchValues = selectedMatchDate.MatchValues };
+                //return new FindDate { Found = true, Date = selectedMatchDate.Date, DateType = selectedMatchDate.DateType, MatchValues = selectedMatchDate.MatchValues };
             }
             else
-                return new FindDate { found = false, matchValuesList = matchValuesList.Count > 0 ? matchValuesList.ToArray() : null };
+                //return new FindDate { Found = false, matchValuesList = matchValuesList.Count > 0 ? matchValuesList.ToArray() : null };
+                return new FindDate { Found = false };
         }
 
         private bool IsDateCorrect(Date date, Date expectedDate)
@@ -160,11 +172,12 @@ namespace pb.Text
                     {
                         //return new FindDate { found = true, date = date, dateType = dateType, remainText = rv.MatchReplace("_"), regexValues = rv };
                         //return new FindDate { found = true, date = date, dateType = dateType, matchValues = matchValues, matchValuesList = new MatchValues[] { matchValues } };
-                        return new FindDate { found = true, date = date, dateType = dateType, matchValues = matchValues, matchValuesList = null };
+                        return new FindDate { Found = true, Date = date, DateType = dateType, matchValues = matchValues };
+                        //return new FindDate { Found = true, Date = date, DateType = dateType, matchValues = matchValues, matchValuesList = null };
                     }
                 }
             }
-            return new FindDate { found = false };
+            return new FindDate { Found = false };
         }
     }
 }

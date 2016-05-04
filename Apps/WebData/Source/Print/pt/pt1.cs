@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using pb;
 using pb.Data.Xml;
 using pb.IO;
-using Print;
-using Print.old;
 
 namespace pt1
 {

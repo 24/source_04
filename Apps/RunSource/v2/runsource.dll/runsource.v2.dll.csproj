@@ -72,14 +72,11 @@
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\Compiler\RunSource.cs">
       <Link>SourceLnk\Lib\pb\Compiler\RunSource.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Compiler\RunSourceInitEndMethods.cs">
+      <Link>SourceLnk\Lib\pb\Compiler\RunSourceInitEndMethods.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\Compiler\RunSourceRunCode.cs">
       <Link>SourceLnk\Lib\pb\Compiler\RunSourceRunCode.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Data\GClass.cs">
-      <Link>SourceLnk\Lib\pb\Data\GClass.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Data\Image.cs">
-      <Link>SourceLnk\Lib\pb\Data\Image.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\Data\Xml\Xml.cs">
       <Link>SourceLnk\Lib\pb\Data\Xml\Xml.cs</Link>
@@ -92,9 +89,6 @@
     </Compile>
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\IO\Path.cs">
       <Link>SourceLnk\Lib\pb\IO\Path.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\Lib\pb\Source\pb\IO\StreamTransfer.cs">
-      <Link>SourceLnk\Lib\pb\IO\StreamTransfer.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\IO\WriteToFile.cs">
       <Link>SourceLnk\Lib\pb\IO\WriteToFile.cs</Link>
@@ -114,77 +108,8 @@
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\Reflection\Reflection.cs">
       <Link>SourceLnk\Lib\pb\Reflection\Reflection.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Text\Regex.cs">
-      <Link>SourceLnk\Lib\pb\Text\Regex.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Text\Split.cs">
-      <Link>SourceLnk\Lib\pb\Text\Split.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Text\String.cs">
-      <Link>SourceLnk\Lib\pb\Text\String.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Text\StringZones.cs">
-      <Link>SourceLnk\Lib\pb\Text\StringZones.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Web\Html\HtmlCharCodes.cs">
-      <Link>SourceLnk\Lib\pb\Web\Html\HtmlCharCodes.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Web\Html\HtmlReader.cs">
-      <Link>SourceLnk\Lib\pb\Web\Html\HtmlReader.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Web\Html\HtmlReaderBase.cs">
-      <Link>SourceLnk\Lib\pb\Web\Html\HtmlReaderBase.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Web\Html\HtmlReader_v2.cs">
-      <Link>SourceLnk\Lib\pb\Web\Html\HtmlReader_v2.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Web\Html\HtmlTag.cs">
-      <Link>SourceLnk\Lib\pb\Web\Html\HtmlTag.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Web\Html\HtmlToXml.cs">
-      <Link>SourceLnk\Lib\pb\Web\Html\HtmlToXml.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Web\Http\Http.cs">
-      <Link>SourceLnk\Lib\pb\Web\Http\Http.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Web\Http\HttpRequest.cs">
-      <Link>SourceLnk\Lib\pb\Web\Http\HttpRequest.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Web\Http\HttpRun.cs">
-      <Link>SourceLnk\Lib\pb\Web\Http\HttpRun.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Web\Http\HttpXml.cs">
-      <Link>SourceLnk\Lib\pb\Web\Http\HttpXml.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Web\Http\Url.cs">
-      <Link>SourceLnk\Lib\pb\Web\Http\Url.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Web\Http\XmlDocumentSourceType.cs">
-      <Link>SourceLnk\Lib\pb\Web\Http\XmlDocumentSourceType.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Windows\Win32\GDI.cs">
-      <Link>SourceLnk\Lib\pb\Windows\Win32\GDI.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Windows\Win32\Kernel.cs">
-      <Link>SourceLnk\Lib\pb\Windows\Win32\Kernel.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Windows\Win32\User.Const.cs">
-      <Link>SourceLnk\Lib\pb\Windows\Win32\User.Const.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Windows\Win32\User.cs">
-      <Link>SourceLnk\Lib\pb\Windows\Win32\User.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Windows\Win32\User.Struct.cs">
-      <Link>SourceLnk\Lib\pb\Windows\Win32\User.Struct.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Windows\Win32\Windows.cs">
-      <Link>SourceLnk\Lib\pb\Windows\Win32\Windows.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\Chrono.cs">
       <Link>SourceLnk\Lib\pb\_pb\Chrono.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\Convert.cs">
-      <Link>SourceLnk\Lib\pb\_pb\Convert.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\Error.cs">
       <Link>SourceLnk\Lib\pb\_pb\Error.cs</Link>
@@ -198,12 +123,6 @@
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\PBException.cs">
       <Link>SourceLnk\Lib\pb\_pb\PBException.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\Process.cs">
-      <Link>SourceLnk\Lib\pb\_pb\Process.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\Progress.cs">
-      <Link>SourceLnk\Lib\pb\_pb\Progress.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\Trace.cs">
       <Link>SourceLnk\Lib\pb\_pb\Trace.cs</Link>
     </Compile>
@@ -215,9 +134,6 @@
     </Compile>
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\TraceSetWriter.cs">
       <Link>SourceLnk\Lib\pb\_pb\TraceSetWriter.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\Tree.cs">
-      <Link>SourceLnk\Lib\pb\_pb\Tree.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -233,7 +149,11 @@
       <Name>runsource.v2.irunsource</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="SourceLnk\Lib\pb\Web\Html\" />
+    <Folder Include="SourceLnk\Lib\pb\Web\Http\" />
+    <Folder Include="SourceLnk\Lib\pb\Windows\Win32\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

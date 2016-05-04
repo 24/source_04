@@ -60,7 +60,7 @@ namespace Download.Print
             if (mongoCache != null)
                 MongoCursorCache.CacheFile = mongoCache;
             //pb.Data.Mongo.TraceMongoCommand.ResultToText = true;
-            pb.Data.Mongo.TraceMongoCommand.ResultToGrid = true;
+            //pb.Data.Mongo.TraceMongoCommand.ResultToGrid = true;
             DefaultMongoSerialization.SetDefaultMongoSerializationOptions();
             DefaultMongoSerialization.RegisterDefaultMongoSerializer();
             //MailSender.Trace = true;

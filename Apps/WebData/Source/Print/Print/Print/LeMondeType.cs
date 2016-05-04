@@ -1,6 +1,7 @@
 ﻿using System;
 
-namespace Print
+//namespace Print
+namespace Download.Print
 {
     [Flags]
     public enum LeMondeType

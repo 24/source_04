@@ -12,7 +12,8 @@ using pb.Data.Xml;
 using pb.IO;
 using pb.Text;
 
-namespace Print
+//namespace Print
+namespace Download.Print
 {
     public class Print1
     {

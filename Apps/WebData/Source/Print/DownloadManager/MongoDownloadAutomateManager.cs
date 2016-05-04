@@ -58,6 +58,11 @@ namespace Download.Print
                 return DateTime.Now;
         }
 
+        public TimeSpan GetTimeBetweenRun()
+        {
+            return _downloadAutomate.timeBetweenRun;
+        }
+
         private DownloadAutomate CreateData()
         {
             return new DownloadAutomate { id = _id, lastRunDateTime = null, timeBetweenRun = __defaultTimeBetweenRun };

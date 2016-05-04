@@ -178,8 +178,8 @@ namespace pb.Data.Mongo
 
     public static class TraceMongoCommand
     {
-        public static bool ResultToGrid = false;
-        public static bool ResultToText = false;
+        //public static bool ResultToGrid = false;
+        //public static bool ResultToText = false;
 
         public static void Eval(string code, string databaseName = "admin", string server = null)
         {
@@ -272,26 +272,27 @@ namespace pb.Data.Mongo
 
             MongoCursor<TDocument> cursor = collection.zFind<TDocument>(queryDoc, sortByWrapper, fieldsWrapper, limit, optionsDoc);
 
-            if (ResultToText)
-            {
-                int i = 0;
-                foreach (TDocument value in cursor)
-                {
-                    Trace.WriteLine(value.zToJson(true));
-                    i++;
-                }
-                Trace.WriteLine("found {0} document(s)", i);
-            }
+            //if (ResultToText)
+            //{
+            //    int i = 0;
+            //    foreach (TDocument value in cursor)
+            //    {
+            //        Trace.WriteLine(value.zToJson(true));
+            //        i++;
+            //    }
+            //    Trace.WriteLine("found {0} document(s)", i);
+            //}
             return cursor;
         }
 
-        public static void FindAll(string databaseName, string collectionName, string sort = null, string fields = null, int limit = 0, string options = null, string server = null)
+        public static MongoCursor<BsonDocument> FindAll(string databaseName, string collectionName, string sort = null, string fields = null, int limit = 0, string options = null, string server = null)
         {
-            MongoCursor<BsonDocument> cursor = FindAll<BsonDocument>(databaseName, collectionName, sort, fields, limit, options, server);
-            if (ResultToGrid)
-            {
-                RunSource.CurrentRunSource.SetResult(cursor.zToDataTable2());
-            }
+            //MongoCursor<BsonDocument> cursor = FindAll<BsonDocument>(databaseName, collectionName, sort, fields, limit, options, server);
+            //if (ResultToGrid)
+            //{
+            //    RunSource.CurrentRunSource.SetResult(cursor.zToDataTable2());
+            //}
+            return FindAll<BsonDocument>(databaseName, collectionName, sort, fields, limit, options, server); ;
         }
 
         public static MongoCursor<TDocument> FindAll<TDocument>(string databaseName, string collectionName, string sort = null, string fields = null, int limit = 0, string options = null, string server = null)
@@ -330,16 +331,16 @@ namespace pb.Data.Mongo
 
             MongoCursor<TDocument> cursor = collection.zFindAll<TDocument>(sortByWrapper, fieldsWrapper, limit, optionsDoc);
 
-            if (ResultToText)
-            {
-                int i = 0;
-                foreach (TDocument value in cursor)
-                {
-                    Trace.WriteLine(value.zToJson(true));
-                    i++;
-                }
-                Trace.WriteLine("found {0} document(s)", i);
-            }
+            //if (ResultToText)
+            //{
+            //    int i = 0;
+            //    foreach (TDocument value in cursor)
+            //    {
+            //        Trace.WriteLine(value.zToJson(true));
+            //        i++;
+            //    }
+            //    Trace.WriteLine("found {0} document(s)", i);
+            //}
             return cursor;
         }
 

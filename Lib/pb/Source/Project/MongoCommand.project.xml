@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<AssemblyProject>
+  <!--
+    Data\Mongo\Mongo.cs
+      add :
+        zToJson(), zTraceJson(), zToBsonDocument(), zToBsonDocuments(),
+        zGetDocumentId(this object document)
+        zGetFullName(this MongoDatabase database)
+        zGetFullName(this MongoCollection collection)
+        zGet(this BsonValue value, string name)
+        zSet(this BsonValue value, string name, BsonValue newValue)
+        zRemove(this BsonValue value, string name)
+        zDeserialize<T>(this BsonValue value)
+        zAsString(), ...
+        zSave()
+      dependances :
+        MongoDB.Bson.dll
+        MongoDB.Driver.dll
+  -->
+
+  <Root                             value = "..\..\..\.." />
+
+  <Using                            value = "pb.Data.Mongo" />
+
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Mongo.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\MongoCommand.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\MongoLog.cs" />
+
+  <Assembly                         value = "System.dll" />
+  <Assembly                         value = "System.Core.dll" />
+  <Assembly                         value = "runsource.dll" />
+  <Assembly                         value = "runsource.irunsource.dll" />
+  <Assembly                         value = "$Root$\..\library\Mongo\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Bson.dll" resolve = "true" resolveName = "MongoDB.Bson, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />
+  <Assembly                         value = "$Root$\..\library\Mongo\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Driver.dll" resolve = "true" resolveName = "MongoDB.Driver, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />
+</AssemblyProject>

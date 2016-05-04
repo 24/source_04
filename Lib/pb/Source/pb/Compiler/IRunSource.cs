@@ -38,6 +38,8 @@ namespace pb.Compiler
         event ProgressChangeEvent ProgressChange;
         //event EndRunEvent EndRunCode;
         Action<EndRunCodeInfo> EndRunCode { get; set; }
+        bool AllowMultipleExecution { get; set; }
+        bool CallInit { get; set; }
 
         //ITrace Trace { get; set; }
         //IGenerateAndExecuteManager GenerateAndExecuteManager { get; }

@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Xml.Linq;
 using pb.Data.Xml;
 
-namespace Print
+//namespace Print
+namespace Download.Print
 {
     public class PrintManager
     {

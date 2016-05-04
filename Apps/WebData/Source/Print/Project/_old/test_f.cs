@@ -143,7 +143,7 @@ namespace Download.Print.old
             RegexValuesList rvs = new RegexValuesList(elements);
             //FindText_old findText = rvs.Find_old(input);
             FindText findText = rvs.Find(input);
-            if (findText.found)
+            if (findText.Found)
             {
                 //NamedValues<ZValue> values = findText.regexValues.GetValues_old();
                 NamedValues<ZValue> values = findText.matchValues.GetValues();

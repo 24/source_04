@@ -10,7 +10,8 @@ using pb.Text;
 // A faire :
 //   supprimer baseDirectory dans le constructeur
 
-namespace Print
+//namespace Print
+namespace Download.Print
 {
     public class PrintLeVifExpress : Print
     {

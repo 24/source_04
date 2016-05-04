@@ -49,6 +49,7 @@ namespace runsourced
                 // ATTENTION si CreateRunSourceDomain = true runsource.launch.exe ne peut pas mettre à jour runsource.runsource.exe
                 remoteRunSource.CreateRunSourceDomain = config.Get("CreateRunSourceDomain").zTryParseAs<bool>(false);
                 IRunSource runSource = remoteRunSource.GetRunSource();
+                runSource.AllowMultipleExecution = config.Get("AllowMultipleExecution").zTryParseAs(false);
                 // ATTENTION Trace exists in both 'runsource.runsource.exe' and 'runsource.dll'
                 // donc il faut utiliser RemoteRunSource.GetTrace()
                 ITrace trace = remoteRunSource.GetTrace();
@@ -59,6 +60,7 @@ namespace runsourced
                 //runSource.GenerateAndExecuteManager.GenerateAssemblyDirectory = config.Get("GenerateAssemblyDirectory", "run").zRootPath(zapp.GetAppDirectory());
                 // ATTENTION appeler DeleteGeneratedAssemblies() après SetRunSourceConfig()
                 //runSource.DeleteGeneratedAssemblies();
+                //RunSourceForm_v1 form = new RunSourceForm_v1(runSource, trace, config, GetRunSourceRestartParameters());
                 RunSourceForm form = new RunSourceForm(runSource, trace, config, GetRunSourceRestartParameters());
 
                 //form.UpdateRunsourceFiles += FormUpdateRunsourceFiles;

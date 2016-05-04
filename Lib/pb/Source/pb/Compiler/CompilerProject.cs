@@ -16,6 +16,7 @@ namespace pb.Compiler
         private XmlConfigElement _projectXmlElement = null;
         private bool _isIncludeProject = false;
         private string _rootDirectory = null;
+        private List<ICompilerProject> _includeProjects = null;
 
         //public CompilerProject(XElement projectXmlElement, string projectFile)
         //{
@@ -149,27 +150,61 @@ namespace pb.Compiler
             return _projectXmlElement.GetExplicit("NameSpace");
         }
 
-        public string GetInitMethod()
+        //public string GetInitMethod()
+        //{
+        //    return _projectXmlElement.Get("InitMethod");
+        //}
+
+        public IEnumerable<string> GetInitMethods()
         {
-            return _projectXmlElement.Get("InitMethod");
+            //return _projectXmlElement.Get("InitMethod");
+            // la suppression des InitMethod doublons est faite dans ???
+            foreach (string value in _projectXmlElement.GetValues("InitMethod"))
+                yield return value;
+            foreach (ICompilerProject includeProject in GetIncludeProjects())
+            {
+                foreach (string value in includeProject.GetInitMethods())
+                    yield return value;
+            }
         }
 
-        public string GetEndMethod()
+        //public string GetEndMethod()
+        //{
+        //    return _projectXmlElement.Get("EndMethod");
+        //}
+
+        public IEnumerable<string> GetEndMethods()
         {
-            return _projectXmlElement.Get("EndMethod");
+            //return _projectXmlElement.Get("InitMethod");
+            // la suppression des InitMethod doublons est faite dans ???
+            foreach (string value in _projectXmlElement.GetValues("EndMethod"))
+                yield return value;
+            foreach (ICompilerProject includeProject in GetIncludeProjects())
+            {
+                foreach (string value in includeProject.GetInitMethods())
+                    yield return value;
+            }
         }
 
         public IEnumerable<ICompilerProject> GetIncludeProjects()
         {
-            foreach (string includeProject in _projectXmlElement.GetValues("IncludeProject"))
+            if (_includeProjects == null)
             {
-                //CompilerProject compilerProject = CompilerProject.Create(new XmlConfig(includeProject.zRootPath(_projectDirectory)).GetConfigElement("/AssemblyProject"), isIncludeProject: true);
-                CompilerProject compilerProject = CompilerProject.Create(new XmlConfig(GetPathFile(includeProject)).GetConfigElement("/AssemblyProject"), isIncludeProject: true);
-                if (compilerProject != null)
-                    yield return compilerProject;
-                else
-                    Trace.WriteLine("IncludeProject not found \"{0}\" from project \"{1}\"", includeProject, _projectFile);
+                _includeProjects = new List<ICompilerProject>();
+                foreach (string includeProject in _projectXmlElement.GetValues("IncludeProject"))
+                {
+                    CompilerProject compilerProject = CompilerProject.Create(new XmlConfig(GetPathFile(includeProject)).GetConfigElement("/AssemblyProject"), isIncludeProject: true);
+                    if (compilerProject != null)
+                    {
+                        //yield return compilerProject;
+                        _includeProjects.Add(compilerProject);
+                        _includeProjects.AddRange(compilerProject.GetIncludeProjects());
+                    }
+                    else
+                        Trace.WriteLine("IncludeProject not found \"{0}\" from project \"{1}\"", includeProject, _projectFile);
+                }
             }
+            return _includeProjects;
         }
 
         public IEnumerable<string> GetUsings()
@@ -182,7 +217,6 @@ namespace pb.Compiler
                 foreach (string value in includeProject.GetUsings())
                     yield return value;
             }
-
         }
 
         public IEnumerable<CompilerFile> GetSources()

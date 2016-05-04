@@ -13,6 +13,8 @@
 //*************************************************************************************************************************
 
 Trace.WriteLine("toto");
+"toto".zView();
+
 RunSource.CurrentRunSource.SetProjectFromSource();
 
 RunSource.CurrentRunSource.CompileProject(@"$Root$\Apps\WebData\Source\Print\Project\download.project.xml");
@@ -80,12 +82,15 @@ RunSource.CurrentRunSource.Compile_Project(@"..\..\..\..\Test\Test.Test_01\Sourc
 //****                                   Automate
 //*************************************************************************************************************************
 
+WebData.RunDownloadAutomate("runNow = true, stayRunning = true, loadNewPost = false, searchPostToDownload = false, sendMail = false, TraceLevel = 0");
+
 // run now, load new post, dont search post to download, dont send mail
 WebData.RunDownloadAutomate("runNow = true, loadNewPost = true, searchPostToDownload = false, sendMail = false");
 // run now, load new post, search post to download, dont send mail
 WebData.RunDownloadAutomate("runNow = true, loadNewPost = true, searchPostToDownload = true, sendMail = false");
 // $$info.Backup
-WebData.CreateDownloadAutomateManager("loadNewPost = false, searchPostToDownload = false, sendMail = false").Backup();
+WebData.CreateDownloadAutomateManagerWithServers().Backup();      // "loadNewPost = false, searchPostToDownload = false, sendMail = false"
+
 // SetTimeBetweenRun
 WebData.CreateDownloadAutomateManager("loadNewPost = false, searchPostToDownload = false, sendMail = false").MongoDownloadAutomateManager.SetTimeBetweenRun(TimeSpan.FromHours(2));
 TraceMongoCommand.Find("dl", "DownloadAutomate3", "{}").zView_v3();
@@ -1669,6 +1674,39 @@ Test.Test_Unit.Print.Test_Unit_RegexValues.Test_FindNumber_02(new pb.Text.FindNu
 //****                                                  Test_Unit_FindPrint
 //****                      c:\pib\dev_data\exe\runsource\test_unit\Print\FindPrint\FindPrint.txt
 //***********************************************************************************************************************************************************
+// $$info.test_unit.print
+
+Trace.WriteLine("toto");
+Trace.WriteLine(RunSource.CurrentRunSource.ProjectFile);
+RunSource.CurrentRunSource.SetProjectFromSource();
+RunSource.CurrentRunSource.SetProject(@"$Root$\Apps\WebData\Source\Print\Print\Test\Test_Unit_FindPrint.project.xml");
+RunSource.CurrentRunSource.SetProject(@"$Root$\Apps\WebData\Source\Print\Print\Test\Test_Unit_FindPrint_v2.project.xml");
+
+
+Test_Unit_FindPrint_v2.Test_FindPrint("FindPrint.txt");
+
+
+
+
+XmlConfig.CurrentConfig.ConfigFile.zTrace();
+XmlConfig.CurrentConfig = null;
+XmlConfig.CurrentConfig = new XmlConfig(RunSource.CurrentRunSource.GetFilePath("download.config.xml"));
+RunSource.CurrentRunSource.GetFilePath("download.config.xml").zTrace();
+@"$ProjectRoot$\Source\Print\Project\download.config.xml".zGetRunSourceProjectVariableValue().zTrace();
+@"$ProjectRoot$\Source\Print\Project\download.config.xml".zGetRunSourceProjectVariableValue().zRootPath(RunSource.CurrentRunSource.ProjectDirectory).zTrace();
+Test_Unit_FindPrint_v2.LoadConfig();
+
+
+global::Print.Test.Test_Unit_FindPrint.Test_FindPrint(WebData.CreateDownloadAutomateManager(""), "FindPrint.txt");
+global::Print.Test.Test_Unit_FindPrint.Test_OneFindPrint(WebData.CreateDownloadAutomateManager(""), "LES JOURNAUX -  MERCREDI 15 / 16 OCTOBRE 2014", "Ebooks/Magazine", PrintType.Unknow);
+global::Print.Test.Test_Unit_FindPrint.Test_OneFindPrint(WebData.CreateDownloadAutomateManager(""), "LES JOURNAUX -  MERCREDI 15 / 16 OCTOBRE 2014", "Ebooks/Magazine", PrintType.Print);
+
+
+TraceMongoCommand.Export("dl", "Vosbooks_Detail", @"c:\pib\drive\google\dev_data\exe\runsource\test_unit\Print\FindPrint\FindPrint.txt",
+  fields: "{ '_id': 0 'download.Title': 1, 'download.Category': 1, 'download.PrintType': 1, }", limit: 0, sort: "{ 'download.LoadFromWebDate': -1 }",
+  transformDocument: doc => new MongoDB.Bson.BsonDocument { { "Title", doc["download"]["Title"] }, { "PrintType", doc["download"]["PrintType"] },
+  { "Category", doc["download"]["Category"] } });
+
 
 pb.Data.Mongo.TraceMongoCommand.Export("dl", "RapideDdl_Detail2", @"c:\pib\dev_data\exe\runsource\test_unit\Print\FindPrint\FindPrint.txt",
   fields: "{ '_id': 0 'download.title': 1, 'download.category': 1, 'download.isPrint': 1, 'download.infos': 1 }", limit: 0, sort: "{ 'download.creationDate': -1 }",
@@ -2314,9 +2352,11 @@ Trace.WriteLine("{0}", zfile.AreFileEqual(@"c:\pib\_dl\_pib\dl\golden-ddl.net\pr
 
 // manage new print
 string[] directories = new string[] {
-	@"g:\pib\media\ebook\_dl\_dl_pib\print\04\print"
+	//@"g:\pib\media\ebook\_dl\_dl_pib\print\03\print"
+	@"g:\pib\media\ebook\Journaux\print"
 	};
-DownloadAutomate_f.Test_ManageDirectories_01(directories, @"g:\pib\media\ebook\print", usePrintDirectories: true, simulate: false, moveFiles: true);
+//DownloadAutomate_f.Test_ManageDirectories_01(directories, @"g:\pib\media\ebook\print", usePrintDirectories: true, simulate: false, moveFiles: true);
+WebData.ManageDirectories(directories, @"g:\pib\media\ebook\print", usePrintDirectories: true, simulate: false, moveFiles: true);
 
 // manage new book
 string[] directories = new string[] {
@@ -2341,6 +2381,23 @@ DownloadAutomate_f.Test_ManageDirectories_01(directories, @"g:\pib\media\ebook\b
 //PrintFileManager_v2.GetDailyPrintFiles(@"g:\pib\media\ebook\print\.01_Journaux")
 //  .zRenameDailyPrintFiles(DownloadAutomate_f.CreateFindPrintManager(version: 6, dailyPrintManager: true, gapDayBefore: 5, gapDayAfter: 2), @"g:\pib\media\ebook\Journaux", simulate: true);
 
+
+// manage new Journaux
+//string sourceDirectory = @"c:\pib\_dl\_dl\_pib\dl\print\.01_quotidien\Journaux";
+//string destinationDirectory = @"c:\pib\_dl\_dl\_pib\dl\print\.01_quotidien";
+string sourceDirectory = @"g:\pib\media\ebook\_dl\_dl_pib\journaux\04\print\.01_quotidien\Journaux";
+string destinationDirectory = @"g:\pib\media\ebook\Journaux";
+//bool simulate = true; string logFile = @"c:\pib\dev_data\exe\runsource\download\print\RenamePrintFiles_simulate.txt";
+bool simulate = false; string logFile = @"c:\pib\dev_data\exe\runsource\download\print\RenamePrintFiles.txt";
+//string parameters = null; // int version = 6; bool dailyPrintManager = false; int gapDayBefore = 0; int gapDayAfter = 0;
+string parameters = "dailyPrintManager = true, int gapDayBefore = 1, int gapDayAfter = 0";
+WebData.RenameDailyPrintFiles(sourceDirectory, destinationDirectory, logFile, simulate, parameters);
+
+zmongo.FileReader<RenamePrintFile>(@"c:\pib\dev_data\exe\runsource\download\print\RenamePrintFiles_06.txt").zView();
+zmongo.FileReader<RenamePrintFile>(logFile).OrderBy(r => r.FormatedTitle).zView();
+//PrintFileManager_v2.GetDailyPrintFiles(sourceJournaux)
+//  .zRenameDailyPrintFiles(DownloadAutomate_f.CreateFindPrintManager(version: version, dailyPrintManager: dailyPrintManager, gapDayBefore: gapDayBefore, gapDayAfter: gapDayAfter),
+//  destinationJournaux, simulate: simulate).zSave(logFile);
 
 // manage new Journaux
 PrintFileManager_v2.GetDailyPrintFiles(@"g:\pib\media\ebook\_dl\_dl_pib\journaux\02\print\.01_quotidien\Journaux")
@@ -2373,6 +2430,14 @@ DownloadAutomate_f.Test_ManageDirectories_01(new string[] { @"g:\pib\media\ebook
 
 
 FindPrint.TraceWarning = true;
+WebData.CreateFindPrintManager("dailyPrintManager = true, gapDayBefore = 1, gapDayAfter = 0").Find("Le Journal du Dimanche - 3 Avril 2016", PrintType.Print, expectedDate: Date.Parse("2016-04-03")).zTraceJson();
+WebData.CreateFindPrintManager("dailyPrintManager = true, gapDayBefore = 1, gapDayAfter = 0").Find("L' Equipe du dimanche 10 avril 2016", PrintType.Print, expectedDate: Date.Parse("2016-04-10")).zTraceJson();
+WebData.CreateFindPrintManager("dailyPrintManager = true, gapDayBefore = 1, gapDayAfter = 0").Find("", PrintType.Print, expectedDate: Date.Parse("2016-04-03")).zTraceJson();
+WebData.CreateFindPrintManager("dailyPrintManager = true, gapDayBefore = 1, gapDayAfter = 0").Find("", PrintType.Print, expectedDate: Date.Parse("2016-04-03")).zTraceJson();
+
+WebData.CreatePrintTitleManager("gapDayBefore = 1, gapDayAfter = 0").GetPrintTitleInfo("Le Journal du Dimanche - 3 Avril 2016", expectedDate: Date.Parse("2016-04-03")).zTraceJson();
+WebData.CreateFindDateManager("gapDayBefore = 1, gapDayAfter = 0").Find("Le Journal du Dimanche - 3 Avril 2016", expectedDate: Date.Parse("2016-04-03")).zTraceJson();
+
 DownloadAutomate_f.CreateFindPrintManager(version: 6, dailyPrintManager: true, gapDayBefore: 5, gapDayAfter: 1).Find("", PrintType.Print, expectedDate: Date.Parse("2013-10-22")).zToJson().zTrace();
 DownloadAutomate_f.CreateFindPrintManager(version: 6, dailyPrintManager: true, gapDayBefore: 5, gapDayAfter: 1).Find("", PrintType.Print, expectedDate: Date.Parse("2013-10-22")).zToJson().zTrace();
 DownloadAutomate_f.CreateFindPrintManager(version: 6, dailyPrintManager: true, gapDayBefore: 5, gapDayAfter: 1).Find("", PrintType.Print, expectedDate: Date.Parse("2013-10-22")).zToJson().zTrace();
@@ -5109,3 +5174,53 @@ Download.Print.Test.Test_Download.Test_04();
 Download.Print.Test.Test_Download.Test_05();
 Download.Print.Test.Test_Download.Test_06();
 Download.Print.Test.Test_Download.Test_07();
+
+WebData.DownloadFile("https://1fichier.com/?h480u6bn60", directory: "film", startNow: true);
+WebData.DownloadFile("https://1fichier.com/?h480u6bn60", directory: @"c:\pib\_dl\data\film\new", startNow: true);
+WebData.DownloadFile("https://1fichier.com/?h480u6bn60", directory: @"c:\pib\_dl", startNow: true);
+
+//WebData.QueueDownloadFile(new string[] { "http://uptobox.com/96tlk689905g" }, @"test\Pour la science\Pour la science no 463");
+//WebData.QueueDownloadFile(new string[] { "https://1fichier.com/?q0pa8gmte2" }, @"c:\pib\_dl\data\music\neil-young-fork-in-the-road");
+WebData.QueueDownloadFile(new string[] { "http://pleh1x41mk.1fichier.com/" }, directory: @"c:\pib\_dl");
+
+WebData.RunDownloadAutomate("runNow = true, stayRunning = true, loadNewPost = false, searchPostToDownload = false, sendMail = false, TraceLevel = 0");
+string[] links = new string[] {
+  "",
+  "",
+  "",
+  "",
+  "",
+  ""
+};
+string[] links = new string[] {
+  "https://1fichier.com/?07bqqcoe9z",
+  "https://1fichier.com/?x35w5sno3l",
+  "https://1fichier.com/?i9h6o9spj3",
+  "https://1fichier.com/?abd7rvdsga",
+  "https://1fichier.com/?ywxgshdvl2",
+  "https://1fichier.com/?ajoex69h0y"
+};
+WebData.QueueDownloadFiles(links, directory: @"c:\pib\_dl");
+
+
+new Uri("http://toto.com/zozo/zuzu/zaza.txt").AbsolutePath.zTrace();
+
+for (int i = 0; i < 500; i++)
+	Trace.WriteLine("toto {0}", i);
+
+Trace.WriteLine("zzzzzzzzzzzzzzzzzzzzzzzztotozzzzzzzzzzzzzzzzzzzzzz");
+
+zReflection.GetName(typeof(int)).zTrace();  // System.Int32
+zReflection.GetName(typeof(IEnumerable<int>)).zTrace();  // System.Collections.Generic.IEnumerable`1[[System.Int32]]
+Assembly.GetCallingAssembly().FullName.zTrace();  // runsource, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+Assembly.GetCallingAssembly().Location.zTrace();  // C:\pib\prog\tools\runsource\exe\runsource.dll
+
+zReflection.GetMethod(typeof(int), "ToString", ErrorOptions.TraceWarning);
+zReflection.GetMethod(typeof(DownloadRun), "Init", ErrorOptions.TraceWarning).Name.zTrace();     // Init
+zReflection.GetMethod(typeof(DownloadRun), "Init", ErrorOptions.TraceWarning).ToString().zTrace();     // Void Init()
+zReflection.GetMethod(typeof(DownloadRun), "Init", ErrorOptions.TraceWarning).zGetDefinition().zTrace();     // System.Void Init()
+zReflection.GetMethod(typeof(DownloadRun), "Init", ErrorOptions.TraceWarning).ReflectedType.zGetTypeName().zTrace();     // Download.Print.DownloadRun
+zReflection.GetMethod(typeof(DownloadRun), "Init", ErrorOptions.TraceWarning).zGetName().zTrace();     // Download.Print.DownloadRun.Init, RunCode_00003, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+typeof(zReflection).Assembly.FullName.zTrace();
+// [{namespace}.{type}.]{method name}[, {assembly name}]
+

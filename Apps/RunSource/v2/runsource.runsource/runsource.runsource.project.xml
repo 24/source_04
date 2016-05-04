@@ -14,9 +14,18 @@
   <Source                           value = "Properties\Resources.resx" namespace = "runsourced.Properties" />
   <Source                           value = "Properties\Resources.Designer.cs" />
   <Source                           value = "Source\Program.cs" />
+	<!--<Source                           value = "Source\_old\RunSourceForm_v1.cs" />-->
+	<!--<Source                           value = "Source\_old\RunSourceForm_v1.Designer.cs" />-->
 	<Source                           value = "Source\RunSourceForm.cs" />
 	<Source                           value = "Source\RunSourceForm.Designer.cs" />
-	<!--<Source                           value = "Source\RunSourceForm.resx" namespace = "runsourced" />-->
+	<Source                           value = "Source\RunSourceFormDesign.cs" />
+	<Source                           value = "Source\RunSourceFormDataGrid.cs" />
+	<Source                           value = "Source\RunSourceFormDataGridView.cs" />
+	<Source                           value = "Source\RunSourceFormResultTab.cs" />
+	<Source                           value = "Source\RunSourceFormTreeView.cs" />
+	<Source                           value = "Source\RunSourceFormWndProc.cs" />
+	<Source                           value = "Source\RunSourceFormXtraGrid.cs" />
+  <Source                           value = "Source\RunSourceRestartParameters.cs" />
 
   <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\Chrono.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\Convert.cs" />
@@ -50,7 +59,19 @@
   <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\cGrid.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\XtraGrid.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\zerrf.cs" />
-  
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\zForm.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\Scintilla\ScintillaBookmark.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\Scintilla\ScintillaBookmarkForm.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\Scintilla\ScintillaBrace.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\Scintilla\ScintillaCodeFolding.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\Scintilla\ScintillaExtension.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\Scintilla\ScintillaFindForm.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\Scintilla\ScintillaFindForm.Designer.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\Scintilla\ScintillaFindText.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\Scintilla\ScintillaFindTextForm.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\Scintilla\ScintillaIndent.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Win32\WM.cs" />
+
   <Assembly                         value = "System.dll" />
 	<Assembly                         value = "System.Core.dll" />
 	<Assembly                         value = "System.Data.dll" />
@@ -66,10 +87,14 @@
   <Assembly                         value = "$Root$\..\library\DevExpress\DevExpress 2.4.7.0\.NET\DevExpress.Utils.dll" />
   <Assembly                         value = "$Root$\..\library\DevExpress\DevExpress 2.4.7.0\.NET\DevExpress.XtraEditors.dll" />
   <Assembly                         value = "$Root$\..\library\DevExpress\DevExpress 2.4.7.0\.NET\DevExpress.XtraGrid.dll" />
-  <Assembly                         value = "$Root$\..\library\ScintillaNET\ScintillaNET v2.6\ScintillaNET.dll" />
-  <File                             value = "$Root$\..\library\ScintillaNET\ScintillaNET v2.6\SciLexer.dll" />
-  <File                             value = "$Root$\..\library\ScintillaNET\ScintillaNET v2.6\SciLexer64.dll" />
-  <File                             value = "$Root$\..\library\ScintillaNET\ScintillaNET v2.6\ScintillaNET.xml" />
+  
+  <!--<Assembly                         value = "$Root$\..\library\ScintillaNET\ScintillaNET.2.6\ScintillaNET.dll" />-->
+  <!--<File                             value = "$Root$\..\library\ScintillaNET\ScintillaNET.2.6\SciLexer.dll" />-->
+  <!--<File                             value = "$Root$\..\library\ScintillaNET\ScintillaNET.2.6\SciLexer64.dll" />-->
+  <!--<File                             value = "$Root$\..\library\ScintillaNET\ScintillaNET.2.6\ScintillaNET.xml" />-->
+  
+  <Assembly                         value = "$Root$\..\library\ScintillaNET\ScintillaNET.3.5.6\ScintillaNET.dll" />
+
   <Assembly                         value = "$Root$\Lib\LongPath\Pri.LongPath\bin\Debug\Pri.LongPath.dll" />
   <Assembly                         value = "$Root$\Apps\RunSource\v2\runsource.irunsource\bin32\runsource.irunsource.dll" copySource = "true" />
   <DebugInformation                 value = "true" />

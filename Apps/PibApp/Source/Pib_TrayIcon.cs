@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.Linq;
 using System.ServiceProcess;
-using System.Text;
 using System.Windows.Forms;
 using pb;
 using pb.Data.Xml;
@@ -12,7 +9,6 @@ using pb.Windows.Forms;
 
 namespace Pib
 {
-    #region class Pib_TrayIcon
     public class Pib_TrayIcon : IDisposable
     {
         TrayIcon gTrayIcon = null;
@@ -41,11 +37,11 @@ namespace Pib
             gTrayIcon.NotifyIcon.Text = "Pib";
             gTrayIcon.NotifyIcon.MouseDoubleClick += new MouseEventHandler(notifyIcon_MouseDoubleClick);
 
-            gmMain = zmenu.CreateMenuItem("Pib &main", true, new EventHandler(m_main_Click));
-            gmCraddleSaveFile = zmenu.CreateMenuItem("&Craddle save file", true, new EventHandler(m_craddle_save_file_Click));
-            gmRunCraddle = zmenu.CreateMenuItem("&Run craddle", false, new EventHandler(m_run_craddle_Click));
-            gmRunCraddleLastLevel = zmenu.CreateMenuItem("&Run craddle last level", false, new EventHandler(m_run_craddle_last_level_Click));
-            gmDeleteCraddleLastLevel = zmenu.CreateMenuItem("&Delete craddle last level", false, new EventHandler(m_delete_craddle_last_level_Click));
+            gmMain = zForm.CreateMenuItem("Pib &main", true, new EventHandler(m_main_Click));
+            gmCraddleSaveFile = zForm.CreateMenuItem("&Craddle save file", true, new EventHandler(m_craddle_save_file_Click));
+            gmRunCraddle = zForm.CreateMenuItem("&Run craddle", false, new EventHandler(m_run_craddle_Click));
+            gmRunCraddleLastLevel = zForm.CreateMenuItem("&Run craddle last level", false, new EventHandler(m_run_craddle_last_level_Click));
+            gmDeleteCraddleLastLevel = zForm.CreateMenuItem("&Delete craddle last level", false, new EventHandler(m_delete_craddle_last_level_Click));
             InitCradleOfRomeWatcher();
             if (gCradleWatcher.IsStarted())
                 gmCraddleSaveFile.Checked = true;
@@ -54,7 +50,7 @@ namespace Pib
             //RunCraddleSaveFile();
             //UpdateRunCradleMenu();
             //ToolStripMenuItem mBackup = zmenu.CreateMenuItem("&Backup", false, new EventHandler(m_backup_Click));
-            gmAbortCurrentTask = zmenu.CreateMenuItem("&Abort current task", false, new EventHandler(m_abort_current_task_Click));
+            gmAbortCurrentTask = zForm.CreateMenuItem("&Abort current task", false, new EventHandler(m_abort_current_task_Click));
             gmAbortCurrentTask.Enabled = false;
             //gmRunTaskRapidshare = zmenu.CreateMenuItem("Run rapidshare &download", false, new EventHandler(m_RunTaskRapidshare_Click));
             //gmAbortTaskRapidshare = zmenu.CreateMenuItem("Ab&ort rapidshare download", false, new EventHandler(m_AbortTaskRapidshare_Click));
@@ -62,15 +58,15 @@ namespace Pib
             //ToolStripMenuItem mAddFilesTubeDownload = zmenu.CreateMenuItem("Add &FilesTube download", false, new EventHandler(m_Add_FilesTubeDownload_Click));
             //ToolStripMenuItem mAddRapidshareDownload = zmenu.CreateMenuItem("Add &Rapidshare download", false, new EventHandler(m_AddRapidshareDownload_Click));
 
-            gmSqlServerService = zmenu.CreateMenuItem("Sql server service", false, new EventHandler(m_sql_server_service_Click));
+            gmSqlServerService = zForm.CreateMenuItem("Sql server service", false, new EventHandler(m_sql_server_service_Click));
             InitSqlServerService();
             UpdateMenuItemSqlServerService();
-            ToolStripMenuItem mTestProcess = zmenu.CreateMenuItem("Test &process", false, new EventHandler(m_TestProcess_Click));
-            ToolStripMenuItem mTestThread1 = zmenu.CreateMenuItem("Test_Thread.TestThread1 (bloque)", false, new EventHandler(m_TestThread1_Click));
-            ToolStripMenuItem mTestThread2 = zmenu.CreateMenuItem("Test_Thread.TestThread2 (ne bloque pas)", false, new EventHandler(m_TestThread2_Click));
-            ToolStripMenuItem mRunUnfinishedThread = zmenu.CreateMenuItem("Run unfinished thread", false, new EventHandler(m_RunUnfinishedThread_Click));
-            ToolStripMenuItem mAbortUnfinishedThread = zmenu.CreateMenuItem("Abort unfinished thread", false, new EventHandler(m_AbortUnfinishedThread_Click));
-            ToolStripMenuItem mQuit = zmenu.CreateMenuItem("&Quit", false, new EventHandler(m_quit_Click));
+            ToolStripMenuItem mTestProcess = zForm.CreateMenuItem("Test &process", false, new EventHandler(m_TestProcess_Click));
+            ToolStripMenuItem mTestThread1 = zForm.CreateMenuItem("Test_Thread.TestThread1 (bloque)", false, new EventHandler(m_TestThread1_Click));
+            ToolStripMenuItem mTestThread2 = zForm.CreateMenuItem("Test_Thread.TestThread2 (ne bloque pas)", false, new EventHandler(m_TestThread2_Click));
+            ToolStripMenuItem mRunUnfinishedThread = zForm.CreateMenuItem("Run unfinished thread", false, new EventHandler(m_RunUnfinishedThread_Click));
+            ToolStripMenuItem mAbortUnfinishedThread = zForm.CreateMenuItem("Abort unfinished thread", false, new EventHandler(m_AbortUnfinishedThread_Click));
+            ToolStripMenuItem mQuit = zForm.CreateMenuItem("&Quit", false, new EventHandler(m_quit_Click));
             //gTrayIcon.NotifyMenu = gTrayIcon.CreateMenuStrip(new ToolStripItem[] {
             gTrayIcon.AddMenuItems(
                 gmMain,
@@ -705,5 +701,4 @@ namespace Pib
         #endregion
 
     }
-    #endregion
 }

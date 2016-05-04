@@ -5,7 +5,8 @@ using System.Text;
 using pb;
 using pb.Data;
 
-namespace Print
+//namespace Print
+namespace Download.Print
 {
     class LeMonde0 // : IPrint
     {

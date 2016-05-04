@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Pri.LongPath</id>
+    <version>2.0.0-beta</version>
+    <authors>Peter Ritchie</authors>
+    <dependencies/>
+    <owners>Peter Ritchie</owners>
+    <licenseUrl>https://github.com/peteraritchie/longpath/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/peteraritchie/LongPath</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Drop-in library to support long paths in .NET</description>
+    <releaseNotes>Added support for UNC paths.</releaseNotes>
+    <copyright>Copyright 2015</copyright>
+    <tags>long path</tags>
+  </metadata>
+</package>

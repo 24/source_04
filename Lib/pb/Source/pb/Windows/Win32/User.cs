@@ -6,10 +6,8 @@ using HANDLE = System.IntPtr;
 using HWND = System.IntPtr;
 using HDC = System.IntPtr;
 
-//namespace Win32
 namespace pb.Windows.Win32
 {
-    #region //class UserConst
     /******************************************************************************
     public abstract class UserConst
     {
@@ -1750,9 +1748,7 @@ namespace pb.Windows.Win32
         public const string SZDDE_ITEM_ITEMLIST = "TopicItemList";
     }
     ******************************************************************************/
-    #endregion
 
-    #region class ComCtl
     public abstract class ComCtl
 	{
 		[DllImport("COMCTL32")] public static extern int ImageList_AddIcon(HANDLE himl, HANDLE hIcon);
@@ -1761,18 +1757,14 @@ namespace pb.Windows.Win32
 		[DllImport("COMCTL32")] public static extern int ImageList_GetIcon(HANDLE hIMAGELIST, int ImgIndex, HANDLE hbmMask);
 		[DllImport("COMCTL32")] public static extern int InitCommonControls();
     }
-    #endregion
 
-    #region class Ole
     public abstract class Ole
 	{
 		[DllImport("ole32")] public static extern int OleInitialize(IntPtr vbNullString);
 		[DllImport("ole32")] public static extern void CoTaskMemFree(HANDLE hMem);
 		[DllImport("ole32")] public static extern void OleUninitialize();
     }
-    #endregion
 
-    #region class User
     public abstract partial class User
 	{
         // ajout
@@ -2309,5 +2301,4 @@ namespace pb.Windows.Win32
 		[DllImport("user32")] public static extern void SetDebugErrorLevel(int dwLevel);
 		[DllImport("user32")] public static extern void SetLastErrorEx(int dwErrCode, int dwType);
     }
-    #endregion
 }

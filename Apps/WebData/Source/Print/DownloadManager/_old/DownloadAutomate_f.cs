@@ -15,7 +15,6 @@ using pb.Text;
 using pb.Web;
 using pb.Web.Data;
 using Print;
-using Print.old;
 using pb.Data.Mongo.old;
 using pb.Web.Data.old;
 
@@ -123,28 +122,6 @@ namespace Download.Print.old
             {
                 Trace.WriteLine("manage directory group \"{0}\"", subDirectory2);
                 printFileManager.ManageDirectoryGroup(printDirectoriesInfos[subDirectory2], directories[0], bonusDirectory);
-            }
-        }
-
-        public static void Test_ManageDirectories_01(IEnumerable<string> sourceDirectories, string destinationDirectory, string bonusDirectory = null, bool usePrintDirectories = true,
-            bool simulate = true, bool moveFiles = false, Func<string, bool> directoryFilter = null)
-        {
-            PrintFileManager_v2 printFileManager = CreatePrintFileManager_v2(simulate: simulate, moveFiles: moveFiles);
-            PrintDirectoryManager  printDirectoryManager = CreatePrintDirectoryManager();
-            foreach (string sourceDirectory in sourceDirectories)
-            {
-                foreach (EnumDirectoryInfo directory in CreatePrintDirectoryManager().GetDirectories(sourceDirectory, usePrintDirectories: usePrintDirectories))
-                {
-                    if (directoryFilter != null)
-                    {
-                        if (!directoryFilter(directory.SubDirectory))
-                            continue;
-                    }
-                    printFileManager.ManageDirectory(directory.Directory, zPath.Combine(destinationDirectory, directory.SubDirectory), bonusDirectory);
-                    //directory.Directory.zTrace();
-                    //zPath.Combine(destinationDirectory, directory.SubDirectory).zTrace();
-                    //"".zTrace();
-                }
             }
         }
 
@@ -327,11 +304,6 @@ namespace Download.Print.old
 
         }
 
-        public static PrintDirectoryManager CreatePrintDirectoryManager()
-        {
-            return new PrintDirectoryManager(XmlConfig.CurrentConfig.GetConfig("PrintList2Config").GetValues("PrintDirectories/Directory").ToArray());
-        }
-
         // bool dailyPrintManager = false
         public static PrintTitleManager CreatePrintTitleManager(int version = 3, int gapDayBefore = 0, int gapDayAfter = 0)
         {
@@ -420,19 +392,6 @@ namespace Download.Print.old
             PrintFileManager printFileManager = new PrintFileManager(uncompressManager);
             printFileManager.Simulate = simulate;
             printFileManager.MoveFiles = moveFiles;
-            return printFileManager;
-        }
-
-        public static PrintFileManager_v2 CreatePrintFileManager_v2(UncompressManager uncompressManager = null, bool simulate = false, bool moveFiles = false)
-        {
-            if (uncompressManager == null)
-                uncompressManager = CreateUncompressManager();
-            RegexValuesList bonusDirectories = new RegexValuesList(XmlConfig.CurrentConfig.GetConfig("PrintList2Config").GetElements("BonusDirectories/Directory"), compileRegex: true);
-            PrintFileManager_v2 printFileManager = new PrintFileManager_v2();
-            printFileManager.Simulate = simulate;
-            printFileManager.MoveFiles = moveFiles;
-            printFileManager.UncompressManager = uncompressManager;
-            printFileManager.BonusDirectories = bonusDirectories;
             return printFileManager;
         }
 

@@ -70,6 +70,8 @@ namespace pb.Data
             // "datetime1 = 01/01/2015 01:35:52.123, datetime2 = 2015-01-01 01:35:52.123, date1 = 01/01/2015, date2 = 2015-01-01, time = 1.01:35:52.1234567, double = 1.123, int = 3, bool1 = true, bool2 =  false, text1 = 'toto', text2 = \"toto\""
             // "version = 3, date = 01/01/2015, text1 = 'toto', text2 = \"toto\", time = 01:35:52"
             NamedValues<ZValue> namedValues = new NamedValues<ZValue>();
+            if (values == null)
+                return namedValues;
             Match match = __parseValues.Match(values);
             while (match.Success)
             {

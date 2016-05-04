@@ -101,6 +101,9 @@
     <Compile Include="..\..\Lib\pb\Source\pb\IO\zPath.cs">
       <Link>SourceLnk\Lib\pb\IO\zPath.cs</Link>
     </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Reflection\Reflection.cs">
+      <Link>SourceLnk\Lib\pb\Reflection\Reflection.cs</Link>
+    </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Text\Regex.cs">
       <Link>SourceLnk\Lib\pb\Text\Regex.cs</Link>
     </Compile>
@@ -134,7 +137,6 @@
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Windows\Forms\WinProc.cs">
       <Link>SourceLnk\Lib\pb\Windows\Forms\WinProc.cs</Link>
-      <SubType>Form</SubType>
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Windows\Forms\zerrf.cs">
       <Link>SourceLnk\Lib\pb\Windows\Forms\zerrf.cs</Link>
@@ -189,9 +191,6 @@
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\_pb\Progress.cs">
       <Link>SourceLnk\Lib\pb\_pb\Progress.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\_pb\Reflection.cs">
-      <Link>SourceLnk\Lib\pb\_pb\Reflection.cs</Link>
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\_pb\TextSerializer.cs">
       <Link>SourceLnk\Lib\pb\_pb\TextSerializer.cs</Link>

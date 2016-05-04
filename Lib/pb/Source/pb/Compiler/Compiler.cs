@@ -234,9 +234,9 @@ namespace pb.Compiler
                 //string keyfile = xe.Get("KeyFile");
                 if (!includeProject)
                 {
-                s = project.GetKeyFile();
-                if (s != null)
-                    AddCompilerOption("/keyfile:\"" + s + "\"");
+                    s = project.GetKeyFile();
+                    if (s != null)
+                        AddCompilerOption("/keyfile:\"" + s + "\"");
                 }
 
                 //string target = xe.Get("Target");
@@ -250,10 +250,10 @@ namespace pb.Compiler
                 //string icon = xe.Get("Icon");
                 if (!includeProject)
                 {
-                s = project.GetIcon();
-                if (s != null)
-                    //AddCompilerOption("/win32icon:" + s);
-                    AddCompilerOption("/win32icon:\"" + s + "\"");
+                    s = project.GetIcon();
+                    if (s != null)
+                        //AddCompilerOption("/win32icon:" + s);
+                        AddCompilerOption("/win32icon:\"" + s + "\"");
                 }
             //}
 

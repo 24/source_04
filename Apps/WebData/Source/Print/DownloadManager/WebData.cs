@@ -1,34 +1,20 @@
 ﻿using pb;
 using pb.Data;
 using pb.Data.Xml;
-using Print;
+using pb.Text;
 using System.Xml.Linq;
 
 namespace Download.Print
 {
-    public static class WebData
+    public static partial class WebData
     {
-        public static void RunDownloadAutomate(string parameters = null)
+        // bool initServers = false
+        public static DownloadAutomateManagerCreator GetDownloadAutomateManagerCreator(string parameters = null)
         {
-            DownloadAutomateManager downloadAutomateManager = CreateDownloadAutomateManager(parameters);
-            try
-            {
-                downloadAutomateManager.Start();
-                // loadNewPost: loadNewPost, searchPostToDownload: searchPostToDownload, uncompressFile: uncompressFile, sendMail: sendMail
-                downloadAutomateManager.Run();
-            }
-            finally
-            {
-                downloadAutomateManager.Dispose();
-            }
-        }
-
-        public static DownloadAutomateManagerCreator GetDownloadAutomateManagerCreator(string parameters = null, bool initServers = true)
-        {
-            if (initServers)
-                InitServers();
+            //if (initServers)
+            //    InitServers();
             DownloadAutomateManagerCreator createDownloadAutomateManager = new DownloadAutomateManagerCreator();
-            createDownloadAutomateManager.Init(GetDownloadAutomateManagerConfig());
+            createDownloadAutomateManager.Init(GetDownloadAutomateManagerConfig(), XmlConfig.CurrentConfig);
             if (parameters != null)
                 createDownloadAutomateManager.SetParameters(NamedValues.ParseValues(parameters));
             return createDownloadAutomateManager;
@@ -48,12 +34,14 @@ namespace Download.Print
             //    createDownloadAutomateManager.SetParameters(NamedValues.ParseValues(parameters));
             //return createDownloadAutomateManager.Create();
 
-            return GetDownloadAutomateManagerCreator(parameters, initServers: true).Create();
+            //return GetDownloadAutomateManagerCreator(parameters, initServers: true).Create();
+            return GetDownloadAutomateManagerCreator(parameters).Create();
         }
 
         public static FindPrintManager CreateFindPrintManager(string parameters = null)
         {
-            CreateFindPrintManager createFindPrintManager = new CreateFindPrintManager();
+            // parameters : version = 6, dailyPrintManager = true, gapDayBefore = 5, gapDayAfter = 2
+            FindPrintManagerCreator createFindPrintManager = new FindPrintManagerCreator();
             createFindPrintManager.Init(GetDownloadAutomateManagerConfig());
             if (parameters != null)
                 createFindPrintManager.SetParameters(NamedValues.ParseValues(parameters));
@@ -62,29 +50,23 @@ namespace Download.Print
 
         public static PrintTitleManager CreatePrintTitleManager(string parameters = null)
         {
-            CreatePrintTitleManager createPrintTitleManager = new CreatePrintTitleManager();
+            // parameters : version = 6, gapDayBefore = 5, gapDayAfter = 2
+            return GetCreatePrintTitleManager(parameters).Create();
+        }
+
+        public static FindDateManager CreateFindDateManager(string parameters = null)
+        {
+            // parameters : version = 6, gapDayBefore = 5, gapDayAfter = 2
+            return GetCreatePrintTitleManager(parameters).CreateFindDateManager();
+        }
+
+        public static PrintTitleManagerCreator GetCreatePrintTitleManager(string parameters = null)
+        {
+            PrintTitleManagerCreator createPrintTitleManager = new PrintTitleManagerCreator();
             createPrintTitleManager.Init(GetDownloadAutomateManagerConfig());
             if (parameters != null)
                 createPrintTitleManager.SetParameters(NamedValues.ParseValues(parameters));
-            return createPrintTitleManager.Create();
-        }
-
-        public static void InitServers()
-        {
-            //Vosbooks.Vosbooks_v1.FakeInit();
-            //Vosbooks.Vosbooks.FakeInit();
-            Vosbooks.Vosbooks.FakeInit();
-
-            //Ebookdz.old.Ebookdz_v1.FakeInit();
-            //Ebookdz.old.Ebookdz_v2.FakeInit();
-            //Ebookdz.Ebookdz_v3.FakeInit();
-            Ebookdz.Ebookdz.FakeInit();
-
-            MagazinesGratuits.MagazinesGratuits.FakeInit();
-            //TelechargerMagazine.old.TelechargerMagazine_v1.FakeInit();
-            TelechargerMagazine.TelechargerMagazine.FakeInit();
-            //ExtremeDown.old.ExtremeDown_v2.FakeInit();
-            ExtremeDown.ExtremeDown.FakeInit();
+            return createPrintTitleManager;
         }
 
         public static XElement GetDownloadAutomateManagerConfig()

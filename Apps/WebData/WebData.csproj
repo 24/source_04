@@ -188,11 +188,17 @@
     <Compile Include="..\..\Lib\pb\Source\pb\Web\Html\HtmlReader_v2.cs">
       <Link>SourceLnk\Lib\pb\Web\Html\HtmlReader_v2.cs</Link>
     </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Html\HtmlReader_v3.cs">
+      <Link>SourceLnk\Lib\pb\Web\Html\HtmlReader_v3.cs</Link>
+    </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Web\Http\Certificate.cs">
       <Link>SourceLnk\Lib\pb\Web\Http\Certificate.cs</Link>
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Web\Http\HttpManager.cs">
       <Link>SourceLnk\Lib\pb\Web\Http\HttpManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Http\HttpManagerXml.cs">
+      <Link>SourceLnk\Lib\pb\Web\Http\HttpManagerXml.cs</Link>
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\_pb\Tree.cs">
       <Link>SourceLnk\Lib\pb\_pb\Tree.cs</Link>
@@ -556,39 +562,43 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Source\Print\DownloadManager\DownloadAutomateManagerCreator.cs" />
-    <Compile Include="Source\Print\DownloadManager\CreateFindPrintManager.cs" />
-    <Compile Include="Source\Print\DownloadManager\CreatePrintTitleManager.cs" />
+    <Compile Include="Source\Print\DownloadManager\FindPrintManagerCreator.cs" />
+    <Compile Include="Source\Print\DownloadManager\PrintTitleManagerCreator.cs" />
+    <Compile Include="Source\Print\DownloadManager\WebDataDownloadFile.cs" />
+    <Compile Include="Source\Print\DownloadManager\WebDataPrintFileManager.cs" />
+    <Compile Include="Source\Print\DownloadManager\WebDataRun.cs" />
     <Compile Include="Source\Print\DownloadManager\_old\DownloadAutomateManager_v1.cs" />
     <Compile Include="Source\Print\DownloadManager\DownloadAutomateManager.cs" />
-    <Compile Include="Source\Print\DownloadManager\_old\DownloadAutomate_f.cs" />
+    <None Include="Source\Print\DownloadManager\_old\DownloadAutomate_f.cs" />
     <Compile Include="Source\Print\DownloadManager\PostHeaderDetailMongoManagerBase.cs" />
     <Compile Include="Source\Print\DownloadManager\WebData.cs" />
-    <Compile Include="Source\Print\DownloadManager\_old\DownloadManager_v2.cs" />
+    <None Include="Source\Print\DownloadManager\_old\DownloadManager_v2.cs" />
     <Compile Include="Source\Print\DownloadManager\DownloadManagerClient.cs" />
     <Compile Include="Source\Print\DownloadManager\_old\DownloadManager_f.cs" />
-    <Compile Include="Source\Print\DownloadManager\_old\DownloadManager_v1.cs" />
+    <None Include="Source\Print\DownloadManager\_old\DownloadManager_v1.cs" />
     <Compile Include="Source\Print\DownloadManager\DownloadManager.cs" />
     <Compile Include="Source\Print\DownloadManager\MongoDownloadAutomateManager.cs" />
     <Compile Include="Source\Print\DownloadManager\_old\SelectPostManager_f.cs" />
     <Compile Include="Source\Print\DownloadManager\ServerManagers.cs" />
     <Compile Include="Source\Print\DownloadManager\_old\PostHeaderDetailMongoManagerBase_v1.cs" />
     <Compile Include="Source\Print\Print\DownloadPrint.cs" />
-    <Compile Include="Source\Print\Print\_old\DownloadPrint_v1.cs" />
+    <None Include="Source\Print\Print\_old\DownloadPrint_v1.cs" />
     <Compile Include="Source\Print\Print\FindDayManager.cs" />
     <Compile Include="Source\Print\Print\FindPrint.cs" />
     <Compile Include="Source\Print\Print\FindPrintManager.cs" />
-    <Compile Include="Source\Print\Print\_old\IPost.cs" />
+    <None Include="Source\Print\Print\_old\IPost.cs" />
     <Compile Include="Source\Print\Print\PrintDirectoryManager.cs" />
     <Compile Include="Source\Print\Print\PrintFileManager.cs" />
     <Compile Include="Source\Print\Print\PrintFileManager_v2.cs" />
     <Compile Include="Source\Print\Print\PrintManager.cs" />
-    <Compile Include="Source\Print\Print\_old\PrintManager_v1.cs" />
-    <Compile Include="Source\Print\Print\_old\PrintManager_v2.cs" />
+    <None Include="Source\Print\Print\_old\PrintManager_v1.cs" />
+    <None Include="Source\Print\Print\_old\PrintManager_v2.cs" />
     <Compile Include="Source\Print\Print\MovePrintFiles.cs" />
     <Compile Include="Source\Print\Print\PrintTextValuesManager.cs" />
     <Compile Include="Source\Print\Print\PrintTitle.cs" />
     <Compile Include="Source\Print\Print\PrintTitleManager.cs" />
     <Compile Include="Source\Print\Print\Print\IPrint.cs" />
+    <Compile Include="Source\Print\Print\Test\Test_Unit_FindPrint_v2.cs" />
     <Compile Include="Source\Print\Print\zDay.cs" />
     <Compile Include="Source\Print\Project\AppData.cs" />
     <None Include="Source\Print\Project\download.dll.cs" />
@@ -604,15 +614,15 @@
     <Compile Include="Source\Print\sites\ebookdz.com\_old\Ebookdz_v3.cs" />
     <Compile Include="Source\Print\sites\ebookdz.com\EbookdzLogin.cs" />
     <Compile Include="Source\Print\sites\ebookdz.com\_old\Ebookdz_MainForum_v3.cs" />
-    <Compile Include="Source\Print\sites\ebookdz.com\_old\Ebookdz_Detail_v2.cs" />
-    <Compile Include="Source\Print\sites\ebookdz.com\_old\Ebookdz_ForumHeader_v2.cs" />
-    <Compile Include="Source\Print\sites\ebookdz.com\_old\Ebookdz_Forum_v2.cs" />
-    <Compile Include="Source\Print\sites\ebookdz.com\_old\Ebookdz_Header_v2.cs" />
-    <Compile Include="Source\Print\sites\ebookdz.com\_old\Ebookdz_v2.cs" />
+    <None Include="Source\Print\sites\ebookdz.com\_old\Ebookdz_Detail_v2.cs" />
+    <None Include="Source\Print\sites\ebookdz.com\_old\Ebookdz_ForumHeader_v2.cs" />
+    <None Include="Source\Print\sites\ebookdz.com\_old\Ebookdz_Forum_v2.cs" />
+    <None Include="Source\Print\sites\ebookdz.com\_old\Ebookdz_Header_v2.cs" />
+    <None Include="Source\Print\sites\ebookdz.com\_old\Ebookdz_v2.cs" />
     <Compile Include="Source\Print\sites\extreme-down.net\ExtremeDown.cs" />
-    <Compile Include="Source\Print\sites\extreme-down.net\_old\ExtremeDown_v2.cs" />
-    <Compile Include="Source\Print\sites\extreme-down.net\_old\ExtremeDown_Detail_v2.cs" />
-    <Compile Include="Source\Print\sites\extreme-down.net\_old\ExtremeDown_Header_v2.cs" />
+    <None Include="Source\Print\sites\extreme-down.net\_old\ExtremeDown_v2.cs" />
+    <None Include="Source\Print\sites\extreme-down.net\_old\ExtremeDown_Detail_v2.cs" />
+    <None Include="Source\Print\sites\extreme-down.net\_old\ExtremeDown_Header_v2.cs" />
     <None Include="Source\Print\sites\magazines-gratuits.info\_old\MagazinesGratuits_v1.cs" />
     <None Include="Source\Print\sites\magazines-gratuits.info\_old\MagazinesGratuits_Detail_v1.cs" />
     <None Include="Source\Print\sites\magazines-gratuits.info\_old\MagazinesGratuits_Header_v1.cs" />
@@ -622,22 +632,22 @@
     <Compile Include="Source\Print\sites\magazines-gratuits.info\_old\MagazinesGratuits_Header_v2.cs" />
     <Compile Include="Source\Print\sites\magazines-gratuits.info\_old\MagazinesGratuits_v2.cs" />
     <Compile Include="Source\Print\sites\telecharger-magazine.com\TelechargerMagazine.cs" />
-    <Compile Include="Source\Print\sites\telecharger-magazine.com\_old\TelechargerMagazine_v1.cs" />
-    <Compile Include="Source\Print\sites\telecharger-magazine.com\_old\TelechargerMagazine_Detail_v1.cs" />
-    <Compile Include="Source\Print\sites\telecharger-magazine.com\_old\TelechargerMagazine_Header_v1.cs" />
+    <None Include="Source\Print\sites\telecharger-magazine.com\_old\TelechargerMagazine_v1.cs" />
+    <None Include="Source\Print\sites\telecharger-magazine.com\_old\TelechargerMagazine_Detail_v1.cs" />
+    <None Include="Source\Print\sites\telecharger-magazine.com\_old\TelechargerMagazine_Header_v1.cs" />
     <Compile Include="Source\Print\sites\vosbooks.net\Vosbooks.cs" />
-    <Compile Include="Source\Print\sites\vosbooks.net\_old\Vosbooks_Detail_v2.cs" />
-    <Compile Include="Source\Print\sites\vosbooks.net\_old\Vosbooks_Header_v2.cs" />
-    <Compile Include="Source\Print\sites\vosbooks.net\_old\Vosbooks_v3.cs" />
-    <Compile Include="Source\Print\sites\vosbooks.net\_old\Vosbooks_v2.cs" />
+    <None Include="Source\Print\sites\vosbooks.net\_old\Vosbooks_Detail_v2.cs" />
+    <None Include="Source\Print\sites\vosbooks.net\_old\Vosbooks_Header_v2.cs" />
+    <None Include="Source\Print\sites\vosbooks.net\_old\Vosbooks_v3.cs" />
+    <None Include="Source\Print\sites\vosbooks.net\_old\Vosbooks_v2.cs" />
     <Compile Include="Source\Print\sites\vosbooks.net\_old\Vosbooks_v4.cs" />
     <Compile Include="Source\Print\Test\Test_Download.cs" />
-    <Compile Include="Test_Unit\Print\Test_Unit_FindPrint.cs" />
-    <Compile Include="Test_Unit\Print\Test_Unit_Print.cs" />
-    <Compile Include="Test_Unit\Print\Test_Unit_PrintTitleManager.cs" />
-    <Compile Include="Test_Unit\Print\Test_Unit_PrintTextValuesManager.cs" />
-    <Compile Include="Test_Unit\Print\Test_Unit_RegexValues.cs" />
-    <Compile Include="Test_Unit\Print\_old\Test_Unit_FindPrint_v1.cs" />
+    <Compile Include="Source\Print\Print\Test\Test_Unit_FindPrint.cs" />
+    <Compile Include="Source\Print\Print\Test\Test_Unit_Print.cs" />
+    <Compile Include="Source\Print\Print\Test\Test_Unit_PrintTitleManager.cs" />
+    <Compile Include="Source\Print\Print\Test\Test_Unit_PrintTextValuesManager.cs" />
+    <Compile Include="Source\Print\Print\Test\Test_Unit_RegexValues.cs" />
+    <None Include="Source\Print\Print\Test\_old\Test_Unit_FindPrint_v1.cs" />
     <None Include="Source\Print\Print\Print\LaCroix.cs" />
     <None Include="Source\Print\Print\Print\LeFigaro.cs" />
     <Compile Include="Source\Print\Print\Print\LeMonde.cs" />
@@ -659,25 +669,25 @@
     <Compile Include="Source\Print\Print\zprint.cs" />
     <None Include="Source\Print\Project\download.test.run.cs" />
     <None Include="Source\Print\Project\download2.cs" />
-    <Compile Include="Source\Print\Project\_old\download_f.cs" />
+    <None Include="Source\Print\Project\_old\download_f.cs" />
     <None Include="Source\Print\Project\_old\compile.cs" />
     <None Include="Source\Print\Project\_old\download_test.cs" />
     <Compile Include="Source\Print\Project\_old\download_test_f.cs" />
     <None Include="Source\Print\Project\_old\Http_Html_test.cs" />
     <Compile Include="Source\Print\Project\_old\images_cache_f.cs" />
-    <Compile Include="Source\Print\Project\_old\print_f.cs" />
+    <None Include="Source\Print\Project\_old\print_f.cs" />
     <None Include="Source\Print\Project\_old\test.cs" />
-    <Compile Include="Source\Print\Project\_old\test_f.cs" />
+    <None Include="Source\Print\Project\_old\test_f.cs" />
     <Compile Include="Source\Print\Project\_old\Test_f2.cs" />
     <Compile Include="Source\Print\Project\_old\Test_mongodb_f.cs" />
     <None Include="Source\Print\pt\compile.cs" />
-    <Compile Include="Source\Print\pt\pt.cs" />
-    <Compile Include="Source\Print\pt\pt1.cs" />
-    <Compile Include="Source\Print\sites\ebookdz.com\_old\Ebookdz_v1.cs" />
-    <Compile Include="Source\Print\sites\ebookdz.com\_old\Ebookdz_Detail_v1.cs" />
-    <Compile Include="Source\Print\sites\ebookdz.com\_old\Ebookdz_Forum_v1.cs" />
-    <Compile Include="Source\Print\sites\ebookdz.com\_old\Ebookdz_ForumHeader_v1.cs" />
-    <Compile Include="Source\Print\sites\ebookdz.com\_old\Ebookdz_Header_v1.cs" />
+    <None Include="Source\Print\pt\pt.cs" />
+    <None Include="Source\Print\pt\pt1.cs" />
+    <None Include="Source\Print\sites\ebookdz.com\_old\Ebookdz_v1.cs" />
+    <None Include="Source\Print\sites\ebookdz.com\_old\Ebookdz_Detail_v1.cs" />
+    <None Include="Source\Print\sites\ebookdz.com\_old\Ebookdz_Forum_v1.cs" />
+    <None Include="Source\Print\sites\ebookdz.com\_old\Ebookdz_ForumHeader_v1.cs" />
+    <None Include="Source\Print\sites\ebookdz.com\_old\Ebookdz_Header_v1.cs" />
     <None Include="Source\Print\sites\ebookdz.com\_old\Ebookdz.cs" />
     <None Include="Source\Print\sites\ebookdz.com\_old\Ebookdz_Detail.cs" />
     <None Include="Source\Print\sites\ebookdz.com\_old\Ebookdz_f.cs" />
@@ -695,9 +705,9 @@
     <None Include="Source\Print\sites\telechargementz.tv\Telechargementz_Detail.cs" />
     <None Include="Source\Print\sites\telechargementz.tv\Telechargementz_f.cs" />
     <None Include="Source\Print\sites\telechargementz.tv\Telechargementz_Header.cs" />
-    <Compile Include="Source\Print\sites\vosbooks.net\_old\Vosbooks_v1.cs" />
-    <Compile Include="Source\Print\sites\vosbooks.net\_old\Vosbooks_Detail_v1.cs" />
-    <Compile Include="Source\Print\sites\vosbooks.net\_old\Vosbooks_Header_v1.cs" />
+    <None Include="Source\Print\sites\vosbooks.net\_old\Vosbooks_v1.cs" />
+    <None Include="Source\Print\sites\vosbooks.net\_old\Vosbooks_Detail_v1.cs" />
+    <None Include="Source\Print\sites\vosbooks.net\_old\Vosbooks_Header_v1.cs" />
     <None Include="Source\Print\sites\zone-ebooks.com\zone-ebooks.cs" />
     <None Include="Source\Print\sites\zone-ebooks.com\ZoneEbooks.cs" />
     <None Include="Source\Print\sites\zone-ebooks.com\ZoneEbooks_f.cs" />
@@ -750,7 +760,15 @@
   <ItemGroup>
     <Content Include="Source\Print\Print\Print\_old\le_monde\le_monde_config.xml" />
     <Content Include="Source\Print\Print\Print\_old\le_monde\le_monde_project.xml" />
-    <Content Include="Source\Print\Project\download.config.xml" />
+    <Content Include="Source\Print\Print\Test\Test_Unit_FindPrint_v2.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Source\Print\Print\Test\Test_Unit_FindPrint.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Source\Print\Project\download.config.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Source\Print\Project\download.dll.project.xml" />
     <Content Include="Source\Print\Project\download.test.project.xml">
       <SubType>Designer</SubType>

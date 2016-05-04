@@ -12,12 +12,12 @@ namespace Test.Test_Text
         {
             Trace.WriteLine("Input     : {0}", text);
             FindText findText = regexValuesList.Find(text);
-            if (!findText.found)
+            if (!findText.Found)
                 Trace.WriteLine("Result           : not found");
             else
             {
                 Trace.WriteLine("Result           : found");
-                Trace.WriteLine("  Text           : \"{0}\"", findText.text);
+                Trace.WriteLine("  Text           : \"{0}\"", findText.Text);
                 Trace.WriteLine("  Key            : \"{0}\"", findText.matchValues.Key);
                 Trace.WriteLine("  Name           : \"{0}\"", findText.matchValues.Name);
                 Trace.WriteLine("  Pattern        : \"{0}\"", findText.matchValues.Pattern);

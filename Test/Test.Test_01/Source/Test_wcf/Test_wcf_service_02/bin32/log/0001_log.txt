@@ -1,0 +1,9 @@
+﻿Test_wcf_service : 09/07/2015 10:56:14
+
+create ServiceHost(typeof(Service1))
+open ServiceHost
+service is started
+
+close ServiceHost
+service is stopped
+

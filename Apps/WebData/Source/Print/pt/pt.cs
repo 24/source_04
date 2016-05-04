@@ -5,8 +5,7 @@ using pb;
 using pb.Compiler;
 using pb.Data.Xml;
 using pb.IO;
-using Print;
-using Print.old;
+using Download.Print;
 
 namespace pt
 {
@@ -142,8 +141,8 @@ namespace pt
             Trace.WriteLine();
 
             //Trace.WriteLine("init PrintManager start");
-            //PrintManager pm = new PrintManager(_config.GetElement("Print"));
-            PrintManager_v2 pm = new PrintManager_v2(_printConfig.GetElement("Print"));
+            //PrintManager_v2 pm = new PrintManager_v2(_printConfig.GetElement("Print"));
+            PrintManager pm = new PrintManager(_printConfig.GetElement("Print"));
             //Trace.WriteLine("init PrintManager end");
 
             SearchOption option = SearchOption.TopDirectoryOnly;
@@ -185,7 +184,8 @@ namespace pt
 
     public partial class zprint
     {
-        public static void RenameFile(PrintManager_v2 pm, string path, bool simulate = false, bool moveFile = false, string printFile = null)
+        // PrintManager_v2 pm
+        public static void RenameFile(PrintManager pm, string path, bool simulate = false, bool moveFile = false, string printFile = null)
         {
             string fmt1 = "file {0,-70}";
             string fmt2 = " {0,-30}";

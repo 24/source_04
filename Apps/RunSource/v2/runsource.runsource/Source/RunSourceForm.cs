@@ -13,20 +13,17 @@ using pb.IO;
 using pb.Data.Xml;
 using pb.Compiler;
 using pb.Windows.Forms;
+using ScintillaNET;
+using pb.Windows.Win32;
+
+// todo :
+// ok - manage run init
+// ok - manage allow multiple run
+// ok - correct pb with modal dialog, scintilla send code character
+//    - add status bar, line column, nb of thread running
 
 namespace runsourced
 {
-    public class RunSourceRestartParameters
-    {
-        public string SourceFile;
-        public int SelectionStart;
-        public int SelectionLength;
-    }
-
-    //public delegate void UpdateRunsourceFilesEvent(Dictionary<string, List<string>> projectFiles, RunSourceParameters runSourceParameters);
-    public delegate void UpdateRunsourceFilesEvent(Dictionary<string, List<string>> projectFiles);
-    public delegate void SetRestartRunsourceEvent(RunSourceRestartParameters runSourceParameters);
-
     public partial class RunSourceForm : Form
     {
         private static string __title = "Run source";
@@ -45,12 +42,18 @@ namespace runsourced
         private bool _fileSaved = true;
         private string _sourceFilter = "source files (*.cs)|*.cs|All files (*.*)|*.*";
         private string _progressText = null;
+
+        private TabPage _tabResultMessage = null;
+        private TabPage _tabResultGrid = null;
+        private TabPage _tabResultTree = null;
+
         private bool _setGridMaxColumnsWidthAndRowsHeight = true;
         private int _gridMaxWidth = 0;
         private int _gridMaxHeight = 0;
         private bool _resizeDataTableImages = true;
         private int _dataTableMaxImageWidth = 0;
         private int _dataTableMaxImageHeight = 0;
+        private ScintillaForm _scintillaForm = null;
 
         private IRunSource _runSource = null;
         private ITrace _trace = null;
@@ -75,18 +78,33 @@ namespace runsourced
                 // Thread.Sleep(100);
                 // dont work
 
-                InitializeComponent();
+                CreatePanButton();
+                CreatePanTop();
+                CreatePanStatus();
+                CreateForm();
+                //InitializeComponent();
+                InitializeResultTab();
+                InitializeXtraGrid();
+                InitializeDataGridView();
+                InitializeDataGrid();
+                InitializeTreeView();
+                InitializeForm();
+
+                _tabResultMessage = tab_message;
+                _tabResultGrid = tab_result2;
+                _tabResultTree = tab_result4;
+
                 this.Icon = Properties.Resources.app;
                 string title = config.Get("RunsourceTitle");
                 if (title != null)
                     __title = title;
-                initGrid();
-                //initTestMenu();
-                tb_source.ConfigurationManager.CustomLocation = "ScintillaNET.xml";
-                tb_source.ConfigurationManager.Language = "cs";
-                tc_result.SelectedTab = tab_message;
-                //ActiveControl = me_source;
-                ActiveControl = tb_source;
+                //tb_source.ConfigurationManager.CustomLocation = "ScintillaNET.xml";
+                //tb_source.ConfigurationManager.Language = "cs";
+                //InitScintilla();
+                Try(InitScintilla);
+
+                tc_result.SelectedTab = _tabResultMessage;
+                //ActiveControl = tb_source;
 
                 cGrid.Culture = CultureInfo.CurrentUICulture;
 
@@ -105,34 +123,64 @@ namespace runsourced
             }
         }
 
-        private System.Windows.Forms.DataGridView _gridResult2;
-        private void initGrid()
+        private void InitScintilla()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            this._gridResult2 = new System.Windows.Forms.DataGridView();
-            ((System.ComponentModel.ISupportInitialize)(this._gridResult2)).BeginInit();
-            this.tab_result2.Controls.Add(this._gridResult2);
-            this._gridResult2.AllowUserToAddRows = false;
-            this._gridResult2.AllowUserToDeleteRows = false;
-            this._gridResult2.AllowUserToOrderColumns = true;
-            this._gridResult2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            dataGridViewCellStyle1.NullValue = "(null)";
-            this._gridResult2.DefaultCellStyle = dataGridViewCellStyle1;
-            this._gridResult2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._gridResult2.Location = new System.Drawing.Point(0, 0);
-            this._gridResult2.Name = "grid_result2";
-            this._gridResult2.ReadOnly = true;
-            this._gridResult2.Size = new System.Drawing.Size(1048, 364);
-            this._gridResult2.TabIndex = 0;
-            this._gridResult2.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.grid_result2_RowPostPaint);
-            ((System.ComponentModel.ISupportInitialize)(this._gridResult2)).EndInit();
+            //tb_source.InsertCheck += scintilla_InsertCheck;
+            //tb_source.BeforeInsert += scintilla_BeforeInsert;
+            _scintillaForm = new ScintillaForm(tb_source);
+            _scintillaForm.SetFont("Consolas", 10);
+            _scintillaForm.ConfigureLexerCpp();
+            _scintillaForm.SetTabIndent(2, 0, false);
+            //_scintillaForm.DisplayLineNumber(4);
+            ScintillaViewLineNumber();
+        }
+
+        //private void scintilla_BeforeInsert(object sender, BeforeModificationEventArgs e)
+        //{
+        //}
+
+        //private void scintilla_InsertCheck(object sender, InsertCheckEventArgs e)
+        //{
+        //    switch (e.Text)
+        //    {
+        //        // remove ctrl-A code 0x01 (SaveAs)
+        //        case "\u0001":
+        //        // remove ctrl-B code 0x02 (CompileCode)
+        //        case "\u0002":
+        //        // remove ctrl-C code 0x03 (AbortThreadExecution)
+        //        case "\u0003":
+        //        // remove ctrl-N code 0x03 (New)
+        //        case "\u000E":
+        //        // remove ctrl-O code 0x0F (Open)
+        //        case "\u000F":
+        //        // remove shift-ctrl-R code 0x12 (_RestartRunSource)
+        //        case "\u0012":
+        //        // remove ctrl-S code 0x12 (Save)
+        //        case "\u0013":
+        //        // remove ctrl-U code 0x14 (_UpdateRunSource)
+        //        case "\u0014":
+        //            e.Text = null;
+        //            break;
+        //    }
+        //}
+
+        private void ScintillaViewLineNumber()
+        {
+            //int marginWidth = 0;
+            int nbChar = 0;
+            if (m_view_source_line_number.Checked)
+            {
+                // Displaying Line Numbers https://github.com/jacobslusser/ScintillaNET/wiki/Displaying-Line-Numbers
+                //tb_source.Margins[0].Width = 16;
+                // Calculate the width required to display the last line number
+                // and include some padding for good measure.
+                //const int padding = 2;
+                //const int maxLineNumberCharLength = 4;
+                //marginWidth = tb_source.TextWidth(Style.LineNumber, new string('9', maxLineNumberCharLength + 1)) + padding;
+                nbChar = 4;
+            }
+            //tb_source.Margins[0].Width = marginWidth;
+            _scintillaForm.DisplayLineNumber(nbChar);
         }
 
         private void RunSourceForm_Load(object sender, EventArgs e)
@@ -144,18 +192,22 @@ namespace runsourced
                 {
                     if (_runSourceParameters.SourceFile != null)
                         OpenSourceFile(_runSourceParameters.SourceFile);
-                    //me_source.Select(_runSourceParameters.SelectionStart, _runSourceParameters.SelectionLength);
-                    //me_source.ScrollToCaret();
-                    tb_source.Selection.Start = _runSourceParameters.SelectionStart;
-                    tb_source.Selection.Length = _runSourceParameters.SelectionLength;
-                    tb_source.Scrolling.ScrollToCaret();
+                    //tb_source.Selection.Start = _runSourceParameters.SelectionStart;
+                    //tb_source.Selection.Length = _runSourceParameters.SelectionLength;
+                    //tb_source.Scrolling.ScrollToCaret();
+                    tb_source.SelectionStart = _runSourceParameters.SelectionStart;
+                    tb_source.SelectionEnd = _runSourceParameters.SelectionEnd;
+                    //_trace.WriteLine("set scintilla selection : start {0} end {1}", _runSourceParameters.SelectionStart, _runSourceParameters.SelectionEnd);
+                    tb_source.ScrollCaret();
                 }
+                //else
+                //    _trace.WriteLine("scintilla : current position {0} selection start {1} selection end {2}", tb_source.CurrentPosition, tb_source.SelectionStart, tb_source.SelectionEnd);
 
-                // il faut afficher une fois le tab_result2 sinon _gridResult2.AutoResizeColumns() et _gridResult2.AutoResizeRows() ne marche pas la 1ère fois
-                tc_result.SelectedTab = tab_result2;
-                tc_result.SelectedTab = tab_message;
-                //ActiveControl = me_source;
+                // il faut afficher une fois le _tabResultGrid sinon _gridResult2.AutoResizeColumns() et _gridResult2.AutoResizeRows() ne marche pas la 1ère fois
+                tc_result.SelectedTab = _tabResultGrid;
+                tc_result.SelectedTab = _tabResultMessage;
                 ActiveControl = tb_source;
+                //TraceFormControls();
             }
             catch(Exception ex)
             {
@@ -229,6 +281,8 @@ namespace runsourced
             int progressMinimumMillisecondsBetweenMessage;
             if (s != null && int.TryParse(s, out progressMinimumMillisecondsBetweenMessage))
                 _runSource.Progress_MinimumMillisecondsBetweenMessage = progressMinimumMillisecondsBetweenMessage;
+            m_run_init.Checked = _runSource.CallInit;
+            m_allow_multiple_execution.Checked = _runSource.AllowMultipleExecution;
         }
 
         private void EndRunSource()
@@ -303,7 +357,7 @@ namespace runsourced
             return zPath.Combine(zapp.GetLocalSettingsDirectory(_config.Get("RunsourceProductName")), "settings.xml");
         }
 
-        private void fWRun_KeyDown(object sender, KeyEventArgs e)
+        private void RunSourceForm_KeyDown(object sender, KeyEventArgs e)
         {
             //Debug.WriteLine(string.Format("fWRun_KeyDown : {0} Ctrl={1} Shift={2} Alt={3}", e.KeyCode.ToString(), e.Control, e.Shift, e.Alt));
             //Trace.WriteLine("fWRun_KeyDown : {0} Ctrl={1} Shift={2} Alt={3}", e.KeyCode.ToString(), e.Control, e.Shift, e.Alt);
@@ -313,11 +367,14 @@ namespace runsourced
                     //if (!e.Alt && !e.Control && !e.Shift)
                     //    Exe(new fExe(RunSource));
                     if (!e.Alt && !e.Control && !e.Shift)
-                        Exe(new fExe(RunCode));
+                        //Exe(new fExe(RunCode));
+                        PostMessage(_hwnd, WM_CUSTOM_RUN_CODE, 0, 0);
                     else if (!e.Alt && !e.Control && e.Shift)
-                        Exe(new fExe(RunCodeOnMainThread));
+                        //Exe(new fExe(RunCodeOnMainThread));
+                        PostMessage(_hwnd, WM_CUSTOM_RUN_CODE_ON_MAIN_THREAD, 0, 0);
                     else if (!e.Alt && e.Control && !e.Shift)
-                        Exe(new fExe(RunCodeWithoutProject));
+                        //Exe(new fExe(RunCodeWithoutProject));
+                        PostMessage(_hwnd, WM_CUSTOM_RUN_CODE_WITHOUT_PROJECT, 0, 0);
                     break;
                 //case Keys.Escape:
                 //    if (!e.Alt && !e.Control && !e.Shift && gbThreadExecutionRunning)
@@ -328,48 +385,54 @@ namespace runsourced
                 //    break;
                 case Keys.A:
                     if (!e.Alt && e.Control && !e.Shift)
-                        Exe(new fExe(SaveAs));
+                        //Exe(new fExe(SaveAs));
+                        PostMessage(_hwnd, WM_CUSTOM_SAVE_AS, 0, 0);
                     break;
                 case Keys.B:
                     if (!e.Alt && e.Control && e.Shift)
-                        Exe(new fExe(CompileCode));
+                        //Exe(new fExe(CompileCode));
+                        PostMessage(_hwnd, WM_CUSTOM_COMPILE_CODE, 0, 0);
                     break;
                 case Keys.C:
                     // Ctrl-C
                     if (!e.Alt && e.Control && !e.Shift && _runSource.IsRunning())
-                    {
-                        DialogResult r = MessageBox.Show("Voulez-vous interrompre l'exécution du programme ?", "WRun", MessageBoxButtons.OKCancel, MessageBoxIcon.Stop, MessageBoxDefaultButton.Button2);
-                        if (r == DialogResult.OK) Exe(new fExe(AbortThreadExecution));
-                    }
+                        //AbortExecution();
+                        PostMessage(_hwnd, WM_CUSTOM_ABORT_EXECUTION, 0, 0);
                     // Shift-Ctrl-C
                     else if (!e.Alt && e.Control && e.Shift)
-                        Exe(new fExe(_CompileRunSource));
+                        //Exe(new fExe(_CompileRunSource));
+                        PostMessage(_hwnd, WM_CUSTOM_COMPILE_RUNSOURCE, 0, 0);
                     break;
                 case Keys.N:
                     if (!e.Alt && e.Control && !e.Shift)
-                        Exe(new fExe(New));
+                        //Exe(new fExe(New));
+                        PostMessage(_hwnd, WM_CUSTOM_NEW, 0, 0);
                     break;
                 case Keys.O:
                     if (!e.Alt && e.Control && !e.Shift)
-                        Exe(new fExe(Open));
+                        //Exe(new fExe(Open));
+                        PostMessage(_hwnd, WM_CUSTOM_OPEN_FILE, 0, 0);
                     break;
                 case Keys.R:  // désactiver Shift-Ctrl-R dans 4t Tray minimizer 02/10/2014
                     // Shift-Ctrl-R
                     if (!e.Alt && e.Control && e.Shift)
-                        Exe(new fExe(_RestartRunSource));
+                        //Exe(new fExe(_RestartRunSource));
+                        PostMessage(_hwnd, WM_CUSTOM_RESTART_RUNSOURCE, 0, 0);
                     break;
                 case Keys.S:
                     if (!e.Alt && e.Control && !e.Shift)
-                        Exe(new fExe(Save));
+                        //Exe(new fExe(Save));
+                        PostMessage(_hwnd, WM_CUSTOM_SAVE, 0, 0);
                     break;
                 case Keys.U:
                     if (!e.Alt && e.Control && e.Shift)
-                        Exe(new fExe(_UpdateRunSource));
+                        //Exe(new fExe(_UpdateRunSource));
+                        PostMessage(_hwnd, WM_CUSTOM_UPDATE_RUNSOURCE, 0, 0);
                     break;
             }
         }
 
-        private void me_source_TextChanged(object sender, EventArgs e)
+        private void tb_source_TextChanged(object sender, EventArgs e)
         {
             SetFileNotSaved();
         }
@@ -445,6 +508,11 @@ namespace runsourced
             _resizeDataTableImages = !_resizeDataTableImages;
         }
 
+        private void m_view_source_line_number_Click(object sender, EventArgs e)
+        {
+            ScintillaViewLineNumber();
+        }
+
         private void bt_execute_Click(object sender, EventArgs e)
         {
             if (!_runSource.IsRunning())
@@ -452,6 +520,15 @@ namespace runsourced
             else
             {
                 DialogResult r = MessageBox.Show("Voulez-vous interrompre l'exécution du programme ?", "WRun", MessageBoxButtons.OKCancel, MessageBoxIcon.Stop, MessageBoxDefaultButton.Button2);
+                if (r == DialogResult.OK) Exe(new fExe(AbortThreadExecution));
+            }
+        }
+
+        private void bt_stop_Click(object sender, EventArgs e)
+        {
+            if (_runSource.IsRunning())
+            {
+                DialogResult r = MessageBox.Show("Voulez-vous interrompre l'exécution du/des programme(s) ?", "WRun", MessageBoxButtons.OKCancel, MessageBoxIcon.Stop, MessageBoxDefaultButton.Button2);
                 if (r == DialogResult.OK) Exe(new fExe(AbortThreadExecution));
             }
         }
@@ -531,14 +608,13 @@ namespace runsourced
             try
             {
                 if (_runSource.SourceFile != null && zFile.Exists(_runSource.SourceFile))
-                    //me_source.Text = zfile.ReadFile(_sourcePath);
                     tb_source.Text = zfile.ReadAllText(_runSource.SourceFile);
                 else
-                    //me_source.Text = "";
                     tb_source.Text = "";
-                //me_source.Select(0, 0);
-                tb_source.Selection.Start = 0;
-                tb_source.Selection.Length = 0;
+                //tb_source.Selection.Start = 0;
+                //tb_source.Selection.Length = 0;
+                tb_source.SelectionStart = 0;
+                tb_source.SelectionEnd = 0;
                 SetFileSaved();
             }
             catch (Exception ex)
@@ -553,7 +629,6 @@ namespace runsourced
             if (_fileSaved) return true;
             try
             {
-                //zfile.WriteFile(_sourcePath, me_source.Text);
                 zfile.WriteFile(_runSource.SourceFile, tb_source.Text);
                 SetFileSaved();
                 return true;
@@ -632,8 +707,8 @@ namespace runsourced
 
         private string GetCode()
         {
-            //return me_source.SelectedText;
-            return tb_source.Selection.Text;
+            //return tb_source.Selection.Text;
+            return tb_source.SelectedText;
         }
 
         private void SetFileSaved()
@@ -684,14 +759,14 @@ namespace runsourced
 
         private void _RunCode(bool useNewThread = true, bool compileWithoutProject = false)
         {
-            if (_runSource.IsRunning())
+            if (_runSource.IsRunning() && !_runSource.AllowMultipleExecution)
             {
                 MessageBox.Show("Un programme est déjà en cours d'exécution !", "Run", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
 
-            //if (me_source.SelectedText == "")
-            if (tb_source.Selection.Text == "")
+            //if (tb_source.Selection.Text == "")
+            if (GetCode() == "")
             {
                 MessageBox.Show("Aucune instruction sélectionnée !", "Run", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
@@ -708,9 +783,11 @@ namespace runsourced
             RazResult();
             RazProgress();
 
-            bt_execute.Text = "&Stop";
+            //bt_execute.Text = "&Stop";
+            bt_stop.Enabled = true;
             string s = GetCode();
             _runSource.RunCode(s, useNewThread, compileWithoutProject);
+            m_run_init.Checked = _runSource.CallInit;
         }
 
         private void CompileCode()
@@ -859,9 +936,16 @@ namespace runsourced
         private void RestartRunSource()
         {
             if (SetRestartRunsource != null)
-                //SetRestartRunsource(new RunSourceRestartParameters { SourceFile = _sourcePath, SelectionStart = me_source.SelectionStart, SelectionLength = me_source.SelectionLength });
-                SetRestartRunsource(new RunSourceRestartParameters { SourceFile = _runSource.SourceFile, SelectionStart = tb_source.Selection.Start, SelectionLength = tb_source.Selection.Length });
+                //SetRestartRunsource(new RunSourceRestartParameters { SourceFile = _runSource.SourceFile, SelectionStart = tb_source.Selection.Start, SelectionLength = tb_source.Selection.Length });
+                SetRestartRunsource(new RunSourceRestartParameters { SourceFile = _runSource.SourceFile, SelectionStart = tb_source.SelectionStart, SelectionEnd = tb_source.SelectionEnd });
             this.Close();
+        }
+
+        private void AbortExecution()
+        {
+            DialogResult r = MessageBox.Show("Voulez-vous interrompre l'exécution du programme ?", "WRun", MessageBoxButtons.OKCancel, MessageBoxIcon.Stop, MessageBoxDefaultButton.Button2);
+            if (r == DialogResult.OK)
+                Exe(new fExe(AbortThreadExecution));
         }
 
         private void AbortThreadExecution()
@@ -993,18 +1077,18 @@ namespace runsourced
                     if (!_runSource.DontSelectResultTab || error)
                     {
                         if (_selectTreeViewResult && !error)
-                            tc_result.SelectedTab = tab_result4;
+                            tc_result.SelectedTab = _tabResultTree;
                         else if (_newDataTableResult && !error)
                         {
                             if (_xmlResultFormat != null || _dataSetResult != null)
-                                tc_result.SelectedTab = tab_result;
+                                tc_result.SelectedTab = tab_result1;
                             else
-                                tc_result.SelectedTab = tab_result2;
+                                tc_result.SelectedTab = _tabResultGrid;
                         }
                         else if (_newTreeViewResult && !error)
-                            tc_result.SelectedTab = tab_result4;
+                            tc_result.SelectedTab = _tabResultTree;
                         else
-                            tc_result.SelectedTab = tab_message;
+                            tc_result.SelectedTab = _tabResultMessage;
                     }
                 }
                 catch(Exception ex)
@@ -1014,9 +1098,10 @@ namespace runsourced
                 }
 
                 ActiveControl = activeControl;
-                bt_execute.Text = "&Run";
+                //bt_execute.Text = "&Run";
                 bt_execute.Enabled = true;
                 bt_pause.Text = "&Pause";
+                bt_stop.Enabled = _runSource.IsRunning();
 
                 SetFormTitle();
             }
@@ -1057,7 +1142,7 @@ namespace runsourced
                 if (!_newDataTableResult)
                 {
                     Control activeControl = ActiveControl;
-                    tc_result.SelectedTab = tab_message;
+                    tc_result.SelectedTab = _tabResultMessage;
                     ActiveControl = activeControl;
                 }
                 WriteMessage(msg);
@@ -1215,7 +1300,8 @@ namespace runsourced
             if (_dataTableResult != null)
             {
                 Try(() => ResizeDataTableImages(_dataTableResult));
-                Try(() => cGrid.GridSetDataSource(grid_result, _dataTableResult, _xmlResultFormat));
+                //Try(() => cGrid.GridSetDataSource(grid_result, _dataTableResult, _xmlResultFormat));
+                Try(() => cGrid.GridSetDataSource(_gridResult1, _dataTableResult, _xmlResultFormat));
 
                 Try(() =>
                 {
@@ -1237,7 +1323,8 @@ namespace runsourced
             }
             else if (_dataSetResult != null)
             {
-                Try(() => cGrid.GridSetDataSource(grid_result, _dataSetResult.Tables[0], _xmlResultFormat));
+                //Try(() => cGrid.GridSetDataSource(grid_result, _dataSetResult.Tables[0], _xmlResultFormat));
+                Try(() => cGrid.GridSetDataSource(_gridResult1, _dataSetResult.Tables[0], _xmlResultFormat));
 
                 Try(() =>
                 {
@@ -1254,7 +1341,8 @@ namespace runsourced
             }
             else
             {
-                cGrid.GridClearDataSource(grid_result);
+                //cGrid.GridClearDataSource(grid_result);
+                cGrid.GridClearDataSource(_gridResult1);
                 _gridResult2.DataSource = null;
                 grid_result3.DataSource = null;
             }
@@ -1320,9 +1408,9 @@ namespace runsourced
 
         private void RazTreeViewResult()
         {
-            foreach (Control control in tab_result4.Controls)
+            foreach (Control control in _tabResultTree.Controls)
                 control.Dispose();
-            tab_result4.Controls.Clear();
+            _tabResultTree.Controls.Clear();
             tree_result = new TreeView();
             //tab_result4.Controls.Add(tree_result);
             tree_result.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -1335,7 +1423,7 @@ namespace runsourced
         private void ViewTreeViewResult()
         {
             tree_result.ResumeLayout();
-            tab_result4.Controls.Add(tree_result);
+            _tabResultTree.Controls.Add(tree_result);
 
             //foreach (Control control in tab_result4.Controls)
             //    control.Dispose();
@@ -1425,6 +1513,16 @@ namespace runsourced
             {
                 _trace.WriteError(ex);
             }
+        }
+
+        private void m_run_init_Click(object sender, EventArgs e)
+        {
+            _runSource.CallInit = m_run_init.Checked;
+        }
+
+        private void m_allow_multiple_execution_Click(object sender, EventArgs e)
+        {
+            _runSource.AllowMultipleExecution = m_allow_multiple_execution.Checked;
         }
 
         //private void initTestMenu()

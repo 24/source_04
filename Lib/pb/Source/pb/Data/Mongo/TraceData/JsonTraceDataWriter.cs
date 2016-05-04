@@ -67,7 +67,8 @@ namespace pb.Data.Mongo.TraceData
             }
         }
 
-        public override void Write<T>(T data)
+        //public override void Write<T>(T data)
+        public override void Write<T>(T data, Exception ex)
         {
             _streamWriter.WriteLine(data.ToJson(_settings));
         }

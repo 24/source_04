@@ -13,14 +13,14 @@
   <LocalConfig                                                   value = "$DataDir2$\config\download.config.local.xml" />    <!-- c:\pib\dropbox\pbeuz\Dropbox\dev_data\exe\runsource\download\config\download_config_local.xml -->
   <PrintList1Config                                              value = "print_list1.xml" />
   <PrintList2Config                                              value = "print_list2.xml" />
-  <!--<Test                                                          value = "true" />-->
+  <Test                                                          value = "true" />
   <!--<Test                                                          value = "true" />-->
   
   <UpdateRunSource>
     <Directory                                                   source = "c:\pib\drive\google\dev\project\library\pib\Extension_01\new" destination = "c:\pib\drive\google\dev\project\library\pib\Extension_01" />
   </UpdateRunSource>
 
-      <DownloadAutomateManager>
+  <DownloadAutomateManager>
     <Version                                                     value = "6" /> <!-- default = 3 -->
     <!--<UseTestManager                                              value = "false" /> --><!-- default = false -->
     <!--<TraceLevel                                                  value = "1" /> --><!-- default = null -->
@@ -106,7 +106,7 @@
     <!--<MailWaitDownloadFinish                                      value = "10:00" /> --><!-- default = 10 minutes -->
     <PostDownloadServerLimit                                     value = "3" /> <!-- default = 0 -->
     <TempBackupDirectory                                         value = "$DataDir$\log\temp" />
-    <BackupDirectory                                             value = "$DataDir2$\backup" />
+    <BackupDirectory                                             value = "$DataDir$\log\backup.test" />
     <!--<ZipFilename                                                 value = "BackupAutomate" />--><!-- default = "BackupAutomate" -->
     
     <ServerManagers>
@@ -116,7 +116,7 @@
       <!--<ServerManager                                             name = "ebookdz.com" downloadDirectory = "ebookdz.com" />-->
       <!--<ServerManager                                             name = "magazines-gratuits.info" downloadDirectory = "magazines-gratuits.info" />-->
       <!--<ServerManager                                             name = "telecharger-magazine.com" downloadDirectory = "telecharger-magazine.com" />-->
-      <ServerManager                                             name = "extreme-down.net" downloadDirectory = "extreme-down.net" />
+      <!--<ServerManager                                             name = "extreme-down.net" downloadDirectory = "extreme-down.net" />-->
       <!--<ServerManager                                             name = "Ebookdz" downloadDirectory = "Ebookdz" />-->
       <!--<ServerManager                                             name = "MagazinesGratuits" />-->
       <!--<ServerManager                                             name = "Vosbooks_test" enableLoadNewPost = "false" downloadDirectory = "Vosbooks" />-->

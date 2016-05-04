@@ -10,7 +10,8 @@ using pb.Text;
  *   a letter after date : "Le Parisien + Journal de Paris du Lundi 25 Août 2014j"
 ***************************************************************************************************************************************************************/
 
-namespace Print
+//namespace Print
+namespace Download.Print
 {
     public class PrintTitleRequest
     {
@@ -27,7 +28,7 @@ namespace Print
         public Date? Date = null;
         public DateType DateType = DateType.Unknow;
         public MatchValues DateMatch = null;
-        public MatchValues[] DateOtherMatchList = null;
+        //public MatchValues[] DateOtherMatchList = null;
         public string TitleStructure = null;
         public string RemainText = null;
         public string File = null;
@@ -297,16 +298,16 @@ namespace Print
                     string title2 = title.Substring(i3);
 
                     FindDate findDate = _findDateManager.Find(title2, expectedDate);
-                    if (findDate.found)
+                    if (findDate.Found)
                     {
-                        titleRequest.Date = findDate.date;
-                        titleRequest.DateType = findDate.dateType;
+                        titleRequest.Date = findDate.Date;
+                        titleRequest.DateType = findDate.DateType;
                         titleRequest.DateMatch = findDate.matchValues;
                         title2 = findDate.matchValues.Replace(" $$date$$ ");
                         title = title1 + title2;
                         foundDate = true;
                     }
-                    titleRequest.DateOtherMatchList = findDate.matchValuesList;
+                    //titleRequest.DateOtherMatchList = findDate.matchValuesList;
                 }
 
                 if (!foundDate)
@@ -323,22 +324,22 @@ namespace Print
                         string title2 = title.Substring(i3);
 
                         FindDate findDate = _findDateManager.Find(title2, expectedDate);
-                        if (findDate.found)
+                        if (findDate.Found)
                         {
-                            titleRequest.Date = findDate.date;
-                            titleRequest.DateType = findDate.dateType;
+                            titleRequest.Date = findDate.Date;
+                            titleRequest.DateType = findDate.DateType;
                             titleRequest.DateMatch = findDate.matchValues;
                             title2 = findDate.matchValues.Replace(" $$date$$ ");
                             title = title1 + title2;
                             foundDate = true;
                         }
-                        titleRequest.DateOtherMatchList = findDate.matchValuesList;
+                        //titleRequest.DateOtherMatchList = findDate.matchValuesList;
                     }
                 }
             }
 
             FindText findSpecial = _findSpecial.Find(title);
-            if (findSpecial.found)
+            if (findSpecial.Found)
             {
                 titleRequest.Special = true;
                 titleRequest.SpecialMatch = findSpecial.matchValues;
@@ -358,14 +359,14 @@ namespace Print
                 FindDate findDate = _findDateManager.Find(title, expectedDate);
                 //Trace.WriteLine("PrintTitleManager._GetPrintTitleInfo() : _findDateManager.Find(\"{0}\")", title);
                 //Trace.WriteLine(findDate.zToJson());
-                if (findDate.found)
+                if (findDate.Found)
                 {
-                    titleRequest.Date = findDate.date;
-                    titleRequest.DateType = findDate.dateType;
+                    titleRequest.Date = findDate.Date;
+                    titleRequest.DateType = findDate.DateType;
                     titleRequest.DateMatch = findDate.matchValues;
                     title = findDate.matchValues.Replace(" $$date$$ ");
                 }
-                titleRequest.DateOtherMatchList = findDate.matchValuesList;
+                //titleRequest.DateOtherMatchList = findDate.matchValuesList;
             }
 
             Match match = __rgSpecialLabel.Match(title);
@@ -418,7 +419,7 @@ namespace Print
                 Date = titleRequest.Date,
                 DateType = titleRequest.DateType,
                 DateMatch = titleRequest.DateMatch,
-                DateOtherMatchList = titleRequest.DateOtherMatchList,
+                //DateOtherMatchList = titleRequest.DateOtherMatchList,
                 TitleStructure = titleRequest.TitleStructure,
                 RemainText = titleRequest.RemainText,
                 //File = titleRequest.File

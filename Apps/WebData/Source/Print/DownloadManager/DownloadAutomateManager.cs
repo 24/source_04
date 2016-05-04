@@ -9,7 +9,6 @@ using pb.Compiler;
 using pb.Data;
 using pb.Web.Data;
 using pb.Web;
-using Print;
 using System.Xml.Linq;
 using pb.Data.Xml;
 using MongoDB.Bson.Serialization.Attributes;
@@ -204,7 +203,7 @@ namespace Download.Print
         }
     }
 
-    public class DownloadAutomateManager: IDisposable
+    public class DownloadAutomateManager : IDisposable
     {
         private Dictionary<string, ServerManager> _servers = new Dictionary<string, ServerManager>();
         private MongoDownloadAutomateManager _mongoDownloadAutomateManager = null;
@@ -218,6 +217,7 @@ namespace Download.Print
         private int _postDownloadServerLimit = 0;
         //private MongoBackup _mongoBackup = null;
         private Backup _backup = null;
+        private bool _backupTasksSet = false;
         //private string _backupDirectory = null;
 
         private StringBuilder _mailBody = new StringBuilder();
@@ -227,6 +227,7 @@ namespace Download.Print
         private bool _desactivateFilterTracePost = false;
 
         private bool _runNow = false;
+        private bool _stayRunning = false;
         private bool _loadNewPost = true;
         private bool _searchPostToDownload = true;
         private bool _sendMail = false;
@@ -258,6 +259,7 @@ namespace Download.Print
         public int PostDownloadServerLimit { get { return _postDownloadServerLimit; } set { _postDownloadServerLimit = value; } }
         public bool DesactivateFilterTracePost { get { return _desactivateFilterTracePost; } set { _desactivateFilterTracePost = value; } }
         public bool RunNow { get { return _runNow; } set { _runNow = value; } }
+        public bool StayRunning { get { return _stayRunning; } set { _stayRunning = value; } }
         public bool LoadNewPost { get { return _loadNewPost; } set { _loadNewPost = value; } }
         public bool SearchPostToDownload { get { return _searchPostToDownload; } set { _searchPostToDownload = value; } }
         public bool SendMail { get { return _sendMail; } set { _sendMail = value; } }
@@ -285,12 +287,26 @@ namespace Download.Print
             _backup.TempBackupDirectory = xe.zXPathValue("TempBackupDirectory");
             _backup.BackupDirectory = xe.zXPathValue("BackupDirectory");
             _backup.ZipFilename = xe.zXPathValue("ZipFilename", "BackupAutomate");
-            //_mongoBackup.AddCollection(_mongoDownloadAutomateManager.GetCollection());
-            _backup.Add(dir => MongoBackup.Backup(_mongoDownloadAutomateManager.GetCollection(), dir));
-            _downloadManager.InitBackup(_backup);
-            foreach (ServerManager server in _servers.Values)
+
+            //_backup.Add(dir => MongoBackup.Backup(_mongoDownloadAutomateManager.GetCollection(), dir));
+            //_downloadManager.InitBackup(_backup);
+            //foreach (ServerManager server in _servers.Values)
+            //{
+            //    _backup.Add(dir => server.Backup(dir));
+            //}
+        }
+
+        private void SetBackupTasks()
+        {
+            if (!_backupTasksSet)
             {
-                _backup.Add(dir => server.Backup(dir));
+                _backup.Add(dir => MongoBackup.Backup(_mongoDownloadAutomateManager.GetCollection(), dir));
+                _downloadManager.InitBackup(_backup);
+                foreach (ServerManager server in _servers.Values)
+                {
+                    _backup.Add(dir => server.Backup(dir));
+                }
+                _backupTasksSet = true;
             }
         }
 
@@ -318,6 +334,9 @@ namespace Download.Print
                 case "runnow":
                     _runNow = (bool)parameter.Value;
                     break;
+                case "stayrunning":
+                    _stayRunning = (bool)parameter.Value;
+                    break;
                 case "loadnewpost":
                     _loadNewPost = (bool)parameter.Value;
                     break;
@@ -333,6 +352,15 @@ namespace Download.Print
             }
         }
 
+        public void AddServerManagers(IEnumerable<ServerManager> servers)
+        {
+            foreach (ServerManager server in servers)
+            {
+                Trace.WriteLine("  add server manager \"{0}\" enable load new post {1} enable search post to download {2} download directory \"{3}\"", server.Name, server.EnableLoadNewPost, server.EnableSearchPostToDownload, server.DownloadDirectory);
+                _servers.Add(server.Name, server);
+            }
+        }
+
         public void AddServerManager(ServerManager server)
         {
             _servers.Add(server.Name, server);
@@ -340,7 +368,30 @@ namespace Download.Print
 
         public void Backup()
         {
+            SetBackupTasks();
             _backup.DoBackup();
+        }
+
+        public bool ControlDownloadManagerClient()
+        {
+            Trace.Write("control download manager client");
+            try
+            {
+                if (_downloadManager == null)
+                {
+                    Trace.WriteLine(" error download manager is not defined");
+                    return false;
+                }
+                _downloadManager.DownloadManagerClient.GetDownloadCount();
+                Trace.WriteLine(" ok");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine(" error");
+                Trace.WriteLine("error {0}", ex.Message);
+                return false;
+            }
         }
 
         public virtual void Start()
@@ -376,7 +427,7 @@ namespace Download.Print
             {
                 if (RunSource.CurrentRunSource.IsExecutionAborted())
                     break;
-                if (_runNow || DateTime.Now >= nextRunDateTime)
+                if ((_runNow || DateTime.Now >= nextRunDateTime) && (_loadNewPost || _searchPostToDownload))
                 {
                     _runNow = false;
 
@@ -394,6 +445,8 @@ namespace Download.Print
                         _mongoDownloadAutomateManager.SetLastRunDateTime(DateTime.Now);
                         nextRunDateTime = _mongoDownloadAutomateManager.GetNextRunDateTime();
                     }
+                    else // calculate nextRunDateTime if !_searchPostToDownload
+                        nextRunDateTime = DateTime.Now + _mongoDownloadAutomateManager.GetTimeBetweenRun();
 
                     messageNextRun = true;
                 }
@@ -401,12 +454,15 @@ namespace Download.Print
                 {
                     Try(() => _SendMail(_sendMail));
                 }
-                if (!_searchPostToDownload && !ActiveDownload() && TaskManager.CurrentTaskManager.Count == 0)
+                if (!_stayRunning && !_searchPostToDownload && !ActiveDownload() && TaskManager.CurrentTaskManager.Count == 0)
                     break;
 
                 if (!ActiveDownload() && TaskManager.CurrentTaskManager.Count == 0 && messageNextRun)
                 {
-                    Trace.WriteLine("{0:dd-MM-yyyy HH:mm:ss} - next run {1:dd-MM-yyyy HH:mm:ss}", DateTime.Now, nextRunDateTime);
+                    if (_loadNewPost || _searchPostToDownload)
+                        Trace.WriteLine("{0:dd-MM-yyyy HH:mm:ss} - next run {1:dd-MM-yyyy HH:mm:ss}", DateTime.Now, nextRunDateTime);
+                    else
+                        Trace.WriteLine("{0:dd-MM-yyyy HH:mm:ss} - nothing to run", DateTime.Now);
                     messageNextRun = false;
                 }
 
@@ -523,8 +579,6 @@ namespace Download.Print
             else
                 TracePost(post, "start download", file);
 
-            //if (_downloadManager_v1 != null)
-            //    Try(() => _downloadManager_v1.DownloadFile(key, post.GetDownloadLinks(), file));
             if (_downloadManager != null)
                 Try(() => _downloadManager.AddFileToDownload(key, post.GetDownloadLinks(), file));
 
@@ -563,7 +617,12 @@ namespace Download.Print
         private void Downloaded(DownloadedFile downloadedFile)
         {
             string message = GetDownloadStateText2(downloadedFile.State);
-            IPostToDownload post = LoadPost(downloadedFile.Key);
+            //IPostToDownload post = LoadPost(downloadedFile.Key);
+            IPostToDownload post = null;
+
+            if (downloadedFile.Key != null)
+                post = LoadPost(downloadedFile.Key);
+
             StringBuilder sb = new StringBuilder();
             sb.AppendLine(GetPostMessage(post, message));
             if (downloadedFile.DownloadedFiles != null)

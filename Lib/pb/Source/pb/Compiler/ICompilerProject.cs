@@ -80,6 +80,7 @@ namespace pb.Compiler
         bool? GetCopyRunSourceSourceFiles();
         string GetIcon();
         IEnumerable<ICompilerProject> GetIncludeProjects();
+        IEnumerable<string> GetInitMethods();
         IEnumerable<string> GetUsings();
         IEnumerable<CompilerFile> GetSources();
         IEnumerable<CompilerFile> GetFiles();

@@ -26,6 +26,8 @@ namespace pb.Compiler
         //private SortedList<string, object> gIncludes = new SortedList<string, object>();
         private XmlConfig _runSourceConfig = null;
         private bool _refreshRunSourceConfig = false;
+
+        // project variables
         private string _sourceFile = null;
         private string _projectFile = null;
         private string _projectDirectory = null;
@@ -90,6 +92,7 @@ namespace pb.Compiler
 
         public void Dispose()
         {
+            _runSourceInitEndMethods.CallEndMethods();
             if (_currentRunSource == this)
                 _currentRunSource = null;
             DisposeData();
@@ -400,6 +403,8 @@ namespace pb.Compiler
 
         public string SetProject(string file)
         {
+            _runSourceInitEndMethods.CallEndMethods();
+            _runSourceInitEndMethods.CallInit = true;
             if (file != null)
             {
                 // get project variable : "$//Root$\Source\..."

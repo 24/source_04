@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.ServiceModel;
 using System.ServiceModel.Description;
-//using MyDownloader.App.WCF;
-//using MyDownloader.Core;
 using MyDownloader.Service;
 using pb.IO;
 

@@ -7,7 +7,8 @@ using pb;
 using pb.Data;
 using pb.Text;
 
-namespace Print
+//namespace Print
+namespace Download.Print
 {
     public class LeParisien : Print1
     {

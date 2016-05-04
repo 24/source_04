@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using SharpCompress.Archive.Zip;
 using SharpCompress.Common;
 using SharpCompress.Compressor.Deflate;
 using SharpCompress.Reader;

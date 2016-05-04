@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using pb;
 using pb.IO;
-using SharpCompress.Common;
-using SharpCompress.Reader;
 
 namespace Download.Print
 {

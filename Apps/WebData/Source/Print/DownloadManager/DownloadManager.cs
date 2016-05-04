@@ -52,7 +52,10 @@ namespace Download.Print
         public bool UncompleteDownload = false;
         public bool AllDownloadLinkTreated = false;
         public DownloadItemLink[] DownloadItemLinks;
-        public string File = null;
+        // example : "print\\.03_mensuel\\Sciences et avenir\\Sciences et avenir - 2016-04 - no 830"
+        //public string File = null;
+        public string Directory = null;
+        public string Filename = null;
         public DateTime? RequestTime = null;
         public DateTime? StartDownloadTime = null;
         public DateTime? EndDownloadTime;
@@ -87,40 +90,61 @@ namespace Download.Print
         public DownloadServerLink[] ServerLinks = null;
         public string[] UncompressFiles = null;
 
-        //public static DownloadItemLink[] CreateDownloadItemLinkArray(IRequestDownloadItemLink[] requestLinks)
+        // filePartLinks : links of a multi part zip, example file.part1.rar file.part2.rar ...
+        public static DownloadItemLink CreateDownloadItemLink(string[] filePartLinks)
+        {
+            DownloadItemLink itemLink = new DownloadItemLink();
+            itemLink.Name = null;
+
+            // only one server
+            DownloadServerLink serverLink = new DownloadServerLink();
+            serverLink.Name = null;
+            itemLink.ServerLinks = new DownloadServerLink[] { serverLink };
+
+            serverLink.FilePartLinks = new DownloadFilePartLink[filePartLinks.Length];
+            for (int i3 = 0; i3 < filePartLinks.Length; i3++)
+            {
+                DownloadFilePartLink filePartLink = new DownloadFilePartLink();
+                filePartLink.DownloadLink = filePartLinks[i3];
+                serverLink.FilePartLinks[i3] = filePartLink;
+            }
+
+            return itemLink;
+        }
+
         public static DownloadItemLink[] CreateDownloadItemLinkArray(IRequestDownloadLinks requestDownloadLinks)
         {
             IRequestDownloadItemLink[] requestItemLinks = requestDownloadLinks.GetLinks();
 
-            DownloadItemLink[] downloadLinks = new DownloadItemLink[requestItemLinks.Length];
+            DownloadItemLink[] itemsLinks = new DownloadItemLink[requestItemLinks.Length];
             for (int i1 = 0; i1 < requestItemLinks.Length; i1++)
             {
                 IRequestDownloadItemLink requestItemLink = requestItemLinks[i1];
-                DownloadItemLink downloadLink = new DownloadItemLink();
-                downloadLink.Name = requestItemLink.GetName();
-                downloadLink.Downloaded = false;
+                DownloadItemLink itemLink = new DownloadItemLink();
+                itemLink.Name = requestItemLink.GetName();
+                //itemLink.Downloaded = false;
                 IRequestDownloadServerLink[] requestFileLinks = requestItemLink.GetServerLinks();
-                downloadLink.ServerLinks = new DownloadServerLink[requestFileLinks.Length];
+                itemLink.ServerLinks = new DownloadServerLink[requestFileLinks.Length];
                 for (int i2 = 0; i2 < requestFileLinks.Length; i2++)
                 {
                     IRequestDownloadServerLink requestFileLink = requestFileLinks[i2];
-                    DownloadServerLink fileLink = new DownloadServerLink();
-                    fileLink.Name = requestFileLink.GetName();
+                    DownloadServerLink serverLink = new DownloadServerLink();
+                    serverLink.Name = requestFileLink.GetName();
                     string[] filePartLinks = requestFileLink.GetFilePartLinks();
-                    fileLink.FilePartLinks = new DownloadFilePartLink[filePartLinks.Length];
+                    serverLink.FilePartLinks = new DownloadFilePartLink[filePartLinks.Length];
                     for (int i3 = 0; i3 < filePartLinks.Length; i3++)
                     {
                         DownloadFilePartLink filePartLink = new DownloadFilePartLink();
-                        filePartLink.Downloaded = false;
                         filePartLink.DownloadLink = filePartLinks[i3];
-                        filePartLink.State = DownloadState.NotDownloaded;
-                        fileLink.FilePartLinks[i3] = filePartLink;
+                        //filePartLink.Downloaded = false;
+                        //filePartLink.State = DownloadState.NotDownloaded;
+                        serverLink.FilePartLinks[i3] = filePartLink;
                     }
-                    downloadLink.ServerLinks[i2] = fileLink;
+                    itemLink.ServerLinks[i2] = serverLink;
                 }
-                downloadLinks[i1] = downloadLink;
+                itemsLinks[i1] = itemLink;
             }
-            return downloadLinks;
+            return itemsLinks;
         }
     }
 
@@ -238,12 +262,20 @@ namespace Download.Print
                 _uncompressManager.Stop();
         }
 
-        //public void AddFileToDownload(IQuery key, IRequestDownloadLinks downloadLinks, string file)
-        public void AddFileToDownload(ServerKey key, IRequestDownloadLinks downloadLinks, string file)
+        //public void AddFileToDownload(ServerKey key, IRequestDownloadLinks downloadLinks, string file)
+        public void AddFileToDownload(ServerKey key, IRequestDownloadLinks downloadLinks, string file = null)
         {
             DownloadItemLink[] downloadItemLinks = DownloadItemLink.CreateDownloadItemLinkArray(downloadLinks);
 
-            QueueDownloadFile downloadFile = new QueueDownloadFile { Key = key, DownloadItemLinks = downloadItemLinks, RequestTime = DateTime.Now, File = file };
+            //QueueDownloadFile downloadFile = new QueueDownloadFile { Key = key, DownloadItemLinks = downloadItemLinks, RequestTime = DateTime.Now, File = file };
+            QueueDownloadFile downloadFile = new QueueDownloadFile
+            {
+                Key = key,
+                DownloadItemLinks = downloadItemLinks,
+                RequestTime = DateTime.Now,
+                Directory = file != null ? zPath.GetDirectoryName(file) : null,
+                Filename = file != null ? zPath.GetFileName(file) : null
+            };
             downloadFile.Id = _mongoQueueDownloadFileManager.GetNewId();
             downloadFile.Modified = true;
             SaveQueueDownloadFile(downloadFile);
@@ -254,9 +286,10 @@ namespace Download.Print
             if (_trace)
             {
                 pb.Trace.WriteLine("DownloadManager.ThreadExecute() 01 begin");
-                foreach (QueueDownloadFile downloadFile in _queueDownloadFiles.Values)
+                foreach (QueueDownloadFile queueDownloadFile in _queueDownloadFiles.Values)
                 {
-                    pb.Trace.WriteLine("DownloadManager.ThreadExecute() 02                            : downloadFile.Id {0} downloadFile.DownloadNbInProgress {1} downloadFile.AllDownloadLinkTreated {2} file \"{3}\"", downloadFile.Id, downloadFile.DownloadNbInProgress, downloadFile.AllDownloadLinkTreated, downloadFile.File);
+                    //pb.Trace.WriteLine("DownloadManager.ThreadExecute() 02                            : downloadFile.Id {0} downloadFile.DownloadNbInProgress {1} downloadFile.AllDownloadLinkTreated {2} file \"{3}\"", downloadFile.Id, downloadFile.DownloadNbInProgress, downloadFile.AllDownloadLinkTreated, downloadFile.File);
+                    pb.Trace.WriteLine("DownloadManager.ThreadExecute() 02                            : downloadFile.Id {0} downloadFile.DownloadNbInProgress {1} downloadFile.AllDownloadLinkTreated {2} directory \"{3}\" filename \"{4}\"", queueDownloadFile.Id, queueDownloadFile.DownloadNbInProgress, queueDownloadFile.AllDownloadLinkTreated, queueDownloadFile.Directory, queueDownloadFile.Filename);
                 }
             }
             ManageEndDownloadFiles();
@@ -301,18 +334,23 @@ namespace Download.Print
             try
             {
                 DownloadLinkRef downloadLinkRef = _currentDownloadFiles[downloadId];
-                QueueDownloadFile downloadFile = GetQueueDownloadFile(downloadLinkRef.QueueDownloadFileId);
+                QueueDownloadFile queueDownloadFile = GetQueueDownloadFile(downloadLinkRef.QueueDownloadFileId);
                 DownloadFilePartLink filePartLink = GetDownloadFilePartLink(downloadLinkRef);
 
                 if (_trace)
                     pb.Trace.WriteLine("DownloadManager.ManageEndDownloadFiles() 02                   : end download file : state {0} file \"{1}\"", filePartLink.State, filePartLink.File);
 
                 filePartLink.DownloadedPath = _downloadClient.GetDownloadLocalFileById(downloadLinkRef.DownloadId);
-                filePartLink.DownloadedFile = zpath.PathSetDirectory(filePartLink.DownloadedPath, zPath.GetDirectoryName(downloadFile.File));
+                //filePartLink.DownloadedFile = zpath.PathSetDirectory(filePartLink.DownloadedPath, zPath.GetDirectoryName(queueDownloadFile.File));
+                //filePartLink.DownloadedFile = zpath.PathSetDirectory(filePartLink.DownloadedPath, queueDownloadFile.Directory);
+                string file = filePartLink.DownloadedPath;
+                if (queueDownloadFile.Directory != null)
+                    file = zpath.PathSetDirectory(file, queueDownloadFile.Directory);
+                filePartLink.DownloadedFile = file;
                 filePartLink.EndDownloadTime = DateTime.Now;
                 filePartLink.DownloadDuration = filePartLink.EndDownloadTime - filePartLink.StartDownloadTime;
-                downloadFile.EndDownloadTime = filePartLink.EndDownloadTime;
-                downloadFile.DownloadDuration = downloadFile.EndDownloadTime - downloadFile.StartDownloadTime;
+                queueDownloadFile.EndDownloadTime = filePartLink.EndDownloadTime;
+                queueDownloadFile.DownloadDuration = queueDownloadFile.EndDownloadTime - queueDownloadFile.StartDownloadTime;
 
                 if (_trace)
                     pb.Trace.WriteLine("DownloadManager.ManageEndDownloadFiles() 03                   : _currentDownloadFiles.Remove({0})", downloadId);
@@ -322,18 +360,19 @@ namespace Download.Print
                     pb.Trace.WriteLine("DownloadManager.ManageEndDownloadFiles() 04                   : _mongoCurrentDownloadFileManager.Remove({0})", downloadLinkRef.DownloadId);
                 _mongoCurrentDownloadFileManager.Remove(downloadLinkRef.DownloadId);
 
-                downloadFile.DownloadNbInProgress--;
+                queueDownloadFile.DownloadNbInProgress--;
 
                 _downloadClient.RemoveDownloadById(downloadLinkRef.DownloadId);
 
                 if (_trace)
-                    pb.Trace.WriteLine("DownloadManager.ManageEndDownloadFiles() 05                   : downloadFile.Id {0} downloadFile.DownloadNbInProgress {1} downloadFile.AllDownloadLinkTreated {2} file \"{3}\"", downloadFile.Id, downloadFile.DownloadNbInProgress, downloadFile.AllDownloadLinkTreated, downloadFile.File);
-                if (downloadFile.DownloadNbInProgress == 0 && downloadFile.AllDownloadLinkTreated)
+                    //pb.Trace.WriteLine("DownloadManager.ManageEndDownloadFiles() 05                   : downloadFile.Id {0} downloadFile.DownloadNbInProgress {1} downloadFile.AllDownloadLinkTreated {2} file \"{3}\"", queueDownloadFile.Id, queueDownloadFile.DownloadNbInProgress, queueDownloadFile.AllDownloadLinkTreated, queueDownloadFile.File);
+                    pb.Trace.WriteLine("DownloadManager.ManageEndDownloadFiles() 05                   : downloadFile.Id {0} downloadFile.DownloadNbInProgress {1} downloadFile.AllDownloadLinkTreated {2} directory \"{3}\" filename \"{4}\"", queueDownloadFile.Id, queueDownloadFile.DownloadNbInProgress, queueDownloadFile.AllDownloadLinkTreated, queueDownloadFile.Directory, queueDownloadFile.Filename);
+                if (queueDownloadFile.DownloadNbInProgress == 0 && queueDownloadFile.AllDownloadLinkTreated)
                 {
-                    EndDownload(downloadFile);
+                    EndDownload(queueDownloadFile);
                 }
                 else
-                    SaveQueueDownloadFile(downloadFile);
+                    SaveQueueDownloadFile(queueDownloadFile);
             }
             catch (Exception exception)
             {
@@ -347,7 +386,8 @@ namespace Download.Print
             try
             {
                 if (_trace)
-                    pb.Trace.WriteLine("DownloadManager.EndDownload() 01                              : file \"{0}\"", queueDownloadFile.File);
+                    //pb.Trace.WriteLine("DownloadManager.EndDownload() 01                              : file \"{0}\"", queueDownloadFile.File);
+                    pb.Trace.WriteLine("DownloadManager.EndDownload() 01                              : directory \"{0}\" filename \"{1}\"", queueDownloadFile.Directory, queueDownloadFile.Filename);
 
                 DownloadedFile downloadedFile = new DownloadedFile();
                 downloadedFile.Key = queueDownloadFile.Key;
@@ -362,9 +402,12 @@ namespace Download.Print
                 downloadedFile.EndDownloadTime = queueDownloadFile.EndDownloadTime;
                 downloadedFile.DownloadDuration = queueDownloadFile.DownloadDuration;
 
-                _mongoDownloadedFileManager.RemoveFromKey(downloadedFile.Key);
-                downloadedFile.Id = _mongoDownloadedFileManager.GetNewId();
-                _mongoDownloadedFileManager.Save(downloadedFile.Id, downloadedFile);
+                if (downloadedFile.Key != null)
+                {
+                    _mongoDownloadedFileManager.RemoveFromKey(downloadedFile.Key);
+                    downloadedFile.Id = _mongoDownloadedFileManager.GetNewId();
+                    _mongoDownloadedFileManager.Save(downloadedFile.Id, downloadedFile);
+                }
                 _mongoQueueDownloadFileManager.Remove(queueDownloadFile.Id);
 
                 // _uncompressFile
@@ -376,8 +419,13 @@ namespace Download.Print
                         task = () =>
                         {
                             string[] uncompressFiles = UncompressFiles(queueDownloadFile.DownloadItemLinks.GetDownloadFilePartLinks().Select(filePartLink => filePartLink.DownloadedPath).ToArray());
-                            downloadedFile.UncompressFiles = SetDirectoryFiles(uncompressFiles, zPath.GetDirectoryName(queueDownloadFile.File));
-                            _mongoDownloadedFileManager.Save(downloadedFile.Id, downloadedFile);
+                            //downloadedFile.UncompressFiles = SetDirectoryFiles(uncompressFiles, zPath.GetDirectoryName(queueDownloadFile.File));
+                            //downloadedFile.UncompressFiles = SetDirectoryFiles(uncompressFiles, queueDownloadFile.Directory);
+                            if (queueDownloadFile.Directory != null)
+                                uncompressFiles = SetDirectoryFiles(uncompressFiles, queueDownloadFile.Directory);
+                            downloadedFile.UncompressFiles = uncompressFiles;
+                            if (downloadedFile.Id != null)
+                                _mongoDownloadedFileManager.Save(downloadedFile.Id, downloadedFile);
                         }
                     });
                     if (_onDownloaded != null)
@@ -417,44 +465,47 @@ namespace Download.Print
                 return;
             }
 
-            foreach (QueueDownloadFile downloadFile in _mongoQueueDownloadFileManager.Find("{}", sort: "{ _id: 1 }"))
+            foreach (QueueDownloadFile queueDownloadFile in _mongoQueueDownloadFileManager.Find("{}", sort: "{ _id: 1 }"))
             {
-                QueueDownloadFile downloadFile2 = downloadFile;
-                if (_queueDownloadFiles.ContainsKey(downloadFile2.Id))
+                QueueDownloadFile queueDownloadFile2 = queueDownloadFile;
+                if (_queueDownloadFiles.ContainsKey(queueDownloadFile2.Id))
                 {
-                    downloadFile2 = GetQueueDownloadFile(downloadFile2.Id);
+                    queueDownloadFile2 = GetQueueDownloadFile(queueDownloadFile2.Id);
                 }
 
                 while (true)
                 {
-                    if (!_queueDownloadFiles.ContainsKey(downloadFile2.Id))
+                    if (!_queueDownloadFiles.ContainsKey(queueDownloadFile2.Id))
                     {
-                        if (!_queueDownloadFiles.TryAdd(downloadFile2.Id, downloadFile2))
-                            pb.Trace.WriteLine("error adding QueueDownloadFile id {0} to ConcurrentDictionary _queueDownloadFiles", downloadFile2.Id);
+                        if (!_queueDownloadFiles.TryAdd(queueDownloadFile2.Id, queueDownloadFile2))
+                            pb.Trace.WriteLine("error adding QueueDownloadFile id {0} to ConcurrentDictionary _queueDownloadFiles", queueDownloadFile2.Id);
                         if (_trace)
-                            pb.Trace.WriteLine("DownloadManager.ManageNewDownloadFiles() 05                   : add to _queueDownloadFiles, downloadFile.Id {0} downloadFile.Key {1} downloadFile.File \"{2}\"", downloadFile2.Id, downloadFile2.Key, downloadFile2.File);
+                            //pb.Trace.WriteLine("DownloadManager.ManageNewDownloadFiles() 05                   : add to _queueDownloadFiles, queueDownloadFile.Id {0} queueDownloadFile.Key {1} queueDownloadFile.File \"{2}\"", queueDownloadFile2.Id, queueDownloadFile2.Key, queueDownloadFile2.File);
+                            pb.Trace.WriteLine("DownloadManager.ManageNewDownloadFiles() 05                   : add to _queueDownloadFiles, queueDownloadFile.Id {0} queueDownloadFile.Key {1} queueDownloadFile.Directory \"{2}\" queueDownloadFile.Filename \"{3}\"", queueDownloadFile2.Id, queueDownloadFile2.Key, queueDownloadFile2.Directory, queueDownloadFile2.Filename);
                     }
 
-                    DownloadLinkRef downloadLinkRef = GetNextDownloadLink(downloadFile2);
+                    DownloadLinkRef downloadLinkRef = GetNextDownloadLink(queueDownloadFile2);
                     if (downloadLinkRef == null)
                     {
                         if (_trace)
                         {
-                            pb.Trace.WriteLine("DownloadManager.ManageNewDownloadFiles() 03                   : no more link to download for \"{0}\"", downloadFile2.File);
-                            pb.Trace.WriteLine("DownloadManager.ManageNewDownloadFiles() 04                   : downloadFile.Id {0} downloadFile.DownloadNbInProgress {1} downloadFile.AllDownloadLinkTreated {2} file \"{3}\"", downloadFile2.Id, downloadFile2.DownloadNbInProgress, downloadFile2.AllDownloadLinkTreated, downloadFile2.File);
+                            //pb.Trace.WriteLine("DownloadManager.ManageNewDownloadFiles() 03                   : no more link to download for \"{0}\"", queueDownloadFile2.File);
+                            pb.Trace.WriteLine("DownloadManager.ManageNewDownloadFiles() 03                   : no more link to download for \"{0}\" \"{1}\"", queueDownloadFile2.Directory, queueDownloadFile2.Filename);
+                            //pb.Trace.WriteLine("DownloadManager.ManageNewDownloadFiles() 04                   : downloadFile.Id {0} downloadFile.DownloadNbInProgress {1} downloadFile.AllDownloadLinkTreated {2} file \"{3}\"", queueDownloadFile2.Id, queueDownloadFile2.DownloadNbInProgress, queueDownloadFile2.AllDownloadLinkTreated, queueDownloadFile2.File);
+                            pb.Trace.WriteLine("DownloadManager.ManageNewDownloadFiles() 04                   : downloadFile.Id {0} downloadFile.DownloadNbInProgress {1} downloadFile.AllDownloadLinkTreated {2} directory \"{3}\" filename \"{4}\"", queueDownloadFile2.Id, queueDownloadFile2.DownloadNbInProgress, queueDownloadFile2.AllDownloadLinkTreated, queueDownloadFile2.Directory, queueDownloadFile2.Filename);
                         }
 
                         // sauver dans mongo Downloaded _mongoDownloadedFileManager
-                        if (downloadFile2.DownloadNbInProgress == 0)
-                            EndDownload(downloadFile2);
+                        if (queueDownloadFile2.DownloadNbInProgress == 0)
+                            EndDownload(queueDownloadFile2);
                         else
-                            SaveQueueDownloadFile(downloadFile2);
+                            SaveQueueDownloadFile(queueDownloadFile2);
                         break;
                     }
                     else
                     {
                         downloadLinkRef.DownloadId = _downloadClient.AddDownload(downloadLinkRef.DebridedDownloadLink, downloadLinkRef.File, startNow: true);
-                        downloadFile2.Modified = true;
+                        queueDownloadFile2.Modified = true;
 
                         if (_trace)
                             pb.Trace.WriteLine("DownloadManager.ManageNewDownloadFiles() 06                   : start download DownloadId {0} file \"{1}\"", downloadLinkRef.DownloadId, downloadLinkRef.File);
@@ -465,14 +516,15 @@ namespace Download.Print
                             filePartLink.State = DownloadState.DownloadStarted;
                             filePartLink.StartDownloadTime = DateTime.Now;
                         }
-                        if (downloadFile2.StartDownloadTime == null)
-                            downloadFile2.StartDownloadTime = DateTime.Now;
-                        downloadFile2.DownloadNbInProgress++;
-                        SaveQueueDownloadFile(downloadFile2);
+                        if (queueDownloadFile2.StartDownloadTime == null)
+                            queueDownloadFile2.StartDownloadTime = DateTime.Now;
+                        queueDownloadFile2.DownloadNbInProgress++;
+                        SaveQueueDownloadFile(queueDownloadFile2);
 
                         if (_trace)
                         {
-                            pb.Trace.WriteLine("DownloadManager.ManageNewDownloadFiles() 07                   : downloadFile.Id {0} downloadFile.DownloadNbInProgress {1} downloadFile.AllDownloadLinkTreated {2} file \"{3}\"", downloadFile2.Id, downloadFile2.DownloadNbInProgress, downloadFile2.AllDownloadLinkTreated, downloadFile2.File);
+                            //pb.Trace.WriteLine("DownloadManager.ManageNewDownloadFiles() 07                   : downloadFile.Id {0} downloadFile.DownloadNbInProgress {1} downloadFile.AllDownloadLinkTreated {2} file \"{3}\"", queueDownloadFile2.Id, queueDownloadFile2.DownloadNbInProgress, queueDownloadFile2.AllDownloadLinkTreated, queueDownloadFile2.File);
+                            pb.Trace.WriteLine("DownloadManager.ManageNewDownloadFiles() 07                   : downloadFile.Id {0} downloadFile.DownloadNbInProgress {1} downloadFile.AllDownloadLinkTreated {2} directory \"{3}\" filename \"{4}\"", queueDownloadFile2.Id, queueDownloadFile2.DownloadNbInProgress, queueDownloadFile2.AllDownloadLinkTreated, queueDownloadFile2.Directory, queueDownloadFile2.Filename);
                             pb.Trace.WriteLine("DownloadManager.ManageNewDownloadFiles() 08                   : _currentDownloadFiles.Add({0})", downloadLinkRef.DownloadId);
                         }
 
@@ -515,12 +567,12 @@ namespace Download.Print
             }
         }
 
-        private DownloadLinkRef GetNextDownloadLink(QueueDownloadFile downloadFile)
+        private DownloadLinkRef GetNextDownloadLink(QueueDownloadFile queueDownloadFile)
         {
-            if (downloadFile.AllDownloadLinkTreated)
+            if (queueDownloadFile.AllDownloadLinkTreated)
                 return null;
             int itemIndex = 0;
-            foreach (DownloadItemLink itemLink in downloadFile.DownloadItemLinks)
+            foreach (DownloadItemLink itemLink in queueDownloadFile.DownloadItemLinks)
             {
                 if (!itemLink.Downloaded)
                 {
@@ -533,24 +585,25 @@ namespace Download.Print
                             foreach (DownloadServerLink serverLink in q)
                             {
                                 DownloadFilePartLink filePartLink = serverLink.FilePartLinks[0];
-                                if (!UnprotectLink(downloadFile, serverLink, filePartLink, 0))
+                                if (!UnprotectLink(queueDownloadFile, serverLink, filePartLink, 0))
                                     continue;
                                 string debridedLink = null;
                                 string file = null;
-                                if (DebridLink(downloadFile, itemLink, serverLink, filePartLink, out debridedLink, out file))
+                                if (DebridLink(queueDownloadFile, itemLink, serverLink, filePartLink, out debridedLink, out file))
                                 {
                                     itemLink.SelectedServerIndex = serverIndex;
-                                    downloadFile.Modified = true;
+                                    queueDownloadFile.Modified = true;
                                     return new DownloadLinkRef
-                                        { QueueDownloadFileId = downloadFile.Id, ItemIndex = itemIndex, ServerIndex = serverIndex, FilePartIndex = 0, DebridedDownloadLink = debridedLink, File = file };
+                                        { QueueDownloadFileId = queueDownloadFile.Id, ItemIndex = itemIndex, ServerIndex = serverIndex, FilePartIndex = 0, DebridedDownloadLink = debridedLink, File = file };
                                 }
                                 serverIndex++;
                             }
                             itemLink.NoDownloadLinkFound = true;
-                            downloadFile.UncompleteDownload = true;
-                            downloadFile.Modified = true;
+                            queueDownloadFile.UncompleteDownload = true;
+                            queueDownloadFile.Modified = true;
                             string message = string.Format("can't find download link for item no {0}", itemIndex + 1);
-                            pb.Trace.WriteLine("{0:dd-MM-yyyy HH:mm:ss} - {1,-50} - {2,-25} - file \"{3}\" key {4}", DateTime.Now, message, null, downloadFile.File, downloadFile.Key);
+                            //pb.Trace.WriteLine("{0:dd-MM-yyyy HH:mm:ss} - {1,-50} - {2,-25} - file \"{3}\" key {4}", DateTime.Now, message, null, queueDownloadFile.File, queueDownloadFile.Key);
+                            pb.Trace.WriteLine("{0:dd-MM-yyyy HH:mm:ss} - {1,-50} - {2,-25} - directory \"{3}\" filename \"{4}\" key {5}", DateTime.Now, message, null, queueDownloadFile.Directory, queueDownloadFile.Filename, queueDownloadFile.Key);
                         }
                         else
                         {
@@ -562,14 +615,14 @@ namespace Download.Print
                                 if (filePartLink.State != DownloadState.NotDownloaded)
                                     continue;
                                 string errorMessage = null;
-                                if (UnprotectLink(downloadFile, serverLink, filePartLink, filePartIndex))
+                                if (UnprotectLink(queueDownloadFile, serverLink, filePartLink, filePartIndex))
                                 {
 
                                     string debridedLink = null;
                                     string file = null;
-                                    if (DebridLink(downloadFile, itemLink, serverLink, filePartLink, out debridedLink, out file))
+                                    if (DebridLink(queueDownloadFile, itemLink, serverLink, filePartLink, out debridedLink, out file))
                                     {
-                                        return new DownloadLinkRef { QueueDownloadFileId = downloadFile.Id, ItemIndex = itemIndex, ServerIndex = itemLink.SelectedServerIndex, FilePartIndex = filePartIndex, DebridedDownloadLink = debridedLink, File = file };
+                                        return new DownloadLinkRef { QueueDownloadFileId = queueDownloadFile.Id, ItemIndex = itemIndex, ServerIndex = itemLink.SelectedServerIndex, FilePartIndex = filePartIndex, DebridedDownloadLink = debridedLink, File = file };
                                     }
                                     else
                                     {
@@ -582,10 +635,11 @@ namespace Download.Print
                                 }
                                 if (errorMessage != null)
                                 {
-                                    downloadFile.UncompleteDownload = true;
-                                    downloadFile.Modified = true;
+                                    queueDownloadFile.UncompleteDownload = true;
+                                    queueDownloadFile.Modified = true;
                                     errorMessage = errorMessage + string.Format(" for item no {0} server no {1} part no {2}", itemIndex + 1, itemLink.SelectedServerIndex + 1, filePartIndex + 1);
-                                    pb.Trace.WriteLine("{0:dd-MM-yyyy HH:mm:ss} - {1,-50} - {2,-25} - link \"{3}\" file \"{4}\" key {5}", DateTime.Now, errorMessage, null, filePartLink.DownloadLink, downloadFile.File, downloadFile.Key);
+                                    //pb.Trace.WriteLine("{0:dd-MM-yyyy HH:mm:ss} - {1,-50} - {2,-25} - link \"{3}\" file \"{4}\" key {5}", DateTime.Now, errorMessage, null, filePartLink.DownloadLink, queueDownloadFile.File, queueDownloadFile.Key);
+                                    pb.Trace.WriteLine("{0:dd-MM-yyyy HH:mm:ss} - {1,-50} - {2,-25} - link \"{3}\" directory \"{4}\" filename \"{5}\" key {6}", DateTime.Now, errorMessage, null, filePartLink.DownloadLink, queueDownloadFile.Directory, queueDownloadFile.Filename, queueDownloadFile.Key);
                                 }
                             }
                         }
@@ -593,8 +647,8 @@ namespace Download.Print
                 }
                 itemIndex++;
             }
-            downloadFile.AllDownloadLinkTreated = true;
-            downloadFile.Modified = true;
+            queueDownloadFile.AllDownloadLinkTreated = true;
+            queueDownloadFile.Modified = true;
             return null;
         }
 
@@ -636,23 +690,33 @@ namespace Download.Print
             return true;
         }
 
-        private bool DebridLink(QueueDownloadFile downloadFile, DownloadItemLink itemLink, DownloadServerLink serverLink, DownloadFilePartLink filePartLink, out string debridedLink, out string file)
+        private bool DebridLink(QueueDownloadFile queueDownloadFile, DownloadItemLink itemLink, DownloadServerLink serverLink, DownloadFilePartLink filePartLink, out string debridedLink, out string file)
         {
             if (!filePartLink.Debrided)
             {
                 // http://s19.alldebrid.com/dl/f3nmdg2f05/Herc-FULLBluRay.part01.rar
                 debridedLink = _debrider.DebridLink(filePartLink.DownloadLink);
                 filePartLink.Debrided = true;
-                downloadFile.Modified = true;
+                queueDownloadFile.Modified = true;
                 if (debridedLink != null)
                 {
                     filePartLink.DebridedDownloadLink = debridedLink;
-                    file = downloadFile.File;
-                    if (downloadFile.DownloadItemLinks.Length > 1)
+
+                    //file = queueDownloadFile.File;
+                    file = queueDownloadFile.Filename;
+                    string urlFileName = zPath.GetFileName(zurl.GetAbsolutePath(debridedLink));
+                    if (file == null)
+                        file = zPath.GetFileNameWithoutExtension(urlFileName);
+
+                    if (queueDownloadFile.DownloadItemLinks.Length > 1)
                         file += "_" + itemLink.Name;
                     if (serverLink.FilePartLinks.Length > 1)
-                        file += ZipManager.GetZipFilePartName(zurl.GetFileName(debridedLink));
-                    file += zurl.GetExtension(debridedLink);
+                        //file += ZipManager.GetZipFilePartName(zurl.GetFileName(debridedLink));
+                        file += ZipManager.GetZipFilePartName(urlFileName);
+                    //file += zurl.GetExtension(debridedLink);
+                    file += zPath.GetExtension(urlFileName);
+                    if (queueDownloadFile.Directory != null)
+                        file = zPath.Combine(queueDownloadFile.Directory, file);
                     filePartLink.File = file;
 
                     if (_trace)

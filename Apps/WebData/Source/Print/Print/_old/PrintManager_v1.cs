@@ -140,7 +140,7 @@ namespace Print.old
                 Trace.CurrentTrace.WriteLine("search \"{0}\"", filename);
             //FindText_old findText = _printRegexList.Find_old(filename);
             FindText findText = _printRegexList.Find(filename);
-            if (!findText.found)
+            if (!findText.Found)
             {
                 if (_trace)
                     Trace.CurrentTrace.WriteLine("print not found \"{0}\"", filename);

@@ -1,15 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
 using System.Xml.Linq;
-using MongoDB.Driver;
 using pb;
-using pb.Data.Mongo;
 using pb.Data.Xml;
 using pb.Text;
 using pb.Web;
-using Print;
 
 namespace Download.Print
 {

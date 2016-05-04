@@ -42,6 +42,8 @@ namespace pb.Web
             // http://turbobit.net/15cejdxrzleh.html
             // http://6i5mqc65bc.1fichier.com/
             // Uploaded, Turbobit, Uptobox, 1fichier, Letitbit
+            if (server == null)
+                return 999;
             switch (server.ToLower())
             {
                 case "ul":

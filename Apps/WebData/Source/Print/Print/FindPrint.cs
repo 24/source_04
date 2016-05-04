@@ -2,7 +2,10 @@
 using pb.IO;
 using pb.Text;
 
-namespace Print
+// problem GetAllValues()
+
+//namespace Print
+namespace Download.Print
 {
     public class FindPrintInfo
     {
@@ -140,7 +143,7 @@ namespace Print
 
             _FindPrint();
 
-            if (!_findPrint.found)
+            if (!_findPrint.Found)
             {
                 FindDayAndPrint();
             }
@@ -206,7 +209,7 @@ namespace Print
                     if (__traceWarning)
                         Trace.WriteLine("  search print \"{0}\"", title);
                     _findPrint = _findPrintManager.FindPrintList.Find(title);
-                    if (_findPrint.found)
+                    if (_findPrint.Found)
                     {
                         _dayTitle = title;
                         _date = date;
@@ -245,11 +248,12 @@ namespace Print
         private void GetPrintInfo()
         {
             //if (_findPrint == null || !_findPrint.found)
-            if (!_findPrint.found)
+            if (!_findPrint.Found)
                 return;
 
             _found = true;
             MatchValues matchValues = _findPrint.matchValues;
+            //MatchValuesInfos matchValues = _findPrint.MatchValues;
             _name = matchValues.Name;
 
             _print = _findPrintManager.PrintManager[_name];

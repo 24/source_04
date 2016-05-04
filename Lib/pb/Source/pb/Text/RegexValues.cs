@@ -7,15 +7,47 @@ using System.Xml.Linq;
 using pb.Data;
 using pb.Data.Xml;
 
+// problem MatchValues.GetAllValues()
+// 
+
 // remplacement de NamedValues1 par NamedValues<RegexValue> donc object devient RegexValue le 06/10/2013
 
 namespace pb.Text
 {
     public class FindText
     {
-        public bool found = false;
-        public string text = null;
+        //public bool found = false;
+        public bool Found = false;
+        //public string text = null;
+        public string Text = null;
         public MatchValues matchValues = null;
+        //public MatchValuesInfos MatchValues = null;
+    }
+
+    public class MatchValuesInfos
+    {
+        public string Name;
+        public NamedValues<ZValue> Values;
+        public Dictionary<string, string> Attributes;
+        public MatchInfo MatchInfo;
+    }
+
+    public class MatchInfo
+    {
+        public bool Success;
+        public string Capture;
+        public int Index;
+        public int Length;
+        public MatchInfo(Match match)
+        {
+            Success = match.Success;
+            if (Success)
+            {
+                Index = match.Index;
+                Length = match.Length;
+                Capture = match.Value;
+            }
+        }
     }
 
     //[Obsolete]
@@ -94,11 +126,11 @@ namespace pb.Text
                 MatchValues matchValues = rv.Match(text);
                 if (matchValues.Success)
                 {
-                    //return new FindText { found = true, text = rv.MatchValue_old.Value, regexValues = rv };
-                    return new FindText { found = true, text = matchValues.Match.Value, matchValues = matchValues };
+                    return new FindText { Found = true, Text = matchValues.Match.Value, matchValues = matchValues };
+                    //return new FindText { Found = true, Text = matchValues.Match.Value, MatchValues = matchValues.GetValuesInfos() };
                 }
             }
-            return new FindText { found = false };
+            return new FindText { Found = false };
         }
 
         //[Obsolete]
@@ -362,6 +394,11 @@ namespace pb.Text
         public string Replace(string replace)
         {
             return _match.zReplace(_input, replace);
+        }
+
+        public MatchValuesInfos GetValuesInfos()
+        {
+            return new MatchValuesInfos { Name = _regexValues.Name,  Values = GetValues(), Attributes = _regexValues.Attributes, MatchInfo = new MatchInfo(_match) };
         }
 
         public NamedValues<ZValue> GetValues()

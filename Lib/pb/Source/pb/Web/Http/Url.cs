@@ -219,14 +219,20 @@ namespace pb.Web
             return __domainRegex.Match(new Uri(url).Host).Value;
         }
 
-        public static string GetExtension(string url)
-        {
-            return zPath.GetExtension(new Uri(url).AbsolutePath);
-        }
+        //public static string GetExtension(string url)
+        //{
+        //    return zPath.GetExtension(new Uri(url).AbsolutePath);
+        //}
 
-        public static string GetFileName(string url)
+        //public static string GetFileName(string url)
+        //{
+        //    return zPath.GetFileName(new Uri(url).AbsolutePath);
+        //}
+
+        // example : http://toto.com/zozo/zuzu/zaza.txt => /zozo/zuzu/zaza.txt
+        public static string GetAbsolutePath(string url)
         {
-            return zPath.GetFileName(new Uri(url).AbsolutePath);
+            return new Uri(url).AbsolutePath;
         }
 
         public static string RemoveFragment(string url)

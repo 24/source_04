@@ -660,7 +660,7 @@ namespace pb
             if (year < 100)
                 year = zdate.ToFourDigitYear(year);
 
-            if (day > DateTime.DaysInMonth(year, month))
+            if (day < 1 || day > DateTime.DaysInMonth(year, month))
                 return false;
 
             Date date3 = new Date(year, month, day);

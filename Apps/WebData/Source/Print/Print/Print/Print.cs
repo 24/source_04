@@ -16,7 +16,8 @@ using pb.old; // for zSetTextVariables() in pb\_old\TextVariables.cs
 //     pu.GetEveryTwoWeekPrintDate()
 //   supprimer baseDirectory dans le constructeur
 
-namespace Print
+//namespace Print
+namespace Download.Print
 {
     public class PrintInfo
     {
@@ -809,6 +810,11 @@ namespace Print
                     SetError("unable to calculate date of Daily print \"{0}\" from printNumber {1}", _print.Name, _printNumber);
                     return false;
                 }
+                if (_print.NoDateAndNumberCalculate)
+                {
+                    SetError("unable to calculate date of print \"{0}\"", _print.Name);
+                    return false;
+                }
                 //_date = _print.GetPrintDate(_printNumber);
                 Date date;
                 _print.GetPrintDate(_printNumber, out date, out _dateType);
@@ -974,44 +980,42 @@ namespace Print
         }
 
         // bad bad bad bad bad bad bad bad bad bad bad bad bad bad bad bad
-        //public bool Match(RegexValues rv, string filename, Predicate<NamedValues<ZValue>> validValues = null)
-        public MatchValues Match(RegexValues rv, string filename, Predicate<NamedValues<ZValue>> validValues = null)
-        {
-            //rv.Match_old(filename);
-            //return MatchSetValues(rv, validValues);
-            // bad bad bad bad bad bad bad bad bad bad bad bad bad bad bad bad
-            MatchValues matchValues = rv.Match(filename);
-            if (matchValues.Success && MatchSetValues(matchValues, validValues))
-                return matchValues;
-            else
-                return null;
-        }
+        //public MatchValues Match(RegexValues rv, string filename, Predicate<NamedValues<ZValue>> validValues = null)
+        //{
+        //    //rv.Match_old(filename);
+        //    //return MatchSetValues(rv, validValues);
+        //    // bad bad bad bad bad bad bad bad bad bad bad bad bad bad bad bad
+        //    MatchValues matchValues = rv.Match(filename);
+        //    if (matchValues.Success && MatchSetValues(matchValues, validValues))
+        //        return matchValues;
+        //    else
+        //        return null;
+        //}
 
-        //public bool MatchSetValues(RegexValues rv, Predicate<NamedValues<ZValue>> validValues = null)
-        public bool MatchSetValues(MatchValues matchValues, Predicate<NamedValues<ZValue>> validValues = null)
-        {
-            //if (!rv.Success_old)
-            if (!matchValues.Success)
-                return false;
-            //NamedValues<ZValue> values = rv.GetValues_old();
-            NamedValues<ZValue> values = matchValues.GetValues();
+        //public bool MatchSetValues(MatchValues matchValues, Predicate<NamedValues<ZValue>> validValues = null)
+        //{
+        //    //if (!rv.Success_old)
+        //    if (!matchValues.Success)
+        //        return false;
+        //    //NamedValues<ZValue> values = rv.GetValues_old();
+        //    NamedValues<ZValue> values = matchValues.GetValues();
 
-            if (_trace)
-                values.zTrace();
+        //    if (_trace)
+        //        values.zTrace();
 
-            if (validValues != null)
-            {
-                if (!validValues(values))
-                    return false;
-            }
+        //    if (validValues != null)
+        //    {
+        //        if (!validValues(values))
+        //            return false;
+        //    }
 
-            if (!TrySetValues(values))
-            {
-                //_error = string.Format("find \"{0}\" error \"{1}\"", _print.Name, values.Error);
-                return false;
-            }
-            return true;
-        }
+        //    if (!TrySetValues(values))
+        //    {
+        //        //_error = string.Format("find \"{0}\" error \"{1}\"", _print.Name, values.Error);
+        //        return false;
+        //    }
+        //    return true;
+        //}
 
 
         protected void SetError(string error, params object[] prm)

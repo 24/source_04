@@ -4,7 +4,8 @@ using System.Text.RegularExpressions;
 using pb;
 using pb.Text;
 
-namespace Print
+//namespace Print
+namespace Download.Print
 {
     public class PrintTitleInfo
     {
@@ -20,16 +21,9 @@ namespace Print
         public Date? Date = null;
         public DateType DateType = DateType.Unknow;
         public MatchValues DateMatch = null;
-        public MatchValues[] DateOtherMatchList = null;
+        //public MatchValues[] DateOtherMatchList = null;
         public string TitleStructure = null;
         public string RemainText = null;
-        //public string File = null;
-
-        //public string GetFile()
-        //{
-        //    // _printDirectory + "\\" + 
-        //    return zfile.ReplaceBadFilenameChars(PrintIssue.GetStandardFilename(FormatedTitle, Special, Date, DateType, Number, SpecialText), "_");
-        //}
     }
 
     public class PrintTitle
@@ -61,7 +55,7 @@ namespace Print
         private Date? _date = null;
         private DateType _dateType = DateType.Unknow;
         private MatchValues _dateMatch = null;
-        private MatchValues[] _dateOtherMatchList = null;
+        //private MatchValues[] _dateOtherMatchList = null;
 
         private string _titleStructure = null;
         private string _remainText = null;
@@ -142,7 +136,7 @@ namespace Print
                 Date = _date,
                 DateType = _dateType,
                 DateMatch = _dateMatch,
-                DateOtherMatchList = _dateOtherMatchList,
+                //DateOtherMatchList = _dateOtherMatchList,
                 TitleStructure = _titleStructure,
                 RemainText = _remainText,
                 //File = _file
@@ -208,7 +202,7 @@ namespace Print
         private string FindSpecial(string title)
         {
             FindText findSpecial = _printTitleManager.FindSpecial.Find(title);
-            if (findSpecial.found)
+            if (findSpecial.Found)
             {
                 _special = true;
                 _specialMatch = findSpecial.matchValues;
@@ -244,15 +238,15 @@ namespace Print
         private string FindDate(string title)
         {
             FindDate findDate = _printTitleManager.FindDateManager.Find(title, _expectedDate);
-            if (findDate.found)
+            if (findDate.Found)
             {
-                _date = findDate.date;
-                _dateType = findDate.dateType;
+                _date = findDate.Date;
+                _dateType = findDate.DateType;
                 _dateMatch = findDate.matchValues;
                 title = findDate.matchValues.Replace(" $$date$$ ");
                 _foundDate = true;
             }
-            _dateOtherMatchList = findDate.matchValuesList;
+            //_dateOtherMatchList = findDate.matchValuesList;
             return title;
         }
 

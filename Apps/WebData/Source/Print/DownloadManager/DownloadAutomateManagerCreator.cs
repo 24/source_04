@@ -1,12 +1,10 @@
-﻿using System;
-using System.Net.Mail;
+﻿using System.Net.Mail;
 using System.Xml.Linq;
 using pb;
 using pb.Data.Mongo;
 using pb.Data.Xml;
 using pb.Text;
 using pb.Web;
-using Print;
 using pb.Data;
 using System.Collections.Generic;
 
@@ -52,7 +50,7 @@ namespace Download.Print
         {
         }
 
-        public void Init(XElement xe)
+        public void Init(XElement xe, XmlConfig config)
         {
             //XElement xe;
             //if (!test)
@@ -71,7 +69,8 @@ namespace Download.Print
             //_gapDayBefore = xe.zXPathValue("GapDayBefore").zTryParseAs(0);
             //_gapDayAfter = xe.zXPathValue("GapDayAfter").zTryParseAs(0);
 
-            _config = XmlConfig.CurrentConfig;
+            //_config = XmlConfig.CurrentConfig;
+            _config = config;
             _localConfig = _config.GetConfig("LocalConfig");
             _printList1Config = _config.GetConfig("PrintList1Config");
             _printList2Config = _config.GetConfig("PrintList2Config");
@@ -142,12 +141,6 @@ namespace Download.Print
 
             Trace.WriteLine("create download automate : version {0} useTestManager {1} traceLevel {2}", _version, _useTestManager, _traceLevel.zToStringOrNull());
 
-            // moved to Init()
-            //_config = XmlConfig.CurrentConfig;
-            //_localConfig = _config.GetConfig("LocalConfig");
-            //_printList1Config = _config.GetConfig("PrintList1Config");
-            //_printList2Config = _config.GetConfig("PrintList2Config");
-
             //if (!_test)
             //    _xeConfig = XmlConfig.CurrentConfig.GetElement("DownloadAutomateManager");
             //else
@@ -155,15 +148,8 @@ namespace Download.Print
 
             _mongoDownloadAutomateManager = CreateMongoDownloadAutomateManager();
 
-            //_findPrintManager = CreateFindPrintManager.Create(_version, _dailyPrintManager, _gapDayBefore, _gapDayAfter);
-            CreateFindPrintManager createFindPrintManager = new CreateFindPrintManager();
-            createFindPrintManager.Init(_xeConfig);
-            createFindPrintManager.SetParameters(_parameters);
-            createFindPrintManager.Version = _version;
-            //createFindPrintManager.DailyPrintManager = _dailyPrintManager;
-            //createFindPrintManager.GapDayBefore = _gapDayBefore;
-            //createFindPrintManager.GapDayAfter = _gapDayAfter;
-            _findPrintManager = createFindPrintManager.Create();
+            //_findPrintManager = CreateFindPrintManager();
+            _findPrintManager = FindPrintManagerCreator.Create(_xeConfig, _parameters, _version);
 
             _downloadManager = CreateDownloadManager();
             _mailSender = CreateMailSender();
@@ -172,15 +158,15 @@ namespace Download.Print
             _downloadAutomateManager = _CreateDownloadAutomateManager();
 
             //InitServers();
-            CreateServerManagers();
+            //CreateServerManagers();
 
             _downloadAutomateManager.Init(_xeConfig);
             _downloadAutomateManager.SetParameters(_parameters);
 
             TraceResult();
 
-            if (!ControlDownloadManagerClient())
-                throw new PBException("error DownloadManagerClient is not working");
+            //if (!ControlDownloadManagerClient())
+            //    throw new PBException("error DownloadManagerClient is not working");
 
             if (_traceLevel != null)
                 Trace.CurrentTrace.TraceLevel = (int)_traceLevel;
@@ -189,6 +175,15 @@ namespace Download.Print
 
             return _downloadAutomateManager;
         }
+
+        //public FindPrintManager CreateFindPrintManager()
+        //{
+        //    CreateFindPrintManager createFindPrintManager = new CreateFindPrintManager();
+        //    createFindPrintManager.Init(_xeConfig);
+        //    createFindPrintManager.SetParameters(_parameters);
+        //    createFindPrintManager.Version = _version;
+        //    return createFindPrintManager.Create();
+        //}
 
         private MongoDownloadAutomateManager CreateMongoDownloadAutomateManager()
         {
@@ -200,45 +195,53 @@ namespace Download.Print
                 _xeConfig.zXPathValue("MongoDownloadAutomate/MongoCollection"));
         }
 
+        private Debrider CreateDebrider()
+        {
+            return CreateDebrider(_config, _useTestManager);
+        }
 
-        //CreateDebrider();
-        public Debrider CreateDebrider()
+        public static Debrider CreateDebrider(XmlConfig config, bool useTestManager = false)
         {
             //return CreateDebriderAlldebrid();
             Debrider debrider;
-            if (!_useTestManager)
-                debrider = CreateDebriderDebridLinkFr();
+            if (!useTestManager)
+                debrider = CreateDebriderDebridLinkFr(config);
             else
                 debrider = new DebriderAlldebridTest();
             return debrider;
         }
 
-        public Debrider CreateDebriderDebridLinkFr()
+        private static Debrider CreateDebriderDebridLinkFr(XmlConfig config)
         {
             DebriderDebridLinkFr debrider = new DebriderDebridLinkFr();
-            debrider.DebridLinkFr = CreateDebridLinkFr();
+            debrider.DebridLinkFr = CreateDebridLinkFr(config);
             return debrider;
         }
 
-        public DebridLinkFr CreateDebridLinkFr()
+        private static DebridLinkFr CreateDebridLinkFr(XmlConfig config)
         {
             DebridLinkFr debrider = new DebridLinkFr();
-            //XmlConfig localConfig = XmlConfig.CurrentConfig.GetConfig("LocalConfig");
-            debrider.Login = _localConfig.GetExplicit("DownloadAutomateManager/DebridLink/Login");
-            debrider.Password = _localConfig.GetExplicit("DownloadAutomateManager/DebridLink/Password");
-            debrider.PublicKey = _localConfig.GetExplicit("DownloadAutomateManager/DebridLink/PublicKey");
-            debrider.ConnexionLifetime = DebridLinkFr.GetConnexionLifetime(_localConfig.GetExplicit("DownloadAutomateManager/DebridLink/ConnexionLifetime"));
-            debrider.ConnexionFile = _config.GetExplicit("DebridLink/ConnexionFile");
+            XmlConfig localConfig = config.GetConfig("LocalConfig");
+            debrider.Login = localConfig.GetExplicit("DownloadAutomateManager/DebridLink/Login");
+            debrider.Password = localConfig.GetExplicit("DownloadAutomateManager/DebridLink/Password");
+            debrider.PublicKey = localConfig.GetExplicit("DownloadAutomateManager/DebridLink/PublicKey");
+            debrider.ConnexionLifetime = DebridLinkFr.GetConnexionLifetime(localConfig.GetExplicit("DownloadAutomateManager/DebridLink/ConnexionLifetime"));
+            debrider.ConnexionFile = config.GetExplicit("DebridLink/ConnexionFile");
             //debrider.ServerTimeFile = XmlConfig.CurrentConfig.GetExplicit("DebridLink/ServerTimeFile");
             return debrider;
         }
 
         public DownloadManagerClientBase CreateDownloadManagerClient()
         {
+            return CreateDownloadManagerClient(_xeConfig, _useTestManager);
+        }
+
+        public static DownloadManagerClientBase CreateDownloadManagerClient(XElement xe, bool useTestManager = false)
+        {
             DownloadManagerClientBase downloadManagerClient = null;
-            if (!_useTestManager)
+            if (!useTestManager)
                 //downloadManagerClient = new DownloadManagerClient(XmlConfig.CurrentConfig.GetExplicit("DownloadAutomateManager/DownloadManagerClient/Address"));
-                downloadManagerClient = new DownloadManagerClient(_xeConfig.zXPathExplicitValue("DownloadManagerClient/Address"));
+                downloadManagerClient = new DownloadManagerClient(xe.zXPathExplicitValue("DownloadManagerClient/Address"));
             else
                 downloadManagerClient = new DownloadManagerClientTest(@"c:\pib\_dl\_pib\dl");
             return downloadManagerClient;
@@ -257,20 +260,15 @@ namespace Download.Print
         //public DownloadManager_v2 CreateDownloadManager_v2(bool useTestManager = false)
         public DownloadManager CreateDownloadManager()
         {
-            //MongoCollectionManager_v2<DownloadedFile_v2> mongoDownloadedFileManager = MongoCollectionManager_v2<DownloadedFile_v2>.Create(config.GetElement("DownloadAutomateManager/MongoDownloadedFile"));
             MongoCollectionManager<DownloadedFile> mongoDownloadedFileManager = MongoCollectionManager<DownloadedFile>.Create(_xeConfig.zXPathElement("MongoDownloadedFile"));
             mongoDownloadedFileManager.IdGenerator = new MongoIdGeneratorInt(mongoDownloadedFileManager.GetCollection());
             mongoDownloadedFileManager.KeyName = "Key";     // Key is the name of key field in DownloadedFile_v2
-            //mongoDownloadedFileManager.QueryKey = key => new QueryDocument { { "downloadedFile.Key.server", key.server }, { "downloadedFile.Key._id", BsonValue.Create(key.id) } };
 
-            //MongoCollectionManager_v2<QueueDownloadFile_v2> mongoQueueDownloadFileManager = MongoCollectionManager_v2<QueueDownloadFile_v2>.Create(config.GetElement("DownloadAutomateManager/MongoQueueDownloadFile_new"));
-            MongoCollectionManager<QueueDownloadFile> mongoQueueDownloadFileManager = MongoCollectionManager<QueueDownloadFile>.Create(_xeConfig.zXPathElement("MongoQueueDownloadFile_new"));
-            // MongoIdGenerator_v2 IdGenerator
-            mongoQueueDownloadFileManager.IdGenerator = new MongoIdGeneratorInt(mongoQueueDownloadFileManager.GetCollection());
-            mongoDownloadedFileManager.KeyName = "Key";     // Key is the name of key field in QueueDownloadFile_v2
-            //mongoQueueDownloadFileManager.QueryKey = key => new QueryDocument { { "queueDownloadFile.Key.server", key.server }, { "queueDownloadFile.Key._id", BsonValue.Create(key.id) } };
+            //MongoCollectionManager<QueueDownloadFile> mongoQueueDownloadFileManager = MongoCollectionManager<QueueDownloadFile>.Create(_xeConfig.zXPathElement("MongoQueueDownloadFile_new"));
+            //mongoQueueDownloadFileManager.IdGenerator = new MongoIdGeneratorInt(mongoQueueDownloadFileManager.GetCollection());
+            //mongoDownloadedFileManager.KeyName = "Key";     // Key is the name of key field in QueueDownloadFile_v2
+            MongoCollectionManager<QueueDownloadFile> mongoQueueDownloadFileManager = CreateMongoQueueDownloadFileManager(_xeConfig);
 
-            //MongoCollectionManager_v2<DownloadLinkRef_v2> mongoCurrentDownloadFileManager = MongoCollectionManager_v2<DownloadLinkRef_v2>.Create(config.GetElement("DownloadAutomateManager/MongoCurrentDownloadFile"));
             MongoCollectionManager<DownloadLinkRef> mongoCurrentDownloadFileManager = MongoCollectionManager<DownloadLinkRef>.Create(_xeConfig.zXPathElement("MongoCurrentDownloadFile"));
             mongoCurrentDownloadFileManager.IdGenerator = new MongoIdGeneratorInt(mongoCurrentDownloadFileManager.GetCollection());
 
@@ -294,6 +292,13 @@ namespace Download.Print
             downloadManager.Debrider = debrider;
             downloadManager.UncompressManager = uncompressManager;
             return downloadManager;
+        }
+
+        public static MongoCollectionManager<QueueDownloadFile> CreateMongoQueueDownloadFileManager(XElement xe)
+        {
+            MongoCollectionManager<QueueDownloadFile> mongoQueueDownloadFileManager = MongoCollectionManager<QueueDownloadFile>.Create(xe.zXPathElement("MongoQueueDownloadFile_new"));
+            mongoQueueDownloadFileManager.IdGenerator = new MongoIdGeneratorInt(mongoQueueDownloadFileManager.GetCollection());
+            return mongoQueueDownloadFileManager;
         }
 
         private MailSender CreateMailSender()
@@ -324,25 +329,31 @@ namespace Download.Print
             return downloadAutomateManager;
         }
 
-        private void CreateServerManagers()
+        public IEnumerable<ServerManager> CreateServerManagers()
         {
-            //Ebookdz.Ebookdz.FakeInit();
-            //Vosbooks.Vosbooks.FakeInit();
-            //TelechargerMagazine.TelechargerMagazine.FakeInit();
-            //ExtremeDown.ExtremeDown.FakeInit();
-
-            //foreach (XElement xe in config.GetElements("DownloadAutomateManager/ServerManagers/ServerManager"))
             foreach (XElement xe in _xeConfig.zXPathElements("ServerManagers/ServerManager"))
             {
                 ServerManager serverManager = ServerManagers.Get(xe.zExplicitAttribValue("name"));
-                serverManager.EnableLoadNewPost = xe.zAttribValue("enableLoadNewPost").zTryParseAs<bool>(true);
-                serverManager.EnableSearchPostToDownload = xe.zAttribValue("enableSearchPostToDownload").zTryParseAs<bool>(true);
+                serverManager.EnableLoadNewPost = xe.zAttribValue("enableLoadNewPost").zTryParseAs(true);
+                serverManager.EnableSearchPostToDownload = xe.zAttribValue("enableSearchPostToDownload").zTryParseAs(true);
                 serverManager.DownloadDirectory = xe.zAttribValue("downloadDirectory").zNullIfEmpty();
-                _downloadAutomateManager.AddServerManager(serverManager);
-                Trace.WriteLine("add server manager \"{0}\" enable load new post {1} enable search post to download {2} download directory \"{3}\"", serverManager.Name, serverManager.EnableLoadNewPost, serverManager.EnableSearchPostToDownload, serverManager.DownloadDirectory);
+                //Trace.WriteLine("  create server manager \"{0}\" enable load new post {1} enable search post to download {2} download directory \"{3}\"", serverManager.Name, serverManager.EnableLoadNewPost, serverManager.EnableSearchPostToDownload, serverManager.DownloadDirectory);
+                yield return serverManager;
             }
-
         }
+
+        //private void CreateServerManagers()
+        //{
+        //    foreach (XElement xe in _xeConfig.zXPathElements("ServerManagers/ServerManager"))
+        //    {
+        //        ServerManager serverManager = ServerManagers.Get(xe.zExplicitAttribValue("name"));
+        //        serverManager.EnableLoadNewPost = xe.zAttribValue("enableLoadNewPost").zTryParseAs(true);
+        //        serverManager.EnableSearchPostToDownload = xe.zAttribValue("enableSearchPostToDownload").zTryParseAs(true);
+        //        serverManager.DownloadDirectory = xe.zAttribValue("downloadDirectory").zNullIfEmpty();
+        //        _downloadAutomateManager.AddServerManager(serverManager);
+        //        Trace.WriteLine("add server manager \"{0}\" enable load new post {1} enable search post to download {2} download directory \"{3}\"", serverManager.Name, serverManager.EnableLoadNewPost, serverManager.EnableSearchPostToDownload, serverManager.DownloadDirectory);
+        //    }
+        //}
 
         private void TraceResult()
         {
@@ -363,22 +374,22 @@ namespace Download.Print
             Trace.WriteLine("last run time {0:dd-MM-yyyy HH:mm:ss}", _downloadAutomateManager.MongoDownloadAutomateManager.GetLastRunDateTime());
         }
 
-        private bool ControlDownloadManagerClient()
-        {
-            Trace.Write("control download manager client");
-            try
-            {
-                if (_downloadAutomateManager.DownloadManager != null)
-                    _downloadAutomateManager.DownloadManager.DownloadManagerClient.GetDownloadCount();
-                Trace.WriteLine(" ok");
-                return true;
-            }
-            catch (Exception ex)
-            {
-                Trace.WriteLine(" error");
-                Trace.WriteLine("error {0}", ex.Message);
-                return false;
-            }
-        }
+        //private bool ControlDownloadManagerClient()
+        //{
+        //    Trace.Write("control download manager client");
+        //    try
+        //    {
+        //        if (_downloadAutomateManager.DownloadManager != null)
+        //            _downloadAutomateManager.DownloadManager.DownloadManagerClient.GetDownloadCount();
+        //        Trace.WriteLine(" ok");
+        //        return true;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Trace.WriteLine(" error");
+        //        Trace.WriteLine("error {0}", ex.Message);
+        //        return false;
+        //    }
+        //}
     }
 }

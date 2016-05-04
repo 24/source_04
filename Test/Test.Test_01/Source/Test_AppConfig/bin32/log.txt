@@ -1,0 +1,308 @@
+﻿Test_AppConfig : 29/06/2015 17:08:23
+
+Test_01
+Test_01
+Test_AppConfig : 29/06/2015 17:09:42
+
+Test_01
+Test_01
+Test_01
+Test_01
+Test_01
+Test_01
+Test_AppConfig : 29/06/2015 18:04:51
+
+Test_01
+read section "ConnectionManagerDatabaseServers"
+found element
+"Dev" "Dev.MyDomain.local"
+Test_AppConfig : 29/06/2015 18:17:18
+
+read section "ConnectionManagerDatabaseServers"
+element not found
+Test_AppConfig : 29/06/2015 19:01:52
+
+read section "appSettings"
+Configuration system failed to initialize
+   at System.Configuration.ConfigurationManager.PrepareConfigSystem()
+   at System.Configuration.ConfigurationManager.GetSection(String sectionName)
+   at Test.Test_AppConfig.Test_AppConfig.Test_03() in c:\pib\drive\google\dev\project\Source\Test\Test.Test_01\Source\Test_AppConfig\Test_AppConfig.cs:line 48
+   at Test.Test_AppConfig.Test_AppConfig.Test() in c:\pib\drive\google\dev\project\Source\Test\Test.Test_01\Source\Test_AppConfig\Test_AppConfig.cs:line 14
+   at Test.Test_AppConfig.Form1.Exec(Action action) in c:\pib\drive\google\dev\project\Source\Test\Test.Test_01\Source\Test_AppConfig\Form1.cs:line 33
+Test_AppConfig : 29/06/2015 19:06:31
+
+read section "appSettings"
+Configuration system failed to initialize
+   at System.Configuration.ConfigurationManager.PrepareConfigSystem()
+   at System.Configuration.ConfigurationManager.GetSection(String sectionName)
+   at Test.Test_AppConfig.Test_AppConfig.Test_03() in c:\pib\drive\google\dev\project\Source\Test\Test.Test_01\Source\Test_AppConfig\Test_AppConfig.cs:line 48
+   at Test.Test_AppConfig.Test_AppConfig.Test() in c:\pib\drive\google\dev\project\Source\Test\Test.Test_01\Source\Test_AppConfig\Test_AppConfig.cs:line 14
+   at Test.Test_AppConfig.Form1.Exec(Action action) in c:\pib\drive\google\dev\project\Source\Test\Test.Test_01\Source\Test_AppConfig\Form1.cs:line 33
+Test_AppConfig : 29/06/2015 19:07:06
+
+read section "appSettings"
+Configuration system failed to initialize
+   at System.Configuration.ConfigurationManager.PrepareConfigSystem()
+   at System.Configuration.ConfigurationManager.GetSection(String sectionName)
+   at Test.Test_AppConfig.Test_AppConfig.Test_03() in c:\pib\drive\google\dev\project\Source\Test\Test.Test_01\Source\Test_AppConfig\Test_AppConfig.cs:line 48
+   at Test.Test_AppConfig.Test_AppConfig.Test() in c:\pib\drive\google\dev\project\Source\Test\Test.Test_01\Source\Test_AppConfig\Test_AppConfig.cs:line 14
+   at Test.Test_AppConfig.Form1.Exec(Action action) in c:\pib\drive\google\dev\project\Source\Test\Test.Test_01\Source\Test_AppConfig\Form1.cs:line 33
+Test_AppConfig : 29/06/2015 19:07:28
+
+read section "appSettings"
+Configuration system failed to initialize
+   at System.Configuration.ConfigurationManager.PrepareConfigSystem()
+   at System.Configuration.ConfigurationManager.GetSection(String sectionName)
+   at Test.Test_AppConfig.Test_AppConfig.Test_03() in c:\pib\drive\google\dev\project\Source\Test\Test.Test_01\Source\Test_AppConfig\Test_AppConfig.cs:line 48
+   at Test.Test_AppConfig.Test_AppConfig.Test() in c:\pib\drive\google\dev\project\Source\Test\Test.Test_01\Source\Test_AppConfig\Test_AppConfig.cs:line 14
+   at Test.Test_AppConfig.Form1.Exec(Action action) in c:\pib\drive\google\dev\project\Source\Test\Test.Test_01\Source\Test_AppConfig\Form1.cs:line 33
+Test_AppConfig : 29/06/2015 19:08:55
+
+read section "appSettings"
+Configuration system failed to initialize
+   at System.Configuration.ConfigurationManager.PrepareConfigSystem()
+   at System.Configuration.ConfigurationManager.GetSection(String sectionName)
+   at Test.Test_AppConfig.Test_AppConfig.Test_03() in c:\pib\drive\google\dev\project\Source\Test\Test.Test_01\Source\Test_AppConfig\Test_AppConfig.cs:line 48
+   at Test.Test_AppConfig.Test_AppConfig.Test() in c:\pib\drive\google\dev\project\Source\Test\Test.Test_01\Source\Test_AppConfig\Test_AppConfig.cs:line 14
+   at Test.Test_AppConfig.Form1.Exec(Action action) in c:\pib\drive\google\dev\project\Source\Test\Test.Test_01\Source\Test_AppConfig\Form1.cs:line 33
+Test_AppConfig : 29/06/2015 19:09:20
+
+read section "appSettings"
+Configuration system failed to initialize
+   at System.Configuration.ConfigurationManager.PrepareConfigSystem()
+   at System.Configuration.ConfigurationManager.GetSection(String sectionName)
+   at Test.Test_AppConfig.Test_AppConfig.Test_03() in c:\pib\drive\google\dev\project\Source\Test\Test.Test_01\Source\Test_AppConfig\Test_AppConfig.cs:line 48
+   at Test.Test_AppConfig.Test_AppConfig.Test() in c:\pib\drive\google\dev\project\Source\Test\Test.Test_01\Source\Test_AppConfig\Test_AppConfig.cs:line 14
+   at Test.Test_AppConfig.Form1.Exec(Action action) in c:\pib\drive\google\dev\project\Source\Test\Test.Test_01\Source\Test_AppConfig\Form1.cs:line 33
+Test_AppConfig : 29/06/2015 19:09:40
+
+read section "appSettings"
+found element
+Test_AppConfig : 29/06/2015 19:10:36
+
+Test_AppConfig : 29/06/2015 19:11:58
+
+read section "appSettings"
+found element
+Test_AppConfig : 29/06/2015 19:12:44
+
+read section "appSettings"
+found element
+Test_AppConfig : 29/06/2015 19:14:03
+
+read section "appSettings"
+found element
+Test_AppConfig : 29/06/2015 19:14:21
+
+read section "appSettings"
+found element
+Test_AppConfig : 29/06/2015 19:15:45
+
+read section "appSettings"
+Configuration system failed to initialize
+   at System.Configuration.ConfigurationManager.PrepareConfigSystem()
+   at System.Configuration.ConfigurationManager.GetSection(String sectionName)
+   at Test.Test_AppConfig.Test_AppConfig.Test_03() in c:\pib\drive\google\dev\project\Source\Test\Test.Test_01\Source\Test_AppConfig\Test_AppConfig.cs:line 48
+   at Test.Test_AppConfig.Test_AppConfig.Test() in c:\pib\drive\google\dev\project\Source\Test\Test.Test_01\Source\Test_AppConfig\Test_AppConfig.cs:line 14
+   at Test.Test_AppConfig.Form1.Exec(Action action) in c:\pib\drive\google\dev\project\Source\Test\Test.Test_01\Source\Test_AppConfig\Form1.cs:line 33
+Test_AppConfig : 29/06/2015 19:16:22
+
+read section "appSettings"
+found element
+Test_AppConfig : 29/06/2015 19:16:43
+
+read section "appSettings"
+Configuration system failed to initialize
+   at System.Configuration.ConfigurationManager.PrepareConfigSystem()
+   at System.Configuration.ConfigurationManager.GetSection(String sectionName)
+   at Test.Test_AppConfig.Test_AppConfig.Test_03() in c:\pib\drive\google\dev\project\Source\Test\Test.Test_01\Source\Test_AppConfig\Test_AppConfig.cs:line 48
+   at Test.Test_AppConfig.Test_AppConfig.Test() in c:\pib\drive\google\dev\project\Source\Test\Test.Test_01\Source\Test_AppConfig\Test_AppConfig.cs:line 14
+   at Test.Test_AppConfig.Form1.Exec(Action action) in c:\pib\drive\google\dev\project\Source\Test\Test.Test_01\Source\Test_AppConfig\Form1.cs:line 33
+Test_AppConfig : 30/06/2015 06:50:04
+
+read section "appSettings"
+Configuration system failed to initialize
+   at System.Configuration.ConfigurationManager.PrepareConfigSystem()
+   at System.Configuration.ConfigurationManager.GetSection(String sectionName)
+   at Test.Test_AppConfig.Test_AppConfig.Test_03() in c:\pib\drive\google\dev\project\Source\Test\Test.Test_01\Source\Test_AppConfig\Test_AppConfig.cs:line 48
+   at Test.Test_AppConfig.Test_AppConfig.Test() in c:\pib\drive\google\dev\project\Source\Test\Test.Test_01\Source\Test_AppConfig\Test_AppConfig.cs:line 14
+   at Test.Test_AppConfig.Form1.Exec(Action action) in c:\pib\drive\google\dev\project\Source\Test\Test.Test_01\Source\Test_AppConfig\Form1.cs:line 33
+Test_AppConfig : 30/06/2015 06:50:29
+
+read section "appSettings"
+found element
+Test_AppConfig : 30/06/2015 14:17:04
+
+read section "ConnectionManagerDatabaseServers"
+found element
+"Dev" "Dev.MyDomain.local"
+Test_AppConfig : 30/06/2015 14:22:36
+
+read section "ConnectionManagerDatabaseServers"
+found element
+  name "localhost" = "localhost"
+  name "Dev" = "Dev.MyDomain.local"
+  name "Test" = "Test.MyDomain.local"
+  name "Live" = "Prod.MyDomain.com"
+Test_AppConfig : 30/06/2015 14:24:12
+
+read section "ConnectionManagerDatabaseServers"
+found element
+  name "localhost" = "localhost"
+  name "Dev" = "Dev.MyDomain.local"
+  name "Test" = "Test.MyDomain.local"
+  name "Live" = "Prod.MyDomain.com"
+
+read section "corsHttpHeaders"
+element not found
+
+Test_AppConfig : 30/06/2015 14:27:32
+
+read section "ConnectionManagerDatabaseServers"
+found element
+  name "localhost" = "localhost"
+  name "Dev" = "Dev.MyDomain.local"
+  name "Test" = "Test.MyDomain.local"
+  name "Live" = "Prod.MyDomain.com"
+
+read section "corsHttpHeaders"
+element not found
+
+read section "corsHttpHeaders"
+found element
+
+Test_AppConfig : 30/06/2015 14:31:16
+
+read section "ConnectionManagerDatabaseServers"
+found element
+  name "localhost" = "localhost"
+  name "Dev" = "Dev.MyDomain.local"
+  name "Test" = "Test.MyDomain.local"
+  name "Live" = "Prod.MyDomain.com"
+
+read section "corsHttpHeaders"
+element not found
+
+read section "corsHttpHeaders"
+found element
+section.ElementInformation.Type : System.Configuration.DefaultSection
+Test_AppConfig : 30/06/2015 14:59:01
+
+read section "ConnectionManagerDatabaseServers"
+found element
+  name "localhost" = "localhost"
+  name "Dev" = "Dev.MyDomain.local"
+  name "Test" = "Test.MyDomain.local"
+  name "Live" = "Prod.MyDomain.com"
+
+read section "corsHttpHeaders"
+element not found
+
+read section "corsHttpHeaders"
+found element
+section.ElementInformation.Type : System.Configuration.DefaultSection
+
+Test_AppConfig : 30/06/2015 14:59:30
+
+read section "ConnectionManagerDatabaseServers"
+found element
+  name "localhost" = "localhost"
+  name "Dev" = "Dev.MyDomain.local"
+  name "Test" = "Test.MyDomain.local"
+  name "Live" = "Prod.MyDomain.com"
+
+read section "corsHttpHeaders"
+element not found
+
+read section "corsHttpHeaders"
+found element
+section.ElementInformation.Type : System.Configuration.DefaultSection
+
+load config file "C:\pib\drive\google\dev\project\Source\Test\Test.Test_01\Source\Test_AppConfig\bin32\Test_AppConfig.exe.Config"
+get xpath element "corsHttpHeaders"
+element not found
+
+Test_AppConfig : 30/06/2015 15:00:14
+
+read section "ConnectionManagerDatabaseServers"
+found element
+  name "localhost" = "localhost"
+  name "Dev" = "Dev.MyDomain.local"
+  name "Test" = "Test.MyDomain.local"
+  name "Live" = "Prod.MyDomain.com"
+
+read section "corsHttpHeaders"
+element not found
+
+read section "corsHttpHeaders"
+found element
+section.ElementInformation.Type : System.Configuration.DefaultSection
+
+load config file "C:\pib\drive\google\dev\project\Source\Test\Test.Test_01\Source\Test_AppConfig\bin32\Test_AppConfig.exe.Config"
+get xpath element "/corsHttpHeaders"
+element not found
+
+Test_AppConfig : 30/06/2015 15:00:48
+
+read section "ConnectionManagerDatabaseServers"
+found element
+  name "localhost" = "localhost"
+  name "Dev" = "Dev.MyDomain.local"
+  name "Test" = "Test.MyDomain.local"
+  name "Live" = "Prod.MyDomain.com"
+
+read section "corsHttpHeaders"
+element not found
+
+read section "corsHttpHeaders"
+found element
+section.ElementInformation.Type : System.Configuration.DefaultSection
+
+load config file "C:\pib\drive\google\dev\project\Source\Test\Test.Test_01\Source\Test_AppConfig\bin32\Test_AppConfig.exe.Config"
+get xpath element "configuration/corsHttpHeaders"
+found element
+
+Test_AppConfig : 30/06/2015 15:01:44
+
+read section "ConnectionManagerDatabaseServers"
+found element
+  name "localhost" = "localhost"
+  name "Dev" = "Dev.MyDomain.local"
+  name "Test" = "Test.MyDomain.local"
+  name "Live" = "Prod.MyDomain.com"
+
+read section "corsHttpHeaders"
+element not found
+
+read section "corsHttpHeaders"
+found element
+section.ElementInformation.Type : System.Configuration.DefaultSection
+
+load config file "C:\pib\drive\google\dev\project\Source\Test\Test.Test_01\Source\Test_AppConfig\bin32\Test_AppConfig.exe.Config"
+get xpath element "corsHttpHeaders"
+found element
+
+Test_AppConfig : 30/06/2015 15:06:22
+
+read section "ConnectionManagerDatabaseServers"
+found element
+  name "localhost" = "localhost"
+  name "Dev" = "Dev.MyDomain.local"
+  name "Test" = "Test.MyDomain.local"
+  name "Live" = "Prod.MyDomain.com"
+
+read section "corsHttpHeaders"
+element not found
+
+read section "corsHttpHeaders"
+found element
+section.ElementInformation.Type : System.Configuration.DefaultSection
+
+load config file "C:\pib\drive\google\dev\project\Source\Test\Test.Test_01\Source\Test_AppConfig\bin32\Test_AppConfig.exe.Config"
+get xpath element "corsHttpHeaders"
+found element
+enumerate elements "corsHttpHeader"
+element "corsHttpHeader" : name "name="Access-Control-Allow-Origin"" value "value="*""
+element "corsHttpHeader" : name "name="Access-Control-Request-Method"" value "value="POST,GET,PUT,DELETE,OPTIONS""
+element "corsHttpHeader" : name "name="Access-Control-Allow-Headers"" value "value="X-Requested-With,Content-Type""
+

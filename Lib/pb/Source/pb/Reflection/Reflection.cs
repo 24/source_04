@@ -15,6 +15,7 @@ namespace pb.Reflection
 
     public static class zReflection
     {
+        // example : int -> System.Int32, IEnumerable<int> -> System.Collections.Generic.IEnumerable`1[[System.Int32]]
         public static string GetName(Type type)
         {
             if (type == null)
@@ -34,7 +35,16 @@ namespace pb.Reflection
             return name;
         }
 
-        public static string GetDefinition(this MethodInfo method)
+        // return {namespace}.{type}.{method name}, {assembly name}
+        // example : Download.Print.DownloadRun.Init, RunCode_00003, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        public static string GetName(MethodInfo method)
+        {
+            Type type = method.ReflectedType;
+            return GetName(type) + "." + method.Name + ", " + type.Assembly.FullName;
+        }
+
+        // example : System.Void Init()
+        public static string GetDefinition(MethodInfo method)
         {
             string s = "";
             ParameterInfo[] parameters = method.GetParameters();
@@ -368,6 +378,11 @@ namespace pb.Reflection
         public static string zGetTypeName(this Type type)
         {
             return zReflection.GetName(type);
+        }
+
+        public static string zGetName(this MethodInfo method)
+        {
+            return zReflection.GetName(method);
         }
 
         public static string zGetDefinition(this MethodInfo method)

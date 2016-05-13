@@ -299,6 +299,24 @@
     <Compile Include="Source\pb\Web\WebDriver\FirefoxWebDriverManager.cs" />
     <Compile Include="Source\pb\Web\WebDriver\WebDriverManager.cs" />
     <Compile Include="Source\pb\Web\WebDriver\WebDriverRun.cs" />
+    <Compile Include="Source\pb\Windows\Forms\DataGridViewControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Source\pb\Windows\Forms\ControlFindForm.cs" />
+    <Compile Include="Source\pb\Windows\Forms\LogTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Source\pb\Windows\Forms\PanelTabControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Source\pb\Windows\Forms\Scintilla\ScintillaControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Source\pb\Windows\Forms\Scintilla\ScintillaForm.cs" />
+    <Compile Include="Source\pb\Windows\Forms\XtraGridControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Source\pb\Windows\Forms\zDataGridView.cs" />
     <Compile Include="Source\pb\Windows\Forms\zForm.cs" />
     <Compile Include="Source\pb\Windows\Forms\ProgressControl.cs" />
     <Compile Include="Source\pb\Windows\Forms\Scintilla\ScintillaBookmark.cs" />
@@ -315,6 +333,7 @@
     <Compile Include="Source\pb\Windows\Forms\Scintilla\ScintillaFindText.cs" />
     <Compile Include="Source\pb\Windows\Forms\Scintilla\ScintillaFindTextForm.cs" />
     <Compile Include="Source\pb\Windows\Forms\Scintilla\ScintillaIndent.cs" />
+    <Compile Include="Source\pb\Windows\Forms\zXtraGrid.cs" />
     <Compile Include="Source\pb\Windows\Win32\WM.cs" />
     <Compile Include="Source\pb\_pb\AssemblyExtension.cs" />
     <Compile Include="Source\pb\_pb\AsyncManager.cs" />

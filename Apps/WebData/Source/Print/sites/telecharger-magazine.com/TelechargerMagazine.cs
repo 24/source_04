@@ -37,6 +37,7 @@ namespace Download.Print.TelechargerMagazine
     public class TelechargerMagazine : PostHeaderDetailMongoManagerBase<PostHeader, TelechargerMagazine_PostDetail>
     {
         private static bool __trace = false;
+        // http://telecharger-magazine.org/
         private static string __serverName = "telecharger-magazine.com";
         private static string __configName = "TelechargerMagazine";
         private static TelechargerMagazine __current = null;

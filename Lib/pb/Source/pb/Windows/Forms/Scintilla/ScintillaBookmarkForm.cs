@@ -5,15 +5,19 @@ namespace pb.Windows.Forms
 {
     public partial class ScintillaBookmark
     {
-        private Form _parentForm = null;
+        //private Form _parentForm = null;
         private KeyEventArgs _previousKey = null;
 
         private void InitParentForm()
         {
-            _parentForm = _scintillaControl.FindForm();
-            _parentForm.KeyDown += ParentForm_KeyDown;
-            _parentForm.KeyPreview = true;
+            ControlFindForm.Find(_scintillaControl, InitForm);
             _scintillaControl.MarginClick += scintillaControl_MarginClick;
+        }
+
+        private void InitForm(Form form)
+        {
+            form.KeyDown += ParentForm_KeyDown;
+            //form.KeyPreview = true;
         }
 
         private void scintillaControl_MarginClick(object sender, MarginClickEventArgs e)

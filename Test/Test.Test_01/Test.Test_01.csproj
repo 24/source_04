@@ -360,8 +360,43 @@
     <Compile Include="..\..\Lib\pb\Source\pb\Web\MailSender.cs">
       <Link>SourceLnk\Lib\pb\Web\MailSender.cs</Link>
     </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Windows\Forms\ControlFindForm.cs">
+      <Link>SourceLnk\Lib\pb\Windows\Forms\ControlFindForm.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Windows\Forms\DataGridViewControl.cs">
+      <Link>SourceLnk\Lib\pb\Windows\Forms\DataGridViewControl.cs</Link>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Windows\Forms\LogTextBox.cs">
+      <Link>SourceLnk\Lib\pb\Windows\Forms\LogTextBox.cs</Link>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Windows\Forms\PanelTabControl.cs">
+      <Link>SourceLnk\Lib\pb\Windows\Forms\PanelTabControl.cs</Link>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Windows\Forms\ScintillaControl.cs">
+      <Link>SourceLnk\Lib\pb\Windows\Forms\ScintillaControl.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Windows\Forms\Scintilla\ScintillaControl.cs">
+      <Link>SourceLnk\Lib\pb\Windows\Forms\Scintilla\ScintillaControl.cs</Link>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Windows\Forms\XtraGridControl.cs">
+      <Link>SourceLnk\Lib\pb\Windows\Forms\XtraGridControl.cs</Link>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Windows\Forms\zDataGridView.cs">
+      <Link>SourceLnk\Lib\pb\Windows\Forms\zDataGridView.cs</Link>
+    </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Windows\Forms\zerrf.cs">
       <Link>SourceLnk\Lib\pb\Windows\Forms\zerrf.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Windows\Forms\zForm.cs">
+      <Link>SourceLnk\Lib\pb\Windows\Forms\zForm.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Windows\Forms\zXtraGrid.cs">
+      <Link>SourceLnk\Lib\pb\Windows\Forms\zXtraGrid.cs</Link>
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\_old\HtmlXmlReader.cs">
       <Link>SourceLnk\Lib\pb\_old\HtmlXmlReader.cs</Link>
@@ -440,39 +475,40 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Source\Bug\Bug_f_01.cs" />
-    <Compile Include="Source\Test\Form1.cs">
+    <Compile Include="Source\Test_CS\Test_Dictionary\Test_Dictionary.cs" />
+    <Compile Include="Source\Test_Form\Test\Form1.cs">
       <SubType>form</SubType>
     </Compile>
-    <Compile Include="Source\Test\Form1.Designer.cs">
+    <Compile Include="Source\Test_Form\Test\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Source\Test\Form2.cs">
+    <Compile Include="Source\Test_Form\Test\Form2.cs">
       <SubType>form</SubType>
     </Compile>
-    <Compile Include="Source\Test\Form2.Designer.cs">
+    <Compile Include="Source\Test_Form\Test\Form2.Designer.cs">
       <DependentUpon>Form2.cs</DependentUpon>
     </Compile>
-    <Compile Include="Source\Test\RunSourceForm.cs">
+    <Compile Include="Source\Test_Form\Test_RunSourceForm\v1\RunSourceForm.cs">
       <SubType>form</SubType>
     </Compile>
-    <Compile Include="Source\Test\RunSourceForm.designer.cs">
+    <Compile Include="Source\Test_Form\Test_RunSourceForm\v1\RunSourceForm.designer.cs">
       <DependentUpon>RunSourceForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Source\Test\RunSourceForm2.cs">
+    <Compile Include="Source\Test_Form\Test_RunSourceForm\v1\RunSourceForm2.cs">
       <SubType>form</SubType>
     </Compile>
-    <Compile Include="Source\Test\RunSourceForm2.designer.cs">
+    <Compile Include="Source\Test_Form\Test_RunSourceForm\v1\RunSourceForm2.designer.cs">
       <DependentUpon>RunSourceForm2.cs</DependentUpon>
     </Compile>
-    <None Include="Source\Test\Test.cs" />
-    <Compile Include="Source\Test\Test_DevGrid_01.cs">
+    <None Include="Source\Test_Form\Test\Test.cs" />
+    <Compile Include="Source\Test_Form\Test\Test_DevGrid_01.cs">
       <SubType>form</SubType>
     </Compile>
-    <Compile Include="Source\Test\Test_DevGrid_01.Designer.cs">
+    <Compile Include="Source\Test_Form\Test\Test_DevGrid_01.Designer.cs">
       <DependentUpon>Test_DevGrid_01.cs</DependentUpon>
     </Compile>
-    <Compile Include="Source\Test\Test_f.cs" />
-    <Compile Include="Source\Test\Test_Trace.cs" />
+    <Compile Include="Source\Test_Form\Test\Test_f.cs" />
+    <Compile Include="Source\Test_Form\Test\Test_Trace.cs" />
     <None Include="Source\Test_AppConfig\App.config" />
     <None Include="Source\Test_AppDomain\compile.cs" />
     <Compile Include="Source\Test_AppConfig\Form1.cs">
@@ -509,6 +545,7 @@
     <Compile Include="Source\Test_CS\Test_ExpressionTrees\Test_ExpressionTrees_f_01.cs" />
     <Compile Include="Source\Test_CS\Test_GenericConvert.cs" />
     <None Include="Source\Test_CS\Test_Linq\Test_Linq.cs" />
+    <Compile Include="Source\Test_CS\Test_LambdaExpression\Test_LambdaExpression.cs" />
     <Compile Include="Source\Test_CS\Test_Linq\Test_Linq_f.cs" />
     <Compile Include="Source\Test_CS\Test_Linq\Test_Linq_Join_f.cs" />
     <Compile Include="Source\Test_Debug\exe\Test_Debug_01.cs" />
@@ -523,20 +560,63 @@
     <None Include="Source\Test_FileWatcher\Test_FileWatcher.cs" />
     <Compile Include="Source\Test_FileWatcher\Test_FileWatcher_f.cs" />
     <Compile Include="Source\Test_File\Test_File_01.cs" />
-    <Compile Include="Source\Test_Form\Form1.cs">
+    <Compile Include="Source\Test_Form\Test_ParentChanged\Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Source\Test_Form\Test_ParentChanged\Test_Form.cs" />
+    <Compile Include="Source\Test_Form\Test_RunSourceForm\v2\Test_Form.cs" />
+    <Compile Include="Source\Test_Form\Test_Scintilla\Form1.cs">
       <SubType>form</SubType>
     </Compile>
-    <Compile Include="Source\Test_Form\Form1.Designer.cs">
+    <Compile Include="Source\Test_Form\Test_Scintilla\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Source\Test_Form\Scintilla01.cs">
+    <Compile Include="Source\Test_Form\Test_Scintilla\Scintilla01.cs">
       <SubType>form</SubType>
     </Compile>
-    <Compile Include="Source\Test_Form\Scintilla01.Designer.cs">
+    <Compile Include="Source\Test_Form\Test_Scintilla\Scintilla01.Designer.cs">
       <DependentUpon>Scintilla01.cs</DependentUpon>
     </Compile>
-    <None Include="Source\Test_Form\Test_form.cs" />
-    <Compile Include="Source\Test_Form\Test_form_f.cs" />
+    <None Include="Source\Test_Form\Test_Scintilla\Test_form.cs" />
+    <Compile Include="Source\Test_Form\Test_Scintilla\Test_form_f.cs" />
+    <Compile Include="Source\Test_Form\Test_RunSourceForm\v2\RunSourceFormDataGrid.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Source\Test_Form\Test_RunSourceForm\v2\RunSourceFormDataGridView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Source\Test_Form\Test_RunSourceForm\v2\RunSourceFormDesign.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Source\Test_Form\Test_RunSourceForm\v2\RunSourceFormResultTab.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Source\Test_Form\Test_RunSourceForm\v2\RunSourceFormResultTab_v2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Source\Test_Form\Test_RunSourceForm\v2\RunSourceFormTest.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Source\Test_Form\Test_RunSourceForm\v3\RunSourceForm_v3.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Source\Test_Form\Test_RunSourceForm\v2\RunSourceFormTreeView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Source\Test_Form\Test_RunSourceForm\v2\RunSourceFormXtraGrid.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Source\Test_Form\Test_RunSourceForm\v3\RunSourceFormBase_v3.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Source\Test_Form\Test_RunSourceForm\v2\RunSourceStatus.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Source\Test_Form\Test_RunSourceForm\v3\Test_Form.cs" />
+    <Compile Include="Source\Test_Form\Test_Visible\Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Source\Test_Form\Test_Visible\Test_Form.cs" />
     <Compile Include="Source\Test_Http\Test_AllDebrib.cs" />
     <Compile Include="Source\Test_Http\Test_DebridLink.cs" />
     <Compile Include="Source\Test_Http\Test_Uri.cs" />
@@ -646,28 +726,28 @@
     <Compile Include="Source\Test_Zip\Test_Zip_f.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Source\Test\Form1.resx">
+    <EmbeddedResource Include="Source\Test_Form\Test\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Source\Test\Form2.resx">
+    <EmbeddedResource Include="Source\Test_Form\Test\Form2.resx">
       <DependentUpon>Form2.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Source\Test\RunSourceForm.resx">
+    <EmbeddedResource Include="Source\Test_Form\Test_RunSourceForm\v1\RunSourceForm.resx">
       <DependentUpon>RunSourceForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Source\Test\RunSourceForm2.resx">
+    <EmbeddedResource Include="Source\Test_Form\Test_RunSourceForm\v1\RunSourceForm2.resx">
       <DependentUpon>RunSourceForm2.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Source\Test\Test_DevGrid_01.resx">
+    <EmbeddedResource Include="Source\Test_Form\Test\Test_DevGrid_01.resx">
       <DependentUpon>Test_DevGrid_01.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Source\Test_AppConfig\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Source\Test_Form\Form1.resx">
+    <EmbeddedResource Include="Source\Test_Form\Test_Scintilla\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Source\Test_Form\Scintilla01.resx">
+    <EmbeddedResource Include="Source\Test_Form\Test_Scintilla\Scintilla01.resx">
       <DependentUpon>Scintilla01.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Source\Test_RunSource\Test_RunSourceForm.resx">
@@ -675,8 +755,11 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Source\Test\test_config.xml" />
-    <Content Include="Source\Test\test_project.xml" />
+    <Content Include="Source\Test_CS\Test_Dictionary\Test_Dictionary.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Source\Test_Form\Test\test_config.xml" />
+    <Content Include="Source\Test_Form\Test\test_project.xml" />
     <Content Include="Source\Test_AppConfig\Test_AppConfig.project.xml" />
     <Content Include="Source\Test_AppDomain\exe\Test_AppDomain_01_project.xml" />
     <Content Include="Source\Test_AppDomain\exe\Test_AppDomain_02_project.xml" />
@@ -693,6 +776,9 @@
     <Content Include="Source\Test_cpp\Test_cpp_exe_project.xml" />
     <Content Include="Source\Test_cpp\Test_cpp_project.xml" />
     <Content Include="Source\Test_CS\Test_cs4_project.xml" />
+    <Content Include="Source\Test_CS\Test_LambdaExpression\Test_LambdaExpression.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Source\Test_CS\Test_Linq\Test_Linq_project.xml" />
     <Content Include="Source\Test_Debug\exe\Test_Debug_01_project.xml" />
     <Content Include="Source\Test_Debug\Test_Debug_config.xml" />
@@ -700,8 +786,22 @@
     <Content Include="Source\Test_Directory\Test_directory_project.xml" />
     <Content Include="Source\Test_FileWatcher\Test_cpp_exe_project.xml" />
     <Content Include="Source\Test_FileWatcher\Test_FileWatcher_project.xml" />
-    <Content Include="Source\Test_Form\ScintillaNET.xml" />
-    <Content Include="Source\Test_Form\test_form_project.xml" />
+    <Content Include="Source\Test_Form\Test_ParentChanged\Test_ParentChanged.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Source\Test_Form\Test_RunSourceForm\v2\Test_RunSourceForm.v2.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Source\Test_Form\Test_Scintilla\ScintillaNET.xml" />
+    <Content Include="Source\Test_Form\Test_Scintilla\test_form_project.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Source\Test_Form\Test_RunSourceForm\v3\Test_RunSourceForm.v3.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Source\Test_Form\Test_Visible\Test_Visible.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Source\Test_InspectType\Test_InspectType_config.xml" />
     <Content Include="Source\Test_InspectType\Test_InspectType_project.xml" />
     <Content Include="Source\Test_iTextSharp\Test_iTextSharp_config.xml" />

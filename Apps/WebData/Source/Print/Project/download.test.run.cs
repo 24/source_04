@@ -198,9 +198,10 @@ TraceMongoCommand.Export("dl_test", "Ebookdz_ForumHeader_Test", Path.Combine(App
 //****                                   $$info.site TelechargerMagazine telecharger-magazine.com
 //*************************************************************************************************************************
 
+Download.Print.TelechargerMagazine.TelechargerMagazine.Current.HeaderWebDataPageManager.LoadPages(startPage: 1, maxPage: 1, reload: true, loadImage: false, refreshDocumentStore: false).zView_v3();
 Download.Print.TelechargerMagazine.TelechargerMagazine.Current.HeaderWebDataPageManager.LoadPages(startPage: 1, maxPage: 1, reload: false, loadImage: false, refreshDocumentStore: false).zView_v3();
 Download.Print.TelechargerMagazine.TelechargerMagazine.Current.HeaderWebDataPageManager.LoadPages(startPage: 1, maxPage: 1, reload: false, loadImage: false, refreshDocumentStore: true).zView_v3();
-Download.Print.TelechargerMagazine.TelechargerMagazine.Current.WebHeaderDetailManager.LoadDetails(startPage: 1, maxPage: 1, reloadHeaderPage: false, reloadDetail: false, loadImage: false, refreshDocumentStore: false).zView_v3();
+Download.Print.TelechargerMagazine.TelechargerMagazine.Current.WebHeaderDetailManager.LoadDetails(startPage: 1, maxPage: 5, reloadHeaderPage: true, reloadDetail: true, loadImage: false, refreshDocumentStore: false).zView_v3();
 Download.Print.TelechargerMagazine.TelechargerMagazine.Current.WebHeaderDetailManager.LoadDetails(startPage: 1, maxPage: 1, reloadHeaderPage: false, reloadDetail: false, loadImage: false, refreshDocumentStore: true).zView_v3();
 Download.Print.TelechargerMagazine.TelechargerMagazine.Current.HeaderWebDataPageManager.Find(query: null, sort: "{ _id: -1 }", limit: 100, loadImage: false).zView_v3();
 Download.Print.TelechargerMagazine.TelechargerMagazine.Current.DetailWebDataManager.Find(query: null, sort: "{ _id: -1 }", limit: 100, loadImage: false).zView_v3();
@@ -5044,6 +5045,7 @@ HttpRun.Load("https://debrid-link.fr/user/2_b4e20c1c93be840e449a98fc70679afeccd0
 // "validTokenUrl":"https:\/\/secure.debrid-link.fr\/user\/10_b0073ac74cbd1c568f180e4c5134a5ce7e1604e011760884\/login",
 // "key":"p2NY8r8x9M8bQQLD"},"ts":1458672590}
 // https://secure.debrid-link.fr/user/10_b0073ac74cbd1c568f180e4c5134a5ce7e1604e011760884/login
+//}
 
 
 HttpRun.Load("https://www.google.fr");
@@ -5223,4 +5225,37 @@ zReflection.GetMethod(typeof(DownloadRun), "Init", ErrorOptions.TraceWarning).Re
 zReflection.GetMethod(typeof(DownloadRun), "Init", ErrorOptions.TraceWarning).zGetName().zTrace();     // Download.Print.DownloadRun.Init, RunCode_00003, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
 typeof(zReflection).Assembly.FullName.zTrace();
 // [{namespace}.{type}.]{method name}[, {assembly name}]
+
+
+
+Trace.WriteLine("toto");
+Trace.WriteLine(RunSource.CurrentRunSource.ProjectFile);
+RunSource.CurrentRunSource.SetProjectFromSource();
+RunSource.CurrentRunSource.SetProject(@"$Root$\Test\Test.Test_01\Source\Test_Form\Test_RunSourceForm\v2\Test_RunSourceForm.v2.project.xml");
+Test_Form.Test_RunSourceForm_01(version: 1);
+Test_Form.Test_RunSourceForm_01(version: 2);
+
+Trace.WriteLine("toto");
+Trace.WriteLine(RunSource.CurrentRunSource.ProjectFile);
+RunSource.CurrentRunSource.SetProjectFromSource();
+RunSource.CurrentRunSource.SetProject(@"$Root$\Test\Test.Test_01\Source\Test_Form\Test_RunSourceForm\v3\Test_RunSourceForm.v3.project.xml");
+Test_Form.Test_RunSourceForm_v3_01();
+
+Trace.WriteLine("toto");
+Trace.WriteLine(RunSource.CurrentRunSource.ProjectFile);
+RunSource.CurrentRunSource.SetProjectFromSource();
+RunSource.CurrentRunSource.SetProject(@"$Root$\Test\Test.Test_01\Source\Test_CS\Test_LambdaExpression\Test_LambdaExpression.project.xml");
+Test_LambdaExpression.Test_01();
+
+Trace.WriteLine("toto");
+Trace.WriteLine(RunSource.CurrentRunSource.ProjectFile);
+RunSource.CurrentRunSource.SetProjectFromSource();
+RunSource.CurrentRunSource.SetProject(@"$Root$\Test\Test.Test_01\Source\Test_Form\Test_ParentChanged\Test_ParentChanged.project.xml");
+Test_Form.Test_Form_01();
+
+Trace.WriteLine("toto");
+Trace.WriteLine(RunSource.CurrentRunSource.ProjectFile);
+RunSource.CurrentRunSource.SetProjectFromSource();
+RunSource.CurrentRunSource.SetProject(@"$Root$\Test\Test.Test_01\Source\Test_CS\Test_Dictionary\Test_Dictionary.project.xml");
+Test_Dictionary.Test_01();
 

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<AssemblyProject>
+  
+  <Root                             value = "..\..\..\..\.." />
+
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\Basic.project.xml" />
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\RunSourceExtension.project.xml" />
+  <!--<IncludeProject                   value = "$Root$\Lib\pb\Source\Project\MongoCommand.project.xml" />-->
+  <!--<IncludeProject                   value = "$Root$\Lib\pb\Source\Project\MongoExtension.project.xml" />-->
+
+  <NameSpace                        value = "Test.Test_Form.Test_ParentChanged" />
+  <Using                            value = "pb" />
+
+  <Source                           value = "Test_Form.cs" />
+  <Source                           value = "Form1.cs" />
+
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\ControlFindForm.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\zForm.cs" />
+</AssemblyProject>

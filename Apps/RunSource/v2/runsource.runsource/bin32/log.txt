@@ -1,0 +1,6 @@
+set project "C:\pib\drive\google\dev\project\.net\Apps\WebData\Source\Print\Project\download.test.project.xml"
+call init methods "Download.Print.DownloadRun.Init, RunCode_00001, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+set project "C:\pib\drive\google\dev\project\.net\Apps\WebData\Source\Print\Project\download.test.project.xml"
+call init methods "Download.Print.DownloadRun.Init, RunCode_00002, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+set project "C:\pib\drive\google\dev\project\.net\Apps\WebData\Source\Print\Project\download.test.project.xml"
+call init methods "Download.Print.DownloadRun.Init, RunCode_00002, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"

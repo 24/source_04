@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<AssemblyProject>
+  
+  <Root                             value = "..\..\..\..\.." />
+
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\Basic.project.xml" />
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\RunSourceExtension.project.xml" />
+  <!--<IncludeProject                   value = "$Root$\Lib\pb\Source\Project\MongoCommand.project.xml" />-->
+  <!--<IncludeProject                   value = "$Root$\Lib\pb\Source\Project\MongoExtension.project.xml" />-->
+
+  <NameSpace                        value = "Test.Test_Form.Test_Visible_01" />
+  <Using                            value = "pb" />
+
+  <Source                           value = "Test_Form.cs" />
+  <Source                           value = "Form1.cs" />
+
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\zForm.cs" />
+  <!--
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\PanelTabControl.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\zDataGrid.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\zDataGridView.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\zXtraGrid.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Win32\WM.cs" />
+  -->
+</AssemblyProject>

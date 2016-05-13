@@ -24,7 +24,7 @@ namespace pb.Windows.Forms
     public class ScintillaBrace
     {
         private Scintilla _scintillaControl = null;
-        private Form _parentForm = null;
+        //private Form _parentForm = null;
         private int _lastCaretPosition = -1;
 
         public ScintillaBrace(Scintilla scintillaControl)
@@ -36,9 +36,13 @@ namespace pb.Windows.Forms
             _scintillaControl.Styles[Style.BraceBad].ForeColor = Color.Red;
 
             _scintillaControl.UpdateUI += scintillaControl_UpdateUI;
-            _parentForm = _scintillaControl.FindForm();
-            _parentForm.KeyDown += ParentForm_KeyDown;
-            _parentForm.KeyPreview = true;
+            ControlFindForm.Find(_scintillaControl, InitForm);
+        }
+
+        private void InitForm(Form form)
+        {
+            form.KeyDown += ParentForm_KeyDown;
+            //form.KeyPreview = true;
         }
 
         private BraceInfo GetBraceInfo(int position)

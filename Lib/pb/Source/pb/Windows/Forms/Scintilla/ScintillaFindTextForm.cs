@@ -11,8 +11,9 @@ namespace pb.Windows.Forms
         private void InitForm()
         {
             InitFindForm();
-            InitParentForm();
+            //InitParentForm();
             InitScintillaControlEvent();
+            ControlFindForm.Find(_scintillaControl, InitParentForm);
         }
 
         private void InitFindForm()
@@ -22,12 +23,11 @@ namespace pb.Windows.Forms
             _findForm.FindNext = FindNext;
         }
 
-        private void InitParentForm()
+        private void InitParentForm(Form form)
         {
-            _parentForm = _scintillaControl.FindForm();
-            _parentForm.FormClosing += ParentForm_FormClosing;
-            _parentForm.KeyDown += ParentForm_KeyDown;
-            _parentForm.KeyPreview = true;
+            form.KeyDown += ParentForm_KeyDown;
+            //form.KeyPreview = true;
+            _parentForm = form;
         }
 
         private void InitScintillaControlEvent()
@@ -53,10 +53,10 @@ namespace pb.Windows.Forms
             _findForm.Hide();
         }
 
-        private void ParentForm_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            //_findForm.ForceClose();
-        }
+        //private void ParentForm_FormClosing(object sender, FormClosingEventArgs e)
+        //{
+        //    //_findForm.ForceClose();
+        //}
 
         private void ParentForm_KeyDown(object sender, KeyEventArgs e)
         {

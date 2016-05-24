@@ -19,11 +19,11 @@ namespace Download.Print.Ebookdz
 
         public static Ebookdz_ForumHeader Current { get { return __current; } }
 
-        static Ebookdz_ForumHeader()
-        {
-            Ebookdz.FakeInit();
-            Init(test: DownloadPrint.Test);
-        }
+        //static Ebookdz_ForumHeader()
+        //{
+        //    Ebookdz.FakeInit();
+        //    Init(test: DownloadPrint.Test);
+        //}
 
         public static void Init(bool test = false)
         {

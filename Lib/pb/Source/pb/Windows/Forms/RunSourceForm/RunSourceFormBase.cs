@@ -3,9 +3,9 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace runsourced
+namespace pb.Windows.Forms
 {
-    public partial class RunSourceFormBase_v3 : Form
+    public partial class RunSourceFormBase : Form
     {
         private IContainer _components = null;
         protected Panel _topToolsPanel;
@@ -24,17 +24,17 @@ namespace runsourced
         //   _statusPanel
         //
 
-        public RunSourceFormBase_v3()
+        public RunSourceFormBase()
         {
             CreateControls();
-            this.Load += RunSourceFormBase_v2_Load;
+            //this.Load += RunSourceFormBase_v2_Load;
         }
 
-        private void RunSourceFormBase_v2_Load(object sender, System.EventArgs e)
-        {
-            //WriteMessage("form load");
-            //TraceResultTab();
-        }
+        //private void RunSourceFormBase_v2_Load(object sender, System.EventArgs e)
+        //{
+        //    //WriteMessage("form load");
+        //    //TraceResultTab();
+        //}
 
         protected override void Dispose(bool disposing)
         {
@@ -49,7 +49,7 @@ namespace runsourced
         //public Panel EditPanel { get { return _editPanel; } }
         //public ToolStrip BottomToolStrip { get { return _bottomToolStrip; } }
 
-        public void BaseInitialize()
+        public void InitializeForm()
         {
             this.SuspendLayout();
 
@@ -188,15 +188,20 @@ namespace runsourced
 
         public Panel AddResultPanel(string buttonText, Color? backColor = null)
         {
-            ToolStripButton button = zForm.CreateToolStripButton(buttonText);
-            button.Tag = _resultTab.Controls.Count;
-            button.Click += (sender, eventArgs) => SelectResultTab((int)button.Tag);
-            _bottomToolStrip.Items.Add(button);
+            //ToolStripButton button = zForm.CreateToolStripButton(buttonText);
+            //button.Tag = _resultTab.Controls.Count;
+            //button.Click += (sender, eventArgs) => SelectResultTab((int)button.Tag);
+            //_bottomToolStrip.Items.Add(button);
 
-            Panel panel = zForm.CreatePanel(dockStyle: DockStyle.Fill, backColor: backColor);
-            _resultTab.Controls.Add(panel);
+            //Panel panel = zForm.CreatePanel(dockStyle: DockStyle.Fill, backColor: backColor);
+            ////_resultTab.Controls.Add(panel);
+            //_resultTab.AddTabPanel(panel, button);
 
-            return panel;
+            PanelTabElement tabElement = _resultTab.CreateTabPanel(buttonText, backColor);
+            _bottomToolStrip.Items.Add(tabElement.Button);
+
+            //return panel;
+            return tabElement.Panel;
         }
 
         //private void TraceResultTab()

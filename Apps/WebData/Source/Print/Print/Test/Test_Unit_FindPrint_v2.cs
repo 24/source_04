@@ -47,7 +47,8 @@ namespace Download.Print.Test
         {
             // parameters : bool DailyPrintManager, int GapDayBefore, int GapDayAfter
             LoadConfig();
-            return FindPrintManagerCreator.Create(parameters: NamedValues.ParseValues(parameters), version: version);
+            //return FindPrintManagerCreator.Create(parameters: NamedValues.ParseValues(parameters), version: version);
+            return FindPrintManagerCreator.Create(parameters: WebData.ParseParameters(parameters), version: version);
         }
 
         public static void LoadConfig()

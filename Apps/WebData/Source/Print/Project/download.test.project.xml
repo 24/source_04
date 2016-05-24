@@ -13,7 +13,7 @@
   <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\Basic.project.xml" />
   <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\Extension_01.dll.project.xml" />
 
-  <NameSpace                        value = "Download.Print" />    <!-- Print.download -->
+  <NameSpace                        value = "Download.Print" />
   
   <!--<SourceFile                       value = "" />-->                 <!-- file is copied in zip source file but not in output directory -->
   <File                             value = "download.dll.project.xml" destinationFile = "project\download.dll.project.xml" />
@@ -50,7 +50,9 @@
 
   <Source                           value = "DownloadRun.cs" />
   <Source                           value = "AppData.cs" />
-  <!--<Source                           value = "TestCertificate.cs" />-->
+
+  <Source                           value = "$Root$\Apps\MyDownloader\MyDownloader.Core\Service\DownloaderState.cs" />
+  <Source                           value = "$Root$\Apps\MyDownloader\MyDownloader.Core\Service\IDownloadManagerService.cs" />
 
   <Source                           value = "$ProjectRoot$\Source\Print\Print\Test\Test_Unit_FindPrint.cs" />
 
@@ -103,12 +105,6 @@
     <Source                           value = "..\sites\free-telechargement.org\FreeTelechargement_Detail.cs" />
 -->
 
-<!--<Source                           value = "..\sites\extreme-down.net\ExtremeDown_f.cs" />
-    <Source                           value = "..\sites\extreme-down.net\ExtremeDown_Header.cs" />
-    <Source                           value = "..\sites\extreme-down.net\ExtremeDown_Detail.cs" />
-    <Source                           value = "..\sites\extreme-down.net\ExtremeProtect.cs" />-->
-
-  <!--<Source                           value = "..\Print\_old\IPost.cs" />-->
   <Source                           value = "$ProjectRoot$\Source\Print\Print\DownloadPrint.cs" />
   <Source                           value = "$ProjectRoot$\Source\Print\Print\FindDayManager.cs" />
   <Source                           value = "$ProjectRoot$\Source\Print\Print\FindPrint.cs" />
@@ -136,9 +132,6 @@
   <Source                           value = "$ProjectRoot$\Source\Print\Print\Print\LeVifExpress.cs" />
   <Source                           value = "$ProjectRoot$\Source\Print\Print\Print\LeVifExpress1.cs" />
   <Source                           value = "$ProjectRoot$\Source\Print\Print\Print\LExpress.cs" />
-
-  <Source                           value = "$Root$\Apps\MyDownloader\MyDownloader.Core\Service\DownloaderState.cs" />
-  <Source                           value = "$Root$\Apps\MyDownloader\MyDownloader.Core\Service\IDownloadManagerService.cs" />
 
   <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\AsyncManager.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\Date2.cs" />

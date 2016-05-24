@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<AssemblyProject>
+  <!--<Root                             value = "..\..\..\..\.." />-->
+  <Root                             value = "..\..\..\.." />
+
+  <Target                           value = "winexe" /> <!-- exe (exe console default), library (dll), module (.netmodule), winexe (exe windows) -->
+	<Output                           value = "bin32\runsource.runsource.exe" />
+  <CopySourceFiles                  value = "true" />
+  <Icon                             value = "Properties\app.ico" />
+	<NameSpace                        value = "runsourced" />
+	<CompilerOptions                  value = "/platform:x86" />  <!-- x86, Itanium, x64, or anycpu (default). -->
+  <File                             value = "runsource.runsource.config.xml" />
+  <Source                           value = "Properties\AssemblyInfo.cs" />
+  <Source                           value = "Properties\Resources.resx" namespace = "runsourced.Properties" />
+  <Source                           value = "Properties\Resources.Designer.cs" />
+  <!--<Source                           value = "Source\Program.cs" />-->
+  <Source                           value = "Source\v3\Program_v3.cs" />
+	<Source                           value = "Source\v3\RunSourceForm_v3.cs" />
+	<!--<Source                           value = "Source\v3\RunSourceFormBase_v3.cs" />-->
+	<Source                           value = "Source\v3\RunSourceFormFile_v3.cs" />
+	<Source                           value = "Source\v3\RunSourceFormKeyboard_v3.cs" />
+	<Source                           value = "Source\v3\RunSourceFormMenu_v3.cs" />
+	<Source                           value = "Source\v3\RunSourceFormResult_v3.cs" />
+	<Source                           value = "Source\v3\RunSourceFormRunSource_v3.cs" />
+	<Source                           value = "Source\v3\RunSourceFormScintilla_v3.cs" />
+	<Source                           value = "Source\v3\RunSourceFormStatusBar_v3.cs" />
+  <Source                           value = "Source\RunSourceRestartParameters.cs" />
+
+  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\Chrono.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\Convert.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\Date.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\Error.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\FormatInfo.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\ParseAs.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\PBException.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\TextSerializer.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\Trace.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\TraceError.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\TraceSetWriter.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\Tree.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Compiler\RemoteRunSource.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Image.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Xml\Xml.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Xml\XmlConfig.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Xml\XmlSerialize.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Xml\XmlSerializer.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\File.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\Path.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\WriteToFile.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\WriteToFileCreate.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\zDirectory.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\zFile.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Reflection\Reflection.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Text\Regex.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Text\Split.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Text\String.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Text\StringZones.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\cGrid.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\ControlFindForm.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\DataGridViewControl.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\LogTextBox.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\PanelTabControl.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\XtraGrid.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\XtraGridControl.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\zerrf.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\zForm.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\zDataGridView.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\zXtraGrid.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\RunSourceForm\RunSourceFormBase_v3.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\Scintilla\ScintillaBookmark.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\Scintilla\ScintillaBookmarkForm.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\Scintilla\ScintillaBrace.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\Scintilla\ScintillaCodeFolding.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\Scintilla\ScintillaControl.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\Scintilla\ScintillaExtension.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\Scintilla\ScintillaFindForm.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\Scintilla\ScintillaFindForm.Designer.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\Scintilla\ScintillaFindText.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\Scintilla\ScintillaFindTextForm.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\Scintilla\ScintillaForm.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\Scintilla\ScintillaIndent.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Win32\WM.cs" />
+
+  <Assembly                         value = "System.dll" />
+	<Assembly                         value = "System.Core.dll" />
+	<Assembly                         value = "System.Data.dll" />
+	<Assembly                         value = "System.Drawing.dll" />
+	<Assembly                         value = "System.Windows.Forms.dll" />
+	<Assembly                         value = "System.Xml.dll" />
+	<Assembly                         value = "System.Xml.Linq.dll" />
+  <!--<Assembly                         value = "DevExpress.Data.dll" />-->
+  <!--<Assembly                         value = "DevExpress.Utils.dll" />-->
+  <!--<Assembly                         value = "DevExpress.XtraEditors.dll" />-->
+  <!--<Assembly                         value = "DevExpress.XtraGrid.dll" />-->
+  <Assembly                         value = "$Root$\..\library\DevExpress\DevExpress 2.4.7.0\.NET\DevExpress.Data.dll" />
+  <Assembly                         value = "$Root$\..\library\DevExpress\DevExpress 2.4.7.0\.NET\DevExpress.Utils.dll" />
+  <Assembly                         value = "$Root$\..\library\DevExpress\DevExpress 2.4.7.0\.NET\DevExpress.XtraEditors.dll" />
+  <Assembly                         value = "$Root$\..\library\DevExpress\DevExpress 2.4.7.0\.NET\DevExpress.XtraGrid.dll" />
+  
+  <!--<Assembly                         value = "$Root$\..\library\ScintillaNET\ScintillaNET.2.6\ScintillaNET.dll" />-->
+  <!--<File                             value = "$Root$\..\library\ScintillaNET\ScintillaNET.2.6\SciLexer.dll" />-->
+  <!--<File                             value = "$Root$\..\library\ScintillaNET\ScintillaNET.2.6\SciLexer64.dll" />-->
+  <!--<File                             value = "$Root$\..\library\ScintillaNET\ScintillaNET.2.6\ScintillaNET.xml" />-->
+  
+  <Assembly                         value = "$Root$\..\library\ScintillaNET\ScintillaNET.3.5.6\ScintillaNET.dll" />
+
+  <Assembly                         value = "$Root$\Lib\LongPath\Pri.LongPath\bin\Debug\Pri.LongPath.dll" />
+  <Assembly                         value = "$Root$\Apps\RunSource\v2\runsource.irunsource\bin32\runsource.irunsource.dll" copySource = "true" />
+  <DebugInformation                 value = "true" />
+</AssemblyProject>

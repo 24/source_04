@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<AssemblyProject>
+  
+  <Root                             value = "..\..\..\..\.." />
+
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\Basic.project.xml" />
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\RunSourceExtension.project.xml" />
+  <!--<IncludeProject                   value = "$Root$\Lib\pb\Source\Project\MongoCommand.project.xml" />-->
+  <!--<IncludeProject                   value = "$Root$\Lib\pb\Source\Project\MongoExtension.project.xml" />-->
+
+  <NameSpace                        value = "Test.Test_Form.Test_ToolStrip" />
+  <Using                            value = "pb" />
+
+  <Source                           value = "Test_ToolStrip.cs" />
+  <Source                           value = "ToolStrip1.cs" />
+  <Source                           value = "ToolStrip2.cs" />
+  <Source                           value = "ToolStrip2.Designer.cs" />
+  <Source                           value = "ToolStrip2.resx" namespace = "Test.Test_Form.Test_ToolStrip" />
+
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\zForm.cs" />
+</AssemblyProject>

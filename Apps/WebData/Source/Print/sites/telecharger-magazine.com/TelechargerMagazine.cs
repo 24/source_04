@@ -44,14 +44,14 @@ namespace Download.Print.TelechargerMagazine
         private static string __urlMainPage = "http://www.telecharger-magazine.com/index.php";
         private static string __urlPage = "http://www.telecharger-magazine.com/";
 
-        static TelechargerMagazine()
-        {
-            Init(test: DownloadPrint.Test);
-        }
+        //static TelechargerMagazine()
+        //{
+        //    Init(test: DownloadPrint.Test);
+        //}
 
-        public static void FakeInit()
-        {
-        }
+        //public static void FakeInit()
+        //{
+        //}
 
         public static void Init(bool test = false)
         {

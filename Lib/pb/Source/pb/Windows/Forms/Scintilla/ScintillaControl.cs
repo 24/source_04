@@ -6,6 +6,7 @@ namespace pb.Windows.Forms
 {
     public class ScintillaControl : Scintilla
     {
+        private ScintillaStatus _scintillaStatus = null;
         private ScintillaBookmark _scintillaBookmark = null;
         private ScintillaCodeFolding _scintillaCodeFolding = null;
         private ScintillaBrace _scintillaBrace = null;
@@ -16,11 +17,14 @@ namespace pb.Windows.Forms
             InitScintillaControl();
         }
 
+        public ScintillaStatus ScintillaStatus { get { return _scintillaStatus; } }
+
         private void InitScintillaControl()
         {
             this.zClearStyle();
             this.zClearCmdKeys();
             new ScintillaIndent(this);
+            _scintillaStatus = new ScintillaStatus(this);
             _scintillaBookmark = new ScintillaBookmark(this);
             _scintillaFindText = new ScintillaFindText(this);
         }

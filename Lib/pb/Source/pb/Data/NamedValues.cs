@@ -64,12 +64,12 @@ namespace pb.Data
             __parseValues = new Regex(parseValues, RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
         }
 
-        public static NamedValues<ZValue> ParseValues(string values)
+        public static NamedValues<ZValue> ParseValues(string values, bool useLowercaseKey = false)
         {
             // datetime yyyy-mm-jj hh:mm:ss(.fff), datetime yyyy-mm-jj hh:mm:ss(.fff), date jj/mm/yyyy, date yyyy-mm-jj, time ((d.)hh:)mm:ss(.fff), double 1.(234), int 123, text 'text', text "text"
             // "datetime1 = 01/01/2015 01:35:52.123, datetime2 = 2015-01-01 01:35:52.123, date1 = 01/01/2015, date2 = 2015-01-01, time = 1.01:35:52.1234567, double = 1.123, int = 3, bool1 = true, bool2 =  false, text1 = 'toto', text2 = \"toto\""
             // "version = 3, date = 01/01/2015, text1 = 'toto', text2 = \"toto\", time = 01:35:52"
-            NamedValues<ZValue> namedValues = new NamedValues<ZValue>();
+            NamedValues<ZValue> namedValues = new NamedValues<ZValue>(useLowercaseKey);
             if (values == null)
                 return namedValues;
             Match match = __parseValues.Match(values);

@@ -7,39 +7,31 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 
-// todo :
-// ok - manage run init
-// ok - manage allow multiple run
-// ok - correct pb with modal dialog, scintilla send code character
-//    - add status bar, line column, nb of thread running
-//    - take text selection when open find form
-
 namespace runsourced
 {
-    public partial class RunSourceForm_v3 : RunSourceFormBase_v3
+    public partial class RunSourceFormExe : pb.Windows.Forms.RunSourceForm
     {
-        private string _title = "Run source";
+        private ITrace _trace = null;
         private XmlConfig _config = null;
         private RunSourceRestartParameters _runSourceParameters = null;
-        private ITrace _trace = null;
+        private string _title = "Run source";
 
-        public RunSourceForm_v3(IRunSource runSource, ITrace trace, XmlConfig config, RunSourceRestartParameters runSourceParameters)
+        public RunSourceFormExe(IRunSource runSource, ITrace trace, XmlConfig config, RunSourceRestartParameters runSourceParameters)
         {
             _runSource = runSource;
-            _config = config;
-            _runSourceParameters = runSourceParameters;
             _trace = trace;
             _trace.SetViewer(TraceWrited);
+            _config = config;
+            _runSourceParameters = runSourceParameters;
 
-            this.ClientSize = new Size(1060, 650);
+            _source.TextChanged += source_TextChanged;
+
             CreateMenu();
             CreateTopTools();
-            CreateScintillaControl();
-            _editPanel.Controls.Add(_source);
-            CreateResultControls();
-            this.BaseInitialize();
+            this.InitializeForm();
             InitExe();
             InitMenu();
+            UpdateRunSourceStatus();
             this.KeyPreview = true;
             this.Load += RunSourceForm_Load;
             this.FormClosing += RunSourceForm_FormClosing;
@@ -65,9 +57,7 @@ namespace runsourced
             }
 
             // il faut afficher une fois le _tabResultGrid sinon _gridResult2.AutoResizeColumns() et _gridResult2.AutoResizeRows() ne marche pas la 1ère fois
-            //tc_result.SelectedTab = _tabResultGrid;
             SelectGridResultTab();
-            //tc_result.SelectedTab = _tabResultMessage;
             SelectMessageResultTab();
             ActiveControl = _source;
         }
@@ -145,6 +135,16 @@ namespace runsourced
             if (_runSource.Progress_PutProgressMessageToWindowsTitle && _progressText != null)
                 title += " - " + _progressText;
             this.Text = title;
+        }
+
+        private void source_TextChanged(object sender, EventArgs e)
+        {
+            SetFileNotSaved();
+        }
+
+        private string GetCode()
+        {
+            return _source.SelectedText;
         }
 
         private void LoadSettings()

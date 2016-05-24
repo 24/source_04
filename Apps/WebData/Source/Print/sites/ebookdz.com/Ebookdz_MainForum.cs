@@ -17,7 +17,7 @@ namespace Download.Print.Ebookdz
         public string Name;
     }
 
-    public class EbookdzForum
+    public static class EbookdzForum
     {
         public static IEnumerable<EbookdzForumData> LoadSubForums(bool reload = false, Predicate<EbookdzForumData> filter = null)
         {
@@ -83,11 +83,11 @@ namespace Download.Print.Ebookdz
 
         public static Ebookdz_MainForum Current { get { return __current; } }
 
-        static Ebookdz_MainForum()
-        {
-            Ebookdz.FakeInit();
-            Init(test: DownloadPrint.Test);
-        }
+        //static Ebookdz_MainForum()
+        //{
+        //    Ebookdz.FakeInit();
+        //    Init(test: DownloadPrint.Test);
+        //}
 
         public static void Init(bool test = false)
         {

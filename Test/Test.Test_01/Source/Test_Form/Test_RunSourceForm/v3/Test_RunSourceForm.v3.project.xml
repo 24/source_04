@@ -24,10 +24,12 @@
   <Source                           value = "RunSourceForm_v3.cs" />
   <Source                           value = "RunSourceFormBase_v3.cs" />
 
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\cGrid.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\ControlFindForm.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\DataGridViewControl.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\LogTextBox.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\PanelTabControl.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\XtraGrid.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\XtraGridControl.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\zForm.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\zDataGridView.cs" />
@@ -46,6 +48,7 @@
   <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Win32\WM.cs" />
 
   <Assembly                         value = "$Root$\..\library\ScintillaNET\ScintillaNET.3.5.6\ScintillaNET.dll" />
+  <Assembly                         value = "$Root$\..\library\DevExpress\DevExpress 2.4.7.0\.NET\DevExpress.Data.dll" />
   <Assembly                         value = "$Root$\..\library\DevExpress\DevExpress 2.4.7.0\.NET\DevExpress.Utils.dll" />
   <Assembly                         value = "$Root$\..\library\DevExpress\DevExpress 2.4.7.0\.NET\DevExpress.XtraEditors.dll" />
   <Assembly                         value = "$Root$\..\library\DevExpress\DevExpress 2.4.7.0\.NET\DevExpress.XtraGrid.dll" />

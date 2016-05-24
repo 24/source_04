@@ -60,14 +60,14 @@ namespace Download.Print.MagazinesGratuits
         private static string __urlMainPage = "http://www.magazines-gratuits.info/";
         private Date? _lastPostDate = null;
 
-        static MagazinesGratuits()
-        {
-            Init(test: DownloadPrint.Test);
-        }
+        //static MagazinesGratuits()
+        //{
+        //    Init(test: DownloadPrint.Test);
+        //}
 
-        public static void FakeInit()
-        {
-        }
+        //public static void FakeInit()
+        //{
+        //}
 
         public static void Init(bool test = false)
         {

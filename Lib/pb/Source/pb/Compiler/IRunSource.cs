@@ -38,8 +38,9 @@ namespace pb.Compiler
         event ProgressChangeEvent ProgressChange;
         //event EndRunEvent EndRunCode;
         Action<EndRunCodeInfo> EndRunCode { get; set; }
-        bool AllowMultipleExecution { get; set; }
-        bool CallInit { get; set; }
+        //bool AllowMultipleExecution { get; set; }
+        //bool CallInit { get; set; }
+        bool CallInit { get; }
 
         //ITrace Trace { get; set; }
         //IGenerateAndExecuteManager GenerateAndExecuteManager { get; }
@@ -71,7 +72,10 @@ namespace pb.Compiler
         void AbortExecution(bool abort);
         void ForceAbortExecution();
         bool IsExecutionAlive();
-        void RunCode(string source, bool useNewThread = true, bool compileWithoutProject = false);
+        int GetRunningCount();
+        //void RunCode(string source, bool useNewThread = true, bool compileWithoutProject = false);
+        //void RunCode(string code, bool useNewThread = true, bool compileWithoutProject = false, bool allowMultipleRun = false);
+        void RunCode(string code, bool runOnMainThread = false, bool compileWithoutProject = false, bool allowMultipleRun = false, bool callInit = false);
         void CompileCode(string source, bool compileWithoutProject = false);
         void DeleteGeneratedAssemblies();
         ICompiler CompileProject(string projectName);

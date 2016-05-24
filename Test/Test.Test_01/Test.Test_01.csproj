@@ -98,8 +98,9 @@
     <Reference Include="Pri.LongPath">
       <HintPath>..\..\..\RuntimeLibrary\LongPath\LongPath\Pri.LongPath.dll</HintPath>
     </Reference>
-    <Reference Include="ScintillaNET">
-      <HintPath>..\..\..\RuntimeLibrary\ScintillaNET\ScintillaNET v2.6\ScintillaNET.dll</HintPath>
+    <Reference Include="ScintillaNET, Version=2.6.0.0, Culture=neutral, PublicKeyToken=948d6c9751444115, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\library\ScintillaNET\ScintillaNET.3.5.6\ScintillaNET.dll</HintPath>
     </Reference>
     <Reference Include="SharpCompress">
       <HintPath>..\..\..\RuntimeLibrary\SharpCompress\SharpCompress0.10.3\Full\SharpCompress.dll</HintPath>
@@ -373,14 +374,68 @@
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Windows\Forms\PanelTabControl.cs">
       <Link>SourceLnk\Lib\pb\Windows\Forms\PanelTabControl.cs</Link>
-      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Windows\Forms\RunSourceForm\RunSourceForm.cs">
+      <Link>SourceLnk\Lib\pb\Windows\Forms\RunSource\RunSourceForm.cs</Link>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Windows\Forms\RunSourceForm\RunSourceFormBase.cs">
+      <Link>SourceLnk\Lib\pb\Windows\Forms\RunSource\RunSourceFormBase.cs</Link>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Windows\Forms\RunSourceForm\RunSourceFormResult.cs">
+      <Link>SourceLnk\Lib\pb\Windows\Forms\RunSource\RunSourceFormResult.cs</Link>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Windows\Forms\RunSourceForm\RunSourceFormScintilla.cs">
+      <Link>SourceLnk\Lib\pb\Windows\Forms\RunSource\RunSourceFormScintilla.cs</Link>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Windows\Forms\RunSourceForm\RunSourceFormStatusBar.cs">
+      <Link>SourceLnk\Lib\pb\Windows\Forms\RunSource\RunSourceFormStatusBar.cs</Link>
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Windows\Forms\ScintillaControl.cs">
       <Link>SourceLnk\Lib\pb\Windows\Forms\ScintillaControl.cs</Link>
     </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Windows\Forms\Scintilla\ScintillaBookmark.cs">
+      <Link>SourceLnk\Lib\pb\Windows\Forms\Scintilla\ScintillaBookmark.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Windows\Forms\Scintilla\ScintillaBookmarkForm.cs">
+      <Link>SourceLnk\Lib\pb\Windows\Forms\Scintilla\ScintillaBookmarkForm.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Windows\Forms\Scintilla\ScintillaBrace.cs">
+      <Link>SourceLnk\Lib\pb\Windows\Forms\Scintilla\ScintillaBrace.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Windows\Forms\Scintilla\ScintillaCodeFolding.cs">
+      <Link>SourceLnk\Lib\pb\Windows\Forms\Scintilla\ScintillaCodeFolding.cs</Link>
+    </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Windows\Forms\Scintilla\ScintillaControl.cs">
       <Link>SourceLnk\Lib\pb\Windows\Forms\Scintilla\ScintillaControl.cs</Link>
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Windows\Forms\Scintilla\ScintillaExtension.cs">
+      <Link>SourceLnk\Lib\pb\Windows\Forms\Scintilla\ScintillaExtension.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Windows\Forms\Scintilla\ScintillaFindForm.cs">
+      <Link>SourceLnk\Lib\pb\Windows\Forms\Scintilla\ScintillaFindForm.cs</Link>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Windows\Forms\Scintilla\ScintillaFindForm.designer.cs">
+      <Link>SourceLnk\Lib\pb\Windows\Forms\Scintilla\ScintillaFindForm.designer.cs</Link>
+      <DependentUpon>ScintillaFindForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Windows\Forms\Scintilla\ScintillaFindText.cs">
+      <Link>SourceLnk\Lib\pb\Windows\Forms\Scintilla\ScintillaFindText.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Windows\Forms\Scintilla\ScintillaFindTextForm.cs">
+      <Link>SourceLnk\Lib\pb\Windows\Forms\Scintilla\ScintillaFindTextForm.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Windows\Forms\Scintilla\ScintillaIndent.cs">
+      <Link>SourceLnk\Lib\pb\Windows\Forms\Scintilla\ScintillaIndent.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Windows\Forms\Scintilla\ScintillaStatus.cs">
+      <Link>SourceLnk\Lib\pb\Windows\Forms\Scintilla\ScintillaStatus.cs</Link>
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Windows\Forms\XtraGridControl.cs">
       <Link>SourceLnk\Lib\pb\Windows\Forms\XtraGridControl.cs</Link>
@@ -474,6 +529,11 @@
       <Link>SourceLnk\Lib\pb\_pb\TraceSetWriter.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Source\Bug\Bug_f_01.cs" />
     <Compile Include="Source\Test_CS\Test_Dictionary\Test_Dictionary.cs" />
     <Compile Include="Source\Test_Form\Test\Form1.cs">
@@ -487,6 +547,12 @@
     </Compile>
     <Compile Include="Source\Test_Form\Test\Form2.Designer.cs">
       <DependentUpon>Form2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Source\Test_Form\Test\TestToolStrip.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Source\Test_Form\Test\TestToolStrip.Designer.cs">
+      <DependentUpon>TestToolStrip.cs</DependentUpon>
     </Compile>
     <Compile Include="Source\Test_Form\Test_RunSourceForm\v1\RunSourceForm.cs">
       <SubType>form</SubType>
@@ -565,6 +631,10 @@
     </Compile>
     <Compile Include="Source\Test_Form\Test_ParentChanged\Test_Form.cs" />
     <Compile Include="Source\Test_Form\Test_RunSourceForm\v2\Test_Form.cs" />
+    <Compile Include="Source\Test_Form\Test_RunSourceForm\v4\Test_RunSourceFormExe.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Source\Test_Form\Test_RunSourceForm\v4\Test_Form.cs" />
     <Compile Include="Source\Test_Form\Test_Scintilla\Form1.cs">
       <SubType>form</SubType>
     </Compile>
@@ -613,6 +683,16 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Source\Test_Form\Test_RunSourceForm\v3\Test_Form.cs" />
+    <Compile Include="Source\Test_Form\Test_ToolStrip\Test_ToolStrip.cs" />
+    <Compile Include="Source\Test_Form\Test_ToolStrip\ToolStrip1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Source\Test_Form\Test_ToolStrip\ToolStrip2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Source\Test_Form\Test_ToolStrip\ToolStrip2.Designer.cs">
+      <DependentUpon>ToolStrip2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Source\Test_Form\Test_Visible\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -726,11 +806,18 @@
     <Compile Include="Source\Test_Zip\Test_Zip_f.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Source\Test_Form\Test\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Source\Test_Form\Test\Form2.resx">
       <DependentUpon>Form2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Source\Test_Form\Test\TestToolStrip.resx">
+      <DependentUpon>TestToolStrip.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Source\Test_Form\Test_RunSourceForm\v1\RunSourceForm.resx">
       <DependentUpon>RunSourceForm.cs</DependentUpon>
@@ -749,6 +836,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Source\Test_Form\Test_Scintilla\Scintilla01.resx">
       <DependentUpon>Scintilla01.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Source\Test_Form\Test_ToolStrip\ToolStrip2.resx">
+      <DependentUpon>ToolStrip2.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Source\Test_RunSource\Test_RunSourceForm.resx">
       <DependentUpon>Test_RunSourceForm.cs</DependentUpon>
@@ -792,11 +882,17 @@
     <Content Include="Source\Test_Form\Test_RunSourceForm\v2\Test_RunSourceForm.v2.project.xml">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Source\Test_Form\Test_RunSourceForm\v4\Test_RunSourceForm.v4.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Source\Test_Form\Test_Scintilla\ScintillaNET.xml" />
     <Content Include="Source\Test_Form\Test_Scintilla\test_form_project.xml">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Source\Test_Form\Test_RunSourceForm\v3\Test_RunSourceForm.v3.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Source\Test_Form\Test_ToolStrip\Test_ToolStrip.project.xml">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Source\Test_Form\Test_Visible\Test_Visible.project.xml">

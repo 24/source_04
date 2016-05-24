@@ -1,8 +1,6 @@
-﻿using DevExpress.XtraGrid;
-using DevExpress.XtraGrid.Views.Grid;
-using pb.Windows.Forms;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Windows.Forms;
+using pb.Windows.Forms;
 
 namespace Test.Test_Form.Test_RunSourceForm.v3
 {
@@ -30,11 +28,13 @@ namespace Test.Test_Form.Test_RunSourceForm.v3
             CreateTopTools();
 
             _source = ScintillaControl.Create(dockStyle: DockStyle.Fill);
-            EditPanel.Controls.Add(_source);
+            _editPanel.Controls.Add(_source);
             _source.SetFont("Consolas", 10);
             _source.ConfigureLexerCpp();
             _source.SetTabIndent(2, 0, false);
             _source.DisplayLineNumber(4);
+            //_source.SelectionChanged += _source_SelectionChanged;
+            _source.UpdateUI += _source_UpdateUI;
 
             Panel panel = AddResultPanel("result 1");
             _gridResult1 = XtraGridControl.Create(dockStyle: DockStyle.Fill);
@@ -56,9 +56,32 @@ namespace Test.Test_Form.Test_RunSourceForm.v3
             panel = AddResultPanel("message");
             _logTextBox = LogTextBox.Create(dockStyle: DockStyle.Fill);
             panel.Controls.Add(_logTextBox);
-            ActiveResultPanel(4);
-            this.Initialize();
+            //ActiveResultPanel(4);
+            SelectResultTab(4);
+            this.BaseInitialize();
+            this.Load += RunSourceForm_v3_Load;
         }
+
+        private void _source_UpdateUI(object sender, ScintillaNET.UpdateUIEventArgs e)
+        {
+            pb.Trace.WriteLine("_source.SelectionStart {0} _source.SelectionEnd {1}", _source.SelectionStart, _source.SelectionEnd);
+        }
+
+        private void RunSourceForm_v3_Load(object sender, System.EventArgs e)
+        {
+            //_logTextBox.WriteMessage
+            pb.Trace.WriteLine("Load");
+            pb.Trace.WriteLine("_source {0}", _source.GetType().FullName);
+            pb.Trace.WriteLine("_source is ScintillaNET.Scintilla {0}", _source is ScintillaNET.Scintilla);
+            ScintillaNET.Scintilla scintilla = _source;
+            pb.Trace.WriteLine("scintilla {0}", scintilla.GetType().FullName);
+            //pb.Trace.WriteLine("_source.Selection.Start {0}", _source.Selection.Start);
+        }
+
+        //private void _source_SelectionChanged(object sender, System.EventArgs e)
+        //{
+        //    _logTextBox.WriteMessage("SelectionChanged : Start {0} End {1}", _source.Selection.Start, _source.Selection.End);
+        //}
 
         public ScintillaControl Source { get { return _source; } }
         public XtraGridControl GridResult1 { get { return _gridResult1; } }
@@ -116,13 +139,13 @@ namespace Test.Test_Form.Test_RunSourceForm.v3
             // width: 47 
             _progressLabel = zForm.CreateLabel("progress", x: 624, y: 1, height: 13);
             _progressBar = zForm.CreateProgressBar(x: 622, y: 16, width: 422, height: 16);
-            TopToolsPanel.SuspendLayout();
-            TopToolsPanel.Controls.Add(_executeButton);
-            TopToolsPanel.Controls.Add(_pauseButton);
-            TopToolsPanel.Controls.Add(_stopButton);
-            TopToolsPanel.Controls.Add(_progressLabel);
-            TopToolsPanel.Controls.Add(_progressBar);
-            TopToolsPanel.ResumeLayout(false);
+            _topToolsPanel.SuspendLayout();
+            _topToolsPanel.Controls.Add(_executeButton);
+            _topToolsPanel.Controls.Add(_pauseButton);
+            _topToolsPanel.Controls.Add(_stopButton);
+            _topToolsPanel.Controls.Add(_progressLabel);
+            _topToolsPanel.Controls.Add(_progressBar);
+            _topToolsPanel.ResumeLayout(false);
         }
     }
 }

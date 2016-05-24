@@ -20,11 +20,11 @@ namespace Download.Print.Ebookdz
 
         public static Ebookdz_SubForum Current { get { return __current; } }
 
-        static Ebookdz_SubForum()
-        {
-            Ebookdz.FakeInit();
-            Init(test: DownloadPrint.Test);
-        }
+        //static Ebookdz_SubForum()
+        //{
+        //    Ebookdz.FakeInit();
+        //    Init(test: DownloadPrint.Test);
+        //}
 
         public static void Init(bool test = false)
         {

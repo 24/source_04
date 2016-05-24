@@ -134,7 +134,26 @@
     </Compile>
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\Windows\Forms\PanelTabControl.cs">
       <Link>SourceLnk\Lib\pb\Windows\Forms\PanelTabControl.cs</Link>
-      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Windows\Forms\RunSourceForm\RunSourceForm.cs">
+      <Link>SourceLnk\Lib\pb\Windows\Forms\RunSourceForm\RunSourceForm.cs</Link>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Windows\Forms\RunSourceForm\RunSourceFormBase.cs">
+      <Link>SourceLnk\Lib\pb\Windows\Forms\RunSourceForm\RunSourceFormBase.cs</Link>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Windows\Forms\RunSourceForm\RunSourceFormResult.cs">
+      <Link>SourceLnk\Lib\pb\Windows\Forms\RunSourceForm\RunSourceFormResult.cs</Link>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Windows\Forms\RunSourceForm\RunSourceFormScintilla.cs">
+      <Link>SourceLnk\Lib\pb\Windows\Forms\RunSourceForm\RunSourceFormScintilla.cs</Link>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Windows\Forms\RunSourceForm\RunSourceFormStatusBar.cs">
+      <Link>SourceLnk\Lib\pb\Windows\Forms\RunSourceForm\RunSourceFormStatusBar.cs</Link>
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\Windows\Forms\Scintilla\ScintillaBookmark.cs">
       <Link>SourceLnk\Lib\pb\Windows\Forms\Scintilla\ScintillaBookmark.cs</Link>
@@ -169,11 +188,11 @@
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\Windows\Forms\Scintilla\ScintillaFindTextForm.cs">
       <Link>SourceLnk\Lib\pb\Windows\Forms\Scintilla\ScintillaFindTextForm.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Windows\Forms\Scintilla\ScintillaForm.cs">
-      <Link>SourceLnk\Lib\pb\Windows\Forms\Scintilla\ScintillaForm.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\Windows\Forms\Scintilla\ScintillaIndent.cs">
       <Link>SourceLnk\Lib\pb\Windows\Forms\Scintilla\ScintillaIndent.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Windows\Forms\Scintilla\ScintillaStatus.cs">
+      <Link>SourceLnk\Lib\pb\Windows\Forms\Scintilla\ScintillaStatus.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\Windows\Forms\XtraGrid.cs">
       <Link>SourceLnk\Lib\pb\Windows\Forms\XtraGrid.cs</Link>
@@ -235,71 +254,90 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <None Include="Source\_old\v2\Program.cs" />
-    <Compile Include="Source\v3\Program_v3.cs" />
-    <Compile Include="Source\_old\v2\RunSourceForm.cs">
+    <None Include="Source\_old\v3\Program_v3.cs" />
+    <Compile Include="Source\_old\v3\RunSourceFormStatusBar_v3.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Source\_old\v2\RunSourceFormDataGrid.cs">
+    <Compile Include="Source\v4\Program_v4.cs" />
+    <Compile Include="Source\v4\RunSourceFormExe.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Source\_old\v2\RunSourceFormDataGridView.cs">
+    <Compile Include="Source\v4\RunSourceFormExeFile.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Source\_old\v2\RunSourceFormDesign.cs">
+    <Compile Include="Source\v4\RunSourceFormExeKeyboard.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Source\_old\v2\RunSourceFormResultTab.cs">
+    <Compile Include="Source\v4\RunSourceFormExeMenu.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Source\_old\v2\RunSourceFormTreeView.cs">
+    <Compile Include="Source\v4\RunSourceFormExeResult.cs">
       <SubType>Form</SubType>
     </Compile>
-    <None Include="Source\v3\copy\RunSourceFormDataGrid_copy.cs">
+    <Compile Include="Source\v4\RunSourceFormExeRunSource.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <None Include="Source\_old\v2\RunSourceForm.cs">
       <SubType>Form</SubType>
     </None>
-    <None Include="Source\v3\copy\RunSourceFormDataGridView_copy.cs">
+    <None Include="Source\_old\v2\RunSourceFormDataGrid.cs">
       <SubType>Form</SubType>
     </None>
-    <None Include="Source\v3\copy\RunSourceFormDesign_copy.cs">
+    <None Include="Source\_old\v2\RunSourceFormDataGridView.cs">
       <SubType>Form</SubType>
     </None>
-    <None Include="Source\v3\copy\RunSourceFormResultTab_copy.cs">
+    <None Include="Source\_old\v2\RunSourceFormDesign.cs">
       <SubType>Form</SubType>
     </None>
-    <None Include="Source\v3\copy\RunSourceFormTreeView_copy.cs">
+    <None Include="Source\_old\v2\RunSourceFormResultTab.cs">
       <SubType>Form</SubType>
     </None>
-    <None Include="Source\v3\copy\RunSourceFormWndProc_copy.cs">
+    <None Include="Source\_old\v2\RunSourceFormTreeView.cs">
       <SubType>Form</SubType>
     </None>
-    <None Include="Source\v3\copy\RunSourceFormXtraGrid_copy.cs">
+    <None Include="Source\_old\v3\copy\RunSourceFormDataGrid_copy.cs">
       <SubType>Form</SubType>
     </None>
-    <None Include="Source\v3\copy\RunSourceForm_copy.cs">
+    <None Include="Source\_old\v3\copy\RunSourceFormDataGridView_copy.cs">
       <SubType>Form</SubType>
     </None>
-    <Compile Include="Source\v3\RunSourceFormBase_v3.cs">
+    <None Include="Source\_old\v3\copy\RunSourceFormDesign_copy.cs">
+      <SubType>Form</SubType>
+    </None>
+    <None Include="Source\_old\v3\copy\RunSourceFormResultTab_copy.cs">
+      <SubType>Form</SubType>
+    </None>
+    <None Include="Source\_old\v3\copy\RunSourceFormTreeView_copy.cs">
+      <SubType>Form</SubType>
+    </None>
+    <None Include="Source\_old\v3\copy\RunSourceFormWndProc_copy.cs">
+      <SubType>Form</SubType>
+    </None>
+    <None Include="Source\_old\v3\copy\RunSourceFormXtraGrid_copy.cs">
+      <SubType>Form</SubType>
+    </None>
+    <None Include="Source\_old\v3\copy\RunSourceForm_copy.cs">
+      <SubType>Form</SubType>
+    </None>
+    <Compile Include="Source\_old\v3\RunSourceFormKeyboard_v3.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Source\v3\RunSourceFormKeyboard_v3.cs">
+    <Compile Include="Source\_old\v3\RunSourceFormMenu_v3.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Source\v3\RunSourceFormMenu_v3.cs">
+    <Compile Include="Source\_old\v3\RunSourceForm_v3.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Source\v3\RunSourceForm_v3.cs">
+    <Compile Include="Source\_old\v3\RunSourceFormFile_v3.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Source\v3\RunSourceFormFile_v3.cs">
+    <Compile Include="Source\_old\v3\RunSourceFormResult_v3.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Source\v3\RunSourceFormResult_v3.cs">
+    <Compile Include="Source\_old\v3\RunSourceFormRunSource_v3.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Source\v3\RunSourceFormRunSource_v3.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Source\v3\RunSourceFormScintilla_v3.cs">
+    <Compile Include="Source\_old\v3\RunSourceFormScintilla_v3.cs">
       <SubType>Form</SubType>
     </Compile>
     <None Include="Source\_old\RunSourceForm_v1.cs">
@@ -308,12 +346,12 @@
     <None Include="Source\_old\RunSourceForm_v1.designer.cs">
       <DependentUpon>RunSourceForm_v1.cs</DependentUpon>
     </None>
-    <Compile Include="Source\_old\v2\RunSourceFormWndProc.cs">
+    <None Include="Source\_old\v2\RunSourceFormWndProc.cs">
       <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Source\_old\v2\RunSourceFormXtraGrid.cs">
+    </None>
+    <None Include="Source\_old\v2\RunSourceFormXtraGrid.cs">
       <SubType>Form</SubType>
-    </Compile>
+    </None>
     <Compile Include="Source\RunSourceRestartParameters.cs" />
     <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -341,6 +379,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="runsource.runsource.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Source\_old\v3\runsource.runsource.v3.project.xml">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Source\_old\v2\runsource.runsource.v2.project.xml">

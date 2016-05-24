@@ -4,7 +4,7 @@
   <Root                             value = "..\..\..\.." />
 
   <Target                           value = "winexe" /> <!-- exe (exe console default), library (dll), module (.netmodule), winexe (exe windows) -->
-	<Output                           value = "bin32\runsource.runsource.v3.exe" />
+	<Output                           value = "bin32\runsource.runsource.exe" />
   <CopySourceFiles                  value = "true" />
   <Icon                             value = "Properties\app.ico" />
 	<NameSpace                        value = "runsourced" />
@@ -13,8 +13,8 @@
   <Source                           value = "Properties\AssemblyInfo.cs" />
   <Source                           value = "Properties\Resources.resx" namespace = "runsourced.Properties" />
   <Source                           value = "Properties\Resources.Designer.cs" />
-  <!--<Source                           value = "Source\Program.cs" />-->
-  <Source                           value = "Source\v3\Program_v3.cs" />
+  
+  <!--<Source                           value = "Source\v3\Program_v3.cs" />
 	<Source                           value = "Source\v3\RunSourceForm_v3.cs" />
 	<Source                           value = "Source\v3\RunSourceFormBase_v3.cs" />
 	<Source                           value = "Source\v3\RunSourceFormFile_v3.cs" />
@@ -23,6 +23,16 @@
 	<Source                           value = "Source\v3\RunSourceFormResult_v3.cs" />
 	<Source                           value = "Source\v3\RunSourceFormRunSource_v3.cs" />
 	<Source                           value = "Source\v3\RunSourceFormScintilla_v3.cs" />
+	<Source                           value = "Source\v3\RunSourceFormStatusBar_v3.cs" />-->
+  
+  <Source                           value = "Source\v4\Program_v4.cs" />
+	<Source                           value = "Source\v4\RunSourceFormExe.cs" />
+	<Source                           value = "Source\v4\RunSourceFormExeFile.cs" />
+	<Source                           value = "Source\v4\RunSourceFormExeKeyboard.cs" />
+	<Source                           value = "Source\v4\RunSourceFormExeMenu.cs" />
+	<Source                           value = "Source\v4\RunSourceFormExeResult.cs" />
+	<Source                           value = "Source\v4\RunSourceFormExeRunSource.cs" />
+  
   <Source                           value = "Source\RunSourceRestartParameters.cs" />
 
   <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\Chrono.cs" />
@@ -65,6 +75,13 @@
   <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\zForm.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\zDataGridView.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\zXtraGrid.cs" />
+
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\RunSourceForm\RunSourceForm.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\RunSourceForm\RunSourceFormBase.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\RunSourceForm\RunSourceFormResult.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\RunSourceForm\RunSourceFormScintilla.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\RunSourceForm\RunSourceFormStatusBar.cs" />
+  
   <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\Scintilla\ScintillaBookmark.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\Scintilla\ScintillaBookmarkForm.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\Scintilla\ScintillaBrace.cs" />
@@ -75,8 +92,9 @@
   <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\Scintilla\ScintillaFindForm.Designer.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\Scintilla\ScintillaFindText.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\Scintilla\ScintillaFindTextForm.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\Scintilla\ScintillaForm.cs" />
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\Scintilla\ScintillaForm.cs" />-->
   <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\Scintilla\ScintillaIndent.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\Scintilla\ScintillaStatus.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Win32\WM.cs" />
 
   <Assembly                         value = "System.dll" />

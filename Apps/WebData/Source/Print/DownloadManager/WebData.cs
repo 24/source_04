@@ -2,21 +2,29 @@
 using pb.Data;
 using pb.Data.Xml;
 using pb.Text;
+using System.Collections.Generic;
 using System.Xml.Linq;
 
 namespace Download.Print
 {
     public static partial class WebData
     {
-        // bool initServers = false
         public static DownloadAutomateManagerCreator GetDownloadAutomateManagerCreator(string parameters = null)
+        {
+            //NamedValues<ZValue> parameters2 = NamedValues.ParseValues(parameters);
+            NamedValues<ZValue> parameters2 = ParseParameters(parameters);
+            return GetDownloadAutomateManagerCreator(parameters2, GetTestValue(parameters2));
+        }
+
+        // bool initServers = false
+        public static DownloadAutomateManagerCreator GetDownloadAutomateManagerCreator(NamedValues<ZValue> parameters, bool test)
         {
             //if (initServers)
             //    InitServers();
             DownloadAutomateManagerCreator createDownloadAutomateManager = new DownloadAutomateManagerCreator();
-            createDownloadAutomateManager.Init(GetDownloadAutomateManagerConfig(), XmlConfig.CurrentConfig);
+            createDownloadAutomateManager.Init(GetDownloadAutomateManagerConfig(test), XmlConfig.CurrentConfig);
             if (parameters != null)
-                createDownloadAutomateManager.SetParameters(NamedValues.ParseValues(parameters));
+                createDownloadAutomateManager.SetParameters(parameters);
             return createDownloadAutomateManager;
         }
 
@@ -42,9 +50,12 @@ namespace Download.Print
         {
             // parameters : version = 6, dailyPrintManager = true, gapDayBefore = 5, gapDayAfter = 2
             FindPrintManagerCreator createFindPrintManager = new FindPrintManagerCreator();
-            createFindPrintManager.Init(GetDownloadAutomateManagerConfig());
-            if (parameters != null)
-                createFindPrintManager.SetParameters(NamedValues.ParseValues(parameters));
+            //NamedValues<ZValue> parameters2 = NamedValues.ParseValues(parameters);
+            NamedValues<ZValue> parameters2 = ParseParameters(parameters);
+            createFindPrintManager.Init(GetDownloadAutomateManagerConfig(GetTestValue(parameters2)));
+            //if (parameters != null)
+            //    createFindPrintManager.SetParameters(NamedValues.ParseValues(parameters));
+            createFindPrintManager.SetParameters(parameters2);
             return createFindPrintManager.Create();
         }
 
@@ -63,15 +74,36 @@ namespace Download.Print
         public static PrintTitleManagerCreator GetCreatePrintTitleManager(string parameters = null)
         {
             PrintTitleManagerCreator createPrintTitleManager = new PrintTitleManagerCreator();
-            createPrintTitleManager.Init(GetDownloadAutomateManagerConfig());
-            if (parameters != null)
-                createPrintTitleManager.SetParameters(NamedValues.ParseValues(parameters));
+            //NamedValues<ZValue> parameters2 = NamedValues.ParseValues(parameters);
+            NamedValues<ZValue> parameters2 = ParseParameters(parameters);
+            createPrintTitleManager.Init(GetDownloadAutomateManagerConfig(GetTestValue(parameters2)));
+            //if (parameters != null)
+            //    createPrintTitleManager.SetParameters(NamedValues.ParseValues(parameters));
+            createPrintTitleManager.SetParameters(parameters2);
             return createPrintTitleManager;
         }
 
-        public static XElement GetDownloadAutomateManagerConfig()
+        public static NamedValues<ZValue> ParseParameters(string parameters)
         {
-            if (!DownloadPrint.Test)
+            return NamedValues.ParseValues(parameters, useLowercaseKey: true);
+        }
+
+        public static bool GetTestValue(NamedValues<ZValue> parameters)
+        {
+            //foreach (KeyValuePair<string, ZValue> parameter in parameters)
+            //{
+            //    if (parameter.Key.ToLower() == "test")
+            //        return (bool)parameter.Value;
+            //}
+            if (parameters.ContainsKey("test"))
+                return (bool)parameters["test"];
+            return false;
+        }
+
+        public static XElement GetDownloadAutomateManagerConfig(bool test)
+        {
+            //if (!DownloadPrint.Test)
+            if (!test)
                 return XmlConfig.CurrentConfig.GetElement("DownloadAutomateManager");
             else
             {

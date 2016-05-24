@@ -3,11 +3,28 @@ using System.Drawing;
 using System.Windows.Forms;
 using DevExpress.XtraGrid;
 using DevExpress.XtraGrid.Views.Grid;
+using System.Data;
+using System.Globalization;
 
 namespace pb.Windows.Forms
 {
     public class XtraGridControl : GridControl
     {
+        public XtraGridControl()
+        {
+            cGrid.Culture = CultureInfo.CurrentUICulture;
+        }
+
+        public void SetDataSource(DataTable dt, string xmlParam)
+        {
+            cGrid.GridSetDataSource(this, dt, xmlParam);
+        }
+
+        public void ClearDataSource()
+        {
+            cGrid.GridClearDataSource(this);
+        }
+
         public static XtraGridControl Create(string name = null, DockStyle dockStyle = DockStyle.None, int? x = null, int? y = null, int? width = null, int? height = null)
         {
             XtraGridControl grid = new XtraGridControl();

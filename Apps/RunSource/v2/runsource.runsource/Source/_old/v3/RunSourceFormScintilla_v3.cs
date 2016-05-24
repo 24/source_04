@@ -21,6 +21,14 @@ namespace runsourced
             _source.TextChanged += source_TextChanged;
         }
 
+        private void ScintillaViewLineNumber(bool view)
+        {
+            int nbChar = 0;
+            if (view)
+                nbChar = 4;
+            _source.DisplayLineNumber(nbChar);
+        }
+
         private void source_TextChanged(object sender, EventArgs e)
         {
             SetFileNotSaved();

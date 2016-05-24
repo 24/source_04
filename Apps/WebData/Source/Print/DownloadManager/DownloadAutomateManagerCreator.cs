@@ -87,7 +87,8 @@ namespace Download.Print
 
         public void SetParameter(KeyValuePair<string, ZValue> parameter)
         {
-            switch (parameter.Key.ToLower())
+            //switch (parameter.Key.ToLower())
+            switch (parameter.Key)
             {
                 case "tracelevel":
                     _traceLevel = (int)parameter.Value;

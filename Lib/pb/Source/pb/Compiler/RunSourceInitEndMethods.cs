@@ -11,41 +11,30 @@ namespace pb.Compiler
     // si il y a un changement dans la liste des méthodes init on appel 
     public class RunSourceInitEndMethods
     {
-        //private bool _initCalled = false;
         private bool _callInit = true;
         private Dictionary<string, MethodInfo> _initMethods = null;
         private Dictionary<string, MethodInfo> _endMethods = null;
 
         public bool CallInit { get { return _callInit; } set { _callInit = value; } }
 
-        //public void OpenProject()
-        //{
-        //}
 
-        //public void CloseProject()
-        //{
-        //}
-
+        //bool forceCallInit
         public void CallInitMethods(IEnumerable<string> initMethodNames, IEnumerable<string> endMethodNames, Func<string, MethodInfo> getMethod)
         {
             Dictionary<string, MethodInfo> initMethods = CreateDictionary(initMethodNames);
             Dictionary<string, MethodInfo> endMethods = CreateDictionary(endMethodNames);
 
-            //if (_initCalled)
-            //if (!_callInit)
-            //{
-            //    if (!MethodsEquals(_initMethods, initMethods) || !MethodsEquals(_endMethods, endMethods))
-            //        // call end methods and set _callInit to true
-            //        CallEndMethods();
-            //}
+            bool callInit = _callInit;
+
+            //if (forceCallInit)
+            //    callInit = true;
 
             // check if init methods or end methods change
-            if (!_callInit && (!MethodsEquals(_initMethods, initMethods) || !MethodsEquals(_endMethods, endMethods)))
-                _callInit = true;
+            if (!callInit && (!MethodsEquals(_initMethods, initMethods) || !MethodsEquals(_endMethods, endMethods)))
+                callInit = true;
 
 
-            //if (!_initCalled)
-            if (_callInit)
+            if (callInit)
             {
                 CallEndMethods();
 
@@ -54,20 +43,14 @@ namespace pb.Compiler
                 _initMethods = initMethods;
                 _endMethods = endMethods;
                 CallMethods(_initMethods);
-                //_initCalled = true;
                 _callInit = false;
             }
         }
 
         public void CallEndMethods()
         {
-            //if (_initCalled)
-            //{
             CallMethods(_endMethods);
             _endMethods = null;
-            //_initCalled = false;
-            //_callInit = true;
-            //}
         }
 
         private Dictionary<string, MethodInfo> CreateDictionary(IEnumerable<string> methodNames)

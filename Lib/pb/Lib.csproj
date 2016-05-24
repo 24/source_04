@@ -306,13 +306,27 @@
     <Compile Include="Source\pb\Windows\Forms\LogTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Source\pb\Windows\Forms\PanelTabControl.cs">
-      <SubType>Component</SubType>
+    <Compile Include="Source\pb\Windows\Forms\PanelTabControl.cs" />
+    <Compile Include="Source\pb\Windows\Forms\RunSourceForm\RunSourceFormBase.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Source\pb\Windows\Forms\RunSourceForm\RunSourceFormResult.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Source\pb\Windows\Forms\RunSourceForm\RunSourceFormScintilla.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Source\pb\Windows\Forms\RunSourceForm\RunSourceFormStatusBar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Source\pb\Windows\Forms\RunSourceForm\RunSourceForm.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="Source\pb\Windows\Forms\Scintilla\ScintillaControl.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Source\pb\Windows\Forms\Scintilla\ScintillaForm.cs" />
+    <Compile Include="Source\pb\Windows\Forms\Scintilla\_old\ScintillaForm.cs" />
+    <Compile Include="Source\pb\Windows\Forms\Scintilla\ScintillaStatus.cs" />
     <Compile Include="Source\pb\Windows\Forms\XtraGridControl.cs">
       <SubType>Component</SubType>
     </Compile>

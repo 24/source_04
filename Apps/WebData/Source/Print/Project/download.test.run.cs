@@ -5195,12 +5195,7 @@ string[] links = new string[] {
   ""
 };
 string[] links = new string[] {
-  "https://1fichier.com/?07bqqcoe9z",
-  "https://1fichier.com/?x35w5sno3l",
-  "https://1fichier.com/?i9h6o9spj3",
-  "https://1fichier.com/?abd7rvdsga",
-  "https://1fichier.com/?ywxgshdvl2",
-  "https://1fichier.com/?ajoex69h0y"
+  "https://1fichier.com/?s9ybp6baou"
 };
 WebData.QueueDownloadFiles(links, directory: @"c:\pib\_dl");
 
@@ -5209,6 +5204,14 @@ new Uri("http://toto.com/zozo/zuzu/zaza.txt").AbsolutePath.zTrace();
 
 for (int i = 0; i < 500; i++)
 	Trace.WriteLine("toto {0}", i);
+
+for (int i = 0; i < 500; i++)
+{
+  if (RunSource.CurrentRunSource.IsExecutionAborted())
+    break;
+  Trace.WriteLine("toto {0} IsExecutionAborted {1}", i, RunSource.CurrentRunSource.IsExecutionAborted());
+}
+
 
 Trace.WriteLine("zzzzzzzzzzzzzzzzzzzzzzzztotozzzzzzzzzzzzzzzzzzzzzz");
 
@@ -5244,6 +5247,13 @@ Test_Form.Test_RunSourceForm_v3_01();
 Trace.WriteLine("toto");
 Trace.WriteLine(RunSource.CurrentRunSource.ProjectFile);
 RunSource.CurrentRunSource.SetProjectFromSource();
+RunSource.CurrentRunSource.SetProject(@"$Root$\Test\Test.Test_01\Source\Test_Form\Test_RunSourceForm\v4\Test_RunSourceForm.v4.project.xml");
+RunSourceForm.Test = true;
+new Test_RunSourceFormExe().Show();
+
+Trace.WriteLine("toto");
+Trace.WriteLine(RunSource.CurrentRunSource.ProjectFile);
+RunSource.CurrentRunSource.SetProjectFromSource();
 RunSource.CurrentRunSource.SetProject(@"$Root$\Test\Test.Test_01\Source\Test_CS\Test_LambdaExpression\Test_LambdaExpression.project.xml");
 Test_LambdaExpression.Test_01();
 
@@ -5256,6 +5266,15 @@ Test_Form.Test_Form_01();
 Trace.WriteLine("toto");
 Trace.WriteLine(RunSource.CurrentRunSource.ProjectFile);
 RunSource.CurrentRunSource.SetProjectFromSource();
+RunSource.CurrentRunSource.SetProject(@"$Root$\Test\Test.Test_01\Source\Test_Form\Test_ToolStrip\Test_ToolStrip.project.xml");
+new ToolStrip1().Show();
+new ToolStrip2().Show();
+
+Trace.WriteLine("toto");
+Trace.WriteLine(RunSource.CurrentRunSource.ProjectFile);
+RunSource.CurrentRunSource.SetProjectFromSource();
 RunSource.CurrentRunSource.SetProject(@"$Root$\Test\Test.Test_01\Source\Test_CS\Test_Dictionary\Test_Dictionary.project.xml");
 Test_Dictionary.Test_01();
 
+
+RunSource.CurrentRunSource.CompileProject(@"$Root$\Apps\RunSource\v2\runsource.runsource\runsource.runsource.v4.project.xml");

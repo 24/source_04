@@ -1,4 +1,6 @@
 ﻿using pb;
+using pb.Data;
+using System.Collections.Generic;
 
 namespace Download.Print
 {
@@ -30,30 +32,28 @@ namespace Download.Print
 
         public static DownloadAutomateManager CreateDownloadAutomateManagerWithServers(string parameters = null)
         {
-            DownloadAutomateManagerCreator downloadAutomateManagerCreator = GetDownloadAutomateManagerCreator(parameters);
+            //NamedValues<ZValue> parameters2 = NamedValues.ParseValues(parameters);
+            NamedValues<ZValue> parameters2 = ParseParameters(parameters);
+            bool test = WebData.GetTestValue(parameters2);
+            DownloadAutomateManagerCreator downloadAutomateManagerCreator = GetDownloadAutomateManagerCreator(parameters2, test);
             DownloadAutomateManager downloadAutomateManager = downloadAutomateManagerCreator.Create();
-            InitServers();
+            InitServers(test);
             downloadAutomateManager.AddServerManagers(downloadAutomateManagerCreator.CreateServerManagers());
             return downloadAutomateManager;
         }
 
-        public static void InitServers()
+        public static void InitServers(bool test)
         {
-            //Vosbooks.Vosbooks_v1.FakeInit();
             //Vosbooks.Vosbooks.FakeInit();
-            Vosbooks.Vosbooks.FakeInit();
-
-            //Ebookdz.old.Ebookdz_v1.FakeInit();
-            //Ebookdz.old.Ebookdz_v2.FakeInit();
-            //Ebookdz.Ebookdz_v3.FakeInit();
-            Ebookdz.Ebookdz.FakeInit();
-
-            MagazinesGratuits.MagazinesGratuits.FakeInit();
-            //TelechargerMagazine.old.TelechargerMagazine_v1.FakeInit();
-            TelechargerMagazine.TelechargerMagazine.FakeInit();
-            //ExtremeDown.old.ExtremeDown_v2.FakeInit();
-            ExtremeDown.ExtremeDown.FakeInit();
+            Vosbooks.Vosbooks.Init(test);
+            //Ebookdz.Ebookdz.FakeInit();
+            Ebookdz.Ebookdz.Init(test);
+            //MagazinesGratuits.MagazinesGratuits.FakeInit();
+            MagazinesGratuits.MagazinesGratuits.Init(test);
+            //TelechargerMagazine.TelechargerMagazine.FakeInit();
+            TelechargerMagazine.TelechargerMagazine.Init(test);
+            //ExtremeDown.ExtremeDown.FakeInit();
+            ExtremeDown.ExtremeDown.Init(test);
         }
-
     }
 }

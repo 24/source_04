@@ -35,14 +35,14 @@ namespace Download.Print
             }
         }
 
-        //public static void RenameDailyPrintFiles(string sourceDirectory, string destinationDirectory, bool simulate = true, bool dailyPrintManager = false, int gapDayBefore = 0, int gapDayAfter = 0, int version = 6)
         public static void RenameDailyPrintFiles(string sourceDirectory, string destinationDirectory, string logFile, bool simulate = true, string parameters = null)
         {
             // parameters : (FindPrintManager) int version, bool dailyPrintManager, int gapDayBefore, int gapDayAfter
-            //FindPrintManager findPrintManager = GetDownloadAutomateManagerCreator(parameters).CreateFindPrintManager();
-            XElement xe = GetDownloadAutomateManagerConfig();
+            //NamedValues<ZValue> parameters2 = NamedValues.ParseValues(parameters);
+            NamedValues<ZValue> parameters2 = ParseParameters(parameters);
+            XElement xe = GetDownloadAutomateManagerConfig(GetTestValue(parameters2));
             int version = xe.zXPathValue("Version").zTryParseAs(6);
-            FindPrintManager findPrintManager = FindPrintManagerCreator.Create(xe, NamedValues.ParseValues(parameters), version);
+            FindPrintManager findPrintManager = FindPrintManagerCreator.Create(xe, parameters2, version);
             //PrintFileManager_v2.GetDailyPrintFiles(sourceDirectory).zRenameDailyPrintFiles(findPrintManager, destinationDirectory, simulate: simulate).zSave(logFile);
 
             string lastDirectory = null;

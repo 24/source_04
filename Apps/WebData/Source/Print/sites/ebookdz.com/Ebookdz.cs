@@ -44,14 +44,14 @@ namespace Download.Print.Ebookdz
         // modif le 07/04/2016
         private static string __urlMainPage = "http://www.ebookdz.com/index.php";
 
-        static Ebookdz()
-        {
-            Init(test: DownloadPrint.Test);
-        }
+        //static Ebookdz()
+        //{
+        //    Init(test: DownloadPrint.Test);
+        //}
 
-        public static void FakeInit()
-        {
-        }
+        //public static void FakeInit()
+        //{
+        //}
 
         public static void Init(bool test = false)
         {

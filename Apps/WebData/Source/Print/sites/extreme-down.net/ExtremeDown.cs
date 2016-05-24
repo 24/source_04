@@ -48,14 +48,14 @@ namespace Download.Print.ExtremeDown
         private bool _getLinksExtremeProtect = false;
         private ExtremeProtect _extremeProtect = null;
 
-        static ExtremeDown()
-        {
-            Init(test: DownloadPrint.Test);
-        }
+        //static ExtremeDown()
+        //{
+        //    Init(test: DownloadPrint.Test);
+        //}
 
-        public static void FakeInit()
-        {
-        }
+        //public static void FakeInit()
+        //{
+        //}
 
         public static void Init(bool test = false)
         {

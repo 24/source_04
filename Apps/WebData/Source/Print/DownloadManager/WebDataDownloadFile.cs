@@ -3,6 +3,7 @@ using pb.Data.Mongo;
 using pb.Data.Xml;
 using pb.Web;
 using pb.IO;
+using pb.Data;
 
 // todo :
 //   - test QueueDownloadFile
@@ -12,9 +13,11 @@ namespace Download.Print
 {
     public static partial class WebData
     {
-        public static void QueueDownloadFiles(string[] fileLinks, string directory = null)
+        public static void QueueDownloadFiles(string[] fileLinks, string directory = null, string parameters = null)
         {
-            MongoCollectionManager<QueueDownloadFile> mongoQueueDownloadFileManager = DownloadAutomateManagerCreator.CreateMongoQueueDownloadFileManager(GetDownloadAutomateManagerConfig());
+            //NamedValues<ZValue> parameters2 = NamedValues.ParseValues(parameters);
+            NamedValues<ZValue> parameters2 = ParseParameters(parameters);
+            MongoCollectionManager<QueueDownloadFile> mongoQueueDownloadFileManager = DownloadAutomateManagerCreator.CreateMongoQueueDownloadFileManager(GetDownloadAutomateManagerConfig(GetTestValue(parameters2)));
             foreach (string fileLink in fileLinks)
             {
                 QueueDownloadFile(mongoQueueDownloadFileManager, new string[] { fileLink }, directory: directory);
@@ -22,9 +25,11 @@ namespace Download.Print
         }
 
         // add an item to mongoQueueDownloadFile
-        public static void QueueDownloadFile(string[] filePartLinks, string directory = null, string filename = null)
+        public static void QueueDownloadFile(string[] filePartLinks, string directory = null, string filename = null, string parameters = null)
         {
-            MongoCollectionManager<QueueDownloadFile> mongoQueueDownloadFileManager = DownloadAutomateManagerCreator.CreateMongoQueueDownloadFileManager(GetDownloadAutomateManagerConfig());
+            //NamedValues<ZValue> parameters2 = NamedValues.ParseValues(parameters);
+            NamedValues<ZValue> parameters2 = ParseParameters(parameters);
+            MongoCollectionManager<QueueDownloadFile> mongoQueueDownloadFileManager = DownloadAutomateManagerCreator.CreateMongoQueueDownloadFileManager(GetDownloadAutomateManagerConfig(GetTestValue(parameters2)));
             QueueDownloadFile(mongoQueueDownloadFileManager, filePartLinks, directory, filename);
         }
 
@@ -60,9 +65,11 @@ namespace Download.Print
             mongoQueueDownloadFileManager.Save(downloadFile.Id, downloadFile);
         }
 
-        public static void DownloadFile(string url, string directory = null, bool startNow = false)
+        public static void DownloadFile(string url, string directory = null, bool startNow = false, string parameters = null)
         {
-            DownloadManagerClientBase downloadManagerClient = DownloadAutomateManagerCreator.CreateDownloadManagerClient(GetDownloadAutomateManagerConfig());
+            //NamedValues<ZValue> parameters2 = NamedValues.ParseValues(parameters);
+            NamedValues<ZValue> parameters2 = ParseParameters(parameters);
+            DownloadManagerClientBase downloadManagerClient = DownloadAutomateManagerCreator.CreateDownloadManagerClient(GetDownloadAutomateManagerConfig(GetTestValue(parameters2)));
             Debrider debrider = DownloadAutomateManagerCreator.CreateDebrider(XmlConfig.CurrentConfig);
             url = debrider.DebridLink(url);
             Uri uri = new Uri(url);

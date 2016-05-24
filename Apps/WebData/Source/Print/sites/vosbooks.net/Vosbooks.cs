@@ -44,14 +44,14 @@ namespace Download.Print.Vosbooks
         private static string __urlMainPage = "http://www.vosbooks.net/";
         private Date? _lastPostDate = null;
 
-        static Vosbooks()
-        {
-            Init(test: DownloadPrint.Test);
-        }
+        //static Vosbooks()
+        //{
+        //    Init(test: DownloadPrint.Test);
+        //}
 
-        public static void FakeInit()
-        {
-        }
+        //public static void FakeInit()
+        //{
+        //}
 
         public static void Init(bool test = false)
         {

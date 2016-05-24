@@ -8,14 +8,12 @@ namespace Test.Test_Form.Test_RunSourceForm.v3
     public partial class RunSourceFormBase_v3 : Form
     {
         private IContainer _components = null;
-        private Panel _topToolsPanel;
-        private Panel _editPanel;
-        private PanelTabControl _resultTab;
+        protected Panel _topToolsPanel;
+        protected Panel _editPanel;
+        protected PanelTabControl _resultTab;
         //private int _messageTabIndex = -1;
-        private Panel _bottomToolsPanel;
-        private ToolStrip _bottomToolStrip;
-        //private int _formWidth = 300;
-        //private int _formHeight = 300;
+        protected Panel _bottomToolsPanel;
+        protected ToolStrip _bottomToolStrip;
 
         // Form :
         //   _menu
@@ -47,19 +45,16 @@ namespace Test.Test_Form.Test_RunSourceForm.v3
             base.Dispose(disposing);
         }
 
-        public Panel TopToolsPanel { get { return _topToolsPanel; } }
-        public Panel EditPanel { get { return _editPanel; } }
-        public ToolStrip BottomToolStrip { get { return _bottomToolStrip; } }
-        //public int FormWidth { get { return _formWidth; } set { _formWidth = value; } }
-        //public int FormHeight { get { return _formHeight; } set { _formHeight = value; } }
+        //public Panel TopToolsPanel { get { return _topToolsPanel; } }
+        //public Panel EditPanel { get { return _editPanel; } }
+        //public ToolStrip BottomToolStrip { get { return _bottomToolStrip; } }
 
-        public void Initialize()
+        public void BaseInitialize()
         {
             this.SuspendLayout();
 
             this.AutoScaleDimensions = new SizeF(6F, 13F);
             this.AutoScaleMode = AutoScaleMode.Font;
-            //this.ClientSize = new Size(_formWidth, _formHeight);
 
             this.Controls.Add(_bottomToolsPanel);
             this.Controls.Add(_resultTab);
@@ -184,7 +179,7 @@ namespace Test.Test_Form.Test_RunSourceForm.v3
         //    return statusPanel;
         //}
 
-        public void ActiveResultPanel(int index)
+        protected void SelectResultTab(int index)
         {
             _resultTab.SelectedIndex = index;
             //WriteMessage("active panel {0}", selectedIndex);
@@ -193,15 +188,20 @@ namespace Test.Test_Form.Test_RunSourceForm.v3
 
         public Panel AddResultPanel(string buttonText, Color? backColor = null)
         {
-            ToolStripButton button = zForm.CreateToolStripButton(buttonText);
-            button.Tag = _resultTab.Controls.Count;
-            button.Click += (sender, eventArgs) => ActiveResultPanel((int)button.Tag);
-            _bottomToolStrip.Items.Add(button);
+            //ToolStripButton button = zForm.CreateToolStripButton(buttonText);
+            //button.Tag = _resultTab.Controls.Count;
+            //button.Click += (sender, eventArgs) => SelectResultTab((int)button.Tag);
+            //_bottomToolStrip.Items.Add(button);
 
-            Panel panel = zForm.CreatePanel(dockStyle: DockStyle.Fill, backColor: backColor);
-            _resultTab.Controls.Add(panel);
+            //Panel panel = zForm.CreatePanel(dockStyle: DockStyle.Fill, backColor: backColor);
+            ////_resultTab.Controls.Add(panel);
+            //_resultTab.AddTabPanel(panel, button);
 
-            return panel;
+            PanelTabElement tabElement = _resultTab.CreateTabPanel(buttonText, backColor);
+            _bottomToolStrip.Items.Add(tabElement.Button);
+
+            //return panel;
+            return tabElement.Panel;
         }
 
         //private void TraceResultTab()

@@ -134,6 +134,55 @@ namespace pb.Windows.Forms
             return button;
         }
 
+        public static ToolStripLabel CreateToolStripLabel(string text = null, ContentAlignment? textAlign = null, Color? backColor = null, int? width = null, int? height = null)
+        {
+            ToolStripLabel label = new ToolStripLabel();
+            label.Text = text;
+            if (backColor != null)
+                label.BackColor = (Color)backColor;
+            //Size? size = GetSize(width, height);
+            //if (size != null)
+            //{
+            //    label.AutoSize = false;
+            //    label.Size = (Size)size;
+            //}
+            label.Size = GetSize(width, height, label.Size);
+            label.AutoSize = width == null && height == null;
+            if (textAlign != null)
+            label.TextAlign = (ContentAlignment)textAlign;
+
+
+            //label.DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
+            //label.Margin
+            //label.Padding
+            //label.Overflow
+            //label.Placement = ToolStripItemPlacement.Main;
+            //label.Size
+            //label.TextAlign = ContentAlignment.
+            //label.ToolTipText
+            return label;
+        }
+
+        public static ToolStripLabel CreateToolStripLabelSeparator(int width)
+        {
+            ToolStripLabel label = new ToolStripLabel();
+            label.AutoSize = false;
+            label.Size = new Size(width, 0);
+            return label;
+        }
+
+        public static ToolStripTextBox CreateToolStripTextBox(string text = null, Color? backColor = null, int? width = null, int? height = null)
+        {
+            ToolStripTextBox textBox = new ToolStripTextBox();
+            textBox.Text = text;
+            if (backColor != null)
+                textBox.BackColor = (Color)backColor;
+            Size? size = GetSize(width, height);
+            if (size != null)
+                textBox.Size = (Size)size;
+            return textBox;
+        }
+
         public static DataGrid CreateDataGrid(string name = null, DockStyle dockStyle = DockStyle.None, int? x = null, int? y = null, int? width = null, int? height = null)
         {
             DataGrid grid = new DataGrid();
@@ -184,6 +233,19 @@ namespace pb.Windows.Forms
             }
             else
                 return null;
+        }
+
+        public static Size GetSize(int? width, int? height, Size size)
+        {
+            if (width == null && height == null)
+                return size;
+            int w = size.Width;
+            if (width != null)
+                w = (int)width;
+            int h = size.Height;
+            if (height != null)
+                h = (int)height;
+            return new Size(w, h);
         }
     }
 }

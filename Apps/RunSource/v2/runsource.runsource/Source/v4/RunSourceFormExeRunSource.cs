@@ -13,35 +13,22 @@ using System.Xml.Linq;
 
 namespace runsourced
 {
-    partial class RunSourceForm_v3
+    partial class RunSourceFormExe
     {
-        public SetRestartRunsourceEvent SetRestartRunsource;
         private IRunSource _runSource = null;
+        public SetRestartRunsourceEvent SetRestartRunsource;
 
         private void InitRunSource()
         {
             _runSource.SetRunSourceConfig(_config.ConfigFile);
             _runSource.StartAssemblyResolve();
             _runSource.DeleteGeneratedAssemblies();
-            //_runSource.DisableMessageChanged += new DisableMessageChangedEvent(EventDisableMessageChanged);
             _runSource.DisableMessageChanged += EventDisableMessageChanged;
-            //_runSource.GridResultSetDataTable += new SetDataTableEvent(EventGridResultSetDataTable);
             _runSource.GridResultSetDataTable += EventGridResultSetDataTable;
-            //_runSource.GridResultSetDataSet += new SetDataSetEvent(EventGridResultSetDataSet);
             _runSource.GridResultSetDataSet += EventGridResultSetDataSet;
-            //_runSource.ProgressChange += new ProgressChangeEvent(EventProgressChange);
             _runSource.ProgressChange += EventProgressChange;
             _runSource.EndRunCode += EventEndRunCode;
-
-            //string s = _config.Get("ProgressMinimumMillisecondsBetweenMessage");
-            //int progressMinimumMillisecondsBetweenMessage;
-            //if (s != null && int.TryParse(s, out progressMinimumMillisecondsBetweenMessage))
-            //    _runSource.Progress_MinimumMillisecondsBetweenMessage = progressMinimumMillisecondsBetweenMessage;
             _runSource.Progress_MinimumMillisecondsBetweenMessage = _config.Get("ProgressMinimumMillisecondsBetweenMessage").zTryParseAs(_runSource.Progress_MinimumMillisecondsBetweenMessage);
-
-            // moved to InitMenu()
-            //m_run_init.Checked = _runSource.CallInit;
-            //m_allow_multiple_execution.Checked = _runSource.AllowMultipleExecution;
         }
 
         private void EndRunSource()
@@ -63,24 +50,38 @@ namespace runsourced
             _runSource.SetProject(file);
         }
 
-        //private void RunCode()
-        //{
-        //    _RunCode();
-        //}
-
-        //private void RunCodeOnMainThread()
-        //{
-        //    _RunCode(useNewThread: false);
-        //}
-
-        //private void RunCodeWithoutProject()
-        //{
-        //    _RunCode(compileWithoutProject: true);
-        //}
-
-        private void _RunCode(bool useNewThread = true, bool compileWithoutProject = false)
+        private bool GetCallInit()
         {
-            if (_runSource.IsRunning() && !_runSource.AllowMultipleExecution)
+            return _runSource.CallInit;
+        }
+
+        //private void SetCallInit(bool callInit)
+        //{
+        //    _runSource.CallInit = callInit;
+        //}
+
+        //private bool GetAllowMultipleExecution()
+        //{
+        //    return _runSource.AllowMultipleExecution;
+        //}
+
+        //private void SetAllowMultipleRun(bool allowMultipleRun)
+        //{
+        //    _runSource.AllowMultipleExecution = allowMultipleRun;
+        //}
+
+
+        //private void _RunCode(bool useNewThread = true, bool compileWithoutProject = false)
+        private void _RunCode(bool runOnMainThread = false, bool runWithoutProject = false)
+        {
+            if (!runOnMainThread)
+                runOnMainThread = _menuRunOnMainThread.Checked;
+            if (!runWithoutProject)
+                runWithoutProject = _menuRunWithoutProject.Checked;
+            bool allowMultipleRun = _menuAllowMultipleRun.Checked;
+            bool callInit = _menuRunInit.Checked;
+            //if (_runSource.IsRunning() && !_runSource.AllowMultipleExecution)
+            if (_runSource.IsRunning() && !allowMultipleRun)
             {
                 MessageBox.Show("Un programme est déjà en cours d'exécution !", "Run", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
@@ -102,9 +103,32 @@ namespace runsourced
             RazResult();
             RazProgress();
 
+            //_trace.WriteLine("_RunCode {0} {1} {2} {3}", runOnMainThread, allowMultipleRun, runWithoutProject, forceCallInit);
+            _trace.WriteLine(GetRunSourceStatusRunType(runOnMainThread, allowMultipleRun, runWithoutProject, callInit));
+
             _stopButton.Enabled = true;
-            _runSource.RunCode(GetCode(), useNewThread, compileWithoutProject);
+            //_runSource.RunCode(GetCode(), useNewThread, compileWithoutProject);
+            _runSource.RunCode(GetCode(), runOnMainThread: runOnMainThread, compileWithoutProject: runWithoutProject, allowMultipleRun: allowMultipleRun, callInit: callInit);
             _menuRunInit.Checked = _runSource.CallInit;
+            UpdateRunSourceStatus();
+        }
+
+        private string GetRunSourceStatusRunType(bool runOnMainThread, bool allowMultipleRun, bool runWithoutProject, bool callInit = false)
+        {
+            //run init, running
+            // run, run on main thread, run multiple, [without project]
+            string status;
+            if (runOnMainThread)
+                status = "run on main thread";
+            else if (allowMultipleRun)
+                status = "run multiple";
+            else
+                status = "run";
+            if (runWithoutProject)
+                status += ", without project";
+            if (callInit)
+                status += ", call init";
+            return status;
         }
 
         private void CompileCode()
@@ -134,7 +158,6 @@ namespace runsourced
         {
             DialogResult r = MessageBox.Show("Voulez-vous interrompre l'exécution du programme ?", "Run source", MessageBoxButtons.OKCancel, MessageBoxIcon.Stop, MessageBoxDefaultButton.Button2);
             if (r == DialogResult.OK)
-                //Exe(new fExe(AbortThreadExecution));
                 Try(AbortThreadExecution);
         }
 
@@ -147,10 +170,6 @@ namespace runsourced
         private void AbortThreadExecution(out bool cancel)
         {
             cancel = false;
-            //int timeout = 30;
-            //string sTimeout = _config.Get("AbortThreadExecutionTimeout");
-            //if (!int.TryParse(sTimeout, out timeout))
-            //    timeout = 30;
             int timeout = _config.Get("AbortThreadExecutionTimeout").zTryParseAs(30);
             _trace.WriteLine("Abort execution process (Timeout {0} sec)", timeout);
             _runSource.AbortExecution(true);
@@ -185,9 +204,6 @@ namespace runsourced
                 _trace.WriteLine("No thread execution process");
                 return;
             }
-            //timeout = 30;
-            //sTimeout = _config.Get("ForceAbortThreadExecutionTimeout");
-            //if (!int.TryParse(sTimeout, out timeout)) timeout = 30;
             timeout = _config.Get("ForceAbortThreadExecutionTimeout").zTryParseAs(30);
             _trace.WriteLine("Force abort of execution process (Timeout {0})", timeout);
             _runSource.ForceAbortExecution();
@@ -320,7 +336,6 @@ namespace runsourced
                     _trace.WriteError(ex);
                     zerrf.ErrorMessageBox(ex);
                 }
-                Control activeControl = ActiveControl;
 
                 try
                 {
@@ -334,26 +349,20 @@ namespace runsourced
 
                     // on sélectionne l'onglet sauf si :
                     //   - DontSelectResultTab = true, _errorResult = false et error = false
-                    //if (!_runSource.DontSelectResultTab || _errorResult || error)
                     if (!_runSource.DontSelectResultTab || error)
                     {
                         if (_selectTreeViewResult && !error)
-                            //tc_result.SelectedTab = _tabResultTree;
                             SelectTreeResultTab();
                         else if (_newDataTableResult && !error)
                         {
                             if (_xmlResultFormat != null || _dataSetResult != null)
-                                //tc_result.SelectedTab = tab_result1;
                                 SelectGrid1ResultTab();
                             else
-                                //tc_result.SelectedTab = _tabResultGrid;
                                 SelectGridResultTab();
                         }
                         else if (_newTreeViewResult && !error)
-                            //tc_result.SelectedTab = _tabResultTree;
                             SelectTreeResultTab();
                         else
-                            //tc_result.SelectedTab = _tabResultMessage;
                             SelectMessageResultTab();
                     }
                 }
@@ -362,12 +371,12 @@ namespace runsourced
                     _trace.WriteError(ex);
                 }
 
-                ActiveControl = activeControl;
                 _executeButton.Enabled = true;
                 _pauseButton.Text = "&Pause";
                 _stopButton.Enabled = _runSource.IsRunning();
 
                 SetFormTitle();
+                UpdateRunSourceStatus();
             }
         }
 

@@ -26,7 +26,7 @@ namespace pb.Compiler
     {
         private bool _executionPaused = false;
         private bool _executionAborted = false;
-        private bool _allowMultipleExecution = false;
+        //private bool _allowMultipleExecution = false;
         //private RunCode _runCode = null;
         //private List<RunCode> _runCodes = new List<RunCode>();
         private RunSourceInitEndMethods _runSourceInitEndMethods = new RunSourceInitEndMethods();
@@ -39,8 +39,9 @@ namespace pb.Compiler
 
         public OnAbortEvent OnAbortExecution { get; set; }
         public Action<EndRunCodeInfo> EndRunCode { get { return _endRunCode; } set { _endRunCode = value; } }
-        public bool AllowMultipleExecution { get { return _allowMultipleExecution; } set { _allowMultipleExecution = value; } }
-        public bool CallInit { get { return _runSourceInitEndMethods.CallInit; } set { _runSourceInitEndMethods.CallInit = value; } }
+        //public bool AllowMultipleExecution { get { return _allowMultipleExecution; } set { _allowMultipleExecution = value; } }
+        //public bool CallInit { get { return _runSourceInitEndMethods.CallInit; } set { _runSourceInitEndMethods.CallInit = value; } }
+        public bool CallInit { get { return _runSourceInitEndMethods.CallInit; } }
 
         public bool IsRunning()
         {
@@ -103,9 +104,15 @@ namespace pb.Compiler
             return false;
         }
 
-        public void RunCode(string code, bool useNewThread = true, bool compileWithoutProject = false)
+        public int GetRunningCount()
         {
-            _RunCode(code, useNewThread, compileWithoutProject);
+            return _runCodes.Count;
+        }
+
+        //public void RunCode(string code, bool useNewThread = true, bool compileWithoutProject = false, bool allowMultipleRun = false)
+        public void RunCode(string code, bool runOnMainThread = false, bool compileWithoutProject = false, bool allowMultipleRun = false, bool callInit = false)
+        {
+            _RunCode(code, runOnMainThread: runOnMainThread, compileWithoutProject: compileWithoutProject, allowMultipleRun: allowMultipleRun, callInit: callInit);
         }
 
         public void CompileCode(string code, bool compileWithoutProject = false)
@@ -134,15 +141,16 @@ namespace pb.Compiler
             return CompilerProject.Create(GetRunSourceConfig().zGetConfigElement("CompilerDefaultValues"));
         }
 
-        private void _RunCode(string code, bool useNewThread = true, bool compileWithoutProject = false, bool dontRunCode = false)
+        //private void _RunCode(string code, bool useNewThread = true, bool compileWithoutProject = false, bool allowMultipleRun = false, bool dontRunCode = false)
+        private void _RunCode(string code, bool runOnMainThread = false, bool compileWithoutProject = false, bool allowMultipleRun = false, bool dontRunCode = false, bool callInit = false)
         {
             if (code == "")
                 return;
 
             //if (!dontRunCode && _runCode != null)
             //    throw new PBException("error program already running");
-            //_allowMultipleExecution
-            if (!dontRunCode && _runCodes.Count > 0 && !_allowMultipleExecution)
+            //if (!dontRunCode && _runCodes.Count > 0 && !_allowMultipleExecution)
+            if (!dontRunCode && _runCodes.Count > 0 && !allowMultipleRun)
                 throw new PBException("error program already running and multiple execution is not allowed");
 
             bool error = false;
@@ -176,7 +184,8 @@ namespace pb.Compiler
 
                     if (!dontRunCode)
                     {
-                        RunCode_ExecuteCode(compiler.Results.CompiledAssembly, codeResult, compilerProject, compiler, useNewThread);
+                        //RunCode_ExecuteCode(compiler.Results.CompiledAssembly, codeResult, compilerProject, compiler, useNewThread);
+                        RunCode_ExecuteCode(compiler.Results.CompiledAssembly, codeResult, compilerProject, compiler, runOnMainThread, callInit);
                         doEndRun = false;
                     }
                 }
@@ -228,24 +237,27 @@ namespace pb.Compiler
 
         // RunCode_ExecuteCode must throw an exception if he can't execute run method
         // if no error thrown RunCode_ExecuteCode must call RunCode_EndRun()
-        private void RunCode_ExecuteCode(Assembly assembly, GenerateCSharpCodeResult codeResult, CompilerProject compilerProject, Compiler compiler, bool useNewThread)
+        //private void RunCode_ExecuteCode(Assembly assembly, GenerateCSharpCodeResult codeResult, CompilerProject compilerProject, Compiler compiler, bool useNewThread)
+        private void RunCode_ExecuteCode(Assembly assembly, GenerateCSharpCodeResult codeResult, CompilerProject compilerProject, Compiler compiler, bool runOnMainThread, bool callInit)
         {
-            //_runCode = new RunCode();
             RunCode runCode = new RunCode(++_runCodeId);
             runCode.RunAssembly = assembly;
             runCode.CompilerAssemblies = compiler.Assemblies;
             runCode.RunMethodName = codeResult.GetFullRunMethodName();
-            //runCode.InitMethodName = compilerProject.GetInitMethod();  // "Init"
-            //runCode.EndMethodName = compilerProject.GetEndMethod();    // "End"
             runCode.EndRun += error => RunCode_EndRun(runCode, error);
             if (!_runCodes.TryAdd(runCode.Id, runCode))
                 throw new PBException("unable to add RunCode id {0} to ConcurrentDictionary", runCode.Id);
 
+            //if (forceCallInit)
+            //    _runSourceInitEndMethods.CallInit = true;
+
             _executionAborted = false;
 
-            _runSourceInitEndMethods.CallInitMethods(compilerProject.GetInitMethods(), compilerProject.GetEndMethods(), methodName => runCode.GetMethod(methodName));
+            _runSourceInitEndMethods.CallInit = callInit;
+            if (callInit)
+                _runSourceInitEndMethods.CallInitMethods(compilerProject.GetInitMethods(), compilerProject.GetEndMethods(), methodName => runCode.GetMethod(methodName));
 
-            runCode.Run(useNewThread);
+            runCode.Run(runOnMainThread);
         }
 
         //private void RunCode_EndRun(bool error)

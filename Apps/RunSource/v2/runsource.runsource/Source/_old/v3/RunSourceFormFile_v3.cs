@@ -61,7 +61,6 @@ namespace runsourced
             }
         }
 
-        //public
         private void OpenSourceFile(string path)
         {
             SetSourceFile(path);
@@ -131,8 +130,6 @@ namespace runsourced
 
         private void ReadSourceFile()
         {
-            //try
-            //{
             if (_runSource.SourceFile != null && zFile.Exists(_runSource.SourceFile))
                 _source.Text = zfile.ReadAllText(_runSource.SourceFile);
             else
@@ -140,12 +137,6 @@ namespace runsourced
             _source.SelectionStart = 0;
             _source.SelectionEnd = 0;
             SetFileSaved();
-            //}
-            //catch (Exception ex)
-            //{
-            //    _trace.WriteError(ex);
-            //    zerrf.ErrorMessageBox(ex);
-            //}
         }
 
         private bool WriteSourceFile()

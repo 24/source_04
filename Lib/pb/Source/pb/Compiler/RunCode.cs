@@ -73,7 +73,8 @@ namespace pb.Compiler
         //        Error.WriteMessage(ErrorOptions.TraceError, "run assembly is null");
         //}
 
-        public void Run(bool useNewThread)
+        //public void Run(bool useNewThread)
+        public void Run(bool runOnMainThread)
         {
             _runChrono = new Chrono();
             if (_runAssembly == null)
@@ -87,9 +88,9 @@ namespace pb.Compiler
             AssemblyResolve.Clear();
             //AssemblyResolve.Start();
 
-            if (useNewThread)
+            //if (useNewThread)
+            if (!runOnMainThread)
             {
-                //_runThread = new Thread(new ThreadStart(() => _Run(runMethod, initMethod, endMethod)));
                 _runThread = new Thread(new ThreadStart(() => _Run(runMethod)));
                 _runThread.CurrentCulture = FormatInfo.CurrentFormat.CurrentCulture;
                 _runThread.SetApartmentState(ApartmentState.STA);
@@ -97,8 +98,7 @@ namespace pb.Compiler
             }
             else
             {
-                Trace.WriteLine("execute on main thread");
-                //_Run(runMethod, initMethod, endMethod);
+                //Trace.WriteLine("run on main thread");
                 _Run(runMethod);
             }
         }

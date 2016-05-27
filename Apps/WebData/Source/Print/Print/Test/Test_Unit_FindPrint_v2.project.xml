@@ -18,6 +18,8 @@
 
   <Source                           value = "$ProjectRoot$\Source\Print\DownloadManager\FindPrintManagerCreator.cs" />
   <Source                           value = "$ProjectRoot$\Source\Print\DownloadManager\PrintTitleManagerCreator.cs" />
+  <Source                           value = "$ProjectRoot$\Source\Print\DownloadManager\WebDataFindPrintManager.cs" />
+  <Source                           value = "$ProjectRoot$\Source\Print\DownloadManager\WebDataParameters.cs" />
 
   <Source                           value = "$ProjectRoot$\Source\Print\Print\FindDayManager.cs" />
   <Source                           value = "$ProjectRoot$\Source\Print\Print\FindPrint.cs" />

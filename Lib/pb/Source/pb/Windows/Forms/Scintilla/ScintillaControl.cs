@@ -18,6 +18,10 @@ namespace pb.Windows.Forms
         }
 
         public ScintillaStatus ScintillaStatus { get { return _scintillaStatus; } }
+        public ScintillaBookmark ScintillaBookmark { get { return _scintillaBookmark; } }
+        public ScintillaCodeFolding ScintillaCodeFolding { get { return _scintillaCodeFolding; } }
+        public ScintillaBrace ScintillaBrace { get { return _scintillaBrace; } }
+        public ScintillaFindText ScintillaFindText { get { return _scintillaFindText; } }
 
         private void InitScintillaControl()
         {

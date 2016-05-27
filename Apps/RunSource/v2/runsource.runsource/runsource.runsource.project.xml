@@ -28,9 +28,9 @@
   <Source                           value = "Source\v4\Program_v4.cs" />
 	<Source                           value = "Source\v4\RunSourceFormExe.cs" />
 	<Source                           value = "Source\v4\RunSourceFormExeFile.cs" />
-	<Source                           value = "Source\v4\RunSourceFormExeKeyboard.cs" />
-	<Source                           value = "Source\v4\RunSourceFormExeMenu.cs" />
-	<Source                           value = "Source\v4\RunSourceFormExeResult.cs" />
+  <Source                           value = "Source\v4\RunSourceFormExeMenu.cs" />
+  <Source                           value = "Source\v4\RunSourceFormExePostMessage.cs" />
+  <Source                           value = "Source\v4\RunSourceFormExeResult.cs" />
 	<Source                           value = "Source\v4\RunSourceFormExeRunSource.cs" />
   
   <Source                           value = "Source\RunSourceRestartParameters.cs" />
@@ -67,6 +67,7 @@
   <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\cGrid.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\ControlFindForm.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\DataGridViewControl.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\FormKeyboard.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\LogTextBox.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\PanelTabControl.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\XtraGrid.cs" />
@@ -83,7 +84,7 @@
   <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\RunSourceForm\RunSourceFormStatusBar.cs" />
   
   <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\Scintilla\ScintillaBookmark.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\Scintilla\ScintillaBookmarkForm.cs" />
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\Scintilla\ScintillaBookmarkForm.cs" />-->
   <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\Scintilla\ScintillaBrace.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\Scintilla\ScintillaCodeFolding.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\Scintilla\ScintillaControl.cs" />
@@ -91,7 +92,7 @@
   <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\Scintilla\ScintillaFindForm.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\Scintilla\ScintillaFindForm.Designer.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\Scintilla\ScintillaFindText.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\Scintilla\ScintillaFindTextForm.cs" />
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\Scintilla\ScintillaFindTextForm.cs" />-->
   <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\Scintilla\ScintillaForm.cs" />-->
   <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\Scintilla\ScintillaIndent.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\Scintilla\ScintillaStatus.cs" />

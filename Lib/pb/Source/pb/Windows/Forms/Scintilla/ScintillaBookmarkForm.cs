@@ -1,5 +1,4 @@
-﻿using ScintillaNET;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 
 namespace pb.Windows.Forms
 {
@@ -11,21 +10,13 @@ namespace pb.Windows.Forms
         private void InitParentForm()
         {
             ControlFindForm.Find(_scintillaControl, InitForm);
-            _scintillaControl.MarginClick += scintillaControl_MarginClick;
+            //_scintillaControl.MarginClick += scintillaControl_MarginClick;
         }
 
         private void InitForm(Form form)
         {
             form.KeyDown += ParentForm_KeyDown;
             //form.KeyPreview = true;
-        }
-
-        private void scintillaControl_MarginClick(object sender, MarginClickEventArgs e)
-        {
-            if (e.Margin == ScintillaMargin.Bookmark)
-            {
-                SetBookmark(_scintillaControl.zGetLineFromPosition(e.Position));
-            }
         }
 
         private void ParentForm_KeyDown(object sender, KeyEventArgs e)

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<AssemblyProject>
+  
+  <Root                             value = "..\..\..\..\.." />
+
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\Basic.project.xml" />
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\RunSourceExtension.project.xml" />
+
+  <NameSpace                        value = "Test.Test_Form.Test_FormKeyDown" />
+  <Using                            value = "pb" />
+
+  <Source                           value = "Test_FormKeyDown.cs" />
+  <Source                           value = "Test_FormKeyDown.Designer.cs" />
+
+  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\Convert.cs" />
+</AssemblyProject>

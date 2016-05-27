@@ -53,6 +53,7 @@ namespace Download.Print
         private bool _dailyPrintManager = false;
         private int _gapDayBefore = 0;
         private int _gapDayAfter = 0;
+        private bool _trySplitTitle = false;
 
         private XElement _xeConfig = null;
         private NamedValues<ZValue> _parameters = null;
@@ -71,6 +72,7 @@ namespace Download.Print
         public bool DailyPrintManager { get { return _dailyPrintManager; } set { _dailyPrintManager = value; } }
         public int GapDayBefore { get { return _gapDayBefore; } set { _gapDayBefore = value; } }
         public int GapDayAfter { get { return _gapDayAfter; } set { _gapDayAfter = value; } }
+        public bool TrySplitTitle { get { return _trySplitTitle; } set { _trySplitTitle = value; } }
 
         //public static FindPrintManager Create(int version = 3, bool dailyPrintManager = false, int gapDayBefore = 0, int gapDayAfter = 0)
         //{
@@ -91,6 +93,7 @@ namespace Download.Print
                 _dailyPrintManager = xe.zXPathValue("DailyPrintManager").zTryParseAs(false);
                 _gapDayBefore = xe.zXPathValue("GapDayBefore").zTryParseAs(0);
                 _gapDayAfter = xe.zXPathValue("GapDayAfter").zTryParseAs(0);
+                _trySplitTitle = xe.zXPathValue("TrySplitTitle").zTryParseAs(false);
             }
         }
 
@@ -119,6 +122,9 @@ namespace Download.Print
                     break;
                 case "gapdayafter":
                     _gapDayAfter = (int)parameter.Value;
+                    break;
+                case "trysplittitle":
+                    _trySplitTitle = (bool)parameter.Value;
                     break;
             }
         }
@@ -153,6 +159,7 @@ namespace Download.Print
         private FindPrintManager _CreateFindPrintManager()
         {
             FindPrintManager findPrintManager = new FindPrintManager();
+            findPrintManager.TrySplitTitle = _trySplitTitle;
             findPrintManager.PrintTitleManager = _printTitleManager;
             findPrintManager.FindPrintList = new RegexValuesList(_printList2Config.GetElements("FindPrints/Prints/Print"), compileRegex: true);
             if (_dailyPrintManager)

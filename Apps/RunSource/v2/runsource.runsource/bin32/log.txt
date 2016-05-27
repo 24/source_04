@@ -1,6 +1,29 @@
 set project "C:\pib\drive\google\dev\project\.net\Apps\WebData\Source\Print\Project\download.test.project.xml"
+create default project from "c:\pib\drive\google\dev\project\.net\Lib\pb\Source\Project\Default.project.xml"
+toto
+Process completed 00:00:00.095
+toto
+Process completed 00:00:00.031
+set project "C:\pib\drive\google\dev\project\.net\Apps\WebData\Source\Print\Project\download.test.project.xml"
+create default project from "c:\pib\drive\google\dev\project\.net\Lib\pb\Source\Project\Default.project.xml"
+toto
+Process completed 00:00:00.041
+toto
+Process completed 00:00:00.009
+toto
+Process completed 00:00:00.009
+toto
+Process completed 00:00:00.028
+toto
+Process completed 00:00:00.010
+set project "C:\pib\drive\google\dev\project\.net\Apps\WebData\Source\Print\Project\download.test.project.xml"
 call init methods "Download.Print.DownloadRun.Init, RunCode_00001, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
 set project "C:\pib\drive\google\dev\project\.net\Apps\WebData\Source\Print\Project\download.test.project.xml"
+run multiple, call init
 call init methods "Download.Print.DownloadRun.Init, RunCode_00002, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
 set project "C:\pib\drive\google\dev\project\.net\Apps\WebData\Source\Print\Project\download.test.project.xml"
+run multiple, call init
+call init methods "Download.Print.DownloadRun.Init, RunCode_00002, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+set project "C:\pib\drive\google\dev\project\.net\Apps\WebData\Source\Print\Project\download.test.project.xml"
+run multiple, call init
 call init methods "Download.Print.DownloadRun.Init, RunCode_00002, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"

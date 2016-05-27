@@ -27,20 +27,21 @@ namespace pb.Windows.Forms
         private bool _notification = true;
         //public Action<string, SearchFlags> FindAction = null;
         //public Action FindNextAction = null;
+        private ScintillaFindForm _findForm = null;
+        private Form _parentForm = null;
 
         public Action<string> StatusChange = null;
 
-        public ScintillaFindText(Scintilla scintillaControl, int scintillaIndicator = 0)
+        //int scintillaIndicator = 0
+        public ScintillaFindText(Scintilla scintillaControl)
         {
             _scintillaControl = scintillaControl;
-            if (scintillaIndicator != 0)
-                _scintillaIndicator = scintillaIndicator;
             InitScintillaControl();
-
-            InitForm();
+            //InitForm();
+            InitFindForm();
+            InitScintillaControlEvent();
+            ControlFindForm.Find(_scintillaControl, InitParentForm);
         }
-
-        //public Scintilla ScintillaControl { get { return _scintillaControl; } set { _scintillaControl = value; } }
 
         private void InitScintillaControl()
         {
@@ -52,9 +53,37 @@ namespace pb.Windows.Forms
             _scintillaControl.Indicators[_scintillaIndicator].Alpha = 30;
         }
 
-        public void ScintillaTextModified()
+        private void InitFindForm()
         {
-            _search = false;
+            _findForm = new ScintillaFindForm();
+            _findForm.SetFindParam = SetFindParam;
+            _findForm.FindNext = FindNext;
+        }
+
+        private void InitParentForm(Form form)
+        {
+            _parentForm = form;
+        }
+
+        public void OpenFindForm()
+        {
+            string word = _scintillaControl.zGetCurrentWord();
+            if (word != null)
+                _findForm.SetText(word);
+            _findForm.Show(_parentForm);
+        }
+
+        public void HideFindForm()
+        {
+            _findForm.Hide();
+        }
+
+        private void InitScintillaControlEvent()
+        {
+            // set _search = false if text is modified
+            // scintillaControl_BeforeDelete scintillaControl_BeforeInsert
+            _scintillaControl.BeforeDelete += (sender, eventArgs) => _search = false;
+            _scintillaControl.BeforeInsert += (sender, eventArgs) => _search = false;
         }
 
         public void SetFindParam(string text, SearchFlags searchFlags = SearchFlags.None)
@@ -244,32 +273,19 @@ namespace pb.Windows.Forms
             return description;
         }
 
-        //private void HighlightWord(string text)
+        //public void ScintillaTextModified()
         //{
-        //    // Remove all uses of our indicator
-        //    _scintillaControl.IndicatorCurrent = _scintillaIndicator;
-        //    _scintillaControl.IndicatorClearRange(0, _scintillaControl.TextLength);
+        //    _search = false;
+        //}
 
-        //    // Update indicator appearance
-        //    _scintillaControl.Indicators[_scintillaIndicator].Style = IndicatorStyle.StraightBox;
-        //    _scintillaControl.Indicators[_scintillaIndicator].Under = true;
-        //    _scintillaControl.Indicators[_scintillaIndicator].ForeColor = Color.Green;
-        //    _scintillaControl.Indicators[_scintillaIndicator].OutlineAlpha = 50;
-        //    _scintillaControl.Indicators[_scintillaIndicator].Alpha = 30;
+        //private void scintillaControl_BeforeDelete(object sender, BeforeModificationEventArgs e)
+        //{
+        //    ScintillaTextModified();
+        //}
 
-        //    // Search the document
-        //    _scintillaControl.TargetStart = 0;
-        //    _scintillaControl.TargetEnd = _scintillaControl.TextLength;
-        //    _scintillaControl.SearchFlags = SearchFlags.None;
-        //    while (_scintillaControl.SearchInTarget(text) != -1)
-        //    {
-        //        // Mark the search results with the current indicator
-        //        _scintillaControl.IndicatorFillRange(_scintillaControl.TargetStart, _scintillaControl.TargetEnd - _scintillaControl.TargetStart);
-
-        //        // Search the remainder of the document
-        //        _scintillaControl.TargetStart = _scintillaControl.TargetEnd;
-        //        _scintillaControl.TargetEnd = _scintillaControl.TextLength;
-        //    }
+        //private void scintillaControl_BeforeInsert(object sender, BeforeModificationEventArgs e)
+        //{
+        //    ScintillaTextModified();
         //}
     }
 }

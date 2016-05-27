@@ -26,6 +26,8 @@ namespace Download.Print
     {
         // parameters
         private int _version = 3;
+        //private int _printTitleVersion = 1;       // 1 ou 2
+        private bool _splitTitle = false;
         private int _gapDayBefore = 0;
         private int _gapDayAfter = 0;
 
@@ -73,6 +75,9 @@ namespace Download.Print
                 case "version":
                     _version = (int)parameter.Value;
                     break;
+                case "splittitle":
+                    _splitTitle = (bool)parameter.Value;
+                    break;
                 case "gapdaybefore":
                     _gapDayBefore = (int)parameter.Value;
                     break;
@@ -103,10 +108,11 @@ namespace Download.Print
             printTitleManager.FindNumberManager = new FindNumberManager(_printList1Config.GetElements("FindPrints/Numbers/Number"), compileRegex: true);
             printTitleManager.FindSpecial = new RegexValuesList(_printList1Config.GetElements("FindPrints/Specials/Special"), compileRegex: true);
             printTitleManager.PrintDirectory = _printList1Config.GetExplicit("FindPrints/UnknowPrintDirectory");
-            if (_version == 4)
-                printTitleManager.SplitTitle = true;
-            else
-                printTitleManager.SplitTitle = false;
+            printTitleManager.SplitTitle = _splitTitle;
+            //if (_version == 4)
+            //    printTitleManager.SplitTitle = true;
+            //else
+            //    printTitleManager.SplitTitle = false;
             if (_version == 6)
                 printTitleManager.Version = 2;
             return printTitleManager;

@@ -26,6 +26,7 @@ namespace Download.Print
         private static bool __traceWarning = false;
         //private int _version = 1;
         private PrintTitleManager _printTitleManager = null;
+        private bool _trySplitTitle = false;
 
         private FindDayManager _findDayManager = null;
         private bool _useFindDay = false;
@@ -42,6 +43,7 @@ namespace Download.Print
         public static bool TraceWarning { get { return __traceWarning; } set { __traceWarning = value; } }
         //public int Version { get { return _version; } set { _version = value; } }
         public PrintTitleManager PrintTitleManager { get { return _printTitleManager; } set { _printTitleManager = value; } }
+        public bool TrySplitTitle { get { return _trySplitTitle; } set { _trySplitTitle = value; } }
         public FindDayManager FindDayManager { get { return _findDayManager; } set { _findDayManager = value; } }
         public bool UseFindDay { get { return _useFindDay; } set { _useFindDay = value; } }
         public int GapDayBefore { get { return _gapDayBefore; } } // set { _gapDayBefore = value; }

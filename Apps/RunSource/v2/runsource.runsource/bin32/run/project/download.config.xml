@@ -13,7 +13,7 @@
   <LocalConfig                                                   value = "$DataDir2$\config\download.config.local.xml" />    <!-- c:\pib\dropbox\pbeuz\Dropbox\dev_data\exe\runsource\download\config\download_config_local.xml -->
   <PrintList1Config                                              value = "print_list1.xml" />
   <PrintList2Config                                              value = "print_list2.xml" />
-  <!--<Test                                                          value = "true" />-->
+  <Test                                                          value = "true" />
   <!--<Test                                                          value = "true" />-->
   
   <UpdateRunSource>

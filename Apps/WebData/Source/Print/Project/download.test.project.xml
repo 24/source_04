@@ -69,6 +69,8 @@
   <Source                           value = "$ProjectRoot$\Source\Print\DownloadManager\ServerManagers.cs" />
   <Source                           value = "$ProjectRoot$\Source\Print\DownloadManager\WebData.cs" />
   <Source                           value = "$ProjectRoot$\Source\Print\DownloadManager\WebDataDownloadFile.cs" />
+  <Source                           value = "$ProjectRoot$\Source\Print\DownloadManager\WebDataFindPrintManager.cs" />
+  <Source                           value = "$ProjectRoot$\Source\Print\DownloadManager\WebDataParameters.cs" />
   <Source                           value = "$ProjectRoot$\Source\Print\DownloadManager\WebDataPrintFileManager.cs" />
   <Source                           value = "$ProjectRoot$\Source\Print\DownloadManager\WebDataRun.cs" />
 

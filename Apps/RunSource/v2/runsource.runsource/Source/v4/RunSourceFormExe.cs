@@ -1,15 +1,15 @@
-﻿using pb;
+﻿using System;
+using System.Drawing;
+using System.Windows.Forms;
+using pb;
 using pb.Compiler;
 using pb.Data.Xml;
 using pb.IO;
 using pb.Windows.Forms;
-using System;
-using System.Drawing;
-using System.Windows.Forms;
 
 namespace runsourced
 {
-    public partial class RunSourceFormExe : pb.Windows.Forms.RunSourceForm
+    public partial class RunSourceFormExe : RunSourceForm
     {
         private ITrace _trace = null;
         private XmlConfig _config = null;
@@ -32,11 +32,42 @@ namespace runsourced
             InitExe();
             InitMenu();
             UpdateRunSourceStatus();
+            Try(SetKeyboardShortcuts);
             this.KeyPreview = true;
             this.Load += RunSourceForm_Load;
             this.FormClosing += RunSourceForm_FormClosing;
             this.FormClosed += RunSourceForm_FormClosed;
-            this.KeyDown += RunSourceForm_KeyDown;
+            //this.KeyDown += RunSourceForm_KeyDown;
+        }
+
+        private void SetKeyboardShortcuts()
+        {
+            // ctrl-N : New (PostMessage)
+            _formKeyboard.SetSimpleKey(Keys.Control | Keys.N, () => PostMessage(_hwnd, WM_CUSTOM_NEW, 0, 0));
+            // ctrl-O : Open (PostMessage)
+            _formKeyboard.SetSimpleKey(Keys.Control | Keys.O, () => PostMessage(_hwnd, WM_CUSTOM_OPEN_FILE, 0, 0));
+            // ctrl-S : Save (PostMessage)
+            _formKeyboard.SetSimpleKey(Keys.Control | Keys.S, () => PostMessage(_hwnd, WM_CUSTOM_SAVE, 0, 0));
+            // ctrl-A : SaveAs (PostMessage)
+            _formKeyboard.SetSimpleKey(Keys.Control | Keys.A, () => PostMessage(_hwnd, WM_CUSTOM_SAVE_AS, 0, 0));
+
+            // F5 : RunCode (PostMessage)
+            _formKeyboard.SetSimpleKey(Keys.F5, () => PostMessage(_hwnd, WM_CUSTOM_RUN_CODE, 0, 0));
+            // shift-F5 : RunCodeOnMainThread (PostMessage)
+            _formKeyboard.SetSimpleKey(Keys.Shift | Keys.F5, () => PostMessage(_hwnd, WM_CUSTOM_RUN_CODE_ON_MAIN_THREAD, 0, 0));
+            // ctrl-F5 : RunCodeWithoutProject (PostMessage)
+            _formKeyboard.SetSimpleKey(Keys.Control | Keys.F5, () => PostMessage(_hwnd, WM_CUSTOM_RUN_CODE_WITHOUT_PROJECT, 0, 0));
+            // shift-ctrl-B : CompileCode (PostMessage)
+            _formKeyboard.SetSimpleKey(Keys.Shift | Keys.Control | Keys.B, () => PostMessage(_hwnd, WM_CUSTOM_COMPILE_CODE, 0, 0));
+            // ctrl-C : AbortExecution (PostMessage)
+            _formKeyboard.SetSimpleKey(Keys.Control | Keys.C, () => PostMessage(_hwnd, WM_CUSTOM_ABORT_EXECUTION, 0, 0));
+
+            // shift-ctrl-C : CompileRunSource (PostMessage)
+            _formKeyboard.SetSimpleKey(Keys.Shift | Keys.Control | Keys.C, () => PostMessage(_hwnd, WM_CUSTOM_COMPILE_RUNSOURCE, 0, 0));
+            // shift-ctrl-R : RestartRunSource (PostMessage)
+            _formKeyboard.SetSimpleKey(Keys.Shift | Keys.Control | Keys.R, () => PostMessage(_hwnd, WM_CUSTOM_RESTART_RUNSOURCE, 0, 0));
+            // shift-ctrl-U : UpdateRunSource (PostMessage)
+            _formKeyboard.SetSimpleKey(Keys.Shift | Keys.Control | Keys.U, () => PostMessage(_hwnd, WM_CUSTOM_UPDATE_RUNSOURCE, 0, 0));
         }
 
         private void RunSourceForm_Load(object sender, EventArgs e)

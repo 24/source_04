@@ -109,12 +109,15 @@ namespace Download.Print
         public bool SplitTitle { get { return _splitTitle; } set { _splitTitle = value; } }
         public int Version { get { return _version; } set { _version = value; } }
 
-        public PrintTitleInfo GetPrintTitleInfo(string title, Date? expectedDate = null)
+        public PrintTitleInfo GetPrintTitleInfo(string title, Date? expectedDate = null, bool? splitTitle = null)
         {
+            bool splitTitle2 = splitTitle != null ? (bool)splitTitle : _splitTitle;
             if (_version == 1)
-                return _GetPrintTitleInfo(title, _splitTitle, expectedDate);
+                //return _GetPrintTitleInfo(title, _splitTitle, expectedDate);
+                return _GetPrintTitleInfo(title, splitTitle2, expectedDate);
             else if (_version == 2)
-                return PrintTitle.GetPrintTitleInfo(this, title, _splitTitle, expectedDate);
+                //return PrintTitle.GetPrintTitleInfo(this, title, _splitTitle, expectedDate);
+                return PrintTitle.GetPrintTitleInfo(this, title, splitTitle2, expectedDate);
             else
                 throw new PBException("unknow version {0}", _version);
         }

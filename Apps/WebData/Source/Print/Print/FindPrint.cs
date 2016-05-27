@@ -139,13 +139,24 @@ namespace Download.Print
 
         private void _Find()
         {
-            GetTitleInfo();
+            bool? splitTitle = null;
+            if (_findPrintManager.TrySplitTitle)
+                splitTitle = false;
+
+            GetTitleInfo(splitTitle);
 
             _FindPrint();
 
             if (!_findPrint.Found)
             {
-                FindDayAndPrint();
+                if (_findPrintManager.TrySplitTitle)
+                {
+                    GetTitleInfo(true);
+                    _FindPrint();
+                }
+
+                if (!_findPrint.Found)
+                    FindDayAndPrint();
             }
 
             GetPrintInfo();
@@ -157,9 +168,9 @@ namespace Download.Print
                 _file = GetPostTypeDirectory(_printType) + "\\" + _file;
         }
 
-        private void GetTitleInfo()
+        private void GetTitleInfo(bool? splitTitle)
         {
-            _titleInfo = _findPrintManager.PrintTitleManager.GetPrintTitleInfo(_sourceTitle, expectedDate: _expectedDate);
+            _titleInfo = _findPrintManager.PrintTitleManager.GetPrintTitleInfo(_sourceTitle, expectedDate: _expectedDate, splitTitle: splitTitle);
 
             _date = _titleInfo.Date;
             _dateType = _titleInfo.DateType;

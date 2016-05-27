@@ -17,7 +17,7 @@ namespace pb.Windows.Forms
             _scintillaControl = scintillaControl;
             InitScintillaControl();
 
-            InitParentForm();
+            //InitParentForm();
         }
 
         //public int BookmarkMargin { get { return _bookmarkMargin; } }
@@ -37,6 +37,8 @@ namespace pb.Windows.Forms
             marker.Symbol = MarkerSymbol.Bookmark;
             marker.SetBackColor(Color.DeepSkyBlue);
             marker.SetForeColor(Color.Black);
+
+            _scintillaControl.MarginClick += scintillaControl_MarginClick;
         }
 
         public void SetBookmark()
@@ -64,7 +66,9 @@ namespace pb.Windows.Forms
         public void GotoPreviousBookmark()
         {
             int line = _scintillaControl.zGetCurrentLineNumber();
-            var prevLine = _scintillaControl.Lines[line - 1].MarkerPrevious((uint)(1 << _bookmarkMarker));
+            int prevLine = -1;
+            if (line > 0)
+                prevLine = _scintillaControl.Lines[line - 1].MarkerPrevious((uint)(1 << _bookmarkMarker));
             if (prevLine == -1)
                 prevLine = _scintillaControl.Lines[_scintillaControl.Lines.Count - 1].MarkerPrevious((uint)(1 << _bookmarkMarker));
             if (prevLine != -1 && prevLine != line)
@@ -73,15 +77,36 @@ namespace pb.Windows.Forms
 
         public void GotoNextBookmark()
         {
-            //var line = scintilla1.LineFromPosition(scintilla1.CurrentPosition);
-            //var nextLine = scintilla1.Lines[++line].MarkerNext(1 << _bookmarkMarker);
             int line = _scintillaControl.zGetCurrentLineNumber();
-            //WriteMessage("next bookmark from {0}", line);
-            var nextLine = _scintillaControl.Lines[line + 1].MarkerNext((uint)(1 << _bookmarkMarker));
+            //Trace.WriteLine("bookmark : GotoNextBookmark()");
+            int nextLine = -1;
+            if (line + 1 < _scintillaControl.Lines.Count)
+            {
+                //Trace.WriteLine("bookmark : next bookmark from line {0}", line);
+                nextLine = _scintillaControl.Lines[line + 1].MarkerNext((uint)(1 << _bookmarkMarker));
+                //Trace.WriteLine("bookmark : nextLine {0}", nextLine);
+            }
             if (nextLine == -1)
+            {
+                //Trace.WriteLine("bookmark : next bookmark from line 0");
                 nextLine = _scintillaControl.Lines[0].MarkerNext((uint)(1 << _bookmarkMarker));
+                //Trace.WriteLine("bookmark : nextLine {0}", nextLine);
+            }
             if (nextLine != -1 && nextLine != line)
+            {
+                //Trace.WriteLine("bookmark : goto line {0}", nextLine);
                 _scintillaControl.Lines[nextLine].Goto();
+            }
+            //Trace.WriteLine();
         }
+
+        private void scintillaControl_MarginClick(object sender, MarginClickEventArgs e)
+        {
+            if (e.Margin == ScintillaMargin.Bookmark)
+            {
+                SetBookmark(_scintillaControl.zGetLineFromPosition(e.Position));
+            }
+        }
+
     }
 }

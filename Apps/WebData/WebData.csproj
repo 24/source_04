@@ -565,6 +565,8 @@
     <Compile Include="Source\Print\DownloadManager\FindPrintManagerCreator.cs" />
     <Compile Include="Source\Print\DownloadManager\PrintTitleManagerCreator.cs" />
     <Compile Include="Source\Print\DownloadManager\WebDataDownloadFile.cs" />
+    <Compile Include="Source\Print\DownloadManager\WebDataFindPrintManager.cs" />
+    <Compile Include="Source\Print\DownloadManager\WebDataParameters.cs" />
     <Compile Include="Source\Print\DownloadManager\WebDataPrintFileManager.cs" />
     <Compile Include="Source\Print\DownloadManager\WebDataRun.cs" />
     <Compile Include="Source\Print\DownloadManager\_old\DownloadAutomateManager_v1.cs" />

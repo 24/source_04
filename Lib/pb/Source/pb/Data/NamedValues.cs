@@ -155,10 +155,17 @@ namespace pb.Data
                     // text "text" : Groups[31] text
                     value = match.Groups[31].Value;
                 }
-                namedValues.Add(name, value);
+                //namedValues.Add(name, value);
+                namedValues.SetValue(name, value);
                 match = match.NextMatch();
             }
             return namedValues;
+        }
+
+        public static void TraceValues(NamedValues<ZValue> values)
+        {
+            foreach (KeyValuePair<string, ZValue> value in values)
+                Trace.WriteLine("name {0} value {1}", value.Key, value.Value);
         }
     }
 

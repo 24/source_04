@@ -2351,6 +2351,15 @@ Trace.WriteLine("{0}", zfile.AreFileEqual(@"c:\pib\_dl\_pib\dl\golden-ddl.net\pr
 //************************************************************************************************************************************************************************************
 // $$info.manage.print.directory
 
+// manage new Journaux
+string sourceDirectory = @"g:\pib\media\ebook\_dl\_dl_pib\journaux\05\Journaux";
+string destinationDirectory = @"g:\pib\media\ebook\Journaux";
+//bool simulate = true; string logFile = @"c:\pib\dev_data\exe\runsource\download\print\RenamePrintFiles_simulate.txt";
+bool simulate = false; string logFile = @"c:\pib\dev_data\exe\runsource\download\print\RenamePrintFiles.txt";
+//string parameters = null; // int version = 6; bool dailyPrintManager = false; int gapDayBefore = 0; int gapDayAfter = 0;
+string parameters = "dailyPrintManager = true, int gapDayBefore = 1, int gapDayAfter = 1, TrySplitTitle = true";
+WebData.RenameDailyPrintFiles(sourceDirectory, destinationDirectory, logFile, simulate, parameters);
+
 // manage new print
 string[] directories = new string[] {
 	//@"g:\pib\media\ebook\_dl\_dl_pib\print\03\print"
@@ -2383,18 +2392,7 @@ DownloadAutomate_f.Test_ManageDirectories_01(directories, @"g:\pib\media\ebook\b
 //  .zRenameDailyPrintFiles(DownloadAutomate_f.CreateFindPrintManager(version: 6, dailyPrintManager: true, gapDayBefore: 5, gapDayAfter: 2), @"g:\pib\media\ebook\Journaux", simulate: true);
 
 
-// manage new Journaux
-//string sourceDirectory = @"c:\pib\_dl\_dl\_pib\dl\print\.01_quotidien\Journaux";
-//string destinationDirectory = @"c:\pib\_dl\_dl\_pib\dl\print\.01_quotidien";
-string sourceDirectory = @"g:\pib\media\ebook\_dl\_dl_pib\journaux\04\print\.01_quotidien\Journaux";
-string destinationDirectory = @"g:\pib\media\ebook\Journaux";
-//bool simulate = true; string logFile = @"c:\pib\dev_data\exe\runsource\download\print\RenamePrintFiles_simulate.txt";
-bool simulate = false; string logFile = @"c:\pib\dev_data\exe\runsource\download\print\RenamePrintFiles.txt";
-//string parameters = null; // int version = 6; bool dailyPrintManager = false; int gapDayBefore = 0; int gapDayAfter = 0;
-string parameters = "dailyPrintManager = true, int gapDayBefore = 1, int gapDayAfter = 0";
-WebData.RenameDailyPrintFiles(sourceDirectory, destinationDirectory, logFile, simulate, parameters);
-
-zmongo.FileReader<RenamePrintFile>(@"c:\pib\dev_data\exe\runsource\download\print\RenamePrintFiles_06.txt").zView();
+zmongo.FileReader<RenamePrintFile>(@"c:\pib\dev_data\exe\runsource\download\print\RenamePrintFiles_14.txt").zView();
 zmongo.FileReader<RenamePrintFile>(logFile).OrderBy(r => r.FormatedTitle).zView();
 //PrintFileManager_v2.GetDailyPrintFiles(sourceJournaux)
 //  .zRenameDailyPrintFiles(DownloadAutomate_f.CreateFindPrintManager(version: version, dailyPrintManager: dailyPrintManager, gapDayBefore: gapDayBefore, gapDayAfter: gapDayAfter),
@@ -2431,7 +2429,11 @@ DownloadAutomate_f.Test_ManageDirectories_01(new string[] { @"g:\pib\media\ebook
 
 
 FindPrint.TraceWarning = true;
+WebData.CreateFindPrintManager("dailyPrintManager = true, gapDayBefore = 1, gapDayAfter = 0").Find("L' Equipe du  mardi  19 janvier 2016.pdf", PrintType.Print, expectedDate: Date.Parse("2016-04-11")).zTraceJson();
+WebData.CreateFindPrintManager("dailyPrintManager = true, gapDayBefore = 1, gapDayAfter = 0").Find("figaro 11-04-2016", PrintType.Print, expectedDate: Date.Parse("2016-04-11")).zTraceJson();
 WebData.CreateFindPrintManager("dailyPrintManager = true, gapDayBefore = 1, gapDayAfter = 0").Find("Le Journal du Dimanche - 3 Avril 2016", PrintType.Print, expectedDate: Date.Parse("2016-04-03")).zTraceJson();
+WebData.CreateFindPrintManager("dailyPrintManager = true, gapDayBefore = 1, gapDayAfter = 0, SplitTitle = true").Find("Le Journal du Dimanche - 3 Avril 2016", PrintType.Print, expectedDate: Date.Parse("2016-04-03")).zTraceJson();
+WebData.CreateFindPrintManager("dailyPrintManager = true, gapDayBefore = 1, gapDayAfter = 0, TrySplitTitle = true").Find("Le Journal du Dimanche - 3 Avril 2016", PrintType.Print, expectedDate: Date.Parse("2016-04-03")).zTraceJson();
 WebData.CreateFindPrintManager("dailyPrintManager = true, gapDayBefore = 1, gapDayAfter = 0").Find("L' Equipe du dimanche 10 avril 2016", PrintType.Print, expectedDate: Date.Parse("2016-04-10")).zTraceJson();
 WebData.CreateFindPrintManager("dailyPrintManager = true, gapDayBefore = 1, gapDayAfter = 0").Find("", PrintType.Print, expectedDate: Date.Parse("2016-04-03")).zTraceJson();
 WebData.CreateFindPrintManager("dailyPrintManager = true, gapDayBefore = 1, gapDayAfter = 0").Find("", PrintType.Print, expectedDate: Date.Parse("2016-04-03")).zTraceJson();
@@ -5250,6 +5252,19 @@ RunSource.CurrentRunSource.SetProjectFromSource();
 RunSource.CurrentRunSource.SetProject(@"$Root$\Test\Test.Test_01\Source\Test_Form\Test_RunSourceForm\v4\Test_RunSourceForm.v4.project.xml");
 RunSourceForm.Test = true;
 new Test_RunSourceFormExe().Show();
+
+Trace.WriteLine("toto");
+Trace.WriteLine(RunSource.CurrentRunSource.ProjectFile);
+RunSource.CurrentRunSource.SetProjectFromSource();
+RunSource.CurrentRunSource.SetProject(@"$Root$\Test\Test.Test_01\Source\Test_Form\Test_Form\Test_FormKeyboard.project.xml");
+FormKeyboard.Trace = true;
+new Test_FormKeyboard().Show();
+
+Trace.WriteLine("toto");
+Trace.WriteLine(RunSource.CurrentRunSource.ProjectFile);
+RunSource.CurrentRunSource.SetProjectFromSource();
+RunSource.CurrentRunSource.SetProject(@"$Root$\Test\Test.Test_01\Source\Test_Form\Test_Form\Test_FormKeyDown.project.xml");
+new Test_FormKeyDown().Show();
 
 Trace.WriteLine("toto");
 Trace.WriteLine(RunSource.CurrentRunSource.ProjectFile);

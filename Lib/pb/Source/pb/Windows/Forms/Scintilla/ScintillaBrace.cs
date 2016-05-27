@@ -36,14 +36,14 @@ namespace pb.Windows.Forms
             _scintillaControl.Styles[Style.BraceBad].ForeColor = Color.Red;
 
             _scintillaControl.UpdateUI += scintillaControl_UpdateUI;
-            ControlFindForm.Find(_scintillaControl, InitForm);
+            //ControlFindForm.Find(_scintillaControl, InitForm);
         }
 
-        private void InitForm(Form form)
-        {
-            form.KeyDown += ParentForm_KeyDown;
-            //form.KeyPreview = true;
-        }
+        //private void InitForm(Form form)
+        //{
+        //    form.KeyDown += ParentForm_KeyDown;
+        //    //form.KeyPreview = true;
+        //}
 
         private BraceInfo GetBraceInfo(int position)
         {
@@ -104,7 +104,7 @@ namespace pb.Windows.Forms
             return null;
         }
 
-        private void GotoBraceMatch()
+        public void GotoBraceMatch()
         {
             BraceInfo braceInfo = GetCurrentBraceInfo();
             if (braceInfo != null)
@@ -141,11 +141,11 @@ namespace pb.Windows.Forms
             }
         }
 
-        private void ParentForm_KeyDown(object sender, KeyEventArgs e)
-        {
-            // ctrl+^
-            if (!e.Alt && e.Control && !e.Shift && e.KeyCode == Keys.Oem6)
-                GotoBraceMatch();
-        }
+        //private void ParentForm_KeyDown(object sender, KeyEventArgs e)
+        //{
+        //    // ctrl+^
+        //    if (!e.Alt && e.Control && !e.Shift && e.KeyCode == Keys.Oem6)
+        //        GotoBraceMatch();
+        //}
     }
 }

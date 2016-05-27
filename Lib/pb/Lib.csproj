@@ -303,6 +303,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Source\pb\Windows\Forms\ControlFindForm.cs" />
+    <Compile Include="Source\pb\Windows\Forms\FormKeyboard.cs" />
     <Compile Include="Source\pb\Windows\Forms\LogTextBox.cs">
       <SubType>Component</SubType>
     </Compile>

@@ -368,6 +368,9 @@
       <Link>SourceLnk\Lib\pb\Windows\Forms\DataGridViewControl.cs</Link>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Windows\Forms\FormKeyboard.cs">
+      <Link>SourceLnk\Lib\pb\Windows\Forms\FormKeyboard.cs</Link>
+    </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Windows\Forms\LogTextBox.cs">
       <Link>SourceLnk\Lib\pb\Windows\Forms\LogTextBox.cs</Link>
       <SubType>Component</SubType>
@@ -553,6 +556,18 @@
     </Compile>
     <Compile Include="Source\Test_Form\Test\TestToolStrip.Designer.cs">
       <DependentUpon>TestToolStrip.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Source\Test_Form\Test_Form\Test_FormKeyboard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Source\Test_Form\Test_Form\Test_FormKeyboard.Designer.cs">
+      <DependentUpon>Test_FormKeyboard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Source\Test_Form\Test_Form\Test_FormKeyDown.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Source\Test_Form\Test_Form\Test_FormKeyDown.Designer.cs">
+      <DependentUpon>Test_FormKeyDown.cs</DependentUpon>
     </Compile>
     <Compile Include="Source\Test_Form\Test_RunSourceForm\v1\RunSourceForm.cs">
       <SubType>form</SubType>
@@ -819,6 +834,9 @@
     <EmbeddedResource Include="Source\Test_Form\Test\TestToolStrip.resx">
       <DependentUpon>TestToolStrip.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Source\Test_Form\Test_Form\Test_FormKeyDown.resx">
+      <DependentUpon>Test_FormKeyDown.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Source\Test_Form\Test_RunSourceForm\v1\RunSourceForm.resx">
       <DependentUpon>RunSourceForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -876,6 +894,12 @@
     <Content Include="Source\Test_Directory\Test_directory_project.xml" />
     <Content Include="Source\Test_FileWatcher\Test_cpp_exe_project.xml" />
     <Content Include="Source\Test_FileWatcher\Test_FileWatcher_project.xml" />
+    <Content Include="Source\Test_Form\Test_Form\Test_FormKeyboard.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Source\Test_Form\Test_Form\Test_FormKeyDown.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Source\Test_Form\Test_ParentChanged\Test_ParentChanged.project.xml">
       <SubType>Designer</SubType>
     </Content>

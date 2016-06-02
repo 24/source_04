@@ -136,10 +136,10 @@ namespace pb.Compiler
             return _generateAssembly;
         }
 
-        private CompilerProject GetRunSourceConfigCompilerDefaultValues()
-        {
-            return CompilerProject.Create(GetRunSourceConfig().zGetConfigElement("CompilerDefaultValues"));
-        }
+        //private CompilerProject GetRunSourceConfigCompilerDefaultValues()
+        //{
+        //    return CompilerProject.Create(GetRunSourceConfig().zGetConfigElement("CompilerDefaultValues"));
+        //}
 
         //private void _RunCode(string code, bool useNewThread = true, bool compileWithoutProject = false, bool allowMultipleRun = false, bool dontRunCode = false)
         private void _RunCode(string code, bool runOnMainThread = false, bool compileWithoutProject = false, bool allowMultipleRun = false, bool dontRunCode = false, bool callInit = false)
@@ -184,8 +184,8 @@ namespace pb.Compiler
 
                     if (!dontRunCode)
                     {
-                        //RunCode_ExecuteCode(compiler.Results.CompiledAssembly, codeResult, compilerProject, compiler, useNewThread);
-                        RunCode_ExecuteCode(compiler.Results.CompiledAssembly, codeResult, compilerProject, compiler, runOnMainThread, callInit);
+                        //RunCode_ExecuteCode(compiler.Results.CompiledAssembly, codeResult, compilerProject, compiler, runOnMainThread, callInit);
+                        RunCode_ExecuteCode(compiler.Results.GetCompiledAssembly(), codeResult, compilerProject, compiler, runOnMainThread, callInit);
                         doEndRun = false;
                     }
                 }
@@ -227,7 +227,7 @@ namespace pb.Compiler
                 compiler.SetProjectCompilerFile(compilerProject.GetProjectCompilerFile());
 
             // CompilerDefaultValues from runsource.runsource.config.xml runsource.runsource.config.local.xml
-            compiler.SetParameters(GetRunSourceConfigCompilerDefaultValues(), runCode: true);
+            //compiler.SetParameters(GetRunSourceConfigCompilerDefaultValues(), runCode: true);
             compiler.SetParameters(compilerProject, runCode: true);
 
             compiler.Compile();
@@ -253,11 +253,20 @@ namespace pb.Compiler
 
             _executionAborted = false;
 
+            foreach (CompilerAssembly compilerAssembly in compiler.Assemblies.Values)
+            {
+                //WriteLine(2, "  Assembly              \"{0}\" resolve {1}", assembly.File, assembly.Resolve);
+                if (compilerAssembly.Resolve)
+                    AssemblyResolve.Add(compilerAssembly.File, compilerAssembly.ResolveName);
+            }
+
             _runSourceInitEndMethods.CallInit = callInit;
             if (callInit)
                 _runSourceInitEndMethods.CallInitMethods(compilerProject.GetInitMethods(), compilerProject.GetEndMethods(), methodName => runCode.GetMethod(methodName));
 
             runCode.Run(runOnMainThread);
+
+            AssemblyResolve.Clear();
         }
 
         //private void RunCode_EndRun(bool error)

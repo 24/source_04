@@ -4,6 +4,8 @@
   <Root                             value = "..\..\..\..\.." />
   <ProjectRoot                      value = "..\..\.." />
 
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\CSharp.Default.project.xml" />
+
   <Target                           value = "library" /> <!-- exe (exe console default), library (dll), module (.netmodule), winexe (exe windows) -->
 	<Output                           value = "bin32\ebook.download.dll" />
   <CopySourceFiles                  value = "true" />

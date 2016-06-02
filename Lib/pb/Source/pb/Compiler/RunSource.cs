@@ -334,7 +334,7 @@ namespace pb.Compiler
         }
 
         // $$ProjectDefaultValues disable
-        //public CompilerProject GetRunSourceConfigProjectDefaultValues()
+        // used to compile without project
         public CompilerProject GetDefaultProject()
         {
             string projectFile = GetRunSourceConfig().Get("DefaultProject");
@@ -515,7 +515,7 @@ namespace pb.Compiler
             Compiler compiler = new Compiler();
             //compiler.DefaultDirectory = zPath.GetDirectoryName(pathProject);
             // CompilerDefaultValues from runsource.runsource.config.xml runsource.runsource.config.local.xml
-            compiler.SetParameters(GetRunSourceConfigCompilerDefaultValues(), runCode: true);
+            //compiler.SetParameters(GetRunSourceConfigCompilerDefaultValues(), runCode: true);
             CompilerProject compilerProject = CompilerProject.Create(new XmlConfig(pathProject).GetConfigElementExplicit("/AssemblyProject"));
             compiler.SetParameters(compilerProject);
             compiler.SetProjectCompilerFile(compilerProject.GetProjectCompilerFile());

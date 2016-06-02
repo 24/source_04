@@ -7,6 +7,11 @@ using pb.Data.Xml;
 using pb.IO;
 using pb.Windows.Forms;
 
+// - améliorer ctrl-f prendre selection et ds la dlg sel le text
+// - faire ctrl-m + ctrl-m
+// - faire ctrl-g
+
+
 namespace runsourced
 {
     public partial class RunSourceFormExe : RunSourceForm

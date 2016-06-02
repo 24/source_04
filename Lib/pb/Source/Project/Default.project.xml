@@ -1,6 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <AssemblyProject>
-  <!--<Root                             value = "..\..\..\..\.." />-->
+  <!-- used to compile without project  -->
+
+  <IncludeProject                   value = "CSharp.Default.project.xml" />
 
   <NameSpace                        value = "RunSourceExe" />     <!-- namespace used when no project -->
   <Using                            value = "System" />

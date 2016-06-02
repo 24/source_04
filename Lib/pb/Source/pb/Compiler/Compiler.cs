@@ -1,11 +1,8 @@
 using System;
-using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 using System.IO;
-using Microsoft.CSharp;
-using Microsoft.JScript;
 using pb.IO;
 
 /*******************
@@ -45,6 +42,62 @@ using pb.IO;
 //   pas besoin de faire UpdateDirectory par exemple Extension_01.dll est copié dans runsource\exe\run donc on peut maj Extension_01.dll dans library\pib\Extension_01
 //   <UpdateDirectory                  source = "$Root$\..\library\pib\Extension_01\new" destination = "$Root$\..\library\pib\Extension_01" />
 
+
+
+// rename :
+//   Compiler                                 ProjectCompiler
+//   CompilerException                        to delete
+//   ICompiler                                IProjectCompiler
+//   ICompilerResults                         IProjectCompilerResults
+//   CompilerProject                          CompilerProjectReader
+//   ICompilerProject                         ICompilerProjectReader
+//   CompilerProviderOption                   to delete
+//   ICompilerZZ                              ICompiler
+//   zzCSharpCodeProvider                     CSharp1Compiler
+//   CSharpCodeProviderCompilerResults        CSharp1CompilerResults
+//   zzJScriptCodeProvider                    JScriptCompiler
+
+
+
+// project compiler :
+//   ProjectCompiler          : project compiler
+//   IProjectCompiler         : interface project compiler
+//   CompilerProjectReader    : project reader
+//   ICompilerProjectReader
+//   CompilerFile
+//   CompilerAssembly
+// compiler result :
+//   ResourceCompilerResults
+//   CompilerError            : 
+//   ResourceCompilerError
+//   IProjectCompilerResults
+// compiler :
+//   ICompiler                : interface compiler
+//   CSharp1Compiler          : CSharp compiler until v4
+//   CSharp1CompilerResults   : result of CSharp compiler until v4
+//   CSharp5Compiler          : CSharp compiler from v5 (roslyn)
+//   JScriptCompiler          : JScript compiler
+// generate code
+//   GenerateAssembly         : generate indexed assembly name
+//   GenerateCSharpCode       : generate CSharp code
+//   GenerateCSharpCodeResult
+//   CSharpCodeWriter         : write CSharp code
+//   ClassOptions             : class type
+// other :
+//   AssemblyResolve
+// RunSource :
+//   RunSource
+//   IRunSource
+//   EndRunCodeInfo
+//   RemoteRunSource
+//   RunCode
+//   RunSourceInitEndMethods
+//   CompilerGlobalExtension
+//   RunSourceHtmlRun
+//   RunSourceUpdate
+//   RunSourceUpdateDirectory
+
+
 namespace pb.Compiler
 {
     public class CompilerException : Exception
@@ -57,7 +110,7 @@ namespace pb.Compiler
 
     public class Compiler : ICompiler
     {
-        public static int __traceLevel = 1;
+        public static int __traceLevel = 1;    // 0 no message, 1 default messages, 2 detailled messaged
 
         private CompilerFile _projectCompilerFile = null;
         private string _projectDirectory = null;
@@ -80,9 +133,9 @@ namespace pb.Compiler
         private string _finalOutputAssembly = null;
         private string _compilerOptions = null;
         private ResourceCompilerResults _resourceResults = new ResourceCompilerResults();
-        private CompilerResults _results = null;
+        //private CompilerResults _results = null;
+        private ICompilerResults _results = null;
         private List<string> _copyOutputDirectories = new List<string>();
-        //private List<CompilerUpdateDirectory> _updateDirectories = new List<CompilerUpdateDirectory>();
         private static string __zipSourceFilename = ".source.zip";
         private bool _copySourceFiles = false;
         private bool _copyRunSourceSourceFiles = false;
@@ -109,7 +162,7 @@ namespace pb.Compiler
         public string OutputAssembly { get { return _outputAssembly; } }
         public string CompilerOptions { get { return _compilerOptions; } set { _compilerOptions = value; } }
         public ResourceCompilerResults ResourceResults { get { return _resourceResults; } }
-        public CompilerResults Results { get { return _results; } }
+        public ICompilerResults Results { get { return _results; } }
         public IEnumerable<string> CopyOutputDirectories { get { return _copyOutputDirectories; } }
         //public IEnumerable<CompilerUpdateDirectory> UpdateDirectories { get { return _updateDirectories; } }
         public static string ZipSourceFilename { get { return __zipSourceFilename; } }
@@ -118,7 +171,8 @@ namespace pb.Compiler
         // ICompiler
         public bool HasError()
         {
-            if ((_results != null && _results.Errors.HasErrors) || _resourceResults.HasError)
+            //if ((_results != null && _results.Errors.HasErrors) || _resourceResults.HasError)
+            if ((_results != null && _results.HasErrors()) || _resourceResults.HasError)
                 return true;
             else
                 return false;
@@ -426,9 +480,6 @@ namespace pb.Compiler
             SetFinalOutputAssembly();
             if (_finalOutputDir != null)
                 zDirectory.CreateDirectory(_finalOutputDir);
-            //WriteLine(1, "Compile \"{0}\"", gsFinalOutputAssembly);
-            //_defaultDir
-            ////WriteLine(1, "Compiler _defaultDir \"{0}\"", _defaultDir);
             WriteLine(2, "Compile \"{0}\"", _finalOutputAssembly);
             WriteLine(2, "  DebugInformation      {0}", _debugInformation);
             WriteLine(2, "  GenerateInMemory      {0}", _generateInMemory);
@@ -440,92 +491,141 @@ namespace pb.Compiler
             if (_appConfig != null)
                 WriteLine(2, "  app.config            \"{0}\"", _appConfig.File);
 
-            CompilerParameters options = new CompilerParameters();
-            options.CompilerOptions = _compilerOptions;
-            options.GenerateInMemory = _generateInMemory;
-            options.OutputAssembly = _finalOutputAssembly;
-            options.GenerateExecutable = _generateExecutable;
-            options.IncludeDebugInformation = _debugInformation;
-            // WarningLevel : from http://msdn.microsoft.com/en-us/library/13b90fz7.aspx
-            //   0 Turns off emission of all warning messages.
-            //   1 Displays severe warning messages.
-            //   2 Displays level 1 warnings plus certain, less-severe warnings, such as warnings about hiding class members.
-            //   3 Displays level 2 warnings plus certain, less-severe warnings, such as warnings about expressions that always evaluate to true or false.
-            //   4 (the default) Displays all level 3 warnings plus informational warnings.
-            options.WarningLevel = _warningLevel;
-            //foreach (string s in gAssemblyList.Values)
+            //CompilerParameters options = new CompilerParameters();
+            //options.CompilerOptions = _compilerOptions;
+            //options.GenerateInMemory = _generateInMemory;
+            //options.OutputAssembly = _finalOutputAssembly;
+            //options.GenerateExecutable = _generateExecutable;
+            //options.IncludeDebugInformation = _debugInformation;
+            //// WarningLevel : from http://msdn.microsoft.com/en-us/library/13b90fz7.aspx
+            ////   0 Turns off emission of all warning messages.
+            ////   1 Displays severe warning messages.
+            ////   2 Displays level 1 warnings plus certain, less-severe warnings, such as warnings about hiding class members.
+            ////   3 Displays level 2 warnings plus certain, less-severe warnings, such as warnings about expressions that always evaluate to true or false.
+            ////   4 (the default) Displays all level 3 warnings plus informational warnings.
+            //options.WarningLevel = _warningLevel;
+            //foreach (CompilerAssembly assembly in _assemblyList.Values)
+            //{
+            //    //WriteLine(2, "  Assembly              \"{0}\" resolve {1}", assembly.File, assembly.Resolve);
+            //    options.ReferencedAssemblies.Add(assembly.File);
+            //    // transfered to RunSource.RunCode_ExecuteCode()
+            //    //if (assembly.Resolve)
+            //    //    AssemblyResolve.Add(assembly.File, assembly.ResolveName);
+            //}
+
+
+            //CompilerFile[] resources = GetCompilerFilesType(".resx");
+            //string[] compiledResources = CompileResources(resources);
+            //foreach (string compiledResource in compiledResources)
+            //{
+            //    WriteLine(2, "  Resource              \"{0}\"", compiledResource);
+            //    options.EmbeddedResources.Add(compiledResource);
+            //}
+
+            //WriteLine(2, "  Resource error        {0}", _resourceResults.Errors.Count);
+            //if (_resourceResults.HasError)
+            //    return;
+
+            //CodeDomProvider provider = null;
+            //string sourceExt = null;
+            //// _language : CSharp, JScript
+            //if (_language == null)
+            //    throw new CompilerException("error undefined language");
+            //string language = _language.ToLower();
+            //if (language == "csharp")
+            //{
+            //    provider = new CSharpCodeProvider(_providerOption);
+            //    sourceExt = ".cs";
+            //}
+            //else if (language == "jscript")
+            //{
+            //    provider = new JScriptCodeProvider();
+            //    sourceExt = ".js";
+            //}
+            //else
+            //    throw new CompilerException("error unknow language \"{0}\"", _language);
+            //string[] sources = GetFilesType(sourceExt);
+            //_results = provider.CompileAssemblyFromFile(options, sources);
+            //WriteLine(2, "  Compile error warning {0}", _results.Errors.Count);
+            //WriteLine(2, "  Compile has error     {0}", _results.Errors.HasErrors);
+            //WriteLine(2, "  Compile has warning   {0}", _results.Errors.HasWarnings);
+            //provider.Dispose();
+
+            ICompilerZZ compiler = GetCompiler(_language);
+
+            compiler.ProviderOption = _providerOption;
+            compiler.CompilerOptions = _compilerOptions;
+            compiler.GenerateInMemory = _generateInMemory;
+            compiler.OutputAssembly = _finalOutputAssembly;
+            compiler.GenerateExecutable = _generateExecutable;
+            compiler.DebugInformation = _debugInformation;
+            compiler.WarningLevel = _warningLevel;
+            compiler.AddSources(GetFilesByType(GetSourceExtension(_language)));
             foreach (CompilerAssembly assembly in _assemblyList.Values)
             {
                 WriteLine(2, "  Assembly              \"{0}\" resolve {1}", assembly.File, assembly.Resolve);
-                options.ReferencedAssemblies.Add(assembly.File);
-                if (assembly.Resolve)
-                    AssemblyResolve.Add(assembly.File, assembly.ResolveName);
+                compiler.AddReferencedAssembly(assembly.File);
             }
+
+            // compile resources files
             CompilerFile[] resources = GetCompilerFilesType(".resx");
-            //string[] compiledResources = CompileResources(resources, gsFinalOutputDir);
             string[] compiledResources = CompileResources(resources);
             foreach (string compiledResource in compiledResources)
             {
                 WriteLine(2, "  Resource              \"{0}\"", compiledResource);
-                options.EmbeddedResources.Add(compiledResource);
+                compiler.AddEmbeddedResource(compiledResource);
             }
-
             WriteLine(2, "  Resource error        {0}", _resourceResults.Errors.Count);
-            if (_resourceResults.HasError) return;
+            if (_resourceResults.HasError)
+                return;
 
-            //CSharpCodeProvider provider = new CSharpCodeProvider(gProviderOption);
-            CodeDomProvider provider = null;
-            string sourceExt = null;
-            //gLanguage  CSharp, JScript
-            if (_language == null)
-                throw new CompilerException("error undefined language");
-            string language = _language.ToLower();
-            if (language == "csharp")
-            {
-                provider = new CSharpCodeProvider(_providerOption);
-                sourceExt = ".cs";
-            }
-            else if (language == "jscript")
-            {
-                provider = new JScriptCodeProvider();
-                sourceExt = ".js";
-            }
-            else
-                throw new CompilerException("error unknow language \"{0}\"", _language);
-            //string[] sSources = GetFilesType(".cs");
-            string[] sources = GetFilesType(sourceExt);
-            //string currentDirectory = zDirectory.GetCurrentDirectory();
-            //Directory.SetCurrentDirectory(zapp.GetAppDirectory());
-            //cTrace.Trace("Compiler.Compile() : change current directory to {0}", cu.GetAppDirectory());
-            _results = provider.CompileAssemblyFromFile(options, sources);
-            WriteLine(2, "  Compile error warning {0}", _results.Errors.Count);
-            WriteLine(2, "  Compile has error     {0}", _results.Errors.HasErrors);
-            WriteLine(2, "  Compile has warning   {0}", _results.Errors.HasWarnings);
-            //Directory.SetCurrentDirectory(currentDirectory);
-            //cTrace.Trace("Compiler.Compile() : restore current directory to {0}", currentDirectory);
-            provider.Dispose();
+            _results = compiler.Compile();
 
-            //CopyAssemblyToOutputDir();
-            //if (gResults.PathToAssembly != null && !gbGenerateInMemory)
-            //{
-            //    List<string> copiedFiles = CopyReferencedAssembliesToDirectory(zpath.PathGetDirectory(gResults.PathToAssembly));
-            //    _outputFiles.AddRange(copiedFiles);
-            //}
+            WriteLine(2, "  Compile error warning {0}", _results.ErrorsCount);
+            WriteLine(2, "  Compile has error     {0}", _results.HasErrors());
+            WriteLine(2, "  Compile has warning   {0}", _results.HasWarnings());
 
-            //CopyFileToOutputDir();
-            //if (gResults.PathToAssembly != null)
-            //{
-            //    List<string> copiedFiles = CopyFilesToDirectory(zpath.PathGetDirectory(gResults.PathToAssembly));
-            //    _outputFiles.AddRange(copiedFiles);
-            //}
 
             if (_copySourceFiles)
                 CopySourceFiles();
 
-            if (_results.PathToAssembly != null)
+            //if (_results.PathToAssembly != null)
+            if (_results.GetCompiledAssemblyPath() != null)
                 CopyResultFilesToDirectory();
 
             CopyOutputToDirectories();
+        }
+
+        private static ICompilerZZ GetCompiler(string language)
+        {
+            if (language == null)
+                throw new CompilerException("error undefined language");
+            ICompilerZZ compiler = null;
+            string language2 = language.ToLower();
+            if (language2 == "csharp")
+            {
+                //provider = new CSharpCodeProvider(_providerOption);
+                compiler = new zzCSharpCodeProvider();
+            }
+            else if (language2 == "jscript")
+            {
+                //provider = new JScriptCodeProvider();
+                compiler = new zzJScriptCodeProvider();
+            }
+            else
+                throw new CompilerException("error unknow language \"{0}\"", language);
+            return compiler;
+        }
+
+        private static string GetSourceExtension(string language)
+        {
+            string language2 = language.ToLower();
+            if (language2 == "csharp")
+                return ".cs";
+            else if (language == "jscript")
+                return ".js";
+            else
+                throw new CompilerException("error unknow language \"{0}\"", language);
         }
 
         private void SetFinalOutputAssembly()
@@ -584,9 +684,25 @@ namespace pb.Compiler
             return SourcesList.ToArray();
         }
 
-        private string[] GetFilesType(params string[] types)
+        //private string[] GetFilesType(params string[] types)
+        //{
+        //    List<string> SourcesList = new List<string>();
+        //    for (int i = 0; i < types.Length; i++)
+        //        types[i] = types[i].ToLower();
+        //    foreach (CompilerFile source in _sourceList.Values)
+        //    {
+        //        string ext = zPath.GetExtension(source.File).ToLower();
+        //        foreach (string type in types)
+        //        {
+        //            if (ext == type)
+        //                SourcesList.Add(source.File);
+        //        }
+        //    }
+        //    return SourcesList.ToArray();
+        //}
+
+        private IEnumerable<string> GetFilesByType(params string[] types)
         {
-            List<string> SourcesList = new List<string>();
             for (int i = 0; i < types.Length; i++)
                 types[i] = types[i].ToLower();
             foreach (CompilerFile source in _sourceList.Values)
@@ -595,10 +711,9 @@ namespace pb.Compiler
                 foreach (string type in types)
                 {
                     if (ext == type)
-                        SourcesList.Add(source.File);
+                        yield return source.File;
                 }
             }
-            return SourcesList.ToArray();
         }
 
         public string[] CompileResources(CompilerFile[] resources)
@@ -725,7 +840,9 @@ namespace pb.Compiler
         // ICompiler
         public DataTable GetCompilerMessagesDataTable()
         {
-            if ((_results == null || _results.Errors.Count == 0) && !_resourceResults.HasError) return null;
+            //if ((_results == null || _results.Errors.Count == 0) && !_resourceResults.HasError)
+            if ((_results == null || _results.ErrorsCount == 0) && !_resourceResults.HasError)
+                return null;
             DataTable dt = new DataTable();
             dt.Columns.Add("ErrorNumber", typeof(string));
             dt.Columns.Add("Source", typeof(string));
@@ -737,18 +854,9 @@ namespace pb.Compiler
                 dt.Rows.Add(null, zPath.GetFileName(err.FileName), null, null, true, err.ErrorText);
             if (_results != null)
             {
-                foreach (CompilerError err in _results.Errors)
-                {
-                    //DataRow row = dt.NewRow();
-                    //row["ErrorNumber"] = err.ErrorNumber;
-                    //row["Source"] = zPath.GetFileName(err.FileName);
-                    //row["Line"] = err.Line;
-                    //row["Column"] = err.Column;
-                    //row["Error"] = !err.IsWarning;
-                    //row["Message"] = err.ErrorText;
-                    //dt.Rows.Add(row);
+                //foreach (CompilerError err in _results.Errors)
+                foreach (CompilerError err in _results.GetErrors())
                     dt.Rows.Add(err.ErrorNumber, zPath.GetFileName(err.FileName), err.Line, err.Column, !err.IsWarning, err.ErrorText);
-                }
             }
             return dt;
         }
@@ -764,36 +872,21 @@ namespace pb.Compiler
             CopyResultFilesToDirectory(null);
         }
 
-        //private void SaveUpdateDirectories()
-        //{
-        //    foreach (CompilerUpdateDirectory updateDirectory in _updateDirectories)
-        //    {
-        //    }
-        //}
-
         // ICompiler
+        // if directory = null copy only referenced assembly, files, app.config to output directory
         public void CopyResultFilesToDirectory(string directory)
         {
-            //List<string> copiedFiles = new List<string>();
-
-            //if (gResults.PathToAssembly == null || gbGenerateInMemory)
-            //    return;
-
-            if (_results.PathToAssembly == null)
+            //if (_results.PathToAssembly == null)
+            if (_results.GetCompiledAssemblyPath() == null)
                 return;
 
             if (directory != null)
                 WriteLine(1, "  copy result files to directory \"{0}\"", directory);
 
-            //if (directory != null)
-            //    TraceLevel = 2;
-
-            //if (_results.PathToAssembly != null)
-            //{
-
             if (!_generateInMemory && directory != null)
             {
-                string file = _results.PathToAssembly;
+                //string file = _results.PathToAssembly;
+                string file = _results.GetCompiledAssemblyPath();
                 if (zfile.CopyFileToDirectory(file, directory, options: CopyFileOptions.OverwriteReadOnly | CopyFileOptions.CopyOnlyIfNewer) != null)
                     WriteLine(2, "    copy assembly \"{0}\" to \"{1}\"", file, directory);
 
@@ -807,7 +900,8 @@ namespace pb.Compiler
 
             if (directory == null)
             {
-                directory = zPath.GetDirectoryName(_results.PathToAssembly);
+                //directory = zPath.GetDirectoryName(_results.PathToAssembly);
+                directory = zPath.GetDirectoryName(_results.GetCompiledAssemblyPath());
                 WriteLine(2, "  copy result files to directory \"{0}\"", directory);
             }
 
@@ -881,7 +975,8 @@ namespace pb.Compiler
 
             if (_appConfig != null)
             {
-                string appFile = zPath.GetFileName(_results.PathToAssembly) + ".config";
+                //string appFile = zPath.GetFileName(_results.PathToAssembly) + ".config";
+                string appFile = zPath.GetFileName(_results.GetCompiledAssemblyPath()) + ".config";
                 WriteLine(2, "    copy file \"{0}\" to \"{1}\" as \"{2}\"", _appConfig.File, directory, appFile);
                 //string path = zfile.CopyFileToDirectory(_appConfig.File, directory, appFile, true);
                 string path = zfile.CopyFileToDirectory(_appConfig.File, directory, appFile, CopyFileOptions.OverwriteReadOnly | CopyFileOptions.CopyOnlyIfNewer);
@@ -984,13 +1079,14 @@ namespace pb.Compiler
         {
             if (_results != null)
             {
-                foreach (CompilerError err in _results.Errors)
-                    pb.Trace.WriteLine("{0} no {1,-6} source \"{2}\" line {3} col {4} \"{5}\"", err.IsWarning ? "warning" : "error", err.ErrorNumber, zPath.GetFileName(err.FileName), err.Line, err.Column, err.ErrorText);
+                //foreach (CompilerError err in _results.Errors)
+                foreach (CompilerError err in _results.GetErrors())
+                    Trace.WriteLine("{0} no {1,-6} source \"{2}\" line {3} col {4} \"{5}\"", err.IsWarning ? "warning" : "error", err.ErrorNumber, zPath.GetFileName(err.FileName), err.Line, err.Column, err.ErrorText);
             }
             if (_resourceResults != null)
             {
                 foreach (ResourceCompilerError err in _resourceResults.Errors)
-                    pb.Trace.WriteLine("source \"{0}\" \"{1}\"", zPath.GetFileName(err.FileName), err.ErrorText);
+                    Trace.WriteLine("source \"{0}\" \"{1}\"", zPath.GetFileName(err.FileName), err.ErrorText);
             }
         }
 

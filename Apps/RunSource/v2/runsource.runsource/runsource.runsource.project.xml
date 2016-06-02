@@ -3,6 +3,8 @@
   <!--<Root                             value = "..\..\..\..\.." />-->
   <Root                             value = "..\..\..\.." />
 
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\CSharp.Default.project.xml" />
+
   <Target                           value = "winexe" /> <!-- exe (exe console default), library (dll), module (.netmodule), winexe (exe windows) -->
 	<Output                           value = "bin32\runsource.runsource.exe" />
   <CopySourceFiles                  value = "true" />

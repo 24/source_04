@@ -1,8 +1,6 @@
-﻿using System;
-using System.CodeDom.Compiler;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
-using System.Xml.Linq;
+using System.Reflection;
 
 namespace pb.Compiler
 {
@@ -10,6 +8,16 @@ namespace pb.Compiler
     {
         public bool HasError = false;
         public List<ResourceCompilerError> Errors = new List<ResourceCompilerError>();
+    }
+
+    public class CompilerError
+    {
+        public string ErrorNumber;
+        public string ErrorText;
+        public bool IsWarning;
+        public string FileName;
+        public int Column;
+        public int Line;
     }
 
     public class ResourceCompilerError
@@ -23,11 +31,15 @@ namespace pb.Compiler
         }
     }
 
-    //public class CopyOutputDirectory
-    //{
-    //    public string Directory = null;
-    //    public List<CompilerFile> Files = new List<CompilerFile>();
-    //}
+    public interface ICompilerResults
+    {
+        int ErrorsCount { get; }
+        Assembly GetCompiledAssembly();
+        string GetCompiledAssemblyPath();
+        bool HasErrors();
+        bool HasWarnings();
+        IEnumerable<CompilerError> GetErrors();
+    }
 
     public interface ICompiler
     {

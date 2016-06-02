@@ -109,7 +109,9 @@
     <None Include="Source\Other\WR_Tools.cs" />
     <None Include="Source\Other\Xml2Data.cs" />
     <Compile Include="Source\pb\Compiler\CompilerProject.cs" />
-    <Compile Include="Source\pb\Compiler\Compiler_v1.cs" />
+    <Compile Include="Source\pb\Compiler\CSharpCodeProvider.cs" />
+    <Compile Include="Source\pb\Compiler\JScriptCodeProvider.cs" />
+    <Compile Include="Source\pb\Compiler\_old\Compiler_v1.cs" />
     <Compile Include="Source\pb\Compiler\RunSourceHtmlRun.cs" />
     <Compile Include="Source\pb\Compiler\RunSourceInitEndMethods.cs" />
     <Compile Include="Source\pb\Compiler\RunSourceRunCode.cs" />
@@ -118,7 +120,7 @@
     <Compile Include="Source\pb\Compiler\CSharpCodeWriter.cs" />
     <Compile Include="Source\pb\Compiler\GenerateAssembly.cs" />
     <Compile Include="Source\pb\Compiler\GenerateCSharpCode.cs" />
-    <Compile Include="Source\pb\Compiler\ICompilerExtension.cs" />
+    <Compile Include="Source\pb\Compiler\_old\ICompilerExtension.cs" />
     <Compile Include="Source\pb\Compiler\ICompilerProject.cs" />
     <Compile Include="Source\pb\Compiler\_old\IGenerateAndExecute.cs" />
     <Compile Include="Source\pb\Compiler\RunCode.cs" />
@@ -485,6 +487,7 @@
     <Content Include="Source\pb\Web\Html\TestUnit\TestUnit.HtmlToXml.project.xml">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Source\Project\CSharp.Default.project.xml" />
     <Content Include="Source\Project\Default.project.xml" />
     <Content Include="Source\Project\Basic.project.xml">
       <SubType>Designer</SubType>

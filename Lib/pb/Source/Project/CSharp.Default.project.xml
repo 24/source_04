@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<AssemblyProject>
+  <Language                                  value = "CSharp" version = "4.0" />  <!-- CSharp, JScript -->
+  <ProviderOption                            name  = "CompilerVersion" value = "v4.0" /> <!-- v3.5 -->
+  <WarningLevel                              value = "4" /> <!-- 0 no warning, 1 severe warning, 2 + less-severe warnings 1, 3 + less-severe warnings 2, 4 all warning -->
+  <!--<ResourceCompiler                          value = "c:\Program Files\Microsoft SDKs\Windows\v7.1\Bin\ResGen.exe"/>-->
+  <ResourceCompiler                          value = "c:\Program Files (x86)\Microsoft SDKs\Windows\v8.1A\bin\NETFX 4.5.1 Tools\ResGen.exe"/>
+</AssemblyProject>

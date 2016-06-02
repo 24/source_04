@@ -146,7 +146,8 @@ namespace pb.Compiler
         //public Type GetAssemblyType(string typeName = null)
         public Type GetRunType(string typeName = null)
         {
-            Assembly assembly = _compiler.Results.CompiledAssembly;
+            //Assembly assembly = _compiler.Results.CompiledAssembly;
+            Assembly assembly = _compiler.Results.GetCompiledAssembly();
             if (typeName == null)
             {
                 if (_runType == null)

@@ -17,7 +17,7 @@ using pb.IO;
 
 namespace pb.Compiler
 {
-    public class Compiler_v1 : ICompiler
+    public class Compiler_v1 : IProjectCompiler
     {
         //public static ITrace Trace = pb.Trace.CurrentTrace;
         public static int TraceLevel = 1;
@@ -81,7 +81,7 @@ namespace pb.Compiler
 
         // dontSetOutput : true when executing code from runsource, true for CompilerDefaultValues and ProjectDefaultValues, otherwise false
         //public void SetParameters(ICompilerProject project, bool includeProject = false, bool dontSetOutput = false)
-        public void SetParameters(ICompilerProject project, bool dontSetOutput = false)
+        public void SetParameters(ICompilerProjectReader project, bool dontSetOutput = false)
         {
             if (project == null)
                 return;
@@ -189,7 +189,7 @@ namespace pb.Compiler
                 AddCompilerOption("/win32icon:\"" + s + "\"");
             //}
 
-            foreach (ICompilerProject project2 in project.GetIncludeProjects())
+            foreach (ICompilerProjectReader project2 in project.GetIncludeProjects())
             {
                 //SetParameters(project2, includeProject: true, dontSetOutput: dontSetOutput);
                 SetParameters(project2, dontSetOutput: dontSetOutput);
@@ -213,7 +213,7 @@ namespace pb.Compiler
             }
         }
 
-        public void SetOutputAssembly(string outputAssembly, ICompilerProject project = null)
+        public void SetOutputAssembly(string outputAssembly, ICompilerProjectReader project = null)
         {
             if (outputAssembly != null)
             {
@@ -231,7 +231,7 @@ namespace pb.Compiler
             }
         }
 
-        public void SetProviderOptions(IEnumerable<CompilerProviderOption> options, ICompilerProject project = null)
+        public void SetProviderOptions(IEnumerable<CompilerProviderOption> options, ICompilerProjectReader project = null)
         {
             foreach (CompilerProviderOption option in options)
             {
@@ -468,7 +468,7 @@ namespace pb.Compiler
         public void Compile()
         {
             if (!_generateInMemory && _outputAssembly == null)
-                throw new CompilerException("output assembly is not defined");
+                throw new PBException("output assembly is not defined");
             SetFinalOutputAssembly();
             if (_finalOutputDir != null)
                 zDirectory.CreateDirectory(_finalOutputDir);
@@ -524,7 +524,7 @@ namespace pb.Compiler
             string sourceExt = null;
             //gLanguage  CSharp, JScript
             if (_language == null)
-                throw new CompilerException("error undefined language");
+                throw new PBException("error undefined language");
             string language = _language.ToLower();
             if (language == "csharp")
             {
@@ -537,7 +537,7 @@ namespace pb.Compiler
                 sourceExt = ".js";
             }
             else
-                throw new CompilerException("error unknow language \"{0}\"", _language);
+                throw new PBException("error unknow language \"{0}\"", _language);
             //string[] sSources = GetFilesType(".cs");
             string[] sSources = GetFilesType(sourceExt);
             //string currentDirectory = zDirectory.GetCurrentDirectory();
@@ -891,9 +891,9 @@ namespace pb.Compiler
                     return sPathCompiledResource;
             }
             if (_resourceCompiler == null)
-                throw new CompilerException("error resource compiler is not defined");
+                throw new PBException("error resource compiler is not defined");
             if (!zFile.Exists(_resourceCompiler))
-                throw new CompilerException("error resource compiler cannot be found {0}", _resourceCompiler);
+                throw new PBException("error resource compiler cannot be found {0}", _resourceCompiler);
             ProcessStartInfo pi = new ProcessStartInfo();
             pi.FileName = _resourceCompiler;
             //pi.Arguments = cu.PathGetFileWithExt(resource);

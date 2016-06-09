@@ -4,7 +4,6 @@ using System.Text.RegularExpressions;
 using pb;
 using pb.Text;
 
-//namespace Print
 namespace Download.Print
 {
     public class PrintTitleInfo

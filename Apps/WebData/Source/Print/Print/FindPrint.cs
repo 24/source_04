@@ -4,7 +4,6 @@ using pb.Text;
 
 // problem GetAllValues()
 
-//namespace Print
 namespace Download.Print
 {
     public class FindPrintInfo

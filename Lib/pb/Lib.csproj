@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>pb</RootNamespace>
     <AssemblyName>Lib</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -49,6 +50,12 @@
     <Reference Include="Ionic.Zip">
       <HintPath>..\..\RuntimeLibrary\Ionic\Ionic.Zip.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.CodeAnalysis">
+      <HintPath>..\..\..\..\..\..\..\dev\NuGet\repository\Microsoft.CodeAnalysis.Common.1.2.2\lib\net45\Microsoft.CodeAnalysis.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeAnalysis.CSharp">
+      <HintPath>..\..\..\..\..\..\..\dev\NuGet\repository\Microsoft.CodeAnalysis.CSharp.1.2.2\lib\net45\Microsoft.CodeAnalysis.CSharp.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.JScript" />
     <Reference Include="MongoDB.Bson, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -69,10 +76,17 @@
       <HintPath>..\..\RuntimeLibrary\SharpCompress\SharpCompress0.10.3\Full\SharpCompress.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Collections.Immutable, Version=1.1.37.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\dev\NuGet\repository\System.Collections.Immutable.1.1.37\lib\dotnet\System.Collections.Immutable.dll</HintPath>
+    </Reference>
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Reflection.Metadata">
+      <HintPath>..\..\..\..\..\..\..\dev\NuGet\repository\System.Reflection.Metadata.1.2.0\lib\portable-net45+win8\System.Reflection.Metadata.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
@@ -108,20 +122,27 @@
     <Compile Include="Source\Other\Task.cs" />
     <None Include="Source\Other\WR_Tools.cs" />
     <None Include="Source\Other\Xml2Data.cs" />
-    <Compile Include="Source\pb\Compiler\CompilerProject.cs" />
-    <Compile Include="Source\pb\Compiler\CSharpCodeProvider.cs" />
-    <Compile Include="Source\pb\Compiler\JScriptCodeProvider.cs" />
-    <Compile Include="Source\pb\Compiler\_old\Compiler_v1.cs" />
+    <Compile Include="Source\pb\Compiler\CodeDomProviderCompilerResult.cs" />
+    <Compile Include="Source\pb\Compiler\CompileProjects.cs" />
+    <Compile Include="Source\pb\Compiler\CompilerManager.cs" />
+    <Compile Include="Source\pb\Compiler\CompilerProjectReader.cs" />
+    <Compile Include="Source\pb\Compiler\CSharp1Compiler.cs" />
+    <Compile Include="Source\pb\Compiler\CSharp5Compiler.cs" />
+    <Compile Include="Source\pb\Compiler\ICompiler.cs" />
+    <Compile Include="Source\pb\Compiler\JScriptCompiler.cs" />
+    <None Include="Source\pb\Compiler\_old\Compiler_v1.cs" />
+    <Compile Include="Source\pb\Compiler\ProjectCompilerCreator.cs" />
+    <Compile Include="Source\pb\Compiler\ResourceCompiler.cs" />
     <Compile Include="Source\pb\Compiler\RunSourceHtmlRun.cs" />
     <Compile Include="Source\pb\Compiler\RunSourceInitEndMethods.cs" />
     <Compile Include="Source\pb\Compiler\RunSourceRunCode.cs" />
-    <Compile Include="Source\pb\Compiler\RunSourceUpdate.cs" />
-    <Compile Include="Source\pb\Compiler\_old\GenerateAndExecute.cs" />
+    <Compile Include="Source\pb\Compiler\RunSourceCompileProjects.cs" />
+    <None Include="Source\pb\Compiler\_old\GenerateAndExecute.cs" />
     <Compile Include="Source\pb\Compiler\CSharpCodeWriter.cs" />
     <Compile Include="Source\pb\Compiler\GenerateAssembly.cs" />
     <Compile Include="Source\pb\Compiler\GenerateCSharpCode.cs" />
     <Compile Include="Source\pb\Compiler\_old\ICompilerExtension.cs" />
-    <Compile Include="Source\pb\Compiler\ICompilerProject.cs" />
+    <Compile Include="Source\pb\Compiler\ICompilerProjectReader.cs" />
     <Compile Include="Source\pb\Compiler\_old\IGenerateAndExecute.cs" />
     <Compile Include="Source\pb\Compiler\RunCode.cs" />
     <None Include="Source\pb\Compiler\_old\RunSourceRunCode_v1.cs" />
@@ -405,7 +426,7 @@
     <Compile Include="Source\pb\_pb\Application.cs" />
     <Compile Include="Source\pb\Compiler\AssemblyResolve.cs" />
     <Compile Include="Source\pb\_pb\Chrono.cs" />
-    <Compile Include="Source\pb\Compiler\Compiler.cs" />
+    <Compile Include="Source\pb\Compiler\ProjectCompiler.cs" />
     <Compile Include="Source\pb\_old\Cookie.cs" />
     <None Include="Source\pb\_old\cu.cs" />
     <None Include="Source\pb\_old\cu3.cs" />
@@ -419,7 +440,7 @@
     <Compile Include="Source\pb\_pb\FormatInfo.cs" />
     <Compile Include="Source\pb\Data\GClass.cs" />
     <Compile Include="Source\pb\_pb\IChrono.cs" />
-    <Compile Include="Source\pb\Compiler\ICompiler.cs" />
+    <Compile Include="Source\pb\Compiler\IProjectCompiler.cs" />
     <Compile Include="Source\pb\Data\Image.cs" />
     <None Include="Source\pb\_old\img.cs" />
     <Compile Include="Source\pb\Compiler\IRunSource.cs" />
@@ -487,7 +508,19 @@
     <Content Include="Source\pb\Web\Html\TestUnit\TestUnit.HtmlToXml.project.xml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Source\Project\CSharp.Default.project.xml" />
+    <Content Include="Source\Project\_old\JScript.Default.project.xml" />
+    <Content Include="Source\Project\_old\CSharp5.Default.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Source\Project\Compiler.config.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Source\Project\_old\CSharp1.Default.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Source\Project\_old\CSharp.Default.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Source\Project\Default.project.xml" />
     <Content Include="Source\Project\Basic.project.xml">
       <SubType>Designer</SubType>

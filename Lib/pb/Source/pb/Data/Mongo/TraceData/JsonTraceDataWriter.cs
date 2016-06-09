@@ -3,7 +3,6 @@ using System.IO;
 using MongoDB.Bson;
 using MongoDB.Bson.IO;
 using pb.Data.TraceData;
-using pb.IO;
 using System.Text;
 
 namespace pb.Data.Mongo.TraceData

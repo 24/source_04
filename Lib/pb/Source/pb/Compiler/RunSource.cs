@@ -37,7 +37,8 @@ namespace pb.Compiler
         // projectDefaultValues
         private string _defaultProjectFile = null;
         private XmlConfig _defaultProjectXmlConfig = null;
-        private CompilerProject _defaultProject = null;
+        private CompilerProjectReader _defaultProject = null;
+        //private ResourceCompiler _resourceCompiler = null;
 
         //private AppDomain gDomain = null;
         //private const string gsDefaultAssemblyName = "WRunSource";
@@ -88,6 +89,7 @@ namespace pb.Compiler
             //_trace = pb.Trace.CurrentTrace;
             //_trace.Writed += new WritedEvent(EventWrited);
             //CreateGenerateAndExecute();
+            InitRunCode();
         }
 
         public void Dispose()
@@ -299,9 +301,15 @@ namespace pb.Compiler
             set { gbDisableResultEvent = value; }
         }
 
-        public void SetRunSourceConfig(string file)
+        public void Init(string configFile)
         {
-            _runSourceConfig = new XmlConfig(file);
+            SetRunSourceConfig(configFile);
+            InitCompiler();
+        }
+
+        public void SetRunSourceConfig(string configFile)
+        {
+            _runSourceConfig = new XmlConfig(configFile);
             _refreshRunSourceConfig = false;
             //XmlConfigElement projectDefaultValues = _runSourceConfig.GetConfigElement("ProjectDefaultValues");
             //if (projectDefaultValues != null)
@@ -309,6 +317,15 @@ namespace pb.Compiler
             //    _defaultProject = new CompilerProject(projectDefaultValues);
             //else
             //    _defaultProject = null;
+        }
+
+        public void InitCompiler()
+        {
+            CompilerManager.Current.Init(GetRunSourceConfig().GetConfigElementExplicit("CompilerConfig"));
+            CompilerManager.Current.AddCompiler("CSharp1", () => new CSharp1Compiler());
+            CompilerManager.Current.AddCompiler("CSharp5", () => new CSharp5Compiler(CompilerManager.Current.FrameworkDirectories, CompilerManager.Current.MessageFilter));
+            CompilerManager.Current.AddCompiler("JScript", () => new JScriptCompiler());
+            //_resourceCompiler = new ResourceCompiler(CompilerManager.Current.ResourceCompiler);
         }
 
         public XmlConfig GetRunSourceConfig()
@@ -335,7 +352,7 @@ namespace pb.Compiler
 
         // $$ProjectDefaultValues disable
         // used to compile without project
-        public CompilerProject GetDefaultProject()
+        public CompilerProjectReader GetDefaultProject()
         {
             string projectFile = GetRunSourceConfig().Get("DefaultProject");
             bool createCompilerProject = false;
@@ -360,7 +377,7 @@ namespace pb.Compiler
                     Trace.WriteLine("refresh default project from \"{0}\"", _defaultProjectFile);
             }
             if (createCompilerProject)
-                _defaultProject = CompilerProject.Create(_defaultProjectXmlConfig.GetConfigElement("/AssemblyProject"));
+                _defaultProject = CompilerProjectReader.Create(_defaultProjectXmlConfig.GetConfigElement("/AssemblyProject"));
             return _defaultProject;
         }
 
@@ -374,11 +391,11 @@ namespace pb.Compiler
             return _projectConfig;
         }
 
-        public CompilerProject GetProjectCompilerProject()
+        public CompilerProjectReader GetProjectCompilerProject()
         {
             XmlConfig config = GetProjectConfig();
             if (config != null)
-                return CompilerProject.Create(GetProjectConfig().GetConfigElementExplicit("/AssemblyProject"));
+                return CompilerProjectReader.Create(GetProjectConfig().GetConfigElementExplicit("/AssemblyProject"));
             else
                 return null;
         }
@@ -451,7 +468,7 @@ namespace pb.Compiler
         //    compiler.ZipSourceFiles(zipFile.zRootPath(zPath.GetDirectoryName(pathProject)));
         //}
 
-        public ICompiler CompileProject(string projectName)
+        public IProjectCompiler CompileProject(string projectName)
         {
             // - compile assembly project (like runsource.dll.project.xml) and runsource project (like download.project.xml)
             // - for assembly project use CompilerDefaultValues from runsource.runsource.config.xml runsource.runsource.config.local.xml
@@ -468,13 +485,15 @@ namespace pb.Compiler
 
             string pathProject = GetPathProject(projectName);
             Trace.WriteLine("Compile project \"{0}\"", pathProject);
-            Compiler compiler = CreateProjectCompiler(pathProject);
+            //ProjectCompiler compiler = CreateProjectCompiler(pathProject);
+            ProjectCompiler compiler = ProjectCompiler.Create(pathProject, CompilerManager.Current.ResourceCompiler);
+            //compiler.RunsourceSourceDirectory = GetRunSourceConfig().Get("UpdateRunSource/UpdateDirectory").zRootPath(zapp.GetEntryAssemblyDirectory());
+            compiler.RunsourceSourceDirectory = GetRunSourceConfig().Get("RunsourceSourceDirectory").zRootPath(zapp.GetEntryAssemblyDirectory());
 
             compiler.Compile();
             string s = null;
-            if (compiler.HasError())
+            if (!compiler.Success)
             {
-                //Result = compiler.GetCompilerMessagesDataTable();
                 SetResult(compiler.GetCompilerMessagesDataTable());
                 s = " with error(s)";
             }
@@ -482,23 +501,19 @@ namespace pb.Compiler
             {
                 // trace warning
                 compiler.TraceMessages();
-                //string zipFile = "";
-                //Trace.WriteLine("  zip project source files", pathProject, zipFile);
-                //compiler.ZipSourceFiles();
-                if (compiler.CopyRunSourceSourceFiles)
-                {
-                    string runsourceDirectory = GetRunSourceConfig().Get("UpdateRunSource/UpdateDirectory").zRootPath(zapp.GetEntryAssemblyDirectory());
-                    if (runsourceDirectory != null)
-                    {
-                        foreach (string directory in compiler.CopyOutputDirectories)
-                        {
-                            Trace.WriteLine("  copy runsource source files from \"{0}\" to \"{1}\"", runsourceDirectory, directory);
-                            foreach (string file in zDirectory.EnumerateFiles(runsourceDirectory, "*" + Compiler.ZipSourceFilename))
-                                zfile.CopyFileToDirectory(file, directory, options: CopyFileOptions.OverwriteReadOnly | CopyFileOptions.CopyOnlyIfNewer);
-                        }
-                    }
-                }
-
+                //if (compiler.CopyRunSourceSourceFiles)
+                //{
+                //    string runsourceDirectory = GetRunSourceConfig().Get("UpdateRunSource/UpdateDirectory").zRootPath(zapp.GetEntryAssemblyDirectory());
+                //    if (runsourceDirectory != null)
+                //    {
+                //        foreach (string directory in compiler.CopyOutputDirectories)
+                //        {
+                //            Trace.WriteLine("  copy runsource source files from \"{0}\" to \"{1}\"", runsourceDirectory, directory);
+                //            foreach (string file in zDirectory.EnumerateFiles(runsourceDirectory, "*" + ProjectCompiler.ZipSourceFilename))
+                //                zfile.CopyFileToDirectory(file, directory, options: CopyFileOptions.OverwriteReadOnly | CopyFileOptions.CopyOnlyIfNewer);
+                //        }
+                //    }
+                //}
             }
             Trace.WriteLine("  compiled{0} : {1}", s, compiler.OutputAssembly);
             return compiler;
@@ -510,17 +525,14 @@ namespace pb.Compiler
             return GetFilePath(projectName);
         }
 
-        private Compiler CreateProjectCompiler(string pathProject)
-        {
-            Compiler compiler = new Compiler();
-            //compiler.DefaultDirectory = zPath.GetDirectoryName(pathProject);
-            // CompilerDefaultValues from runsource.runsource.config.xml runsource.runsource.config.local.xml
-            //compiler.SetParameters(GetRunSourceConfigCompilerDefaultValues(), runCode: true);
-            CompilerProject compilerProject = CompilerProject.Create(new XmlConfig(pathProject).GetConfigElementExplicit("/AssemblyProject"));
-            compiler.SetParameters(compilerProject);
-            compiler.SetProjectCompilerFile(compilerProject.GetProjectCompilerFile());
-            return compiler;
-        }
+        //private ProjectCompiler CreateProjectCompiler(string pathProject)
+        //{
+        //    ProjectCompiler compiler = new ProjectCompiler(_resourceCompiler);
+        //    CompilerProjectReader compilerProject = CompilerProjectReader.Create(new XmlConfig(pathProject).GetConfigElementExplicit("/AssemblyProject"));
+        //    compiler.SetParameters(compilerProject);
+        //    compiler.SetProjectCompilerFile(compilerProject.GetProjectCompilerFile());
+        //    return compiler;
+        //}
 
         public void Progress()
         {

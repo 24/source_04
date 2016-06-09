@@ -10,7 +10,6 @@ using pb.Text;
  *   a letter after date : "Le Parisien + Journal de Paris du Lundi 25 Août 2014j"
 ***************************************************************************************************************************************************************/
 
-//namespace Print
 namespace Download.Print
 {
     public class PrintTitleRequest

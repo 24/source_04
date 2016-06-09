@@ -64,7 +64,8 @@ namespace runsource_launch
         {
             string appDir = zapp.GetAppDirectory();
             //string dir = __config.Get("UpdateRunSource/UpdateDirectory", __defaultUpdateDirectory).zRootPath(appDir);
-            string dir = __config.Get("UpdateRunSource/UpdateDirectory").zRootPath(appDir);
+            //string dir = __config.Get("UpdateRunSource/UpdateDirectory").zRootPath(appDir);
+            string dir = __config.Get("RunsourceUpdateDirectory").zRootPath(appDir);
             UpdateFiles(dir, appDir);
             //if (zDirectory.Exists(dir))
             //{

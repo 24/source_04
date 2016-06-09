@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Projects>
+  <RunSourceDirectory                          value = "c:\pib\prog\tools\runsource" />
+  <UpdateDirectory                             value = "$RunSourceDirectory$\update" />
+  <Project                                     value = "runsource.irunsource\runsource.irunsource.project.xml" />
+  <Project                                     value = "runsource.dll\runsource.dll.project.xml" copyOutput = "$RunSourceDirectory$\new" copyToUpdateDirectory = "true" />
+  <Project                                     value = "runsource.runsource\runsource.runsource.project.xml" copyOutput = "$RunSourceDirectory$\new" copyToUpdateDirectory = "true" />
+  <Project                                     value = "runsource.launch\runsource.launch.project.xml" copyOutput = "$RunSourceDirectory$\new" />
+</Projects>

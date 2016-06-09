@@ -1,5 +1,4 @@
-﻿using System;
-using Path = Pri.LongPath.Path;
+﻿using Path = Pri.LongPath.Path;
 //using Directory = Pri.LongPath.Directory;
 //using DirectoryInfo = Pri.LongPath.DirectoryInfo;
 //using File = Pri.LongPath.File;

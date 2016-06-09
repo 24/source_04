@@ -1,5 +1,4 @@
 ﻿using System.Drawing;
-using System.Windows.Forms;
 using ScintillaNET;
 
 // Brace Matching https://github.com/jacobslusser/ScintillaNET/wiki/Brace-Matching

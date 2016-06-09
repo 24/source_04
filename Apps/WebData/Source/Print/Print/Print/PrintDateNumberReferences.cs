@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Xml.Linq;
 using pb;
 using pb.Data.Xml;
 
-//namespace Print
 namespace Download.Print
 {
     public class PrintDateNumberReference

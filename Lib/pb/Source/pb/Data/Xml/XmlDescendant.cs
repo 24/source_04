@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
-using pb.Text;
 
 namespace pb.Data.Xml
 {

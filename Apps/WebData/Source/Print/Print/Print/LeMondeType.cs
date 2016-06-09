@@ -1,6 +1,5 @@
 ﻿using System;
 
-//namespace Print
 namespace Download.Print
 {
     [Flags]

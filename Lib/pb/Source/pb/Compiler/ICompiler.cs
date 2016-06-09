@@ -1,82 +1,54 @@
-﻿using System.Collections.Generic;
-using System.Data;
+﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 
 namespace pb.Compiler
 {
-    public class ResourceCompilerResults
+    public class ReferencedAssembly
     {
-        public bool HasError = false;
-        public List<ResourceCompilerError> Errors = new List<ResourceCompilerError>();
+        public string File;
+        public bool FrameworkAssembly;
     }
 
-    public class CompilerError
+    public class ResourceFile
     {
-        public string ErrorNumber;
-        public string ErrorText;
-        public bool IsWarning;
-        public string FileName;
-        public int Column;
-        public int Line;
+        public string File;
+        public string Namespace;
     }
 
-    public class ResourceCompilerError
+    public interface ICompilerResult
     {
-        public string FileName;
-        public string ErrorText;
-        public ResourceCompilerError(string FileName, string ErrorText)
-        {
-            this.FileName = FileName;
-            this.ErrorText = ErrorText;
-        }
-    }
-
-    public interface ICompilerResults
-    {
-        int ErrorsCount { get; }
-        Assembly GetCompiledAssembly();
-        string GetCompiledAssemblyPath();
-        bool HasErrors();
-        bool HasWarnings();
-        IEnumerable<CompilerError> GetErrors();
+        bool Success { get; }
+        int MessagesCount { get; }
+        Assembly LoadAssembly();
+        string GetAssemblyFile();
+        //bool HasErrors();
+        //bool HasWarnings();
+        //IEnumerable<CompilerMessage> GetMessages();
+        IEnumerable<CompilerMessage> GetMessages(Predicate<CompilerMessage> messageFilter = null);
     }
 
     public interface ICompiler
     {
-        //string DefaultDir { get; set; }
-        //IEnumerable<CompilerFile> SourceList { get; }
-        //IEnumerable<CompilerFile> FileList { get; }
-        //Dictionary<string, CompilerAssembly> Assemblies { get; }
-        ///// <summary>CSharp, JScript</summary>
-        //string Language { get; set; }
-        //Dictionary<string, string> ProviderOption { get; }
-        //string ResourceCompiler { get; set; }
-        //bool GenerateInMemory { get; set; }
+        //Dictionary<string, string> ProviderOption { get; set; }
+        string LanguageVersion { get; set; }
+        string FrameworkVersion { get; set; }
+        string Target { get; set; }
+        string Platform { get; set; }
+        string CompilerOptions { get; set; }
+        bool GenerateInMemory { get; set; }
         //bool GenerateExecutable { get; set; }
-        //bool DebugInformation { get; set; }
-        //int WarningLevel { get; set; }
-        //string OutputDir { get; set; }
-        //string OutputAssembly { get; }
-        //string CompilerOptions { get; set; }
-        //ResourceCompilerResults ResourceResults { get; }
-        //CompilerResults Results { get; }
-        //IEnumerable<string> CopyOutputDirectories { get; }
-        bool HasError();
-        //void SetParameters(ICompilerProject project, bool dontSetOutput = false);
-        //void SetOutputAssembly(string outputAssembly, ICompilerProject project = null);
-        //void SetProviderOptions(IEnumerable<CompilerProviderOption> options, ICompilerProject project = null);
-        //void AddCompilerOptions(IEnumerable<string> options);
-        //void AddCompilerOption(string option);
-        //void AddSources(IEnumerable<CompilerFile> sources);
-        //void AddFiles(IEnumerable<CompilerFile> files);
-        //void AddAssemblies(IEnumerable<CompilerAssembly> assemblies);
-        //void AddAssembly(CompilerAssembly assembly);
-        //void AddCopyOutputDirectories(IEnumerable<string> directories);
-        //void Compile();
-        //string[] CompileResources(CompilerFile[] resources);
-        //string CompileResource(CompilerFile resource, string outputDir);
-        DataTable GetCompilerMessagesDataTable();
-        void CopyResultFilesToDirectory(string directory);
-        //void TraceMessages();
+        bool DebugInformation { get; set; }
+        int WarningLevel { get; set; }
+        string OutputAssembly { get; set; }
+
+        ICompilerResult Compile();
+        //void AddSources(IEnumerable<string> sources);
+        void SetSources(IEnumerable<string> sources);
+        //void AddReferencedAssembly(string referencedAssembly);
+        //void SetReferencedAssemblies(IEnumerable<string> referencedAssemblies);
+        void SetReferencedAssemblies(IEnumerable<ReferencedAssembly> referencedAssemblies);
+        //void AddEmbeddedResource(string resourceFile);
+        void SetEmbeddedResources(IEnumerable<ResourceFile> embeddedResources);
     }
 }

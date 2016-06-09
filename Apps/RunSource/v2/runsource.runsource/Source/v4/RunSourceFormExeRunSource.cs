@@ -1,15 +1,11 @@
 ﻿using pb;
 using pb.Compiler;
-using pb.Data.Xml;
 using pb.IO;
 using pb.Windows.Forms;
 using System;
-using System.Collections.Generic;
-using System.Data;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
-using System.Xml.Linq;
 
 namespace runsourced
 {
@@ -20,7 +16,8 @@ namespace runsourced
 
         private void InitRunSource()
         {
-            _runSource.SetRunSourceConfig(_config.ConfigFile);
+            //_runSource.SetRunSourceConfig(_config.ConfigFile);
+            _runSource.Init(_config.ConfigFile);
             _runSource.StartAssemblyResolve();
             _runSource.DeleteGeneratedAssemblies();
             _runSource.DisableMessageChanged += EventDisableMessageChanged;
@@ -253,64 +250,75 @@ namespace runsourced
 
         private void CompileRunSource()
         {
-            Chrono chrono = new Chrono();
-            chrono.Start();
-            int nbProject = 0;
-            try
-            {
-                string updateDir = _config.GetExplicit("UpdateRunSource/UpdateDirectory").zRootPath(zapp.GetEntryAssemblyDirectory());
-                Dictionary<string, List<string>> projectFiles = new Dictionary<string, List<string>>();
-
-                foreach (XElement project in _config.GetElements("UpdateRunSource/Project"))
-                {
-                    ICompiler compiler = CompileProject(project.zExplicitAttribValue("value"));
-                    if (compiler.HasError())
-                        return;
-                    string copyOutput = project.zAttribValue("copyOutput").zRootPath(zapp.GetEntryAssemblyDirectory());
-                    if (copyOutput != null)
-                    {
-                        //_trace.WriteLine("  copy result files to directory \"{0}\"", copyOutput);
-                        compiler.CopyResultFilesToDirectory(copyOutput);
-                    }
-                    //_trace.WriteLine("  copy result files to directory \"{0}\"", updateDir);
-                    compiler.CopyResultFilesToDirectory(updateDir);
-                    nbProject++;
-                }
-
-                foreach (XElement project in _config.GetElements("UpdateRunSource/ProjectRunSourceLaunch"))
-                {
-                    ICompiler compiler = CompileProject(project.zExplicitAttribValue("value"));
-                    if (compiler.HasError())
-                        return;
-                    string copyOutput = project.zAttribValue("copyOutput").zRootPath(zapp.GetEntryAssemblyDirectory());
-                    if (copyOutput != null)
-                    {
-                        //_trace.WriteLine("  copy result files to directory \"{0}\"", copyOutput);
-                        compiler.CopyResultFilesToDirectory(copyOutput);
-                    }
-                    nbProject++;
-                }
-            }
-            finally
-            {
-                chrono.Stop();
-                _trace.WriteLine("{0} project(s) compiled", nbProject);
-                _trace.WriteLine("Process completed {0}", chrono.TotalTimeString);
-            }
-        }
-
-        private ICompiler CompileProject(string projectPath)
-        {
-            ICompiler compiler = _runSource.CompileProject(projectPath);
-            if (compiler.HasError())
-            {
-                DataTable dtMessage = compiler.GetCompilerMessagesDataTable();
-                if (dtMessage != null)
-                    SetResult(dtMessage, null);
+            //if (!_runSource.CompileProjects(_config.GetElements("UpdateRunSource/Project"), _config.GetExplicit("UpdateRunSource/UpdateDirectory").zRootPath(zapp.GetEntryAssemblyDirectory())))
+            if (!_runSource.CompileProjects(_config.GetExplicit("RunSourceProjects"), _config.GetExplicit("RunsourceSourceDirectory").zRootPath(zapp.GetEntryAssemblyDirectory())))
                 EventEndRunCode(new EndRunCodeInfo { Error = false });
-            }
-            return compiler;
         }
+
+        //private void CompileRunSource()
+        //{
+        //    Chrono chrono = new Chrono();
+        //    chrono.Start();
+        //    int nbProject = 0;
+        //    try
+        //    {
+        //        string updateDir = _config.GetExplicit("UpdateRunSource/UpdateDirectory").zRootPath(zapp.GetEntryAssemblyDirectory());
+        //        //Dictionary<string, List<string>> projectFiles = new Dictionary<string, List<string>>();
+
+        //        foreach (XElement project in _config.GetElements("UpdateRunSource/Project"))
+        //        {
+        //            IProjectCompiler compiler = CompileProject(project.zExplicitAttribValue("value"));
+        //            if (!compiler.Success)
+        //                return;
+        //            string copyOutput = project.zAttribValue("copyOutput").zRootPath(zapp.GetEntryAssemblyDirectory());
+        //            if (copyOutput != null)
+        //            {
+        //                //_trace.WriteLine("  copy result files to directory \"{0}\"", copyOutput);
+        //                compiler.CopyResultFilesToDirectory(copyOutput);
+        //            }
+        //            if (project.zAttribValue("copyToUpdateDirectory").zTryParseAs(false))
+        //            {
+        //                //_trace.WriteLine("  copy result files to directory \"{0}\"", updateDir);
+        //                compiler.CopyResultFilesToDirectory(updateDir);
+        //            }
+        //            nbProject++;
+        //        }
+
+        //        //foreach (XElement project in _config.GetElements("UpdateRunSource/ProjectRunSourceLaunch"))
+        //        //{
+        //        //    IProjectCompiler compiler = CompileProject(project.zExplicitAttribValue("value"));
+        //        //    if (!compiler.Success)
+        //        //        return;
+        //        //    string copyOutput = project.zAttribValue("copyOutput").zRootPath(zapp.GetEntryAssemblyDirectory());
+        //        //    if (copyOutput != null)
+        //        //    {
+        //        //        //_trace.WriteLine("  copy result files to directory \"{0}\"", copyOutput);
+        //        //        compiler.CopyResultFilesToDirectory(copyOutput);
+        //        //    }
+        //        //    nbProject++;
+        //        //}
+        //    }
+        //    finally
+        //    {
+        //        chrono.Stop();
+        //        _trace.WriteLine("{0} project(s) compiled", nbProject);
+        //        _trace.WriteLine("Process completed {0}", chrono.TotalTimeString);
+        //    }
+        //}
+
+        //private IProjectCompiler CompileProject(string projectPath)
+        //{
+        //    IProjectCompiler compiler = _runSource.CompileProject(projectPath);
+        //    //if (compiler.HasError())
+        //    if (!compiler.Success)
+        //    {
+        //        DataTable dtMessage = compiler.GetCompilerMessagesDataTable();
+        //        if (dtMessage != null)
+        //            SetResult(dtMessage, null);
+        //        EventEndRunCode(new EndRunCodeInfo { Error = false });
+        //    }
+        //    return compiler;
+        //}
 
         private void EventEndRunCode(EndRunCodeInfo endRunCodeInfo)
         {

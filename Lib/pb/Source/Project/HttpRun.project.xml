@@ -18,9 +18,9 @@
   <Source                           value = "$Root$\Lib\pb\Source\pb\IO\StreamTransfer.cs" />
 
   <Source                           value = "$Root$\Lib\pb\Source\pb\Text\Regex.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Text\Split.cs" />
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Text\Split.cs" />-->
   <Source                           value = "$Root$\Lib\pb\Source\pb\Text\String.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Text\StringZones.cs" />
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Text\StringZones.cs" />-->
 
   <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Html\HtmlCharCodes.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Html\HtmlReader.cs" />
@@ -39,12 +39,13 @@
   <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\Url.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\XmlDocumentSourceType.cs" />
 
-  <Assembly                         value = "System.dll" />
-  <Assembly                         value = "System.Core.dll" />
-  <Assembly                         value = "System.Drawing.dll" />
-  <Assembly                         value = "System.Web.dll" />
-  <Assembly                         value = "System.Xml.dll" />
-  <Assembly                         value = "System.Xml.Linq.dll" />
+  <!--<FrameworkAssembly                value = "mscorlib.dll" />-->
+  <FrameworkAssembly                value = "System.dll" />
+  <FrameworkAssembly                value = "System.Core.dll" />
+  <FrameworkAssembly                value = "System.Drawing.dll" />
+  <FrameworkAssembly                value = "System.Web.dll" />
+  <FrameworkAssembly                value = "System.Xml.dll" />
+  <FrameworkAssembly                value = "System.Xml.Linq.dll" />
   <Assembly                         value = "runsource.dll" />
   <Assembly                         value = "runsource.irunsource.dll" />
 

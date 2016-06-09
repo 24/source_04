@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace pb.Source.pb.Data
+﻿namespace pb.Source.pb.Data
 {
     public interface IRefreshable
     {

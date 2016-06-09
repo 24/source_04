@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-using MongoDB.Bson.IO;
 using pb.Data;
 using pb.Data.Mongo;
 using pb.Text;
 
-//namespace Print
 namespace Download.Print
 {
     public class PrintTextValues

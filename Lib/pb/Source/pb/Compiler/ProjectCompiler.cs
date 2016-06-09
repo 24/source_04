@@ -1,9 +1,8 @@
-using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Diagnostics;
 using System.IO;
 using pb.IO;
+using System;
 
 /*******************
  * C# Compiler Options Listed by Category http://msdn.microsoft.com/en-us/library/vstudio/6s2x2bzy.aspx
@@ -45,17 +44,17 @@ using pb.IO;
 
 
 // rename :
-//   Compiler                                 ProjectCompiler
-//   CompilerException                        to delete
-//   ICompiler                                IProjectCompiler
-//   ICompilerResults                         IProjectCompilerResults
-//   CompilerProject                          CompilerProjectReader
-//   ICompilerProject                         ICompilerProjectReader
-//   CompilerProviderOption                   to delete
-//   ICompilerZZ                              ICompiler
-//   zzCSharpCodeProvider                     CSharp1Compiler
-//   CSharpCodeProviderCompilerResults        CSharp1CompilerResults
-//   zzJScriptCodeProvider                    JScriptCompiler
+// ok  Compiler                                 ProjectCompiler
+// ok  CompilerException                        to delete
+// ok  ICompiler                                IProjectCompiler
+// non ICompilerResults                         IProjectCompilerResults
+// ok  CompilerProject                          CompilerProjectReader
+// ok  ICompilerProject                         ICompilerProjectReader
+//     CompilerProviderOption                   to delete
+// ok  ICompilerZZ                              ICompiler
+// ok  zzCSharpCodeProvider                     CSharp1Compiler
+// ok  CSharpCodeProviderCompilerResults        CSharp1CompilerResults
+// ok  zzJScriptCodeProvider                    JScriptCompiler
 
 
 
@@ -70,7 +69,7 @@ using pb.IO;
 //   ResourceCompilerResults
 //   CompilerError            : 
 //   ResourceCompilerError
-//   IProjectCompilerResults
+//   ICompilerResults
 // compiler :
 //   ICompiler                : interface compiler
 //   CSharp1Compiler          : CSharp compiler until v4
@@ -100,15 +99,7 @@ using pb.IO;
 
 namespace pb.Compiler
 {
-    public class CompilerException : Exception
-    {
-        public CompilerException(string sMessage) : base(sMessage) { }
-        public CompilerException(string sMessage, params object[] oPrm) : base(string.Format(sMessage, oPrm)) { }
-        public CompilerException(Exception InnerException, string sMessage) : base(sMessage, InnerException) { }
-        public CompilerException(Exception InnerException, string sMessage, params object[] oPrm) : base(string.Format(sMessage, oPrm), InnerException) { }
-    }
-
-    public class Compiler : ICompiler
+    public partial class ProjectCompiler : IProjectCompiler
     {
         public static int __traceLevel = 1;    // 0 no message, 1 default messages, 2 detailled messaged
 
@@ -119,30 +110,39 @@ namespace pb.Compiler
         private Dictionary<string, CompilerFile> _fileList = new Dictionary<string, CompilerFile>();
         private Dictionary<string, CompilerFile> _sourceFileList = new Dictionary<string, CompilerFile>();
         private Dictionary<string, CompilerAssembly> _assemblyList = new Dictionary<string, CompilerAssembly>();
-        private string _language = null;           // CSharp, JScript
-        private Dictionary<string, string> _providerOption = new Dictionary<string, string>();
-        private string _resourceCompiler = null;
+        //private string _language = null;           // CSharp, JScript
+        private CompilerLanguage _language = null;   // CSharp1 version v3.5, v4.0, CSharp5 version 1, 2, 3, 4, 5, 6, JScript
+        private string _frameworkVersion = null;
+        //private Dictionary<string, string> _providerOption = new Dictionary<string, string>();
+        //private string _resourceCompiler = null;
+        private ResourceCompiler _resourceCompiler = null;
+        private string _target = null;
+        private string _platform = null;
         private bool _generateInMemory = false;
-        private bool _generateExecutable = false;
+        //private bool _generateExecutable = false;
         private bool _debugInformation = false;
         private int _warningLevel = -1;
-        private string _outputDir = null;
+        private string _compilerOptions = null;
+        //private string _outputDir = null;
         private string _finalOutputDir = null;
         private string _CompileResourceSubDirectory = "resources";
         private string _outputAssembly = null;
         private string _finalOutputAssembly = null;
-        private string _compilerOptions = null;
-        private ResourceCompilerResults _resourceResults = new ResourceCompilerResults();
+        //private ResourceCompilerResults _resourceResults = new ResourceCompilerResults();
+        private bool _resourceError = false;
+        private List<ResourceCompilerMessage> _resourceMessages = new List<ResourceCompilerMessage>();
         //private CompilerResults _results = null;
-        private ICompilerResults _results = null;
+        private ICompilerResult _result = null;
         private List<string> _copyOutputDirectories = new List<string>();
         private static string __zipSourceFilename = ".source.zip";
         private bool _copySourceFiles = false;
         private bool _copyRunSourceSourceFiles = false;
+        private string _runsourceSourceDirectory;
         private string _zipSourceFile = null;
 
-        public Compiler()
+        public ProjectCompiler(ResourceCompiler resourceCompiler)
         {
+            _resourceCompiler = resourceCompiler;
         }
 
         public static int TraceLevel { get { return __traceLevel; } set { __traceLevel = value; } }
@@ -151,32 +151,36 @@ namespace pb.Compiler
         public IEnumerable<CompilerFile> FileList { get { return _fileList.Values; } }
         public IEnumerable<CompilerFile> SourceFileList { get { return _sourceFileList.Values; } }
         public Dictionary<string, CompilerAssembly> Assemblies { get { return _assemblyList; } }
-        public string Language { get { return _language; } set { _language = value; } }
-        public Dictionary<string, string> ProviderOption { get { return _providerOption; } }
-        public string ResourceCompiler { get { return _resourceCompiler; } set { _resourceCompiler = value; } }
+        public CompilerLanguage Language { get { return _language; } set { _language = value; } }
+        //public Dictionary<string, string> ProviderOption { get { return _providerOption; } }
+        //public string ResourceCompiler { get { return _resourceCompiler; } set { _resourceCompiler = value; } }
         public bool GenerateInMemory { get { return _generateInMemory; } set { _generateInMemory = value; } }
-        public bool GenerateExecutable { get { return _generateExecutable; } set { _generateExecutable = value; } }
+        //public bool GenerateExecutable { get { return _generateExecutable; } set { _generateExecutable = value; } }
         public bool DebugInformation { get { return _debugInformation; } set { _debugInformation = value; } }
         public int WarningLevel { get { return _warningLevel; } set { _warningLevel = value; } }
-        public string OutputDir { get { return _outputDir; } set { _outputDir = value; } }
-        public string OutputAssembly { get { return _outputAssembly; } }
         public string CompilerOptions { get { return _compilerOptions; } set { _compilerOptions = value; } }
-        public ResourceCompilerResults ResourceResults { get { return _resourceResults; } }
-        public ICompilerResults Results { get { return _results; } }
+        //public string OutputDir { get { return _outputDir; } set { _outputDir = value; } }
+        public string OutputAssembly { get { return _outputAssembly; } }
+        //public ResourceCompilerResults ResourceResults { get { return _resourceResults; } }
+        public ICompilerResult Results { get { return _result; } }
         public IEnumerable<string> CopyOutputDirectories { get { return _copyOutputDirectories; } }
         //public IEnumerable<CompilerUpdateDirectory> UpdateDirectories { get { return _updateDirectories; } }
         public static string ZipSourceFilename { get { return __zipSourceFilename; } }
         public bool CopyRunSourceSourceFiles { get { return _copyRunSourceSourceFiles; } }
+        public string RunsourceSourceDirectory { get { return _runsourceSourceDirectory; } set { _runsourceSourceDirectory = value; } }
 
-        // ICompiler
-        public bool HasError()
-        {
-            //if ((_results != null && _results.Errors.HasErrors) || _resourceResults.HasError)
-            if ((_results != null && _results.HasErrors()) || _resourceResults.HasError)
-                return true;
-            else
-                return false;
-        }
+        // IProjectCompiler
+        public bool Success { get { return !_resourceError && _result != null ? _result.Success : false; } }
+
+        // IProjectCompiler
+        //public bool HasError()
+        //{
+        //    //if ((_results != null && _results.HasErrors()) || _resourceResults.HasError)
+        //    if ((_results != null && _results.HasErrors()) || _resourceError)
+        //        return true;
+        //    else
+        //        return false;
+        //}
 
         public void SetProjectCompilerFile(CompilerFile projectCompilerFile)
         {
@@ -186,154 +190,160 @@ namespace pb.Compiler
 
         // runCode : true when executing code from runsource, true for CompilerDefaultValues and ProjectDefaultValues, otherwise false
         // bool dontSetOutput = false
-        public void SetParameters(ICompilerProject project, bool runCode = false, bool includeProject = false)
+        public void SetParameters(ICompilerProjectReader project, bool runCode = false, bool includeProject = false)
         {
             if (project == null)
                 return;
-            //if (!includeProject)
+
+            //string s = project.GetLanguage();
+            //if (s != null)
             //{
-                //compiler.Language = xe.Get("Language", compiler.Language);
-                string s = project.GetLanguage();
-                if (s != null)
-                {
-                    if (_language != null)
-                        WriteLine(1, "Compiler warning : redefine language \"{0}\" as \"{1}\" from project \"{2}\"", _language, s, project.ProjectFile);
-                    _language = s;
-                }
-
-                //foreach (XElement xe2 in xe.GetElements("ProviderOption"))
-                //    compiler.SetProviderOption(xe2.zAttribValue("name"), xe2.zAttribValue("value"));
-                SetProviderOptions(project.GetProviderOptions(), project);
-
-                //compiler.ResourceCompiler = xe.Get("ResourceCompiler", compiler.ResourceCompiler);
-                s = project.GetResourceCompiler();
-                if (s != null)
-                {
-                    if (_resourceCompiler != null)
-                        WriteLine(1, "Compiler warning : redefine resource compiler \"{0}\" as \"{1}\" from project \"{2}\"", _resourceCompiler, s, project.ProjectFile);
-                    _resourceCompiler = s;
-                }
-
-                //compiler.OutputDir = xe.Get("OutputDir", compiler.OutputDir);
-                if (!runCode)
-                {
-                    s = project.GetOutputDir();
-                    if (s != null)
-                    {
-                        if (_outputDir != null)
-                            WriteLine(1, "Compiler warning : redefine output directory \"{0}\" as \"{1}\" from project \"{2}\"", _outputDir, s, project.ProjectFile);
-                        _outputDir = s;
-                    }
-                }
-
-                //compiler.OutputAssembly = xe.Get("Output", compiler.OutputAssembly);
-                if (!runCode && !includeProject)
-                {
-                    s = project.GetOutput();
-                    if (s != null)
-                        SetOutputAssembly(s, project);
-                }
-                //if (s != null)
-                //    _outputAssembly = s;
-                //string ext = zPath.GetExtension(_outputAssembly);
-                //if (ext != null)
-                //{
-                //    if (ext.ToLower() == ".exe")
-                //        _generateExecutable = true;
-                //    else if (ext.ToLower() == ".dll")
-                //        _generateExecutable = false;
-                //}
-
-                bool? b;
-                //compiler.GenerateExecutable = xe.Get("GenerateExecutable").zTryParseAs(compiler.GenerateExecutable);
-                if (!runCode && !includeProject)
-                {
-                    b = project.GetGenerateExecutable();
-                    if (b != null)
-                        _generateExecutable = (bool)b;
-                }
-
-                //compiler.GenerateInMemory = xe.Get("GenerateInMemory").zTryParseAs(compiler.GenerateInMemory);
-                if (!runCode)
-                {
-                    b = project.GetGenerateInMemory();
-                    if (b != null)
-                        _generateInMemory = (bool)b;
-                }
-
-                //compiler.DebugInformation = xe.Get("DebugInformation").zTryParseAs(compiler.DebugInformation);
-                b = project.GetDebugInformation();
-                if (b != null)
-                    _debugInformation = (bool)b;
-
-                //compiler.WarningLevel = xe.Get("WarningLevel").zTryParseAs<int>(compiler.WarningLevel);
-                int? i = project.GetWarningLevel();
-                if (i != null)
-                    _warningLevel = (int)i;
-
-                //compiler.AddCompilerOptions(xe.GetValues("CompilerOptions"));
-                AddCompilerOptions(project.GetCompilerOptions());
-
-                if (!runCode && !includeProject)
-                {
-                    b = project.GetCopySourceFiles();
-                    if (b != null)
-                        _copySourceFiles = (bool)b;
-
-                    b = project.GetCopyRunSourceSourceFiles();
-                    if (b != null)
-                        _copyRunSourceSourceFiles = (bool)b;
-                }
-
-                //string keyfile = xe.Get("KeyFile");
-                if (!includeProject)
-                {
-                    s = project.GetKeyFile();
-                    if (s != null)
-                        AddCompilerOption("/keyfile:\"" + s + "\"");
-                }
-
-                //string target = xe.Get("Target");
-                if (!runCode && !includeProject)
-                {
-                    s = project.GetTarget();
-                    if (s != null)
-                        AddCompilerOption("/target:" + s);
-                }
-
-                //string icon = xe.Get("Icon");
-                if (!includeProject)
-                {
-                    s = project.GetIcon();
-                    if (s != null)
-                        //AddCompilerOption("/win32icon:" + s);
-                        AddCompilerOption("/win32icon:\"" + s + "\"");
-                }
+            //    if (_language != null)
+            //        WriteLine(1, "Compiler warning : redefine language \"{0}\" as \"{1}\" from project \"{2}\"", _language, s, project.ProjectFile);
+            //    _language = s;
+            //}
+            //CompilerLanguage language = project.GetLanguage();
+            //if (language != null)
+            //{
+            //    if (_language != null)
+            //        WriteLine(1, "Compiler warning : redefine language \"{0}\"-\"{1}\" as \"{2}\"-\"{3}\" from project \"{4}\"", _language.Name, _language.Version, language.Name, language.Version, project.ProjectFile);
+            //    _language = language;
             //}
 
-            foreach (ICompilerProject project2 in project.GetIncludeProjects())
+            if (!includeProject)
             {
-                SetParameters(project2, runCode: runCode, includeProject: true);
+                SetLanguage(project.GetLanguage(), project);
+                SetFrameworkVersion(project.GetFrameworkVersion(), project);
             }
 
-            //compiler.AddSources(xe.GetElements("Source"));
+            if (!runCode && !includeProject)
+            {
+                //s = project.GetTarget();
+                //if (s != null)
+                //    AddCompilerOption("/target:" + s);
+                SetTarget(project.GetTarget(), project);
+                SetPlatform(project.GetPlatform(), project);
+            }
+
+            bool? b;
+
+            if (!runCode)
+            {
+                b = project.GetGenerateInMemory();
+                if (b != null)
+                    _generateInMemory = (bool)b;
+            }
+
+            b = project.GetDebugInformation();
+            if (b != null)
+                _debugInformation = (bool)b;
+
+            int? i = project.GetWarningLevel();
+            if (i != null)
+                _warningLevel = (int)i;
+
+            AddCompilerOptions(project.GetCompilerOptions());
+
+            string s;
+
+            if (!runCode && !includeProject)
+            {
+                s = project.GetOutput();
+                if (s != null)
+                    SetOutputAssembly(s, project);
+            }
+
+            if (!includeProject)
+            {
+                s = project.GetIcon();
+                if (s != null)
+                    AddCompilerOption("/win32icon:\"" + s + "\"");
+            }
+
+            if (!includeProject)
+            {
+                s = project.GetKeyFile();
+                if (s != null)
+                    AddCompilerOption("/keyfile:\"" + s + "\"");
+            }
+
+            // GetIncludeProjects() get include project recursively
+            if (!includeProject)
+            {
+                foreach (ICompilerProjectReader project2 in project.GetIncludeProjects())
+                {
+                    SetParameters(project2, runCode: runCode, includeProject: true);
+                }
+            }
+
             AddSources(project.GetSources());
 
-            //compiler.AddFiles(xe.GetElements("File"));  // compiler.DefaultDir
             AddFiles(project.GetFiles());
 
             AddSourceFiles(project.GetSourceFiles());
 
-            //compiler.AddAssemblies(xe.GetElements("Assembly"));
             AddAssemblies(project.GetAssemblies());
 
-            //compiler.AddLocalAssemblies(xe.GetElements("LocalAssembly"));
+            if (!runCode && !includeProject)
+            {
+                b = project.GetCopySourceFiles();
+                if (b != null)
+                    _copySourceFiles = (bool)b;
 
-            //compiler.AddCopyOutputDirectories(xe.GetValues("CopyOutput"));
+                b = project.GetCopyRunSourceSourceFiles();
+                if (b != null)
+                    _copyRunSourceSourceFiles = (bool)b;
+            }
+
             if (!runCode && !includeProject)
             {
                 AddCopyOutputDirectories(project.GetCopyOutputs());
             }
+
+            //foreach (XElement xe2 in xe.GetElements("ProviderOption"))
+            //    compiler.SetProviderOption(xe2.zAttribValue("name"), xe2.zAttribValue("value"));
+            //SetProviderOptions(project.GetProviderOptions(), project);
+
+            //compiler.ResourceCompiler = xe.Get("ResourceCompiler", compiler.ResourceCompiler);
+            //s = project.GetResourceCompiler();
+            //if (s != null)
+            //{
+            //    if (_resourceCompiler != null)
+            //        WriteLine(1, "Compiler warning : redefine resource compiler \"{0}\" as \"{1}\" from project \"{2}\"", _resourceCompiler, s, project.ProjectFile);
+            //    _resourceCompiler = s;
+            //}
+
+            //if (!runCode)
+            //{
+            //    s = project.GetOutputDir();
+            //    if (s != null)
+            //    {
+            //        if (_outputDir != null)
+            //            WriteLine(1, "Compiler warning : redefine output directory \"{0}\" as \"{1}\" from project \"{2}\"", _outputDir, s, project.ProjectFile);
+            //        _outputDir = s;
+            //    }
+            //}
+
+            //if (s != null)
+            //    _outputAssembly = s;
+            //string ext = zPath.GetExtension(_outputAssembly);
+            //if (ext != null)
+            //{
+            //    if (ext.ToLower() == ".exe")
+            //        _generateExecutable = true;
+            //    else if (ext.ToLower() == ".dll")
+            //        _generateExecutable = false;
+            //}
+
+            //bool? b;
+            //if (!runCode && !includeProject)
+            //{
+            //    b = project.GetGenerateExecutable();
+            //    if (b != null)
+            //        _generateExecutable = (bool)b;
+            //}
+
+            //compiler.AddLocalAssemblies(xe.GetElements("LocalAssembly"));
 
             //if (!runCode && !includeProject)
             //{
@@ -341,36 +351,79 @@ namespace pb.Compiler
             //}
         }
 
-        public void SetOutputAssembly(string outputAssembly, ICompilerProject project = null)
+        public void SetLanguage(CompilerLanguage language, ICompilerProjectReader project = null)
+        {
+            if (language != null)
+            {
+                if (_language != null)
+                    WriteLine(1, "Compiler warning : redefine language \"{0}\"-\"{1}\" as \"{2}\"-\"{3}\" from project \"{4}\"", _language.Name, _language.Version, language.Name, language.Version, project.ProjectFile);
+                //else
+                //    WriteLine(1, "Compiler info    : set language \"{0}\"-\"{1}\" from project \"{2}\"", language.Name, language.Version, project.ProjectFile);
+                _language = language;
+            }
+        }
+
+        //GetFrameworkVersion()
+        public void SetFrameworkVersion(string frameworkVersion, ICompilerProjectReader project = null)
+        {
+            if (frameworkVersion != null)
+            {
+                if (_frameworkVersion != null)
+                    WriteLine(1, "Compiler warning : redefine framework version \"{0}\" as \"{1}\" from project \"{2}\"", _frameworkVersion, frameworkVersion, project != null ? project.ProjectFile : "(no project)");
+                _frameworkVersion = frameworkVersion;
+            }
+        }
+
+        public void SetTarget(string target, ICompilerProjectReader project = null)
+        {
+            if (target != null)
+            {
+                if (_target != null)
+                    WriteLine(1, "Compiler warning : redefine target \"{0}\" as \"{1}\" from project \"{2}\"", _target, target, project != null ? project.ProjectFile : "(no project)");
+                _target = target;
+            }
+        }
+
+        public void SetPlatform(string platform, ICompilerProjectReader project = null)
+        {
+            if (platform != null)
+            {
+                if (_platform != null)
+                    WriteLine(1, "Compiler warning : redefine platform \"{0}\" as \"{1}\" from project \"{2}\"", _platform, platform, project != null ? project.ProjectFile : "(no project)");
+                _platform = platform;
+            }
+        }
+
+        public void SetOutputAssembly(string outputAssembly, ICompilerProjectReader project = null)
         {
             if (outputAssembly != null)
             {
                 if (_outputAssembly != null)
-                    WriteLine(1, "Compiler warning : redefine output assembly \"{0}\" as \"{1}\" from project \"{2}\"", _outputAssembly, outputAssembly, project.ProjectFile);
+                    WriteLine(1, "Compiler warning : redefine output assembly \"{0}\" as \"{1}\" from project \"{2}\"", _outputAssembly, outputAssembly, project != null ? project.ProjectFile : "(no project)");
                 _outputAssembly = outputAssembly;
-                string ext = zPath.GetExtension(outputAssembly);
-                if (ext != null)
-                {
-                    if (ext.ToLower() == ".exe")
-                        _generateExecutable = true;
-                    else if (ext.ToLower() == ".dll")
-                        _generateExecutable = false;
-                }
+                //string ext = zPath.GetExtension(outputAssembly);
+                //if (ext != null)
+                //{
+                //    if (ext.ToLower() == ".exe")
+                //        _generateExecutable = true;
+                //    else if (ext.ToLower() == ".dll")
+                //        _generateExecutable = false;
+                //}
             }
         }
 
-        public void SetProviderOptions(IEnumerable<CompilerProviderOption> options, ICompilerProject project = null)
-        {
-            foreach (CompilerProviderOption option in options)
-            {
-                if (_providerOption.ContainsKey(option.Name))
-                {
-                    WriteLine(1, "Compiler warning : redefine provider option \"{0}\" value \"{1}\" as \"{2}\" from project \"{3}\"", option.Name, _providerOption[option.Name], option.Value, project != null ? project.ProjectFile : "--no project--");
-                    _providerOption.Remove(option.Name);
-                }
-                _providerOption.Add(option.Name, option.Value);
-            }
-        }
+        //public void SetProviderOptions(IEnumerable<CompilerProviderOption> options, ICompilerProjectReader project = null)
+        //{
+        //    foreach (CompilerProviderOption option in options)
+        //    {
+        //        if (_providerOption.ContainsKey(option.Name))
+        //        {
+        //            WriteLine(1, "Compiler warning : redefine provider option \"{0}\" value \"{1}\" as \"{2}\" from project \"{3}\"", option.Name, _providerOption[option.Name], option.Value, project != null ? project.ProjectFile : "--no project--");
+        //            _providerOption.Remove(option.Name);
+        //        }
+        //        _providerOption.Add(option.Name, option.Value);
+        //    }
+        //}
 
         public void AddCompilerOptions(IEnumerable<string> options)
         {
@@ -390,7 +443,6 @@ namespace pb.Compiler
 
         public void AddSources(IEnumerable<CompilerFile> sources)
         {
-            //_sourceList.AddRange(sources);
             foreach (CompilerFile source in sources)
                 AddSource(source);
         }
@@ -476,14 +528,14 @@ namespace pb.Compiler
         public void Compile()
         {
             if (!_generateInMemory && _outputAssembly == null)
-                throw new CompilerException("output assembly is not defined");
+                throw new PBException("output assembly is not defined");
             SetFinalOutputAssembly();
             if (_finalOutputDir != null)
                 zDirectory.CreateDirectory(_finalOutputDir);
             WriteLine(2, "Compile \"{0}\"", _finalOutputAssembly);
             WriteLine(2, "  DebugInformation      {0}", _debugInformation);
             WriteLine(2, "  GenerateInMemory      {0}", _generateInMemory);
-            WriteLine(2, "  GenerateExecutable    {0}", _generateExecutable);
+            //WriteLine(2, "  GenerateExecutable    {0}", _generateExecutable);
             WriteLine(2, "  WarningLevel          {0}", _warningLevel);
             WriteLine(2, "  CompilerOptions       \"{0}\"", _compilerOptions);
 
@@ -551,81 +603,79 @@ namespace pb.Compiler
             //WriteLine(2, "  Compile has warning   {0}", _results.Errors.HasWarnings);
             //provider.Dispose();
 
-            ICompilerZZ compiler = GetCompiler(_language);
-
-            compiler.ProviderOption = _providerOption;
-            compiler.CompilerOptions = _compilerOptions;
+            //ICompiler compiler = GetCompiler(_language);
+            if (_language == null)
+                throw new PBException("language not defined");
+            ICompiler compiler = CompilerManager.Current.GetCompiler(_language.Name);
+            compiler.LanguageVersion = _language.Version;
+            compiler.FrameworkVersion = _frameworkVersion;
+            compiler.Target = _target;
+            compiler.Platform = _platform;
             compiler.GenerateInMemory = _generateInMemory;
-            compiler.OutputAssembly = _finalOutputAssembly;
-            compiler.GenerateExecutable = _generateExecutable;
             compiler.DebugInformation = _debugInformation;
             compiler.WarningLevel = _warningLevel;
-            compiler.AddSources(GetFilesByType(GetSourceExtension(_language)));
-            foreach (CompilerAssembly assembly in _assemblyList.Values)
-            {
-                WriteLine(2, "  Assembly              \"{0}\" resolve {1}", assembly.File, assembly.Resolve);
-                compiler.AddReferencedAssembly(assembly.File);
-            }
+            compiler.CompilerOptions = _compilerOptions;
+            compiler.OutputAssembly = _finalOutputAssembly;
+
+
+            //compiler.ProviderOption = _providerOption;
+            //compiler.GenerateExecutable = _generateExecutable;
+
+            //compiler.AddSources(GetFilesByType(GetSourceExtension(_language.Name)));
+            compiler.SetSources(GetFilesByType(GetSourceExtension(_language.Name)));
+
+            //foreach (CompilerAssembly assembly in _assemblyList.Values)
+            //{
+            //    WriteLine(2, "  Assembly              \"{0}\" resolve {1}", assembly.File, assembly.Resolve);
+            //    compiler.AddReferencedAssembly(assembly.File);
+            //}
+            compiler.SetReferencedAssemblies(GetReferencedAssemblies());
 
             // compile resources files
             CompilerFile[] resources = GetCompilerFilesType(".resx");
-            string[] compiledResources = CompileResources(resources);
-            foreach (string compiledResource in compiledResources)
-            {
-                WriteLine(2, "  Resource              \"{0}\"", compiledResource);
-                compiler.AddEmbeddedResource(compiledResource);
-            }
-            WriteLine(2, "  Resource error        {0}", _resourceResults.Errors.Count);
-            if (_resourceResults.HasError)
+            //Trace.WriteLine("resources.Length {0}", resources.Length);
+            //string[] compiledResources = CompileResources(resources);
+            ResourceFile[] compiledResources = CompileResources(resources);
+            //Trace.WriteLine("compiledResources.Length {0}", compiledResources.Length);
+            compiler.SetEmbeddedResources(GetCompiledResources(compiledResources));
+            //foreach (string compiledResource in compiledResources)
+            //{
+            //    WriteLine(2, "  Resource              \"{0}\"", compiledResource);
+            //    compiler.AddEmbeddedResource(compiledResource);
+            //}
+            //WriteLine(2, "  Resource error        {0}", _resourceResults.Errors.Count);
+            WriteLine(2, "  Resource messages     {0}", _resourceMessages.Count);
+            //if (_resourceResults.HasError)
+            if (_resourceError)
                 return;
 
-            _results = compiler.Compile();
+            _result = compiler.Compile();
 
-            WriteLine(2, "  Compile error warning {0}", _results.ErrorsCount);
-            WriteLine(2, "  Compile has error     {0}", _results.HasErrors());
-            WriteLine(2, "  Compile has warning   {0}", _results.HasWarnings());
+            WriteLine(2, "  Compile message       {0}", _result.MessagesCount);
+            WriteLine(2, "  Compile success       {0}", _result.Success);
+            //WriteLine(2, "  Compile has warning   {0}", _result.HasWarnings());
 
 
             if (_copySourceFiles)
                 CopySourceFiles();
 
             //if (_results.PathToAssembly != null)
-            if (_results.GetCompiledAssemblyPath() != null)
+            if (_result.GetAssemblyFile() != null)
                 CopyResultFilesToDirectory();
 
             CopyOutputToDirectories();
-        }
-
-        private static ICompilerZZ GetCompiler(string language)
-        {
-            if (language == null)
-                throw new CompilerException("error undefined language");
-            ICompilerZZ compiler = null;
-            string language2 = language.ToLower();
-            if (language2 == "csharp")
-            {
-                //provider = new CSharpCodeProvider(_providerOption);
-                compiler = new zzCSharpCodeProvider();
-            }
-            else if (language2 == "jscript")
-            {
-                //provider = new JScriptCodeProvider();
-                compiler = new zzJScriptCodeProvider();
-            }
-            else
-                throw new CompilerException("error unknow language \"{0}\"", language);
-            return compiler;
+            _CopyRunSourceSourceFiles();
         }
 
         private static string GetSourceExtension(string language)
         {
             string language2 = language.ToLower();
-            if (language2 == "csharp")
+            if (language2 == "csharp1" || language2 == "csharp5")
                 return ".cs";
             else if (language == "jscript")
                 return ".js";
             else
-                throw new CompilerException("error unknow language \"{0}\"", language);
+                throw new PBException("error unknow language \"{0}\"", language);
         }
 
         private void SetFinalOutputAssembly()
@@ -634,10 +684,9 @@ namespace pb.Compiler
             _finalOutputAssembly = _outputAssembly;
             //string sOutputDir = null;
             _finalOutputDir = null;
-            if (_outputDir != null)
-                //_finalOutputDir = _outputDir.zRootPath(_defaultDir);
-                _finalOutputDir = _outputDir;
-            else if (_finalOutputAssembly != null)
+            //if (_outputDir != null)
+            //    _finalOutputDir = _outputDir;
+            if (_finalOutputAssembly != null)
             {
                 string sDir = zPath.GetDirectoryName(_finalOutputAssembly);
                 _finalOutputAssembly = zPath.GetFileName(_finalOutputAssembly);
@@ -647,10 +696,10 @@ namespace pb.Compiler
             if (_finalOutputDir == null) _finalOutputDir = "bin".zRootPath(_projectDirectory);
             if (_finalOutputAssembly != null)
             {
-                if (_generateExecutable)
-                    _finalOutputAssembly = zpath.PathSetExtension(_finalOutputAssembly, ".exe");
-                else
-                    _finalOutputAssembly = zpath.PathSetExtension(_finalOutputAssembly, ".dll");
+                //if (_generateExecutable)
+                //    _finalOutputAssembly = zpath.PathSetExtension(_finalOutputAssembly, ".exe");
+                //else
+                //    _finalOutputAssembly = zpath.PathSetExtension(_finalOutputAssembly, ".dll");
                 _finalOutputAssembly = _finalOutputAssembly.zRootPath(_finalOutputDir);
             }
         }
@@ -716,10 +765,33 @@ namespace pb.Compiler
             }
         }
 
-        public string[] CompileResources(CompilerFile[] resources)
+        private IEnumerable<ReferencedAssembly> GetReferencedAssemblies()
+        {
+            foreach (CompilerAssembly assembly in _assemblyList.Values)
+            {
+                WriteLine(2, "  Assembly              \"{0}\" framework assembly {1} resolve {2}", assembly.File, assembly.FrameworkAssembly, assembly.Resolve);
+                //yield return assembly.File;
+                yield return new ReferencedAssembly { File = assembly.File, FrameworkAssembly = assembly.FrameworkAssembly };
+            }
+        }
+
+        //
+        //private IEnumerable<string> GetCompiledResources(string[] compiledResources)
+        private IEnumerable<ResourceFile> GetCompiledResources(ResourceFile[] compiledResources)
+        {
+            foreach (ResourceFile compiledResource in compiledResources)
+            {
+                WriteLine(2, "  Resource              \"{0}\" namespace \"{1}\"", compiledResource.File, compiledResource.Namespace);
+                yield return compiledResource;
+            }
+        }
+
+        //public string[] CompileResources(CompilerFile[] resources)
+        public ResourceFile[] CompileResources(CompilerFile[] resources)
         {
             string outputDir = zPath.Combine(_finalOutputDir, _CompileResourceSubDirectory);
-            string[] compiledResources = new string[resources.Length];
+            //string[] compiledResources = new string[resources.Length];
+            ResourceFile[] compiledResources = new ResourceFile[resources.Length];
             int i = 0;
             foreach (CompilerFile resource in resources)
             {
@@ -728,135 +800,118 @@ namespace pb.Compiler
             return compiledResources;
         }
 
-        public string CompileResource(CompilerFile resource, string outputDir)
+        //public string CompileResource(CompilerFile resource, string outputDir)
+        public ResourceFile CompileResource(CompilerFile resource, string outputDir)
         {
-            // Utilisation de Resgen.exe http://msdn.microsoft.com/fr-fr/library/ccec7sz1.aspx
-            // resgen [parameters] [/compile]filename.extension [outputFilename.extension] [/str:lang[,namespace[,class[,file]]]]
-
-            //   /compile
-            //      Permet de spécifier plusieurs fichiers .resx ou texte à convertir en plusieurs fichiers .resources en une seule opération globale.
-            //      Si vous omettez cette option, vous ne pouvez spécifier qu'un seul argument de fichier d'entrée.
-            //      Cette option ne peut pas être utilisée avec l'option /str:.
-            //   /publicClass
-            //      Crée un type de ressources fortement typé comme classe public.
-            //      Cette option est ignorée si l'option /str: n'est pas utilisée.
-            //   /r:assembly
-            //      Spécifie que les types doivent être chargés à partir d'un assembly.
-            //      Si vous spécifiez cette option, un fichier .resx avec une version antérieure d'un type utilisera le type dans un assembly.
-            //   /str:language[,namespace[,classname[,filename]]]
-            //      Crée un fichier de classe de ressources fortement typé dans le langage de programmation (cs ou C# pour C#, vb ou visualbasic pour Visual Basic)
-            //      spécifié dans l'option language.
-            //      Vous pouvez utiliser l'option namespace pour spécifier l'espace de noms par défaut du projet,
-            //      l'option classname pour spécifier le nom de la classe générée et l'option filename pour spécifier le nom du fichier de classe.
-            //      Remarque	Dans le .NET Framework version 2.0, classname et filename sont ignorés si namespace n'est pas spécifié. 
-            //      Un seul fichier d'entrée est autorisé lorsque l'option /str: est utilisée, afin qu'il ne puisse pas être utilisé avec l'option /compile.
-            //      Si namespace est spécifié mais que classname ne l'est pas, le nom de la classe est dérivé du nom de fichier de sortie
-            //      (par exemple, les traits de soulignement sont substitués pour les périodes).Les ressources fortement typées peuvent ne pas fonctionner correctement en conséquence.Pour éviter ce problème, spécifiez à la fois le nom de la classe et le nom du fichier de sortie.
-            //   /usesourcepath
-            //      Précise que le répertoire actif du fichier d'entrée sera utilisé pour résoudre des chemins d'accès de fichier relatif.
-            //
-            //  commande utilisée :
-            //    Resgen.exe resource.resx resource.resources /str:cs,PibLink,PibLink_resource
-            //    Resgen.exe PibLink_resource.resx WRunSource.Class.PibLink.PibLink_resource.resources /str:cs,WRunSource.Class.PibLink,PibLink_resource
-
-
-
-            // accès au paramètres de compilation des ressources d'un projet
-            // namespace : Microsoft.VisualStudio.VCProjectEngine
-            // class : VCManagedResourceCompilerTool
-            //string sPathCompiledResource = cu.PathSetDir(cu.PathSetExt(resource, ".resources"), outputDir);
-
-            if (!zDirectory.Exists(outputDir))
-                zDirectory.CreateDirectory(outputDir);
-
-            string resourceFile = resource.File;
-            string resourceFilename = zPath.GetFileNameWithoutExtension(resourceFile);
+            // _resourceError _resourceMessages
             string nameSpace = null;
-            //int i = resource.Attributes.IndexOfKey("namespace");
-            //if (i != -1) nameSpace = resource.Attributes.Values[i];
             if (resource.Attributes.ContainsKey("namespace"))
                 nameSpace = resource.Attributes["namespace"];
-            string sPathCompiledResource = resourceFilename + ".resources";
-            if (nameSpace != null)
-                sPathCompiledResource = nameSpace + "." + sPathCompiledResource;
-            //"WRunSource.Class.PibLink."
-            sPathCompiledResource = zpath.PathSetDirectory(sPathCompiledResource, outputDir);
-            if (zFile.Exists(sPathCompiledResource) && zFile.Exists(resourceFile))
-            {
-                //FileInfo fiResource = new FileInfo(resourceFile);
-                var fiResource = zFile.CreateFileInfo(resourceFile);
-                //FileInfo fiCompiledResource = new FileInfo(sPathCompiledResource);
-                var fiCompiledResource = zFile.CreateFileInfo(sPathCompiledResource);
-                if (fiCompiledResource.LastWriteTime > fiResource.LastWriteTime)
-                    return sPathCompiledResource;
-            }
-            if (_resourceCompiler == null)
-                throw new CompilerException("error resource compiler is not defined");
-            if (!zFile.Exists(_resourceCompiler))
-                throw new CompilerException("error resource compiler cannot be found {0}", _resourceCompiler);
-            ProcessStartInfo pi = new ProcessStartInfo();
-            pi.FileName = _resourceCompiler;
-            //pi.Arguments = cu.PathGetFileWithExt(resource);
-            //pi.Arguments = resource + " " + sPathCompiledResource;
-            //    Resgen.exe PibLink_resource.resx PibLink.PibLink_resource.resources /str:cs,PibLink,PibLink_resource
-            //pi.Arguments = resource + " " + sPathCompiledResource + " /str:cs";
-            pi.Arguments = resourceFile + " " + sPathCompiledResource;
-            if (nameSpace != null) pi.Arguments += " /str:cs," + nameSpace + "," + resourceFilename;
-            //cTrace.Trace("{0} {1}", gsResourceCompiler, pi.Arguments);
-            WriteLine(1, "  {0} {1}", _resourceCompiler, pi.Arguments);
-            //pi.WorkingDirectory = cu.PathGetDir(resource);
-            //pi.WorkingDirectory = outputDir;
-            pi.UseShellExecute = false;
-            pi.RedirectStandardError = true;
-            //pi.WorkingDirectory = gsDefaultDir;
-            pi.WorkingDirectory = zPath.GetDirectoryName(resourceFile);
+            ResourceFile resourceFile = new ResourceFile { File = resource.File, Namespace = nameSpace };
 
-            Process p = new Process();
-            p.StartInfo = pi;
-            gsResourceCompiling = resourceFile;
-            p.ErrorDataReceived += new DataReceivedEventHandler(CompileResource_EventErrorDataReceived);
-            p.Start();
-            p.BeginErrorReadLine();
-            while (!p.HasExited)
-            {
-            }
-            if (p.ExitCode != 0)
-            {
-                _resourceResults.Errors.Add(new ResourceCompilerError(resourceFile, string.Format("error compiling resource, exit code {0}", p.ExitCode)));
-                _resourceResults.HasError = true;
-            }
-            return sPathCompiledResource;
+            //ResourceCompilerResults results = _resourceCompiler.Compile(resource.File, resource.Attributes, outputDir);
+            ResourceCompilerResult result = _resourceCompiler.Compile(resourceFile, outputDir);
+            if (!result.Success)
+                _resourceError = true;
+            foreach (ResourceCompilerMessage message in result.Messages)
+                _resourceMessages.Add(message);
+            //return results.CompiledResourceFile;
+            resourceFile.File = result.CompiledResourceFile;
+            return resourceFile;
         }
 
-        private string gsResourceCompiling;
-        private void CompileResource_EventErrorDataReceived(object sender, DataReceivedEventArgs e)
-        {
-            if (e.Data == null) return;
-            string s = e.Data.Trim();
-            if (s == "") return;
-            _resourceResults.Errors.Add(new ResourceCompilerError(gsResourceCompiling, s));
-        }
+        //public string CompileResource(CompilerFile resource, string outputDir)
+        //{
+        //    // accès au paramètres de compilation des ressources d'un projet
+        //    // namespace : Microsoft.VisualStudio.VCProjectEngine
+        //    // class : VCManagedResourceCompilerTool
+        //    //string sPathCompiledResource = cu.PathSetDir(cu.PathSetExt(resource, ".resources"), outputDir);
 
-        // ICompiler
+        //    if (!zDirectory.Exists(outputDir))
+        //        zDirectory.CreateDirectory(outputDir);
+
+        //    string resourceFile = resource.File;
+        //    string resourceFilename = zPath.GetFileNameWithoutExtension(resourceFile);
+        //    string nameSpace = null;
+        //    if (resource.Attributes.ContainsKey("namespace"))
+        //        nameSpace = resource.Attributes["namespace"];
+        //    string pathCompiledResource = resourceFilename + ".resources";
+        //    if (nameSpace != null)
+        //        pathCompiledResource = nameSpace + "." + pathCompiledResource;
+        //    //"WRunSource.Class.PibLink."
+        //    pathCompiledResource = zpath.PathSetDirectory(pathCompiledResource, outputDir);
+        //    if (zFile.Exists(pathCompiledResource) && zFile.Exists(resourceFile))
+        //    {
+        //        var fiResource = zFile.CreateFileInfo(resourceFile);
+        //        var fiCompiledResource = zFile.CreateFileInfo(pathCompiledResource);
+        //        if (fiCompiledResource.LastWriteTime > fiResource.LastWriteTime)
+        //            return pathCompiledResource;
+        //    }
+        //    if (_resourceCompiler == null)
+        //        throw new PBException("error resource compiler is not defined");
+        //    if (!zFile.Exists(_resourceCompiler))
+        //        throw new PBException("error resource compiler cannot be found {0}", _resourceCompiler);
+        //    ProcessStartInfo pi = new ProcessStartInfo();
+        //    pi.FileName = _resourceCompiler;
+        //    //    Resgen.exe PibLink_resource.resx PibLink.PibLink_resource.resources /str:cs,PibLink,PibLink_resource
+        //    pi.Arguments = resourceFile + " " + pathCompiledResource;
+        //    if (nameSpace != null)
+        //        pi.Arguments += " /str:cs," + nameSpace + "," + resourceFilename;
+        //    WriteLine(1, "  {0} {1}", _resourceCompiler, pi.Arguments);
+        //    pi.UseShellExecute = false;
+        //    pi.RedirectStandardError = true;
+        //    pi.WorkingDirectory = zPath.GetDirectoryName(resourceFile);
+
+        //    Process p = new Process();
+        //    p.StartInfo = pi;
+        //    gsResourceCompiling = resourceFile;
+        //    p.ErrorDataReceived += new DataReceivedEventHandler(CompileResource_EventErrorDataReceived);
+        //    p.Start();
+        //    p.BeginErrorReadLine();
+        //    while (!p.HasExited)
+        //    {
+        //    }
+        //    if (p.ExitCode != 0)
+        //    {
+        //        _resourceResults.Errors.Add(new ResourceCompilerError(resourceFile, string.Format("error compiling resource, exit code {0}", p.ExitCode)));
+        //        _resourceResults.HasError = true;
+        //    }
+        //    return pathCompiledResource;
+        //}
+
+        //private string gsResourceCompiling;
+        //private void CompileResource_EventErrorDataReceived(object sender, DataReceivedEventArgs e)
+        //{
+        //    if (e.Data == null) return;
+        //    string s = e.Data.Trim();
+        //    if (s == "") return;
+        //    _resourceResults.Errors.Add(new ResourceCompilerError(gsResourceCompiling, s));
+        //}
+
+        // IProjectCompiler
         public DataTable GetCompilerMessagesDataTable()
         {
             //if ((_results == null || _results.Errors.Count == 0) && !_resourceResults.HasError)
-            if ((_results == null || _results.ErrorsCount == 0) && !_resourceResults.HasError)
+            //if ((_results == null || _results.ErrorsCount == 0) && !_resourceResults.HasError)
+            if ((_result == null || _result.MessagesCount == 0) && !_resourceError)
                 return null;
             DataTable dt = new DataTable();
-            dt.Columns.Add("ErrorNumber", typeof(string));
+            dt.Columns.Add("Severity", typeof(string));
+            dt.Columns.Add("Id", typeof(string));
             dt.Columns.Add("Source", typeof(string));
             dt.Columns.Add("Line", typeof(int));
             dt.Columns.Add("Column", typeof(int));
-            dt.Columns.Add("Error", typeof(bool));
+            //dt.Columns.Add("Error", typeof(bool));
             dt.Columns.Add("Message", typeof(string));
-            foreach (ResourceCompilerError err in _resourceResults.Errors)
-                dt.Rows.Add(null, zPath.GetFileName(err.FileName), null, null, true, err.ErrorText);
-            if (_results != null)
+            //foreach (ResourceCompilerError err in _resourceResults.Errors)
+            foreach (ResourceCompilerMessage err in _resourceMessages)
+                dt.Rows.Add(null, zPath.GetFileName(err.File), null, null, true, err.Message);
+            if (_result != null)
             {
                 //foreach (CompilerError err in _results.Errors)
-                foreach (CompilerError err in _results.GetErrors())
-                    dt.Rows.Add(err.ErrorNumber, zPath.GetFileName(err.FileName), err.Line, err.Column, !err.IsWarning, err.ErrorText);
+                foreach (CompilerMessage message in _result.GetMessages())
+                    //dt.Rows.Add(err.Id, zPath.GetFileName(err.FileName), err.Line, err.Column, !err.IsWarning, err.Message);
+                    dt.Rows.Add(message.Severity.ToString(), message.Id, zPath.GetFileName(message.FileName), message.Line, message.Column, message.Message);
             }
             return dt;
         }
@@ -872,12 +927,12 @@ namespace pb.Compiler
             CopyResultFilesToDirectory(null);
         }
 
-        // ICompiler
+        // IProjectCompiler
         // if directory = null copy only referenced assembly, files, app.config to output directory
         public void CopyResultFilesToDirectory(string directory)
         {
             //if (_results.PathToAssembly == null)
-            if (_results.GetCompiledAssemblyPath() == null)
+            if (_result.GetAssemblyFile() == null)
                 return;
 
             if (directory != null)
@@ -886,7 +941,7 @@ namespace pb.Compiler
             if (!_generateInMemory && directory != null)
             {
                 //string file = _results.PathToAssembly;
-                string file = _results.GetCompiledAssemblyPath();
+                string file = _result.GetAssemblyFile();
                 if (zfile.CopyFileToDirectory(file, directory, options: CopyFileOptions.OverwriteReadOnly | CopyFileOptions.CopyOnlyIfNewer) != null)
                     WriteLine(2, "    copy assembly \"{0}\" to \"{1}\"", file, directory);
 
@@ -901,7 +956,7 @@ namespace pb.Compiler
             if (directory == null)
             {
                 //directory = zPath.GetDirectoryName(_results.PathToAssembly);
-                directory = zPath.GetDirectoryName(_results.GetCompiledAssemblyPath());
+                directory = zPath.GetDirectoryName(_result.GetAssemblyFile());
                 WriteLine(2, "  copy result files to directory \"{0}\"", directory);
             }
 
@@ -976,7 +1031,7 @@ namespace pb.Compiler
             if (_appConfig != null)
             {
                 //string appFile = zPath.GetFileName(_results.PathToAssembly) + ".config";
-                string appFile = zPath.GetFileName(_results.GetCompiledAssemblyPath()) + ".config";
+                string appFile = zPath.GetFileName(_result.GetAssemblyFile()) + ".config";
                 WriteLine(2, "    copy file \"{0}\" to \"{1}\" as \"{2}\"", _appConfig.File, directory, appFile);
                 //string path = zfile.CopyFileToDirectory(_appConfig.File, directory, appFile, true);
                 string path = zfile.CopyFileToDirectory(_appConfig.File, directory, appFile, CopyFileOptions.OverwriteReadOnly | CopyFileOptions.CopyOnlyIfNewer);
@@ -1037,7 +1092,7 @@ namespace pb.Compiler
         {
             // FileMode.Create will raz existing zip file
             if (_outputAssembly == null)
-                throw new CompilerException("can't zip source files, output assembly is not defined");
+                throw new PBException("can't zip source files, output assembly is not defined");
             //_zipSourceFile = _zipSourceFilename;
             //if (_projectCompilerFile != null)
             //{
@@ -1059,6 +1114,19 @@ namespace pb.Compiler
             }
         }
 
+        private void _CopyRunSourceSourceFiles()
+        {
+            if (_copyRunSourceSourceFiles && _runsourceSourceDirectory != null)
+            {
+                foreach (string directory in _copyOutputDirectories)
+                {
+                    Trace.WriteLine("  copy runsource source files from \"{0}\" to \"{1}\"", _runsourceSourceDirectory, directory);
+                    foreach (string file in zDirectory.EnumerateFiles(_runsourceSourceDirectory, "*" + ProjectCompiler.ZipSourceFilename))
+                        zfile.CopyFileToDirectory(file, directory, options: CopyFileOptions.OverwriteReadOnly | CopyFileOptions.CopyOnlyIfNewer);
+                }
+            }
+        }
+
         private static string GetZipSourceFile(string assemblyFile)
         {
             return zPath.Combine(zPath.GetDirectoryName(assemblyFile), zPath.GetFileNameWithoutExtension(assemblyFile) + __zipSourceFilename);
@@ -1075,19 +1143,22 @@ namespace pb.Compiler
             }
         }
 
-        public void TraceMessages()
+        public void TraceMessages(Predicate<CompilerMessage> messageFilter = null)
         {
-            if (_results != null)
+            if (_result != null)
             {
                 //foreach (CompilerError err in _results.Errors)
-                foreach (CompilerError err in _results.GetErrors())
-                    Trace.WriteLine("{0} no {1,-6} source \"{2}\" line {3} col {4} \"{5}\"", err.IsWarning ? "warning" : "error", err.ErrorNumber, zPath.GetFileName(err.FileName), err.Line, err.Column, err.ErrorText);
+                foreach (CompilerMessage message in _result.GetMessages(messageFilter))
+                    //Trace.WriteLine("{0} no {1,-6} source \"{2}\" line {3} col {4} \"{5}\"", message.IsWarning ? "warning" : "error", message.Id, zPath.GetFileName(message.FileName), message.Line, message.Column, message.Message);
+                    Trace.WriteLine("{0} {1,-6} source \"{2}\" line {3} col {4} \"{5}\"", message.Severity, message.Id, zPath.GetFileName(message.FileName), message.Line, message.Column, message.Message);
             }
-            if (_resourceResults != null)
-            {
-                foreach (ResourceCompilerError err in _resourceResults.Errors)
-                    Trace.WriteLine("source \"{0}\" \"{1}\"", zPath.GetFileName(err.FileName), err.ErrorText);
-            }
+            //if (_resourceResults != null)
+            //{
+            //    foreach (ResourceCompilerError err in _resourceResults.Errors)
+            //        Trace.WriteLine("source \"{0}\" \"{1}\"", zPath.GetFileName(err.FileName), err.ErrorText);
+            //}
+            foreach (ResourceCompilerMessage err in _resourceMessages)
+                Trace.WriteLine("source \"{0}\" \"{1}\"", zPath.GetFileName(err.File), err.Message);
         }
 
         private void WriteLine(int traceLevel, string msg, params object[] prm)
@@ -1095,7 +1166,7 @@ namespace pb.Compiler
             //if (Trace == null || traceLevel > TraceLevel)
             if (traceLevel > __traceLevel)
                 return;
-            pb.Trace.WriteLine(msg, prm);
+            Trace.WriteLine(msg, prm);
         }
     }
 }

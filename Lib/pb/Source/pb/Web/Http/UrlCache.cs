@@ -1,9 +1,7 @@
 ﻿using System;
-using System.IO;
 using System.Xml.Linq;
 using pb.Data.Xml;
 using pb.IO;
-//using pb.Web.old;
 
 // to do
 //  gérer loadFromWebDate du cache

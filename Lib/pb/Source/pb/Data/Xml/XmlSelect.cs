@@ -4,8 +4,6 @@ using System.Data;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
-using System.Xml.XPath;
-using pb.Data.Xml;
 using pb.Text;
 
 namespace pb.Data.Xml

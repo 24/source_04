@@ -27,7 +27,7 @@
 
   <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Html\HtmlRun.cs" />
 
-  <Assembly                         value = "System.Data.dll" />
+  <FrameworkAssembly                value = "System.Data.dll" />
   <Assembly                         value = "$Root$\..\library\Mongo\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Bson.dll" resolve = "true" resolveName = "MongoDB.Bson, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />
 
 </AssemblyProject>

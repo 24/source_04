@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Xml.Linq;
 using pb;
 using pb.Data;
@@ -10,7 +8,6 @@ using pb.Text;
 // A faire :
 //   supprimer baseDirectory dans le constructeur
 
-//namespace Print
 namespace Download.Print
 {
     public class PrintLeParisien : Print

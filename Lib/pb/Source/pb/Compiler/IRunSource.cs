@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Text;
-using System.Xml.Linq;
 
 namespace pb.Compiler
 {
@@ -62,7 +59,8 @@ namespace pb.Compiler
         //IChrono RunCodeChrono { get; }
 
         void SetAsCurrentRunSource();
-        void SetRunSourceConfig(string file);
+        void Init(string configFile);
+        //void SetRunSourceConfig(string configFile);
         void StartAssemblyResolve();
         string SetProject(string file);
         bool IsRunning();
@@ -78,7 +76,8 @@ namespace pb.Compiler
         void RunCode(string code, bool runOnMainThread = false, bool compileWithoutProject = false, bool allowMultipleRun = false, bool callInit = false);
         void CompileCode(string source, bool compileWithoutProject = false);
         void DeleteGeneratedAssemblies();
-        ICompiler CompileProject(string projectName);
+        IProjectCompiler CompileProject(string projectName);
+        bool CompileProjects(string projectsFile, string runsourceSourceDirectory = null);
         //string GetProjectConfigPath(string projectName);
         //XmlParameters_v1 CreateParameters();
         //void SaveParameters();

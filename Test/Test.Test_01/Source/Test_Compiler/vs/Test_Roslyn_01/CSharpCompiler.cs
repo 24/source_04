@@ -34,6 +34,9 @@ using System.Text;
 
 //var result = mutantCompilation.Emit(file, manifestResources: new[] { resourceDescription });
 
+
+// roslyn source :
+
 // c:\pib\_dl\dev\roslyn\roslyn-master\src\Compilers\Shared\Csc.cs
 //   Microsoft.CodeAnalysis.CSharp.CommandLine.Csc
 // c:\pib\_dl\dev\roslyn\roslyn-master\src\Compilers\Core\MSBuildTask\Shared\Csc.cs

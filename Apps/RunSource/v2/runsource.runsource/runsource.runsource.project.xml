@@ -3,14 +3,19 @@
   <!--<Root                             value = "..\..\..\..\.." />-->
   <Root                             value = "..\..\..\.." />
 
-  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\CSharp.Default.project.xml" />
+  <!--<IncludeProject                   value = "$Root$\Lib\pb\Source\Project\CSharp.Default.project.xml" />-->
 
-  <Target                           value = "winexe" /> <!-- exe (exe console default), library (dll), module (.netmodule), winexe (exe windows) -->
-	<Output                           value = "bin32\runsource.runsource.exe" />
-  <CopySourceFiles                  value = "true" />
+  <Language                                  name = "CSharp5" version = "6" />
+  <FrameworkVersion                          value = "4.6.1" />  <!-- 2.0, 3.0, 3.5, 3.5 client, 4.0, 4.0 client, 4.5, 4.5.1, 4.5.2, 4.6, 4.6.1 -->
+  <WarningLevel                              value = "4" /> <!-- 0 no warning, 1 severe warning, 2 + less-severe warnings 1, 3 + less-severe warnings 2, 4 all warning -->
+  <Target                           value = "winexe" /> <!-- exe (exe console default), library (dll), module (.netmodule), winexe (exe windows), winruntimeexe (windows runtime application), winruntimemetadata (windows runtime metadata) -->
+  <Platform                         value = "X86" /> <!-- AnyCpu (default), X86, X64, Itanium, AnyCpu32BitPreferred (only CSharp5), Arm (only CSharp5) -->
+  <DebugInformation                 value = "true" />
+  <Output                           value = "bin32\runsource.runsource.exe" />
   <Icon                             value = "Properties\app.ico" />
-	<NameSpace                        value = "runsourced" />
-	<CompilerOptions                  value = "/platform:x86" />  <!-- x86, Itanium, x64, or anycpu (default). -->
+  <CopySourceFiles                  value = "true" />
+  <NameSpace                        value = "runsourced" />
+	<!--<CompilerOptions                  value = "/platform:x86" />  --><!-- x86, Itanium, x64, or anycpu (default). -->
   <File                             value = "runsource.runsource.config.xml" />
   <Source                           value = "Properties\AssemblyInfo.cs" />
   <Source                           value = "Properties\Resources.resx" namespace = "runsourced.Properties" />
@@ -100,13 +105,14 @@
   <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\Scintilla\ScintillaStatus.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Win32\WM.cs" />
 
-  <Assembly                         value = "System.dll" />
-	<Assembly                         value = "System.Core.dll" />
-	<Assembly                         value = "System.Data.dll" />
-	<Assembly                         value = "System.Drawing.dll" />
-	<Assembly                         value = "System.Windows.Forms.dll" />
-	<Assembly                         value = "System.Xml.dll" />
-	<Assembly                         value = "System.Xml.Linq.dll" />
+  <FrameworkAssembly                value = "mscorlib.dll" />
+  <FrameworkAssembly                value = "System.dll" />
+  <FrameworkAssembly                value = "System.Core.dll" />
+	<FrameworkAssembly                value = "System.Data.dll" />
+  <FrameworkAssembly                value = "System.Drawing.dll" />
+  <FrameworkAssembly                value = "System.Windows.Forms.dll" />
+  <FrameworkAssembly                value = "System.Xml.dll" />
+  <FrameworkAssembly                value = "System.Xml.Linq.dll" />
   <!--<Assembly                         value = "DevExpress.Data.dll" />-->
   <!--<Assembly                         value = "DevExpress.Utils.dll" />-->
   <!--<Assembly                         value = "DevExpress.XtraEditors.dll" />-->
@@ -125,5 +131,4 @@
 
   <Assembly                         value = "$Root$\Lib\LongPath\Pri.LongPath\bin\Debug\Pri.LongPath.dll" />
   <Assembly                         value = "$Root$\Apps\RunSource\v2\runsource.irunsource\bin32\runsource.irunsource.dll" copySource = "true" />
-  <DebugInformation                 value = "true" />
 </AssemblyProject>

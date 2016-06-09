@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace pb.Data
+﻿namespace pb.Data
 {
     public class GClass2<T1, T2>
     {

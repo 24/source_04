@@ -66,7 +66,7 @@ namespace pb.Compiler
         //private string _endTypeName = null;           // if null use _runTypeName
         private string _endMethodName = null;       // "End"
 
-        private Compiler _compiler = null;
+        private ProjectCompiler _compiler = null;
         private Thread _executionThread = null;
 
         public GenerateAndExecute(string assemblyFilename)
@@ -77,7 +77,7 @@ namespace pb.Compiler
             _runMethodName = __defaultRunMethodName;
             _initMethodName = __defaultInitMethodName;
             _endMethodName = __defaultEndMethodName;
-            _compiler = new Compiler();
+            _compiler = new ProjectCompiler();
             _compiler.SetOutputAssembly(assemblyFilename);
         }
 
@@ -90,7 +90,7 @@ namespace pb.Compiler
         public string RunMethodName { get { return _runMethodName; } set { if (value != null) _runMethodName = value; } }
         public string InitMethodName { get { return _initMethodName; } set { _initMethodName = value; } }
         public string EndMethodName { get { return _endMethodName; } set { _endMethodName = value; } }
-        public ICompiler Compiler { get { return _compiler; } }
+        public IProjectCompiler Compiler { get { return _compiler; } }
         public Thread ExecutionThread { get { return _executionThread; } }
 
         public void AddUsings(IEnumerable<string> usings)
@@ -147,7 +147,7 @@ namespace pb.Compiler
         public Type GetRunType(string typeName = null)
         {
             //Assembly assembly = _compiler.Results.CompiledAssembly;
-            Assembly assembly = _compiler.Results.GetCompiledAssembly();
+            Assembly assembly = _compiler.Results.LoadAssembly();
             if (typeName == null)
             {
                 if (_runType == null)

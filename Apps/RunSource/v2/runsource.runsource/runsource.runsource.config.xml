@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <configuration>
   <ProjectDirectory                            value = "c:\pib\drive\google\dev\project\.net" />
-  <RunSourceDirectory                          value = "c:\pib\prog\tools\runsource" />
   <Log                                         value = "log.txt" />  <!-- option = "None" -->
 <!--<TraceDir                                      value = "Log\Trace" />-->
 <!--<RunsourceTitle                              value = "" />-->  <!-- default = "Run source" -->
@@ -14,15 +13,20 @@
   <!--<TraceAssemblyResolve                        value = "true" /> --><!-- default = "false" -->
   <!--<RunSourceDomainName                           value = "RunSource" />-->  <!-- default: "RunSource" -->
   <!--<CreateRunSourceDomain                         value = "true" />-->      <!-- default = false, true, attention si CreateRunSourceDomain = true runsource.launch.exe ne peut pas mettre à jour runsource.runsourced32.exe -->
-  <UpdateRunSource>
-    <UpdateDirectory                           value = "$RunSourceDirectory$\update" /> <!-- default = false -->
+  <RunSourceProjects                           value = "$ProjectDirectory$\Apps\RunSource\v2\runsource.projects.xml" />
+  <RunSourceDirectory                          value = "c:\pib\prog\tools\runsource" />
+  <RunsourceSourceDirectory                    value = "$RunSourceDirectory$\update" />
+  <RunsourceUpdateDirectory                    value = "..\update" />
+  <!--<UpdateRunSource>
+    <UpdateDirectory                           value = "$RunSourceDirectory$\update" />
     <TraceUpdate                               value = "true" />
-    <!--<ProjectDirectory                          value = "$ProjectDirectory$\Apps\RunSource\v2" />-->  <!-- c:\pib\drive\google\dev\project\Source\RunSource\v2 -->
+    --><!--<ProjectDirectory                          value = "$ProjectDirectory$\Apps\RunSource\v2" />--><!--  --><!-- c:\pib\drive\google\dev\project\Source\RunSource\v2 --><!--
     <Project                                   value = "$ProjectDirectory$\Apps\RunSource\v2\runsource.irunsource\runsource.irunsource.project.xml" />
-    <Project                                   value = "$ProjectDirectory$\Apps\RunSource\v2\runsource.dll\runsource.dll.project.xml" copyOutput = "$RunSourceDirectory$\new" />
-    <Project                                   value = "$ProjectDirectory$\Apps\RunSource\v2\runsource.runsource\runsource.runsource.project.xml" copyOutput = "$RunSourceDirectory$\new" />
-    <ProjectRunSourceLaunch                    value = "$ProjectDirectory$\Apps\RunSource\v2\runsource.launch\runsource.launch.project.xml" copyOutput = "$RunSourceDirectory$\new" />
-  </UpdateRunSource>
+    <Project                                   value = "$ProjectDirectory$\Apps\RunSource\v2\runsource.dll\runsource.dll.project.xml" copyOutput = "$RunSourceDirectory$\new" copyToUpdateDirectory = "true" />
+    <Project                                   value = "$ProjectDirectory$\Apps\RunSource\v2\runsource.runsource\runsource.runsource.project.xml" copyOutput = "$RunSourceDirectory$\new" copyToUpdateDirectory = "true" />
+    <Project                                   value = "$ProjectDirectory$\Apps\RunSource\v2\runsource.launch\runsource.launch.project.xml" copyOutput = "$RunSourceDirectory$\new" />
+    --><!--<ProjectRunSourceLaunch                    value = "$ProjectDirectory$\Apps\RunSource\v2\runsource.launch\runsource.launch.project.xml" copyOutput = "$RunSourceDirectory$\new" />--><!--
+  </UpdateRunSource>-->
   
 <!--<GenerateAssemblyDirectory                   value = "" />-->  <!-- default = "run" -->
 <!--<GenerateAssemblyName                        value = "" />-->  <!-- default = "RunCode" -->
@@ -36,7 +40,27 @@
     --><!--<ResourceCompiler                          value = "c:\Program Files\Microsoft SDKs\Windows\v7.1\Bin\ResGen.exe"/>--><!--
     <ResourceCompiler                          value = "c:\Program Files (x86)\Microsoft SDKs\Windows\v8.1A\bin\NETFX 4.5.1 Tools\ResGen.exe"/>
   </CompilerDefaultValues>-->
-
+  
+  <CompilerConfig>
+    <Frameworks>
+      <FrameworkDirectory1                     value = "C:\Windows\Microsoft.NET\Framework"/>
+      <FrameworkDirectory2                     value = "C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework"/>
+      <!-- 2.0, 3.0, 3.5, 3.5 client, 4.0, 4.0 client, 4.5, 4.5.1, 4.5.2, 4.6, 4.6.1 -->
+      <Framework                               version = "2.0" directory = "$FrameworkDirectory1$\v2.0.50727"/>
+      <Framework                               version = "3.5 client" directory = "$FrameworkDirectory2$\v3.5\Profile\Client"/>
+      <Framework                               version = "4.0" directory = "$FrameworkDirectory2$\v4.0"/>
+      <Framework                               version = "4.0 client" directory = "$FrameworkDirectory2$\v4.0\Profile\Client"/>
+      <Framework                               version = "4.5" directory = "$FrameworkDirectory2$\v4.5"/>
+      <Framework                               version = "4.5.1" directory = "$FrameworkDirectory2$\v4.5.1"/>
+      <Framework                               version = "4.5.2" directory = "$FrameworkDirectory2$\v4.5.2"/>
+      <Framework                               version = "4.6" directory = "$FrameworkDirectory2$\v4.6"/>
+      <Framework                               version = "4.6.1" directory = "$FrameworkDirectory2$\v4.6.1"/>
+    </Frameworks>
+    <!--<ResourceCompiler                          value = "c:\Program Files\Microsoft SDKs\Windows\v7.1\Bin\ResGen.exe"/>-->
+    <ResourceCompiler                          value = "c:\Program Files (x86)\Microsoft SDKs\Windows\v8.1A\bin\NETFX 4.5.1 Tools\ResGen.exe"/>
+    <DisableCompilerMessages                   value = "CS1701"/>
+  </CompilerConfig>
+  
   <DefaultProject                              value = "$ProjectDirectory$\Lib\pb\Source\Project\Default.project.xml"/>    <!-- used to compile without project  -->
   <!--<ProjectDefaultValues                        value = "$ProjectDirectory$\Lib\pb\Source\Project\DefaultValues.project.xml"/>-->
 	<!--<ProjectDefaultValues>

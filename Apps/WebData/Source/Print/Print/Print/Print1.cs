@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using pb;
 using pb.Data;
@@ -12,7 +8,6 @@ using pb.Data.Xml;
 using pb.IO;
 using pb.Text;
 
-//namespace Print
 namespace Download.Print
 {
     public class Print1

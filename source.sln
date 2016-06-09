@@ -10,6 +10,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{16F7088B-0F21-405E-9287-3CADF69378C7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "RunSource", "RunSource", "{ECF3D1B7-CCB4-4805-8EE3-F362E77348D3}"
+	ProjectSection(SolutionItems) = preProject
+		Apps\RunSource\v2\runsource.projects.xml = Apps\RunSource\v2\runsource.projects.xml
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "runsource.v2.irunsource", "Apps\RunSource\v2\runsource.irunsource\runsource.v2.irunsource.csproj", "{69EECA69-AABA-40B4-B8A0-F830303A831F}"
 EndProject

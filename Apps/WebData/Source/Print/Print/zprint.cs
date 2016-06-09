@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
 using pb;
 
-//namespace Print
 namespace Download.Print
 {
     public delegate bool PrintExistsDelegate(Date date);

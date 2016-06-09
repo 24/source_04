@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Reflection;
-using pb.Data.Xml;
 using pb.IO;
-using System.Collections.Generic;
 using System.Collections.Concurrent;
 
 // todo
@@ -33,6 +31,7 @@ namespace pb.Compiler
         private ConcurrentDictionary<int, RunCode> _runCodes = new ConcurrentDictionary<int, RunCode>();
         private int _runCodeId = 0;
         private GenerateAssembly _generateAssembly = null;
+        private Predicate<CompilerMessage> _messageFilter = null;
 
         private Action<EndRunCodeInfo> _endRunCode;
         public event OnPauseEvent OnPauseExecution;
@@ -42,6 +41,12 @@ namespace pb.Compiler
         //public bool AllowMultipleExecution { get { return _allowMultipleExecution; } set { _allowMultipleExecution = value; } }
         //public bool CallInit { get { return _runSourceInitEndMethods.CallInit; } set { _runSourceInitEndMethods.CallInit = value; } }
         public bool CallInit { get { return _runSourceInitEndMethods.CallInit; } }
+
+        private void InitRunCode()
+        {
+            // Hidden CS8019 Unnecessary using directive
+            _messageFilter = CompilerManager.GetMessageFilter("CS8019");
+        }
 
         public bool IsRunning()
         {
@@ -161,7 +166,7 @@ namespace pb.Compiler
 
             try
             {
-                CompilerProject compilerProject = null;
+                CompilerProjectReader compilerProject = null;
                 if (!compileWithoutProject)
                     compilerProject = GetProjectCompilerProject();
                 if (compilerProject == null)
@@ -171,21 +176,23 @@ namespace pb.Compiler
 
                 GenerateCSharpCodeResult codeResult = RunCode_GenerateCode(code, compilerProject, assemblyFile);
 
-                Compiler compiler = RunCode_CompileCode(compilerProject, assemblyFile, codeResult.SourceFile);
+                ProjectCompiler compiler = RunCode_CompileCode(compilerProject, assemblyFile, codeResult.SourceFile);
 
-                if (compiler.HasError())
+                //if (compiler.HasError())
+                if (!compiler.Success)
                 {
                     SetResult(compiler.GetCompilerMessagesDataTable());
                 }
                 else
                 {
                     // trace warning
-                    compiler.TraceMessages();
+                    //compiler.TraceMessages(_messageFilter);
+                    compiler.TraceMessages(message => _messageFilter(message) || message.FileName != codeResult.SourceFile);
 
                     if (!dontRunCode)
                     {
                         //RunCode_ExecuteCode(compiler.Results.CompiledAssembly, codeResult, compilerProject, compiler, runOnMainThread, callInit);
-                        RunCode_ExecuteCode(compiler.Results.GetCompiledAssembly(), codeResult, compilerProject, compiler, runOnMainThread, callInit);
+                        RunCode_ExecuteCode(compiler.Results.LoadAssembly(), codeResult, compilerProject, compiler, runOnMainThread, callInit);
                         doEndRun = false;
                     }
                 }
@@ -202,7 +209,7 @@ namespace pb.Compiler
             }
         }
 
-        private GenerateCSharpCodeResult RunCode_GenerateCode(string code, CompilerProject compilerProject, string assemblyFilename)
+        private GenerateCSharpCodeResult RunCode_GenerateCode(string code, CompilerProjectReader compilerProject, string assemblyFilename)
         {
             GenerateCSharpCode generateCSharpCode = new GenerateCSharpCode(assemblyFilename);
             generateCSharpCode.RunTypeName = GetRunSourceConfig().Get("GenerateCodeRunTypeName", "_RunCode");  // "w"
@@ -217,10 +224,10 @@ namespace pb.Compiler
             return generateCSharpCode.GenerateCode(code);
         }
 
-        private Compiler RunCode_CompileCode(CompilerProject compilerProject, string assemblyFilename, string sourceFile)
+        private ProjectCompiler RunCode_CompileCode(CompilerProjectReader compilerProject, string assemblyFilename, string sourceFile)
         {
-            Compiler compiler = new Compiler();
-            compiler.SetOutputAssembly(assemblyFilename);
+            ProjectCompiler compiler = new ProjectCompiler(CompilerManager.Current.ResourceCompiler);
+            compiler.SetOutputAssembly(assemblyFilename + ".dll");
             compiler.AddSource(new CompilerFile(sourceFile));
 
             if (compilerProject != null)
@@ -229,6 +236,7 @@ namespace pb.Compiler
             // CompilerDefaultValues from runsource.runsource.config.xml runsource.runsource.config.local.xml
             //compiler.SetParameters(GetRunSourceConfigCompilerDefaultValues(), runCode: true);
             compiler.SetParameters(compilerProject, runCode: true);
+            compiler.SetTarget("library");
 
             compiler.Compile();
 
@@ -238,7 +246,7 @@ namespace pb.Compiler
         // RunCode_ExecuteCode must throw an exception if he can't execute run method
         // if no error thrown RunCode_ExecuteCode must call RunCode_EndRun()
         //private void RunCode_ExecuteCode(Assembly assembly, GenerateCSharpCodeResult codeResult, CompilerProject compilerProject, Compiler compiler, bool useNewThread)
-        private void RunCode_ExecuteCode(Assembly assembly, GenerateCSharpCodeResult codeResult, CompilerProject compilerProject, Compiler compiler, bool runOnMainThread, bool callInit)
+        private void RunCode_ExecuteCode(Assembly assembly, GenerateCSharpCodeResult codeResult, CompilerProjectReader compilerProject, ProjectCompiler compiler, bool runOnMainThread, bool callInit)
         {
             RunCode runCode = new RunCode(++_runCodeId);
             runCode.RunAssembly = assembly;

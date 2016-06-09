@@ -1,6 +1,10 @@
 ﻿using pb;
 using pb.Compiler;
+using pb.Data.Xml;
+using pb.IO;
 using System;
+using System.Collections.Generic;
+using System.Xml.Linq;
 
 namespace pbc
 {
@@ -8,6 +12,7 @@ namespace pbc
     {
         private static int __traceLevel = 1;
         private static string __projectFile = null;
+        private static Dictionary<string, string> _shortcuts = null;
 
         static void Main(string[] args)
         {
@@ -20,8 +25,15 @@ namespace pbc
                     return;
                 }
                 //Trace.WriteLine($"args.Length {args.Length}");
-                Compiler.TraceLevel = __traceLevel;
-                Compile.CompileProject(__projectFile);
+                ProjectCompiler.TraceLevel = __traceLevel;
+
+                ReadShortcuts();
+                if (_shortcuts.ContainsKey(__projectFile))
+                    __projectFile = _shortcuts[__projectFile];
+                else if (!zFile.Exists(__projectFile) && !zPath.IsPathRooted(__projectFile))
+                    __projectFile = zPath.Combine(XmlConfig.CurrentConfig.GetExplicit("ProjectDirectory"), __projectFile);
+
+                Compile.CompileFile(__projectFile);
             }
             catch (Exception ex)
             {
@@ -62,6 +74,15 @@ namespace pbc
             // 0 no message, 1 default messages, 2 detailled messaged
             Trace.WriteLine("usage : pbc.exe [--trace] project");
             Trace.WriteLine(@"example : pbc.exe --trace c:\...\test.project.xml");
+        }
+
+        private static void ReadShortcuts()
+        {
+            _shortcuts = new Dictionary<string, string>();
+            foreach (XElement xe in XmlConfig.CurrentConfig.GetElements("Shortcuts/Shortcut"))
+            {
+                _shortcuts.Add(xe.zExplicitAttribValue("shortcut"), xe.zExplicitAttribValue("project"));
+            }
         }
     }
 }

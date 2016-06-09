@@ -1,7 +1,4 @@
-﻿using System;
-
-//namespace Print
-namespace Download.Print
+﻿namespace Download.Print
 {
     public enum PrintFrequency
     {

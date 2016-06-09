@@ -14,7 +14,7 @@
   <Source                           value = "$Root$\Lib\pb\Source\pb\Web\WebDriver\WebDriverManager.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Web\WebDriver\WebDriverRun.cs" />
 
-  <Assembly                         value = "System.Drawing.dll" />
+  <FrameworkAssembly                value = "System.Drawing.dll" />
   <Assembly                         value = "$Root$\..\library\Selenium\selenium-dotnet\selenium-dotnet-2.48.0\net40\WebDriver.dll" />
   <Assembly                         value = "$Root$\..\library\Selenium\selenium-dotnet\selenium-dotnet-2.48.0\net40\WebDriver.Support.dll" />
 </AssemblyProject>

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace pb.Web
+﻿namespace pb.Web
 {
     public enum XmlDocumentSourceType
     {

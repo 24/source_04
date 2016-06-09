@@ -1,9 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using pb.IO;
 
 namespace pb.Compiler
 {
+    public class CompilerLanguage
+    {
+        public string Name;
+        public string Version;
+    }
+
     public class CompilerProviderOption
     {
         public string Name;
@@ -15,7 +20,7 @@ namespace pb.Compiler
         public string File = null;
         public string RelativePath = null;
         public Dictionary<string, string> Attributes = new Dictionary<string, string>();
-        public ICompilerProject Project = null;
+        public ICompilerProjectReader Project = null;
 
         public CompilerFile(string file, string rootDirectory = null)
         {
@@ -36,20 +41,21 @@ namespace pb.Compiler
     public class CompilerAssembly
     {
         public string File = null;
+        public bool FrameworkAssembly = false;
         public bool Resolve = false;
         public string ResolveName = null;
         //public bool CopySource = false;
-        public ICompilerProject Project = null;
+        public ICompilerProjectReader Project = null;
 
         // bool copySource = false
-        public CompilerAssembly(string file, bool resolve = false, string resolveName = null, ICompilerProject project = null)
-        {
-            File = file;
-            Resolve = resolve;
-            ResolveName = resolveName;
-            //CopySource = copySource;
-            Project = project;
-        }
+        //public CompilerAssembly(string file, bool resolve = false, string resolveName = null, ICompilerProjectReader project = null)
+        //{
+        //    File = file;
+        //    Resolve = resolve;
+        //    ResolveName = resolveName;
+        //    //CopySource = copySource;
+        //    Project = project;
+        //}
     }
 
     //public class CompilerUpdateDirectory
@@ -58,28 +64,32 @@ namespace pb.Compiler
     //    public string DestinationDirectory = null;
     //}
 
-    public interface ICompilerProject
+    // old name ICompilerProject
+    public interface ICompilerProjectReader
     {
         string ProjectFile { get; }
         string ProjectDirectory { get; }
         bool IsIncludeProject { get; }
 
-        string GetLanguage();
-        IEnumerable<CompilerProviderOption> GetProviderOptions();
-        string GetResourceCompiler();
-        string GetOutputDir();
-        string GetOutput();
-        bool? GetGenerateExecutable();
+        //string GetLanguage();
+        CompilerLanguage GetLanguage();
+        string GetFrameworkVersion();
+        string GetTarget();
+        string GetPlatform();
         bool? GetGenerateInMemory();
         bool? GetDebugInformation();
         int? GetWarningLevel();
         IEnumerable<string> GetCompilerOptions();
+        //IEnumerable<CompilerProviderOption> GetProviderOptions();
+        //string GetResourceCompiler();
+        //string GetOutputDir();
+        string GetOutput();
+        //bool? GetGenerateExecutable();
         string GetKeyFile();
-        string GetTarget();
         bool? GetCopySourceFiles();
         bool? GetCopyRunSourceSourceFiles();
         string GetIcon();
-        IEnumerable<ICompilerProject> GetIncludeProjects();
+        IEnumerable<ICompilerProjectReader> GetIncludeProjects();
         IEnumerable<string> GetInitMethods();
         IEnumerable<string> GetUsings();
         IEnumerable<CompilerFile> GetSources();

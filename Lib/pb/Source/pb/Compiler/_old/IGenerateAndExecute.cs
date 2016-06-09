@@ -19,7 +19,7 @@ namespace pb.Compiler
         string RunMethodName { get; set; }
         string InitMethodName { get; set; }
         string EndMethodName { get; set; }
-        ICompiler Compiler { get; }
+        IProjectCompiler Compiler { get; }
         Thread ExecutionThread { get; }
 
         void AddUsings(IEnumerable<string> usings);

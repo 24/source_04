@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<AssemblyProject>
+  <!--<IncludeProject                   value = "CSharp1.Default.project.xml" />-->
+  <IncludeProject                   value = "CSharp5.Default.project.xml" />
+</AssemblyProject>

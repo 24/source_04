@@ -16,7 +16,6 @@ using pb.old; // for zSetTextVariables() in pb\_old\TextVariables.cs
 //     pu.GetEveryTwoWeekPrintDate()
 //   supprimer baseDirectory dans le constructeur
 
-//namespace Print
 namespace Download.Print
 {
     public class PrintInfo

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace pb
+﻿namespace pb
 {
     public static partial class Trace
     {

@@ -4,12 +4,13 @@
 
   <Using                            value = "pb.Web" />
 
-  <Assembly                         value = "System.dll" />
-  <Assembly                         value = "System.Core.dll" />
-  <Assembly                         value = "System.Drawing.dll" />
-  <Assembly                         value = "System.Web.dll" />
-  <Assembly                         value = "System.Xml.dll" />
-  <Assembly                         value = "System.Xml.Linq.dll" />
+  <!--<FrameworkAssembly                value = "mscorlib.dll" />-->
+  <FrameworkAssembly                value = "System.dll" />
+  <FrameworkAssembly                value = "System.Core.dll" />
+  <FrameworkAssembly                value = "System.Drawing.dll" />
+  <FrameworkAssembly                value = "System.Web.dll" />
+  <FrameworkAssembly                value = "System.Xml.dll" />
+  <FrameworkAssembly                value = "System.Xml.Linq.dll" />
   <Assembly                         value = "runsource.dll" />
   <Assembly                         value = "runsource.irunsource.dll" />
   <Assembly                         value = "$Root$\..\library\pib\HttpRun\HttpRun.dll" />

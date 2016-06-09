@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Download.Print
+﻿namespace Download.Print
 {
     public static class AppData
     {

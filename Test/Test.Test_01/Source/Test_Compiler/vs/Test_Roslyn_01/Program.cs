@@ -50,7 +50,6 @@ using System.Linq;
 //     C:\pib\dev\NuGet\repository\Microsoft.CodeAnalysis.CSharp.1.2.2\lib\net45\Microsoft.CodeAnalysis.CSharp.dll
 //     C:\pib\dev\NuGet\repository\System.Collections.Immutable.1.1.37\lib\dotnet\System.Collections.Immutable.dll
 //     C:\pib\dev\NuGet\repository\System.Reflection.Metadata.1.2.0\lib\portable-net45+win8\System.Reflection.Metadata.dll
-//     
 
 //typeof(object).Assembly.Location : "C:\Windows\Microsoft.NET\Framework\v4.0.30319\mscorlib.dll"
 //typeof(Enumerable).Assembly.Location : "C:\WINDOWS\Microsoft.Net\assembly\GAC_MSIL\System.Core\v4.0_4.0.0.0__b77a5c561934e089\System.Core.dll"

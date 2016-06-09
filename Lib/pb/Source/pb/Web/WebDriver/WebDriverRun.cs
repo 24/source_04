@@ -1,6 +1,5 @@
 ﻿using System.Collections.ObjectModel;
 using OpenQA.Selenium;
-using System.Drawing;
 
 namespace pb.Web.WebDriver
 {

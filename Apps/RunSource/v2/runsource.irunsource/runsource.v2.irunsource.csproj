@@ -43,11 +43,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Compiler\ICompiler.cs">
-      <Link>SourceLnk\Lib\pb\Compiler\ICompiler.cs</Link>
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Compiler\ICompilerProjectReader.cs">
+      <Link>SourceLnk\Lib\pb\Compiler\ICompilerProjectReader.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Compiler\ICompilerProject.cs">
-      <Link>SourceLnk\Lib\pb\Compiler\ICompilerProject.cs</Link>
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Compiler\IProjectCompiler.cs">
+      <Link>SourceLnk\Lib\pb\Compiler\IProjectCompiler.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\Compiler\IRunSource.cs">
       <Link>SourceLnk\Lib\pb\Compiler\IRunSource.cs</Link>
@@ -79,7 +79,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="runsource.irunsource.project.xml" />
+    <Content Include="runsource.irunsource.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

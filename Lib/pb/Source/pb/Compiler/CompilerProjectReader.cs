@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 using pb.Data.Xml;
@@ -8,7 +6,9 @@ using pb.IO;
 
 namespace pb.Compiler
 {
-    public class CompilerProject : ICompilerProject
+    // CompilerProjectReader
+    // old name CompilerProject
+    public class CompilerProjectReader : ICompilerProjectReader
     {
         private string _projectFile = null;
         private string _projectDirectory = null;
@@ -16,7 +16,7 @@ namespace pb.Compiler
         private XmlConfigElement _projectXmlElement = null;
         private bool _isIncludeProject = false;
         private string _rootDirectory = null;
-        private List<ICompilerProject> _includeProjects = null;
+        private List<ICompilerProjectReader> _includeProjects = null;
 
         //public CompilerProject(XElement projectXmlElement, string projectFile)
         //{
@@ -26,7 +26,7 @@ namespace pb.Compiler
         //        _projectDirectory = zPath.GetDirectoryName(projectFile);
         //}
 
-        private CompilerProject(XmlConfigElement projectXmlElement, bool isIncludeProject = false)
+        private CompilerProjectReader(XmlConfigElement projectXmlElement, bool isIncludeProject = false)
         {
             if (projectXmlElement == null)
                 throw new PBException("projectXmlElement is null when creating pb.Compiler.CompilerProject");
@@ -37,10 +37,10 @@ namespace pb.Compiler
             _isIncludeProject = isIncludeProject;
         }
 
-        public static CompilerProject Create(XmlConfigElement projectXmlElement, bool isIncludeProject = false)
+        public static CompilerProjectReader Create(XmlConfigElement projectXmlElement, bool isIncludeProject = false)
         {
             if (projectXmlElement != null)
-                return new CompilerProject(projectXmlElement, isIncludeProject);
+                return new CompilerProjectReader(projectXmlElement, isIncludeProject);
             else
                 return null;
         }
@@ -66,36 +66,34 @@ namespace pb.Compiler
             return _rootDirectory;
         }
 
-        public string GetLanguage()
+        //public string GetLanguage()
+        //{
+        //    return _projectXmlElement.Get("Language");
+        //}
+
+        public CompilerLanguage GetLanguage()
         {
-            return _projectXmlElement.Get("Language");
+            //return _projectXmlElement.Get("Language");
+            XElement xe = _projectXmlElement.GetElement("Language");
+            if (xe != null)
+                return new CompilerLanguage { Name = xe.zExplicitAttribValue("name"), Version = xe.zAttribValue("version") };
+            else
+                return null;
         }
 
-        public IEnumerable<CompilerProviderOption> GetProviderOptions()
+        public string GetFrameworkVersion()
         {
-            return _projectXmlElement.GetElements("ProviderOption").Select(xe => new CompilerProviderOption { Name = xe.zAttribValue("name"), Value = xe.zAttribValue("value") });
+            return _projectXmlElement.Get("FrameworkVersion");
         }
 
-        public string GetResourceCompiler()
+        public string GetTarget()
         {
-            return _projectXmlElement.Get("ResourceCompiler");
+            return _projectXmlElement.Get("Target");
         }
 
-        public string GetOutputDir()
+        public string GetPlatform()
         {
-            //return _projectXmlElement.Get("OutputDir").zRootPath(_projectDirectory);
-            return GetFile("OutputDir");
-        }
-
-        public string GetOutput()
-        {
-            //return _projectXmlElement.Get("Output").zRootPath(_projectDirectory);
-            return GetFile("Output");
-        }
-
-        public bool? GetGenerateExecutable()
-        {
-            return _projectXmlElement.Get("GenerateExecutable").zTryParseAs<bool?>();
+            return _projectXmlElement.Get("Platform");
         }
 
         public bool? GetGenerateInMemory()
@@ -118,15 +116,42 @@ namespace pb.Compiler
             return _projectXmlElement.GetValues("CompilerOptions");
         }
 
+        public string GetOutput()
+        {
+            return GetFile("Output");
+        }
+
+        public string GetIcon()
+        {
+            return GetFile("Icon");
+        }
+
+        //public IEnumerable<CompilerProviderOption> GetProviderOptions()
+        //{
+        //    return _projectXmlElement.GetElements("ProviderOption").Select(xe => new CompilerProviderOption { Name = xe.zAttribValue("name"), Value = xe.zAttribValue("value") });
+        //}
+
+        //public string GetResourceCompiler()
+        //{
+        //    return _projectXmlElement.Get("ResourceCompiler");
+        //}
+
+        // not used
+        //public string GetOutputDir()
+        //{
+        //    //return _projectXmlElement.Get("OutputDir").zRootPath(_projectDirectory);
+        //    return GetFile("OutputDir");
+        //}
+
+        //public bool? GetGenerateExecutable()
+        //{
+        //    return _projectXmlElement.Get("GenerateExecutable").zTryParseAs<bool?>();
+        //}
+
         public string GetKeyFile()
         {
             //return _projectXmlElement.Get("KeyFile").zRootPath(_projectDirectory);
             return GetFile("KeyFile");
-        }
-
-        public string GetTarget()
-        {
-            return _projectXmlElement.Get("Target");
         }
 
         public bool? GetCopySourceFiles()
@@ -137,12 +162,6 @@ namespace pb.Compiler
         public bool? GetCopyRunSourceSourceFiles()
         {
             return _projectXmlElement.Get("CopyRunSourceSourceFiles").zTryParseAs<bool?>();
-        }
-
-        public string GetIcon()
-        {
-            //return _projectXmlElement.Get("Icon").zRootPath(_projectDirectory);
-            return GetFile("Icon");
         }
 
         public string GetNameSpace()
@@ -161,7 +180,7 @@ namespace pb.Compiler
             // la suppression des InitMethod doublons est faite dans ???
             foreach (string value in _projectXmlElement.GetValues("InitMethod"))
                 yield return value;
-            foreach (ICompilerProject includeProject in GetIncludeProjects())
+            foreach (ICompilerProjectReader includeProject in GetIncludeProjects())
             {
                 foreach (string value in includeProject.GetInitMethods())
                     yield return value;
@@ -179,21 +198,21 @@ namespace pb.Compiler
             // la suppression des InitMethod doublons est faite dans ???
             foreach (string value in _projectXmlElement.GetValues("EndMethod"))
                 yield return value;
-            foreach (ICompilerProject includeProject in GetIncludeProjects())
+            foreach (ICompilerProjectReader includeProject in GetIncludeProjects())
             {
                 foreach (string value in includeProject.GetInitMethods())
                     yield return value;
             }
         }
 
-        public IEnumerable<ICompilerProject> GetIncludeProjects()
+        public IEnumerable<ICompilerProjectReader> GetIncludeProjects()
         {
             if (_includeProjects == null)
             {
-                _includeProjects = new List<ICompilerProject>();
+                _includeProjects = new List<ICompilerProjectReader>();
                 foreach (string includeProject in _projectXmlElement.GetValues("IncludeProject"))
                 {
-                    CompilerProject compilerProject = CompilerProject.Create(new XmlConfig(GetPathFile(includeProject)).GetConfigElement("/AssemblyProject"), isIncludeProject: true);
+                    CompilerProjectReader compilerProject = CompilerProjectReader.Create(new XmlConfig(GetPathFile(includeProject)).GetConfigElement("/AssemblyProject"), isIncludeProject: true);
                     if (compilerProject != null)
                     {
                         //yield return compilerProject;
@@ -212,7 +231,7 @@ namespace pb.Compiler
             // la suppression des usings doublons est faite dans GenerateAndExecute
             foreach (string value in _projectXmlElement.GetValues("Using"))
                 yield return value;
-            foreach (ICompilerProject includeProject in GetIncludeProjects())
+            foreach (ICompilerProjectReader includeProject in GetIncludeProjects())
             {
                 foreach (string value in includeProject.GetUsings())
                     yield return value;
@@ -249,21 +268,41 @@ namespace pb.Compiler
 
         public IEnumerable<CompilerAssembly> GetAssemblies()
         {
-            return _projectXmlElement.GetElements("Assembly")
+            //return _projectXmlElement.GetElements("Assembly")
+            //    .Select(xe =>
+            //    {
+            //        string file = xe.zAttribValue("value");
+            //        string dir = zPath.GetDirectoryName(file);
+            //        if (dir != "")
+            //            //file = file.zRootPath(_projectDirectory);
+            //            file = GetPathFile(file);
+            //        bool resolve = xe.zAttribValue("resolve").zTryParseAs<bool>(false);
+            //        string resolveName = xe.zAttribValue("resolveName");
+            //        if (resolve && resolveName == null)
+            //            throw new PBException("error to resolve an assembly you must specify a resolveName (\"Test_dll, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null\")");
+            //        //bool copySource = xe.zAttribValue("copySource").zTryParseAs<bool>(false);
+            //        return new CompilerAssembly(file, resolve, resolveName, this);
+            //    });
+
+            return
+                _projectXmlElement.GetValues("FrameworkAssembly")
+                .Select(file =>
+                {
+                    return new CompilerAssembly { File = file, FrameworkAssembly = true, Project = this };
+                }).Concat(
+                _projectXmlElement.GetElements("Assembly")
                 .Select(xe =>
                 {
                     string file = xe.zAttribValue("value");
                     string dir = zPath.GetDirectoryName(file);
                     if (dir != "")
-                        //file = file.zRootPath(_projectDirectory);
                         file = GetPathFile(file);
                     bool resolve = xe.zAttribValue("resolve").zTryParseAs<bool>(false);
                     string resolveName = xe.zAttribValue("resolveName");
                     if (resolve && resolveName == null)
-                        throw new PBException("error to resolve an assembly you must specify a resolveName (\"Test_dll, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null\")");
-                    //bool copySource = xe.zAttribValue("copySource").zTryParseAs<bool>(false);
-                    return new CompilerAssembly(file, resolve, resolveName, this);
-                });
+                        throw new PBException("missing resolveName for assembly \"{0}\" (resolveName = \"Test_dll, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null\")", file);
+                    return new CompilerAssembly { File = file, Resolve = resolve, ResolveName = resolveName, Project = this };
+                }));
         }
 
         public IEnumerable<string> GetCopyOutputs()

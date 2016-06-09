@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace pb.IO
+﻿namespace pb.IO
 {
     // used in : pb.IO.WriteToFile.Create()
     public enum FileOption

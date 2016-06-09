@@ -33,14 +33,27 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.CodeAnalysis">
+      <HintPath>..\..\..\..\..\..\..\dev\NuGet\repository\Microsoft.CodeAnalysis.Common.1.2.2\lib\net45\Microsoft.CodeAnalysis.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeAnalysis.CSharp">
+      <HintPath>..\..\..\..\..\..\..\dev\NuGet\repository\Microsoft.CodeAnalysis.CSharp.1.2.2\lib\net45\Microsoft.CodeAnalysis.CSharp.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.JScript" />
     <Reference Include="Pri.LongPath">
       <HintPath>..\..\Lib\LongPath\Pri.LongPath\bin\Debug\Pri.LongPath.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Collections.Immutable, Version=1.1.37.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\dev\NuGet\repository\System.Collections.Immutable.1.1.37\lib\dotnet\System.Collections.Immutable.dll</HintPath>
+    </Reference>
     <Reference Include="System.Core" />
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Reflection.Metadata">
+      <HintPath>..\..\..\..\..\..\..\dev\NuGet\repository\System.Reflection.Metadata.1.2.0\lib\portable-net45+win8\System.Reflection.Metadata.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -49,17 +62,41 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\Lib\pb\Source\pb\Compiler\Compiler.cs">
-      <Link>SourceLnk\Lib\pb\Compiler\Compiler.cs</Link>
+    <Compile Include="..\..\Lib\pb\Source\pb\Compiler\CodeDomProviderCompilerResult.cs">
+      <Link>SourceLnk\Lib\pb\Compiler\CodeDomProviderCompilerResult.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Compiler\CompilerProject.cs">
-      <Link>SourceLnk\Lib\pb\Compiler\CompilerProject.cs</Link>
+    <Compile Include="..\..\Lib\pb\Source\pb\Compiler\CompilerManager.cs">
+      <Link>SourceLnk\Lib\pb\Compiler\CompilerManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Compiler\CompilerProjectReader.cs">
+      <Link>SourceLnk\Lib\pb\Compiler\CompilerProjectReader.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Compiler\CSharp1Compiler.cs">
+      <Link>SourceLnk\Lib\pb\Compiler\CSharp1Compiler.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Compiler\CSharp5Compiler.cs">
+      <Link>SourceLnk\Lib\pb\Compiler\CSharp5Compiler.cs</Link>
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Compiler\ICompiler.cs">
       <Link>SourceLnk\Lib\pb\Compiler\ICompiler.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Compiler\ICompilerProject.cs">
-      <Link>SourceLnk\Lib\pb\Compiler\ICompilerProject.cs</Link>
+    <Compile Include="..\..\Lib\pb\Source\pb\Compiler\ICompilerProjectReader.cs">
+      <Link>SourceLnk\Lib\pb\Compiler\ICompilerProjectReader.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Compiler\IProjectCompiler.cs">
+      <Link>SourceLnk\Lib\pb\Compiler\IProjectCompiler.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Compiler\JScriptCompiler.cs">
+      <Link>SourceLnk\Lib\pb\Compiler\JScriptCompiler.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Compiler\ProjectCompiler.cs">
+      <Link>SourceLnk\Lib\pb\Compiler\ProjectCompiler.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Compiler\ProjectCompilerCreator.cs">
+      <Link>SourceLnk\Lib\pb\Compiler\ProjectCompilerCreator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Compiler\ResourceCompiler.cs">
+      <Link>SourceLnk\Lib\pb\Compiler\ResourceCompiler.cs</Link>
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Data\Xml\Xml.cs">
       <Link>SourceLnk\Lib\pb\Data\Xml\Xml.cs</Link>
@@ -91,11 +128,23 @@
     <Compile Include="..\..\Lib\pb\Source\pb\Reflection\Reflection.cs">
       <Link>SourceLnk\Lib\pb\Reflection\Reflection.cs</Link>
     </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Text\Split.cs">
+      <Link>SourceLnk\Lib\pb\Text\Split.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Text\StringZones.cs">
+      <Link>SourceLnk\Lib\pb\Text\StringZones.cs</Link>
+    </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\_pb\Application.cs">
       <Link>SourceLnk\Lib\pb\_pb\Application.cs</Link>
     </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\_pb\Chrono.cs">
+      <Link>SourceLnk\Lib\pb\_pb\Chrono.cs</Link>
+    </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\_pb\Error.cs">
       <Link>SourceLnk\Lib\pb\_pb\Error.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\_pb\IChrono.cs">
+      <Link>SourceLnk\Lib\pb\_pb\IChrono.cs</Link>
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\_pb\ITrace.cs">
       <Link>SourceLnk\Lib\pb\_pb\ITrace.cs</Link>
@@ -117,7 +166,15 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <Content Include="App.config.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="pbc.config.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="pbc.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

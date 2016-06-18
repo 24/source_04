@@ -1,12 +1,7 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
-using MyDownloader.Core.Extensions;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
-using MyDownloader.Core;
-using MyDownloader.Core.UI;
 using System.Security.Permissions;
 using System.ComponentModel;
 

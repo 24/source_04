@@ -7,16 +7,16 @@ namespace pb.Compiler
 {
     partial class ProjectCompiler
     {
-        public static ProjectCompiler Create(string projectFile, ResourceCompiler resourceCompiler = null)
+        public static ProjectCompiler Create(string projectFile, Win32ResourceCompiler win32ResourceCompiler, ResourceCompiler resourceCompiler = null)
         {
-            ProjectCompiler compiler = new ProjectCompiler(resourceCompiler);
+            ProjectCompiler compiler = new ProjectCompiler(win32ResourceCompiler, resourceCompiler);
             CompilerProjectReader projectReader = CompilerProjectReader.Create(new XmlConfig(projectFile).GetConfigElementExplicit("/AssemblyProject"));
             compiler.SetParameters(projectReader);
             compiler.SetProjectCompilerFile(projectReader.GetProjectCompilerFile());
             return compiler;
         }
 
-        public static bool CompileProjects(string projectsFile, ResourceCompiler resourceCompiler = null, string runsourceSourceDirectory = null, Action<IProjectCompiler> onCompiled = null)
+        public static bool CompileProjects(string projectsFile, Win32ResourceCompiler win32ResourceCompiler, ResourceCompiler resourceCompiler = null, string runsourceSourceDirectory = null, Action<IProjectCompiler> onCompiled = null)
         {
             Chrono chrono = new Chrono();
             chrono.Start();
@@ -35,7 +35,7 @@ namespace pb.Compiler
                 {
                     string projectFile = project.zExplicitAttribValue("value").zRootPath(projectsDirectory);
                     Trace.WriteLine("Compile project \"{0}\"", projectFile);
-                    ProjectCompiler compiler = ProjectCompiler.Create(projectFile, resourceCompiler);
+                    ProjectCompiler compiler = ProjectCompiler.Create(projectFile, win32ResourceCompiler, resourceCompiler);
                     compiler.RunsourceSourceDirectory = runsourceSourceDirectory;
                     compiler.Compile();
                     if (onCompiled != null)

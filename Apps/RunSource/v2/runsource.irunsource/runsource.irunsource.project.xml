@@ -1,47 +1,47 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <AssemblyProject>
-  <!--<Root                             value = "..\..\..\..\.." />-->
-  <Root                             value = "..\..\..\.." />
+  <!--<Root                                      value = "..\..\..\..\.." />-->
+  <Root                                      value = "..\..\..\.." />
 
-  <!--<IncludeProject                   value = "$Root$\Lib\pb\Source\Project\CSharp.Default.project.xml" />-->
+  <!--<IncludeProject                            value = "$Root$\Lib\pb\Source\Project\CSharp.Default.project.xml" />-->
 
   <Language                                  name = "CSharp5" version = "6" />
   <FrameworkVersion                          value = "4.6.1" />  <!-- 2.0, 3.0, 3.5, 3.5 client, 4.0, 4.0 client, 4.5, 4.5.1, 4.5.2, 4.6, 4.6.1 -->
   <WarningLevel                              value = "4" /> <!-- 0 no warning, 1 severe warning, 2 + less-severe warnings 1, 3 + less-severe warnings 2, 4 all warning -->
-  <Target                           value = "library" /> <!-- exe (exe console default), library (dll), module (.netmodule), winexe (exe windows), winruntimeexe (windows runtime application), winruntimemetadata (windows runtime metadata) -->
-  <Platform                         value = "X86" /> <!-- AnyCpu (default), X86, X64, Itanium, AnyCpu32BitPreferred (only CSharp5), Arm (only CSharp5) -->
-  <DebugInformation                 value = "true" />
-	<Output                           value = "bin32\runsource.irunsource.dll" />
-  <CopySourceFiles                  value = "true" />
-  <NameSpace                        value = "pb" />
-	<!--<CompilerOptions                  value = "/platform:x86" />  --><!-- x86, Itanium, x64, or anycpu (default). -->
-  <Source                           value = "Properties\AssemblyInfo.cs" />
+  <Target                                    value = "library" /> <!-- exe (exe console default), library (dll), module (.netmodule), winexe (exe windows), winruntimeexe (windows runtime application), winruntimemetadata (windows runtime metadata) -->
+  <Platform                                  value = "X86" /> <!-- AnyCpu (default), X86, X64, Itanium, AnyCpu32BitPreferred (only CSharp5), Arm (only CSharp5) -->
+  <DebugInformation                          value = "true" />
+	<Output                                    value = "bin32\runsource.irunsource.dll" />
+  <CopySourceFiles                           value = "true" />
+  <NameSpace                                 value = "pb" />
+	<!--<CompilerOptions                           value = "/platform:x86" />  --><!-- x86, Itanium, x64, or anycpu (default). -->
+  <Source                                    value = "Properties\AssemblyInfo.cs" />
   
-  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\Application.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\IChrono.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\ITrace.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\ITraceError.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\ITraceSetWriter.cs" />
+  <Source                                    value = "$Root$\Lib\pb\Source\pb\_pb\Application.cs" />
+  <Source                                    value = "$Root$\Lib\pb\Source\pb\_pb\IChrono.cs" />
+  <Source                                    value = "$Root$\Lib\pb\Source\pb\_pb\ITrace.cs" />
+  <Source                                    value = "$Root$\Lib\pb\Source\pb\_pb\ITraceError.cs" />
+  <Source                                    value = "$Root$\Lib\pb\Source\pb\_pb\ITraceSetWriter.cs" />
   
-  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Compiler\ICompiler.cs" />-->
-  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Compiler\ICompilerProject.cs" />-->
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Compiler\IProjectCompiler.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Compiler\ICompilerProjectReader.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Compiler\IRunSource.cs" />
+  <!--<Source                                    value = "$Root$\Lib\pb\Source\pb\Compiler\ICompiler.cs" />-->
+  <!--<Source                                    value = "$Root$\Lib\pb\Source\pb\Compiler\ICompilerProject.cs" />-->
+  <Source                                    value = "$Root$\Lib\pb\Source\pb\Compiler\IProjectCompiler.cs" />
+  <Source                                    value = "$Root$\Lib\pb\Source\pb\Compiler\ICompilerProjectReader.cs" />
+  <Source                                    value = "$Root$\Lib\pb\Source\pb\Compiler\IRunSource.cs" />
 
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Compiler\_old\IGenerateAndExecute.cs" />
+  <Source                                    value = "$Root$\Lib\pb\Source\pb\Compiler\_old\IGenerateAndExecute.cs" />
 
-  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\FileOption.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\zPath.cs" />
+  <Source                                    value = "$Root$\Lib\pb\Source\pb\IO\FileOption.cs" />
+  <Source                                    value = "$Root$\Lib\pb\Source\pb\IO\zPath.cs" />
 
-  <FrameworkAssembly                value = "mscorlib.dll" />
-  <FrameworkAssembly                value = "System.dll" />
-  <FrameworkAssembly                value = "System.Core.dll" />
-	<FrameworkAssembly                value = "System.Data.dll" />
-	<FrameworkAssembly                value = "System.Xml.dll" />
-  <FrameworkAssembly                value = "System.Xml.Linq.dll" />
-  <!--<Assembly                         value = "..\..\..\..\..\RuntimeLibrary\LongPath\LongPath\Pri.LongPath.dll" />-->
-  <!--<Assembly                         value = "c:\pib\drive\google\dev\project\RuntimeLibrary\LongPath\LongPath\Pri.LongPath.dll" />-->
-  <Assembly                         value = "$Root$\Lib\LongPath\Pri.LongPath\bin\Debug\Pri.LongPath.dll" />
+  <FrameworkAssembly                         value = "mscorlib.dll" />
+  <FrameworkAssembly                         value = "System.dll" />
+  <FrameworkAssembly                         value = "System.Core.dll" />
+	<FrameworkAssembly                         value = "System.Data.dll" />
+	<FrameworkAssembly                         value = "System.Xml.dll" />
+  <FrameworkAssembly                         value = "System.Xml.Linq.dll" />
+  <!--<Assembly                                  value = "..\..\..\..\..\RuntimeLibrary\LongPath\LongPath\Pri.LongPath.dll" />-->
+  <!--<Assembly                                  value = "c:\pib\drive\google\dev\project\RuntimeLibrary\LongPath\LongPath\Pri.LongPath.dll" />-->
+  <Assembly                                  value = "$Root$\Lib\LongPath\Pri.LongPath\bin\Debug\Pri.LongPath.dll" />
 </AssemblyProject>
 

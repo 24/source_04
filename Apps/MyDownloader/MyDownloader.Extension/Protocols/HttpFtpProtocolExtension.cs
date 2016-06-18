@@ -1,9 +1,6 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
 using MyDownloader.Core.Extensions;
 using MyDownloader.Core;
-using System.IO;
 
 namespace MyDownloader.Extension.Protocols
 {

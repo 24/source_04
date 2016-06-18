@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <AssemblyProject>
-  <!--<Root                             value = "..\..\..\..\.." />-->
+  <Root                             value = "..\..\..\.." />
 
   <!--<GenerateInMemory                 value = "false" />-->
   <!--<DebugInformation                 value = "true" />-->
@@ -29,6 +29,8 @@
   <FrameworkAssembly                value = "System.Data.dll" />
   <FrameworkAssembly                value = "System.Windows.Forms.dll" />
   <FrameworkAssembly                value = "System.Xml.dll" />
-  <Assembly                         value = "runsource.dll" />
-  <Assembly                         value = "runsource.irunsource.dll" />
+  <!--<Assembly                         value = "runsource.dll" />-->
+  <!--<Assembly                         value = "runsource.irunsource.dll" />-->
+  <Assembly                         value = "$Root$\Apps\RunSource\v2\runsource.dll\bin32\runsource.dll" />
+  <Assembly                         value = "$Root$\Apps\RunSource\v2\runsource.dll\bin32\runsource.irunsource.dll" />
 </AssemblyProject>

@@ -17,7 +17,8 @@ Trace.WriteLine("toto");
 
 RunSource.CurrentRunSource.SetProjectFromSource();
 
-RunSource.CurrentRunSource.CompileProject(@"$Root$\Apps\WebData\Source\Print\Project\download.project.xml");
+//RunSource.CurrentRunSource.CompileProject(@"$Root$\Apps\WebData\Source\Print\Project\download.project.xml");
+RunSource.CurrentRunSource.CompileProjects(@"$Root$\Apps\WebData\Source\Print\Project\download.projects.xml");
 RunSource.CurrentRunSource.CompileProject(@"$Root$\Lib\pb\Source\Project\Extension_01.project.xml");
 
 Trace.CurrentTrace.TraceLevel = 0;
@@ -52,6 +53,13 @@ RunSource.CurrentRunSource.Compile_Project(@"..\pt\pt1_project.xml");
 RunSource.CurrentRunSource.Compile_Project(@"..\pt\pt_project.xml");
 
 //Metadata file 'C:\pib\dropbox\pbeuz\Dropbox\dev\project\Source\Source_01\Source\Download\Print\download\..\..\..\..\..\DownloadManager\Source\Extension\..\..\..\dll\ICSharpCode.SharpZipLib.dll' could not be found
+
+RunSource.CurrentRunSource.CompileProjects(@"$Root$\Apps\MyDownloader\MyDownloader.projects.xml");
+RunSource.CurrentRunSource.CompileProject(@"$Root$\Apps\MyDownloader\MyDownloader.Core\MyDownloader.Core.project.xml");
+RunSource.CurrentRunSource.CompileProject(@"$Root$\Apps\MyDownloader\MyDownloader.Extension\MyDownloader.Extension.project.xml");
+RunSource.CurrentRunSource.CompileProject(@"$Root$\Apps\MyDownloader\MyDownloader.IEPlugin\MyDownloader.IEPlugin.project.xml");
+RunSource.CurrentRunSource.CompileProject(@"$Root$\Apps\MyDownloader\MyDownloader.Spider\MyDownloader.Spider.project.xml");
+RunSource.CurrentRunSource.CompileProject(@"$Root$\Apps\MyDownloader\MyDownloader.App\MyDownloader.App.project.xml");
 
 //RunSource.CurrentRunSource.Compile_Project(@"..\..\..\..\MyDownloader\MyDownloader.Service\MyDownloader.Service_project.xml");
 RunSource.CurrentRunSource.Compile_Project(@"..\..\..\..\MyDownloader\MyDownloader.Core\MyDownloader.Core.project.xml");
@@ -5293,3 +5301,31 @@ Test_Dictionary.Test_01();
 
 
 RunSource.CurrentRunSource.CompileProject(@"$Root$\Apps\RunSource\v2\runsource.runsource\runsource.runsource.v4.project.xml");
+
+WebData.CreateDownloadManagerClient().GetDownloadCount().zTrace();
+WebData.CreateDownloadManagerClient().GetMaxRetryCount().zTrace();
+WebData.CreateDownloadManagerClient().GetDownloadFolder().zTrace();
+WebData.CreateDownloadManagerClient().GetDownloadDirectory().zTrace();
+
+Trace.WriteLine(zfile.IsBom(@"c:\pib\drive\google\dev\project\.net\Apps\RunSource\v2\runsource.runsource\Resource\resource_02_utf8+bom.rc").ToString());
+Trace.WriteLine(zfile.IsBom(@"c:\pib\drive\google\dev\project\.net\Apps\RunSource\v2\runsource.runsource\Resource\resource.rc").ToString());
+
+"toto;tata"?.Split(';').zTrace();
+"toto;tata"?.Split(';').zView();
+string s = null; s?.Split(';').zTrace();
+string s = null; var v = s?.Split(';'); v.GetType().ToString().zTrace();
+string s = null; s?.Split(';').ToString().zTrace();
+string s = null; s?.Split(';').Trim().zTrace();
+string s = null; foreach (string s2 in s?.Split(';')) Trace.WriteLine();
+
+
+#if TOTO
+  Trace.WriteLine("TOTO");
+#else
+  Trace.WriteLine("not TOTO");
+#endif
+#if TATA
+  Trace.WriteLine("TATA");
+#else
+  Trace.WriteLine("not TATA");
+#endif

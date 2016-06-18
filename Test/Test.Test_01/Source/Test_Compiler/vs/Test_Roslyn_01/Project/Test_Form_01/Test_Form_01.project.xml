@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+<Project>
+  <LanguageVersion                           value = "CSharp6" />   <!-- CSharp1 ... CSharp6 -->
+  <FrameworkDirectory                        value = "C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1" />
+  <OutputKind                                value = "WindowsApplication" />   <!-- ConsoleApplication, WindowsApplication, DynamicallyLinkedLibrary, WindowsRuntimeMetadata, WindowsRuntimeApplication -->
+  <Platform                                  value = "AnyCpu" />  <!-- AnyCpu, X86, X64, Itanium, AnyCpu32BitPreferred, Arm -->
+  <OptimizationLevel                         value = "Debug" />  <!-- Debug, Release -->
+  <OutputDirectory                           value = "bin" />
+  <AssemblyName                              value = "test_form_01" />
+  <OutputPath                                value = "test_form_01.exe" />
+  <PdbPath                                   value = "test_form_01.pdb" />
+  
+  <Win32ResourceFile                         value = "Resource\test.res" />
+  
+  <Source                                    value = "Source\Program.cs" />
+  <Source                                    value = "Source\Form1.cs" />
+  <Source                                    value = "Source\Form1.Designer.cs" />
+  <Source                                    value = "Source\Resources.Designer.cs" />
+  
+  <Resource                                  file = "Source\Test_WinForm_01.Properties.Resources.resources" namespace = "Test_WinForm_01.Properties.Resources.resources" />
+  
+  <FrameworkAssembly                         value = "mscorlib.dll" />
+  <FrameworkAssembly                         value = "System.dll" />
+  <FrameworkAssembly                         value = "System.Windows.Forms.dll" />
+  <FrameworkAssembly                         value = "System.Drawing.dll" />
+</Project>

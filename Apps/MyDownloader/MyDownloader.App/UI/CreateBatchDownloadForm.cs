@@ -1,14 +1,6 @@
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
-using System.IO;
-using System.Text.RegularExpressions;
 using MyDownloader.Core;
-using MyDownloader.Core.Common;
 using MyDownloader.Core.UI;
 
 namespace MyDownloader.App.UI

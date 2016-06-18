@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+<Project>
+  <LanguageVersion                           value = "CSharp6" />   <!-- CSharp1 ... CSharp6 -->
+  <FrameworkDirectory                        value = "C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1" />
+  <OutputKind                                value = "ConsoleApplication" />   <!-- ConsoleApplication, WindowsApplication, DynamicallyLinkedLibrary, WindowsRuntimeMetadata, WindowsRuntimeApplication -->
+  <Platform                                  value = "AnyCpu" />  <!-- AnyCpu, X86, X64, Itanium, AnyCpu32BitPreferred, Arm -->
+  <OptimizationLevel                         value = "Debug" />  <!-- Debug, Release -->
+  <OutputDirectory                           value = "bin" />
+  <AssemblyName                              value = "test_01" />
+  <OutputPath                                value = "test_01.exe" />
+  <PdbPath                                   value = "test_01.pdb" />
+
+  <PreprocessorSymbol                        value = "TOTO;tata" />
+  
+  <Source                                    value = "Source\test_01.cs" />
+  
+  <FrameworkAssembly                         value = "mscorlib.dll" />
+  <FrameworkAssembly                         value = "System.dll" />
+</Project>

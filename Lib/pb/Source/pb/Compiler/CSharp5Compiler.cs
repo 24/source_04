@@ -99,9 +99,10 @@ namespace pb.Compiler
         private int _warningLevel = -1;
         private string _compilerOptions = null;
         private ReportDiagnostic _generalDiagnosticOption = ReportDiagnostic.Default;                 // Report a diagnostic as : Default, Error, Warn, Info, Hidden, Suppress
-        private string _outputAssembly = null; // _finalOutputAssembly
+        private string _outputAssembly = null;
+        private string _win32ResourceFile = null;
+        private IEnumerable<string> _preprocessorSymbols = null;
         private IEnumerable<string> _sources = null;
-        //private IEnumerable<string> _referencedAssemblies = null;
         private IEnumerable<ReferencedAssembly> _referencedAssemblies = null;
         private IEnumerable<ResourceFile> _embeddedResources = null;
 
@@ -114,11 +115,17 @@ namespace pb.Compiler
         public int WarningLevel { get { return _warningLevel; } set { _warningLevel = value; } }
         public string CompilerOptions { get { return _compilerOptions; } set { _compilerOptions = value; } }
         public string OutputAssembly { get { return _outputAssembly; } set { _outputAssembly = value; } }
+        public string Win32ResourceFile { get { return _win32ResourceFile; } set { _win32ResourceFile = value; } }
 
         public CSharp5Compiler(Dictionary<string, string> frameworkDirectories, Predicate<CompilerMessage> messageFilter)
         {
             _frameworkDirectories = frameworkDirectories;
             _messageFilter = messageFilter;
+        }
+
+        public void SetPreprocessorSymbols(IEnumerable<string> preprocessorSymbols)
+        {
+            _preprocessorSymbols = preprocessorSymbols;
         }
 
         public void SetSources(IEnumerable<string> sources)
@@ -150,6 +157,8 @@ namespace pb.Compiler
             //   .WithFeatures(IEnumerable<KeyValuePair<string, string>> features);
             //     Enable some experimental language features for testing.
             CSharpParseOptions parseOptions = CSharpParseOptions.Default.WithLanguageVersion(GetLanguageVersion(_languageVersion));
+            if (_preprocessorSymbols != null)
+                parseOptions = parseOptions.WithPreprocessorSymbols(_preprocessorSymbols);
 
             // CSharpCompilationOptions :
             //   OutputKind outputKind
@@ -199,7 +208,7 @@ namespace pb.Compiler
             //_generateInMemory, _compilerOptions
 
             string pdbPath = zpath.PathSetExtension(_outputAssembly, ".pdb");
-            EmitResult result = compilation.Emit(_outputAssembly, pdbPath: pdbPath, manifestResources: GetResourceDescriptions());
+            EmitResult result = compilation.Emit(_outputAssembly, pdbPath: pdbPath, win32ResourcesPath: _win32ResourceFile, manifestResources: GetResourceDescriptions());
 
             return new EmitCompilerResults(result, _outputAssembly, _messageFilter);
         }
@@ -327,7 +336,8 @@ namespace pb.Compiler
                 foreach (ResourceFile resourceFile in _embeddedResources)
                 {
                     //Trace.WriteLine("  resource : namespace \"{0}\" file \"{1}\"", resourceFile.Namespace, resourceFile.File);
-                    yield return new ResourceDescription(resourceFile.Namespace + ".Resources.resources", () => zFile.OpenRead(resourceFile.File), true);
+                    //yield return new ResourceDescription(resourceFile.Namespace + ".Resources.resources", () => zFile.OpenRead(resourceFile.File), true);
+                    yield return new ResourceDescription(resourceFile.Namespace, () => zFile.OpenRead(resourceFile.File), true);
                 }
             }
         }

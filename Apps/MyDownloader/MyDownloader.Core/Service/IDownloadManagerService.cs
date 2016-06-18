@@ -1,14 +1,9 @@
 ﻿using System;
-//using System.Collections.Generic;
 using System.ServiceModel;
-//using System.Text;
-//using MyDownloader.Core;
 
 namespace MyDownloader.Service
 {
     [ServiceContract(SessionMode = SessionMode.NotAllowed)]
-    // IDownloadManagerService
-    //public interface IWCFDownloadManager
     public interface IDownloadManagerService
     {
         [OperationContract()]
@@ -21,7 +16,10 @@ namespace MyDownloader.Service
         void Stop();
 
         //[OperationContract()]
-        //bool IsStopped();
+        //string GetDownloadFolder();
+
+        [OperationContract()]
+        string GetDownloadDirectory();
 
         [OperationContract()]
         int GetMaxRetryCount();

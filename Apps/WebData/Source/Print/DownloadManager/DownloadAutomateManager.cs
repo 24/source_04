@@ -205,6 +205,9 @@ namespace Download.Print
 
     public class DownloadAutomateManager : IDisposable
     {
+        private const string _infoDirectory = ".i";
+        private const string _infoSuffixFile = ".i";
+        private string _downloadDirectory = null;
         private Dictionary<string, ServerManager> _servers = new Dictionary<string, ServerManager>();
         private MongoDownloadAutomateManager _mongoDownloadAutomateManager = null;
         private Func<PrintType, bool> _downloadAllPrintType = null;
@@ -403,6 +406,7 @@ namespace Download.Print
             //}
             if (_downloadManager != null)
             {
+                _downloadDirectory = _downloadManager.GetDownloadDirectory();
                 _downloadManager.OnDownloaded = Downloaded;
                 _downloadManager.StartThread();
             }
@@ -555,11 +559,9 @@ namespace Download.Print
                 return false;
             }
 
-            //DownloadPostKey key = new DownloadPostKey { server = post.GetServer(), id = post.GetKey() };
             ServerKey key = new ServerKey { Server = post.GetServer(), Id = post.GetKey() };
             // state : NotDownloaded, WaitToDownload, DownloadStarted, DownloadCompleted, DownloadFailed
             DownloadState state = GetDownloadFileState(key);
-            //if (state != DownloadState.NotDownloaded && !forceDownloadAgain)
             if ((state == DownloadState.WaitToDownload || state == DownloadState.DownloadStarted || state == DownloadState.DownloadCompleted) && !forceDownloadAgain)
             {
                 if (FilterTracePost(state))
@@ -579,6 +581,7 @@ namespace Download.Print
             else
                 TracePost(post, "start download", file);
 
+            // file : "print\.02_hebdo\Challenges\Challenges - 2016-03-31 - no 481"
             if (_downloadManager != null)
                 Try(() => _downloadManager.AddFileToDownload(key, post.GetDownloadLinks(), file));
 
@@ -617,11 +620,12 @@ namespace Download.Print
         private void Downloaded(DownloadedFile downloadedFile)
         {
             string message = GetDownloadStateText2(downloadedFile.State);
-            //IPostToDownload post = LoadPost(downloadedFile.Key);
             IPostToDownload post = null;
 
             if (downloadedFile.Key != null)
                 post = LoadPost(downloadedFile.Key);
+
+            SaveDownloadedFileInfo(post, downloadedFile);
 
             StringBuilder sb = new StringBuilder();
             sb.AppendLine(GetPostMessage(post, message));
@@ -648,6 +652,20 @@ namespace Download.Print
                 foreach (string file in downloadedFile.UncompressFiles)
                     MailAddLine(string.Format("  uncompress file : \"{0}\"", file));
             }
+        }
+
+        private void SaveDownloadedFileInfo(IPostToDownload post, DownloadedFile downloadedFile)
+        {
+            if (_downloadDirectory == null || downloadedFile.File == null)
+                return;
+            string file = zPath.Combine(_downloadDirectory, zPath.GetDirectoryName(downloadedFile.File), _infoDirectory, zPath.GetFileName(downloadedFile.File)) + _infoSuffixFile;
+            zfile.CreateFileDirectory(file);
+            BsonDocument postDocument;
+            if (post != null)
+                postDocument = post.ToBsonDocument();
+            else
+                postDocument = new BsonDocument();
+            new BsonDocument { { "Post", postDocument }, { "DownloadedFile", downloadedFile.ToBsonDocument() } }.zSave(file);
         }
 
         private void MailAddLine(string message)

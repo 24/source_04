@@ -10,13 +10,13 @@ namespace pb.Compiler
     {
         private static CompilerManager __current = new CompilerManager();
         private Dictionary<string, Func<ICompiler>> _compilers = new Dictionary<string, Func<ICompiler>>();
-        //private string _resourceCompiler = null;
+        private Win32ResourceCompiler _win32ResourceCompiler = null;
         private ResourceCompiler _resourceCompiler = null;
         private Dictionary<string, string> _frameworkDirectories = new Dictionary<string, string>();
         private Predicate<CompilerMessage> _messageFilter = null;
 
         public static CompilerManager Current { get { return __current; } }  // set { __current = value; }
-        //public string ResourceCompiler { get { return _resourceCompiler; } }  // set { _resourceCompiler = value; }
+        public Win32ResourceCompiler Win32ResourceCompiler { get { return _win32ResourceCompiler; } }
         public ResourceCompiler ResourceCompiler { get { return _resourceCompiler; } }
         public Dictionary<string, string> FrameworkDirectories { get { return _frameworkDirectories; } }  // set { _frameworkDirectories = value; }
         public Predicate<CompilerMessage> MessageFilter { get { return _messageFilter; } }
@@ -27,8 +27,8 @@ namespace pb.Compiler
             {
                 _frameworkDirectories.Add(xe2.zExplicitAttribValue("version"), xe2.zExplicitAttribValue("directory"));
             }
-            string resourceCompilerFile = xe.Get("ResourceCompiler");
-            _resourceCompiler = new ResourceCompiler(resourceCompilerFile);
+            _win32ResourceCompiler = new Win32ResourceCompiler(xe.Get("Win32ResourceCompiler"));
+            _resourceCompiler = new ResourceCompiler(xe.Get("ResourceCompiler"));
 
             //string disableMessages = xe.Get("DisableCompilerMessages");
             //if (disableMessages != null)

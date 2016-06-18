@@ -771,6 +771,22 @@ namespace pb.IO
                 encoding = Encoding.UTF8;
             return new StreamReader(zFile.Open(file, FileMode.Open, FileAccess.Read, FileShare.Read), encoding);
         }
+
+        private static byte[] __bom = { 0xEF, 0xBB, 0xBF };
+        public static bool IsBom(string file)
+        {
+            using (FileStream fs = File.OpenRead(file))
+            {
+                byte[] buffer = new byte[3];
+                if (fs.Length < 3)
+                    return false;
+                fs.Read(buffer, 0, 3);
+                if (buffer.SequenceEqual(__bom))
+                    return true;
+                else
+                    return false;
+            }
+        }
     }
 
     //public static partial class GlobalExtension

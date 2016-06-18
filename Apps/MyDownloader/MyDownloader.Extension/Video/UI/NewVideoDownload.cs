@@ -1,13 +1,7 @@
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 using MyDownloader.Core;
-using MyDownloader.Extension.Video;
-using System.Diagnostics;
 using System.IO;
 using MyDownloader.Core.Common;
 using MyDownloader.Core.UI;

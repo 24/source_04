@@ -1,5 +1,4 @@
 ﻿using pb.IO;
-using System.Collections.Generic;
 using System.Diagnostics;
 
 // Utilisation de Resgen.exe http://msdn.microsoft.com/fr-fr/library/ccec7sz1.aspx
@@ -33,25 +32,6 @@ using System.Diagnostics;
 
 namespace pb.Compiler
 {
-    public class ResourceCompilerResult
-    {
-        public string CompiledResourceFile;
-        //public bool HasError = false;
-        public bool Success = false;
-        public List<ResourceCompilerMessage> Messages = new List<ResourceCompilerMessage>();
-    }
-
-    public class ResourceCompilerMessage
-    {
-        public string File;
-        public string Message;
-        //public ResourceCompilerError(string FileName, string ErrorText)
-        //{
-        //    this.File = FileName;
-        //    this.Message = ErrorText;
-        //}
-    }
-
     public class ResourceCompiler
     {
         private string _resourceCompiler = null;
@@ -63,13 +43,14 @@ namespace pb.Compiler
             _resourceCompiler = resourceCompiler;
         }
 
-        //public ResourceCompilerResults Compile(string resourceFile, Dictionary<string, string> attributes, string outputDir)
         public ResourceCompilerResult Compile(ResourceFile resource, string outputDir)
         {
             if (_resourceCompiler == null)
                 throw new PBException("resource compiler is not defined");
             if (!zFile.Exists(_resourceCompiler))
                 throw new PBException("resource compiler cannot be found \"{0}\"", _resourceCompiler);
+            if (!zFile.Exists(resource.File))
+                throw new PBException("resource file cannot be found \"{0}\"", resource.File);
 
             if (!zDirectory.Exists(outputDir))
                 zDirectory.CreateDirectory(outputDir);

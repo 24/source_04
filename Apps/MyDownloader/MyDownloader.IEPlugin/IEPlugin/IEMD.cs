@@ -1,16 +1,11 @@
 using System;
 using System.ComponentModel;
 using System.Windows.Forms;
-using System.Collections;
 using System.Diagnostics;
-using System.Drawing;
-using System.IO;
 
 using BandObjectLib;
 using System.Runtime.InteropServices;
 using SHDocVw;
-using System.Text.RegularExpressions;
-using System.Collections.Generic;
 using System.Threading;
 
 namespace MyDownloader.IEPlugin

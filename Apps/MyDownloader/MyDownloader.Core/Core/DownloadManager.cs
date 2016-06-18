@@ -1,9 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Collections.ObjectModel;
-using System.Collections;
-using System.Threading;
 using MyDownloader.Core.Concurrency;
 using MyDownloader.Service;
 

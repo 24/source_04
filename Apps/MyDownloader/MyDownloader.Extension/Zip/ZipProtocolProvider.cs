@@ -1,9 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-using MyDownloader.Core;
 using System.IO;
 using ICSharpCode.SharpZipLib.Zip;
+using MyDownloader.Core;
 
 namespace MyDownloader.Extension.Zip
 {

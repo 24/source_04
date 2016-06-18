@@ -10,6 +10,8 @@
   <FrameworkAssembly                value = "System.dll" />
   <FrameworkAssembly                value = "System.Data.dll" />
   <FrameworkAssembly                value = "System.Xml.dll" />
-  <Assembly                         value = "runsource.dll" />
-  <Assembly                         value = "runsource.irunsource.dll" />
+  <!--<Assembly                         value = "runsource.dll" />-->
+  <!--<Assembly                         value = "runsource.irunsource.dll" />-->
+  <Assembly                         value = "$Root$\Apps\RunSource\v2\runsource.dll\bin32\runsource.dll" />
+  <Assembly                         value = "$Root$\Apps\RunSource\v2\runsource.dll\bin32\runsource.irunsource.dll" />
 </AssemblyProject>

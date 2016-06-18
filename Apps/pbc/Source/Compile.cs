@@ -39,7 +39,7 @@ namespace pbc
             //CompilerProjectReader compilerProject = CompilerProjectReader.Create(new XmlConfig(projectFile).GetConfigElementExplicit("/AssemblyProject"));
             //projectCompiler.SetParameters(compilerProject);
             //projectCompiler.SetProjectCompilerFile(compilerProject.GetProjectCompilerFile());
-            ProjectCompiler compiler = ProjectCompiler.Create(projectFile, CompilerManager.Current.ResourceCompiler);
+            ProjectCompiler compiler = ProjectCompiler.Create(projectFile, CompilerManager.Current.Win32ResourceCompiler, CompilerManager.Current.ResourceCompiler);
 
 
             compiler.Compile();
@@ -67,7 +67,8 @@ namespace pbc
         public static void CompileProjects(string projectsFile)
         {
             Trace.WriteLine("Compile projects \"{0}\"", projectsFile);
-            ProjectCompiler.CompileProjects(projectsFile, CompilerManager.Current.ResourceCompiler, _runsourceSourceDirectory, onCompiled: compiler => { compiler.TraceMessages(); });
+            ProjectCompiler.CompileProjects(projectsFile, CompilerManager.Current.Win32ResourceCompiler, CompilerManager.Current.ResourceCompiler, _runsourceSourceDirectory,
+                onCompiled: compiler => { compiler.TraceMessages(); });
         }
     }
 }

@@ -99,6 +99,9 @@
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\Compiler\ResourceCompiler.cs">
       <Link>SourceLnk\Lib\pb\Compiler\ResourceCompiler.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Compiler\ResourceCompilerResult.cs">
+      <Link>SourceLnk\Lib\pb\Compiler\ResourceCompilerResult.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\Compiler\RunCode.cs">
       <Link>SourceLnk\Lib\pb\Compiler\RunCode.cs</Link>
     </Compile>
@@ -113,6 +116,9 @@
     </Compile>
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\Compiler\RunSourceRunCode.cs">
       <Link>SourceLnk\Lib\pb\Compiler\RunSourceRunCode.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Compiler\Win32ResourceCompiler.cs">
+      <Link>SourceLnk\Lib\pb\Compiler\Win32ResourceCompiler.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\Data\Xml\Xml.cs">
       <Link>SourceLnk\Lib\pb\Data\Xml\Xml.cs</Link>
@@ -180,7 +186,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Properties\app.ico" />
     <Content Include="runsource.dll.project.xml">
       <SubType>Designer</SubType>
     </Content>

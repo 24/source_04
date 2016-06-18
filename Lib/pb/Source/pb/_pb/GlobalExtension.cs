@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using pb.Text;
 
 namespace pb
 {
@@ -73,6 +72,18 @@ namespace pb
             return sb.ToString();
         }
 
+        public static void zAddValue<T>(this StringBuilder values, T value, string separator = ", ")
+        {
+            if (values == null || value == null)
+                return;
+            string s = value.ToString();
+            if (s == null)
+                return;
+            if (values.Length != 0 && separator != null)
+                values.Append(separator);
+            values.Append(s);
+        }
+
         public static string zReadLine(this BinaryReader br)
         {
             StringBuilder sb = new StringBuilder();
@@ -99,25 +110,8 @@ namespace pb
             return sb.ToString();
         }
 
-        public static string zzToString(this byte[] bytes)
-        {
-            StringBuilder sb = new StringBuilder();
-            bool cr = false;
-            foreach (byte b in bytes)
-            {
-                if (b == 10 && !cr)
-                    sb.Append('\r');
-                if (b == 13)
-                    cr = true;
-                else
-                    cr = false;
-                if (b < 32 && b != 10 && b != 13)
-                    sb.Append("\\x" + b.zToHex());
-                else
-                    sb.Append((char)b);
-            }
-            return sb.ToString();
-        }
+        // moved to _pb\Convert.cs
+        //public static string zzToString(this byte[] bytes)
 
         public static void zForEach<T>(this IEnumerable<T> list, Action<T> action)
         {

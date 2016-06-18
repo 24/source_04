@@ -1,11 +1,8 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
 using MyDownloader.Core.Extensions;
 using MyDownloader.Core;
 using System.Threading;
 using System.Diagnostics;
-using Microsoft.Win32;
 using System.ComponentModel;
 
 namespace MyDownloader.Extension.SpeedLimit

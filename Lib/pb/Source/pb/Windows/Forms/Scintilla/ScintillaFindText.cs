@@ -67,9 +67,11 @@ namespace pb.Windows.Forms
 
         public void OpenFindForm()
         {
-            string word = _scintillaControl.zGetCurrentWord();
-            if (word != null)
-                _findForm.SetText(word);
+            string text = _scintillaControl.SelectedText;
+            if (text == "")
+                text = _scintillaControl.zGetCurrentWord();
+            if (text != null && text != "")
+                _findForm.SetText(text);
             _findForm.Show(_parentForm);
         }
 

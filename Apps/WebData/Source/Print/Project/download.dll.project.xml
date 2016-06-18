@@ -1,81 +1,81 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <AssemblyProject>
   
-  <!--<Root                             value = "..\..\..\..\..\.." />-->
-  <!--<Root                             value = "..\..\..\..\.." />-->
+  <!--<Root                                      value = "..\..\..\..\..\.." />-->
+  <!--<Root                                      value = "..\..\..\..\.." />-->
 
-  <!--<IncludeProject                   value = "$Root$\Source\Lib\pb\Source\Project\Basic.project.xml" />
-  <IncludeProject                   value = "$Root$\Source\Lib\pb\Source\Project\RunSourceExtension.project.xml" />
-  <IncludeProject                   value = "$Root$\Source\Lib\pb\Source\Project\MongoExtension.project.xml" />-->
+  <!--<IncludeProject                            value = "$Root$\Source\Lib\pb\Source\Project\Basic.project.xml" />
+  <IncludeProject                            value = "$Root$\Source\Lib\pb\Source\Project\RunSourceExtension.project.xml" />
+  <IncludeProject                            value = "$Root$\Source\Lib\pb\Source\Project\MongoExtension.project.xml" />-->
 
-  <NameSpace                        value = "Download.Print" />    <!-- Print.download -->
+  <NameSpace                                 value = "Download.Print" />    <!-- Print.download -->
 
-  <InitMethod                       value = "Download.Print.DownloadRun.Init, ebook.download, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" />      <!-- [{namespace}.{type}.]{method name}[, {assembly name}] default type {namespace}._RunCode -->
-  <EndMethod                        value = "Download.Print.DownloadRun.End, ebook.download, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" />       <!-- [{namespace}.{type}.]{method name}[, {assembly name}] default type {namespace}._RunCode -->
+  <InitMethod                                value = "Download.Print.DownloadRun.Init, ebook.download, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" />      <!-- [{namespace}.{type}.]{method name}[, {assembly name}] default type {namespace}._RunCode -->
+  <EndMethod                                 value = "Download.Print.DownloadRun.End, ebook.download, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" />       <!-- [{namespace}.{type}.]{method name}[, {assembly name}] default type {namespace}._RunCode -->
 
-  <Using                            value = "System" />
-  <Using                            value = "System.Collections" />
-  <Using                            value = "System.Collections.Generic" />
-  <Using                            value = "System.Data" />
-  <Using                            value = "System.Globalization" />
-  <Using                            value = "System.IO" />
-  <Using                            value = "System.Linq" />
-  <Using                            value = "System.Reflection" />
-  <Using                            value = "System.Text" />
-  <Using                            value = "System.Text.RegularExpressions" />
-  <Using                            value = "System.Windows.Forms" />
-  <Using                            value = "System.Xml" />
-  <Using                            value = "pb" />
-  <Using                            value = "pb.Compiler" />
-  <Using                            value = "pb.Data" />
-  <Using                            value = "pb.Data.Mongo" />
-  <Using                            value = "pb.Data.Xml" />
-  <Using                            value = "pb.IO" />
-  <Using                            value = "pb.Text" />
-  <Using                            value = "pb.Web" />
-  <!--<Using                            value = "pb.Windows.Win32" />-->
+  <Using                                     value = "System" />
+  <Using                                     value = "System.Collections" />
+  <Using                                     value = "System.Collections.Generic" />
+  <Using                                     value = "System.Data" />
+  <Using                                     value = "System.Globalization" />
+  <Using                                     value = "System.IO" />
+  <Using                                     value = "System.Linq" />
+  <Using                                     value = "System.Reflection" />
+  <Using                                     value = "System.Text" />
+  <Using                                     value = "System.Text.RegularExpressions" />
+  <Using                                     value = "System.Windows.Forms" />
+  <Using                                     value = "System.Xml" />
+  <Using                                     value = "pb" />
+  <Using                                     value = "pb.Compiler" />
+  <Using                                     value = "pb.Data" />
+  <Using                                     value = "pb.Data.Mongo" />
+  <Using                                     value = "pb.Data.Xml" />
+  <Using                                     value = "pb.IO" />
+  <Using                                     value = "pb.Text" />
+  <Using                                     value = "pb.Web" />
+  <!--<Using                                     value = "pb.Windows.Win32" />-->
 
-  <!--<Source                           value = "LoadDll.cs" />-->
+  <!--<Source                                    value = "LoadDll.cs" />-->
 
-  <!--<Using                            value = "System.Linq" />-->
-  <!--<Using                            value = "System.Xml.Linq" />-->
-  <!--<Using                            value = "System.Xml.XPath" />-->
-  <!--<Using                            value = "MongoDB.Bson" />
-  <Using                            value = "MongoDB.Driver" />-->
-  <!--<Using                            value = "pb" />
-  <Using                            value = "pb.Data" />
-  <Using                            value = "pb.Data.Mongo" />
-  <Using                            value = "pb.Data.Xml" />
-  <Using                            value = "pb.Linq" />
-  <Using                            value = "pb.Text" />
-  <Using                            value = "pb.Web" />
-  <Using                            value = "pb.Web.Data" />
-  <Using                            value = "Print" />
-  <Using                            value = "Test" />
-  <Using                            value = "Test.Test_Unit" />
-  <Using                            value = "Test.Test_Unit.Print" />-->
+  <!--<Using                                     value = "System.Linq" />-->
+  <!--<Using                                     value = "System.Xml.Linq" />-->
+  <!--<Using                                     value = "System.Xml.XPath" />-->
+  <!--<Using                                     value = "MongoDB.Bson" />
+  <Using                                     value = "MongoDB.Driver" />-->
+  <!--<Using                                     value = "pb" />
+  <Using                                     value = "pb.Data" />
+  <Using                                     value = "pb.Data.Mongo" />
+  <Using                                     value = "pb.Data.Xml" />
+  <Using                                     value = "pb.Linq" />
+  <Using                                     value = "pb.Text" />
+  <Using                                     value = "pb.Web" />
+  <Using                                     value = "pb.Web.Data" />
+  <Using                                     value = "Print" />
+  <Using                                     value = "Test" />
+  <Using                                     value = "Test.Test_Unit" />
+  <Using                                     value = "Test.Test_Unit.Print" />-->
 
-  <!--<Source                           value = "download_f.cs" />-->
+  <!--<Source                                    value = "download_f.cs" />-->
 
-  <Assembly                         value = "System.dll" />
-  <Assembly                         value = "System.Core.dll" />
-  <Assembly                         value = "System.Data.dll" />
-  <Assembly                         value = "System.Drawing.dll" />
-  <Assembly                         value = "System.Windows.Forms.dll" />
-  <Assembly                         value = "System.Xml.dll" />
-  <Assembly                         value = "System.Xml.Linq.dll" />
-  <!--<Assembly                         value = "c:\pib\prog\dev\mongodb\driver\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Bson.dll" resolve = "true" resolveName = "MongoDB.Bson, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />
-  <Assembly                         value = "c:\pib\prog\dev\mongodb\driver\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Driver.dll" resolve = "true" resolveName = "MongoDB.Driver, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />-->
-  <!--<Assembly                         value = "$Root$\..\library\Mongo\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Bson.dll" resolve = "true" resolveName = "MongoDB.Bson, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />-->
-  <!--<Assembly                         value = "$Root$\..\library\Mongo\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Driver.dll" resolve = "true" resolveName = "MongoDB.Driver, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />-->
-  <!--<Assembly                         value = "..\library\Mongo\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Bson.dll" resolve = "true" resolveName = "MongoDB.Bson, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />-->
-  <!--<Assembly                         value = "..\library\Mongo\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Driver.dll" resolve = "true" resolveName = "MongoDB.Driver, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />-->
-  <Assembly                         value = "..\MongoDB.Bson.dll" resolve = "true" resolveName = "MongoDB.Bson, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />
-  <Assembly                         value = "..\MongoDB.Driver.dll" resolve = "true" resolveName = "MongoDB.Driver, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />
-  <Assembly                         value = "runsource.dll" />
-  <Assembly                         value = "runsource.irunsource.dll" />
-  <!--<Assembly                         value = "bin32\ebook.download.dll" resolve = "true" resolveName = "ebook.download, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" />-->
-  <!--<Assembly                         value = "bin32\ebook.download.dll" />-->
-  <!--<Assembly                         value = "c:\pib\prog\tools\runsource\app\ebook.download\app\ebook.download.dll" />-->
-  <Assembly                         value = "..\ebook.download.dll" />
+  <Assembly                                  value = "System.dll" />
+  <Assembly                                  value = "System.Core.dll" />
+  <Assembly                                  value = "System.Data.dll" />
+  <Assembly                                  value = "System.Drawing.dll" />
+  <Assembly                                  value = "System.Windows.Forms.dll" />
+  <Assembly                                  value = "System.Xml.dll" />
+  <Assembly                                  value = "System.Xml.Linq.dll" />
+  <!--<Assembly                                  value = "c:\pib\prog\dev\mongodb\driver\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Bson.dll" resolve = "true" resolveName = "MongoDB.Bson, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />
+  <Assembly                                  value = "c:\pib\prog\dev\mongodb\driver\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Driver.dll" resolve = "true" resolveName = "MongoDB.Driver, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />-->
+  <!--<Assembly                                  value = "$Root$\..\library\Mongo\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Bson.dll" resolve = "true" resolveName = "MongoDB.Bson, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />-->
+  <!--<Assembly                                  value = "$Root$\..\library\Mongo\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Driver.dll" resolve = "true" resolveName = "MongoDB.Driver, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />-->
+  <!--<Assembly                                  value = "..\library\Mongo\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Bson.dll" resolve = "true" resolveName = "MongoDB.Bson, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />-->
+  <!--<Assembly                                  value = "..\library\Mongo\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Driver.dll" resolve = "true" resolveName = "MongoDB.Driver, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />-->
+  <Assembly                                  value = "..\MongoDB.Bson.dll" resolve = "true" resolveName = "MongoDB.Bson, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />
+  <Assembly                                  value = "..\MongoDB.Driver.dll" resolve = "true" resolveName = "MongoDB.Driver, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />
+  <Assembly                                  value = "runsource.dll" />
+  <Assembly                                  value = "runsource.irunsource.dll" />
+  <!--<Assembly                                  value = "bin32\ebook.download.dll" resolve = "true" resolveName = "ebook.download, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" />-->
+  <!--<Assembly                                  value = "bin32\ebook.download.dll" />-->
+  <!--<Assembly                                  value = "c:\pib\prog\tools\runsource\app\ebook.download\app\ebook.download.dll" />-->
+  <Assembly                                  value = "..\ebook.download.dll" />
 </AssemblyProject>

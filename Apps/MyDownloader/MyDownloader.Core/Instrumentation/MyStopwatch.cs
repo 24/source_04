@@ -1,7 +1,7 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
+#if DEBUG
 using System.Diagnostics;
+#endif
 
 namespace MyDownloader.Core.Instrumentation
 {
@@ -12,8 +12,10 @@ namespace MyDownloader.Core.Instrumentation
     {
         #region Fields
 
+#if DEBUG
         private Stopwatch internalStopwatch;
         private string name;
+#endif
 
         #endregion
 

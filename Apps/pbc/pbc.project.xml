@@ -1,20 +1,23 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <AssemblyProject>
-  <Root                             value = "..\.." />
+  <Root                                      value = "..\.." />
 
   <Language                                  name = "CSharp5" version = "6" />
   <FrameworkVersion                          value = "4.6.1" />  <!-- 2.0, 3.0, 3.5, 3.5 client, 4.0, 4.0 client, 4.5, 4.5.1, 4.5.2, 4.6, 4.6.1 -->
   <WarningLevel                              value = "4" /> <!-- 0 no warning, 1 severe warning, 2 + less-severe warnings 1, 3 + less-severe warnings 2, 4 all warning -->
-  <Target                           value = "exe" /> <!-- exe (exe console default), library (dll), module (.netmodule), winexe (exe windows), winruntimeexe (windows runtime application), winruntimemetadata (windows runtime metadata) -->
-  <!--<Platform                         value = "X86" /> --><!-- AnyCpu (default), X86, X64, Itanium, AnyCpu32BitPreferred (only CSharp5), Arm (only CSharp5) -->
-  <DebugInformation                 value = "true" />
-  <Output                           value = "bin32\pbc.exe" />
-  <!--<Icon                             value = "Properties\app.ico" />-->
-  <CopySourceFiles                  value = "true" />
-  <NameSpace                        value = "pbc" />
-	<!--<CompilerOptions                  value = "/platform:x86" />  --><!-- x86, Itanium, x64, or anycpu (default). -->
-  <File                             value = "pbc.config.xml" />
-  <Source                           value = "Properties\AssemblyInfo.cs" />
+  <Target                                    value = "exe" /> <!-- exe (exe console default), library (dll), module (.netmodule), winexe (exe windows), winruntimeexe (windows runtime application), winruntimemetadata (windows runtime metadata) -->
+  <!--<Platform                                  value = "X86" /> --><!-- AnyCpu (default), X86, X64, Itanium, AnyCpu32BitPreferred (only CSharp5), Arm (only CSharp5) -->
+  <DebugInformation                          value = "true" />
+  <CompilerOptions                           value = "/define:DEBUG;TRACE" />
+  <PreprocessorSymbol                        value = "DEBUG;TRACE" />
+  <Output                                    value = "bin32\pbc.exe" />
+  <!--<Icon                                      value = "Properties\app.ico" />-->
+  <Win32Resource                             value = "Resource\resource.rc" />
+  <CopySourceFiles                           value = "true" />
+  <NameSpace                                 value = "pbc" />
+	<!--<CompilerOptions                           value = "/platform:x86" />  --><!-- x86, Itanium, x64, or anycpu (default). -->
+  <File                                      value = "pbc.config.xml" />
+  <Source                                    value = "Properties\AssemblyInfo.cs" />
   
   <!--<Source                           value = "Source\v3\Program_v3.cs" />
 	<Source                           value = "Source\v3\RunSourceForm_v3.cs" />
@@ -27,68 +30,74 @@
 	<Source                           value = "Source\v3\RunSourceFormScintilla_v3.cs" />
 	<Source                           value = "Source\v3\RunSourceFormStatusBar_v3.cs" />-->
 
-  <Source                           value = "Source\Compile.cs" />
-  <Source                           value = "Source\Program.cs" />
+  <Source                                    value = "Source\Compile.cs" />
+  <Source                                    value = "Source\Program.cs" />
 
-  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\Application.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\Chrono.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\Error.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\IChrono.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\ITrace.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\ParseAs.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\PBException.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\Trace.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\TraceError.cs" />
+  <Source                                    value = "$Root$\Lib\pb\Source\pb\_pb\Application.cs" />
+  <Source                                    value = "$Root$\Lib\pb\Source\pb\_pb\Chrono.cs" />
+  <!--<Source                                    value = "$Root$\Lib\pb\Source\pb\_pb\Convert.cs" />-->
+  <Source                                    value = "$Root$\Lib\pb\Source\pb\_pb\Error.cs" />
+  <Source                                    value = "$Root$\Lib\pb\Source\pb\_pb\GlobalExtension.cs" />
+  <Source                                    value = "$Root$\Lib\pb\Source\pb\_pb\IChrono.cs" />
+  <Source                                    value = "$Root$\Lib\pb\Source\pb\_pb\ITrace.cs" />
+  <Source                                    value = "$Root$\Lib\pb\Source\pb\_pb\ParseAs.cs" />
+  <Source                                    value = "$Root$\Lib\pb\Source\pb\_pb\PBException.cs" />
+  <Source                                    value = "$Root$\Lib\pb\Source\pb\_pb\Trace.cs" />
+  <Source                                    value = "$Root$\Lib\pb\Source\pb\_pb\TraceError.cs" />
 
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Compiler\CodeDomProviderCompilerResult.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Compiler\CompilerManager.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Compiler\CompilerProjectReader.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Compiler\CSharp1Compiler.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Compiler\CSharp5Compiler.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Compiler\ICompiler.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Compiler\ICompilerProjectReader.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Compiler\IProjectCompiler.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Compiler\JScriptCompiler.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Compiler\ProjectCompiler.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Compiler\ProjectCompilerCreator.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Compiler\ResourceCompiler.cs" />
+  <Source                                    value = "$Root$\Lib\pb\Source\pb\Compiler\CodeDomProviderCompilerResult.cs" />
+  <Source                                    value = "$Root$\Lib\pb\Source\pb\Compiler\CompilerManager.cs" />
+  <Source                                    value = "$Root$\Lib\pb\Source\pb\Compiler\CompilerProjectReader.cs" />
+  <Source                                    value = "$Root$\Lib\pb\Source\pb\Compiler\CSharp1Compiler.cs" />
+  <Source                                    value = "$Root$\Lib\pb\Source\pb\Compiler\CSharp5Compiler.cs" />
+  <Source                                    value = "$Root$\Lib\pb\Source\pb\Compiler\ICompiler.cs" />
+  <Source                                    value = "$Root$\Lib\pb\Source\pb\Compiler\ICompilerProjectReader.cs" />
+  <Source                                    value = "$Root$\Lib\pb\Source\pb\Compiler\IProjectCompiler.cs" />
+  <Source                                    value = "$Root$\Lib\pb\Source\pb\Compiler\JScriptCompiler.cs" />
+  <Source                                    value = "$Root$\Lib\pb\Source\pb\Compiler\ProjectCompiler.cs" />
+  <Source                                    value = "$Root$\Lib\pb\Source\pb\Compiler\ProjectCompilerCreator.cs" />
+  <Source                                    value = "$Root$\Lib\pb\Source\pb\Compiler\ResourceCompiler.cs" />
+  <Source                                    value = "$Root$\Lib\pb\Source\pb\Compiler\ResourceCompilerResult.cs" />
+  <Source                                    value = "$Root$\Lib\pb\Source\pb\Compiler\Win32ResourceCompiler.cs" />
 
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Xml\Xml.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Xml\XmlConfig.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\File.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\Path.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\WriteToFile.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\zDirectory.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\zFile.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\ZipArchive.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\zPath.cs" />
+  <Source                                    value = "$Root$\Lib\pb\Source\pb\Data\Xml\Xml.cs" />
+  <Source                                    value = "$Root$\Lib\pb\Source\pb\Data\Xml\XmlConfig.cs" />
+  <Source                                    value = "$Root$\Lib\pb\Source\pb\IO\File.cs" />
+  <Source                                    value = "$Root$\Lib\pb\Source\pb\IO\Path.cs" />
+  <Source                                    value = "$Root$\Lib\pb\Source\pb\IO\WriteToFile.cs" />
+  <Source                                    value = "$Root$\Lib\pb\Source\pb\IO\zDirectory.cs" />
+  <Source                                    value = "$Root$\Lib\pb\Source\pb\IO\zFile.cs" />
+  <Source                                    value = "$Root$\Lib\pb\Source\pb\IO\ZipArchive.cs" />
+  <Source                                    value = "$Root$\Lib\pb\Source\pb\IO\zPath.cs" />
   
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Reflection\Reflection.cs" />
-  
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Text\Split.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Text\StringZones.cs" />
+  <Source                                    value = "$Root$\Lib\pb\Source\pb\Reflection\Reflection.cs" />
 
-  <FrameworkAssembly                value = "mscorlib.dll" />
-  <FrameworkAssembly                value = "System.dll" />
-  <FrameworkAssembly                value = "System.Core.dll" />
-	<FrameworkAssembly                value = "System.Data.dll" />
-  <FrameworkAssembly                value = "System.IO.Compression.dll" />
-  <FrameworkAssembly                value = "System.IO.Compression.FileSystem.dll" />
-  <FrameworkAssembly                value = "System.Xml.dll" />
-  <FrameworkAssembly                value = "System.Xml.Linq.dll" />
-  <FrameworkAssembly                value = "Microsoft.CSharp.dll" />
-  <FrameworkAssembly                value = "Microsoft.JScript.dll" />
+  <!--<Source                                    value = "$Root$\Lib\pb\Source\pb\Text\Regex.cs" />-->
+  <Source                                    value = "$Root$\Lib\pb\Source\pb\Text\Split.cs" />
+  <!--<Source                                    value = "$Root$\Lib\pb\Source\pb\Text\String.cs" />-->
+  <Source                                    value = "$Root$\Lib\pb\Source\pb\Text\StringZones.cs" />
 
-  <FrameworkAssembly                value = "Facades\System.Runtime.dll" />
-  <FrameworkAssembly                value = "Facades\System.IO.dll" />
-  <FrameworkAssembly                value = "Facades\System.Text.Encoding.dll" />
-  <FrameworkAssembly                value = "Facades\System.Threading.Tasks.dll" />
+  <FrameworkAssembly                         value = "mscorlib.dll" />
+  <FrameworkAssembly                         value = "System.dll" />
+  <FrameworkAssembly                         value = "System.Core.dll" />
+	<FrameworkAssembly                         value = "System.Data.dll" />
+  <FrameworkAssembly                         value = "System.IO.Compression.dll" />
+  <FrameworkAssembly                         value = "System.IO.Compression.FileSystem.dll" />
+  <FrameworkAssembly                         value = "System.Xml.dll" />
+  <FrameworkAssembly                         value = "System.Xml.Linq.dll" />
+  <FrameworkAssembly                         value = "Microsoft.CSharp.dll" />
+  <FrameworkAssembly                         value = "Microsoft.JScript.dll" />
 
-  <NuGetDirectory                   value = "c:\pib\dev\NuGet\repository" />
-  <Assembly                         value = "$NuGetDirectory$\Microsoft.CodeAnalysis.Common.1.2.2\lib\net45\Microsoft.CodeAnalysis.dll" />
-  <Assembly                         value = "$NuGetDirectory$\Microsoft.CodeAnalysis.CSharp.1.2.2\lib\net45\Microsoft.CodeAnalysis.CSharp.dll" />
-  <Assembly                         value = "$NuGetDirectory$\System.Collections.Immutable.1.1.37\lib\dotnet\System.Collections.Immutable.dll" />
-  <Assembly                         value = "$NuGetDirectory$\System.Reflection.Metadata.1.2.0\lib\portable-net45+win8\System.Reflection.Metadata.dll" />
+  <FrameworkAssembly                         value = "Facades\System.Runtime.dll" />
+  <FrameworkAssembly                         value = "Facades\System.IO.dll" />
+  <FrameworkAssembly                         value = "Facades\System.Text.Encoding.dll" />
+  <FrameworkAssembly                         value = "Facades\System.Threading.Tasks.dll" />
 
-  <Assembly                         value = "$Root$\Lib\LongPath\Pri.LongPath\bin\Debug\Pri.LongPath.dll" />
+  <NuGetDirectory                            value = "c:\pib\dev\NuGet\repository" />
+  <Assembly                                  value = "$NuGetDirectory$\Microsoft.CodeAnalysis.Common.1.2.2\lib\net45\Microsoft.CodeAnalysis.dll" />
+  <Assembly                                  value = "$NuGetDirectory$\Microsoft.CodeAnalysis.CSharp.1.2.2\lib\net45\Microsoft.CodeAnalysis.CSharp.dll" />
+  <Assembly                                  value = "$NuGetDirectory$\System.Collections.Immutable.1.1.37\lib\dotnet\System.Collections.Immutable.dll" />
+  <Assembly                                  value = "$NuGetDirectory$\System.Reflection.Metadata.1.2.0\lib\portable-net45+win8\System.Reflection.Metadata.dll" />
+
+  <Assembly                                  value = "$Root$\Lib\LongPath\Pri.LongPath\bin\Debug\Pri.LongPath.dll" />
 </AssemblyProject>

@@ -22,7 +22,8 @@
     {
         public bool CompileProjects(string projectsFile, string runsourceSourceDirectory = null)
         {
-            return ProjectCompiler.CompileProjects(projectsFile, CompilerManager.Current.ResourceCompiler, runsourceSourceDirectory, onCompiled: compiler => { if (!compiler.Success) SetResult(compiler.GetCompilerMessagesDataTable()); });
+            return ProjectCompiler.CompileProjects(GetPathProject(projectsFile), CompilerManager.Current.Win32ResourceCompiler, CompilerManager.Current.ResourceCompiler, runsourceSourceDirectory,
+                onCompiled: compiler => { if (!compiler.Success) SetResult(compiler.GetCompilerMessagesDataTable()); });
         }
 
         //IEnumerable<XElement> projects

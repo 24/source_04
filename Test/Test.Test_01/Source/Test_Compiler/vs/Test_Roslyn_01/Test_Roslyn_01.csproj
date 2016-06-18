@@ -20,7 +20,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;TOTO;TATA</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -60,13 +60,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Compile_01.cs" />
-    <Compile Include="Compile_02.cs" />
-    <Compile Include="Compile_03.cs" />
-    <Compile Include="CSharpCompiler.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="Source\Compile_01.cs" />
+    <Compile Include="Source\Compile_02.cs" />
+    <Compile Include="Source\Compile_03.cs" />
+    <Compile Include="Source\CSharpCompiler.cs" />
+    <Compile Include="Source\CSharpProject.cs" />
+    <Compile Include="Source\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Test_CSharpCompiler.cs" />
+    <Compile Include="Source\Test_CSharpCompiler.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -76,6 +77,11 @@
     <Analyzer Include="..\..\..\..\..\..\..\..\..\..\..\dev\NuGet\repository\Microsoft.CodeAnalysis.Analyzers.1.1.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.Analyzers.dll" />
     <Analyzer Include="..\..\..\..\..\..\..\..\..\..\..\dev\NuGet\repository\Microsoft.CodeAnalysis.Analyzers.1.1.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Project\Test_01\Test_01.project.xml" />
+    <Content Include="Project\Test_Form_01\Test_Form_01.project.xml" />
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

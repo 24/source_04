@@ -2,18 +2,14 @@ using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.Collections.Generic;
-using System.Text;
 using System.Windows.Forms;
 
-using MyDownloader.App;
 using MyDownloader.App.UI;
 using MyDownloader.App.SingleInstancing;
 
-using MyDownloader.Core;
 using MyDownloader.Core.Extensions;
 using MyDownloader.Core.UI;
 
-using MyDownloader.Extension;
 using MyDownloader.Extension.AntiVirus;
 using MyDownloader.Extension.Protocols;
 using MyDownloader.Extension.Notifications;

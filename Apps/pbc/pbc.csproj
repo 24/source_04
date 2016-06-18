@@ -32,6 +32,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Resource\Arrioch-Birdies-Audium.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CodeAnalysis">
       <HintPath>..\..\..\..\..\..\..\dev\NuGet\repository\Microsoft.CodeAnalysis.Common.1.2.2\lib\net45\Microsoft.CodeAnalysis.dll</HintPath>
@@ -98,6 +101,12 @@
     <Compile Include="..\..\Lib\pb\Source\pb\Compiler\ResourceCompiler.cs">
       <Link>SourceLnk\Lib\pb\Compiler\ResourceCompiler.cs</Link>
     </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Compiler\ResourceCompilerResult.cs">
+      <Link>SourceLnk\Lib\pb\Compiler\ResourceCompilerResult.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Compiler\Win32ResourceCompiler.cs">
+      <Link>SourceLnk\Lib\pb\Compiler\Win32ResourceCompiler.cs</Link>
+    </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Data\Xml\Xml.cs">
       <Link>SourceLnk\Lib\pb\Data\Xml\Xml.cs</Link>
     </Compile>
@@ -128,8 +137,14 @@
     <Compile Include="..\..\Lib\pb\Source\pb\Reflection\Reflection.cs">
       <Link>SourceLnk\Lib\pb\Reflection\Reflection.cs</Link>
     </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Text\Regex.cs">
+      <Link>SourceLnk\Lib\pb\Text\Regex.cs</Link>
+    </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Text\Split.cs">
       <Link>SourceLnk\Lib\pb\Text\Split.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Text\String.cs">
+      <Link>SourceLnk\Lib\pb\Text\String.cs</Link>
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Text\StringZones.cs">
       <Link>SourceLnk\Lib\pb\Text\StringZones.cs</Link>
@@ -140,8 +155,14 @@
     <Compile Include="..\..\Lib\pb\Source\pb\_pb\Chrono.cs">
       <Link>SourceLnk\Lib\pb\_pb\Chrono.cs</Link>
     </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\_pb\Convert.cs">
+      <Link>SourceLnk\Lib\pb\_pb\Convert.cs</Link>
+    </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\_pb\Error.cs">
       <Link>SourceLnk\Lib\pb\_pb\Error.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\_pb\GlobalExtension.cs">
+      <Link>SourceLnk\Lib\pb\_pb\GlobalExtension.cs</Link>
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\_pb\IChrono.cs">
       <Link>SourceLnk\Lib\pb\_pb\IChrono.cs</Link>
@@ -175,6 +196,9 @@
     <Content Include="pbc.project.xml">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="pbc.projects.xml" />
+    <Content Include="Resource\Arrioch-Birdies-Audium.ico" />
+    <Content Include="Resource\resource.rc" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

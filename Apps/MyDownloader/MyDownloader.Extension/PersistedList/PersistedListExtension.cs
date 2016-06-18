@@ -1,12 +1,10 @@
 using System;
 using System.Threading;
 using System.Collections.Generic;
-using System.Text;
 using MyDownloader.Core.Extensions;
 using MyDownloader.Core;
 using MyDownloader.Service;
 using System.IO;
-using System.Runtime.InteropServices;
 using System.Xml.Serialization;
 using MyDownloader.Core.Instrumentation;
 using System.Diagnostics;

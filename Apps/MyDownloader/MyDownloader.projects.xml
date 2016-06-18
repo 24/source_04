@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Projects>
+  <OutputDirectory                             value = "c:\pib\drive\google\prog\tools\DownloadManager" />
+  <Project                                     value = "MyDownloader.Core\MyDownloader.Core.project.xml" />
+  <Project                                     value = "MyDownloader.Extension\MyDownloader.Extension.project.xml" />
+  <Project                                     value = "MyDownloader.IEPlugin\MyDownloader.IEPlugin.project.xml" />
+  <Project                                     value = "MyDownloader.Spider\MyDownloader.Spider.project.xml" />
+  <Project                                     value = "MyDownloader.App\MyDownloader.App.project.xml" copyOutput = "$OutputDirectory$\new" />
+</Projects>

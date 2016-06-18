@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
 using MyDownloader.Spider.Parsers.Html;
 
 namespace MyDownloader.Spider.Web.Rules

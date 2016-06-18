@@ -1,8 +1,5 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.IO;
-using System.Net;
 using ICSharpCode.SharpZipLib.Zip.Compression.Streams;
 
 namespace MyDownloader.Extension.Zip

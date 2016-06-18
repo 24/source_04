@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Projects>
+  <OutputDirectory                             value = "c:\pib\drive\google\prog\tools\runsource\app\ebook.download" />
+  <Project                                     value = "download.project.xml" copyOutput = "$OutputDirectory$\new" />
+</Projects>

@@ -778,6 +778,7 @@
     <Content Include="Source\Print\Project\download.project.xml">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Source\Print\Project\download.projects.xml" />
     <Content Include="Source\Print\Project\print_config.xml" />
     <Content Include="Source\Print\Project\print_list1.xml">
       <SubType>Designer</SubType>

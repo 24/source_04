@@ -226,7 +226,7 @@ namespace pb.Compiler
 
         private ProjectCompiler RunCode_CompileCode(CompilerProjectReader compilerProject, string assemblyFilename, string sourceFile)
         {
-            ProjectCompiler compiler = new ProjectCompiler(CompilerManager.Current.ResourceCompiler);
+            ProjectCompiler compiler = new ProjectCompiler(CompilerManager.Current.Win32ResourceCompiler, CompilerManager.Current.ResourceCompiler);
             compiler.SetOutputAssembly(assemblyFilename + ".dll");
             compiler.AddSource(new CompilerFile(sourceFile));
 
@@ -274,7 +274,8 @@ namespace pb.Compiler
 
             runCode.Run(runOnMainThread);
 
-            AssemblyResolve.Clear();
+            // problem with AssemblyResolve.Clear() end method may need to resolve assembly
+            //AssemblyResolve.Clear();
         }
 
         //private void RunCode_EndRun(bool error)

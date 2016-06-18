@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace MyDownloader.Spider.Parsers.Html
 {
     public enum UrlType : int

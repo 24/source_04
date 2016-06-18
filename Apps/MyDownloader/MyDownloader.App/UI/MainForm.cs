@@ -1,23 +1,10 @@
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
-using System.Collections;
-using System.IO;
-using System.Web;
-using System.Diagnostics;
 
 using MyDownloader.Core;
-using MyDownloader.Core.Common;
 using MyDownloader.App.SingleInstancing;
-using MyDownloader.Extension.AutoDownloads;
-using MyDownloader.Core.Extensions;
 using MyDownloader.Extension.SpeedLimit;
-using MyDownloader.Extension.Video;
-using MyDownloader.Extension.WindowsIntegration.ClipboardMonitor;
 using MyDownloader.Service;
 
 namespace MyDownloader.App.UI

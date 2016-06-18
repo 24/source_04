@@ -42,14 +42,14 @@ namespace pb.Compiler
                 GetMethods(endMethods, getMethod);
                 _initMethods = initMethods;
                 _endMethods = endMethods;
-                CallMethods(_initMethods);
+                CallMethods(_initMethods, init: true);
                 _callInit = false;
             }
         }
 
         public void CallEndMethods()
         {
-            CallMethods(_endMethods);
+            CallMethods(_endMethods, init: false);
             _endMethods = null;
         }
 
@@ -85,17 +85,22 @@ namespace pb.Compiler
             }
         }
 
-        private void CallMethods(Dictionary<string, MethodInfo> methods)
+        private void CallMethods(Dictionary<string, MethodInfo> methods, bool init)
         {
             if (methods == null)
                 return;
+            string s;
+            if (init)
+                s = "init";
+            else
+                s = "end";
             foreach (MethodInfo method in methods.Values)
             {
                 try
                 {
                     if (method != null)
                     {
-                        Trace.WriteLine("call init methods \"{0}\"", method.zGetName());
+                        Trace.WriteLine("call {0} methods \"{1}\"", s, method.zGetName());
                         method.Invoke(null, null);
                     }
                 }

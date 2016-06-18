@@ -3,8 +3,6 @@
 // http://www.codeproject.com/KB/shell/dotnetbandobjects.aspx
 
 using System;
-using System.Runtime.InteropServices;
-using System.Reflection;
 
 namespace BandObjectLib
 {

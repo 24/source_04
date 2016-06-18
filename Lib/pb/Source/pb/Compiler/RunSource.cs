@@ -486,7 +486,7 @@ namespace pb.Compiler
             string pathProject = GetPathProject(projectName);
             Trace.WriteLine("Compile project \"{0}\"", pathProject);
             //ProjectCompiler compiler = CreateProjectCompiler(pathProject);
-            ProjectCompiler compiler = ProjectCompiler.Create(pathProject, CompilerManager.Current.ResourceCompiler);
+            ProjectCompiler compiler = ProjectCompiler.Create(pathProject, CompilerManager.Current.Win32ResourceCompiler, CompilerManager.Current.ResourceCompiler);
             //compiler.RunsourceSourceDirectory = GetRunSourceConfig().Get("UpdateRunSource/UpdateDirectory").zRootPath(zapp.GetEntryAssemblyDirectory());
             compiler.RunsourceSourceDirectory = GetRunSourceConfig().Get("RunsourceSourceDirectory").zRootPath(zapp.GetEntryAssemblyDirectory());
 

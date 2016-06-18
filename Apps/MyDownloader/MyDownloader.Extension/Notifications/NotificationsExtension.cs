@@ -1,8 +1,5 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
 using MyDownloader.Core.Extensions;
-using MyDownloader.Core;
 using MyDownloader.Extension.Notifications.Helpers;
 
 namespace MyDownloader.Extension.Notifications

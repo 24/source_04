@@ -15,6 +15,7 @@ namespace pb.Compiler
         private int _warningLevel = -1;
         private string _compilerOptions = null;
         private string _outputAssembly = null; // _finalOutputAssembly
+        private string _win32ResourceFile = null;
         private IEnumerable<string> _sources = null;
         //private IEnumerable<string> _referencedAssemblies = null;
         private IEnumerable<ReferencedAssembly> _referencedAssemblies = null;
@@ -36,6 +37,7 @@ namespace pb.Compiler
         public int WarningLevel { get { return _warningLevel; } set { _warningLevel = value; } }
         public string CompilerOptions { get { return _compilerOptions; } set { _compilerOptions = value; } }
         public string OutputAssembly { get { return _outputAssembly; } set { _outputAssembly = value; } }
+        public string Win32ResourceFile { get { return _win32ResourceFile; } set { _win32ResourceFile = value; } }
 
         //public Dictionary<string, string> ProviderOption { get { throw new PBException("no ProviderOption with JScriptCodeProvider"); } set { throw new PBException("no ProviderOption with JScriptCodeProvider"); } }
         //public bool GenerateExecutable { get { return _generateExecutable; } set { _generateExecutable = value; } }
@@ -45,6 +47,10 @@ namespace pb.Compiler
         //{
         //    _sources.AddRange(sources);
         //}
+
+        public void SetPreprocessorSymbols(IEnumerable<string> preprocessorSymbols)
+        {
+        }
 
         public void SetSources(IEnumerable<string> sources)
         {

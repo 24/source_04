@@ -140,7 +140,7 @@ namespace runsourced
             // this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             // Thread.Sleep(100);
             // dont work
-            Try(() => this.Icon = Properties.Resources.app);
+            Try(() => this.Icon = Resource.Resources.DogFinder);
             InitTitle();
             InitResult();
             InitRunSource();

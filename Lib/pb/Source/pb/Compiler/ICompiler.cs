@@ -41,9 +41,11 @@ namespace pb.Compiler
         bool DebugInformation { get; set; }
         int WarningLevel { get; set; }
         string OutputAssembly { get; set; }
+        string Win32ResourceFile { get; set; }
 
         ICompilerResult Compile();
         //void AddSources(IEnumerable<string> sources);
+        void SetPreprocessorSymbols(IEnumerable<string> preprocessorSymbols);
         void SetSources(IEnumerable<string> sources);
         //void AddReferencedAssembly(string referencedAssembly);
         //void SetReferencedAssemblies(IEnumerable<string> referencedAssemblies);

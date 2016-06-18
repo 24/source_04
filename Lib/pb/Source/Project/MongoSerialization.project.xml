@@ -7,7 +7,7 @@
 
   <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\Convert.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\Date.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\GlobalExtension.cs" />
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\_pb\GlobalExtension.cs" />-->
 
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\ZValue.cs" />
 
@@ -32,7 +32,8 @@
   <FrameworkAssembly                value = "System.Core.dll" />
   <FrameworkAssembly                value = "System.Drawing.dll" />
   <Assembly                         value = "$Root$\..\library\Mongo\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Bson.dll" resolve = "true" resolveName = "MongoDB.Bson, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />
-  <Assembly                         value = "runsource.dll" />
+  <!--<Assembly                         value = "runsource.dll" />-->
+  <Assembly                         value = "$Root$\Apps\RunSource\v2\runsource.dll\bin32\runsource.dll" />
 
   <!--
   <Assembly                         value = "runsource.dll" />

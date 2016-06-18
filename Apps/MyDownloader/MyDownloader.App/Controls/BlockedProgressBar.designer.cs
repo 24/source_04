@@ -1,4 +1,3 @@
-using System.Collections;
 namespace MyDownloader.App.Controls
 {
     partial class BlockedProgressBar

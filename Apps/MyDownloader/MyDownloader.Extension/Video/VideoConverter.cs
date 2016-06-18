@@ -1,12 +1,9 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
 using MyDownloader.Core;
 using System.Threading;
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.IO;
-using System.Reflection;
 
 namespace MyDownloader.Extension.Video
 {

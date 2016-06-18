@@ -6,8 +6,6 @@ using pb.IO;
 
 namespace pb.Compiler
 {
-    // CompilerProjectReader
-    // old name CompilerProject
     public class CompilerProjectReader : ICompilerProjectReader
     {
         private string _projectFile = null;
@@ -116,9 +114,43 @@ namespace pb.Compiler
             return _projectXmlElement.GetValues("CompilerOptions");
         }
 
+        public IEnumerable<string> GetPreprocessorSymbols()
+        {
+            //string symbols = _projectXmlElement.Get("PreprocessorSymbol");
+            //if (symbols != null)
+            //{
+            //    foreach (string symbol in symbols.Split(';'))
+            //    {
+            //        string symbol2 = symbol.Trim();
+            //        if (symbol2 != "")
+            //        {
+            //            yield return symbol2;
+            //        }
+            //    }
+            //}
+            foreach (string symbols in _projectXmlElement.GetValues("PreprocessorSymbol"))
+            {
+                foreach (string symbol in symbols.Split(';'))
+                {
+                    string symbol2 = symbol.Trim();
+                    if (symbol2 != "")
+                    {
+                        yield return symbol2;
+                    }
+                }
+            }
+        }
+
         public string GetOutput()
         {
             return GetFile("Output");
+        }
+
+        //public string GetWin32Resource()
+        public CompilerFile GetWin32Resource()
+        {
+            //return GetFile("Win32Resource");
+            return CreateCompilerFile(_projectXmlElement.GetElement("Win32Resource"));
         }
 
         public string GetIcon()
@@ -150,7 +182,6 @@ namespace pb.Compiler
 
         public string GetKeyFile()
         {
-            //return _projectXmlElement.Get("KeyFile").zRootPath(_projectDirectory);
             return GetFile("KeyFile");
         }
 
@@ -255,6 +286,8 @@ namespace pb.Compiler
 
         private CompilerFile CreateCompilerFile(XElement xe)
         {
+            if (xe == null)
+                return null;
             //CompilerFile compilerFile = new CompilerFile(xe.Attribute("value").Value.zRootPath(_projectDirectory));
             CompilerFile compilerFile = new CompilerFile(GetPathFile(xe.Attribute("value").Value), GetRootDirectory());
             compilerFile.Project = this;

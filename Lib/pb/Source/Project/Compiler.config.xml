@@ -14,6 +14,7 @@
     <Framework                                 version = "4.6" directory = "$FrameworkDirectory2$\v4.6"/>
     <Framework                                 version = "4.6.1" directory = "$FrameworkDirectory2$\v4.6.1"/>
   </Frameworks>
+  <Win32ResourceCompiler                     value = "C:\Program Files (x86)\Windows Kits\8.1\bin\x86\rc.exe"/>
   <!--<ResourceCompiler                          value = "c:\Program Files\Microsoft SDKs\Windows\v7.1\Bin\ResGen.exe"/>-->
   <ResourceCompiler                          value = "c:\Program Files (x86)\Microsoft SDKs\Windows\v8.1A\bin\NETFX 4.5.1 Tools\ResGen.exe"/>
   <DisableCompilerMessages                   value = "CS1701"/>

@@ -729,5 +729,25 @@ namespace pb
             else
                 return new DateTime().AddSeconds(seconds.Value).ToString(format);
         }
+
+        public static string zzToString(this byte[] bytes)
+        {
+            StringBuilder sb = new StringBuilder();
+            bool cr = false;
+            foreach (byte b in bytes)
+            {
+                if (b == 10 && !cr)
+                    sb.Append('\r');
+                if (b == 13)
+                    cr = true;
+                else
+                    cr = false;
+                if (b < 32 && b != 10 && b != 13)
+                    sb.Append("\\x" + b.zToHex());
+                else
+                    sb.Append((char)b);
+            }
+            return sb.ToString();
+        }
     }
 }

@@ -18,6 +18,7 @@ namespace Download.Print
         public abstract void Start();
         public abstract bool IsStarted();
         public abstract void Stop();
+        public abstract string GetDownloadDirectory();
         public abstract int GetMaxRetryCount();
         public abstract int GetDownloadCount();
         public abstract int AddDownload(string url, string file = null, int segmentNb = 1, bool startNow = false);
@@ -52,11 +53,6 @@ namespace Download.Print
             InitClient();
         }
 
-        //public void Dispose()
-        //{
-        //    Close();
-        //}
-
         public override void Close()
         {
             _channelFactory.Close();
@@ -86,6 +82,18 @@ namespace Download.Print
         public override void Stop()
         {
             _service.Stop();
+        }
+
+        // return "c:\pib\_dl\_dl\_pib\dm"
+        //public override string GetDownloadFolder()
+        //{
+        //    return _service.GetDownloadFolder();
+        //}
+
+        // return "c:\pib\_dl\_dl\_pib\dm\..\dl"
+        public override string GetDownloadDirectory()
+        {
+            return _service.GetDownloadDirectory();
         }
 
         public override int GetMaxRetryCount()
@@ -253,6 +261,18 @@ namespace Download.Print
         public override void Stop()
         {
             //_service.Stop();
+        }
+
+        //public override string GetDownloadFolder()
+        //{
+        //    //return _service.GetDownloadFolder();
+        //    return null;
+        //}
+
+        public override string GetDownloadDirectory()
+        {
+            //return _service.GetDownloadDirectory();
+            return null;
         }
 
         public override int GetMaxRetryCount()

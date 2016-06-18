@@ -23,6 +23,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "runsource.v2.runsource", "Apps\RunSource\v2\runsource.runsource\runsource.v2.runsource.csproj", "{4A9C538E-37E2-46C9-9186-A8C42F45FFAC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MyDownloader", "MyDownloader", "{5263EB34-FEA2-4E58-8866-0DC0F1ECBF04}"
+	ProjectSection(SolutionItems) = preProject
+		Apps\MyDownloader\MyDownloader.projects.xml = Apps\MyDownloader\MyDownloader.projects.xml
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyDownloader.App", "Apps\MyDownloader\MyDownloader.App\MyDownloader.App.csproj", "{091991C2-AA3F-4B55-9C95-C22A906D7FE1}"
 EndProject

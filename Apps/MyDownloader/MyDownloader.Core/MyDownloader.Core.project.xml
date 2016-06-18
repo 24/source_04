@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <AssemblyProject>
+  <Language                                  name = "CSharp5" version = "6" />
+  <FrameworkVersion                          value = "4.6.1" />  <!-- 2.0, 3.0, 3.5, 3.5 client, 4.0, 4.0 client, 4.5, 4.5.1, 4.5.2, 4.6, 4.6.1 -->
+  <WarningLevel                              value = "4" /> <!-- 0 no warning, 1 severe warning, 2 + less-severe warnings 1, 3 + less-severe warnings 2, 4 all warning -->
 	<Target                                    value = "library" /> <!-- exe (exe console default), library (dll), module (.netmodule), winexe (exe windows) -->
-	<Output                                    value = "bin32\MyDownloader.Core.dll" />
 <!--<Icon                                      value = "app.ico" />-->
-	<NameSpace                                 value = "MyDownloader.Core" />
+  <DebugInformation                          value = "true" />
 	<CompilerOptions                           value = "/platform:anycpu" />  <!-- x86, Itanium, x64, or anycpu (default). -->
+	<Output                                    value = "bin32\MyDownloader.Core.dll" />
 <!--<GenerateExecutable                        value = "true" />-->
+  <CopySourceFiles                           value = "true" />
+  <NameSpace                                 value = "MyDownloader.Core" />
 <!--<File                                      value = "wrun_config_std.xml" />-->
   <Source                                    value = "app.config" />
 	<Source                                    value = "Settings.Designer.cs" />
@@ -39,35 +44,35 @@
 	<Source                                    value = "Instrumentation\MyStopwatch.cs" />
 	<Source                                    value = "UI\ApplicationSettings.cs" />
 	<Source                                    value = "UI\ApplicationSettings.Designer.cs" />
-	<Source                                    value = "UI\ApplicationSettings.resx" namespace = "MyDownloader.Core.UI" />
+	<Source                                    value = "UI\ApplicationSettings.resx" namespace = "MyDownloader.Core.UI.ApplicationSettings.resources" />
 	<Source                                    value = "UI\AppManager.cs" />
 	<Source                                    value = "UI\ClipboardHelper.cs" />
 	<Source                                    value = "UI\Connection.cs" />
 	<Source                                    value = "UI\Connection.Designer.cs" />
-	<Source                                    value = "UI\Connection.resx" namespace = "MyDownloader.Core.UI" />
+	<Source                                    value = "UI\Connection.resx" namespace = "MyDownloader.Core.UI.Connection.resources" />
 	<Source                                    value = "UI\CoreExtention.cs" />
 	<Source                                    value = "UI\CoreUIExtention.cs" />
 	<Source                                    value = "UI\DownloadFolder.cs" />
 	<Source                                    value = "UI\DownloadFolder.Designer.cs" />
-	<Source                                    value = "UI\DownloadFolder.resx" namespace = "MyDownloader.Core.UI" />
+	<Source                                    value = "UI\DownloadFolder.resx" namespace = "MyDownloader.Core.UI.DownloadFolder.resources" />
 	<Source                                    value = "UI\IApp.cs" />
 	<Source                                    value = "UI\Location.cs" />
 	<Source                                    value = "UI\Location.Designer.cs" />
-	<Source                                    value = "UI\Location.resx" namespace = "MyDownloader.Core.UI" />
+	<Source                                    value = "UI\Location.resx" namespace = "MyDownloader.Core.UI.Location.resources" />
 	<Source                                    value = "UI\WaitControl.cs" />
 	<Source                                    value = "UI\WaitControl.Designer.cs" />
-	<Source                                    value = "UI\WaitControl.resx" namespace = "MyDownloader.Core.UI" />
+	<Source                                    value = "UI\WaitControl.resx" namespace = "MyDownloader.Core.UI.WaitControl.resources" />
 	<Source                                    value = "Service\DownloaderState.cs" />
 	<Source                                    value = "Service\DownloadManagerService.cs" />
 	<Source                                    value = "Service\IDownloadManagerService.cs" />
-  <Assembly                                  value = "System.dll" />
-	<Assembly                                  value = "System.Data.dll" />
-	<Assembly                                  value = "System.Drawing.dll" />
-  <Assembly                                  value = "System.Runtime.Remoting.dll" />
-  <Assembly                                  value = "System.ServiceModel.dll" />
-	<Assembly                                  value = "System.Windows.Forms.dll" />
-	<Assembly                                  value = "System.Xml.dll" />
+  <FrameworkAssembly                         value = "mscorlib.dll" />
+  <FrameworkAssembly                         value = "System.dll" />
+	<FrameworkAssembly                         value = "System.Data.dll" />
+	<FrameworkAssembly                         value = "System.Drawing.dll" />
+  <FrameworkAssembly                         value = "System.Runtime.Remoting.dll" />
+  <FrameworkAssembly                         value = "System.ServiceModel.dll" />
+	<FrameworkAssembly                         value = "System.Windows.Forms.dll" />
+	<FrameworkAssembly                         value = "System.Xml.dll" />
   <!--<Assembly                                  value = "..\bin\bin32\MyDownloader.Service.dll" />-->
-  <DebugInformation                          value = "true" />
 	<!--<CopyOutput                                value = "..\bin\bin32" />-->
 </AssemblyProject>

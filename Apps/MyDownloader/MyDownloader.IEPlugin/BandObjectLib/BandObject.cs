@@ -7,8 +7,6 @@ using System;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using SHDocVw;
-using System.Reflection;
-using System.Diagnostics;
 using System.Drawing;
 using System.ComponentModel;
 using Microsoft.Win32;

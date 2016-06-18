@@ -31,6 +31,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Resource\DogFinder.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="DevExpress.Data, Version=1.2.7.0, Culture=neutral, PublicKeyToken=79868b8147b5eae4">
       <SpecificVersion>False</SpecificVersion>
@@ -256,6 +259,11 @@
     <None Include="Source\_old\v3\RunSourceFormStatusBar_v3.cs">
       <SubType>Form</SubType>
     </None>
+    <Compile Include="Resource\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Source\v4\Program_v4.cs" />
     <Compile Include="Source\v4\RunSourceFormExe.cs">
       <SubType>Form</SubType>
@@ -352,16 +360,11 @@
     </None>
     <Compile Include="Source\RunSourceRestartParameters.cs" />
     <EmbeddedResource Include="Properties\licenses.licx" />
-    <EmbeddedResource Include="Properties\Resources.resx">
+    <EmbeddedResource Include="Resource\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\runsource.irunsource\runsource.v2.irunsource.csproj">
@@ -372,7 +375,7 @@
   <ItemGroup>
     <Content Include="LocalConfig\runsource.runsource.config.local.lastok.xml" />
     <Content Include="LocalConfig\runsource.runsource.config.local.xml" />
-    <Content Include="Properties\app.ico" />
+    <None Include="Resource\DogFinder.ico" />
     <Content Include="runsource.runsource.config.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -382,6 +385,7 @@
     <None Include="Source\_old\v3\runsource.runsource.v3.project.xml">
       <SubType>Designer</SubType>
     </None>
+    <Content Include="Resource\resource.rc" />
     <Content Include="Source\_old\v2\runsource.runsource.v2.project.xml">
       <SubType>Designer</SubType>
     </Content>

@@ -67,8 +67,9 @@ namespace Download.Print
     {
         // mongo id
         public BsonValue Id;
-        //public IQuery Key;
         public ServerKey Key;
+        // added 14/06/2016
+        public string File;
         public DownloadState State;
         public DownloadItemLink[] DownloadItemLinks;
         public string[] DownloadedFiles;
@@ -262,12 +263,15 @@ namespace Download.Print
                 _uncompressManager.Stop();
         }
 
-        //public void AddFileToDownload(ServerKey key, IRequestDownloadLinks downloadLinks, string file)
+        public string GetDownloadDirectory()
+        {
+            return _downloadClient.GetDownloadDirectory();
+        }
+
         public void AddFileToDownload(ServerKey key, IRequestDownloadLinks downloadLinks, string file = null)
         {
             DownloadItemLink[] downloadItemLinks = DownloadItemLink.CreateDownloadItemLinkArray(downloadLinks);
 
-            //QueueDownloadFile downloadFile = new QueueDownloadFile { Key = key, DownloadItemLinks = downloadItemLinks, RequestTime = DateTime.Now, File = file };
             QueueDownloadFile downloadFile = new QueueDownloadFile
             {
                 Key = key,
@@ -341,8 +345,6 @@ namespace Download.Print
                     pb.Trace.WriteLine("DownloadManager.ManageEndDownloadFiles() 02                   : end download file : state {0} file \"{1}\"", filePartLink.State, filePartLink.File);
 
                 filePartLink.DownloadedPath = _downloadClient.GetDownloadLocalFileById(downloadLinkRef.DownloadId);
-                //filePartLink.DownloadedFile = zpath.PathSetDirectory(filePartLink.DownloadedPath, zPath.GetDirectoryName(queueDownloadFile.File));
-                //filePartLink.DownloadedFile = zpath.PathSetDirectory(filePartLink.DownloadedPath, queueDownloadFile.Directory);
                 string file = filePartLink.DownloadedPath;
                 if (queueDownloadFile.Directory != null)
                     file = zpath.PathSetDirectory(file, queueDownloadFile.Directory);
@@ -365,7 +367,6 @@ namespace Download.Print
                 _downloadClient.RemoveDownloadById(downloadLinkRef.DownloadId);
 
                 if (_trace)
-                    //pb.Trace.WriteLine("DownloadManager.ManageEndDownloadFiles() 05                   : downloadFile.Id {0} downloadFile.DownloadNbInProgress {1} downloadFile.AllDownloadLinkTreated {2} file \"{3}\"", queueDownloadFile.Id, queueDownloadFile.DownloadNbInProgress, queueDownloadFile.AllDownloadLinkTreated, queueDownloadFile.File);
                     pb.Trace.WriteLine("DownloadManager.ManageEndDownloadFiles() 05                   : downloadFile.Id {0} downloadFile.DownloadNbInProgress {1} downloadFile.AllDownloadLinkTreated {2} directory \"{3}\" filename \"{4}\"", queueDownloadFile.Id, queueDownloadFile.DownloadNbInProgress, queueDownloadFile.AllDownloadLinkTreated, queueDownloadFile.Directory, queueDownloadFile.Filename);
                 if (queueDownloadFile.DownloadNbInProgress == 0 && queueDownloadFile.AllDownloadLinkTreated)
                 {
@@ -386,11 +387,11 @@ namespace Download.Print
             try
             {
                 if (_trace)
-                    //pb.Trace.WriteLine("DownloadManager.EndDownload() 01                              : file \"{0}\"", queueDownloadFile.File);
                     pb.Trace.WriteLine("DownloadManager.EndDownload() 01                              : directory \"{0}\" filename \"{1}\"", queueDownloadFile.Directory, queueDownloadFile.Filename);
 
                 DownloadedFile downloadedFile = new DownloadedFile();
                 downloadedFile.Key = queueDownloadFile.Key;
+                downloadedFile.File = zPath.Combine(queueDownloadFile.Directory, queueDownloadFile.Filename);
                 if (queueDownloadFile.UncompleteDownload)
                     downloadedFile.State = DownloadState.DownloadFailed;
                 else
@@ -419,8 +420,6 @@ namespace Download.Print
                         task = () =>
                         {
                             string[] uncompressFiles = UncompressFiles(queueDownloadFile.DownloadItemLinks.GetDownloadFilePartLinks().Select(filePartLink => filePartLink.DownloadedPath).ToArray());
-                            //downloadedFile.UncompressFiles = SetDirectoryFiles(uncompressFiles, zPath.GetDirectoryName(queueDownloadFile.File));
-                            //downloadedFile.UncompressFiles = SetDirectoryFiles(uncompressFiles, queueDownloadFile.Directory);
                             if (queueDownloadFile.Directory != null)
                                 uncompressFiles = SetDirectoryFiles(uncompressFiles, queueDownloadFile.Directory);
                             downloadedFile.UncompressFiles = uncompressFiles;
@@ -730,7 +729,6 @@ namespace Download.Print
             return false;
         }
 
-        //public DownloadState GetDownloadFileState(IQuery key)
         public DownloadState GetDownloadFileState(ServerKey key)
         {
             DownloadedFile downloadedFile = GetDownloadedFile(key);

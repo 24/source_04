@@ -1,14 +1,9 @@
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
 using System.Windows.Forms;
 using System.Reflection;
 using MyDownloader.Core.UI;
 using MyDownloader.Core.Extensions;
-using System.Resources;
 using System.IO;
-using System.Globalization;
 using System.Diagnostics;
 
 namespace MyDownloader.App.UI

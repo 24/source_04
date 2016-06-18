@@ -18,11 +18,11 @@ namespace Download.Print
         {
             //if (initServers)
             //    InitServers();
-            DownloadAutomateManagerCreator createDownloadAutomateManager = new DownloadAutomateManagerCreator();
-            createDownloadAutomateManager.Init(GetDownloadAutomateManagerConfig(test), XmlConfig.CurrentConfig);
+            DownloadAutomateManagerCreator downloadAutomateManagerCreator = new DownloadAutomateManagerCreator();
+            downloadAutomateManagerCreator.Init(GetDownloadAutomateManagerConfig(test), XmlConfig.CurrentConfig);
             if (parameters != null)
-                createDownloadAutomateManager.SetParameters(parameters);
-            return createDownloadAutomateManager;
+                downloadAutomateManagerCreator.SetParameters(parameters);
+            return downloadAutomateManagerCreator;
         }
 
         public static DownloadAutomateManager CreateDownloadAutomateManager(string parameters = null)
@@ -65,6 +65,11 @@ namespace Download.Print
             //    createPrintTitleManager.SetParameters(NamedValues.ParseValues(parameters));
             createPrintTitleManager.SetParameters(parameters2);
             return createPrintTitleManager;
+        }
+
+        public static DownloadManagerClientBase CreateDownloadManagerClient(string parameters = null, bool useTestManager = false)
+        {
+            return DownloadAutomateManagerCreator.CreateDownloadManagerClient(GetDownloadAutomateManagerConfig(GetTestValue(ParseParameters(parameters))), useTestManager);
         }
     }
 }

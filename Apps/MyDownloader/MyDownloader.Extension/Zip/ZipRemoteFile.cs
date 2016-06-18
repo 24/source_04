@@ -39,16 +39,12 @@
 // exception statement from your version.
 
 using System;
-using ICSharpCode.SharpZipLib;
 using ICSharpCode.SharpZipLib.Zip;
 using ICSharpCode.SharpZipLib.Zip.Compression.Streams;
 using ICSharpCode.SharpZipLib.Zip.Compression;
 using ICSharpCode.SharpZipLib.BZip2;
 using System.Collections;
 using System.IO;
-using System.Text;
-
-using ICSharpCode.SharpZipLib.Checksums;
 using MyDownloader.Core;
 
 namespace MyDownloader.Extension.Zip

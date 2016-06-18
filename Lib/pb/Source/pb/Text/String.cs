@@ -760,17 +760,8 @@ namespace pb.Text
         //    values.zAddValue(value, ", ");
         //}
 
-        public static void zAddValue<T>(this StringBuilder values, T value, string separator = ", ")
-        {
-            if (values == null || value == null)
-                return;
-            string s = value.ToString();
-            if (s == null)
-                return;
-            if (values.Length != 0 && separator != null)
-                values.Append(separator);
-            values.Append(s);
-        }
+        // moved to _pb\GlobalExtension.cs
+        //public static void zAddValue<T>(this StringBuilder values, T value, string separator = ", ")
 
         public static string zNullIfEmpty(this string text)
         {

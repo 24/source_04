@@ -1,10 +1,5 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
 using MyDownloader.Core;
-using System.IO;
-using MyDownloader.Extension.Protocols;
-using System.Net;
 
 namespace MyDownloader.Extension.Video.Impl
 {

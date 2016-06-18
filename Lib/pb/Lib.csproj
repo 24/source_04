@@ -103,6 +103,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="ClassDiagram1.cd" />
     <None Include="Source\Project\Test\TestMongoCommand.run.cs" />
     <None Include="Source\Project\Test\TestExtension_01.dll.run.cs" />
     <None Include="Source\Project\Test\TestExtension_01.run.cs" />
@@ -133,6 +134,7 @@
     <None Include="Source\pb\Compiler\_old\Compiler_v1.cs" />
     <Compile Include="Source\pb\Compiler\ProjectCompilerCreator.cs" />
     <Compile Include="Source\pb\Compiler\ResourceCompiler.cs" />
+    <Compile Include="Source\pb\Compiler\ResourceCompilerResult.cs" />
     <Compile Include="Source\pb\Compiler\RunSourceHtmlRun.cs" />
     <Compile Include="Source\pb\Compiler\RunSourceInitEndMethods.cs" />
     <Compile Include="Source\pb\Compiler\RunSourceRunCode.cs" />
@@ -141,6 +143,7 @@
     <Compile Include="Source\pb\Compiler\CSharpCodeWriter.cs" />
     <Compile Include="Source\pb\Compiler\GenerateAssembly.cs" />
     <Compile Include="Source\pb\Compiler\GenerateCSharpCode.cs" />
+    <Compile Include="Source\pb\Compiler\Win32ResourceCompiler.cs" />
     <Compile Include="Source\pb\Compiler\_old\ICompilerExtension.cs" />
     <Compile Include="Source\pb\Compiler\ICompilerProjectReader.cs" />
     <Compile Include="Source\pb\Compiler\_old\IGenerateAndExecute.cs" />

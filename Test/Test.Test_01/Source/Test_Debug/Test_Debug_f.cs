@@ -1,6 +1,4 @@
-﻿using System;
-using System.Reflection;
-using pb;
+﻿using pb;
 using pb.Compiler;
 using pb.Data.Xml;
 using pb.IO;
@@ -30,6 +28,8 @@ namespace Test.Test_Debug
 
         public static void Test_01()
         {
+            //System.Diagnostics.Debugger.Break();
+            //System.Diagnostics.MonitoringDescriptionAttribute
             Trace.WriteLine("toto");
         }
 

@@ -95,7 +95,7 @@ namespace pb.Web
             return http;
         }
 
-        public bool LoadToFile(HttpRequest httpRequest, string file, HttpRequestParameters requestParameters = null)
+        public bool LoadToFile(HttpRequest httpRequest, string file, bool exportRequest = false, HttpRequestParameters requestParameters = null)
         {
             try
             {
@@ -104,7 +104,7 @@ namespace pb.Web
                 {
                     try
                     {
-                        return _LoadToFile(httpRequest, file, requestParameters);
+                        return _LoadToFile(httpRequest, file, exportRequest, requestParameters);
                     }
                     catch (Exception ex)
                     {
@@ -121,7 +121,7 @@ namespace pb.Web
                         Trace.WriteLine(1, "Error : \"{0}\" ({1})", ex.Message, ex.GetType().ToString());
                     }
                 }
-                return _LoadToFile(httpRequest, file, requestParameters);
+                return _LoadToFile(httpRequest, file, exportRequest, requestParameters);
             }
             catch (Exception ex)
             {
@@ -133,14 +133,14 @@ namespace pb.Web
             }
         }
 
-        private bool _LoadToFile(HttpRequest httpRequest, string file, HttpRequestParameters requestParameters = null)
+        private bool _LoadToFile(HttpRequest httpRequest, string file, bool exportRequest = false, HttpRequestParameters requestParameters = null)
         {
             //if (Trace.CurrentTrace.TraceLevel >= 1)
             //    Trace.WriteLine("LoadToFile(\"{0}\", \"{1}\");", httpRequest.Url, file);
             Trace.WriteLine(1, "LoadToFile(\"{0}\", \"{1}\");", httpRequest.Url, file);
             Http http = CreateHttp(httpRequest, requestParameters);
 
-            return http.LoadToFile(file);
+            return http.LoadToFile(file, exportRequest);
         }
 
         public Image LoadImage(HttpRequest httpRequest, HttpRequestParameters requestParameters = null)

@@ -93,14 +93,14 @@ namespace pb.Web.Data.old
             return nb;
         }
 
-        public int RefreshDocumentsStore(Action<TData, TData> action = null, int limit = 0, bool reloadFromWeb = false, string query = null, string sort = null, bool loadImage = false)
+        public int RefreshDocumentsStore(Action<TData, TData> action = null, int limit = 0, bool reloadFromWeb = false, string query = null, string sort = null, bool LoadImageFromWeb = false)
         {
             int nb = 0;
             foreach (TData data in FindDocuments(query, sort: sort, limit: limit, loadImage: false))
             {
                 if (!(data is IHttpRequestData))
                     throw new PBException("type {0} is not IWebData", data.GetType().zGetTypeName());
-                TData data2 = _webLoadDataManager.LoadData(new WebRequest { HttpRequest = ((IHttpRequestData)data).GetDataHttpRequest(), ReloadFromWeb = reloadFromWeb, LoadImage = loadImage });
+                TData data2 = _webLoadDataManager.LoadData(new WebRequest { HttpRequest = ((IHttpRequestData)data).GetDataHttpRequest(), ReloadFromWeb = reloadFromWeb, LoadImageFromWeb = LoadImageFromWeb });
 
                 if (action != null)
                     action(data, data2);

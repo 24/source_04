@@ -8,10 +8,20 @@
   <IncludeProject                            value = "$Root$\Source\Lib\pb\Source\Project\RunSourceExtension.project.xml" />
   <IncludeProject                            value = "$Root$\Source\Lib\pb\Source\Project\MongoExtension.project.xml" />-->
 
+  <Language                                  name = "CSharp5" version = "6" />
+  <FrameworkVersion                          value = "4.6.1" />  <!-- 2.0, 3.0, 3.5, 3.5 client, 4.0, 4.0 client, 4.5, 4.5.1, 4.5.2, 4.6, 4.6.1 -->
+  <WarningLevel                              value = "4" /> <!-- 0 no warning, 1 severe warning, 2 + less-severe warnings 1, 3 + less-severe warnings 2, 4 all warning -->
+  <DebugInformation                          value = "true" />
+  <CompilerOptions                           value = "/define:DEBUG;TRACE" />
+  <PreprocessorSymbol                        value = "DEBUG;TRACE" />
   <NameSpace                                 value = "Download.Print" />    <!-- Print.download -->
 
-  <InitMethod                                value = "Download.Print.DownloadRun.Init, ebook.download, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" />      <!-- [{namespace}.{type}.]{method name}[, {assembly name}] default type {namespace}._RunCode -->
-  <EndMethod                                 value = "Download.Print.DownloadRun.End, ebook.download, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" />       <!-- [{namespace}.{type}.]{method name}[, {assembly name}] default type {namespace}._RunCode -->
+  <!-- [{namespace}.{type}.]{method name}[, {assembly name}] default type {namespace}._RunCode -->
+  <!-- run = "always, once (default)" -->
+  <InitMethod                                value = "Download.Print.DownloadRun.Init, ebook.download, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" />
+  <EndMethod                                 value = "Download.Print.DownloadRun.End, ebook.download, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" />
+  <InitMethod                                value = "Download.Print.DownloadRun.InitAlways, ebook.download, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" run = "always" />
+  <EndMethod                                 value = "Download.Print.DownloadRun.EndAlways, ebook.download, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" run = "always" />
 
   <Using                                     value = "System" />
   <Using                                     value = "System.Collections" />
@@ -57,13 +67,23 @@
 
   <!--<Source                                    value = "download_f.cs" />-->
 
-  <Assembly                                  value = "System.dll" />
+  <!--<Assembly                                  value = "System.dll" />
   <Assembly                                  value = "System.Core.dll" />
   <Assembly                                  value = "System.Data.dll" />
   <Assembly                                  value = "System.Drawing.dll" />
   <Assembly                                  value = "System.Windows.Forms.dll" />
   <Assembly                                  value = "System.Xml.dll" />
-  <Assembly                                  value = "System.Xml.Linq.dll" />
+  <Assembly                                  value = "System.Xml.Linq.dll" />-->
+
+  <FrameworkAssembly                         value = "mscorlib.dll" />
+  <FrameworkAssembly                         value = "System.dll" />
+  <FrameworkAssembly                         value = "System.Core.dll" />
+  <FrameworkAssembly                         value = "System.Data.dll" />
+  <FrameworkAssembly                         value = "System.Drawing.dll" />
+  <FrameworkAssembly                         value = "System.Windows.Forms.dll" />
+  <FrameworkAssembly                         value = "System.Xml.dll" />
+  <FrameworkAssembly                         value = "System.Xml.Linq.dll" />
+
   <!--<Assembly                                  value = "c:\pib\prog\dev\mongodb\driver\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Bson.dll" resolve = "true" resolveName = "MongoDB.Bson, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />
   <Assembly                                  value = "c:\pib\prog\dev\mongodb\driver\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Driver.dll" resolve = "true" resolveName = "MongoDB.Driver, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />-->
   <!--<Assembly                                  value = "$Root$\..\library\Mongo\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Bson.dll" resolve = "true" resolveName = "MongoDB.Bson, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />-->
@@ -77,5 +97,5 @@
   <!--<Assembly                                  value = "bin32\ebook.download.dll" resolve = "true" resolveName = "ebook.download, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" />-->
   <!--<Assembly                                  value = "bin32\ebook.download.dll" />-->
   <!--<Assembly                                  value = "c:\pib\prog\tools\runsource\app\ebook.download\app\ebook.download.dll" />-->
-  <Assembly                                  value = "..\ebook.download.dll" />
+  <Assembly                                  value = "..\ebook.download.dll" resolve = "true" resolveName = "ebook.download, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" />
 </AssemblyProject>

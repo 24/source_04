@@ -20,10 +20,8 @@ using System.Collections.Concurrent;
 
 namespace pb.Compiler
 {
-    public partial class RunSource
+    partial class RunSource
     {
-        private bool _executionPaused = false;
-        private bool _executionAborted = false;
         //private bool _allowMultipleExecution = false;
         //private RunCode _runCode = null;
         //private List<RunCode> _runCodes = new List<RunCode>();
@@ -40,7 +38,7 @@ namespace pb.Compiler
         public Action<EndRunCodeInfo> EndRunCode { get { return _endRunCode; } set { _endRunCode = value; } }
         //public bool AllowMultipleExecution { get { return _allowMultipleExecution; } set { _allowMultipleExecution = value; } }
         //public bool CallInit { get { return _runSourceInitEndMethods.CallInit; } set { _runSourceInitEndMethods.CallInit = value; } }
-        public bool CallInit { get { return _runSourceInitEndMethods.CallInit; } }
+        public bool CallInitRunOnce { get { return _runSourceInitEndMethods.CallInitRunOnce; } }
 
         private void InitRunCode()
         {
@@ -54,21 +52,11 @@ namespace pb.Compiler
             return _runCodes.Count > 0;
         }
 
-        public bool IsExecutionPaused()
-        {
-            return _executionPaused;
-        }
-
         public void PauseExecution(bool pause)
         {
             _executionPaused = pause;
             if (OnPauseExecution != null)
                 OnPauseExecution(pause);
-        }
-
-        public bool IsExecutionAborted()
-        {
-            return _executionAborted;
         }
 
         public void AbortExecution(bool abort)
@@ -89,7 +77,7 @@ namespace pb.Compiler
                 if (runCode.RunThread != null)
                     runCode.RunThread.Abort();
             }
-            //_runCodes.Clear();
+            _runCodes.Clear();
         }
 
         public bool IsExecutionAlive()
@@ -250,11 +238,9 @@ namespace pb.Compiler
         {
             RunCode runCode = new RunCode(++_runCodeId);
             runCode.RunAssembly = assembly;
-            runCode.CompilerAssemblies = compiler.Assemblies;
+            //runCode.CompilerAssemblies = compiler.Assemblies;
             runCode.RunMethodName = codeResult.GetFullRunMethodName();
             runCode.EndRun += error => RunCode_EndRun(runCode, error);
-            if (!_runCodes.TryAdd(runCode.Id, runCode))
-                throw new PBException("unable to add RunCode id {0} to ConcurrentDictionary", runCode.Id);
 
             //if (forceCallInit)
             //    _runSourceInitEndMethods.CallInit = true;
@@ -268,9 +254,13 @@ namespace pb.Compiler
                     AssemblyResolve.Add(compilerAssembly.File, compilerAssembly.ResolveName);
             }
 
-            _runSourceInitEndMethods.CallInit = callInit;
-            if (callInit)
-                _runSourceInitEndMethods.CallInitMethods(compilerProject.GetInitMethods(), compilerProject.GetEndMethods(), methodName => runCode.GetMethod(methodName));
+            //_runSourceInitEndMethods.CallInit = callInit;
+            //if (callInit)
+            _runSourceInitEndMethods.CallInitMethods(compilerProject.GetInitMethods(), compilerProject.GetEndMethods(), callInit, methodName => runCode.GetMethod(methodName));
+
+            // add runCode to _runCodes after call init, if call init fail runCode is not in _runCodes
+            if (!_runCodes.TryAdd(runCode.Id, runCode))
+                throw new PBException("unable to add RunCode id {0} to ConcurrentDictionary", runCode.Id);
 
             runCode.Run(runOnMainThread);
 

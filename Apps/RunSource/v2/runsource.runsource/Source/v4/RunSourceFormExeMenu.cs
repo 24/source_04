@@ -1,7 +1,9 @@
 ﻿using pb;
+using pb.Data.Xml;
 using pb.Windows.Forms;
 using System;
 using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace runsourced
 {
@@ -66,7 +68,11 @@ namespace runsourced
                 _menuAllowMultipleRun
             });
 
-            //menu.Items.AddRange(new ToolStripItem[] { m_file, m_options });
+            foreach (XElement xe in _config.GetElements("MenuCompile/CompileProjects"))
+            {
+                string projectsFile = xe.zExplicitAttribValue("file");
+                _menuCompile.DropDownItems.Add(zForm.CreateMenuItem(xe.zExplicitAttribValue("value"), onClick: (sender, eventArgs) => Try(() => _CompileProjects(projectsFile))));
+            }
         }
 
         private void InitMenu()
@@ -81,6 +87,7 @@ namespace runsourced
         {
             _executeButton = zForm.CreateButton("&Run", x: 3, y: 3, width: 75, height: 23, onClick: buttonExecute_Click);
             _pauseButton = zForm.CreateButton("&Pause", x: 87, y: 3, width: 75, height: 23, onClick: buttonPause_Click);
+            _pauseButton.Enabled = false;
             _stopButton = zForm.CreateButton("&Stop", x: 171, y: 3, width: 75, height: 23, onClick: buttonStop_Click);
             _progressLabel = zForm.CreateLabel("progress", x: 624, y: 1, height: 13);
             _progressBar = zForm.CreateProgressBar(x: 622, y: 16, width: 422, height: 16);

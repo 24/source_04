@@ -5,6 +5,7 @@ using MongoDB.Bson.Serialization.Conventions;
 using MongoDB.Bson.Serialization.Options;
 using MongoDB.Bson.Serialization.Serializers;
 using pb.Web;
+using System.Net;
 
 namespace pb.Data.Mongo.Serializers
 {
@@ -42,6 +43,7 @@ namespace pb.Data.Mongo.Serializers
             BsonPBSerializationProvider.RegisterSerializer(typeof(ZString), typeof(ZStringSerializer));
             BsonPBSerializationProvider.RegisterSerializer(typeof(ZStringArray), typeof(ZStringArraySerializer));
             BsonPBSerializationProvider.RegisterSerializer(typeof(WebImage), typeof(UrlImageSerializer));
+            BsonPBSerializationProvider.RegisterSerializer(typeof(WebHeaderCollection), typeof(WebHeaderSerializer));
         }
 
         public static void UnregisterDefaultMongoSerializer()
@@ -53,6 +55,7 @@ namespace pb.Data.Mongo.Serializers
             BsonPBSerializationProvider.UnregisterSerializer(typeof(ZString));
             BsonPBSerializationProvider.UnregisterSerializer(typeof(ZStringArray));
             BsonPBSerializationProvider.UnregisterSerializer(typeof(WebImage));
+            BsonPBSerializationProvider.UnregisterSerializer(typeof(WebHeaderCollection));
         }
     }
 }

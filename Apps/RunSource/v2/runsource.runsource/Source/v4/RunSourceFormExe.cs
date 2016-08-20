@@ -222,7 +222,8 @@ namespace runsourced
             xmlSerializer.CloseElement();
 
             xmlSerializer.AddElement("RunSource");
-            xmlSerializer.AddValue("ProjectDirectory", _runSource.ProjectDirectory ?? _settingsProjectDirectory);
+            //xmlSerializer.AddValue("ProjectDirectory", _runSource.ProjectDirectory ?? _settingsProjectDirectory);
+            xmlSerializer.AddValue("ProjectDirectory", _runSource.SourceFile != null ? zPath.GetDirectoryName(_runSource.SourceFile) : _settingsProjectDirectory);
             xmlSerializer.CloseElement();
 
             xmlSerializer.Save(GetSettingsFile());

@@ -2,6 +2,9 @@
 <AssemblyProject>
   <Root                             value = "..\..\..\.." />
 
+  <InitMethod                       value = "pb.Data.Mongo.Serializers.RunSerializer.Init" />
+  <EndMethod                        value = "pb.Data.Mongo.Serializers.RunSerializer.End" />
+
   <Using                            value = "pb.Data.Mongo" />
   <Using                            value = "pb.Data.Mongo.Serializers" />
 
@@ -14,7 +17,9 @@
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\BsonPBSerializationProvider.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\DateSerializer.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\DefaultMongoSerializer.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\RunSerializer.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\UrlImageSerializer.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\WebHeaderSerializer.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\ZIntSerializer.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\ZStringArraySerializer.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\ZStringSerializer.cs" />

@@ -193,6 +193,9 @@
     <Compile Include="..\..\Lib\pb\Source\pb\Data\DataTable2.cs">
       <Link>SourceLnk\Lib\pb\Data\DataTable2.cs</Link>
     </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Data\DataTableDistinct.cs">
+      <Link>SourceLnk\Lib\pb\Data\DataTableDistinct.cs</Link>
+    </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Data\FieldList.cs">
       <Link>SourceLnk\Lib\pb\Data\FieldList.cs</Link>
     </Compile>
@@ -231,6 +234,9 @@
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Data\NamedValues.cs">
       <Link>SourceLnk\Lib\pb\Data\NamedValues.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Data\TraceDataTable.cs">
+      <Link>SourceLnk\Lib\pb\Data\TraceDataTable.cs</Link>
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Data\Xml\Xml.cs">
       <Link>SourceLnk\Lib\pb\Data\Xml\Xml.cs</Link>
@@ -742,6 +748,7 @@
     <Compile Include="Source\Test_JScript\Test_JScript_01_exe\Test_JScript_01_exe.cs" />
     <None Include="Source\Test_JScript\Test_JScript_assembly_attributes\Test_JScript_01_AssemblyInfo.cs" />
     <Compile Include="Source\Test_JScript\Test_JScript_f.cs" />
+    <Compile Include="Source\Test_map\Test_map_01.cs" />
     <Compile Include="Source\Test_mongodb\Test_BsonWriter_f.cs" />
     <Compile Include="Source\Test_mongodb\Test_Bson_f.cs" />
     <Compile Include="Source\Test_mongodb\Test_Bson_f2.cs" />
@@ -937,6 +944,9 @@
     <Content Include="Source\Test_JScript\Test_JScript_assembly_attributes\Test_JScript_assembly_attributes_project.xml" />
     <Content Include="Source\Test_JScript\Test_JScript_project.xml" />
     <Content Include="Source\Test_JScript\Test_jsc_compiler\Test_JScript_01.js" />
+    <Content Include="Source\Test_map\Test_map.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Source\Test_mongodb\Test_mongodb_project.xml" />
     <Content Include="Source\Test_mysql\Test_mysql_project.xml" />
     <Content Include="Source\Test_Project\Test_IncludeProject.project.xml" />

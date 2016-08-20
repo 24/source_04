@@ -775,7 +775,9 @@ namespace pb.Web
                 if (charInt == -1)
                     break;
                 GetChar();
-                _stringBuilder.Append(_char);
+                // modif le 24/07/2016 pour éliminer les 0x00
+                if (_char != '\x00')
+                    _stringBuilder.Append(_char);
                 if (_char != ' ' && _char != '\t' && _char != '\r' && _char != '\n')
                     isTextSeparator = false;
                 int l = _stringBuilder.Length;

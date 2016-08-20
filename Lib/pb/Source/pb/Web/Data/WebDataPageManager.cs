@@ -9,28 +9,24 @@ namespace pb.Web.Data
         HttpRequest GetHttpRequestNextPage();
     }
 
-    //public class WebDataPageManager_v2<TDataPage, TData> : WebDataManager_v2<TDataPage>
     public class WebDataPageManager<TData> : WebDataManager<IEnumDataPages<TData>>
     {
         protected Func<int, HttpRequest> _getHttpRequestPageFunction = null;
 
         public Func<int, HttpRequest> GetHttpRequestPageFunction { get { return _getHttpRequestPageFunction; } set { _getHttpRequestPageFunction = value; } }
 
-        public IEnumerable<TData> LoadPages(int startPage = 1, int maxPage = 1, bool reload = false, bool loadImage = false, bool refreshDocumentStore = false)
+        public IEnumerable<TData> LoadPages(int startPage = 1, int maxPage = 1, bool reload = false, bool loadImageFromWeb = false, bool loadImageToData = false, bool refreshImage = false, bool refreshDocumentStore = false)
         {
             if (_getHttpRequestPageFunction == null)
                 throw new PBException("GetHttpRequestPage is not defined");
             HttpRequest httpRequest = _getHttpRequestPageFunction(startPage);
-            return LoadPages(httpRequest, maxPage, reload, loadImage, refreshDocumentStore);
+            return LoadPages(httpRequest, maxPage, reload, loadImageFromWeb, loadImageToData, refreshImage, refreshDocumentStore);
         }
 
-        public IEnumerable<TData> LoadPages(HttpRequest httpRequest, int maxPage = 1, bool reload = false, bool loadImage = false, bool refreshDocumentStore = false)
+        public IEnumerable<TData> LoadPages(HttpRequest httpRequest, int maxPage = 1, bool reload = false, bool loadImageFromWeb = false, bool loadImageToData = false, bool refreshImage = false, bool refreshDocumentStore = false)
         {
-            //TDataPage dataPage = Load(new WebRequest { HttpRequest = httpRequest, ReloadFromWeb = reload, LoadImage = loadImage, RefreshDocumentStore = refreshDocumentStore }).Document;
-            IEnumDataPages<TData> dataPage = Load(new WebRequest { HttpRequest = httpRequest, ReloadFromWeb = reload, LoadImage = loadImage, RefreshDocumentStore = refreshDocumentStore }).Document;
-            //if (!(dataPage is IEnumDataPages<TData>))
-            //    throw new PBException("{0} is not IEnumDataPages<{1}>", dataPage.GetType().zGetTypeName(), typeof(TData).zGetTypeName());
-            //IEnumDataPages<TData> enumDataPages = (IEnumDataPages<TData>)dataPage;
+            //IEnumDataPages<TData> dataPage = Load(new WebRequest { HttpRequest = httpRequest, ReloadFromWeb = reload, LoadImageFromWeb = loadImageFromWeb, LoadImageToData = loadImageToData, RefreshImage = refreshImage, RefreshDocumentStore = refreshDocumentStore }).Document;
+            IEnumDataPages<TData> dataPage = Load(new WebRequest { HttpRequest = httpRequest, ReloadFromWeb = reload, ImageRequest = new WebImageRequest { LoadImageFromWeb = loadImageFromWeb, LoadImageToData = loadImageToData, RefreshImage = refreshImage }, RefreshDocumentStore = refreshDocumentStore }).Document;
 
             if (dataPage == null)
                 yield break;
@@ -45,10 +41,8 @@ namespace pb.Web.Data
                 httpRequest = dataPage.GetHttpRequestNextPage();
                 if (httpRequest == null)
                     break;
-                dataPage = Load(new WebRequest { HttpRequest = httpRequest, ReloadFromWeb = reload, LoadImage = loadImage, RefreshDocumentStore = refreshDocumentStore }).Document;
-                //if (!(dataPage is IEnumDataPages<TData>))
-                //    throw new PBException("{0} is not IEnumDataPages<{1}>", dataPage.GetType().zGetTypeName(), typeof(TData).zGetTypeName());
-                //enumDataPages = (IEnumDataPages<TData>)dataPage;
+                //dataPage = Load(new WebRequest { HttpRequest = httpRequest, ReloadFromWeb = reload, LoadImageFromWeb = loadImageFromWeb, LoadImageToData = loadImageToData, RefreshImage = refreshImage, RefreshDocumentStore = refreshDocumentStore }).Document;
+                dataPage = Load(new WebRequest { HttpRequest = httpRequest, ReloadFromWeb = reload, ImageRequest = new WebImageRequest { LoadImageFromWeb = loadImageFromWeb, LoadImageToData = loadImageToData, RefreshImage = refreshImage }, RefreshDocumentStore = refreshDocumentStore }).Document;
                 foreach (TData data in dataPage.GetDataList())
                     yield return data;
             }

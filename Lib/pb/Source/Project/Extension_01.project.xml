@@ -13,7 +13,7 @@
   <CompilerOptions                  value = "/define:DEBUG;TRACE" />
   <Output                           value = "bin32\Extension_01\Extension_01.dll" />
   <CopySourceFiles                  value = "true" />
-  <CopyOutput                       value = "$Root$\..\library\pib\Extension_01" />
+  <CopyOutput                       value = "$Root$\..\library\pib\Extension_01\new" />
 
   <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\RunSourceExtension.project.xml" />
   <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\MongoExtension.project.xml" />

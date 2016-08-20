@@ -2,7 +2,7 @@
 
 namespace Download.Print
 {
-    public static partial class WebData
+    static partial class WebData
     {
         public static FindPrintManager CreateFindPrintManager(string parameters = null, int version = 0)
         {

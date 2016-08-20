@@ -18,7 +18,7 @@ using pb.IO;
 namespace Download.Print
 {
     // IKeyData.GetKey() used in DownloadAutomateManager_v2.TryDownloadPost()
-    public interface IPostToDownload : IHttpRequestData, IKeyData
+    public interface IPostToDownload : IHttpRequestData, IKeyData, ILoadImages
     {
         string GetServer();
         string GetTitle();
@@ -208,7 +208,8 @@ namespace Download.Print
         private const string _infoDirectory = ".i";
         private const string _infoSuffixFile = ".i";
         private string _downloadDirectory = null;
-        private Dictionary<string, ServerManager> _servers = new Dictionary<string, ServerManager>();
+        //private Dictionary<string, ServerManager> _servers = new Dictionary<string, ServerManager>();
+        private Dictionary<string, IServerManager> _servers = new Dictionary<string, IServerManager>();
         private MongoDownloadAutomateManager _mongoDownloadAutomateManager = null;
         private Func<PrintType, bool> _downloadAllPrintType = null;
         private FindPrintManager _findPrintManager = null;
@@ -305,7 +306,7 @@ namespace Download.Print
             {
                 _backup.Add(dir => MongoBackup.Backup(_mongoDownloadAutomateManager.GetCollection(), dir));
                 _downloadManager.InitBackup(_backup);
-                foreach (ServerManager server in _servers.Values)
+                foreach (IServerManager server in _servers.Values)
                 {
                     _backup.Add(dir => server.Backup(dir));
                 }
@@ -355,16 +356,30 @@ namespace Download.Print
             }
         }
 
-        public void AddServerManagers(IEnumerable<ServerManager> servers)
+        //public void AddServerManagers(IEnumerable<ServerManager> servers)
+        //{
+        //    foreach (ServerManager server in servers)
+        //    {
+        //        Trace.WriteLine("  add server manager \"{0}\" enable load new post {1} enable search post to download {2} download directory \"{3}\"", server.Name, server.EnableLoadNewPost, server.EnableSearchPostToDownload, server.DownloadDirectory);
+        //        _servers.Add(server.Name, server);
+        //    }
+        //}
+
+        public void AddServerManagers(IEnumerable<IServerManager> servers)
         {
-            foreach (ServerManager server in servers)
+            foreach (IServerManager server in servers)
             {
-                Trace.WriteLine("  add server manager \"{0}\" enable load new post {1} enable search post to download {2} download directory \"{3}\"", server.Name, server.EnableLoadNewPost, server.EnableSearchPostToDownload, server.DownloadDirectory);
+                Trace.WriteLine("  add server manager \"{0}\" enable load new post {1} enable search post to download {2} download directory \"{3}\"", server.Name, server.EnableLoadNewDocument, server.EnableSearchDocumentToDownload, server.DownloadDirectory);
                 _servers.Add(server.Name, server);
             }
         }
 
-        public void AddServerManager(ServerManager server)
+        //public void AddServerManager(ServerManager server)
+        //{
+        //    _servers.Add(server.Name, server);
+        //}
+
+        public void AddServerManager(IServerManager server)
         {
             _servers.Add(server.Name, server);
         }
@@ -491,13 +506,14 @@ namespace Download.Print
 
         private void _LoadNewPost()
         {
-            foreach (ServerManager server in _servers.Values)
+            //foreach (ServerManager server in _servers.Values)
+            foreach (IServerManager server in _servers.Values)
             {
                 try
                 {
                     Trace.WriteLine("{0:dd-MM-yyyy HH:mm:ss} - Download new post from {1}", DateTime.Now, server.Name);
-                    if (server.EnableLoadNewPost)
-                        server.LoadNewPost();
+                    if (server.EnableLoadNewDocument)
+                        server.LoadNewDocuments();
                 }
                 catch (Exception ex)
                 {
@@ -513,13 +529,14 @@ namespace Download.Print
             //Trace.WriteLine("{0:dd-MM-yyyy HH:mm:ss} - Search download from {1:dd-MM-yyyy HH:mm:ss}", DateTime.Now, lastRunDateTime);
             bool download = false;
             lastRunDateTime = lastRunDateTime.AddDays(-1);
-            foreach (ServerManager server in _servers.Values)
+            //foreach (ServerManager server in _servers.Values)
+            foreach (IServerManager server in _servers.Values)
             {
-                if (server.EnableSearchPostToDownload)
+                if (server.EnableSearchDocumentToDownload)
                 {
                     Trace.WriteLine("{0:dd-MM-yyyy HH:mm:ss} - Search download on {1} from {2:dd-MM-yyyy HH:mm:ss}", DateTime.Now, server.Name, lastRunDateTime);
                     int nb = 0;
-                    foreach (IPostToDownload post in server.GetPostList(lastRunDateTime))
+                    foreach (IPostToDownload post in server.FindFromDateTime(lastRunDateTime))
                     {
                         if (RunSource.CurrentRunSource.IsExecutionAborted())
                             break;
@@ -614,7 +631,7 @@ namespace Download.Print
                 Trace.WriteLine("error unknow server \"{0}\"", key.Server);
                 return null;
             }
-            return _servers[key.Server].LoadPost(key.Id);
+            return _servers[key.Server].Load(key.Id);
         }
 
         private void Downloaded(DownloadedFile downloadedFile)
@@ -624,6 +641,8 @@ namespace Download.Print
 
             if (downloadedFile.Key != null)
                 post = LoadPost(downloadedFile.Key);
+            //Trace.WriteLine("Downloaded : downloadedFile.Key {0}", downloadedFile.Key != null ? downloadedFile.Key.ToString() : "(null)");
+            //Trace.WriteLine("Downloaded : post {0}", post != null ? post.ToString() : "(null)");
 
             SaveDownloadedFileInfo(post, downloadedFile);
 
@@ -656,9 +675,16 @@ namespace Download.Print
 
         private void SaveDownloadedFileInfo(IPostToDownload post, DownloadedFile downloadedFile)
         {
-            if (_downloadDirectory == null || downloadedFile.File == null)
+            //if (_downloadDirectory == null || downloadedFile.File == null)
+            //    return;
+            //string file = zPath.Combine(_downloadDirectory, zPath.GetDirectoryName(downloadedFile.File), _infoDirectory, zPath.GetFileName(downloadedFile.File)) + _infoSuffixFile;
+
+            if (_downloadDirectory == null || downloadedFile.DownloadedFiles.Length == 0)
                 return;
-            string file = zPath.Combine(_downloadDirectory, zPath.GetDirectoryName(downloadedFile.File), _infoDirectory, zPath.GetFileName(downloadedFile.File)) + _infoSuffixFile;
+            // save info file to sub-directory .i, file = .i\filename.i
+            string file = downloadedFile.DownloadedFiles[0];
+            file = zPath.Combine(_downloadDirectory, zPath.GetDirectoryName(file), _infoDirectory, zPath.GetFileName(file)) + _infoSuffixFile;
+
             zfile.CreateFileDirectory(file);
             BsonDocument postDocument;
             if (post != null)

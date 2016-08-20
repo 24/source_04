@@ -76,7 +76,7 @@ namespace hts.WebData
             if (urlCache != null)
             {
                 //urlCache.GetUrlSubDirectoryFunction = httpRequest => (GetKey(httpRequest) / 1000 * 1000).ToString();
-                urlCache.GetUrlSubDirectoryFunction = httpRequest => GetGroup(httpRequest);
+                urlCache.GetUrlSubDirectory = httpRequest => GetGroup(httpRequest);
                 detailWebDataManager.WebLoadDataManager.UrlCache = urlCache;
             }
 

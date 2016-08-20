@@ -400,7 +400,9 @@ namespace pb.Web
                 }
                 if (car != ' ' && car != '\t' && car != '\r' && car != '\n')
                     isTextSeparator = false;
-                _stringBuilder.Append(car);
+                // modif le 24/07/2016 pour éliminer les 0x00
+                if (car != '\x00')
+                    _stringBuilder.Append(car);
             }
             return new HtmlNodeText
             {

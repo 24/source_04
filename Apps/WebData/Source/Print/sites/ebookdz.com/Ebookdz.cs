@@ -44,16 +44,26 @@ namespace Download.Print.Ebookdz
         // modif le 07/04/2016
         private static string __urlMainPage = "http://www.ebookdz.com/index.php";
 
-        //static Ebookdz()
+        public override string Name { get { return __serverName; } }
+
+        //public static void Init(bool test = false)
         //{
-        //    Init(test: DownloadPrint.Test);
+        //    XElement xe;
+        //    if (!test)
+        //        xe = XmlConfig.CurrentConfig.GetElement(__configName);
+        //    else
+        //    {
+        //        pb.Trace.WriteLine("{0} init for test", __configName);
+        //        xe = XmlConfig.CurrentConfig.GetElement(__configName + "_Test");
+        //    }
+        //    EbookdzLogin.Init(xe);
+        //    __current = new Ebookdz();
+        //    __current.HeaderPageNominalType = typeof(PostHeaderDataPage<PostHeader>);
+        //    __current.Create(xe);
+        //    ServerManagers.Add(__serverName, __current.CreateServerManager(__serverName));
         //}
 
-        //public static void FakeInit()
-        //{
-        //}
-
-        public static void Init(bool test = false)
+        public static IServerManager CreateServerManager(bool test = false)
         {
             XElement xe;
             if (!test)
@@ -66,8 +76,8 @@ namespace Download.Print.Ebookdz
             EbookdzLogin.Init(xe);
             __current = new Ebookdz();
             __current.HeaderPageNominalType = typeof(PostHeaderDataPage<PostHeader>);
-            __current.Create(xe);
-            ServerManagers.Add(__serverName, __current.CreateServerManager(__serverName));
+            __current.CreateDataManager(xe);
+            return __current;
         }
 
         public static bool Trace { get { return __trace; } set { __trace = value; } }
@@ -235,7 +245,7 @@ namespace Download.Print.Ebookdz
             data.Images = xe.DescendantNodes(node => XmlDescendant.ImageFilter(node)).Select(xeImg => new WebImage(zurl.GetUrl(data.SourceUrl, xeImg.zAttribValue("src")))).ToArray();
 
             // force load image to get image width and height
-            if (webResult.WebRequest.LoadImage)
+            if (webResult.WebRequest.LoadImageFromWeb)
                 data.Images = DownloadPrint.LoadImages(data.Images).ToArray();
 
             // get infos, description, language, size, nbPages
@@ -294,27 +304,36 @@ namespace Download.Print.Ebookdz
             return int.Parse(match.Groups[1].Value);
         }
 
+        // à revoir
+        [Obsolete]
         protected override void LoadDetailImages(Ebookdz_PostDetail data)
         {
             data.LoadImages();
         }
 
-        protected override void LoadNewDocuments()
+        public override void LoadNewDocuments()
         {
-            _webHeaderDetailManager.LoadNewDocuments(maxNbDocumentsLoadedFromStore: 7, startPage: 1, maxPage: 1);
+            _headerDetailManager.LoadNewDocuments(maxNbDocumentsLoadedFromStore: 7, startPage: 1, maxPage: 1);
         }
 
-        protected override IEnumerable<IPostToDownload> Find(DateTime date)
+        public override IEnumerable<IPostToDownload> FindFromDateTime(DateTime date)
         {
             string query = string.Format("{{ 'download.PostCreationDate': {{ $gt: ISODate('{0}') }} }}", date.ToUniversalTime().ToString("o"));
             string sort = "{ 'download.PostCreationDate': -1 }";
             // useCursorCache: true
-            return _detailWebDataManager.Find(query, sort: sort, loadImage: false);
+            return _detailDataManager.Find(query, sort: sort, loadImage: false);
         }
 
-        protected override IPostToDownload LoadDocument(BsonValue id)
+        public override IEnumerable<IPostToDownload> Find(string query = null, string sort = null, int limit = 0, bool loadImage = false)
         {
-            return _detailWebDataManager.DocumentStore.LoadFromId(id);
+            if (sort == null)
+                sort = "{ 'download.PostCreationDate': -1 }";
+            return _detailDataManager.Find(query, sort: sort, limit: limit, loadImage: loadImage);
+        }
+
+        public override IPostToDownload Load(BsonValue id)
+        {
+            return _detailDataManager.DocumentStore.LoadFromId(id);
         }
     }
 }

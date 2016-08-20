@@ -7,13 +7,33 @@ namespace pb.Web.Data
     {
         private HttpRequest _httpRequest = null;
         private bool _reloadFromWeb = false;
-        private bool _loadImage = false;
+        //private bool _loadImage = false;
+        //private bool _loadImageFromWeb = false;
+        //private bool _loadImageToData = false;
+        //private bool _refreshImage = false;
         private bool _refreshDocumentStore = false;
+        private WebImageRequest _imageRequest = null;
 
         public HttpRequest HttpRequest { get { return _httpRequest; } set { _httpRequest = value; } }
         public bool ReloadFromWeb { get { return _reloadFromWeb; } set { _reloadFromWeb = value; } }
-        public bool LoadImage { get { return _loadImage; } set { _loadImage = value; } }
+        //public bool LoadImage { get { return _loadImage; } set { _loadImage = value; } }
+        //public bool LoadImageFromWeb { get { return _loadImageFromWeb; } set { _loadImageFromWeb = value; } }
+        //public bool LoadImageToData { get { return _loadImageToData; } set { _loadImageToData = value; } }
+        //public bool RefreshImage { get { return _refreshImage; } set { _refreshImage = value; } }
+        public WebImageRequest ImageRequest { get { return _imageRequest; } set { _imageRequest = value; } }
         public bool RefreshDocumentStore { get { return _refreshDocumentStore; } set { _refreshDocumentStore = value; } }
+    }
+
+    public class WebImageRequest
+    {
+        public bool LoadImageFromWeb;
+        public bool LoadImageToData;
+        public bool RefreshImage;
+
+        //public static WebImageRequest FromWebRequest(WebRequest webRequest)
+        //{
+        //    return new WebImageRequest { LoadImageFromWeb = webRequest.LoadImageFromWeb, LoadImageToData = webRequest.LoadImageToData, RefreshImage = webRequest.RefreshImage };
+        //}
     }
 
     public class WebResult
@@ -22,11 +42,13 @@ namespace pb.Web.Data
         public Http Http;
         public bool LoadResult = false;
         public DateTime LoadFromWebDate;
+        public UrlCachePathResult UrlCachePathResult;
     }
 
     public class WebLoadManager
     {
         private UrlCache _urlCache = null;
+        //private bool _exportRequest = false;
         private Action _initLoadFromWeb = null;
         private Func<HttpRequestParameters> _getHttpRequestParameters = null;
         private bool _firstLoadFromWeb = true;
@@ -36,6 +58,7 @@ namespace pb.Web.Data
         }
 
         public UrlCache UrlCache { get { return _urlCache; } set { _urlCache = value; } }
+        //public bool ExportRequest { get { return _exportRequest; } set { _exportRequest = value; } }
         public Action InitLoadFromWeb { get { return _initLoadFromWeb; } set { _initLoadFromWeb = value; } }
         public Func<HttpRequestParameters> GetHttpRequestParameters { get { return _getHttpRequestParameters; } set { _getHttpRequestParameters = value; } }
 
@@ -49,11 +72,13 @@ namespace pb.Web.Data
 
             if (_urlCache != null)
             {
-                string urlPath = _urlCache.GetUrlPath(httpRequest);
+                //string urlPath = _urlCache.GetUrlPath(httpRequest);
+                loadDataFromWeb.UrlCachePathResult = _urlCache.GetUrlPathResult(httpRequest);
+                string urlPath = loadDataFromWeb.UrlCachePathResult.Path;
                 if (webRequest.ReloadFromWeb || !zFile.Exists(urlPath))
                 {
                     _InitLoadFromWeb(httpRequest);
-                    if (!HttpManager.CurrentHttpManager.LoadToFile(httpRequest, urlPath, _GetHttpRequestParameters()))
+                    if (!HttpManager.CurrentHttpManager.LoadToFile(httpRequest, urlPath, _urlCache.SaveRequest, _GetHttpRequestParameters()))
                         return loadDataFromWeb;
                 }
                 httpRequest = new HttpRequest { Url = urlPath };

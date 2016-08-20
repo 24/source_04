@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Security.Permissions;
-using System.Xml.Linq;
 using pb.Data.Xml;
 using pb.IO;
 
@@ -10,15 +8,11 @@ namespace pb.Compiler
 {
     public partial class RunSource : MarshalByRefObject, IRunSource
     {
-        private static RunSource _currentRunSource = null;
         private static string _defaultSuffixProjectName = ".project.xml";
         private static string __sourceSuffixName = ".run.cs";
         //private ITrace _trace = null;
         //private string gsDir = null;
         private string _dataDirectory = null;                                             // not used inside RunSource class
-        private DataTable gdtResult = null;
-        private DataSet gdsResult = null;
-        private string gsXmlResultFormat = null;
 
         private SortedList<string, object> gData = new SortedList<string, object>();      // not used inside RunSource class
 
@@ -29,10 +23,10 @@ namespace pb.Compiler
 
         // project variables
         private string _sourceFile = null;
-        private string _projectFile = null;
-        private string _projectDirectory = null;
-        private XmlConfig _projectConfig = null;
-        private bool _refreshProjectConfig = false;
+        //private string _projectFile = null;
+        //private string _projectDirectory = null;
+        //private XmlConfig _projectConfig = null;
+        //private bool _refreshProjectConfig = false;
 
         // projectDefaultValues
         private string _defaultProjectFile = null;
@@ -58,9 +52,6 @@ namespace pb.Compiler
         //public delegate void fDataSetResultEvent(DataSet ds, string sXmlFormat);
         //public fDataSetResultEvent DataSetResultEvent;
 
-        public event SetDataTableEvent GridResultSetDataTable;
-        public event SetDataSetEvent GridResultSetDataSet;
-
         //public event TreeViewResultAddEvent TreeViewResultAdd;
         //public event TreeViewResultSelectEvent TreeViewResultSelect;
 
@@ -70,7 +61,6 @@ namespace pb.Compiler
         private bool gbDisableMessage = false; // si true les messages ne doivent plus être affichés
         public event DisableMessageChangedEvent DisableMessageChanged;
 
-        private bool gbDisableResultEvent = false; // si true ResultEvent n'est pas appelé quand un nouveau résultat est disponible
         //public event SetDataTableEvent ErrorResultSet;
         public event ProgressChangeEvent ProgressChange;
 
@@ -125,16 +115,6 @@ namespace pb.Compiler
             return null;
         }
 
-        public static RunSource CurrentRunSource
-        {
-            get
-            {
-                if (_currentRunSource == null) _currentRunSource = new RunSource();
-                return _currentRunSource;
-            }
-            set { _currentRunSource = value; }
-        }
-
         public void SetAsCurrentRunSource()
         {
             _currentRunSource = this;
@@ -143,7 +123,6 @@ namespace pb.Compiler
         public string SourceFile { get { return _sourceFile; } set { _sourceFile = value; } }
         public string ProjectFile { get { return _projectFile; } }
         // set { _projectDirectory = value; }
-        public string ProjectDirectory { get { return _projectDirectory; } }
 
         public string DataDirectory { get { return _dataDirectory; } set { _dataDirectory = value; } }
 
@@ -159,56 +138,6 @@ namespace pb.Compiler
                         DisableMessageChanged(value);
                 }
             }
-        }
-
-        public DataTable Result
-        {
-            get { return gdtResult; }
-            //set
-            //{
-            //    gdtResult = value;
-            //    gdsResult = null;
-            //    gsXmlResultFormat = null;
-            //    if (!gbDisableResultEvent && GridResultSetDataTable != null)
-            //        GridResultSetDataTable(gdtResult, null);
-            //}
-        }
-
-        public DataSet DataSetResult
-        {
-            get { return gdsResult; }
-            //set
-            //{
-            //    gdsResult = value;
-            //    gdtResult = null;
-            //    gsXmlResultFormat = null;
-            //    //if (!gbDisableResultEvent && DataSetResultEvent != null) DataSetResultEvent(gdsResult, null);
-            //    if (!gbDisableResultEvent && GridResultSetDataSet != null) GridResultSetDataSet(gdsResult, null);
-            //}
-        }
-
-        public void SetResult(DataTable table)
-        {
-            SetResult(table, null);
-        }
-
-        //public void SetResult(DataTable table, string xmlFormat = null)
-        public void SetResult(DataTable table, string xmlFormat)
-        {
-            gdtResult = table;
-            gsXmlResultFormat = xmlFormat;
-            gdsResult = null;
-            if (!gbDisableResultEvent && GridResultSetDataTable != null)
-                GridResultSetDataTable(gdtResult, gsXmlResultFormat);
-        }
-
-        public void SetResult(DataSet dataSet, string xmlFormat = null)
-        {
-            gdsResult = dataSet;
-            gsXmlResultFormat = xmlFormat;
-            gdtResult = null;
-            if (!gbDisableResultEvent && GridResultSetDataSet != null)
-                GridResultSetDataSet(gdsResult, gsXmlResultFormat);
         }
 
         public bool DontSelectResultTab
@@ -321,11 +250,14 @@ namespace pb.Compiler
 
         public void InitCompiler()
         {
-            CompilerManager.Current.Init(GetRunSourceConfig().GetConfigElementExplicit("CompilerConfig"));
+            XmlConfig runSourceConfig = GetRunSourceConfig();
+            CompilerManager.Current.Init(runSourceConfig.GetConfigElementExplicit("CompilerConfig"));
             CompilerManager.Current.AddCompiler("CSharp1", () => new CSharp1Compiler());
             CompilerManager.Current.AddCompiler("CSharp5", () => new CSharp5Compiler(CompilerManager.Current.FrameworkDirectories, CompilerManager.Current.MessageFilter));
             CompilerManager.Current.AddCompiler("JScript", () => new JScriptCompiler());
             //_resourceCompiler = new ResourceCompiler(CompilerManager.Current.ResourceCompiler);
+            RunSourceInitEndMethods.TraceRunOnce = runSourceConfig.Get("TraceInitEndOnceMethods").zTryParseAs(false);
+            RunSourceInitEndMethods.TraceRunAlways = runSourceConfig.Get("TraceInitEndAlwaysMethods").zTryParseAs(false);
         }
 
         public XmlConfig GetRunSourceConfig()
@@ -345,7 +277,10 @@ namespace pb.Compiler
             if (config != null)
             {
                 AssemblyResolve.TraceAssemblyResolve = config.Get("TraceAssemblyResolve").zTryParseAs(false);
-                AssemblyResolve.TraceAssemblyLoad = config.Get("TraceAssemblyLoad").zTryParseAs(false);
+                //AssemblyResolve.TraceAssemblyLoad = config.Get("TraceAssemblyLoad").zTryParseAs(false);
+                AssemblyResolve.UpdateAssembly = config.Get("UpdateAssembly").zTryParseAs(false); ;
+                AssemblyResolve.UpdateSubDirectory = config.Get("UpdateAssemblySubDirectory", AssemblyResolve.UpdateSubDirectory); ;
+                AssemblyResolve.TraceUpdateAssembly = config.Get("TraceUpdateAssembly").zTryParseAs(false);
             }
             AssemblyResolve.Start();
         }
@@ -381,16 +316,6 @@ namespace pb.Compiler
             return _defaultProject;
         }
 
-        public XmlConfig GetProjectConfig()
-        {
-            if (_projectConfig == null && _projectFile != null && zFile.Exists(_projectFile))
-                _projectConfig = new XmlConfig(_projectFile);
-            else if (_projectConfig != null && _refreshProjectConfig)
-                _projectConfig.Refresh();
-            _refreshProjectConfig = false;
-            return _projectConfig;
-        }
-
         public CompilerProjectReader GetProjectCompilerProject()
         {
             XmlConfig config = GetProjectConfig();
@@ -398,19 +323,6 @@ namespace pb.Compiler
                 return CompilerProjectReader.Create(GetProjectConfig().GetConfigElementExplicit("/AssemblyProject"));
             else
                 return null;
-        }
-
-        public string GetProjectVariableValue(string value, bool throwError = false)
-        {
-            XmlConfig projectConfig = GetProjectConfig();
-            XElement root = null;
-            if (projectConfig != null)
-                root = projectConfig.XDocument.Root;
-            string newValue;
-            if (!root.zTryGetVariableValue(value, out newValue, traceError: true) && throwError)
-                throw new PBException("cant get variable value from \"{0}\"", value);
-            value = newValue;
-            return value;
         }
 
         public string SetProjectFromSource()
@@ -421,7 +333,7 @@ namespace pb.Compiler
         public string SetProject(string file)
         {
             _runSourceInitEndMethods.CallEndMethods();
-            _runSourceInitEndMethods.CallInit = true;
+            _runSourceInitEndMethods.CallInitRunOnce = true;
             if (file != null)
             {
                 // get project variable : "$//Root$\Source\..."
@@ -572,11 +484,6 @@ namespace pb.Compiler
             //    Trace.WriteLine("{0:yyyy-MM-dd HH:mm:ss} {1}", DateTime.Now, s);
             Trace.WriteLine(2, "{0:yyyy-MM-dd HH:mm:ss} {1}", DateTime.Now, s);
             ProgressChange(value, total, s);
-        }
-
-        public string GetFilePath(string file)
-        {
-            return file.zRootPath(_projectDirectory);
         }
     }
 }

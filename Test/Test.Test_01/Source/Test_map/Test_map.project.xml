@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<AssemblyProject>
+  <Root                                      value = "..\..\..\.." />
+
+  <Language                                  name = "CSharp5" version = "6" />
+  <FrameworkVersion                          value = "4.6.1" />  <!-- CSharp5 option : 2.0, 3.0, 3.5, 3.5 client, 4.0, 4.0 client, 4.5, 4.5.1, 4.5.2, 4.6, 4.6.1 -->
+  <DebugInformation                          value = "true" />  <!-- CSharp1, CSharp5, JScript option -->
+  <WarningLevel                              value = "4" /> <!-- CSharp1, CSharp5, JScript option : 0 no warning, 1 severe warning, 2 + less-severe warnings 1, 3 + less-severe warnings 2, 4 all warning -->
+  <CompilerOptions                           value = "/define:DEBUG;TRACE" />  <!-- CSharp1, JScript option -->
+  <PreprocessorSymbol                        value = "DEBUG;TRACE" />  <!-- CSharp5 option -->
+
+  <IncludeProject                            value = "$Root$\Lib\pb\Source\Project\Basic.project.xml" />
+  <IncludeProject                            value = "$Root$\Lib\pb\Source\Project\Extension_01.dll.project.xml" />
+
+  <NameSpace                                 value = "Test.Test_map" />
+
+  <Using                                     value = "MongoDB.Bson" />
+  
+  <Source                                    value = "Test_map_01.cs" />
+
+  <Source                                    value = "$Root$\Lib\pb\Source\pb\Data\DataTableDistinct.cs" />
+  <Source                                    value = "$Root$\Lib\pb\Source\pb\Data\TraceDataTable.cs" />
+
+</AssemblyProject>

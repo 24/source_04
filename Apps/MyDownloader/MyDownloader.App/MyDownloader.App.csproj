@@ -32,6 +32,9 @@
   <PropertyGroup>
     <StartupObject />
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Resource\dragon_fly.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="ICSharpCode.SharpZipLib">
       <HintPath>..\..\..\RuntimeLibrary\ICSharpCode\ICSharpCode.SharpZipLib.dll</HintPath>
@@ -138,9 +141,10 @@
   <ItemGroup>
     <Content Include="Controls\BlockedProgressBar.bmp" />
     <Content Include="DONE.txt" />
-    <Content Include="dragon_fly.ico" />
+    <Content Include="Resource\dragon_fly.ico" />
     <Content Include="MyDownloader.App.project.xml" />
     <Content Include="PB_Note.txt" />
+    <Content Include="Resource\resource.rc" />
     <Content Include="TODO.txt" />
   </ItemGroup>
   <ItemGroup>

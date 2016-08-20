@@ -49,7 +49,7 @@ namespace runsourced
 
         private bool GetCallInit()
         {
-            return _runSource.CallInit;
+            return _runSource.CallInitRunOnce;
         }
 
         //private void SetCallInit(bool callInit)
@@ -106,7 +106,7 @@ namespace runsourced
             _stopButton.Enabled = true;
             //_runSource.RunCode(GetCode(), useNewThread, compileWithoutProject);
             _runSource.RunCode(GetCode(), runOnMainThread: runOnMainThread, compileWithoutProject: runWithoutProject, allowMultipleRun: allowMultipleRun, callInit: callInit);
-            _menuRunInit.Checked = _runSource.CallInit;
+            _menuRunInit.Checked = _runSource.CallInitRunOnce;
             UpdateRunSourceStatus();
         }
 
@@ -221,6 +221,7 @@ namespace runsourced
                 }
             }
             _trace.WriteLine("Execution process aborted");
+            UpdateRunSourceFormLayout();
         }
 
         private void _UpdateRunSource()
@@ -232,26 +233,40 @@ namespace runsourced
             }
             RazResult();
             RazProgress();
-            CompileRunSource();
+            //CompileRunSource();
+            CompileProjects(_config.GetExplicit("RunSourceProjects"));
             RestartRunSource();
         }
 
         private void _CompileRunSource()
         {
-            if (_runSource.IsRunning())
-            {
-                MessageBox.Show("Un programme est déjà en cours d'exécution !", "Compile", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                return;
-            }
+            //if (_runSource.IsRunning())
+            //{
+            //    MessageBox.Show("Un programme est déjà en cours d'exécution !", "Compile", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            //    return;
+            //}
             RazResult();
             RazProgress();
-            CompileRunSource();
+            //CompileRunSource();
+            CompileProjects(_config.GetExplicit("RunSourceProjects"));
         }
 
-        private void CompileRunSource()
+        //private void CompileRunSource()
+        //{
+        //    if (!_runSource.CompileProjects(_config.GetExplicit("RunSourceProjects"), _config.GetExplicit("RunsourceSourceDirectory").zRootPath(zapp.GetEntryAssemblyDirectory())))
+        //        EventEndRunCode(new EndRunCodeInfo { Error = false });
+        //}
+
+        private void _CompileProjects(string projectsFile)
         {
-            //if (!_runSource.CompileProjects(_config.GetElements("UpdateRunSource/Project"), _config.GetExplicit("UpdateRunSource/UpdateDirectory").zRootPath(zapp.GetEntryAssemblyDirectory())))
-            if (!_runSource.CompileProjects(_config.GetExplicit("RunSourceProjects"), _config.GetExplicit("RunsourceSourceDirectory").zRootPath(zapp.GetEntryAssemblyDirectory())))
+            RazResult();
+            RazProgress();
+            CompileProjects(projectsFile);
+        }
+
+        private void CompileProjects(string projectsFile)
+        {
+            if (!_runSource.CompileProjects(projectsFile, _config.GetExplicit("RunsourceSourceDirectory").zRootPath(zapp.GetEntryAssemblyDirectory())))
                 EventEndRunCode(new EndRunCodeInfo { Error = false });
         }
 
@@ -379,13 +394,24 @@ namespace runsourced
                     _trace.WriteError(ex);
                 }
 
-                _executeButton.Enabled = true;
-                _pauseButton.Text = "&Pause";
-                _stopButton.Enabled = _runSource.IsRunning();
+                //_executeButton.Enabled = true;
+                //_pauseButton.Text = "&Pause";
+                //_stopButton.Enabled = _runSource.IsRunning();
 
-                SetFormTitle();
-                UpdateRunSourceStatus();
+                //SetFormTitle();
+                //UpdateRunSourceStatus();
+                UpdateRunSourceFormLayout();
             }
+        }
+
+        private void UpdateRunSourceFormLayout()
+        {
+            _executeButton.Enabled = true;
+            _pauseButton.Text = "&Pause";
+            _stopButton.Enabled = _runSource.IsRunning();
+
+            SetFormTitle();
+            UpdateRunSourceStatus();
         }
 
         private void _RestartRunSource()

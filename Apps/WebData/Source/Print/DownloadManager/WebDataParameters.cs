@@ -5,7 +5,7 @@ using pb.Data.Xml;
 
 namespace Download.Print
 {
-    public static partial class WebData
+    static partial class WebData
     {
         public static XElement GetDownloadAutomateManagerConfig(bool test)
         {

@@ -32,7 +32,6 @@ namespace pb.Data.Mongo
                     //return new ZString(bsonReader.ReadString());
                     var array = new List<string>();
                     bsonType = bsonReader.ReadBsonType();
-                    //while (bsonReader.ReadBsonType() != BsonType.EndOfDocument)
                     while (bsonType != BsonType.EndOfDocument)
                     {
                         if (bsonType != BsonType.String)

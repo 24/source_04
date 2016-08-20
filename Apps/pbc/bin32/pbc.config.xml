@@ -27,5 +27,6 @@
     <Shortcut                                  shortcut = "runsource" project = "$ProjectDirectory$\Apps\RunSource\v2\runsource.projects.xml"/>
     <Shortcut                                  shortcut = "MyDownloader" project = "$ProjectDirectory$\Apps\MyDownloader\MyDownloader.projects.xml"/>
     <Shortcut                                  shortcut = "WebData" project = "$ProjectDirectory$\Apps\WebData\Source\Print\Project\download.projects.xml"/>
+    <Shortcut                                  shortcut = "Extension_01" project = "$ProjectDirectory$\Lib\pb\Source\Project\Extension_01.project.xml"/>
   </Shortcuts>
 </configuration>

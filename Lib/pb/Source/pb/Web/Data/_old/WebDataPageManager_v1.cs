@@ -20,9 +20,9 @@ namespace pb.Web.Data.old
             return LoadPages(httpRequest, maxPage, reload, loadImage, refreshDocumentStore);
         }
 
-        public IEnumerable<TData> LoadPages(HttpRequest httpRequest, int maxPage = 1, bool reload = false, bool loadImage = false, bool refreshDocumentStore = false)
+        public IEnumerable<TData> LoadPages(HttpRequest httpRequest, int maxPage = 1, bool reload = false, bool LoadImageFromWeb = false, bool refreshDocumentStore = false)
         {
-            TDataPage dataPage = Load(new WebRequest { HttpRequest = httpRequest, ReloadFromWeb = reload, LoadImage = loadImage, RefreshDocumentStore = refreshDocumentStore }).Document;
+            TDataPage dataPage = Load(new WebRequest { HttpRequest = httpRequest, ReloadFromWeb = reload, LoadImageFromWeb = LoadImageFromWeb, RefreshDocumentStore = refreshDocumentStore }).Document;
             if (!(dataPage is IEnumDataPages<TData>))
                 throw new PBException("{0} is not IEnumDataPages<{1}>", dataPage.GetType().zGetTypeName(), typeof(TData).zGetTypeName());
             IEnumDataPages<TData> enumDataPages = (IEnumDataPages<TData>)dataPage;
@@ -40,7 +40,7 @@ namespace pb.Web.Data.old
                 httpRequest = enumDataPages.GetHttpRequestNextPage();
                 if (httpRequest == null)
                     break;
-                dataPage = Load(new WebRequest { HttpRequest = httpRequest, ReloadFromWeb = reload, LoadImage = loadImage, RefreshDocumentStore = refreshDocumentStore }).Document;
+                dataPage = Load(new WebRequest { HttpRequest = httpRequest, ReloadFromWeb = reload, LoadImageFromWeb = LoadImageFromWeb, RefreshDocumentStore = refreshDocumentStore }).Document;
                 if (!(dataPage is IEnumDataPages<TData>))
                     throw new PBException("{0} is not IEnumDataPages<{1}>", dataPage.GetType().zGetTypeName(), typeof(TData).zGetTypeName());
                 enumDataPages = (IEnumDataPages<TData>)dataPage;

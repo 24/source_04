@@ -271,6 +271,8 @@ namespace pb.Compiler
         {
             foreach (string source in _sources)
             {
+                if (!zFile.Exists(source))
+                    throw new PBException($"file not found \"{source}\"");
                 yield return CSharpSyntaxTree.ParseText(zFile.ReadAllText(source));
             }
         }
@@ -281,6 +283,8 @@ namespace pb.Compiler
             {
                 foreach (string sourceFile in _sources)
                 {
+                    if (!zFile.Exists(sourceFile))
+                        throw new PBException($"file not found \"{sourceFile}\"");
                     string source = zFile.ReadAllText(sourceFile);
                     SourceText stringText = SourceText.From(source, Encoding.UTF8);
                     yield return SyntaxFactory.ParseSyntaxTree(stringText, parseOptions, sourceFile);

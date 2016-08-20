@@ -1,4 +1,5 @@
-﻿using System;
+﻿using pb.IO;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 
@@ -7,12 +8,18 @@ namespace pb.Compiler
     public static class AssemblyResolve
     {
         private static bool _traceAssemblyResolve = false;
-        private static bool _traceAssemblyLoad = false;
+        //private static bool _traceAssemblyLoad = false;
+        private static bool _updateAssembly = false;
+        private static string _updateSubDirectory = "new";
+        private static bool _traceUpdateAssembly = false;
         private static bool _active = false;
         private static Dictionary<string, string> _assemblies = new Dictionary<string, string>();
 
         public static bool TraceAssemblyResolve { get { return _traceAssemblyResolve; } set { _traceAssemblyResolve = value; } }
-        public static bool TraceAssemblyLoad { get { return _traceAssemblyLoad; } set { _traceAssemblyLoad = value; } }
+        //public static bool TraceAssemblyLoad { get { return _traceAssemblyLoad; } set { _traceAssemblyLoad = value; } }
+        public static bool UpdateAssembly { get { return _updateAssembly; } set { _updateAssembly = value; } }
+        public static string UpdateSubDirectory { get { return _updateSubDirectory; } set { _updateSubDirectory = value; } }
+        public static bool TraceUpdateAssembly { get { return _traceUpdateAssembly; } set { _traceUpdateAssembly = value; } }
 
         // bool traceAssemblyResolve = false, bool traceAssemblyLoad = false
         public static void Start()
@@ -26,7 +33,14 @@ namespace pb.Compiler
                 AppDomain.CurrentDomain.AssemblyResolve += _AssemblyResolve; //new ResolveEventHandler(_AssemblyResolve);
                 AppDomain.CurrentDomain.AssemblyLoad += AssemblyLoad;
                 if (_traceAssemblyResolve)
+                {
                     Trace.WriteLine("AssemblyResolve : start assembly resolve");
+                    Trace.WriteLine("  TraceAssemblyResolve   : {0}", _traceAssemblyResolve);
+                    //Trace.WriteLine("  TraceAssemblyLoad      : {0}", _traceAssemblyLoad);
+                    Trace.WriteLine("  UpdateAssembly         : {0}", _updateAssembly);
+                    Trace.WriteLine("  UpdateSubDirectory     : {0}", _updateSubDirectory);
+                    Trace.WriteLine("  TraceUpdateAssembly    : {0}", _traceUpdateAssembly);
+                }
             }
         }
 
@@ -46,19 +60,34 @@ namespace pb.Compiler
         {
             if (_assemblies.ContainsKey(args.Name))
             {
+                string assemblyFile = _assemblies[args.Name];
+                if (_updateAssembly)
+                {
+                    string assemblyDirectory = zPath.GetDirectoryName(assemblyFile);
+                    string updateDirectory = zPath.Combine(assemblyDirectory, _updateSubDirectory);
+                    if (zUpdateFiles.TryUpdateFile(assemblyFile, updateDirectory))
+                    {
+                        if (_traceUpdateAssembly)
+                            Trace.WriteLine("AssemblyResolve : update assembly \"{0}\" from \"{1}\"", assemblyFile, _updateSubDirectory);
+                        zUpdateFiles.UpdateFiles(updateDirectory, assemblyDirectory);
+                    }
+                }
+
                 if (_traceAssemblyResolve)
-                    Trace.WriteLine("AssemblyResolve : resolve assembly \"{0}\" as \"{1}\"", args.Name, _assemblies[args.Name]);
-                return Assembly.LoadFrom(_assemblies[args.Name]);
+                    Trace.WriteLine("AssemblyResolve : resolve assembly \"{0}\" as \"{1}\"", args.Name, assemblyFile);
+                return Assembly.LoadFrom(assemblyFile);
             }
-            else if (_traceAssemblyResolve)
-                Trace.WriteLine("AssemblyResolve : unable to resolve assembly \"{0}\"", args.Name);
+            // ATTENTION cela fait planter runsource
+            //else if (_traceAssemblyResolve)
+            //    Trace.WriteLine("AssemblyResolve : unable to resolve assembly \"{0}\"", args.Name);
             return null;
         }
 
         private static void AssemblyLoad(object sender, AssemblyLoadEventArgs args)
         {
-            if (_traceAssemblyLoad)
-                Trace.WriteLine("AssemblyResolve : load assembly event \"{0}\" \"{1}\"", args.LoadedAssembly.FullName, !args.LoadedAssembly.IsDynamic ? args.LoadedAssembly.Location : null);
+            // ATTENTION cela fait planter runsource
+            //if (_traceAssemblyLoad)
+            //    Trace.WriteLine("AssemblyResolve : load assembly event \"{0}\" \"{1}\"", args.LoadedAssembly.FullName, !args.LoadedAssembly.IsDynamic ? args.LoadedAssembly.Location : null);
         }
 
         public static void Clear()

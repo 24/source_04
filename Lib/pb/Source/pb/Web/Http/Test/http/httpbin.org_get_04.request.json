@@ -1,0 +1,22 @@
+{
+  "StatusCode" : 200,
+  "Headers" : {
+    "Connection" : "keep-alive",
+    "Access-Control-Allow-Origin" : "*",
+    "Access-Control-Allow-Credentials" : "true",
+    "Content-Length" : "225",
+    "Content-Type" : "application/json",
+    "Date" : "Sat, 30 Jul 2016 07:10:14 GMT",
+    "Server" : "nginx"
+  },
+  "Request" : {
+    "Uri" : "https://httpbin.org/get?toto=tata&zozo=zaza",
+    "Method" : "GET",
+    "Headers" : {
+      "User-Agent" : "pib/0.1",
+      "Host" : "httpbin.org",
+      "Connection" : "Keep-Alive"
+    },
+    "Content" : null
+  }
+}

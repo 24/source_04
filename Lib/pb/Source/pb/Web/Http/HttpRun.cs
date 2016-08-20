@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Drawing;
+using System.IO;
 using System.Xml.Linq;
 
 namespace pb.Web
@@ -32,6 +33,26 @@ namespace pb.Web
             //__http = __httpManager.Load(httpRequest, requestParameters);
             __http = HttpManager.CurrentHttpManager.Load(httpRequest, requestParameters, exportFile, setExportFileExtension);
             return __http;
+        }
+
+        public static bool LoadToFile(string url, string file, bool exportRequest = false, HttpRequestParameters requestParameters = null)
+        {
+            return HttpManager.CurrentHttpManager.LoadToFile(new HttpRequest { Url = url }, file, exportRequest, requestParameters);
+        }
+
+        public static bool LoadToFile(HttpRequest httpRequest, string file, bool exportRequest = false, HttpRequestParameters requestParameters = null)
+        {
+            return HttpManager.CurrentHttpManager.LoadToFile(httpRequest, file, exportRequest, requestParameters);
+        }
+
+        public static Image LoadImage(string url, HttpRequestParameters requestParameters = null)
+        {
+            return HttpManager.CurrentHttpManager.LoadImage(new HttpRequest { Url = url }, requestParameters);
+        }
+
+        public static Image LoadImage(HttpRequest httpRequest, HttpRequestParameters requestParameters = null)
+        {
+            return HttpManager.CurrentHttpManager.LoadImage(httpRequest, requestParameters);
         }
 
         public static void LoadXmlFile(string file)

@@ -51,7 +51,7 @@
   <Source                                    value = "$Root$\Lib\pb\Source\pb\Compiler\CSharp1Compiler.cs" />
   <Source                                    value = "$Root$\Lib\pb\Source\pb\Compiler\CSharp5Compiler.cs" />
   <Source                                    value = "$Root$\Lib\pb\Source\pb\Compiler\ICompiler.cs" />
-  <Source                                    value = "$Root$\Lib\pb\Source\pb\Compiler\ICompilerProjectReader.cs" />
+  <!--<Source                                    value = "$Root$\Lib\pb\Source\pb\Compiler\ICompilerProjectReader.cs" />-->
   <Source                                    value = "$Root$\Lib\pb\Source\pb\Compiler\IProjectCompiler.cs" />
   <Source                                    value = "$Root$\Lib\pb\Source\pb\Compiler\JScriptCompiler.cs" />
   <Source                                    value = "$Root$\Lib\pb\Source\pb\Compiler\ProjectCompiler.cs" />

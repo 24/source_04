@@ -4,12 +4,12 @@ namespace pb.Web
 {
     public abstract class WebImageCacheManager
     {
-        public virtual ImageCache GetImageCache(string url, HttpRequestParameters requestParameters = null)
+        public virtual ImageCache GetImageCache(string url, HttpRequestParameters requestParameters = null, bool refreshImage = false)
         {
-            return new ImageCache(this, url, requestParameters);
+            return new ImageCache(this, url, requestParameters, refreshImage);
         }
 
-        public abstract Image LoadImage(string url, HttpRequestParameters requestParameters = null);
+        public abstract Image LoadImage(string url, HttpRequestParameters requestParameters = null, bool refreshImage = false);
     }
 
     public class ImageCache
@@ -17,13 +17,15 @@ namespace pb.Web
         protected WebImageCacheManager _webImageCacheManager = null;
         protected string _url;
         protected HttpRequestParameters _requestParameters = null;
+        protected bool _refreshImage = false;
         protected Image _image = null;
 
-        public ImageCache(WebImageCacheManager webImageCacheManager, string url, HttpRequestParameters requestParameters = null)
+        public ImageCache(WebImageCacheManager webImageCacheManager, string url, HttpRequestParameters requestParameters = null, bool refreshImage = false)
         {
             _webImageCacheManager = webImageCacheManager;
             _url = url;
             _requestParameters = requestParameters;
+            _refreshImage = refreshImage;
         }
 
         public virtual Image Image
@@ -31,7 +33,7 @@ namespace pb.Web
             get
             {
                 if (_image == null)
-                    _image = _webImageCacheManager.LoadImage(_url, _requestParameters);
+                    _image = _webImageCacheManager.LoadImage(_url, _requestParameters, _refreshImage);
                 return _image;
             }
         }

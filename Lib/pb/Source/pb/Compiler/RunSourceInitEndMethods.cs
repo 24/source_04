@@ -11,46 +11,97 @@ namespace pb.Compiler
     // si il y a un changement dans la liste des méthodes init on appel 
     public class RunSourceInitEndMethods
     {
-        private bool _callInit = true;
-        private Dictionary<string, MethodInfo> _initMethods = null;
-        private Dictionary<string, MethodInfo> _endMethods = null;
+        private static bool __traceRunOnce = false;
+        private static bool __traceRunAlways = false;
+        private bool _callInitRunOnce = true;
+        private Dictionary<string, MethodInfo> _initMethodsRunOnce = null;
+        private Dictionary<string, MethodInfo> _endMethodsRunOnce = null;
+        private Dictionary<string, MethodInfo> _endMethodsRunAlways = null;
 
-        public bool CallInit { get { return _callInit; } set { _callInit = value; } }
+        public static bool TraceRunOnce { get { return __traceRunOnce; } set { __traceRunOnce = value; } }
+        public static bool TraceRunAlways { get { return __traceRunAlways; } set { __traceRunAlways = value; } }
+        public bool CallInitRunOnce { get { return _callInitRunOnce; } set { _callInitRunOnce = value; } }
 
 
-        //bool forceCallInit
-        public void CallInitMethods(IEnumerable<string> initMethodNames, IEnumerable<string> endMethodNames, Func<string, MethodInfo> getMethod)
+        //public void CallInitMethods(IEnumerable<string> initMethodNames, IEnumerable<string> endMethodNames, Func<string, MethodInfo> getMethod)
+        //{
+        //    Dictionary<string, MethodInfo> initMethods = CreateDictionary(initMethodNames);
+        //    Dictionary<string, MethodInfo> endMethods = CreateDictionary(endMethodNames);
+
+        //    bool callInit = _callInit;
+
+        //    //if (forceCallInit)
+        //    //    callInit = true;
+
+        //    // check if init methods or end methods change
+        //    if (!callInit && (!MethodsEquals(_initMethods, initMethods) || !MethodsEquals(_endMethods, endMethods)))
+        //        callInit = true;
+
+
+        //    if (callInit)
+        //    {
+        //        CallEndMethods();
+
+        //        GetMethods(initMethods, getMethod);
+        //        GetMethods(endMethods, getMethod);
+        //        _initMethods = initMethods;
+        //        _endMethods = endMethods;
+        //        CallMethods(_initMethods, init: true);
+        //        _callInit = false;
+        //    }
+        //}
+
+        // callInit
+        public void CallInitMethods(IEnumerable<InitEndMethod> initMethods, IEnumerable<InitEndMethod> endMethods, bool callInitRunOnce, Func<string, MethodInfo> getMethod)
         {
-            Dictionary<string, MethodInfo> initMethods = CreateDictionary(initMethodNames);
-            Dictionary<string, MethodInfo> endMethods = CreateDictionary(endMethodNames);
+            Dictionary<string, MethodInfo> initMethodsRunAlways = CreateDictionary(initMethods.Where(method => method.RunType == RunType.Always).Select(method => method.Name));
+            Dictionary<string, MethodInfo> endMethodsRunAlways = CreateDictionary(endMethods.Where(method => method.RunType == RunType.Always).Select(method => method.Name));
+            Dictionary<string, MethodInfo> initMethodsRunOnce = CreateDictionary(initMethods.Where(method => method.RunType == RunType.Once).Select(method => method.Name));
+            Dictionary<string, MethodInfo> endMethodsRunOnce = CreateDictionary(endMethods.Where(method => method.RunType == RunType.Once).Select(method => method.Name));
 
-            bool callInit = _callInit;
-
-            //if (forceCallInit)
-            //    callInit = true;
+            //bool callInit = _callInit;
 
             // check if init methods or end methods change
-            if (!callInit && (!MethodsEquals(_initMethods, initMethods) || !MethodsEquals(_endMethods, endMethods)))
-                callInit = true;
+            if (!callInitRunOnce && (!MethodsEquals(_initMethodsRunOnce, initMethodsRunOnce) || !MethodsEquals(_endMethodsRunOnce, endMethodsRunOnce)))
+                callInitRunOnce = true;
 
+            if (callInitRunOnce)
+                CallEndMethodsRunOnce();
 
-            if (callInit)
+            CallEndMethodsRunAlways();
+
+            if (callInitRunOnce)
             {
-                CallEndMethods();
-
-                GetMethods(initMethods, getMethod);
-                GetMethods(endMethods, getMethod);
-                _initMethods = initMethods;
-                _endMethods = endMethods;
-                CallMethods(_initMethods, init: true);
-                _callInit = false;
+                GetMethods(initMethodsRunOnce, getMethod);
+                GetMethods(endMethodsRunOnce, getMethod);
+                _initMethodsRunOnce = initMethodsRunOnce;
+                _endMethodsRunOnce = endMethodsRunOnce;
+                CallMethods(_initMethodsRunOnce, always: false, init: true);
+                _callInitRunOnce = false;
             }
+
+            GetMethods(initMethodsRunAlways, getMethod);
+            GetMethods(endMethodsRunAlways, getMethod);
+            _endMethodsRunAlways = endMethodsRunAlways;
+            CallMethods(initMethodsRunAlways, always: true, init: true);
         }
 
         public void CallEndMethods()
         {
-            CallMethods(_endMethods, init: false);
-            _endMethods = null;
+            CallEndMethodsRunOnce();
+            CallEndMethodsRunAlways();
+        }
+
+        private void CallEndMethodsRunOnce()
+        {
+            CallMethods(_endMethodsRunOnce, always: false, init: false);
+            _endMethodsRunOnce = null;
+        }
+
+        private void CallEndMethodsRunAlways()
+        {
+            CallMethods(_endMethodsRunAlways, always: true, init: false);
+            _endMethodsRunAlways = null;
         }
 
         private Dictionary<string, MethodInfo> CreateDictionary(IEnumerable<string> methodNames)
@@ -85,22 +136,18 @@ namespace pb.Compiler
             }
         }
 
-        private void CallMethods(Dictionary<string, MethodInfo> methods, bool init)
+        private void CallMethods(Dictionary<string, MethodInfo> methods, bool always, bool init)
         {
             if (methods == null)
                 return;
-            string s;
-            if (init)
-                s = "init";
-            else
-                s = "end";
             foreach (MethodInfo method in methods.Values)
             {
                 try
                 {
                     if (method != null)
                     {
-                        Trace.WriteLine("call {0} methods \"{1}\"", s, method.zGetName());
+                        if ((__traceRunOnce && !always) || (__traceRunAlways && always))
+                            Trace.WriteLine("call {0} {1} methods \"{2}\"", always ? "always" : "onece", init ? "init" : "end", method.zGetName());
                         method.Invoke(null, null);
                     }
                 }

@@ -8,34 +8,75 @@ using System;
 //   - ajouter _win32ResourceFile dans le zip
 
 /*******************
- * C# Compiler Options Listed by Category http://msdn.microsoft.com/en-us/library/vstudio/6s2x2bzy.aspx
- * <Language                                  value = "" />  <!-- CSharp, JScript -->
- * <ProviderOption                            name  = "CompilerVersion" value = "v4.0" />
- * ...
+ * 
+ * compiler config :
+ * 
  * <ResourceCompiler                          value = "c:\Program Files\Microsoft SDKs\Windows\v7.1\Bin\ResGen.exe"/>
- * <Target                                    value = "" /> <!-- exe (exe console default), library (dll), module (.netmodule), winexe (exe windows) -->
- * <KeyFile                                   value = "" />
- * <Icon                                      value = "" />
- * <OutputDir                                 value = "" />
- * <Output                                    value = "" />
- * <GenerateExecutable                        value = "" />
- * <GenerateInMemory                          value = "" />
- * <DebugInformation                          value = "" />
- * <WarningLevel                              value = "" />              Gets or sets the warning level at which the compiler aborts compilation. FAUX marche comme /warn:option
- * <CompilerOptions                           value = "" />              http://msdn.microsoft.com/en-us/library/2fdbz5xd.aspx   /define:DEBUG;TRACE
+ * 
+ * 
+ * projects xml file :
+ * 
+ * <CopyRunSourceSourceFiles                  value = "true" />
+ * 
+ * 
+ * project xml file :
+ * 
+ * <Root                                      value = "..\..\..\..\.." />
+ * <Language                                  value = "" version = "6" />  <!-- CSharp1, CSharp5, JScript -->
+ * <FrameworkVersion                          value = "4.6.1" />  <!-- CSharp5 option : 2.0, 3.0, 3.5, 3.5 client, 4.0, 4.0 client, 4.5, 4.5.1, 4.5.2, 4.6, 4.6.1 -->
+ * <Target                                    value = "library" /> <!-- CSharp5 option : exe (exe console default), library (dll), module (.netmodule), winexe (exe windows) -->
+ * <Platform                                  value = "AnyCpu" /> <!-- CSharp5 option : AnyCpu (default), X86, X64, Itanium, AnyCpu32BitPreferred (only CSharp5), Arm (only CSharp5) -->
+ * <ProviderOption                            name  = "CompilerVersion" value = "v4.0" />   <!-- CSharp1 option -->
+ * <GenerateInMemory                          value = "" />  <!-- CSharp1, JScript option -->
+ * <DebugInformation                          value = "" />  <!-- CSharp1, CSharp5, JScript option -->
+ * <WarningLevel                              value = "" />  <!-- CSharp1, CSharp5, JScript option : 0 no warning, 1 severe warning, 2 + less-severe warnings 1, 3 + less-severe warnings 2, 4 all warning -->
+ *                                                           Gets or sets the warning level at which the compiler aborts compilation. FAUX marche comme /warn:option
+ * <CompilerOptions                           value = "" />  <!-- CSharp1, JScript option -->            http://msdn.microsoft.com/en-us/library/2fdbz5xd.aspx   /define:DEBUG;TRACE
  *   /warn:option 0 Désactive l'émission de tous les messages d'avertissement, 1 Affiche les messages d'avertissement grave, 2 Affiche les avertissements de niveau 1 ainsi que quelques avertissements moins graves,
  *                2 Affiche les avertissements de niveau 2 ainsi que quelques avertissements moins graves, 4 Affiche tous les avertissements de niveau 3 plus les avertissements d'information
+ * <PreprocessorSymbol                        value = "DEBUG;TRACE" />  <!-- CSharp5 -->
+ * <Output                                    value = "" />  <!-- CSharp1, CSharp5, JScript option -->
+ * <Win32Resource                             value = "Resource\resource.rc" />  <!-- CSharp5 option -->
+ * <Icon                                      value = "" />  <!-- CSharp1, JScript option -->
+ * <KeyFile                                   value = "" />  <!-- CSharp1, JScript option -->
+ * <CopySourceFiles                           value = "true" />  <!-- make a zip with source files -->
  * <IncludeProject                            value = "" />
  * ...
  * <Source                                    value = "" [namespace = ""] />
  * ...
+ * <SourceFile                                value = "" />       <!-- file are not compiled, not copied to destination, file are copied to zip -->
+ * ...
  * <File                                      value = "" [destinationFile = ""] />
+ * ...
+ * <FrameworkAssembly                         value = "System.ServiceModel.dll" />   <!-- CSharp5 .net framework assembly -->
  * ...
  * <Assembly                                  value = "" resolve = "true" resolveName = "PcapDotNet.Base, Version=0.10.0.20588, Culture=neutral, PublicKeyToken=4b6f3e583145a652" />
  * ...
+ * 
+ * 
+ * generate and run csharp code options :
+ * 
+ * <NameSpace                                 value = "Download.Print" />
+ * <InitMethod                                value = "Download.Print.DownloadRun.Init" />
+ * <EndMethod                                 value = "Download.Print.DownloadRun.End" />
+ * <InitMethod                                value = "Download.Print.DownloadRun.InitAlways" run = "always" />
+ * <EndMethod                                 value = "Download.Print.DownloadRun.EndAlways" run = "always" />
+ * <InitMethod                                value = "Test._RunCode.Init, ebook.download, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" />
+ * 
+ * ...
+ * <Using                                     value = "System.IO" />
+ * ...
+ * 
+ * 
+ * old options :
+ * <OutputDir                                 value = "" />
  * <LocalAssembly                             value = "" resolve = "true" resolveName = "PcapDotNet.Base, Version=0.10.0.20588, Culture=neutral, PublicKeyToken=4b6f3e583145a652" />
  * ...
  * <CopyOutput                                value = "" />
+ * 
+ * 
+ * C# Compiler Options Listed by Category http://msdn.microsoft.com/en-us/library/vstudio/6s2x2bzy.aspx
+ * 
 *******************/
 // <CopyOutput value = "" />
 //   < File                                    value = "" />
@@ -140,7 +181,7 @@ namespace pb.Compiler
         private ICompilerResult _result = null;
         private List<string> _copyOutputDirectories = new List<string>();
         private static string __zipSourceFilename = ".source.zip";
-        private bool _copySourceFiles = false;
+        private bool _copySourceFiles = false;        // create source files zip 
         private bool _copyRunSourceSourceFiles = false;
         private string _runsourceSourceDirectory;
         private string _zipSourceFile = null;
@@ -180,7 +221,8 @@ namespace pb.Compiler
         }
 
         // runCode : true when executing code from runsource, true for CompilerDefaultValues and ProjectDefaultValues, otherwise false
-        public void SetParameters(ICompilerProjectReader project, bool runCode = false, bool includeProject = false)
+        //public void SetParameters(ICompilerProjectReader project, bool runCode = false, bool includeProject = false)
+        public void SetParameters(CompilerProjectReader project, bool runCode = false, bool includeProject = false)
         {
             if (project == null)
                 return;
@@ -266,7 +308,8 @@ namespace pb.Compiler
             // GetIncludeProjects() get include project recursively
             if (!includeProject)
             {
-                foreach (ICompilerProjectReader project2 in project.GetIncludeProjects())
+                //foreach (ICompilerProjectReader project2 in project.GetIncludeProjects())
+                foreach (CompilerProjectReader project2 in project.GetIncludeProjects())
                 {
                     SetParameters(project2, runCode: runCode, includeProject: true);
                 }
@@ -347,7 +390,8 @@ namespace pb.Compiler
             //}
         }
 
-        public void SetLanguage(CompilerLanguage language, ICompilerProjectReader project = null)
+        //public void SetLanguage(CompilerLanguage language, ICompilerProjectReader project = null)
+        public void SetLanguage(CompilerLanguage language, CompilerProjectReader project = null)
         {
             if (language != null)
             {
@@ -359,8 +403,8 @@ namespace pb.Compiler
             }
         }
 
-        //GetFrameworkVersion()
-        public void SetFrameworkVersion(string frameworkVersion, ICompilerProjectReader project = null)
+        //public void SetFrameworkVersion(string frameworkVersion, ICompilerProjectReader project = null)
+        public void SetFrameworkVersion(string frameworkVersion, CompilerProjectReader project = null)
         {
             if (frameworkVersion != null)
             {
@@ -370,7 +414,8 @@ namespace pb.Compiler
             }
         }
 
-        public void SetTarget(string target, ICompilerProjectReader project = null)
+        //public void SetTarget(string target, ICompilerProjectReader project = null)
+        public void SetTarget(string target, CompilerProjectReader project = null)
         {
             if (target != null)
             {
@@ -380,7 +425,8 @@ namespace pb.Compiler
             }
         }
 
-        public void SetPlatform(string platform, ICompilerProjectReader project = null)
+        //public void SetPlatform(string platform, ICompilerProjectReader project = null)
+        public void SetPlatform(string platform, CompilerProjectReader project = null)
         {
             if (platform != null)
             {
@@ -390,7 +436,8 @@ namespace pb.Compiler
             }
         }
 
-        public void SetOutputAssembly(string outputAssembly, ICompilerProjectReader project = null)
+        //public void SetOutputAssembly(string outputAssembly, ICompilerProjectReader project = null)
+        public void SetOutputAssembly(string outputAssembly, CompilerProjectReader project = null)
         {
             if (outputAssembly != null)
             {
@@ -952,28 +999,35 @@ namespace pb.Compiler
                 return;
 
             if (directory != null)
-                WriteLine(1, "  copy result files to directory \"{0}\"", directory);
+                //WriteLine(1, "  copy result files to directory \"{0}\"", directory);
+                WriteLine(1, $"  copy result files to directory \"{directory}\"");
 
             if (!_generateInMemory && directory != null)
             {
                 //string file = _results.PathToAssembly;
                 string file = _result.GetAssemblyFile();
                 if (zfile.CopyFileToDirectory(file, directory, options: CopyFileOptions.OverwriteReadOnly | CopyFileOptions.CopyOnlyIfNewer) != null)
-                    WriteLine(2, "    copy assembly \"{0}\" to \"{1}\"", file, directory);
+                    //WriteLine(2, "    copy assembly \"{0}\" to \"{1}\"", file, directory);
+                    WriteLine(2, $"    copy assembly \"{file}\"");
 
                 file = zpath.PathSetExtension(file, ".pdb");
                 if (zfile.CopyFileToDirectory(file, directory, options: CopyFileOptions.OverwriteReadOnly | CopyFileOptions.CopyOnlyIfNewer) != null)
-                    WriteLine(2, "    copy assembly \"{0}\" to \"{1}\"", file, directory);
+                    //WriteLine(2, "    copy assembly \"{0}\" to \"{1}\"", file, directory);
+                    WriteLine(2, $"    copy assembly \"{file}\"");
 
                 if (_zipSourceFile != null)
+                {
+                    WriteLine(2, $"    copy zip source file \"{_zipSourceFile}\"");
                     zfile.CopyFileToDirectory(_zipSourceFile, directory, options: CopyFileOptions.OverwriteReadOnly);
+                }
             }
 
             if (directory == null)
             {
                 //directory = zPath.GetDirectoryName(_results.PathToAssembly);
                 directory = zPath.GetDirectoryName(_result.GetAssemblyFile());
-                WriteLine(2, "  copy result files to directory \"{0}\"", directory);
+                //WriteLine(2, "  copy result files to directory \"{0}\"", directory);
+                WriteLine(2, $"  copy result files to directory \"{directory}\"");
             }
 
             //string sOutputDir = zpath.PathGetDirectory(gResults.PathToAssembly);
@@ -1002,7 +1056,8 @@ namespace pb.Compiler
                     //File.Copy(assembly, assembly2, true);
 
                     if (zfile.CopyFileToDirectory(file, directory, options: CopyFileOptions.OverwriteReadOnly | CopyFileOptions.CopyOnlyIfNewer) != null)
-                        WriteLine(2, "    copy assembly \"{0}\" to \"{1}\"", file, directory);
+                        //WriteLine(2, "    copy assembly \"{0}\" to \"{1}\"", file, directory);
+                        WriteLine(2, $"    copy assembly \"{file}\"");
 
                     //copiedFiles.Add(assembly2);
                     //string pdb = zpath.PathSetExtension(assembly, ".pdb");
@@ -1016,18 +1071,21 @@ namespace pb.Compiler
 
                     file = zpath.PathSetExtension(file, ".pdb");
                     if (zfile.CopyFileToDirectory(file, directory, options: CopyFileOptions.OverwriteReadOnly | CopyFileOptions.CopyOnlyIfNewer) != null)
-                        WriteLine(2, "    copy assembly debug info \"{0}\" to \"{1}\"", file, directory);
+                        //WriteLine(2, "    copy assembly debug info \"{0}\" to \"{1}\"", file, directory);
+                        WriteLine(2, $"    copy assembly debug info \"{file}\"");
 
                     file = zpath.PathSetExtension(file, ".xml");
                     if (zfile.CopyFileToDirectory(file, directory, options: CopyFileOptions.OverwriteReadOnly | CopyFileOptions.CopyOnlyIfNewer) != null)
-                        WriteLine(2, "    copy doc \"{0}\" to \"{1}\"", file, directory);
+                        //WriteLine(2, "    copy doc \"{0}\" to \"{1}\"", file, directory);
+                        WriteLine(2, $"    copy doc \"{file}\"");
 
-                    if (_copySourceFiles)
-                    {
-                        file = zpath.PathSetExtension(file, __zipSourceFilename);
-                        if (zfile.CopyFileToDirectory(file, directory, options: CopyFileOptions.OverwriteReadOnly | CopyFileOptions.CopyOnlyIfNewer) != null)
-                            WriteLine(2, "    copy assembly source file \"{0}\" to \"{1}\"", file, directory);
-                    }
+                    //if (_copySourceFiles)
+                    //{
+                    //    file = zpath.PathSetExtension(file, __zipSourceFilename);
+                    //    if (zfile.CopyFileToDirectory(file, directory, options: CopyFileOptions.OverwriteReadOnly | CopyFileOptions.CopyOnlyIfNewer) != null)
+                    //        //WriteLine(2, "    copy assembly source file \"{0}\" to \"{1}\"", file, directory);
+                    //        WriteLine(2, $"    copy assembly source file \"{file}\"");
+                    //}
 
                 }
             }
@@ -1038,25 +1096,21 @@ namespace pb.Compiler
                 if (compilerFile.Attributes.ContainsKey("destinationFile"))
                 {
                     destinationFile = compilerFile.Attributes["destinationFile"];
-                    WriteLine(2, "    copy file \"{0}\" to \"{1}\" as \"{2}\"", compilerFile.File, directory, destinationFile);
+                    //WriteLine(2, "    copy file \"{0}\" to \"{1}\" as \"{2}\"", compilerFile.File, directory, destinationFile);
+                    WriteLine(2, $"    copy file \"{compilerFile.File}\" as \"{destinationFile}\"");
                 }
                 else
-                    WriteLine(2, "    copy file \"{0}\" to \"{1}\"", compilerFile.File, directory);
-                //string path = zfile.CopyFileToDirectory(file.File, directory, destinationFile, true);
+                    //WriteLine(2, "    copy file \"{0}\" to \"{1}\"", compilerFile.File, directory);
+                    WriteLine(2, $"    copy file \"{compilerFile.File}\"");
                 string path = zfile.CopyFileToDirectory(compilerFile.File, directory, destinationFile, CopyFileOptions.OverwriteReadOnly | CopyFileOptions.CopyOnlyIfNewer);
-                //if (path != null)
-                //    copiedFiles.Add(path);
             }
 
             if (_appConfig != null)
             {
-                //string appFile = zPath.GetFileName(_results.PathToAssembly) + ".config";
                 string appFile = zPath.GetFileName(_result.GetAssemblyFile()) + ".config";
-                WriteLine(2, "    copy file \"{0}\" to \"{1}\" as \"{2}\"", _appConfig.File, directory, appFile);
-                //string path = zfile.CopyFileToDirectory(_appConfig.File, directory, appFile, true);
+                //WriteLine(2, "    copy file \"{0}\" to \"{1}\" as \"{2}\"", _appConfig.File, directory, appFile);
+                WriteLine(2, $"    copy file \"{_appConfig.File}\" as \"{appFile}\"");
                 string path = zfile.CopyFileToDirectory(_appConfig.File, directory, appFile, CopyFileOptions.OverwriteReadOnly | CopyFileOptions.CopyOnlyIfNewer);
-                //if (path != null)
-                //    copiedFiles.Add(path);
             }
 
             //foreach (CompilerAssembly assembly in _assemblyList.Values)
@@ -1138,6 +1192,7 @@ namespace pb.Compiler
 
         private void _CopyRunSourceSourceFiles()
         {
+            //Trace.WriteLine($"_CopyRunSourceSourceFiles : _copyRunSourceSourceFiles {_copyRunSourceSourceFiles} _runsourceSourceDirectory \"{_runsourceSourceDirectory}\" _copyOutputDirectories.Count {_copyOutputDirectories.Count}");
             if (_copyRunSourceSourceFiles && _runsourceSourceDirectory != null)
             {
                 foreach (string directory in _copyOutputDirectories)

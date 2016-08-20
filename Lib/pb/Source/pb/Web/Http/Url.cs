@@ -176,6 +176,7 @@ namespace pb.Web
                     file += ext;
                     ext = "";
                 }
+                ////////////// annulation modif le 24/07/2016 ajout else pour ne pas ajouter ".html" si Http.GetContentTypeFromFileExtension(ext) = null
                 if (ext == "")
                     ext = ".html";
                 //else if (!queryOrContent)

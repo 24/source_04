@@ -23,6 +23,7 @@ namespace pb.Web.Data
     public class WebData<TData> : ILoadDocument<TData>
     {
         private WebRequest _request;
+        private WebResult _result;
         private TData _document;
         private bool _documentLoaded;
         private bool _documentLoadedFromWeb;
@@ -34,10 +35,17 @@ namespace pb.Web.Data
         }
 
         public WebRequest Request { get { return _request; } }
+        public WebResult Result { get { return _result; } set { _result = value; } }
         public TData Document { get { return _document; } set { _document = value; } }
         public bool DocumentLoaded { get { return _documentLoaded; } set { _documentLoaded = value; } }
         public bool DocumentLoadedFromWeb { get { return _documentLoadedFromWeb; } set { _documentLoadedFromWeb = value; } }
         public bool DocumentLoadedFromStore { get { return _documentLoadedFromStore; } set { _documentLoadedFromStore = value; } }
+    }
+
+    public interface ILoadImages
+    {
+        //void LoadImages(bool refreshImage = false);
+        void LoadImages(WebImageRequest imageRequest);
     }
 
     // WebDataManager_v2<TData> :
@@ -45,20 +53,23 @@ namespace pb.Web.Data
     //   use BsonValue key to identify data
     //   function _getKeyFromHttpRequest retrieve key from HttpRequest
     //   operation : Load(), LoadFromWeb(), Exists(), Save(), Find(), Update(), Refresh()
-    public class WebDataManager<TData>
+    public partial class WebDataManager<TData>
     {
+        protected int _imageLoadVersion = 1;
         protected WebLoadDataManager<TData> _webLoadDataManager = null;
         protected IDocumentStore<TData> _documentStore = null;
         protected bool _desactivateDocumentStore = false;
         protected bool _generateId = false;
         protected Func<HttpRequest, BsonValue> _getKeyFromHttpRequest = null;
-        protected Action<TData> _loadImages = null;
+        //protected Action<TData> _loadImages = null;
 
+        public int ImageLoadVersion { get { return _imageLoadVersion; } set { _imageLoadVersion = value; } }
         public WebLoadDataManager<TData> WebLoadDataManager { get { return _webLoadDataManager; } set { _webLoadDataManager = value; } }
         public IDocumentStore<TData> DocumentStore { get { return _documentStore; } set { _documentStore = value; } }
         public bool DesactivateDocumentStore { get { return _desactivateDocumentStore; } set { _desactivateDocumentStore = value; } }
         public Func<HttpRequest, BsonValue> GetKeyFromHttpRequest { get { return _getKeyFromHttpRequest; } set { _getKeyFromHttpRequest = value; } }
-        public Action<TData> LoadImages { get { return _loadImages; } set { _loadImages = value; } }
+        //[Obsolete]
+        //public Action<TData> LoadImages { get { return _loadImages; } set { _loadImages = value; } }
 
         public WebData<TData> Load(WebRequest request)
         {
@@ -73,6 +84,11 @@ namespace pb.Web.Data
                         id = _documentStore.GetNewId();
                     SetDataId(webData, id);
                     SaveWithId(id, webData);
+                    if (_imageLoadVersion == 1)
+                        LoadImages_v1(webData.Document, webData.Request.ImageRequest);
+                    else
+                        LoadImagesFromWeb(webData);
+                    SaveWithId(id, webData);
                 }
             }
             else
@@ -81,6 +97,11 @@ namespace pb.Web.Data
                 if (request.ReloadFromWeb || request.RefreshDocumentStore || !Exists(webData))
                 {
                     _LoadFromWeb(webData);
+                    SaveWithKey(webData);
+                    if (_imageLoadVersion == 1)
+                        LoadImages_v1(webData.Document, webData.Request.ImageRequest);
+                    else
+                        LoadImagesFromWeb(webData);
                     SaveWithKey(webData);
                 }
             }
@@ -92,6 +113,13 @@ namespace pb.Web.Data
         {
             WebData<TData> webData = new WebData<TData>(request);
             _LoadFromWeb(webData);
+            if (_imageLoadVersion == 1)
+                LoadImages_v1(webData.Document, webData.Request.ImageRequest);
+            else
+            {
+                LoadImagesFromWeb(webData);
+                LoadImagesToData(webData.Document);
+            }
             return webData;
         }
 
@@ -130,6 +158,22 @@ namespace pb.Web.Data
                 {
                     BsonValue key = _GetKeyFromHttpRequest(webData.Request.HttpRequest);
                     webData.Document = _documentStore.LoadFromKey(key);
+
+                    //LoadImages(webData);
+                    if (webData.Request.ImageRequest.LoadImageToData)
+                    {
+                        if (_imageLoadVersion == 1)
+                            LoadImages_v1(webData.Document, webData.Request.ImageRequest);
+                        else
+                            LoadImagesToData(webData.Document);
+                    }
+
+                    //if (webData.Request.LoadImageFromWeb || webData.Request.LoadImageToData || webData.Request.RefreshImage)
+                    //    LoadImages(webData.Document, WebImageRequest.FromWebRequest(webData.Request));
+
+                    //    if (!(webData.Document is ILoadImages))
+                    //        throw new PBException($"{typeof(TData).zGetTypeName()} is not ILoadImages");
+                    //    ((ILoadImages)webData.Document).LoadImages(ImageRequest.FromWebRequest(webData.Request));
                     webData.DocumentLoaded = true;
                     webData.DocumentLoadedFromStore = true;
                 }
@@ -154,19 +198,32 @@ namespace pb.Web.Data
             }
         }
 
-        protected void _LoadFromWeb(WebData<TData> loadWebData)
+        protected void _LoadFromWeb(WebData<TData> webData)
         {
-            if (!loadWebData.DocumentLoaded)
+            if (!webData.DocumentLoaded)
             {
-                loadWebData.Document = _webLoadDataManager.LoadData(loadWebData.Request);
-                loadWebData.DocumentLoaded = true;
-                loadWebData.DocumentLoadedFromWeb = true;
+                //loadWebData.Document = _webLoadDataManager.LoadData(loadWebData.Request);
+                WebDataResult<TData> webDataResult = _webLoadDataManager.LoadData(webData.Request);
+                webData.Result = webDataResult.Result;
+                webData.Document = webDataResult.Data;
+                webData.DocumentLoaded = true;
+                webData.DocumentLoadedFromWeb = true;
             }
         }
 
         public IEnumerable<TData> Find(string query = null, string sort = null, int limit = 0, bool loadImage = false)
         {
-            return _documentStore.Find(query, sort: sort, limit: limit).zAction(data => { if (loadImage) _LoadImages(data); });
+            return _documentStore.Find(query, sort: sort, limit: limit).zAction(
+                data =>
+                {
+                    if (loadImage)
+                    {
+                        if (_imageLoadVersion == 1)
+                            LoadImages_v1(data, new WebImageRequest { LoadImageToData = true });
+                        else
+                            LoadImagesToData(data);
+                    }
+                });
         }
 
         public int Update(Action<TData> updateDocument, string query = null, string sort = null, int limit = 0)
@@ -176,14 +233,16 @@ namespace pb.Web.Data
             return nb;
         }
 
-        public int Refresh(Action<TData, TData> action = null, int limit = 0, bool reloadFromWeb = false, string query = null, string sort = null, bool loadImage = false)
+        public int Refresh(Action<TData, TData> action = null, int limit = 0, bool reloadFromWeb = false, string query = null, string sort = null, bool loadImageFromWeb = false, bool loadImageToData = false, bool refreshImage = false)
         {
             int nb = 0;
             foreach (TData data in Find(query, sort: sort, limit: limit, loadImage: false))
             {
                 if (!(data is IHttpRequestData))
                     throw new PBException("type {0} is not IWebData", data.GetType().zGetTypeName());
-                TData data2 = _webLoadDataManager.LoadData(new WebRequest { HttpRequest = ((IHttpRequestData)data).GetDataHttpRequest(), ReloadFromWeb = reloadFromWeb, LoadImage = loadImage });
+                //TData data2 = _webLoadDataManager.LoadData(new WebRequest { HttpRequest = ((IHttpRequestData)data).GetDataHttpRequest(), ReloadFromWeb = reloadFromWeb, LoadImageFromWeb = loadImageFromWeb, LoadImageToData = loadImageToData, RefreshImage = refreshImage });
+                //TData data2 = _webLoadDataManager.LoadData(new WebRequest { HttpRequest = ((IHttpRequestData)data).GetDataHttpRequest(), ReloadFromWeb = reloadFromWeb, ImageRequest = new WebImageRequest { LoadImageFromWeb = loadImageFromWeb, LoadImageToData = loadImageToData, RefreshImage = refreshImage } });
+                TData data2 = _webLoadDataManager.LoadData(new WebRequest { HttpRequest = ((IHttpRequestData)data).GetDataHttpRequest(), ReloadFromWeb = reloadFromWeb, ImageRequest = new WebImageRequest { LoadImageFromWeb = loadImageFromWeb, LoadImageToData = loadImageToData, RefreshImage = refreshImage } }).Data;
 
                 if (action != null)
                     action(data, data2);
@@ -212,12 +271,27 @@ namespace pb.Web.Data
                 throw new PBException("WebDataManager.GetKeyFromHttpRequest function is not defined");
         }
 
-        private void _LoadImages(TData data)
+        //private void _LoadImages(TData data)
+        //{
+        //    if (_loadImages != null)
+        //        _loadImages(data);
+        //    else
+        //        throw new PBException("WebDataManager.LoadImages function is not defined");
+        //}
+
+        //private void LoadImages(TData data)
+        //{
+        //    LoadImages(data, new WebImageRequest { LoadImageToData = true });
+        //}
+
+        private void LoadImages_v1(TData data, WebImageRequest request)
         {
-            if (_loadImages != null)
-                _loadImages(data);
-            else
-                throw new PBException("WebDataManager.LoadImages function is not defined");
+            if (request.LoadImageFromWeb || request.LoadImageToData || request.RefreshImage)
+            {
+                if (!(data is ILoadImages))
+                    throw new PBException($"{typeof(TData).zGetTypeName()} is not ILoadImages");
+                ((ILoadImages)data).LoadImages(request);
+            }
         }
     }
 }

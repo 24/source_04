@@ -60,16 +60,25 @@ namespace Download.Print.MagazinesGratuits
         private static string __urlMainPage = "http://www.magazines-gratuits.info/";
         private Date? _lastPostDate = null;
 
-        //static MagazinesGratuits()
+        public override string Name { get { return __serverName; } }
+
+        //public static void Init(bool test = false)
         //{
-        //    Init(test: DownloadPrint.Test);
+        //    XElement xe;
+        //    if (!test)
+        //        xe = XmlConfig.CurrentConfig.GetElement(__configName);
+        //    else
+        //    {
+        //        pb.Trace.WriteLine("{0} init for test", __configName);
+        //        xe = XmlConfig.CurrentConfig.GetElement(__configName + "_Test");
+        //    }
+        //    __current = new MagazinesGratuits();
+        //    __current.HeaderPageNominalType = typeof(PostHeaderDataPage<MagazinesGratuits_PostHeader>);
+        //    __current.Create(xe);
+        //    ServerManagers.Add(__serverName, __current.CreateServerManager(__serverName));
         //}
 
-        //public static void FakeInit()
-        //{
-        //}
-
-        public static void Init(bool test = false)
+        public static IServerManager CreateServerManager(bool test = false)
         {
             XElement xe;
             if (!test)
@@ -80,10 +89,9 @@ namespace Download.Print.MagazinesGratuits
                 xe = XmlConfig.CurrentConfig.GetElement(__configName + "_Test");
             }
             __current = new MagazinesGratuits();
-            //__current.HeaderPageNominalType = typeof(PostHeaderDataPage);
             __current.HeaderPageNominalType = typeof(PostHeaderDataPage<MagazinesGratuits_PostHeader>);
-            __current.Create(xe);
-            ServerManagers.Add(__serverName, __current.CreateServerManager(__serverName));
+            __current.CreateDataManager(xe);
+            return __current;
         }
 
         public static bool Trace { get { return __trace; } set { __trace = value; } }
@@ -233,7 +241,7 @@ namespace Download.Print.MagazinesGratuits
             data.Images = new WebImage[] { new WebImage(zurl.GetUrl(data.SourceUrl, xe.XPathValue("div[starts-with(@class, 'post-views')]/following-sibling::h3/following-sibling::p/img/@src"))) };
 
             // force load image to get image width and height
-            if (webResult.WebRequest.LoadImage)
+            if (webResult.WebRequest.LoadImageFromWeb)
                 data.Images = DownloadPrint.LoadImages(data.Images).ToArray();
 
             // get infos, description, language, size, nbPages
@@ -378,28 +386,62 @@ namespace Download.Print.MagazinesGratuits
                 throw new PBException("post key not found in url \"{0}\"", httpRequest.Url);
         }
 
+        // à revoir
+        [Obsolete]
         protected override void LoadDetailImages(MagazinesGratuits_PostDetail data)
         {
             data.LoadImages();
         }
 
-        protected override void LoadNewDocuments()
+        public override void LoadNewDocuments()
         {
-            _webHeaderDetailManager.LoadNewDocuments(maxNbDocumentsLoadedFromStore: 10, startPage: 1, maxPage: 10);
+            _headerDetailManager.LoadNewDocuments(maxNbDocumentsLoadedFromStore: 10, startPage: 1, maxPage: 10);
         }
 
-        protected override IEnumerable<IPostToDownload> Find(DateTime date)
+        //public override LoadNewDocumentsResult LoadNewDocuments(int maxNbDocumentsLoadedFromStore = 5, int startPage = 1, int maxPage = 20, bool loadImage = true)
+        //{
+        //    return _webHeaderDetailManager.LoadNewDocuments(maxNbDocumentsLoadedFromStore: maxNbDocumentsLoadedFromStore, startPage: startPage, maxPage: maxPage, loadImage: loadImage);
+        //}
+
+        public override IEnumerable<IPostToDownload> FindFromDateTime(DateTime dateTime)
         {
-            string query = string.Format("{{ 'download.PostCreationDate': {{ $gt: ISODate('{0}') }} }}", date.ToUniversalTime().ToString("o"));
+            string query = string.Format("{{ 'download.PostCreationDate': {{ $gt: ISODate('{0}') }} }}", dateTime.ToUniversalTime().ToString("o"));
             string sort = "{ 'download.PostCreationDate': -1 }";
             // useCursorCache: true
-            return _detailWebDataManager.Find(query, sort: sort, loadImage: false);
+            return _detailDataManager.Find(query, sort: sort, loadImage: false);
         }
 
-        protected override IPostToDownload LoadDocument(BsonValue id)
+        public override IEnumerable<IPostToDownload> Find(string query = null, string sort = null, int limit = 0, bool loadImage = false)
         {
-            // id => MagazinesGratuits_DetailManager_v2.DetailWebDataManager.Find(string.Format("{{ _id: \"{0}\" }}", id)).FirstOrDefault();
-            return _detailWebDataManager.DocumentStore.LoadFromId(id);
+            if (sort == null)
+                sort = "{ 'download.PostCreationDate': -1 }";
+            return _detailDataManager.Find(query, sort: sort, limit: limit, loadImage: loadImage);
         }
+
+        public override IPostToDownload Load(BsonValue id)
+        {
+            return _detailDataManager.DocumentStore.LoadFromId(id);
+        }
+
+        //protected override IEnumerable<IPostToDownload> Find(DateTime date)
+        //{
+        //    string query = string.Format("{{ 'download.PostCreationDate': {{ $gt: ISODate('{0}') }} }}", date.ToUniversalTime().ToString("o"));
+        //    string sort = "{ 'download.PostCreationDate': -1 }";
+        //    // useCursorCache: true
+        //    return _detailWebDataManager.Find(query, sort: sort, loadImage: false);
+        //}
+
+        //protected override IEnumerable<IPostToDownload> Find(string query, string sort = null, int limit = 0)
+        //{
+        //    if (sort == null)
+        //        sort = "{ 'download.PostCreationDate': -1 }";
+        //    return _detailWebDataManager.Find(query, sort: sort, limit: limit, loadImage: false);
+        //}
+
+        //protected override IPostToDownload LoadDocument(BsonValue id)
+        //{
+        //    // id => MagazinesGratuits_DetailManager_v2.DetailWebDataManager.Find(string.Format("{{ _id: \"{0}\" }}", id)).FirstOrDefault();
+        //    return _detailWebDataManager.DocumentStore.LoadFromId(id);
+        //}
     }
 }

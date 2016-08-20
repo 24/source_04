@@ -6,15 +6,15 @@
   <!--<IncludeProject                            value = "$Root$\Lib\pb\Source\Project\CSharp.Default.project.xml" />-->
 
   <Language                                  name = "CSharp5" version = "6" />
-  <FrameworkVersion                          value = "4.6.1" />  <!-- 2.0, 3.0, 3.5, 3.5 client, 4.0, 4.0 client, 4.5, 4.5.1, 4.5.2, 4.6, 4.6.1 -->
-  <WarningLevel                              value = "4" /> <!-- 0 no warning, 1 severe warning, 2 + less-severe warnings 1, 3 + less-severe warnings 2, 4 all warning -->
-  <Target                                    value = "winexe" /> <!-- exe (exe console default), library (dll), module (.netmodule), winexe (exe windows), winruntimeexe (windows runtime application), winruntimemetadata (windows runtime metadata) -->
-  <Platform                                  value = "X86" /> <!-- AnyCpu (default), X86, X64, Itanium, AnyCpu32BitPreferred (only CSharp5), Arm (only CSharp5) -->
-  <DebugInformation                          value = "true" />
-  <Output                                    value = "bin32\runsource.launch.exe" />
-  <CopySourceFiles                           value = "true" />
-  <Icon                                      value = "Resource\DogFinder.ico" />
-  <Win32Resource                             value = "Resource\resource.rc" />
+  <FrameworkVersion                          value = "4.6.1" />  <!-- CSharp5 option : 2.0, 3.0, 3.5, 3.5 client, 4.0, 4.0 client, 4.5, 4.5.1, 4.5.2, 4.6, 4.6.1 -->
+  <Target                                    value = "winexe" /> <!-- CSharp5 option : exe (exe console default), library (dll), module (.netmodule), winexe (exe windows), winruntimeexe (windows runtime application), winruntimemetadata (windows runtime metadata) -->
+  <Platform                                  value = "X86" /> <!-- CSharp5 option : AnyCpu (default), X86, X64, Itanium, AnyCpu32BitPreferred (only CSharp5), Arm (only CSharp5) -->
+  <DebugInformation                          value = "true" />  <!-- CSharp1, CSharp5, JScript option -->
+  <WarningLevel                              value = "4" />  <!-- CSharp1, CSharp5, JScript option : 0 no warning, 1 severe warning, 2 + less-severe warnings 1, 3 + less-severe warnings 2, 4 all warning -->
+  <Output                                    value = "bin32\runsource.launch.exe" />  <!-- CSharp1, CSharp5, JScript option -->
+  <Icon                                      value = "Resource\DogFinder.ico" />  <!-- CSharp1, JScript option -->
+  <Win32Resource                             value = "Resource\resource.rc" />  <!-- CSharp5 option -->
+  <CopySourceFiles                           value = "true" />  <!-- make a zip with source files -->
 	<NameSpace                                 value = "runsource_launch" />
 	<!--<CompilerOptions                           value = "/platform:x86" />  --><!-- x86, Itanium, x64, or anycpu (default). -->
 	<Source                                    value = "Properties\AssemblyInfo.cs" />
@@ -41,6 +41,7 @@
   <Source                                    value = "$Root$\Lib\pb\Source\pb\IO\zDirectory.cs" />
   <Source                                    value = "$Root$\Lib\pb\Source\pb\IO\zFile.cs" />
   <Source                                    value = "$Root$\Lib\pb\Source\pb\IO\zPath.cs" />
+  <Source                                    value = "$Root$\Lib\pb\Source\pb\IO\zUpdateFiles.cs" />
   <Source                                    value = "$Root$\Lib\pb\Source\pb\Reflection\Reflection.cs" />
   <Source                                    value = "$Root$\Lib\pb\Source\pb\Text\Regex.cs" />
   <Source                                    value = "$Root$\Lib\pb\Source\pb\Windows\Forms\zerrf.cs" />

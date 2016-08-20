@@ -1,0 +1,23 @@
+{
+  "StatusCode" : 200,
+  "Headers" : {
+    "Connection" : "keep-alive",
+    "Access-Control-Allow-Origin" : "*",
+    "Access-Control-Allow-Credentials" : "true",
+    "Content-Length" : "356",
+    "Content-Type" : "application/json",
+    "Date" : "Sat, 30 Jul 2016 07:12:33 GMT",
+    "Server" : "nginx"
+  },
+  "Request" : {
+    "Uri" : "https://httpbin.org/post",
+    "Method" : "POST",
+    "Headers" : {
+      "User-Agent" : "pib/0.1",
+      "Content-Type" : "application/x-www-form-urlencoded",
+      "Host" : "httpbin.org",
+      "Content-Length" : "19"
+    },
+    "Content" : "toto=tata&zozo=zaza"
+  }
+}

@@ -9,10 +9,14 @@
   <RunsourceClassName                          value = "pb.Compiler.RunSource" />
   <AllowMultipleExecution                      value = "true" />  <!-- default = "false" -->
   <TraceClassName                              value = "pb.TTrace" />
-  <!--<TraceAssemblyLoad                           value = "true" /> --><!-- default = "false" -->
+  
   <!--<TraceAssemblyResolve                        value = "true" /> --><!-- default = "false" -->
-  <!--<RunSourceDomainName                           value = "RunSource" />-->  <!-- default: "RunSource" -->
-  <!--<CreateRunSourceDomain                         value = "true" />-->      <!-- default = false, true, attention si CreateRunSourceDomain = true runsource.launch.exe ne peut pas mettre à jour runsource.runsourced32.exe -->
+  <!--<UpdateAssembly                              value = "true" /> --><!-- default = "false" -->
+  <!--<UpdateAssemblySubDirectory                  value = "new" /> --><!-- default = "new" -->
+  <!--<TraceUpdateAssembly                         value = "true" /> --><!-- default = "false" -->
+  
+  <!--<RunSourceDomainName                         value = "RunSource" />-->  <!-- default: "RunSource" -->
+  <!--<CreateRunSourceDomain                       value = "true" />-->      <!-- default = false, true, attention si CreateRunSourceDomain = true runsource.launch.exe ne peut pas mettre à jour runsource.runsourced32.exe -->
   <RunSourceProjects                           value = "$ProjectDirectory$\Apps\RunSource\v2\runsource.projects.xml" />
   <RunSourceDirectory                          value = "c:\pib\prog\tools\runsource" />
   <RunsourceSourceDirectory                    value = "$RunSourceDirectory$\update" />
@@ -41,6 +45,10 @@
     <ResourceCompiler                          value = "c:\Program Files (x86)\Microsoft SDKs\Windows\v8.1A\bin\NETFX 4.5.1 Tools\ResGen.exe"/>
   </CompilerDefaultValues>-->
   
+  <MenuCompile>
+    <CompileProjects                           value = "&amp;Extension_01.dll" file = "$ProjectDirectory$\Lib\pb\Source\Project\Extension_01.projects.xml" />
+  </MenuCompile>
+
   <CompilerConfig>
     <Frameworks>
       <FrameworkDirectory1                     value = "C:\Windows\Microsoft.NET\Framework"/>
@@ -63,6 +71,8 @@
   </CompilerConfig>
   
   <DefaultProject                              value = "$ProjectDirectory$\Lib\pb\Source\Project\Default.project.xml"/>    <!-- used to compile without project  -->
+  <!--<TraceInitEndOnceMethods                     value = "true"/>-->
+  <!--<TraceInitEndAlwaysMethods                   value = "true"/>-->
   <!--<ProjectDefaultValues                        value = "$ProjectDirectory$\Lib\pb\Source\Project\DefaultValues.project.xml"/>-->
 	<!--<ProjectDefaultValues>
 		<Using                                     value = "System" />

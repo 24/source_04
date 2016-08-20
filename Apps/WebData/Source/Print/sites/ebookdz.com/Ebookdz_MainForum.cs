@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Xml.Linq;
 using pb;
-using pb.Data.Mongo;
 using pb.Data.Xml;
 using pb.Web;
 using pb.Web.Data;
 using MongoDB.Bson;
+using pb.Web.Data.Mongo;
 
 namespace Download.Print.Ebookdz
 {
@@ -22,7 +22,8 @@ namespace Download.Print.Ebookdz
         public static IEnumerable<EbookdzForumData> LoadSubForums(bool reload = false, Predicate<EbookdzForumData> filter = null)
         {
             //foreach (IHeaderData header in __headerWebDataPageManager.LoadPages(startPage: 1, maxPage: 1, reload: reload, loadImage: false, refreshDocumentStore: false))
-            foreach (EbookdzForumData mainForum in Ebookdz_MainForum.Current.LoadPages(startPage: 1, maxPage: 1, reload: reload, loadImage: false, refreshDocumentStore: false))
+            // loadImage: false
+            foreach (EbookdzForumData mainForum in Ebookdz_MainForum.Current.LoadPages(startPage: 1, maxPage: 1, reload: reload, refreshDocumentStore: false))
             {
                 foreach (EbookdzForumData subForum in Ebookdz_SubForum.Current.LoadPages(new HttpRequest { Url = mainForum.UrlDetail }, maxPage: 0, reload: reload))
                 {
@@ -56,7 +57,7 @@ namespace Download.Print.Ebookdz
                 int nbDocumentLoadedFromWeb = 0;
                 foreach (PostHeader forumHeader in Ebookdz_ForumHeader.Current.LoadPages(new HttpRequest { Url = forum.UrlDetail }, maxPage: maxPage, reload: reloadForumHeader))
                 {
-                    WebData<Ebookdz_PostDetail> webData = Ebookdz.Current.DetailWebDataManager.Load(new WebRequest { HttpRequest = new HttpRequest { Url = forumHeader.UrlDetail },  ReloadFromWeb = reloadDetail });
+                    WebData<Ebookdz_PostDetail> webData = Ebookdz.Current.DetailDataManager.Load(new WebRequest { HttpRequest = new HttpRequest { Url = forumHeader.UrlDetail },  ReloadFromWeb = reloadDetail });
                     if (webData.DocumentLoadedFromStore)
                         nbDocumentLoadedFromStore++;
                     if (webData.DocumentLoadedFromWeb)

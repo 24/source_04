@@ -124,7 +124,6 @@
     <None Include="Source\Other\WR_Tools.cs" />
     <None Include="Source\Other\Xml2Data.cs" />
     <Compile Include="Source\pb\Compiler\CodeDomProviderCompilerResult.cs" />
-    <Compile Include="Source\pb\Compiler\CompileProjects.cs" />
     <Compile Include="Source\pb\Compiler\CompilerManager.cs" />
     <Compile Include="Source\pb\Compiler\CompilerProjectReader.cs" />
     <Compile Include="Source\pb\Compiler\CSharp1Compiler.cs" />
@@ -135,6 +134,7 @@
     <Compile Include="Source\pb\Compiler\ProjectCompilerCreator.cs" />
     <Compile Include="Source\pb\Compiler\ResourceCompiler.cs" />
     <Compile Include="Source\pb\Compiler\ResourceCompilerResult.cs" />
+    <Compile Include="Source\pb\Compiler\RunSourceExecution.cs" />
     <Compile Include="Source\pb\Compiler\RunSourceHtmlRun.cs" />
     <Compile Include="Source\pb\Compiler\RunSourceInitEndMethods.cs" />
     <Compile Include="Source\pb\Compiler\RunSourceRunCode.cs" />
@@ -145,13 +145,21 @@
     <Compile Include="Source\pb\Compiler\GenerateCSharpCode.cs" />
     <Compile Include="Source\pb\Compiler\Win32ResourceCompiler.cs" />
     <Compile Include="Source\pb\Compiler\_old\ICompilerExtension.cs" />
-    <Compile Include="Source\pb\Compiler\ICompilerProjectReader.cs" />
     <Compile Include="Source\pb\Compiler\_old\IGenerateAndExecute.cs" />
     <Compile Include="Source\pb\Compiler\RunCode.cs" />
     <None Include="Source\pb\Compiler\_old\RunSourceRunCode_v1.cs" />
     <None Include="Source\pb\Compiler\_old\RunSourceRunCode_v2.cs" />
     <Compile Include="Source\pb\Data\DataTable.cs" />
     <Compile Include="Source\pb\Data\DataTable2.cs" />
+    <Compile Include="Source\pb\Data\DataTableDistinct.cs" />
+    <Compile Include="Source\pb\Data\Mongo\Serializers\RunSerializer.cs" />
+    <Compile Include="Source\pb\Data\Mongo\Serializers\WebHeaderSerializer.cs" />
+    <Compile Include="Source\pb\Data\Mongo\WebDataMongoManagerBase.cs" />
+    <Compile Include="Source\pb\Data\Mongo\WebHeaderMongoManagerBase.cs" />
+    <Compile Include="Source\pb\Data\Mongo\WebImageMongoManager.cs" />
+    <Compile Include="Source\pb\Data\Mongo\WebImageMongoManager_v2.cs" />
+    <Compile Include="Source\pb\Data\Mongo\WebImageMongoTools.cs" />
+    <Compile Include="Source\pb\Data\TraceDataTable.cs" />
     <Compile Include="Source\pb\Data\_old\IDocumentStore_v4.cs" />
     <Compile Include="Source\pb\Data\IDocumentStore.cs" />
     <Compile Include="Source\pb\Data\Mongo\BsonDocumentComparator.cs" />
@@ -220,6 +228,7 @@
     <Compile Include="Source\pb\IO\Test\Test_SharpCompressManager.cs" />
     <Compile Include="Source\pb\IO\Test\Test_utf8.cs" />
     <Compile Include="Source\pb\IO\Test\Test_ZipArchive.cs" />
+    <Compile Include="Source\pb\IO\zUpdateFiles.cs" />
     <Compile Include="Source\pb\IO\zDirectory.cs" />
     <Compile Include="Source\pb\IO\zFile.cs" />
     <Compile Include="Source\pb\IO\ZipArchive.cs" />
@@ -251,22 +260,26 @@
     <Compile Include="Source\pb\Text\StringCompare.cs" />
     <Compile Include="Source\pb\Text\Test\Test_Regex.cs" />
     <Compile Include="Source\pb\Text\Test\Test_RegexValues.cs" />
+    <Compile Include="Source\pb\Web\Data\DataPages.cs" />
     <Compile Include="Source\pb\Web\Data\Debrider.cs" />
     <Compile Include="Source\pb\Web\Data\DebriderAlldebrid.cs" />
     <Compile Include="Source\pb\Web\Data\DebriderDebridLinkFr.cs" />
+    <Compile Include="Source\pb\Web\Data\WebDataManagerImage.cs" />
+    <Compile Include="Source\pb\Web\Data\WebImageCacheManager_v2.cs" />
+    <Compile Include="Source\pb\Web\Data\WebImageMongoCacheManager_v2.cs" />
     <Compile Include="Source\pb\Web\Data\_old\DebriderDebridLinkFr_v1.cs" />
     <Compile Include="Source\pb\Web\Data\_old\DebridLinkFr_v1.cs" />
     <Compile Include="Source\pb\Web\Data\DebridLinkFr.cs" />
     <Compile Include="Source\pb\Web\Data\DownloadFileServerInfo.cs" />
     <Compile Include="Source\pb\Web\Data\ProtectLink.cs" />
     <Compile Include="Source\pb\Web\Data\Test\Test_DebridLinkFr.cs" />
-    <Compile Include="Source\pb\Web\Data\_old\WebDataManager_v1.cs" />
+    <None Include="Source\pb\Web\Data\_old\WebDataManager_v1.cs" />
     <Compile Include="Source\pb\Web\Data\WebDataManager.cs" />
-    <Compile Include="Source\pb\Web\Data\_old\WebDataPageManager_v1.cs" />
+    <None Include="Source\pb\Web\Data\_old\WebDataPageManager_v1.cs" />
     <Compile Include="Source\pb\Web\Data\WebDataPageManager.cs" />
-    <Compile Include="Source\pb\Web\Data\_old\WebHeaderDetailManager_v1.cs" />
-    <Compile Include="Source\pb\Data\Mongo\_old\WebHeaderDetailMongoManagerBase_v1.cs" />
-    <Compile Include="Source\pb\Web\Data\_old\WebHeaderDetailManager_v2.cs" />
+    <None Include="Source\pb\Web\Data\_old\WebHeaderDetailManager_v1.cs" />
+    <None Include="Source\pb\Data\Mongo\_old\WebHeaderDetailMongoManagerBase_v1.cs" />
+    <None Include="Source\pb\Web\Data\_old\WebHeaderDetailManager_v2.cs" />
     <Compile Include="Source\pb\Web\Data\WebHeaderDetailManager.cs" />
     <Compile Include="Source\pb\Web\Data\WebImage.cs" />
     <Compile Include="Source\pb\Web\Data\WebImageCacheManager.cs" />
@@ -274,24 +287,24 @@
     <Compile Include="Source\pb\Web\Data\WebImageMongoCacheManager.cs" />
     <Compile Include="Source\pb\Web\Data\WebLoadDataManager.cs" />
     <Compile Include="Source\pb\Web\Data\WebLoadManager.cs" />
-    <Compile Include="Source\pb\Web\Data\_old\HeaderDetailWebDocumentStore_v1.cs" />
-    <Compile Include="Source\pb\Web\Data\_old\LoadDataFromWeb_v1.cs" />
-    <Compile Include="Source\pb\Web\Data\_old\LoadDataFromWeb_v2.cs" />
-    <Compile Include="Source\pb\Web\Data\_old\LoadDataFromWeb_v3.cs" />
-    <Compile Include="Source\pb\Web\Data\_old\LoadFromWebManager_v4.cs" />
+    <None Include="Source\pb\Web\Data\_old\HeaderDetailWebDocumentStore_v1.cs" />
+    <None Include="Source\pb\Web\Data\_old\LoadDataFromWeb_v1.cs" />
+    <None Include="Source\pb\Web\Data\_old\LoadDataFromWeb_v2.cs" />
+    <None Include="Source\pb\Web\Data\_old\LoadDataFromWeb_v3.cs" />
+    <None Include="Source\pb\Web\Data\_old\LoadFromWebManager_v4.cs" />
     <Compile Include="Source\pb\Web\Data\_old\LoadFromWeb_v1.cs" />
-    <Compile Include="Source\pb\Web\Data\_old\LoadFromWeb_v2.cs" />
+    <None Include="Source\pb\Web\Data\_old\LoadFromWeb_v2.cs" />
     <Compile Include="Source\pb\Web\Data\_old\LoadWebDataPages_v1.cs" />
     <Compile Include="Source\pb\Web\Data\_old\LoadWebDataPages_v2.cs" />
     <Compile Include="Source\pb\Web\Data\_old\LoadWebData_v1.cs" />
-    <Compile Include="Source\pb\Web\Data\_old\LoadWebData_v2.cs" />
-    <Compile Include="Source\pb\Web\Data\_old\LoadWebData_v3.cs" />
-    <Compile Include="Source\pb\Web\Data\_old\LoadWebEnumDataPagesManager_v3.cs" />
+    <None Include="Source\pb\Web\Data\_old\LoadWebData_v2.cs" />
+    <None Include="Source\pb\Web\Data\_old\LoadWebData_v3.cs" />
+    <None Include="Source\pb\Web\Data\_old\LoadWebEnumDataPagesManager_v3.cs" />
     <Compile Include="Source\pb\Web\Data\_old\LoadWebEnumDataPages_v1.cs" />
     <Compile Include="Source\pb\Web\Data\_old\LoadWebEnumDataPages_v2.cs" />
-    <Compile Include="Source\pb\Web\Data\_old\WebDocumentStore_v1.cs" />
+    <None Include="Source\pb\Web\Data\_old\WebDocumentStore_v1.cs" />
     <Compile Include="Source\pb\Web\Data\_old\WebImageCacheManager_v1.cs" />
-    <Compile Include="Source\pb\Web\Data\_old\WebImageMongoCacheManager_v1.cs" />
+    <None Include="Source\pb\Web\Data\_old\WebImageMongoCacheManager_v1.cs" />
     <Compile Include="Source\pb\Web\Html\HtmlCharCodes.cs" />
     <Compile Include="Source\pb\Web\Html\HtmlReaderBase.cs" />
     <Compile Include="Source\pb\Web\Html\HtmlReader_v2.cs" />
@@ -315,6 +328,8 @@
     <Compile Include="Source\pb\Web\Http\HttpRun.cs" />
     <Compile Include="Source\pb\Web\Http\HttpXml.cs" />
     <Compile Include="Source\pb\Web\Http\PBUriBuilder.cs" />
+    <Compile Include="Source\pb\Web\Http\Test\Test_HttpLog.cs" />
+    <Compile Include="Source\pb\Web\Http\Test\Test_Run.cs" />
     <Compile Include="Source\pb\Web\Http\Url.cs" />
     <Compile Include="Source\pb\Web\Http\UrlCache.cs" />
     <Compile Include="Source\pb\Web\Http\XmlDocumentSourceType.cs" />
@@ -511,6 +526,15 @@
     <Content Include="Source\pb\Web\Html\TestUnit\TestUnit.HtmlToXml.project.xml">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Source\pb\Web\Http\Test\Test_HttpLog.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Source\Project\Extension_01.projects.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Source\Project\Test\Test_Include.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Source\Project\_old\JScript.Default.project.xml" />
     <Content Include="Source\Project\_old\CSharp5.Default.project.xml">
       <SubType>Designer</SubType>
@@ -528,7 +552,9 @@
     <Content Include="Source\Project\Basic.project.xml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Source\Project\Extension_01.dll.project.xml" />
+    <Content Include="Source\Project\Extension_01.dll.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Source\Project\HtmlRun.dll.project.xml">
       <SubType>Designer</SubType>
     </Content>
@@ -538,10 +564,14 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Source\Project\MongoCommand.project.xml" />
-    <Content Include="Source\Project\MongoSerialization.project.xml" />
+    <Content Include="Source\Project\MongoSerialization.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Source\Project\MongoExtension.project.xml" />
     <Content Include="Source\Project\pb.Web.WebDriver.dll.project.xml" />
-    <Content Include="Source\Project\Extension_01.project.xml" />
+    <Content Include="Source\Project\Extension_01.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Source\Project\RunSourceExtension.project.xml" />
     <Content Include="Source\Project\Test\TestExtension_01.dll.project.xml">
       <SubType>Designer</SubType>

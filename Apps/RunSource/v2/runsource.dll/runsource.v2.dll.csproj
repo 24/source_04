@@ -111,6 +111,9 @@
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\Compiler\RunSourceCompileProjects.cs">
       <Link>SourceLnk\Lib\pb\Compiler\RunSourceCompileProjects.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Compiler\RunSourceExecution.cs">
+      <Link>SourceLnk\Lib\pb\Compiler\RunSourceExecution.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\Compiler\RunSourceInitEndMethods.cs">
       <Link>SourceLnk\Lib\pb\Compiler\RunSourceInitEndMethods.cs</Link>
     </Compile>
@@ -164,6 +167,9 @@
     </Compile>
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\FormatInfo.cs">
       <Link>SourceLnk\Lib\pb\_pb\FormatInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\GlobalExtension.cs">
+      <Link>SourceLnk\Lib\pb\_pb\GlobalExtension.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\ParseAs.cs">
       <Link>SourceLnk\Lib\pb\_pb\ParseAs.cs</Link>

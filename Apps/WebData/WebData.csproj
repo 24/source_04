@@ -59,20 +59,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\Lib\pb\Source\pb\Compiler\CSharpCodeWriter.cs">
-      <Link>SourceLnk\Lib\pb\Compiler\CSharpCodeWriter.cs</Link>
+    <Compile Include="..\..\Lib\pb\Source\pb\Compiler\IProjectCompiler.cs">
+      <Link>SourceLnk\Lib\pb\Compiler\IProjectCompiler.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Compiler\GenerateAssembly.cs">
-      <Link>SourceLnk\Lib\pb\Compiler\GenerateAssembly.cs</Link>
+    <Compile Include="..\..\Lib\pb\Source\pb\Compiler\IRunSource.cs">
+      <Link>SourceLnk\Lib\pb\Compiler\IRunSource.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Compiler\ICompilerProject.cs">
-      <Link>SourceLnk\Lib\pb\Compiler\ICompilerProject.cs</Link>
+    <Compile Include="..\..\Lib\pb\Source\pb\Compiler\RunSourceExecution.cs">
+      <Link>SourceLnk\Lib\pb\Compiler\RunSourceExecution.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Compiler\RunCode.cs">
-      <Link>SourceLnk\Lib\pb\Compiler\RunCode.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Compiler\RunSourceRunCode.cs">
-      <Link>SourceLnk\Lib\pb\Compiler\RunSourceRunCode.cs</Link>
+    <Compile Include="..\..\Lib\pb\Source\pb\Compiler\RunSourceExtension.cs">
+      <Link>SourceLnk\Lib\pb\Compiler\RunSourceExtension.cs</Link>
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Data\IDocumentStore.cs">
       <Link>SourceLnk\Lib\pb\Data\IDocumentStore.cs</Link>
@@ -89,26 +86,26 @@
     <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\MongoIdGenerator.cs">
       <Link>SourceLnk\Lib\pb\Data\Mongo\MongoIdGenerator.cs</Link>
     </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\Serializers\WebHeaderSerializer.cs">
+      <Link>SourceLnk\Lib\pb\Data\Mongo\Serializers\WebHeaderSerializer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\WebDataMongoManagerBase.cs">
+      <Link>SourceLnk\Lib\pb\Data\Mongo\WebDataMongoManagerBase.cs</Link>
+    </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\WebDataPageMongoManagerBase.cs">
       <Link>SourceLnk\Lib\pb\Data\Mongo\WebDataPageMongoManagerBase.cs</Link>
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\WebHeaderDetailMongoManagerBase.cs">
       <Link>SourceLnk\Lib\pb\Data\Mongo\WebHeaderDetailMongoManagerBase.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\_old\MongoCollectionManager_v1.cs">
-      <Link>SourceLnk\Lib\pb\Data\Mongo\_old\MongoCollectionManager_v1.cs</Link>
+    <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\WebHeaderMongoManagerBase.cs">
+      <Link>SourceLnk\Lib\pb\Data\Mongo\WebHeaderMongoManagerBase.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\_old\MongoDocumentStore_v4.cs">
-      <Link>SourceLnk\Lib\pb\Data\Mongo\_old\MongoDocumentStore_v4.cs</Link>
+    <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\WebImageMongoManager.cs">
+      <Link>SourceLnk\Lib\pb\Data\Mongo\WebImageMongoManager.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\_old\MongoIdGenerator_v2.cs">
-      <Link>SourceLnk\Lib\pb\Data\Mongo\_old\MongoIdGenerator_v2.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\_old\WebDataPageMongoManagerBase_v1.cs">
-      <Link>SourceLnk\Lib\pb\Data\Mongo\_old\WebDataPageMongoManagerBase_v1.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\_old\WebHeaderDetailMongoManagerBase_v1.cs">
-      <Link>SourceLnk\Lib\pb\Data\Mongo\_old\WebHeaderDetailMongoManagerBase_v1.cs</Link>
+    <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\WebImageMongoTools.cs">
+      <Link>SourceLnk\Lib\pb\Data\Mongo\WebImageMongoTools.cs</Link>
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Data\TraceData\ITraceData.cs">
       <Link>SourceLnk\Lib\pb\Data\TraceData\ITraceData.cs</Link>
@@ -121,9 +118,6 @@
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Data\TraceData\TraceDataWriter.cs">
       <Link>SourceLnk\Lib\pb\Data\TraceData\TraceDataWriter.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Data\_old\IDocumentStore_v4.cs">
-      <Link>SourceLnk\Lib\pb\Data\_old\IDocumentStore_v4.cs</Link>
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\IO\Backup.cs">
       <Link>SourceLnk\Lib\pb\IO\Backup.cs</Link>
@@ -161,8 +155,14 @@
     <Compile Include="..\..\Lib\pb\Source\pb\Text\StringCompare.cs">
       <Link>SourceLnk\Lib\pb\Text\StringCompare.cs</Link>
     </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\DataPages.cs">
+      <Link>SourceLnk\Lib\pb\Web\Data\DataPages.cs</Link>
+    </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\WebDataManager.cs">
       <Link>SourceLnk\Lib\pb\Web\Data\WebDataManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\WebDataManagerImage.cs">
+      <Link>SourceLnk\Lib\pb\Web\Data\WebDataManagerImage.cs</Link>
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\WebDataPageManager.cs">
       <Link>SourceLnk\Lib\pb\Web\Data\WebDataPageManager.cs</Link>
@@ -170,17 +170,8 @@
     <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\WebHeaderDetailManager.cs">
       <Link>SourceLnk\Lib\pb\Web\Data\WebHeaderDetailManager.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\_old\WebDataManager_v1.cs">
-      <Link>SourceLnk\Lib\pb\Web\Data\_old\WebDataManager_v1.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\_old\WebDataPageManager_v1.cs">
-      <Link>SourceLnk\Lib\pb\Web\Data\_old\WebDataPageManager_v1.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\_old\WebHeaderDetailManager_v1.cs">
-      <Link>SourceLnk\Lib\pb\Web\Data\_old\WebHeaderDetailManager_v1.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\_old\WebHeaderDetailManager_v2.cs">
-      <Link>SourceLnk\Lib\pb\Web\Data\_old\WebHeaderDetailManager_v2.cs</Link>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\WebImageCacheManager_v2.cs">
+      <Link>SourceLnk\Lib\pb\Web\Data\WebImageCacheManager_v2.cs</Link>
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Web\Html\HtmlReaderBase.cs">
       <Link>SourceLnk\Lib\pb\Web\Html\HtmlReaderBase.cs</Link>
@@ -208,33 +199,6 @@
     </Compile>
     <Compile Include="..\MyDownloader\MyDownloader.Core\Service\IDownloadManagerService.cs">
       <Link>SourceLnk\Apps\MyDownloader\MyDownloader.Core\Service\IDownloadManagerService.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Compiler\AssemblyResolve.cs">
-      <Link>SourceLnk\Lib\pb\Compiler\AssemblyResolve.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Compiler\Compiler.cs">
-      <Link>SourceLnk\Lib\pb\Compiler\Compiler.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Compiler\CompilerProject.cs">
-      <Link>SourceLnk\Lib\pb\Compiler\CompilerProject.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Compiler\GenerateCSharpCode.cs">
-      <Link>SourceLnk\Lib\pb\Compiler\GenerateCSharpCode.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Compiler\ICompiler.cs">
-      <Link>SourceLnk\Lib\pb\Compiler\ICompiler.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Compiler\ICompilerExtension.cs">
-      <Link>SourceLnk\Lib\pb\Compiler\ICompilerExtension.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Compiler\IRunSource.cs">
-      <Link>SourceLnk\Lib\pb\Compiler\IRunSource.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Compiler\RunSource.cs">
-      <Link>SourceLnk\Lib\pb\Compiler\RunSource.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Compiler\RunSourceExtension.cs">
-      <Link>SourceLnk\Lib\pb\Compiler\RunSourceExtension.cs</Link>
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Data\DataTable.cs">
       <Link>SourceLnk\Lib\pb\Data\DataTable.cs</Link>
@@ -455,9 +419,6 @@
     <Compile Include="..\..\Lib\pb\Source\pb\Web\Http\Http.cs">
       <Link>SourceLnk\Lib\pb\Web\Http\Http.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Web\Http\HttpArchive.cs">
-      <Link>SourceLnk\Lib\pb\Web\Http\HttpArchive.cs</Link>
-    </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Web\Http\HttpRequest.cs">
       <Link>SourceLnk\Lib\pb\Web\Http\HttpRequest.cs</Link>
     </Compile>
@@ -478,9 +439,6 @@
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Web\Http\XmlDocumentSourceType.cs">
       <Link>SourceLnk\Lib\pb\Web\Http\XmlDocumentSourceType.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Web\Http\_old\Http_v3.cs">
-      <Link>SourceLnk\Lib\pb\Web\Http\_old\Http_v3.cs</Link>
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Web\MailSender.cs">
       <Link>SourceLnk\Lib\pb\Web\MailSender.cs</Link>
@@ -561,28 +519,35 @@
       <Link>SourceLnk\Lib\pb\_pb\ztrace.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Source\Autre\BlogDemoor\BlogDemoor.cs" />
+    <Compile Include="Source\Autre\BlogDemoor\BlogDemoor_v1.cs" />
+    <None Include="Source\Autre\BlogDemoor\BlogDemoor.run.cs" />
+    <Compile Include="Source\Autre\BlogDemoor\BlogDemoorRun.cs" />
+    <Compile Include="Source\Autre\BlogDemoor\WebData.cs" />
     <Compile Include="Source\Print\DownloadManager\DownloadAutomateManagerCreator.cs" />
     <Compile Include="Source\Print\DownloadManager\FindPrintManagerCreator.cs" />
     <Compile Include="Source\Print\DownloadManager\PrintTitleManagerCreator.cs" />
     <Compile Include="Source\Print\DownloadManager\WebDataDownloadFile.cs" />
+    <Compile Include="Source\Print\DownloadManager\WebDataFindPost.cs" />
     <Compile Include="Source\Print\DownloadManager\WebDataFindPrintManager.cs" />
     <Compile Include="Source\Print\DownloadManager\WebDataParameters.cs" />
     <Compile Include="Source\Print\DownloadManager\WebDataPrintFileManager.cs" />
     <Compile Include="Source\Print\DownloadManager\WebDataRun.cs" />
-    <Compile Include="Source\Print\DownloadManager\_old\DownloadAutomateManager_v1.cs" />
+    <Compile Include="Source\Autre\TMServers.cs" />
+    <None Include="Source\Print\DownloadManager\_old\DownloadAutomateManager_v1.cs" />
     <Compile Include="Source\Print\DownloadManager\DownloadAutomateManager.cs" />
     <None Include="Source\Print\DownloadManager\_old\DownloadAutomate_f.cs" />
     <Compile Include="Source\Print\DownloadManager\PostHeaderDetailMongoManagerBase.cs" />
     <Compile Include="Source\Print\DownloadManager\WebData.cs" />
     <None Include="Source\Print\DownloadManager\_old\DownloadManager_v2.cs" />
     <Compile Include="Source\Print\DownloadManager\DownloadManagerClient.cs" />
-    <Compile Include="Source\Print\DownloadManager\_old\DownloadManager_f.cs" />
+    <None Include="Source\Print\DownloadManager\_old\DownloadManager_f.cs" />
     <None Include="Source\Print\DownloadManager\_old\DownloadManager_v1.cs" />
     <Compile Include="Source\Print\DownloadManager\DownloadManager.cs" />
     <Compile Include="Source\Print\DownloadManager\MongoDownloadAutomateManager.cs" />
-    <Compile Include="Source\Print\DownloadManager\_old\SelectPostManager_f.cs" />
+    <None Include="Source\Print\DownloadManager\_old\SelectPostManager_f.cs" />
     <Compile Include="Source\Print\DownloadManager\ServerManagers.cs" />
-    <Compile Include="Source\Print\DownloadManager\_old\PostHeaderDetailMongoManagerBase_v1.cs" />
+    <None Include="Source\Print\DownloadManager\_old\PostHeaderDetailMongoManagerBase_v1.cs" />
     <Compile Include="Source\Print\Print\DownloadPrint.cs" />
     <None Include="Source\Print\Print\_old\DownloadPrint_v1.cs" />
     <Compile Include="Source\Print\Print\FindDayManager.cs" />
@@ -608,14 +573,14 @@
     <Compile Include="Source\Print\Project\DownloadRun.cs" />
     <Compile Include="Source\Print\Project\TestCertificate.cs" />
     <Compile Include="Source\Print\sites\default.cs" />
-    <Compile Include="Source\Print\sites\_old\default_v1.cs" />
+    <None Include="Source\Print\sites\_old\default_v1.cs" />
     <Compile Include="Source\Print\sites\ebookdz.com\Ebookdz.cs" />
     <Compile Include="Source\Print\sites\ebookdz.com\Ebookdz_MainForum.cs" />
     <Compile Include="Source\Print\sites\ebookdz.com\Ebookdz_ForumHeader.cs" />
     <Compile Include="Source\Print\sites\ebookdz.com\Ebookdz_SubForum.cs" />
-    <Compile Include="Source\Print\sites\ebookdz.com\_old\Ebookdz_v3.cs" />
+    <None Include="Source\Print\sites\ebookdz.com\_old\Ebookdz_v3.cs" />
     <Compile Include="Source\Print\sites\ebookdz.com\EbookdzLogin.cs" />
-    <Compile Include="Source\Print\sites\ebookdz.com\_old\Ebookdz_MainForum_v3.cs" />
+    <None Include="Source\Print\sites\ebookdz.com\_old\Ebookdz_MainForum_v3.cs" />
     <None Include="Source\Print\sites\ebookdz.com\_old\Ebookdz_Detail_v2.cs" />
     <None Include="Source\Print\sites\ebookdz.com\_old\Ebookdz_ForumHeader_v2.cs" />
     <None Include="Source\Print\sites\ebookdz.com\_old\Ebookdz_Forum_v2.cs" />
@@ -628,11 +593,11 @@
     <None Include="Source\Print\sites\magazines-gratuits.info\_old\MagazinesGratuits_v1.cs" />
     <None Include="Source\Print\sites\magazines-gratuits.info\_old\MagazinesGratuits_Detail_v1.cs" />
     <None Include="Source\Print\sites\magazines-gratuits.info\_old\MagazinesGratuits_Header_v1.cs" />
-    <Compile Include="Source\Print\sites\magazines-gratuits.info\_old\MagazinesGratuits_v3.cs" />
+    <None Include="Source\Print\sites\magazines-gratuits.info\_old\MagazinesGratuits_v3.cs" />
     <Compile Include="Source\Print\sites\magazines-gratuits.info\MagazinesGratuits.cs" />
-    <Compile Include="Source\Print\sites\magazines-gratuits.info\_old\MagazinesGratuits_Detail_v2.cs" />
-    <Compile Include="Source\Print\sites\magazines-gratuits.info\_old\MagazinesGratuits_Header_v2.cs" />
-    <Compile Include="Source\Print\sites\magazines-gratuits.info\_old\MagazinesGratuits_v2.cs" />
+    <None Include="Source\Print\sites\magazines-gratuits.info\_old\MagazinesGratuits_Detail_v2.cs" />
+    <None Include="Source\Print\sites\magazines-gratuits.info\_old\MagazinesGratuits_Header_v2.cs" />
+    <None Include="Source\Print\sites\magazines-gratuits.info\_old\MagazinesGratuits_v2.cs" />
     <Compile Include="Source\Print\sites\telecharger-magazine.com\TelechargerMagazine.cs" />
     <None Include="Source\Print\sites\telecharger-magazine.com\_old\TelechargerMagazine_v1.cs" />
     <None Include="Source\Print\sites\telecharger-magazine.com\_old\TelechargerMagazine_Detail_v1.cs" />
@@ -642,11 +607,11 @@
     <None Include="Source\Print\sites\vosbooks.net\_old\Vosbooks_Header_v2.cs" />
     <None Include="Source\Print\sites\vosbooks.net\_old\Vosbooks_v3.cs" />
     <None Include="Source\Print\sites\vosbooks.net\_old\Vosbooks_v2.cs" />
-    <Compile Include="Source\Print\sites\vosbooks.net\_old\Vosbooks_v4.cs" />
-    <Compile Include="Source\Print\Test\Test_Download.cs" />
-    <Compile Include="Source\Print\Print\Test\Test_Unit_FindPrint.cs" />
+    <None Include="Source\Print\sites\vosbooks.net\_old\Vosbooks_v4.cs" />
+    <None Include="Source\Print\Test\Test_Download.cs" />
+    <None Include="Source\Print\Print\Test\Test_Unit_FindPrint.cs" />
     <Compile Include="Source\Print\Print\Test\Test_Unit_Print.cs" />
-    <Compile Include="Source\Print\Print\Test\Test_Unit_PrintTitleManager.cs" />
+    <None Include="Source\Print\Print\Test\Test_Unit_PrintTitleManager.cs" />
     <Compile Include="Source\Print\Print\Test\Test_Unit_PrintTextValuesManager.cs" />
     <Compile Include="Source\Print\Print\Test\Test_Unit_RegexValues.cs" />
     <None Include="Source\Print\Print\Test\_old\Test_Unit_FindPrint_v1.cs" />
@@ -674,14 +639,14 @@
     <None Include="Source\Print\Project\_old\download_f.cs" />
     <None Include="Source\Print\Project\_old\compile.cs" />
     <None Include="Source\Print\Project\_old\download_test.cs" />
-    <Compile Include="Source\Print\Project\_old\download_test_f.cs" />
+    <None Include="Source\Print\Project\_old\download_test_f.cs" />
     <None Include="Source\Print\Project\_old\Http_Html_test.cs" />
-    <Compile Include="Source\Print\Project\_old\images_cache_f.cs" />
+    <None Include="Source\Print\Project\_old\images_cache_f.cs" />
     <None Include="Source\Print\Project\_old\print_f.cs" />
     <None Include="Source\Print\Project\_old\test.cs" />
     <None Include="Source\Print\Project\_old\test_f.cs" />
-    <Compile Include="Source\Print\Project\_old\Test_f2.cs" />
-    <Compile Include="Source\Print\Project\_old\Test_mongodb_f.cs" />
+    <None Include="Source\Print\Project\_old\Test_f2.cs" />
+    <None Include="Source\Print\Project\_old\Test_mongodb_f.cs" />
     <None Include="Source\Print\pt\compile.cs" />
     <None Include="Source\Print\pt\pt.cs" />
     <None Include="Source\Print\pt\pt1.cs" />
@@ -760,6 +725,12 @@
     <None Include="Source\Print\_old\Tunit\Tunit_print_01.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Source\Autre\BlogDemoor\BlogDemoor.config.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Source\Autre\BlogDemoor\BlogDemoor.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Source\Print\Print\Print\_old\le_monde\le_monde_config.xml" />
     <Content Include="Source\Print\Print\Print\_old\le_monde\le_monde_project.xml" />
     <Content Include="Source\Print\Print\Test\Test_Unit_FindPrint_v2.project.xml">
@@ -771,14 +742,18 @@
     <Content Include="Source\Print\Project\download.config.xml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Source\Print\Project\download.dll.project.xml" />
+    <Content Include="Source\Print\Project\download.dll.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Source\Print\Project\download.test.project.xml">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Source\Print\Project\download.project.xml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Source\Print\Project\download.projects.xml" />
+    <Content Include="Source\Print\Project\download.projects.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Source\Print\Project\print_config.xml" />
     <Content Include="Source\Print\Project\print_list1.xml">
       <SubType>Designer</SubType>
@@ -811,7 +786,9 @@
     <None Include="Source\Print\_old\php\dzsat.php" />
     <None Include="Source\Print\_old\php\vosbooks.php" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Source\Autre\TM\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

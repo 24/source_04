@@ -60,6 +60,7 @@
   <Source                                    value = "$Root$\Lib\pb\Source\pb\Compiler\RunCode.cs" />
   <Source                                    value = "$Root$\Lib\pb\Source\pb\Compiler\RunSource.cs" />
   <Source                                    value = "$Root$\Lib\pb\Source\pb\Compiler\RunSourceCompileProjects.cs" />
+  <Source                                    value = "$Root$\Lib\pb\Source\pb\Compiler\RunSourceExecution.cs" />
   <Source                                    value = "$Root$\Lib\pb\Source\pb\Compiler\RunSourceInitEndMethods.cs" />
   <Source                                    value = "$Root$\Lib\pb\Source\pb\Compiler\RunSourceRunCode.cs" />
   <Source                                    value = "$Root$\Lib\pb\Source\pb\Compiler\Win32ResourceCompiler.cs" />
@@ -74,6 +75,7 @@
   <Source                                    value = "$Root$\Lib\pb\Source\pb\IO\zDirectory.cs" />
   <Source                                    value = "$Root$\Lib\pb\Source\pb\IO\zFile.cs" />
   <Source                                    value = "$Root$\Lib\pb\Source\pb\IO\ZipArchive.cs" />
+  <Source                                    value = "$Root$\Lib\pb\Source\pb\IO\zUpdateFiles.cs" />
 
   <Source                                    value = "$Root$\Lib\pb\Source\pb\Reflection\Reflection.cs" />
 

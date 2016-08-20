@@ -330,13 +330,26 @@ namespace Download.Print
             return downloadAutomateManager;
         }
 
-        public IEnumerable<ServerManager> CreateServerManagers()
+        //public IEnumerable<ServerManager> CreateServerManagers()
+        //{
+        //    foreach (XElement xe in _xeConfig.zXPathElements("ServerManagers/ServerManager"))
+        //    {
+        //        ServerManager serverManager = ServerManagers.Get(xe.zExplicitAttribValue("name"));
+        //        serverManager.EnableLoadNewPost = xe.zAttribValue("enableLoadNewPost").zTryParseAs(true);
+        //        serverManager.EnableSearchPostToDownload = xe.zAttribValue("enableSearchPostToDownload").zTryParseAs(true);
+        //        serverManager.DownloadDirectory = xe.zAttribValue("downloadDirectory").zNullIfEmpty();
+        //        //Trace.WriteLine("  create server manager \"{0}\" enable load new post {1} enable search post to download {2} download directory \"{3}\"", serverManager.Name, serverManager.EnableLoadNewPost, serverManager.EnableSearchPostToDownload, serverManager.DownloadDirectory);
+        //        yield return serverManager;
+        //    }
+        //}
+
+        public IEnumerable<IServerManager> CreateServerManagers()
         {
             foreach (XElement xe in _xeConfig.zXPathElements("ServerManagers/ServerManager"))
             {
-                ServerManager serverManager = ServerManagers.Get(xe.zExplicitAttribValue("name"));
-                serverManager.EnableLoadNewPost = xe.zAttribValue("enableLoadNewPost").zTryParseAs(true);
-                serverManager.EnableSearchPostToDownload = xe.zAttribValue("enableSearchPostToDownload").zTryParseAs(true);
+                IServerManager serverManager = ServerManagers_v2.Get(xe.zExplicitAttribValue("name"));
+                serverManager.EnableLoadNewDocument = xe.zAttribValue("enableLoadNewPost").zTryParseAs(true);
+                serverManager.EnableSearchDocumentToDownload = xe.zAttribValue("enableSearchPostToDownload").zTryParseAs(true);
                 serverManager.DownloadDirectory = xe.zAttribValue("downloadDirectory").zNullIfEmpty();
                 //Trace.WriteLine("  create server manager \"{0}\" enable load new post {1} enable search post to download {2} download directory \"{3}\"", serverManager.Name, serverManager.EnableLoadNewPost, serverManager.EnableSearchPostToDownload, serverManager.DownloadDirectory);
                 yield return serverManager;

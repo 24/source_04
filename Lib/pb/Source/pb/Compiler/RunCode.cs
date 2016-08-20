@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Reflection;
 using System.Threading;
 using pb.Reflection;
@@ -10,7 +9,7 @@ namespace pb.Compiler
     {
         private int _id;
         private Assembly _runAssembly = null;
-        private Dictionary<string, CompilerAssembly> _compilerAssemblies = null;
+        //private Dictionary<string, CompilerAssembly> _compilerAssemblies = null;
         private string _runMethodName = null;       // "Test._RunCode.Run"
 
         private Type _runType = null;
@@ -26,7 +25,7 @@ namespace pb.Compiler
 
         public int Id { get { return _id; } }
         public Assembly RunAssembly { get { return _runAssembly; } set { _runAssembly = value; } }
-        public Dictionary<string, CompilerAssembly> CompilerAssemblies { get { return _compilerAssemblies; } set { _compilerAssemblies = value; } }
+        //public Dictionary<string, CompilerAssembly> CompilerAssemblies { get { return _compilerAssemblies; } set { _compilerAssemblies = value; } }
         public string RunMethodName { get { return _runMethodName; } set { _runMethodName = value; } }
         public Thread RunThread { get { return _runThread; } }
         public Chrono RunChrono { get { return _runChrono; } }
@@ -80,18 +79,22 @@ namespace pb.Compiler
                 if (runMethodElements.AssemblyName != null)
                 {
                     assembly = zReflection.GetAssembly(runMethodElements.AssemblyName, ErrorOptions.None);
-                    if (assembly == null && _compilerAssemblies != null)
+                    //if (assembly == null && _compilerAssemblies != null)
+                    //{
+                    //    // Compiler.AddAssembly() generate _compilerAssemblies with lower case key (ToLowerInvariant)
+                    //    string assemblyName = zReflection.GetAssemblyName(runMethodElements.AssemblyName).ToLowerInvariant();
+                    //    if (_compilerAssemblies.ContainsKey(assemblyName))
+                    //    {
+                    //        string file = _compilerAssemblies[assemblyName].File;
+                    //        Trace.WriteLine("load assembly from \"{0}\"", file);
+                    //        assembly = Assembly.LoadFrom(file);
+                    //    }
+                    //    else
+                    //        Trace.WriteLine("unknow assembly \"{0}\"", assemblyName);
+                    //}
+                    if (assembly == null)
                     {
-                        // Compiler.AddAssembly() generate _compilerAssemblies with lower case key (ToLowerInvariant)
-                        string assemblyName = zReflection.GetAssemblyName(runMethodElements.AssemblyName).ToLowerInvariant();
-                        if (_compilerAssemblies.ContainsKey(assemblyName))
-                        {
-                            string file = _compilerAssemblies[assemblyName].File;
-                            Trace.WriteLine("load assembly from \"{0}\"", file);
-                            assembly = Assembly.LoadFrom(file);
-                        }
-                        else
-                            Trace.WriteLine("unknow assembly \"{0}\"", assemblyName);
+                        assembly = Assembly.Load(runMethodElements.AssemblyName);
                     }
                     if (assembly == null)
                     {

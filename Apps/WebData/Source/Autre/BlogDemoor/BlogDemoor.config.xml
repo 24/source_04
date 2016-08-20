@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Config>
+  <DataDir                                                       value = "c:\pib\dev_data\exe\runsource\blogdemoor" />
+  <DataDir2                                                      value = "c:\pib\drive\google\map\voyage Demoor" />
+  <!--<DataDir2                                                      value = "c:\pib\drive\google\dev_data\exe\runsource\blogdemoor" />-->
+  <Log                                                           value = "$DataDir$\log\exe\_log.txt" option = "IndexedFile" />
+  <HttpExportDirectory                                           value = "$DataDir$\log\http" />
+  <MongoLog                                                      value = "$DataDir$\log\mongo\_mongo_log.txt" option = "IndexedFile" />
+  <MongoCache                                                    value = "$DataDir$\log\mongo.cache\mongo_cache.txt" />
+  <MongoBackupDirectory                                          value = "$DataDir2$\mongo\backup" />
+  <MongoBackupTmpDirectory                                       value = "$DataDir$\mongo\export\_tmp" />
+  
+  <UpdateRunSource>
+    <Directory                                                   source = "c:\pib\drive\google\dev\project\library\pib\Extension_01\new" destination = "c:\pib\drive\google\dev\project\library\pib\Extension_01" />
+  </UpdateRunSource>
+
+  <Image>
+    <UseUrlCache                                                 value = "true" />
+    <CacheDirectory                                              value = "$DataDir2$\sites\_images" />
+    <CacheUrlFileNameType                                        value = "Host, Path" />
+    <CacheSaveRequest                                            value = "true" />
+    <UseMongo                                                    value = "true" />
+    <MongoServer                                                 value = "mongodb://localhost" />
+    <MongoDatabase                                               value = "BlogDemoor" />
+    <MongoCollection                                             value = "Images" />
+    <!--<ImageFilterMinHeight                                        value = "70" />-->
+  </Image>
+
+  <Image_Test>
+    <UseUrlCache                                                 value = "true" />
+    <CacheDirectory                                              value = "$DataDir$\sites\_images.test" />
+    <CacheUrlFileNameType                                        value = "Host, Path" />
+    <CacheSaveRequest                                            value = "true" />
+    <UseMongo                                                    value = "true" />
+    <MongoServer                                                 value = "mongodb://localhost" />
+    <MongoDatabase                                               value = "BlogDemoor_test" />
+    <MongoCollection                                             value = "Images_Test" />
+    <!--<ImageFilterMinHeight                                        value = "70" />-->
+  </Image_Test>
+
+  <BlogDemoor>
+    <DataDir                                                     value = "$DataDir2$\sites\BlogDemoor" />
+
+    <Header>
+      <UseUrlCache                                               value = "true" />
+      <CacheDirectory                                            value = "$BlogDemoor/DataDir$\cache\header" />
+      <CacheUrlFileNameType                                      value = "Host, Path, Query" />
+      <CacheSaveRequest                                          value = "true" />
+      <UseMongo                                                  value = "false" />
+      <MongoServer                                               value = "mongodb://localhost" />
+      <MongoDatabase                                             value = "BlogDemoor" />
+      <MongoCollection                                           value = "BlogDemoor_Header" />
+      <MongoDocumentItemName                                     value = "data" />
+      <MongoDefaultSort                                          value = "{ 'download.id': 1 }" />
+    </Header>
+
+    <Detail>
+      <UseUrlCache                                               value = "true" />
+      <CacheDirectory                                            value = "$BlogDemoor/DataDir$\cache\detail" />
+      <CacheUrlFileNameType                                      value = "Path, Query" />
+      <CacheSaveRequest                                          value = "true" />
+      <UseMongo                                                  value = "true" />
+      <MongoServer                                               value = "mongodb://localhost" />
+      <MongoDatabase                                             value = "BlogDemoor" />
+      <MongoCollection                                           value = "BlogDemoor_Detail" />
+      <MongoDocumentItemName                                     value = "data" />
+      <MongoDefaultSort                                          value = "{ 'download.id': 1 }" />
+      <Image>
+        <UseUrlCache                                                 value = "true" />
+        <CacheDirectory                                              value = "$BlogDemoor/DataDir$\cache\detail" />
+        <CacheUrlFileNameType                                        value = "Host, Path" />
+        <CacheSaveRequest                                            value = "true" />
+        <!--<ImageFilterMinHeight                                        value = "70" />-->
+      </Image>
+    </Detail>
+  </BlogDemoor>
+
+  <BlogDemoor_Test>
+    <DataDir                                                     value = "$DataDir$\sites\BlogDemoor.test" />
+
+    <Header>
+      <UseUrlCache                                               value = "true" />
+      <CacheDirectory                                            value = "$BlogDemoor_Test/DataDir$\cache\header" />
+      <CacheUrlFileNameType                                      value = "Host, Path, Query" />
+      <CacheSaveRequest                                          value = "true" />
+      <UseMongo                                                  value = "false" />
+      <MongoServer                                               value = "mongodb://localhost" />
+      <MongoDatabase                                             value = "BlogDemoor_test" />
+      <MongoCollection                                           value = "BlogDemoor_Header_Test" />
+      <MongoDocumentItemName                                     value = "data" />
+      <MongoDefaultSort                                          value = "{ 'download.id': 1 }" />
+    </Header>
+
+    <Detail>
+      <UseUrlCache                                               value = "true" />
+      <CacheDirectory                                            value = "$BlogDemoor_Test/DataDir$\cache\detail" />
+      <CacheUrlFileNameType                                      value = "Path, Query" />
+      <CacheSaveRequest                                          value = "true" />
+      <UseMongo                                                  value = "true" />
+      <MongoServer                                               value = "mongodb://localhost" />
+      <MongoDatabase                                             value = "BlogDemoor_test" />
+      <MongoCollection                                           value = "BlogDemoor_Detail_Test" />
+      <MongoDocumentItemName                                     value = "data" />
+      <MongoDefaultSort                                          value = "{ 'download.id': 1 }" />
+      <Image>
+        <UseUrlCache                                                 value = "true" />
+        <CacheDirectory                                              value = "$BlogDemoor_Test/DataDir$\cache\detail" />
+        <CacheUrlFileNameType                                        value = "Host, Path" />
+        <CacheSaveRequest                                            value = "true" />
+        <!--<ImageFilterMinHeight                                        value = "70" />-->
+      </Image>
+    </Detail>
+  </BlogDemoor_Test>
+
+</Config>

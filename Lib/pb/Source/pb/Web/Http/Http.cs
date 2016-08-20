@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading;
 using pb.IO;
 using pb.Text;
+using pb.Data.Mongo;
 
 namespace pb.Web
 {
@@ -14,18 +15,56 @@ namespace pb.Web
     {
     }
 
+    public class HttpResponseLog
+    {
+        public int StatusCode;
+        public WebHeaderCollection Headers;
+        public HttpRequestLog Request;
+
+        public HttpResponseLog(WebRequest webRequest, string webRequestContent, WebResponse webResponse)
+        {
+            if (webResponse is HttpWebResponse)
+            {
+                HttpWebResponse httpWebResponse = (HttpWebResponse)webResponse;
+                StatusCode = (int)httpWebResponse.StatusCode;
+                Headers = httpWebResponse.Headers;
+                Request = new HttpRequestLog(webRequest, webRequestContent);
+            }
+        }
+    }
+
+    public class HttpRequestLog
+    {
+        public Uri Uri;
+        public string Method;
+        public WebHeaderCollection Headers;
+        public string Content;
+
+        public HttpRequestLog(WebRequest webRequest, string webRequestContent)
+        {
+            //if (webRequest is HttpWebRequest)
+            //{
+            //HttpWebRequest httpWebRequest = (HttpWebRequest)webRequest;
+            Uri = webRequest.RequestUri;
+            Method = webRequest.Method;
+            Headers = webRequest.Headers;
+            Content = webRequestContent;
+            //}
+        }
+    }
+
     public class HttpRequestParameters
     {
-        //public bool UseWebClient = false;                                // static use System.Net.WebClient or System.Net.WebRequest
+        //public bool UseWebClient = false;                              // static use System.Net.WebClient or System.Net.WebRequest
         public Encoding Encoding = null;                                 // static
-        //public HttpRequestMethod Method = HttpRequestMethod.Get;         // request
-        public string UserAgent = "Mozilla/5.0 Pib";                     // static
+        //public HttpRequestMethod Method = HttpRequestMethod.Get;       // request
+        public string UserAgent = "pib/0.1";                             // static   "Mozilla/5.0 Pib";
         public string Accept = null;                                     // request
-        //public string Referer = null;                                    // request
+        //public string Referer = null;                                  // request
         public DecompressionMethods? AutomaticDecompression = null;      // static
         public NameValueCollection Headers = new NameValueCollection();  // request
         public string ContentType = "application/x-www-form-urlencoded"; // static    valeur par defaut car obligatoire sur certain serveur (ex: http://www.handeco.org/fournisseurs/rechercher)
-        //public string Content = null;                                    // request
+        //public string Content = null;                                  // request
         public CookieContainer Cookies = new CookieContainer();          // static
         public bool Expect100Continue = false;                           // false permet d'éviter que le content soit envoyé séparément avec Expect: 100-continue dans l'entete du 1er paquet
     }
@@ -42,7 +81,7 @@ namespace pb.Web
         //private string _exportDirectory = null;
         // work variables
         private Progress _progress = null;
-        private System.Net.WebRequest _webRequest = null;
+        private WebRequest _webRequest = null;
         private WebResponse _webResponse = null;
         private Stream _stream = null;
         private StreamReader _streamReader = null;
@@ -51,6 +90,7 @@ namespace pb.Web
         private long _resultContentLength = -1;
         private string _resultText = null;
         private string _exportFile = null;
+        private bool _exportRequest = true;
         private bool _setExportFileExtension = false;
 
         public Http(HttpRequest httpRequest, HttpRequestParameters requestParameters = null)
@@ -89,7 +129,7 @@ namespace pb.Web
                 if (__trace)
                     pb.Trace.WriteLine("Http.LoadAsText()");
                 Open();
-                if (_resultContentType.StartsWith("text") || _resultContentType == "application/json")
+                if (_resultContentType != null && (_resultContentType.StartsWith("text") || _resultContentType == "application/json"))
                 {
                     _LoadText();
                     //if (_exportResult && _exportDirectory != null)
@@ -104,6 +144,8 @@ namespace pb.Web
                         if (_setExportFileExtension)
                             _exportFile = zpath.PathSetExtension(_exportFile, GetFileExtensionFromContentType(_resultContentType));
                         zfile.WriteFile(_exportFile, _resultText);
+                        if (_exportRequest)
+                            ExportRequest(_exportFile);
                     }
                 }
             }
@@ -111,6 +153,11 @@ namespace pb.Web
             {
                 Close();
             }
+        }
+
+        private void ExportRequest(string file)
+        {
+            new HttpResponseLog(_webRequest, _httpRequest.Content, _webResponse).zSave(zpath.PathSetExtension(file, ".request.json"));
         }
 
         private void _LoadText()
@@ -153,7 +200,7 @@ namespace pb.Web
             }
         }
 
-        public bool LoadToFile(string file)
+        public bool LoadToFile(string file, bool exportRequest = false)
         {
             bool ret = false;
             FileStream fs = null;
@@ -179,6 +226,8 @@ namespace pb.Web
                         streamTransfer.SourceLength = _resultContentLength;
                         streamTransfer.Progress.ProgressChanged += new Progress.ProgressChangedEventHandler(StreamTransferProgressChange);
                         ret = streamTransfer.Transfer(_stream, fs);
+                        if (exportRequest)
+                            ExportRequest(file);
                         break;
                     }
                     catch (Exception ex)
@@ -306,17 +355,10 @@ namespace pb.Web
 
         private void Open()
         {
-            //if (_opened)
-            //    return;
             if (__trace)
                 pb.Trace.WriteLine("Http.Open()");
-            //if (_webRequest != null)
-            //    return;
-            //if (_url == null)
-            //    return;
 
-            //cTrace.Trace("{0} Http.OpenWebRequest() : gWebRequest = WebRequest.Create()", giOpenWebRequest++);
-            _webRequest = System.Net.WebRequest.Create(_httpRequest.Url);
+            _webRequest = WebRequest.Create(_httpRequest.Url);
             if (_webRequest is HttpWebRequest)
             {
                 // HttpWebRequest Class https://msdn.microsoft.com/en-us/library/system.net.httpwebrequest(v=vs.110).aspx
@@ -563,6 +605,17 @@ namespace pb.Web
                     return "text/html";
                 case ".txt":
                     return "text/txt";
+                case ".jpg":
+                case ".jpeg":
+                    return "image/jpeg";
+                case ".gif":
+                    return "image/gif";
+                case ".png":
+                    return "image/png";
+                case ".tiff":
+                    return "image/tiff";
+                case ".bmp":
+                    return "image/bmp";
                 default:
                     return null;
                 //default:

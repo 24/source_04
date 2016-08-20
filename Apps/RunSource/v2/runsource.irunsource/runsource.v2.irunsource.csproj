@@ -43,9 +43,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Compiler\ICompilerProjectReader.cs">
-      <Link>SourceLnk\Lib\pb\Compiler\ICompilerProjectReader.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\Compiler\IProjectCompiler.cs">
       <Link>SourceLnk\Lib\pb\Compiler\IProjectCompiler.cs</Link>
     </Compile>

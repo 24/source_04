@@ -8,10 +8,17 @@ using pb.IO;
 
 namespace pb.Web
 {
+    public class UrlCachePathResult
+    {
+        public string Path;
+        public string SubPath;
+    }
+
     public class UrlCache
     {
         protected string _cacheDirectory = null;
         protected UrlFileNameType _urlFileNameType = UrlFileNameType.Path;
+        protected bool _saveRequest = false;
         protected Func<HttpRequest, string> _getUrlSubDirectory = null;
 
         public UrlCache(string cacheDirectory)
@@ -20,24 +27,31 @@ namespace pb.Web
         }
 
         public string CacheDirectory { get { return _cacheDirectory; } }
-        public UrlFileNameType UrlFileNameType { get { return _urlFileNameType; } set { _urlFileNameType = value; } }
-        public Func<HttpRequest, string> GetUrlSubDirectoryFunction { get { return _getUrlSubDirectory; } set { _getUrlSubDirectory = value; } }
+        public UrlFileNameType UrlFileNameType { get { return _urlFileNameType; } }  // set { _urlFileNameType = value; }
+        public bool SaveRequest { get { return _saveRequest; } }
+        public Func<HttpRequest, string> GetUrlSubDirectory { get { return _getUrlSubDirectory; } set { _getUrlSubDirectory = value; } }
 
         public string GetUrlPath(HttpRequest httpRequest)
         {
             return zPath.Combine(_cacheDirectory, GetUrlSubPath(httpRequest));
         }
 
+        public UrlCachePathResult GetUrlPathResult(HttpRequest httpRequest)
+        {
+            string subPath = GetUrlSubPath(httpRequest);
+            return new UrlCachePathResult { Path = zPath.Combine(_cacheDirectory, subPath), SubPath = subPath };
+        }
+
         public string GetUrlSubPath(HttpRequest httpRequest)
         {
             string file = GetUrlFilename(httpRequest);
-            string dir = GetUrlSubDirectory(httpRequest);
+            string dir = _GetUrlSubDirectory(httpRequest);
             if (dir != null)
                 file = zPath.Combine(dir, file);
             return file;
         }
 
-        public virtual string GetUrlSubDirectory(HttpRequest httpRequest)
+        private string _GetUrlSubDirectory(HttpRequest httpRequest)
         {
             if (_getUrlSubDirectory != null)
                 return _getUrlSubDirectory(httpRequest);
@@ -45,17 +59,18 @@ namespace pb.Web
                 return null;
         }
 
-        public virtual string GetUrlFilename(HttpRequest httpRequest)
+        private string GetUrlFilename(HttpRequest httpRequest)
         {
             return zurl.UrlToFileName(httpRequest, _urlFileNameType);
         }
 
         public static UrlCache Create(XElement xe)
         {
-            if (xe.zXPathValue("UseUrlCache").zTryParseAs(false))
+            if (xe != null && xe.zXPathValue("UseUrlCache").zTryParseAs(false))
             {
-                UrlCache urlCache = new UrlCache(xe.zXPathValue("CacheDirectory"));
-                urlCache.UrlFileNameType = zurl.GetUrlFileNameType(xe.zXPathValue("CacheUrlFileNameType"));
+                UrlCache urlCache = new UrlCache(xe.zXPathExplicitValue("CacheDirectory"));
+                urlCache._urlFileNameType = zurl.GetUrlFileNameType(xe.zXPathValue("CacheUrlFileNameType"));
+                urlCache._saveRequest = xe.zXPathValue("CacheSaveRequest").zTryParseAs(false);
                 return urlCache;
             }
             else

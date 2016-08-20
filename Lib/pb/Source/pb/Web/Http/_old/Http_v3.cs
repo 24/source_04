@@ -36,9 +36,9 @@ namespace pb.Web.old
             return __http != null;
         }
 
-        public static bool LoadToFile(string url, string file, HttpRequestParameters_v1 requestParameters = null)
+        public static bool LoadToFile(string url, string file, bool exportRequest = false, HttpRequestParameters_v1 requestParameters = null)
         {
-            return HttpManager.CurrentHttpManager.LoadToFile(CreateHttpRequest(url, requestParameters), file, CreateHttpRequestParameters(requestParameters));
+            return HttpManager.CurrentHttpManager.LoadToFile(CreateHttpRequest(url, requestParameters), file, exportRequest, CreateHttpRequestParameters(requestParameters));
         }
 
         public static HttpRequest CreateHttpRequest(string url, HttpRequestParameters_v1 requestParameters)

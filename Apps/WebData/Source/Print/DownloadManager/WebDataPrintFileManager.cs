@@ -11,7 +11,7 @@ using pb.Data;
 
 namespace Download.Print
 {
-    public static partial class WebData
+    static partial class WebData
     {
         public static void ManageDirectories(IEnumerable<string> sourceDirectories, string destinationDirectory, string bonusDirectory = null, bool usePrintDirectories = true,
             bool simulate = true, bool moveFiles = false, Func<string, bool> directoryFilter = null)

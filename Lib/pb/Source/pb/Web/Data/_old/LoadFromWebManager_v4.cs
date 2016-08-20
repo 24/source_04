@@ -6,6 +6,7 @@ namespace pb.Web.old
     public class LoadFromWebManager_v4
     {
         protected UrlCache _urlCache = null;
+        protected bool _exportRequest = false;
         protected bool _firstLoadFromWeb = true;
 
         public void Dispose()
@@ -41,7 +42,7 @@ namespace pb.Web.old
                     }
                     //if (!HttpManager.CurrentHttpManager.LoadToFile(httpRequest, urlPath, GetHttpRequestParameters()))
                     //    return default(T);
-                    if (!HttpManager.CurrentHttpManager.LoadToFile(httpRequest, urlPath, GetHttpRequestParameters()))
+                    if (!HttpManager.CurrentHttpManager.LoadToFile(httpRequest, urlPath, _exportRequest, GetHttpRequestParameters()))
                         return loadDataFromWeb;
                 }
                 httpRequest = new HttpRequest { Url = urlPath };

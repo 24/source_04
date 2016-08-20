@@ -7,6 +7,8 @@ using MongoDB.Driver;
 using pb.Data;
 using pb.Data.Mongo;
 using pb.IO;
+using System.Xml.Linq;
+using pb.Data.Xml;
 
 namespace pb.Web
 {
@@ -31,25 +33,34 @@ namespace pb.Web
         protected string _collectionName = null;
         protected MongoCollection _collection = null;
         protected UrlCache _urlCache;
+        //protected bool _exportRequest = false;
 
-        public WebImageMongoCacheManager(string server, string database, string collectionName, string directory)
+        //public WebImageMongoCacheManager(string server, string database, string collectionName, string directory)
+        //{
+        //    _server = server;
+        //    _database = database;
+        //    _collectionName = collectionName;
+        //    _urlCache = new UrlCache(directory);
+        //    _urlCache.UrlFileNameType = UrlFileNameType.Host | UrlFileNameType.Path;
+        //    _urlCache.GetUrlSubDirectoryFunction = httpRequest => zurl.GetDomain(httpRequest.Url);
+        //}
+
+        public WebImageMongoCacheManager(string server, string database, string collectionName, UrlCache urlCache)
         {
             _server = server;
             _database = database;
             _collectionName = collectionName;
-            _urlCache = new UrlCache(directory);
-            _urlCache.UrlFileNameType = UrlFileNameType.Host | UrlFileNameType.Path;
-            _urlCache.GetUrlSubDirectoryFunction = httpRequest => zurl.GetDomain(httpRequest.Url);
+            _urlCache = urlCache;
         }
 
-        public override ImageCache GetImageCache(string url, HttpRequestParameters requestParameters = null)
+        public override ImageCache GetImageCache(string url, HttpRequestParameters requestParameters = null, bool refreshImage = false)
         {
             return new ImageMongoCache(this, url, requestParameters);
         }
 
-        public override Image LoadImage(string url, HttpRequestParameters requestParameters = null)
+        public override Image LoadImage(string url, HttpRequestParameters requestParameters = null, bool refreshImage = false)
         {
-            MongoImage mongoImage = LoadMongoImage(url, requestParameters);
+            MongoImage mongoImage = LoadMongoImage(url, requestParameters, refreshImage);
             if (mongoImage.Image == null)
                 LoadImage(mongoImage);
             return mongoImage.Image;
@@ -60,13 +71,20 @@ namespace pb.Web
             mongoImage.Image = zimg.LoadFromFile(zPath.Combine(_urlCache.CacheDirectory, mongoImage.File));
         }
 
-        public MongoImage LoadMongoImage(string url, HttpRequestParameters requestParameters = null)
+        public MongoImage LoadMongoImage(string url, HttpRequestParameters requestParameters = null, bool refreshImage = false)
         {
-            BsonDocument document = GetCollection().zFindOneById<BsonDocument>(BsonValue.Create(url));
-            if (document != null)
-                return BsonSerializer.Deserialize<MongoImage>(document);
-            else
-                return CreateMongoImage(url, requestParameters);
+            if (!refreshImage)
+            {
+                BsonDocument document = GetCollection().zFindOneById<BsonDocument>(BsonValue.Create(url));
+                if (document != null)
+                {
+                    //return BsonSerializer.Deserialize<MongoImage>(document);
+                    MongoImage mongoImage = BsonSerializer.Deserialize<MongoImage>(document);
+                    if (mongoImage.Width != 0 && mongoImage.Height != 0)
+                        return mongoImage;
+                }
+            }
+            return CreateMongoImage(url, requestParameters);
         }
 
         protected MongoImage CreateMongoImage(string url, HttpRequestParameters requestParameters = null)
@@ -75,7 +93,7 @@ namespace pb.Web
             string file = _urlCache.GetUrlSubPath(httpRequest);
             string path = zPath.Combine(_urlCache.CacheDirectory, file);
             if (!zFile.Exists(path))
-                HttpManager.CurrentHttpManager.LoadToFile(httpRequest, path, requestParameters);
+                HttpManager.CurrentHttpManager.LoadToFile(httpRequest, path, _urlCache.SaveRequest, requestParameters);
             Image image = null;
             if (zFile.Exists(path))
             {
@@ -121,14 +139,30 @@ namespace pb.Web
             }
             return _collection;
         }
+
+        public static WebImageMongoCacheManager Create(XElement xe = null)
+        {
+            //if (xe != null && xe.zXPathValue("UseUrlCache").zTryParseAs(false))
+            //    return new WebImageMongoCacheManager(xe.zXPathValue("MongoServer"), xe.zXPathValue("MongoDatabase"), xe.zXPathValue("MongoCollection"), xe.zXPathValue("CacheDirectory"));
+            //else
+            //    return null;
+            UrlCache urlCache = UrlCache.Create(xe);
+            if (urlCache != null)
+            {
+                urlCache.GetUrlSubDirectory = httpRequest => zurl.GetDomain(httpRequest.Url);
+                return new WebImageMongoCacheManager(xe.zXPathExplicitValue("MongoServer"), xe.zXPathExplicitValue("MongoDatabase"), xe.zXPathExplicitValue("MongoCollection"), urlCache);
+            }
+            else
+                return null;
+        }
     }
 
     public class ImageMongoCache : ImageCache
     {
         protected MongoImage _mongoImage = null;
 
-        public ImageMongoCache(WebImageCacheManager imageUrlCacheManager, string url, HttpRequestParameters requestParameters = null)
-            : base(imageUrlCacheManager, url, requestParameters)
+        public ImageMongoCache(WebImageCacheManager imageUrlCacheManager, string url, HttpRequestParameters requestParameters = null, bool refreshImage = false)
+            : base(imageUrlCacheManager, url, requestParameters, refreshImage)
         {
         }
 
@@ -137,7 +171,7 @@ namespace pb.Web
             get
             {
                 if (_mongoImage == null)
-                    _mongoImage = ((WebImageMongoCacheManager)_webImageCacheManager).LoadMongoImage(_url, _requestParameters);
+                    _mongoImage = ((WebImageMongoCacheManager)_webImageCacheManager).LoadMongoImage(_url, _requestParameters, _refreshImage);
                 return _mongoImage;
             }
         }

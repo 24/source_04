@@ -7,26 +7,28 @@ namespace pb.Web
     public class WebImageFileCacheManager : WebImageCacheManager
     {
         protected UrlCache _urlCache;
+        //protected bool _exportRequest = false;
 
-        public WebImageFileCacheManager(string directory)
+        //public WebImageFileCacheManager(string directory)
+        //{
+        //    _urlCache = new UrlCache(directory);
+        //    _urlCache.UrlFileNameType = UrlFileNameType.Path | UrlFileNameType.Host;
+        //    _urlCache.GetUrlSubDirectoryFunction = httpRequest => zurl.GetDomain(httpRequest.Url);
+        //}
+
+        public WebImageFileCacheManager(UrlCache urlCache)
         {
-            //_urlCache = new UrlCache(directory, UrlFileNameType.Path | UrlFileNameType.Host, (url, requestParameters) => zurl.GetDomain(url));
-            _urlCache = new UrlCache(directory);
-            _urlCache.UrlFileNameType = UrlFileNameType.Path | UrlFileNameType.Host;
-            _urlCache.GetUrlSubDirectoryFunction = httpRequest => zurl.GetDomain(httpRequest.Url);
+            _urlCache = urlCache;
         }
 
-        //public override Image LoadImage(string url, HttpRequestParameters requestParameters = null)
-        public override Image LoadImage(string url, HttpRequestParameters requestParameters = null)
+        public override Image LoadImage(string url, HttpRequestParameters requestParameters = null, bool refreshImage = false)
         {
-            //string file = _urlCache.GetUrlSubPath(url, requestParameters);
             HttpRequest httpRequest = new HttpRequest { Url = url };
             string file = _urlCache.GetUrlSubPath(httpRequest);
             string urlPath = zPath.Combine(_urlCache.CacheDirectory, file);
-            if (!zFile.Exists(urlPath))
+            if (refreshImage || !zFile.Exists(urlPath))
             {
-                //if (!Http2.LoadToFile(url, urlPath, requestParameters))
-                if (!HttpManager.CurrentHttpManager.LoadToFile(httpRequest, urlPath, requestParameters))
+                if (!HttpManager.CurrentHttpManager.LoadToFile(httpRequest, urlPath, _urlCache.SaveRequest, requestParameters))
                 {
                     urlPath = null;
                     file = null;

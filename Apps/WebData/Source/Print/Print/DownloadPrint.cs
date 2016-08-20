@@ -23,7 +23,6 @@ namespace Download.Print
         //private static WebImageMongoCacheManager_v1 __imageCacheManager_v1 = null;
         private static WebImageMongoCacheManager __imageCacheManager = null;
         private static int __imageFilterMinHeight = 0;   // 70
-        //private static Predicate<ImageMongoCache_v1> __imageFilter_v1 = imageCache => (__imageFilterMinHeight == 0 || imageCache.Height > __imageFilterMinHeight) && imageCache.MongoImage.Category != "layout";
         private static Predicate<ImageMongoCache> __imageFilter = imageCache => (__imageFilterMinHeight == 0 || imageCache.Height > __imageFilterMinHeight) && imageCache.MongoImage.Category != "layout";
 
         static DownloadPrint()
@@ -42,11 +41,12 @@ namespace Download.Print
 
         public static void InitImage(XElement xe)
         {
-            //if (xe.zXPathValueBool("UseUrlCache", false))
-            if (xe.zXPathValue("UseUrlCache").zTryParseAs(false))
+            UrlCache urlCache = UrlCache.Create(xe);
+            //if (xe.zXPathValue("UseUrlCache").zTryParseAs(false))
+            if (urlCache != null)
             {
-                //__imageCacheManager_v1 = new WebImageMongoCacheManager_v1(xe.zXPathValue("MongoServer"), xe.zXPathValue("MongoDatabase"), xe.zXPathValue("MongoCollection"), xe.zXPathValue("CacheDirectory"));
-                __imageCacheManager = new WebImageMongoCacheManager(xe.zXPathValue("MongoServer"), xe.zXPathValue("MongoDatabase"), xe.zXPathValue("MongoCollection"), xe.zXPathValue("CacheDirectory"));
+                // xe.zXPathValue("CacheDirectory")
+                __imageCacheManager = new WebImageMongoCacheManager(xe.zXPathValue("MongoServer"), xe.zXPathValue("MongoDatabase"), xe.zXPathValue("MongoCollection"), urlCache);
             }
             __imageFilterMinHeight = xe.zXPathValue("ImageFilterMinHeight").zParseAs<int>();
         }

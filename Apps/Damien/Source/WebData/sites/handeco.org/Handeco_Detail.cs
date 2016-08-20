@@ -163,7 +163,7 @@ namespace hts.WebData
             UrlCache urlCache = UrlCache.Create(xe);
             if (urlCache != null)
             {
-                urlCache.GetUrlSubDirectoryFunction = httpRequest => (GetKey(httpRequest) / 1000 * 1000).ToString();
+                urlCache.GetUrlSubDirectory = httpRequest => (GetKey(httpRequest) / 1000 * 1000).ToString();
                 detailWebDataManager.WebLoadDataManager.UrlCache = urlCache;
             }
 

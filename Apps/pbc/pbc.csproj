@@ -83,9 +83,6 @@
     <Compile Include="..\..\Lib\pb\Source\pb\Compiler\ICompiler.cs">
       <Link>SourceLnk\Lib\pb\Compiler\ICompiler.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Compiler\ICompilerProjectReader.cs">
-      <Link>SourceLnk\Lib\pb\Compiler\ICompilerProjectReader.cs</Link>
-    </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Compiler\IProjectCompiler.cs">
       <Link>SourceLnk\Lib\pb\Compiler\IProjectCompiler.cs</Link>
     </Compile>

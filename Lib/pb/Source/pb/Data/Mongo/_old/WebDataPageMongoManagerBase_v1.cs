@@ -46,7 +46,7 @@ namespace pb.Data.Mongo.old
             UrlCache urlCache = UrlCache.Create(xe);
             if (urlCache != null)
             {
-                urlCache.GetUrlSubDirectoryFunction = GetCacheUrlSubDirectory;
+                urlCache.GetUrlSubDirectory = GetCacheUrlSubDirectory;
                 _dataPageManager.WebLoadDataManager.UrlCache = urlCache;
             }
 

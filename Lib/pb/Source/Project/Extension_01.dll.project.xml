@@ -3,6 +3,9 @@
   
   <Root                             value = "..\..\..\.." />
 
+  <InitMethod                       value = "pb.Data.Mongo.Serializers.RunSerializer.Init, Extension_01, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" />
+  <EndMethod                        value = "pb.Data.Mongo.Serializers.RunSerializer.End, Extension_01, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" />
+
   <Using                            value = "pb" />
   <Using                            value = "pb.Compiler" />
   <Using                            value = "pb.Data.Mongo" />

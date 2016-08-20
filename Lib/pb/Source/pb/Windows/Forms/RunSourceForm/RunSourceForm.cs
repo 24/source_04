@@ -8,6 +8,7 @@ namespace pb.Windows.Forms
     {
         protected ToolStripMenuItem _menuFile;
         protected ToolStripMenuItem _menuOptions;
+        protected ToolStripMenuItem _menuCompile;
         protected FormKeyboard _formKeyboard;
 
         public RunSourceForm()
@@ -28,7 +29,8 @@ namespace pb.Windows.Forms
         {
             _menuFile = zForm.CreateMenuItem("&File");
             _menuOptions = zForm.CreateMenuItem("&Options");
-            this.MainMenuStrip.Items.AddRange(new ToolStripItem[] { _menuFile, _menuOptions });
+            _menuCompile = zForm.CreateMenuItem("&Compile");
+            this.MainMenuStrip.Items.AddRange(new ToolStripItem[] { _menuFile, _menuOptions, _menuCompile });
         }
 
         private void SetKeyboardShortcuts()

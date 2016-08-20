@@ -18,6 +18,7 @@ Trace.WriteLine("toto");
 RunSource.CurrentRunSource.SetProjectFromSource();
 
 //RunSource.CurrentRunSource.CompileProject(@"$Root$\Apps\WebData\Source\Print\Project\download.project.xml");
+ProjectCompiler.TraceLevel = 2;
 RunSource.CurrentRunSource.CompileProjects(@"$Root$\Apps\WebData\Source\Print\Project\download.projects.xml");
 RunSource.CurrentRunSource.CompileProject(@"$Root$\Lib\pb\Source\Project\Extension_01.project.xml");
 
@@ -90,7 +91,7 @@ RunSource.CurrentRunSource.Compile_Project(@"..\..\..\..\Test\Test.Test_01\Sourc
 //****                                   Automate
 //*************************************************************************************************************************
 
-WebData.RunDownloadAutomate("runNow = true, stayRunning = true, loadNewPost = false, searchPostToDownload = false, sendMail = false, TraceLevel = 0");
+WebData.RunDownloadAutomate("test = true, runNow = true, stayRunning = true, loadNewPost = false, searchPostToDownload = false, sendMail = false, TraceLevel = 0");
 
 // run now, load new post, dont search post to download, dont send mail
 WebData.RunDownloadAutomate("runNow = true, loadNewPost = true, searchPostToDownload = false, sendMail = false");
@@ -5329,3 +5330,57 @@ string s = null; foreach (string s2 in s?.Split(';')) Trace.WriteLine();
 #else
   Trace.WriteLine("not TATA");
 #endif
+
+
+//WebData.InitServers(test: true);
+//ServerManagers.Get("magazines-gratuits.info").FindPost(null, null, 5).zView();
+//WebData.Find("magazines-gratuits.info", parameters: "test = true", query: null, sort: null, limit: 5).zView();
+
+WebData.GetServer("vosbooks.net", parameters: "test = true").Find(query: null, sort: null, limit: 5).zView();
+WebData.GetServer("ebookdz.com", parameters: "test = true").Find(query: null, sort: null, limit: 5).zView();
+WebData.GetServer("magazines-gratuits.info", parameters: "test = true").Find(query: null, sort: null, limit: 5).zView();
+WebData.GetServer("magazines-gratuits.info", parameters: "test = true").LoadNewDocuments(maxNbDocumentsLoadedFromStore: 5, startPage: 1, maxPage: 2, loadImage: false);
+WebData.GetServer("telecharger-magazine.com", parameters: "test = true").Find(query: null, sort: null, limit: 5).zView();
+WebData.GetServer("extreme-down.net", parameters: "test = true").Find(query: null, sort: null, limit: 5).zView();
+
+WebData.RunDownloadAutomate("test = true, runNow = true, stayRunning = true, loadNewPost = false, searchPostToDownload = false, sendMail = false, TraceLevel = 0");
+//WebData.GetServer("magazines-gratuits.info", parameters: "test = true").Find(query: "{ 'download.Key': 'lequipe-du-dimanche-19-juin-2016.html' }", sort: null, limit: 5).zView();
+IEnumerable<IPostToDownload> posts = WebData.GetServer("magazines-gratuits.info", parameters: "test = true").Find(query: "{ 'download.Key': 'lequipe-du-dimanche-19-juin-2016.html' }", limit: 5);
+//WebData.CreateDownloadAutomateManagerWithServers("test = true").TryDownloadPosts(posts, downloadDirectory: "test", forceDownloadAgain: true, forceSelect: false, simulateDownload: false);
+WebData.CreateDownloadAutomateManager("test = true").TryDownloadPosts(posts, downloadDirectory: "test", forceDownloadAgain: true, forceSelect: false, simulateDownload: false);
+
+
+string projectFile = @"c:\pib\drive\google\dev\project\.net\Apps\WebData\Source\Print\Project\download.test.project.xml";
+string projectFile = @"c:\pib\drive\google\dev\project\.net\Lib\pb\Source\Project\Test\Test_Include.project.xml";
+CompilerProjectReader projectReader = CompilerProjectReader.Create(new XmlConfig(projectFile).GetConfigElementExplicit("/AssemblyProject"));
+Trace.WriteLine("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+foreach(string @using in projectReader.GetUsings())
+  Trace.WriteLine(@using);
+foreach(var project in projectReader.GetIncludeProjects())
+  Trace.WriteLine(project.ProjectFile);
+
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\RunSourceExtension.project.xml" />
+  <Using                            value = "pb" />
+  <Using                            value = "pb.Compiler" />
+  <Using                            value = "pb.Reflection" />
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\MongoExtension.project.xml" />
+  <Using                            value = "pb.Data.Mongo" />
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\MongoSerialization.project.xml" />
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\HtmlRun.project.xml" />
+
+
+//pb.Data.Mongo MongoDB.Bson BsonReader
+RunSource.CurrentRunSource.SetResult(BsonDocumentsToDataTable_v2.ToDataTable(zmongo.FileReader<BsonDocument>(@"c:\pib\_dl\dev\apps\map\topojson-map-generator\test\test_topojson\ne_110m_admin_0_countries_04.json")));
+DataTable dt = BsonDocumentsToDataTable_v2.ToDataTable(zmongo.FileReader<BsonDocument>(@"c:\pib\_dl\dev\apps\map\topojson-map-generator\test\test_topojson\ne_110m_admin_0_countries_04.json"));
+Trace.WriteLine("{0}", dt.Rows.Count);
+Trace.WriteLine("{0}", dt.Columns.Count);
+
+Trace.WriteLine("toto");
+Trace.WriteLine(RunSource.CurrentRunSource.ProjectFile);
+RunSource.CurrentRunSource.SetProjectFromSource();
+RunSource.CurrentRunSource.SetProject(@"$Root$\Test\Test.Test_01\Source\Test_map\Test_map.project.xml");
+RunSource.CurrentRunSource.SetResult(BsonDocumentsToDataTable_v2.ToDataTable(Test_map_01.TransformTopojson(zmongo.FileReader<BsonDocument>(@"c:\pib\_dl\dev\apps\map\topojson-map-generator\test\test_topojson\ne_110m_admin_0_countries.json").First())));
+TraceDataTable.Trace(BsonDocumentsToDataTable_v2.ToDataTable(Test_map_01.TransformTopojson(zmongo.FileReader<BsonDocument>(@"c:\pib\_dl\dev\apps\map\topojson-map-generator\test\test_topojson\ne_110m_admin_0_countries.json").First())), @"c:\pib\_dl\dev\apps\map\topojson-map-generator\test\test_topojson\ne_110m_admin_0_countries_data.txt");
+Test_map_01.CreateTopojsonData(@"c:\pib\_dl\dev\apps\map\topojson-map-generator\test\test_topojson\ne_110m_admin_0_countries.json", @"c:\pib\_dl\dev\apps\map\topojson-map-generator\test\test_topojson\ne_110m_admin_0_countries_data.txt");
+Test_map_01.CreateTopojsonData(@"c:\pib\_dl\dev\apps\map\topojson-map-generator\test\test_topojson\ne_50m_admin_0_countries.json", @"c:\pib\_dl\dev\apps\map\topojson-map-generator\test\test_topojson\ne_50m_admin_0_countries_data.txt");
+Test_map_01.CreateTopojsonData(@"c:\pib\_dl\dev\apps\map\topojson-map-generator\test\test_topojson\ne_10m_admin_0_countries.json", @"c:\pib\_dl\dev\apps\map\topojson-map-generator\test\test_topojson\ne_10m_admin_0_countries_data.txt");

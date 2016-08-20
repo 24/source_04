@@ -11,7 +11,7 @@ using pb.Data;
 
 namespace Download.Print
 {
-    public static partial class WebData
+    static partial class WebData
     {
         public static void QueueDownloadFiles(string[] fileLinks, string directory = null, string parameters = null)
         {

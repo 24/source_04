@@ -114,11 +114,10 @@
       <!-- <ServerManager                                             name = "Ebookdz"  enableLoadNewPost = "false"  enableSearchPostToDownload = "false"  downloadDirectory = "Ebookdz" /> -->
       <!--<ServerManager                                             name = "vosbooks.net" downloadDirectory = "vosbooks.net" />-->
       <!--<ServerManager                                             name = "ebookdz.com" downloadDirectory = "ebookdz.com" />-->
-      <!--<ServerManager                                             name = "magazines-gratuits.info" downloadDirectory = "magazines-gratuits.info" />-->
-      <ServerManager                                             name = "telecharger-magazine.com" downloadDirectory = "telecharger-magazine.com" />
+      <ServerManager                                             name = "magazines-gratuits.info" downloadDirectory = "magazines-gratuits.info" />
+      <!--<ServerManager                                             name = "telecharger-magazine.com" downloadDirectory = "telecharger-magazine.com" />-->
       <!--<ServerManager                                             name = "extreme-down.net" downloadDirectory = "extreme-down.net" />-->
       <!--<ServerManager                                             name = "Ebookdz" downloadDirectory = "Ebookdz" />-->
-      <!--<ServerManager                                             name = "MagazinesGratuits" />-->
       <!--<ServerManager                                             name = "Vosbooks_test" enableLoadNewPost = "false" downloadDirectory = "Vosbooks" />-->
     </ServerManagers>
 

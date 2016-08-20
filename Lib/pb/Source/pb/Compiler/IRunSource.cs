@@ -37,7 +37,7 @@ namespace pb.Compiler
         Action<EndRunCodeInfo> EndRunCode { get; set; }
         //bool AllowMultipleExecution { get; set; }
         //bool CallInit { get; set; }
-        bool CallInit { get; }
+        bool CallInitRunOnce { get; }
 
         //ITrace Trace { get; set; }
         //IGenerateAndExecuteManager GenerateAndExecuteManager { get; }

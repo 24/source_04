@@ -36,9 +36,11 @@ namespace pb.Web
             return zPath.Combine(_cacheDirectory, GetUrlSubPath(httpRequest));
         }
 
-        public UrlCachePathResult GetUrlPathResult(HttpRequest httpRequest)
+        public UrlCachePathResult GetUrlPathResult(HttpRequest httpRequest, string subDirectory = null)
         {
             string subPath = GetUrlSubPath(httpRequest);
+            if (subDirectory != null)
+                subPath = zPath.Combine(subDirectory, subPath);
             return new UrlCachePathResult { Path = zPath.Combine(_cacheDirectory, subPath), SubPath = subPath };
         }
 

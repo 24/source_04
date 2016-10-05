@@ -226,6 +226,7 @@ namespace pb.Compiler
             compiler.SetParameters(compilerProject, runCode: true);
             compiler.SetTarget("library");
 
+            CompilerManager.Current.UpdateAssemblies(compiler.Assemblies.Values);
             compiler.Compile();
 
             return compiler;

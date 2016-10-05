@@ -12,5 +12,8 @@
         public HttpRequestMethod Method = HttpRequestMethod.Get;
         public string Referer = null;
         public string Content = null;
+        public bool ReloadFromWeb = false;
+        //public bool CacheFile = false;
+        public UrlCachePathResult UrlCachePath = null;
     }
 }

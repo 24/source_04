@@ -152,8 +152,11 @@
     <Compile Include="Source\pb\Data\DataTable.cs" />
     <Compile Include="Source\pb\Data\DataTable2.cs" />
     <Compile Include="Source\pb\Data\DataTableDistinct.cs" />
+    <Compile Include="Source\pb\Data\Mongo\MongoDataSerializer.cs" />
+    <Compile Include="Source\pb\Data\Mongo\MongoDataStore.cs" />
     <Compile Include="Source\pb\Data\Mongo\Serializers\RunSerializer.cs" />
     <Compile Include="Source\pb\Data\Mongo\Serializers\WebHeaderSerializer.cs" />
+    <Compile Include="Source\pb\Data\Mongo\Test\Test_Mongo.cs" />
     <Compile Include="Source\pb\Data\Mongo\WebDataMongoManagerBase.cs" />
     <Compile Include="Source\pb\Data\Mongo\WebHeaderMongoManagerBase.cs" />
     <Compile Include="Source\pb\Data\Mongo\WebImageMongoManager.cs" />
@@ -264,9 +267,17 @@
     <Compile Include="Source\pb\Web\Data\Debrider.cs" />
     <Compile Include="Source\pb\Web\Data\DebriderAlldebrid.cs" />
     <Compile Include="Source\pb\Web\Data\DebriderDebridLinkFr.cs" />
+    <Compile Include="Source\pb\Web\Data\WebData.cs" />
+    <Compile Include="Source\pb\Web\Data\WebDataLoad.cs" />
+    <Compile Include="Source\pb\Web\Data\WebDataLoad_v2.cs" />
     <Compile Include="Source\pb\Web\Data\WebDataManagerImage.cs" />
+    <Compile Include="Source\pb\Web\Data\WebDataManagerImage_v3.cs" />
+    <Compile Include="Source\pb\Web\Data\WebDataManagerMongoDataStore.cs" />
+    <Compile Include="Source\pb\Web\Data\WebDataManager_v3.cs" />
     <Compile Include="Source\pb\Web\Data\WebImageCacheManager_v2.cs" />
+    <Compile Include="Source\pb\Web\Data\WebImageCacheManager_v3.cs" />
     <Compile Include="Source\pb\Web\Data\WebImageMongoCacheManager_v2.cs" />
+    <Compile Include="Source\pb\Web\Data\WebLoadDataManager_v2.cs" />
     <Compile Include="Source\pb\Web\Data\_old\DebriderDebridLinkFr_v1.cs" />
     <Compile Include="Source\pb\Web\Data\_old\DebridLinkFr_v1.cs" />
     <Compile Include="Source\pb\Web\Data\DebridLinkFr.cs" />
@@ -322,11 +333,19 @@
     <Compile Include="Source\pb\Web\Http\Cookies.cs" />
     <Compile Include="Source\pb\Web\Http\Http.cs" />
     <Compile Include="Source\pb\Web\Http\HttpArchive.cs" />
+    <Compile Include="Source\pb\Web\Http\HttpBase.cs" />
+    <Compile Include="Source\pb\Web\Http\HttpLoadImage_v2.cs" />
+    <Compile Include="Source\pb\Web\Http\HttpLoadToFile_v2.cs" />
     <Compile Include="Source\pb\Web\Http\HttpManager.cs" />
+    <Compile Include="Source\pb\Web\Http\HttpManagerLoadText_v2.cs" />
+    <Compile Include="Source\pb\Web\Http\HttpManagerLoadImage_v2.cs" />
     <Compile Include="Source\pb\Web\Http\HttpManagerXml.cs" />
+    <Compile Include="Source\pb\Web\Http\HttpManager_v2.cs" />
     <Compile Include="Source\pb\Web\Http\HttpRequest.cs" />
     <Compile Include="Source\pb\Web\Http\HttpRun.cs" />
     <Compile Include="Source\pb\Web\Http\HttpXml.cs" />
+    <Compile Include="Source\pb\Web\Http\HttpLoadText_v2.cs" />
+    <Compile Include="Source\pb\Web\Http\Http_v2.cs" />
     <Compile Include="Source\pb\Web\Http\PBUriBuilder.cs" />
     <Compile Include="Source\pb\Web\Http\Test\Test_HttpLog.cs" />
     <Compile Include="Source\pb\Web\Http\Test\Test_Run.cs" />
@@ -509,6 +528,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Source\Other\PB_Library_project.xml" />
+    <Content Include="Source\pb\Data\Mongo\Test\Test_Mongo.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Source\pb\IO\Test\download.config.xml" />
     <Content Include="Source\pb\IO\Test\Test_utf8.project.xml" />
     <Content Include="Source\pb\IO\Test\Test_SharpCompressManager.project.xml">

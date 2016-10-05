@@ -266,9 +266,9 @@ namespace WebData.BlogDemoor
             throw new PBException("GetKey() not implemented");
         }
 
-        protected override void LoadImages(BlogDemoorData data)
-        {
-            throw new PBException("LoadImages() not implemented");
-        }
+        //protected override void LoadImages(BlogDemoorData data)
+        //{
+        //    throw new PBException("LoadImages() not implemented");
+        //}
     }
 }

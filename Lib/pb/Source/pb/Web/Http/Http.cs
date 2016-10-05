@@ -11,47 +11,23 @@ using pb.Data.Mongo;
 
 namespace pb.Web
 {
-    public class HttpLog
-    {
-    }
+    //public class HttpResponseLog
+    //{
+    //    public int StatusCode;
+    //    public WebHeaderCollection Headers;
+    //    public HttpRequestLog Request;
 
-    public class HttpResponseLog
-    {
-        public int StatusCode;
-        public WebHeaderCollection Headers;
-        public HttpRequestLog Request;
-
-        public HttpResponseLog(WebRequest webRequest, string webRequestContent, WebResponse webResponse)
-        {
-            if (webResponse is HttpWebResponse)
-            {
-                HttpWebResponse httpWebResponse = (HttpWebResponse)webResponse;
-                StatusCode = (int)httpWebResponse.StatusCode;
-                Headers = httpWebResponse.Headers;
-                Request = new HttpRequestLog(webRequest, webRequestContent);
-            }
-        }
-    }
-
-    public class HttpRequestLog
-    {
-        public Uri Uri;
-        public string Method;
-        public WebHeaderCollection Headers;
-        public string Content;
-
-        public HttpRequestLog(WebRequest webRequest, string webRequestContent)
-        {
-            //if (webRequest is HttpWebRequest)
-            //{
-            //HttpWebRequest httpWebRequest = (HttpWebRequest)webRequest;
-            Uri = webRequest.RequestUri;
-            Method = webRequest.Method;
-            Headers = webRequest.Headers;
-            Content = webRequestContent;
-            //}
-        }
-    }
+    //    public HttpResponseLog(WebRequest webRequest, string webRequestContent, WebResponse webResponse)
+    //    {
+    //        if (webResponse is HttpWebResponse)
+    //        {
+    //            HttpWebResponse httpWebResponse = (HttpWebResponse)webResponse;
+    //            StatusCode = (int)httpWebResponse.StatusCode;
+    //            Headers = httpWebResponse.Headers;
+    //            Request = new HttpRequestLog(webRequest, webRequestContent);
+    //        }
+    //    }
+    //}
 
     public class HttpRequestParameters
     {
@@ -82,6 +58,8 @@ namespace pb.Web
         // work variables
         private Progress _progress = null;
         private WebRequest _webRequest = null;
+        private DateTime _webRequestTime;
+        private TimeSpan _webRequestDuration;
         private WebResponse _webResponse = null;
         private Stream _stream = null;
         private StreamReader _streamReader = null;
@@ -157,18 +135,21 @@ namespace pb.Web
 
         private void ExportRequest(string file)
         {
-            new HttpResponseLog(_webRequest, _httpRequest.Content, _webResponse).zSave(zpath.PathSetExtension(file, ".request.json"));
+            //new HttpResponseLog(_webRequest, _httpRequest.Content, _webResponse).zSave(zpath.PathSetExtension(file, ".request.json"));
+            new HttpLog { Request = new HttpRequestLog(_webRequest, _httpRequest.Content), Response = new HttpResponseLog(_webResponse) }.zSave(zpath.PathSetExtension(file, ".request.json"));
         }
 
         private void _LoadText()
         {
-            DateTime dtFirstCatch = new DateTime(0);
+            //DateTime dtFirstCatch = new DateTime(0);
+            DateTime dtFirstCatch = DateTime.Now;
             while (true)
             {
                 try
                 {
                     CreateStreamReader();
                     _resultText = _streamReader.ReadToEnd();
+                    _webRequestDuration = DateTime.Now - _webRequestTime;
                     break;
                 }
                 catch (Exception ex)
@@ -212,7 +193,8 @@ namespace pb.Web
                 zfile.CreateFileDirectory(file);
                 fs = new FileStream(file, FileMode.Create, FileAccess.Write, FileShare.Read);
 
-                DateTime dtFirstCatch = new DateTime(0);
+                //DateTime dtFirstCatch = new DateTime(0);
+                DateTime dtFirstCatch = DateTime.Now;
                 while (true)
                 {
                     try
@@ -226,6 +208,7 @@ namespace pb.Web
                         streamTransfer.SourceLength = _resultContentLength;
                         streamTransfer.Progress.ProgressChanged += new Progress.ProgressChangedEventHandler(StreamTransferProgressChange);
                         ret = streamTransfer.Transfer(_stream, fs);
+                        _webRequestDuration = DateTime.Now - _webRequestTime;
                         if (exportRequest)
                             ExportRequest(file);
                         break;
@@ -280,7 +263,8 @@ namespace pb.Web
                     pb.Trace.WriteLine("Http.LoadImage()");
                 Image image = null;
                 Open();
-                DateTime dtFirstCatch = new DateTime(0);
+                //DateTime dtFirstCatch = new DateTime(0);
+                DateTime dtFirstCatch = DateTime.Now;
                 while (true)
                 {
                     try
@@ -290,6 +274,7 @@ namespace pb.Web
                         //    break;
                         //}
                         image = Image.FromStream(_stream);
+                        _webRequestDuration = DateTime.Now - _webRequestTime;
                         break;
                     }
                     catch (Exception ex)
@@ -402,11 +387,13 @@ namespace pb.Web
                 }
             }
 
-            DateTime dtFirstCatch = new DateTime(0);
+            //DateTime dtFirstCatch = new DateTime(0);
+            DateTime dtFirstCatch = DateTime.Now;
             while (true)
             {
                 try
                 {
+                    _webRequestTime = DateTime.Now;
                     _webResponse = _webRequest.GetResponse();
                     _stream = _webResponse.GetResponseStream();
                     break;

@@ -20,28 +20,6 @@ namespace pb.Web.Data
         HttpRequest GetDataHttpRequest();  // used in WebDataManager<TKey, TData>.RefreshDocumentsStore() and IPostToDownload
     }
 
-    public class WebData<TData> : ILoadDocument<TData>
-    {
-        private WebRequest _request;
-        private WebResult _result;
-        private TData _document;
-        private bool _documentLoaded;
-        private bool _documentLoadedFromWeb;
-        private bool _documentLoadedFromStore;
-
-        public WebData(WebRequest request)
-        {
-            _request = request;
-        }
-
-        public WebRequest Request { get { return _request; } }
-        public WebResult Result { get { return _result; } set { _result = value; } }
-        public TData Document { get { return _document; } set { _document = value; } }
-        public bool DocumentLoaded { get { return _documentLoaded; } set { _documentLoaded = value; } }
-        public bool DocumentLoadedFromWeb { get { return _documentLoadedFromWeb; } set { _documentLoadedFromWeb = value; } }
-        public bool DocumentLoadedFromStore { get { return _documentLoadedFromStore; } set { _documentLoadedFromStore = value; } }
-    }
-
     public interface ILoadImages
     {
         //void LoadImages(bool refreshImage = false);
@@ -53,25 +31,49 @@ namespace pb.Web.Data
     //   use BsonValue key to identify data
     //   function _getKeyFromHttpRequest retrieve key from HttpRequest
     //   operation : Load(), LoadFromWeb(), Exists(), Save(), Find(), Update(), Refresh()
+
+    // modif :
+    //   - WebData<TData>.Load() replace Load_v1() (_version = 2)
+    //   - WebData<TData>.Load_v2() using MongoDataStore instead of IDocumentStore<TData>
+    //   - use WebLoadDataManager_v2 instead of WebLoadDataManager
     public partial class WebDataManager<TData>
     {
+        protected int _version = 1; // WebDataManager version : 1 use Load_v1(), 2 use WebData<TData>.Load(), 3 use MongoDataStore, 4 use WebLoadDataManager_v2
         protected int _imageLoadVersion = 1;
         protected WebLoadDataManager<TData> _webLoadDataManager = null;
+        protected WebLoadDataManager_v2<TData> _webLoadDataManager_v2 = null;
         protected IDocumentStore<TData> _documentStore = null;
         protected bool _desactivateDocumentStore = false;
         protected bool _generateId = false;
         protected Func<HttpRequest, BsonValue> _getKeyFromHttpRequest = null;
         //protected Action<TData> _loadImages = null;
 
+        public int Version { get { return _version; } set { _version = value; } }
         public int ImageLoadVersion { get { return _imageLoadVersion; } set { _imageLoadVersion = value; } }
         public WebLoadDataManager<TData> WebLoadDataManager { get { return _webLoadDataManager; } set { _webLoadDataManager = value; } }
+        public WebLoadDataManager_v2<TData> WebLoadDataManager_v2 { get { return _webLoadDataManager_v2; } set { _webLoadDataManager_v2 = value; } }
         public IDocumentStore<TData> DocumentStore { get { return _documentStore; } set { _documentStore = value; } }
         public bool DesactivateDocumentStore { get { return _desactivateDocumentStore; } set { _desactivateDocumentStore = value; } }
         public Func<HttpRequest, BsonValue> GetKeyFromHttpRequest { get { return _getKeyFromHttpRequest; } set { _getKeyFromHttpRequest = value; } }
         //[Obsolete]
         //public Action<TData> LoadImages { get { return _loadImages; } set { _loadImages = value; } }
 
+        public WebDataManager()
+        {
+            InitSerializer();
+        }
+
         public WebData<TData> Load(WebRequest request)
+        {
+            if (_version == 1)
+                return Load_v1(request);
+            else if (_version == 2)
+                return WebData<TData>.Load(this , request);
+            else // if (_version == 3)
+                return WebData<TData>.Load_v2(this, request);
+        }
+
+        public WebData<TData> Load_v1(WebRequest request)
         {
             WebData<TData> webData = new WebData<TData>(request);
             if (_documentStore != null && _documentStore.GenerateId)
@@ -85,26 +87,44 @@ namespace pb.Web.Data
                     SetDataId(webData, id);
                     SaveWithId(id, webData);
                     if (_imageLoadVersion == 1)
-                        LoadImages_v1(webData.Document, webData.Request.ImageRequest);
+                        LoadImages_v1(webData.Document, request.ImageRequest);
                     else
-                        LoadImagesFromWeb(webData);
-                    SaveWithId(id, webData);
+                    {
+                        if (LoadImagesFromWeb(webData))
+                            SaveWithId(id, webData);
+                    }
                 }
             }
-            else
+            //else
+            //{
+            //    // todo : remplacer Exists() par GetKey() puis Exists(key)
+            //    if (request.ReloadFromWeb || request.RefreshDocumentStore || !Exists(webData))
+            //    {
+            //        _LoadFromWeb(webData);
+            //        SaveWithKey(webData);
+            //        if (_imageLoadVersion == 1)
+            //            LoadImages_v1(webData.Document, webData.Request.ImageRequest);
+            //        else
+            //        {
+            //            if (LoadImagesFromWeb(webData))
+            //                SaveWithKey(webData);
+            //        }
+            //    }
+            //}
+            else if (request.ReloadFromWeb || request.RefreshDocumentStore || !Exists(webData))
             {
                 // todo : remplacer Exists() par GetKey() puis Exists(key)
-                if (request.ReloadFromWeb || request.RefreshDocumentStore || !Exists(webData))
+                _LoadFromWeb(webData);
+                SaveWithKey(webData);
+                if (_imageLoadVersion == 1)
+                    LoadImages_v1(webData.Document, webData.Request.ImageRequest);
+                else
                 {
-                    _LoadFromWeb(webData);
-                    SaveWithKey(webData);
-                    if (_imageLoadVersion == 1)
-                        LoadImages_v1(webData.Document, webData.Request.ImageRequest);
-                    else
-                        LoadImagesFromWeb(webData);
-                    SaveWithKey(webData);
+                    if (LoadImagesFromWeb(webData))
+                        SaveWithKey(webData);
                 }
             }
+
             _Load(webData);
             return webData;
         }
@@ -263,7 +283,7 @@ namespace pb.Web.Data
                 return new string[0];
         }
 
-        private BsonValue _GetKeyFromHttpRequest(HttpRequest httpRequest)
+        public BsonValue _GetKeyFromHttpRequest(HttpRequest httpRequest)
         {
             if (_getKeyFromHttpRequest != null)
                 return _getKeyFromHttpRequest(httpRequest);
@@ -284,7 +304,7 @@ namespace pb.Web.Data
         //    LoadImages(data, new WebImageRequest { LoadImageToData = true });
         //}
 
-        private void LoadImages_v1(TData data, WebImageRequest request)
+        public void LoadImages_v1(TData data, WebImageRequest request)
         {
             if (request.LoadImageFromWeb || request.LoadImageToData || request.RefreshImage)
             {

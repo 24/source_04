@@ -4,6 +4,7 @@ using System.Xml.Linq;
 using pb.Data;
 using pb.IO;
 using pb.Web.Data;
+using System.Drawing;
 
 // todo :
 //   replace string url by HttpRequest
@@ -20,20 +21,23 @@ namespace pb.Web
             _urlCache = urlCache;
         }
 
-        public virtual void LoadImagesFromWeb(IEnumerable<WebImage> images, WebImageRequest imageRequest, HttpRequestParameters requestParameters = null, string subDirectory = null)
+        public virtual bool LoadImagesFromWeb(IEnumerable<WebImage> images, WebImageRequest imageRequest, HttpRequestParameters requestParameters = null, string subDirectory = null)
         {
             if (!imageRequest.LoadImageFromWeb && !imageRequest.RefreshImage)
-                return;
+                return false;
+            bool ret = false;
             foreach (WebImage image in images)
             {
-                LoadImageFromWeb(image, imageRequest, requestParameters, subDirectory);
+                if (LoadImageFromWeb(image, imageRequest, requestParameters, subDirectory))
+                    ret = true;
             }
+            return ret;
         }
 
-        protected void LoadImageFromWeb(WebImage webImage, WebImageRequest imageRequest, HttpRequestParameters requestParameters = null, string subDirectory = null)
+        protected bool LoadImageFromWeb(WebImage webImage, WebImageRequest imageRequest, HttpRequestParameters requestParameters = null, string subDirectory = null)
         {
             if (!imageRequest.LoadImageFromWeb || (webImage.File != null && !imageRequest.RefreshImage))
-                return;
+                return false;
             HttpRequest httpRequest = new HttpRequest { Url = webImage.Url };
             string file = _urlCache.GetUrlSubPath(httpRequest);
             if (subDirectory != null)
@@ -42,6 +46,19 @@ namespace pb.Web
             if (imageRequest.RefreshImage || !zFile.Exists(path))
                 HttpManager.CurrentHttpManager.LoadToFile(httpRequest, path, _urlCache.SaveRequest, requestParameters);
             webImage.File = file;
+
+            if (zFile.Exists(path))
+            {
+                Image image = LoadImageFromFile(path);
+                if (image != null)
+                {
+                    webImage.Width = image.Width;
+                    webImage.Height = image.Height;
+                    if (imageRequest.LoadImageToData)
+                        webImage.Image = image;
+                }
+            }
+            return true;
         }
 
         public virtual void LoadImagesToData(IEnumerable<WebImage> images)
@@ -61,20 +78,36 @@ namespace pb.Web
             string path = zPath.Combine(_urlCache.CacheDirectory, webImage.File);
             if (path != null && zFile.Exists(path))
             {
-                try
-                {
-                    webImage.Image = zimg.LoadFromFile(path);
-                }
-                catch (Exception exception)
-                {
-                    Trace.WriteLine("error unable to load image url \"{0}\" from file \"{1}\"", webImage.Url, path);
-                    Trace.Write("error : ");
-                    Trace.WriteLine(exception.Message);
-                }
+                //try
+                //{
+                //    webImage.Image = zimg.LoadFromFile(path);
+                //}
+                //catch (Exception exception)
+                //{
+                //    Trace.WriteLine("error unable to load image url \"{0}\" from file \"{1}\"", webImage.Url, path);
+                //    Trace.Write("error : ");
+                //    Trace.WriteLine(exception.Message);
+                //}
+                webImage.Image = LoadImageFromFile(path);
             }
             else
             {
                 Trace.WriteLine("error unable to load image url \"{0}\" from file \"{1}\"", webImage.Url, path);
+            }
+        }
+
+        protected Image LoadImageFromFile(string path)
+        {
+            try
+            {
+                return zimg.LoadFromFile(path);
+            }
+            catch (Exception exception)
+            {
+                Trace.WriteLine("error unable to load image from file \"{0}\"", path);
+                Trace.Write("error : ");
+                Trace.WriteLine(exception.Message);
+                return null;
             }
         }
 

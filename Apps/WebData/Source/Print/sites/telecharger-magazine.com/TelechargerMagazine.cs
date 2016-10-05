@@ -242,8 +242,8 @@ namespace Download.Print.TelechargerMagazine
             data.Images = new WebImage[] { new WebImage(zurl.GetUrl(data.SourceUrl, xeContent.XPathValue(".//img/@src"))) };
 
             // force load image to get image width and height
-            if (webResult.WebRequest.LoadImageFromWeb)
-                data.Images = DownloadPrint.LoadImages(data.Images).ToArray();
+            //if (webResult.WebRequest.LoadImageFromWeb)
+            //    data.Images = DownloadPrint.LoadImages(data.Images).ToArray();
 
             // get infos, description, language, size, nbPages
             PrintTextValues textValues = DownloadPrint.PrintTextValuesManager.GetTextValues(
@@ -353,15 +353,15 @@ namespace Download.Print.TelechargerMagazine
         }
 
         // à revoir
-        [Obsolete]
-        protected override void LoadDetailImages(TelechargerMagazine_PostDetail data)
-        {
-            data.LoadImages();
-        }
+        //[Obsolete]
+        //protected override void LoadDetailImages(TelechargerMagazine_PostDetail data)
+        //{
+        //    data.LoadImages();
+        //}
 
         public override void LoadNewDocuments()
         {
-            _headerDetailManager.LoadNewDocuments(maxNbDocumentsLoadedFromStore: 25, startPage: 1, maxPage: 10);
+            _headerDetailManager.LoadNewDocuments(maxDocumentsLoadedFromStore: 25, startPage: 1, maxPage: 10);
         }
 
         public override IEnumerable<IPostToDownload> FindFromDateTime(DateTime date)

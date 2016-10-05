@@ -290,8 +290,8 @@ namespace Download.Print.Vosbooks
             data.Images = new WebImage[] { new WebImage(zurl.GetUrl(data.SourceUrl, xe.XPathValue("div[starts-with(@class, 'post-views')]/following-sibling::h3/following-sibling::p/img/@src"))) };
 
             // force load image to get image width and height
-            if (webResult.WebRequest.LoadImageFromWeb)
-                data.Images = DownloadPrint.LoadImages(data.Images).ToArray();
+            //if (webResult.WebRequest.LoadImageFromWeb)
+            //    data.Images = DownloadPrint.LoadImages(data.Images).ToArray();
 
             // get infos, description, language, size, nbPages
             // xe.DescendantTextList(".//p")
@@ -461,15 +461,15 @@ namespace Download.Print.Vosbooks
         }
 
         // à revoir
-        [Obsolete]
-        protected override void LoadDetailImages(Vosbooks_PostDetail data)
-        {
-            data.LoadImages();
-        }
+        //[Obsolete]
+        //protected override void LoadDetailImages(Vosbooks_PostDetail data)
+        //{
+        //    data.LoadImages();
+        //}
 
         public override void LoadNewDocuments()
         {
-            _headerDetailManager.LoadNewDocuments(maxNbDocumentsLoadedFromStore: 10, startPage: 1, maxPage: 10);
+            _headerDetailManager.LoadNewDocuments(maxDocumentsLoadedFromStore: 10, startPage: 1, maxPage: 10);
         }
 
         public override IEnumerable<IPostToDownload> FindFromDateTime(DateTime date)

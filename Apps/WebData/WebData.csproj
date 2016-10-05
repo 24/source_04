@@ -80,6 +80,12 @@
     <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\MongoCollectionManager.cs">
       <Link>SourceLnk\Lib\pb\Data\Mongo\MongoCollectionManager.cs</Link>
     </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\MongoDataSerializer.cs">
+      <Link>SourceLnk\Lib\pb\Data\Mongo\MongoDataSerializer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\MongoDataStore.cs">
+      <Link>SourceLnk\Lib\pb\Data\Mongo\MongoDataStore.cs</Link>
+    </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\MongoDataTableExtension.cs">
       <Link>SourceLnk\Lib\pb\Data\Mongo\MongoDataTableExtension.cs</Link>
     </Compile>
@@ -158,11 +164,23 @@
     <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\DataPages.cs">
       <Link>SourceLnk\Lib\pb\Web\Data\DataPages.cs</Link>
     </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\WebData.cs">
+      <Link>SourceLnk\Lib\pb\Web\Data\WebData.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\WebDataLoad.cs">
+      <Link>SourceLnk\Lib\pb\Web\Data\WebDataLoad.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\WebDataLoad_v2.cs">
+      <Link>SourceLnk\Lib\pb\Web\Data\WebDataLoad_v2.cs</Link>
+    </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\WebDataManager.cs">
       <Link>SourceLnk\Lib\pb\Web\Data\WebDataManager.cs</Link>
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\WebDataManagerImage.cs">
       <Link>SourceLnk\Lib\pb\Web\Data\WebDataManagerImage.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\WebDataManagerMongoDataStore.cs">
+      <Link>SourceLnk\Lib\pb\Web\Data\WebDataManagerMongoDataStore.cs</Link>
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\WebDataPageManager.cs">
       <Link>SourceLnk\Lib\pb\Web\Data\WebDataPageManager.cs</Link>
@@ -170,8 +188,11 @@
     <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\WebHeaderDetailManager.cs">
       <Link>SourceLnk\Lib\pb\Web\Data\WebHeaderDetailManager.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\WebImageCacheManager_v2.cs">
-      <Link>SourceLnk\Lib\pb\Web\Data\WebImageCacheManager_v2.cs</Link>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\WebImageCacheManager_v3.cs">
+      <Link>SourceLnk\Lib\pb\Web\Data\WebImageCacheManager_v3.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\WebLoadDataManager_v2.cs">
+      <Link>SourceLnk\Lib\pb\Web\Data\WebLoadDataManager_v2.cs</Link>
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Web\Html\HtmlReaderBase.cs">
       <Link>SourceLnk\Lib\pb\Web\Html\HtmlReaderBase.cs</Link>
@@ -185,11 +206,35 @@
     <Compile Include="..\..\Lib\pb\Source\pb\Web\Http\Certificate.cs">
       <Link>SourceLnk\Lib\pb\Web\Http\Certificate.cs</Link>
     </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Http\HttpBase.cs">
+      <Link>SourceLnk\Lib\pb\Web\Http\HttpBase.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Http\HttpLoadImage_v2.cs">
+      <Link>SourceLnk\Lib\pb\Web\Http\HttpLoadImage_v2.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Http\HttpLoadText_v2.cs">
+      <Link>SourceLnk\Lib\pb\Web\Http\HttpLoadText_v2.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Http\HttpLoadToFile_v2.cs">
+      <Link>SourceLnk\Lib\pb\Web\Http\HttpLoadToFile_v2.cs</Link>
+    </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Web\Http\HttpManager.cs">
       <Link>SourceLnk\Lib\pb\Web\Http\HttpManager.cs</Link>
     </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Http\HttpManagerLoadImage_v2.cs">
+      <Link>SourceLnk\Lib\pb\Web\Http\HttpManagerLoadImage_v2.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Http\HttpManagerLoadText_v2.cs">
+      <Link>SourceLnk\Lib\pb\Web\Http\HttpManagerLoadText_v2.cs</Link>
+    </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Web\Http\HttpManagerXml.cs">
       <Link>SourceLnk\Lib\pb\Web\Http\HttpManagerXml.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Http\HttpManager_v2.cs">
+      <Link>SourceLnk\Lib\pb\Web\Http\HttpManager_v2.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Http\Http_v2.cs">
+      <Link>SourceLnk\Lib\pb\Web\Http\Http_v2.cs</Link>
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\_pb\Tree.cs">
       <Link>SourceLnk\Lib\pb\_pb\Tree.cs</Link>

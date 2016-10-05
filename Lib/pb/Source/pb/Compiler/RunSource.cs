@@ -278,9 +278,9 @@ namespace pb.Compiler
             {
                 AssemblyResolve.TraceAssemblyResolve = config.Get("TraceAssemblyResolve").zTryParseAs(false);
                 //AssemblyResolve.TraceAssemblyLoad = config.Get("TraceAssemblyLoad").zTryParseAs(false);
-                AssemblyResolve.UpdateAssembly = config.Get("UpdateAssembly").zTryParseAs(false); ;
-                AssemblyResolve.UpdateSubDirectory = config.Get("UpdateAssemblySubDirectory", AssemblyResolve.UpdateSubDirectory); ;
-                AssemblyResolve.TraceUpdateAssembly = config.Get("TraceUpdateAssembly").zTryParseAs(false);
+                //AssemblyResolve.UpdateAssembly = config.Get("UpdateAssembly").zTryParseAs(false); ;
+                //AssemblyResolve.UpdateSubDirectory = config.Get("UpdateAssemblySubDirectory", AssemblyResolve.UpdateSubDirectory); ;
+                //AssemblyResolve.TraceUpdateAssembly = config.Get("TraceUpdateAssembly").zTryParseAs(false);
             }
             AssemblyResolve.Start();
         }

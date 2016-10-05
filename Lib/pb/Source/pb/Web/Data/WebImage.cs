@@ -6,6 +6,10 @@ namespace pb.Web
     //[BsonIgnoreExtraElements]
     public class WebImage
     {
+        public WebImage()
+        {
+        }
+
         public WebImage(string url)
         {
             Url = url;
@@ -17,6 +21,6 @@ namespace pb.Web
         [BsonIgnore]
         public Image Image;
         public int? Width;
-        public int? Heigth;
+        public int? Height;
     }
 }

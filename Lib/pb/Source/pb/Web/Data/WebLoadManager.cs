@@ -7,19 +7,11 @@ namespace pb.Web.Data
     {
         private HttpRequest _httpRequest = null;
         private bool _reloadFromWeb = false;
-        //private bool _loadImage = false;
-        //private bool _loadImageFromWeb = false;
-        //private bool _loadImageToData = false;
-        //private bool _refreshImage = false;
         private bool _refreshDocumentStore = false;
         private WebImageRequest _imageRequest = null;
 
         public HttpRequest HttpRequest { get { return _httpRequest; } set { _httpRequest = value; } }
         public bool ReloadFromWeb { get { return _reloadFromWeb; } set { _reloadFromWeb = value; } }
-        //public bool LoadImage { get { return _loadImage; } set { _loadImage = value; } }
-        //public bool LoadImageFromWeb { get { return _loadImageFromWeb; } set { _loadImageFromWeb = value; } }
-        //public bool LoadImageToData { get { return _loadImageToData; } set { _loadImageToData = value; } }
-        //public bool RefreshImage { get { return _refreshImage; } set { _refreshImage = value; } }
         public WebImageRequest ImageRequest { get { return _imageRequest; } set { _imageRequest = value; } }
         public bool RefreshDocumentStore { get { return _refreshDocumentStore; } set { _refreshDocumentStore = value; } }
     }
@@ -27,13 +19,9 @@ namespace pb.Web.Data
     public class WebImageRequest
     {
         public bool LoadImageFromWeb;
+        public bool LoadMissingImageFromWeb;
         public bool LoadImageToData;
         public bool RefreshImage;
-
-        //public static WebImageRequest FromWebRequest(WebRequest webRequest)
-        //{
-        //    return new WebImageRequest { LoadImageFromWeb = webRequest.LoadImageFromWeb, LoadImageToData = webRequest.LoadImageToData, RefreshImage = webRequest.RefreshImage };
-        //}
     }
 
     public class WebResult
@@ -64,7 +52,7 @@ namespace pb.Web.Data
 
         public WebResult Load(WebRequest webRequest)
         {
-            WebResult loadDataFromWeb = new WebResult { WebRequest = webRequest };
+            WebResult webResult = new WebResult { WebRequest = webRequest };
 
             DateTime loadFromWebDate;
 
@@ -73,13 +61,13 @@ namespace pb.Web.Data
             if (_urlCache != null)
             {
                 //string urlPath = _urlCache.GetUrlPath(httpRequest);
-                loadDataFromWeb.UrlCachePathResult = _urlCache.GetUrlPathResult(httpRequest);
-                string urlPath = loadDataFromWeb.UrlCachePathResult.Path;
+                webResult.UrlCachePathResult = _urlCache.GetUrlPathResult(httpRequest);
+                string urlPath = webResult.UrlCachePathResult.Path;
                 if (webRequest.ReloadFromWeb || !zFile.Exists(urlPath))
                 {
                     _InitLoadFromWeb(httpRequest);
                     if (!HttpManager.CurrentHttpManager.LoadToFile(httpRequest, urlPath, _urlCache.SaveRequest, _GetHttpRequestParameters()))
-                        return loadDataFromWeb;
+                        return webResult;
                 }
                 httpRequest = new HttpRequest { Url = urlPath };
                 // get last write time as loadFromWebDate, dont take creation time because creation time is modified when copying the file
@@ -89,13 +77,13 @@ namespace pb.Web.Data
             else
                 loadFromWebDate = DateTime.Now;
             _InitLoadFromWeb(httpRequest);
-            loadDataFromWeb.Http = HttpManager.CurrentHttpManager.Load(httpRequest, _GetHttpRequestParameters());
-            if (loadDataFromWeb.Http != null)
+            webResult.Http = HttpManager.CurrentHttpManager.Load(httpRequest, _GetHttpRequestParameters());
+            if (webResult.Http != null)
             {
-                loadDataFromWeb.LoadResult = true;
-                loadDataFromWeb.LoadFromWebDate = loadFromWebDate;
+                webResult.LoadResult = true;
+                webResult.LoadFromWebDate = loadFromWebDate;
             }
-            return loadDataFromWeb;
+            return webResult;
         }
 
         private void _InitLoadFromWeb(HttpRequest httpRequest)

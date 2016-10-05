@@ -145,12 +145,6 @@
     <Compile Include="..\..\Lib\pb\Source\pb\Compiler\AssemblyResolve.cs">
       <Link>SourceLnk\Lib\pb\Compiler\AssemblyResolve.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Compiler\Compiler.cs">
-      <Link>SourceLnk\Lib\pb\Compiler\Compiler.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Compiler\CompilerProject.cs">
-      <Link>SourceLnk\Lib\pb\Compiler\CompilerProject.cs</Link>
-    </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Compiler\CSharpCodeWriter.cs">
       <Link>SourceLnk\Lib\pb\Compiler\CSharpCodeWriter.cs</Link>
     </Compile>
@@ -162,12 +156,6 @@
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Compiler\ICompiler.cs">
       <Link>SourceLnk\Lib\pb\Compiler\ICompiler.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Compiler\ICompilerExtension.cs">
-      <Link>SourceLnk\Lib\pb\Compiler\ICompilerExtension.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Compiler\ICompilerProject.cs">
-      <Link>SourceLnk\Lib\pb\Compiler\ICompilerProject.cs</Link>
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Compiler\IRunSource.cs">
       <Link>SourceLnk\Lib\pb\Compiler\IRunSource.cs</Link>
@@ -403,9 +391,6 @@
     <Compile Include="..\..\Lib\pb\Source\pb\Windows\Forms\RunSourceForm\RunSourceFormStatusBar.cs">
       <Link>SourceLnk\Lib\pb\Windows\Forms\RunSource\RunSourceFormStatusBar.cs</Link>
       <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Windows\Forms\ScintillaControl.cs">
-      <Link>SourceLnk\Lib\pb\Windows\Forms\ScintillaControl.cs</Link>
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Windows\Forms\Scintilla\ScintillaBookmark.cs">
       <Link>SourceLnk\Lib\pb\Windows\Forms\Scintilla\ScintillaBookmark.cs</Link>

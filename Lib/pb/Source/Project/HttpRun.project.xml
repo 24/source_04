@@ -31,12 +31,21 @@
   <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Html\HtmlToXml.cs" />
 
   <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\Http.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\Http_v2.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\HttpBase.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\HttpLoadImage_v2.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\HttpLoadText_v2.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\HttpLoadToFile_v2.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\HttpManager.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\HttpManager_v2.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\HttpManagerLoadImage_v2.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\HttpManagerLoadText_v2.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\HttpManagerXml.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\HttpRequest.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\HttpRun.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\HttpXml.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\Url.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\UrlCache.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\XmlDocumentSourceType.cs" />
 
   <!--<FrameworkAssembly                value = "mscorlib.dll" />-->

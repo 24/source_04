@@ -18,7 +18,7 @@
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\DateSerializer.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\DefaultMongoSerializer.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\RunSerializer.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\UrlImageSerializer.cs" />
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\UrlImageSerializer.cs" />-->
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\WebHeaderSerializer.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\ZIntSerializer.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\ZStringArraySerializer.cs" />
@@ -30,7 +30,7 @@
   <Source                           value = "$Root$\Lib\pb\Source\pb\Text\String.cs" />
   <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Text\StringZones.cs" />-->
 
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebImage.cs" />
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebImage.cs" />-->
 
   <FrameworkAssembly                value = "mscorlib.dll" />
   <FrameworkAssembly                value = "System.dll" />

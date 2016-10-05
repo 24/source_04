@@ -56,12 +56,6 @@
     <Compile Include="..\..\Lib\pb\Source\pb\Compiler\AssemblyResolve.cs">
       <Link>SourceLnk\Lib\pb\Compiler\AssemblyResolve.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Compiler\Compiler.cs">
-      <Link>SourceLnk\Lib\pb\Compiler\Compiler.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Compiler\CompilerProject.cs">
-      <Link>SourceLnk\Lib\pb\Compiler\CompilerProject.cs</Link>
-    </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Compiler\CSharpCodeWriter.cs">
       <Link>SourceLnk\Lib\pb\Compiler\CSharpCodeWriter.cs</Link>
     </Compile>
@@ -73,9 +67,6 @@
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Compiler\ICompiler.cs">
       <Link>SourceLnk\Lib\pb\Compiler\ICompiler.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Compiler\ICompilerProject.cs">
-      <Link>SourceLnk\Lib\pb\Compiler\ICompilerProject.cs</Link>
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Compiler\IRunSource.cs">
       <Link>SourceLnk\Lib\pb\Compiler\IRunSource.cs</Link>

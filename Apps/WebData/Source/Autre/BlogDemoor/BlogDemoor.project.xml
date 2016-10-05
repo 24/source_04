@@ -44,6 +44,7 @@
   <Using                                     value = "pb" />
   <Using                                     value = "pb.Data" />
   <Using                                     value = "pb.Data.Mongo" />
+  <Using                                     value = "pb.Web.Data" />
   <Using                                     value = "pb.Data.Xml" />
   <Using                                     value = "pb.Text" />
   <Using                                     value = "pb.Web" />
@@ -65,13 +66,16 @@
   <Source                                    value = "$Root$\Lib\pb\Source\pb\Data\Mongo\MongoCollectionManager.cs" />
   <Source                                    value = "$Root$\Lib\pb\Source\pb\Data\Mongo\MongoCommand.cs" />
   <Source                                    value = "$Root$\Lib\pb\Source\pb\Data\Mongo\MongoCursorCache.cs" />
+  <Source                                    value = "$Root$\Lib\pb\Source\pb\Data\Mongo\MongoDataSerializer.cs" />
+  <Source                                    value = "$Root$\Lib\pb\Source\pb\Data\Mongo\MongoDocumentStore.cs" />
+  <Source                                    value = "$Root$\Lib\pb\Source\pb\Data\Mongo\MongoDataStore.cs" />
   <Source                                    value = "$Root$\Lib\pb\Source\pb\Data\Mongo\MongoDocumentStore.cs" />
   <Source                                    value = "$Root$\Lib\pb\Source\pb\Data\Mongo\MongoIdGenerator.cs" />
   <Source                                    value = "$Root$\Lib\pb\Source\pb\Data\Mongo\MongoLog.cs" />
   <Source                                    value = "$Root$\Lib\pb\Source\pb\Data\Mongo\WebDataMongoManagerBase.cs" />
   <Source                                    value = "$Root$\Lib\pb\Source\pb\Data\Mongo\WebDataPageMongoManagerBase.cs" />
   <Source                                    value = "$Root$\Lib\pb\Source\pb\Data\Mongo\WebHeaderDetailMongoManagerBase.cs" />
-  <Source                                    value = "$Root$\Lib\pb\Source\pb\Data\Mongo\WebImageMongoManager.cs" />
+  <!--<Source                                    value = "$Root$\Lib\pb\Source\pb\Data\Mongo\WebImageMongoManager.cs" />-->
   <!--<Source                                    value = "$Root$\Lib\pb\Source\pb\Data\Mongo\WebImageMongoTools.cs" />-->
 
   <Source                                    value = "$Root$\Lib\pb\Source\pb\Data\Xml\XmlDescendant.cs" />
@@ -80,16 +84,22 @@
   <Source                                    value = "$Root$\Lib\pb\Source\pb\IO\Backup.cs" />
 
   <Source                                    value = "$Root$\Lib\pb\Source\pb\Web\Data\DataPages.cs" />
+  <Source                                    value = "$Root$\Lib\pb\Source\pb\Web\Data\WebData.cs" />
+  <Source                                    value = "$Root$\Lib\pb\Source\pb\Web\Data\WebDataLoad.cs" />
+  <Source                                    value = "$Root$\Lib\pb\Source\pb\Web\Data\WebDataLoad_v2.cs" />
   <Source                                    value = "$Root$\Lib\pb\Source\pb\Web\Data\WebDataManager.cs" />
   <Source                                    value = "$Root$\Lib\pb\Source\pb\Web\Data\WebDataManagerImage.cs" />
+  <Source                                    value = "$Root$\Lib\pb\Source\pb\Web\Data\WebDataManagerMongoDataStore.cs" />
   <Source                                    value = "$Root$\Lib\pb\Source\pb\Web\Data\WebDataPageManager.cs" />
   <Source                                    value = "$Root$\Lib\pb\Source\pb\Web\Data\WebHeaderDetailManager.cs" />
+  <Source                                    value = "$Root$\Lib\pb\Source\pb\Web\Data\WebImage.cs" />
   <Source                                    value = "$Root$\Lib\pb\Source\pb\Web\Data\WebImageCacheManager.cs" />
-  <Source                                    value = "$Root$\Lib\pb\Source\pb\Web\Data\WebImageCacheManager_v2.cs" />
+  <Source                                    value = "$Root$\Lib\pb\Source\pb\Web\Data\WebImageCacheManager_v3.cs" />
   <Source                                    value = "$Root$\Lib\pb\Source\pb\Web\Data\WebImageMongoCacheManager.cs" />
   <Source                                    value = "$Root$\Lib\pb\Source\pb\Web\Data\WebLoadDataManager.cs" />
+  <Source                                    value = "$Root$\Lib\pb\Source\pb\Web\Data\WebLoadDataManager_v2.cs" />
   <Source                                    value = "$Root$\Lib\pb\Source\pb\Web\Data\WebLoadManager.cs" />
-  <Source                                    value = "$Root$\Lib\pb\Source\pb\Web\Http\UrlCache.cs" />
+  <!--<Source                                    value = "$Root$\Lib\pb\Source\pb\Web\Http\UrlCache.cs" />-->
 
   <!--<FrameworkAssembly                         value = "System.ServiceModel.dll" />-->
 </AssemblyProject>

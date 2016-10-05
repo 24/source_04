@@ -210,8 +210,8 @@ namespace Download.Print.ExtremeDown
             data.Images = xeDiv.XPathElement(".//table//td[@class='image-block']").DescendantNodes(node => XmlDescendant.ImageFilter(node)).Select(xeImg => new WebImage(zurl.GetUrl(data.SourceUrl, xeImg.zAttribValue("src")))).ToArray();
 
             // force load image to get image width and height
-            if (webResult.WebRequest.LoadImageFromWeb)
-                data.Images = DownloadPrint.LoadImages(data.Images).ToArray();
+            //if (webResult.WebRequest.LoadImageFromWeb)
+            //    data.Images = DownloadPrint.LoadImages(data.Images).ToArray();
 
             description.AddRange(xeDiv.XPathValues(".//table//td//blockquote//text()"));
 
@@ -320,15 +320,15 @@ namespace Download.Print.ExtremeDown
         }
 
         // à revoir
-        [Obsolete]
-        protected override void LoadDetailImages(ExtremeDown_PostDetail data)
-        {
-            data.LoadImages();
-        }
+        //[Obsolete]
+        //protected override void LoadDetailImages(ExtremeDown_PostDetail data)
+        //{
+        //    data.LoadImages();
+        //}
 
         public override void LoadNewDocuments()
         {
-            _headerDetailManager.LoadNewDocuments(maxNbDocumentsLoadedFromStore: 10, startPage: 1, maxPage: 10);
+            _headerDetailManager.LoadNewDocuments(maxDocumentsLoadedFromStore: 10, startPage: 1, maxPage: 10);
         }
 
         public override IEnumerable<IPostToDownload> FindFromDateTime(DateTime date)

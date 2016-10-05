@@ -1,7 +1,6 @@
 ﻿using pb.Data;
 using pb.Data.Xml;
 using pb.IO;
-using pb.Web.Data.Mongo;
 using System.Xml.Linq;
 
 namespace WebData.BlogDemoor
@@ -12,8 +11,7 @@ namespace WebData.BlogDemoor
         {
             NamedValues<ZValue> parameters2 = ParseParameters(parameters);
             bool test = WebData.GetTestValue(parameters2);
-            //WebImageMongoTools.Init(test);
-            InitLoadImage(test);
+            //InitLoadImage(test);
             return BlogDemoor.Create(test);
         }
 
@@ -31,15 +29,15 @@ namespace WebData.BlogDemoor
             backup.DoBackup();
         }
 
-        private static void InitLoadImage(bool test)
-        {
-            XElement xe;
-            if (!test)
-                xe = XmlConfig.CurrentConfig.GetElement("Image");
-            else
-                xe = XmlConfig.CurrentConfig.GetElement("Image_Test");
-            WebImageMongoManager.Create(xe);
-        }
+        //private static void InitLoadImage(bool test)
+        //{
+        //    XElement xe;
+        //    if (!test)
+        //        xe = XmlConfig.CurrentConfig.GetElement("Image");
+        //    else
+        //        xe = XmlConfig.CurrentConfig.GetElement("Image_Test");
+        //    WebImageMongoManager.Create(xe);
+        //}
 
         public static NamedValues<ZValue> ParseParameters(string parameters)
         {

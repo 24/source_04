@@ -34,7 +34,7 @@ namespace WebData.BlogDemoor
         public int Id;
     }
 
-    public class BlogDemoorDetailData : IKeyData, ILoadImages, IGetWebImages
+    public class BlogDemoorDetailData : IKeyData, IGetWebImages //, ILoadImages
     {
         public string SourceUrl;
         public DateTime? LoadFromWebDate;
@@ -49,11 +49,10 @@ namespace WebData.BlogDemoor
             return Id;
         }
 
-        public void LoadImages(WebImageRequest imageRequest)
-        {
-            //WebImageMongoTools.LoadImages(Images, imageRequest);
-            WebImageMongoManager.Current.LoadImages(Images, imageRequest);
-        }
+        //public void LoadImages(WebImageRequest imageRequest)
+        //{
+        //    WebImageMongoManager.Current.LoadImages(Images, imageRequest);
+        //}
 
         public IEnumerable<WebImage> GetWebImages()
         {
@@ -80,6 +79,7 @@ namespace WebData.BlogDemoor
             __current = new BlogDemoor();
             __current.HeaderPageNominalType = typeof(BlogDemoorHeaderDataPages);
             __current.CreateDataManager(xe);
+            //__current.DetailDataManager.Version = 2;     // use WebData<TData>.Load()
             __current.DetailDataManager.ImageLoadVersion = 2;
             return __current;
         }
@@ -146,18 +146,49 @@ namespace WebData.BlogDemoor
 
         protected override string GetDetailImageCacheUrlSubDirectory(WebData<BlogDemoorDetailData> data)
         {
-            return "Image";
+            //return "Image";
+            //return zPath.Combine("Image", zpath.PathSetExtension(data.Result.UrlCachePathResult.SubPath, null));
+            //return zpath.PathSetExtension(data.Result.UrlCachePathResult.SubPath, null);
+            //UrlCachePathResult urlCachePath = null;
+            string subPath = null;
+            if (data.Result != null)
+                subPath = data.Result.UrlCachePathResult.SubPath;
+            else
+                subPath = data.Result_v2.Http.HttpRequest.UrlCachePath.SubPath;
+            return "img\\" + zpath.PathSetExtension(subPath, null);
         }
 
         private static CultureInfo __cultureInfo = CultureInfo.GetCultureInfo("fr-FR");
         protected override BlogDemoorDetailData GetDetailData(WebResult webResult)
         {
             XXElement xeSource = webResult.Http.zGetXDocument().zXXElement();
+
             BlogDemoorDetailData data = new BlogDemoorDetailData();
             data.SourceUrl = webResult.WebRequest.HttpRequest.Url;
             data.LoadFromWebDate = webResult.LoadFromWebDate;
-
             data.Id = _GetDetailKey(webResult.WebRequest.HttpRequest);
+
+            _GetDetailData(xeSource, data);
+
+            return data;
+        }
+
+        protected override BlogDemoorDetailData GetDetailData_v2(HttpResult<string> httpResult)
+        {
+            XXElement xeSource = httpResult.zGetXDocument().zXXElement();
+
+            BlogDemoorDetailData data = new BlogDemoorDetailData();
+            data.SourceUrl = httpResult.Http.HttpRequest.Url;
+            data.LoadFromWebDate = httpResult.Http.RequestTime;
+            data.Id = _GetDetailKey(httpResult.Http.HttpRequest);
+
+            _GetDetailData(xeSource, data);
+
+            return data;
+        }
+
+        protected void _GetDetailData(XXElement xeSource, BlogDemoorDetailData data)
+        {
 
             // <div id="content">
 
@@ -176,7 +207,7 @@ namespace WebData.BlogDemoor
             if (xeBody.XElement != null)
                 data.Content = xeBody.XElement.ToString();
 
-            data.Images = xeBody.XPathValues(".//a/@href").Select(url => new WebImage(zurl.GetUrl(data.SourceUrl, url))).ToArray();
+            data.Images = xeBody.XPathValues(".//a/@href").Where(url => new Uri(url).Host.EndsWith(".canalblog.com")).Select(url => new WebImage(zurl.GetUrl(data.SourceUrl, url))).ToArray();
 
             // force load image to get image width and height
             //if (webResult.WebRequest.LoadImage)
@@ -184,8 +215,6 @@ namespace WebData.BlogDemoor
 
             //if (__trace)
             //    pb.Trace.WriteLine(data.zToJson());
-
-            return data;
         }
 
         protected override BsonValue GetDetailKey(HttpRequest httpRequest)
@@ -208,16 +237,9 @@ namespace WebData.BlogDemoor
             return key;
         }
 
-        // à revoir
-        //[Obsolete]
-        //protected override void LoadDetailImages(BlogDemoorDetailData data)
-        //{
-        //    //data.LoadImages();
-        //}
-
         public void LoadNewDocuments()
         {
-            _headerDetailManager.LoadNewDocuments(maxNbDocumentsLoadedFromStore: 10, startPage: 1, maxPage: 10);
+            _headerDetailManager.LoadNewDocuments(maxDocumentsLoadedFromStore: 10, startPage: 1, maxPage: 10);
         }
 
         public IEnumerable<BlogDemoorDetailData> Find(string query = null, string sort = null, int limit = 0, bool loadImage = false)

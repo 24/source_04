@@ -11,9 +11,6 @@
   <TraceClassName                              value = "pb.TTrace" />
   
   <!--<TraceAssemblyResolve                        value = "true" /> --><!-- default = "false" -->
-  <!--<UpdateAssembly                              value = "true" /> --><!-- default = "false" -->
-  <!--<UpdateAssemblySubDirectory                  value = "new" /> --><!-- default = "new" -->
-  <!--<TraceUpdateAssembly                         value = "true" /> --><!-- default = "false" -->
   
   <!--<RunSourceDomainName                         value = "RunSource" />-->  <!-- default: "RunSource" -->
   <!--<CreateRunSourceDomain                       value = "true" />-->      <!-- default = false, true, attention si CreateRunSourceDomain = true runsource.launch.exe ne peut pas mettre à jour runsource.runsourced32.exe -->
@@ -68,6 +65,9 @@
     <!--<ResourceCompiler                          value = "c:\Program Files\Microsoft SDKs\Windows\v7.1\Bin\ResGen.exe"/>-->
     <ResourceCompiler                          value = "c:\Program Files (x86)\Microsoft SDKs\Windows\v8.1A\bin\NETFX 4.5.1 Tools\ResGen.exe"/>
     <DisableCompilerMessages                   value = "CS1701"/>
+  <!--<UpdateAssembly                              value = "true" /> --><!-- default = "false" -->
+  <!--<UpdateAssemblySubDirectory                  value = "new" /> --><!-- default = "new" -->
+  <!--<TraceUpdateAssembly                         value = "true" /> --><!-- default = "false" -->
   </CompilerConfig>
   
   <DefaultProject                              value = "$ProjectDirectory$\Lib\pb\Source\Project\Default.project.xml"/>    <!-- used to compile without project  -->

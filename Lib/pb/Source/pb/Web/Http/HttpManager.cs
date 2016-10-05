@@ -9,8 +9,6 @@ namespace pb.Web
     public partial class HttpManager
     {
         private static HttpManager __currentHttpManager = new HttpManager();
-        //private HtmlXmlReader _hxr = null;
-        //private ITrace _trace = pb.Trace.CurrentTrace;
         private bool _traceException = false;
         private int _loadRepeatIfError = 1;
         private int _loadRetryTimeout = 10;                                // timeout in seconds, 0 = no timeout, -1 = endless timeout
@@ -19,7 +17,6 @@ namespace pb.Web
 
         public static HttpManager CurrentHttpManager { get { return __currentHttpManager; } }
 
-        //public ITrace Trace { get { return _trace; } set { _trace = value; } }
         public bool TraceException { get { return _traceException; } set { _traceException = value; } }
         public int LoadRepeatIfError { get { return _loadRepeatIfError; } set { _loadRepeatIfError = value; } }
         public int LoadRetryTimeout { get { return _loadRetryTimeout; } set { _loadRetryTimeout = value; } }
@@ -30,7 +27,6 @@ namespace pb.Web
         {
             try
             {
-                //_hxr.Load(url, requestParameters);
                 for (int i = 0; i < _loadRepeatIfError - 1; i++)
                 {
                     try
@@ -49,8 +45,6 @@ namespace pb.Web
                         }
                         if (ex is ProtocolViolationException)
                             throw;
-                        //if (Trace.CurrentTrace.TraceLevel >= 1)
-                        //    Trace.WriteLine("Error : \"{0}\" ({1})", ex.Message, ex.GetType().ToString());
                         Trace.WriteLine(1, "Error : \"{0}\" ({1})", ex.Message, ex.GetType().ToString());
                     }
                 }
@@ -74,7 +68,6 @@ namespace pb.Web
                 //   at Print.download.w.Run()
 
                 if (_traceException)
-                    //Trace.WriteLine("Error : \"{0}\" ({1})", ex.Message, ex.GetType().ToString());
                     Trace.CurrentTrace.WriteError(ex);
                 else
                     throw;
@@ -84,9 +77,6 @@ namespace pb.Web
 
         private Http _Load(HttpRequest httpRequest, HttpRequestParameters requestParameters = null, string exportFile = null, bool setExportFileExtension = false)
         {
-            //if (Trace.CurrentTrace.TraceLevel >= 1)
-            //    Trace.WriteLine("Load(\"{0}\");", httpRequest.Url);
-            //Trace.WriteLine(1, "Load(\"{0}\");", httpRequest.Url);
             Trace.WriteLine(1, "Load \"{0}\" ({1}){2}", httpRequest.Url, httpRequest.Method, exportFile != null ? "(\"" + exportFile + "\")" : null);
             Http http = CreateHttp(httpRequest, requestParameters, exportFile, setExportFileExtension);
 
@@ -99,7 +89,6 @@ namespace pb.Web
         {
             try
             {
-                //_hxr.LoadToFile(url, file, requestParameters);
                 for (int i = 0; i < _loadRepeatIfError - 1; i++)
                 {
                     try
@@ -116,8 +105,6 @@ namespace pb.Web
                             if (wex.Status == WebExceptionStatus.ProtocolError || wex.Status == WebExceptionStatus.NameResolutionFailure)
                                 throw;
                         }
-                        //if (Trace.CurrentTrace.TraceLevel >= 1)
-                        //    Trace.WriteLine("Error : \"{0}\" ({1})", ex.Message, ex.GetType().ToString());
                         Trace.WriteLine(1, "Error : \"{0}\" ({1})", ex.Message, ex.GetType().ToString());
                     }
                 }
@@ -135,8 +122,6 @@ namespace pb.Web
 
         private bool _LoadToFile(HttpRequest httpRequest, string file, bool exportRequest = false, HttpRequestParameters requestParameters = null)
         {
-            //if (Trace.CurrentTrace.TraceLevel >= 1)
-            //    Trace.WriteLine("LoadToFile(\"{0}\", \"{1}\");", httpRequest.Url, file);
             Trace.WriteLine(1, "LoadToFile(\"{0}\", \"{1}\");", httpRequest.Url, file);
             Http http = CreateHttp(httpRequest, requestParameters);
 
@@ -147,8 +132,6 @@ namespace pb.Web
         {
             try
             {
-                //Image image = _hxr.LoadImage(url, requestParameters);
-                //return image;
                 for (int i = 0; i < _loadRepeatIfError - 1; i++)
                 {
                     try
@@ -167,8 +150,6 @@ namespace pb.Web
                             if (wex.Status == WebExceptionStatus.ProtocolError || wex.Status == WebExceptionStatus.NameResolutionFailure)
                                 throw;
                         }
-                        //if (Trace.CurrentTrace.TraceLevel >= 1)
-                        //    Trace.WriteLine("Error : \"{0}\" ({1})", ex.Message, ex.GetType().ToString());
                         Trace.WriteLine(1, "Error : \"{0}\" ({1})", ex.Message, ex.GetType().ToString());
                     }
                 }
@@ -176,15 +157,13 @@ namespace pb.Web
             }
             catch (Exception ex)
             {
-                pb.Trace.WriteLine("Error : \"{0}\" ({1})", ex.Message, ex.GetType().ToString());
+                Trace.WriteLine("Error : \"{0}\" ({1})", ex.Message, ex.GetType().ToString());
                 return null;
             }
         }
 
         private Image _LoadImage(HttpRequest httpRequest, HttpRequestParameters requestParameters = null)
         {
-            //if (Trace.CurrentTrace.TraceLevel >= 1)
-            //    Trace.WriteLine("LoadImage(\"{0}\");", httpRequest.Url);
             Trace.WriteLine(1, "LoadImage(\"{0}\");", httpRequest.Url);
             if (httpRequest.Url.StartsWith("http://"))
             {
@@ -209,9 +188,6 @@ namespace pb.Web
             Http http = new Http(httpRequest, requestParameters);
             //http.HttpRetry += new Http.fnHttpRetry(LoadRetryEvent);
             http.LoadRetryTimeout = _loadRetryTimeout;
-            //http.ReadCommentInText = _webReadCommentInText;
-            //http.ExportResult = _exportResult;
-            //http.ExportDirectory = _exportDirectory;
             if (exportFile != null)
             {
                 http.ExportFile = exportFile;

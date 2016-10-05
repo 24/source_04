@@ -308,15 +308,15 @@ namespace Download.Print.Test
         }
 
         // à revoir
-        [Obsolete]
-        protected override void LoadDetailImages(Test_PostDetail data)
-        {
-            data.LoadImages();
-        }
+        //[Obsolete]
+        //protected override void LoadDetailImages(Test_PostDetail data)
+        //{
+        //    data.LoadImages();
+        //}
 
         public override void LoadNewDocuments()
         {
-            _headerDetailManager.LoadNewDocuments(maxNbDocumentsLoadedFromStore: 10, startPage: 1, maxPage: 10);
+            _headerDetailManager.LoadNewDocuments(maxDocumentsLoadedFromStore: 10, startPage: 1, maxPage: 10);
         }
 
         public override IEnumerable<IPostToDownload> FindFromDateTime(DateTime date)

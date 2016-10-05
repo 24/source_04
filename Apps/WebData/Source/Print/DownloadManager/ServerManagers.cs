@@ -13,7 +13,8 @@ namespace Download.Print
         bool EnableSearchDocumentToDownload { get; set; }
         string DownloadDirectory { get; set; }
         void LoadNewDocuments();
-        LoadNewDocumentsResult LoadNewDocuments(int maxNbDocumentsLoadedFromStore = 5, int startPage = 1, int maxPage = 20, bool loadImage = true);
+        // bool loadImage = true
+        LoadNewDocumentsResult LoadNewDocuments(int maxNbDocumentsLoadedFromStore = 5, int startPage = 1, int maxPage = 20, WebImageRequest webImageRequest = null);
         IEnumerable<IPostToDownload> FindFromDateTime(DateTime dateTime);
         IEnumerable<IPostToDownload> Find(string query = null, string sort = null, int limit = 0, bool loadImage = false);
         IPostToDownload Load(BsonValue id);

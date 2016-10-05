@@ -8,8 +8,9 @@ namespace pb.IO
 
         public static bool Trace { get { return __trace; } set { __trace = value; } }
 
-        public static bool TryUpdateFile(string file, string newDirectory)
+        public static bool TryUpdateFile(string file, string newDirectory, out string error)
         {
+            error = null;
             if (!zPath.IsPathRooted(newDirectory))
                 newDirectory = zPath.Combine(zPath.GetDirectoryName(file), newDirectory);
             string newFile = zPath.Combine(newDirectory, zPath.GetFileName(file));
@@ -19,8 +20,9 @@ namespace pb.IO
             }
             catch (Exception exception)
             {
-                pb.Trace.WriteLine("error copying file \"{0}\" to \"{1}\"", newFile, file);
-                pb.Trace.WriteLine(exception.Message);
+                //pb.Trace.WriteLine("error copying file \"{0}\" to \"{1}\"", newFile, file);
+                //pb.Trace.WriteLine(exception.Message);
+                error = exception.Message;
                 return false;
             }
         }

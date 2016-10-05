@@ -126,9 +126,6 @@
       <Link>SourceLnk\Lib\pb\Windows\Forms\LogForm.designer.cs</Link>
       <DependentUpon>LogForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Windows\Forms\Menu.cs">
-      <Link>SourceLnk\Lib\pb\Windows\Forms\Menu.cs</Link>
-    </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Windows\Forms\ProgressControl.cs">
       <Link>SourceLnk\Lib\pb\Windows\Forms\ProgressControl.cs</Link>
     </Compile>

@@ -42,7 +42,7 @@ namespace pb.Data.Mongo.Serializers
             BsonPBSerializationProvider.RegisterSerializer(typeof(ZInt), typeof(ZIntSerializer));
             BsonPBSerializationProvider.RegisterSerializer(typeof(ZString), typeof(ZStringSerializer));
             BsonPBSerializationProvider.RegisterSerializer(typeof(ZStringArray), typeof(ZStringArraySerializer));
-            BsonPBSerializationProvider.RegisterSerializer(typeof(WebImage), typeof(UrlImageSerializer));
+            //BsonPBSerializationProvider.RegisterSerializer(typeof(WebImage), typeof(UrlImageSerializer));
             BsonPBSerializationProvider.RegisterSerializer(typeof(WebHeaderCollection), typeof(WebHeaderSerializer));
         }
 
@@ -54,7 +54,7 @@ namespace pb.Data.Mongo.Serializers
             BsonPBSerializationProvider.UnregisterSerializer(typeof(ZInt));
             BsonPBSerializationProvider.UnregisterSerializer(typeof(ZString));
             BsonPBSerializationProvider.UnregisterSerializer(typeof(ZStringArray));
-            BsonPBSerializationProvider.UnregisterSerializer(typeof(WebImage));
+            //BsonPBSerializationProvider.UnregisterSerializer(typeof(WebImage));
             BsonPBSerializationProvider.UnregisterSerializer(typeof(WebHeaderCollection));
         }
     }

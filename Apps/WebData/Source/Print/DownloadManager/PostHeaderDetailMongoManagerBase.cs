@@ -206,10 +206,10 @@ namespace Download.Print
         }
 
         // IServerManager method
-        public virtual LoadNewDocumentsResult LoadNewDocuments(int maxNbDocumentsLoadedFromStore = 5, int startPage = 1, int maxPage = 20, bool loadImageFromWeb = true)
+        // bool loadImageFromWeb = true
+        public virtual LoadNewDocumentsResult LoadNewDocuments(int maxNbDocumentsLoadedFromStore = 5, int startPage = 1, int maxPage = 20, WebImageRequest webImageRequest = null)
         {
-            //throw new PBException("LoadNewDocuments(int maxNbDocumentsLoadedFromStore = 5, int startPage = 1, int maxPage = 20, bool loadImage = true) not implemented");
-            return _headerDetailManager.LoadNewDocuments(maxNbDocumentsLoadedFromStore: maxNbDocumentsLoadedFromStore, startPage: startPage, maxPage: maxPage, loadImageFromWeb: loadImageFromWeb);
+            return _headerDetailManager.LoadNewDocuments(maxDocumentsLoadedFromStore: maxNbDocumentsLoadedFromStore, startPage: startPage, maxPage: maxPage, webImageRequest: webImageRequest);
         }
 
         // getPostList

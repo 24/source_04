@@ -150,6 +150,9 @@
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\IO\ZipArchive.cs">
       <Link>SourceLnk\Lib\pb\IO\ZipArchive.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\IO\zUpdateFiles.cs">
+      <Link>SourceLnk\Lib\pb\IO\zUpdateFiles.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\Reflection\Reflection.cs">
       <Link>SourceLnk\Lib\pb\Reflection\Reflection.cs</Link>
     </Compile>

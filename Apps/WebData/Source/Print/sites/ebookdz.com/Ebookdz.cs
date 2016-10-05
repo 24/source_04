@@ -245,8 +245,8 @@ namespace Download.Print.Ebookdz
             data.Images = xe.DescendantNodes(node => XmlDescendant.ImageFilter(node)).Select(xeImg => new WebImage(zurl.GetUrl(data.SourceUrl, xeImg.zAttribValue("src")))).ToArray();
 
             // force load image to get image width and height
-            if (webResult.WebRequest.LoadImageFromWeb)
-                data.Images = DownloadPrint.LoadImages(data.Images).ToArray();
+            //if (webResult.WebRequest.LoadImageFromWeb)
+            //    data.Images = DownloadPrint.LoadImages(data.Images).ToArray();
 
             // get infos, description, language, size, nbPages
             // xe.DescendantTextList(nodeFilter: node => !(node is XElement) || ((XElement)node).Name != "a")
@@ -305,15 +305,15 @@ namespace Download.Print.Ebookdz
         }
 
         // à revoir
-        [Obsolete]
-        protected override void LoadDetailImages(Ebookdz_PostDetail data)
-        {
-            data.LoadImages();
-        }
+        //[Obsolete]
+        //protected override void LoadDetailImages(Ebookdz_PostDetail data)
+        //{
+        //    data.LoadImages();
+        //}
 
         public override void LoadNewDocuments()
         {
-            _headerDetailManager.LoadNewDocuments(maxNbDocumentsLoadedFromStore: 7, startPage: 1, maxPage: 1);
+            _headerDetailManager.LoadNewDocuments(maxDocumentsLoadedFromStore: 7, startPage: 1, maxPage: 1);
         }
 
         public override IEnumerable<IPostToDownload> FindFromDateTime(DateTime date)

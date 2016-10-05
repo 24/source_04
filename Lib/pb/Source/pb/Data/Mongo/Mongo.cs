@@ -85,9 +85,18 @@ namespace pb.Data.Mongo
             return null;
         }
 
+        //public static T ReadFileAs<T>(string file, Encoding encoding = null)
+        //{
+        //    return BsonSerializer.Deserialize<T>(zfile.ReadAllText(file, encoding));
+        //}
+
         public static T ReadFileAs<T>(string file, Encoding encoding = null)
         {
-            return BsonSerializer.Deserialize<T>(zfile.ReadAllText(file, encoding));
+            //Trace.WriteLine("new ReadFileAs");
+            using (StreamReader sr = zfile.OpenText(file, encoding))
+            {
+                return BsonSerializer.Deserialize<T>(sr);
+            }
         }
 
         public static IEnumerable<T> StringReader<T>(string text)

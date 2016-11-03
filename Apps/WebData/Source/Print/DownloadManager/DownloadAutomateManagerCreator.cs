@@ -72,6 +72,7 @@ namespace Download.Print
             //_config = XmlConfig.CurrentConfig;
             _config = config;
             _localConfig = _config.GetConfig("LocalConfig");
+            //_localConfig = _config.GetConfig("LocalConfig", optional: true);
             _printList1Config = _config.GetConfig("PrintList1Config");
             _printList2Config = _config.GetConfig("PrintList2Config");
         }

@@ -2,14 +2,39 @@
 using pb.Data;
 using pb.Data.Mongo;
 using pb.Reflection;
+using System.Collections;
+using System.IO;
+using pb.IO;
 
 namespace pb.Compiler
 {
     public static class CompilerGlobalExtension
     {
+        public static void zTraceToFile<T>(this T value, string file)
+        {
+            zfile.CreateFileDirectory(file);
+            using (StreamWriter sw = zFile.CreateText(file))
+            {
+                if (value is IEnumerable)
+                {
+                    foreach (object o in value as IEnumerable)
+                        sw.WriteLine(o.ToString());
+                }
+                else if (value != null)
+                    sw.WriteLine(value.ToString());
+                else
+                    sw.WriteLine("value is null");
+            }
+        }
+
         public static void zTrace<T>(this T value)
         {
-            if (value != null)
+            if (value is IEnumerable)
+            {
+                foreach (object o in value as IEnumerable)
+                    Trace.WriteLine(o.ToString());
+            }
+            else if (value != null)
                 Trace.WriteLine(value.ToString());
             else
                 Trace.WriteLine("value is null");

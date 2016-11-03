@@ -350,7 +350,7 @@ namespace Test.Test_Image
             //file = file.zRootPath(RunSource.CurrentRunSource.DataDir);
             file = file.zRootPath(XmlConfig.CurrentConfig.Get("DataDir"));
             Trace.WriteLine("load image \"{0}\"", file);
-            Bitmap bitmap = zimg.LoadFromFile(file);
+            Bitmap bitmap = zimg.LoadBitmapFromFile(file);
             Trace.WriteLine("bitmap width {0} height {1}", bitmap.Width, bitmap.Height);
 
             DataTable dt = new DataTable();

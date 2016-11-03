@@ -87,11 +87,13 @@ namespace pb.Data.Xml
 
         //public static bool InitAllVariablesValues { get { return __initAllVariablesValues; } }
 
+        // using by GlobalExtension.zConfigGetVariableValue (XmlConfig.cs)
         public static XmlConfig CurrentConfig
         {
             get
             {
-                if (__currentConfig == null) __currentConfig = new XmlConfig();
+                // change 17/10/2016
+                //if (__currentConfig == null) __currentConfig = new XmlConfig();
                 return __currentConfig;
             }
             set { __currentConfig = value; }
@@ -465,18 +467,27 @@ namespace pb.Data.Xml
         }
 
         // used in WebData download.config.xml LocalConfig PrintList1Config PrintList2Config (DownloadAutomate_f.cs)
-        public XmlConfig GetConfig(string xpath)
+        // optional : false throw error if config file dont exist, true create empty XmlConfig if config file dont exist
+        public XmlConfig GetConfig(string xpath, bool optional = false)
         {
             //string file = GetExplicit(xpath);
             //if (!zPath.IsPathRooted(file))
             //    file = zPath.Combine(zPath.GetDirectoryName(_xmlConfig.ConfigPath), file);
             string file = GetExplicit(xpath).zRootPath(zPath.GetDirectoryName(_xmlConfig.ConfigFile));
-            if (!zFile.Exists(file))
-                throw new pb.PBException("file does'nt exists \"{0}\"", file);
+            //if (!zFile.Exists(file))
+            //    throw new pb.PBException("file does'nt exists \"{0}\"", file);
             XmlConfigFile configFile;
             if (!_configFiles.ContainsKey(file))
             {
-                configFile = new XmlConfigFile { Config = new XmlConfig(file), FileTime = zFile.GetLastWriteTime(file) };
+                if (!zFile.Exists(file))
+                {
+                    if (optional)
+                        configFile = new XmlConfigFile { Config = new XmlConfig(), FileTime = DateTime.Now };
+                    else
+                        throw new pb.PBException("file does'nt exists \"{0}\"", file);
+                }
+                else
+                    configFile = new XmlConfigFile { Config = new XmlConfig(file), FileTime = zFile.GetLastWriteTime(file) };
                 _configFiles.Add(file, configFile);
             }
             else
@@ -567,20 +578,21 @@ namespace pb.Data.Xml
     ********************************************************/
     #endregion
 
-    public static partial class GlobalExtension
-    {
-        public static string zConfigGetVariableValue(this string value, XmlConfig config = null)
-        {
-            //XmlConfig config = XmlConfig.CurrentConfig;
-            if (config == null)
-                config = XmlConfig.CurrentConfig;
-            XElement root = null;
-            if (config != null)
-                root = config.XDocument.Root;
-            string newValue;
-            if (!root.zTryGetVariableValue(value, out newValue, traceError: true))
-                throw new PBException("cant get variable value from \"{0}\"", value);
-            return newValue;
-        }
-    }
+    // not used 17/10/2016
+    //public static partial class GlobalExtension
+    //{
+    //    public static string zConfigGetVariableValue(this string value, XmlConfig config = null)
+    //    {
+    //        //XmlConfig config = XmlConfig.CurrentConfig;
+    //        if (config == null)
+    //            config = XmlConfig.CurrentConfig;
+    //        XElement root = null;
+    //        if (config != null)
+    //            root = config.XDocument.Root;
+    //        string newValue;
+    //        if (!root.zTryGetVariableValue(value, out newValue, traceError: true))
+    //            throw new PBException("cant get variable value from \"{0}\"", value);
+    //        return newValue;
+    //    }
+    //}
 }

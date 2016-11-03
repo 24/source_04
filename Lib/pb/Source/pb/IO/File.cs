@@ -787,6 +787,18 @@ namespace pb.IO
                     return false;
             }
         }
+
+        // append file2 to file1
+        public static void AppendFileToFile(string file1, string file2)
+        {
+            using (FileStream fs1 = new FileStream(file1, FileMode.Append, FileAccess.Write, FileShare.Read))
+            {
+                using (FileStream fs2 = new FileStream(file2, FileMode.Open, FileAccess.Read, FileShare.Read))
+                {
+                    fs2.CopyTo(fs1);
+                }
+            }
+        }
     }
 
     //public static partial class GlobalExtension

@@ -30,6 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DocumentFormat.OpenXml, Version=2.5.5631.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\library\OpenXml-sdk\OpenXml.v2.6.1\DocumentFormat.OpenXml.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.JScript" />
     <Reference Include="MongoDB.Bson">
       <HintPath>..\..\..\..\..\..\..\prog\dev\mongodb\driver\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Bson.dll</HintPath>
@@ -49,6 +53,9 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.IO.Packaging">
+      <HintPath>..\..\..\library\OpenXml-sdk\OpenXml.v2.6.1\System.IO.Packaging.dll</HintPath>
+    </Reference>
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
@@ -104,14 +111,26 @@
     <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\WebHeaderDetailMongoManagerBase.cs">
       <Link>SourceLnk\Lib\pb\Data\Mongo\WebHeaderDetailMongoManagerBase.cs</Link>
     </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\WebHeaderDetailMongoManagerBase_v2.cs">
+      <Link>SourceLnk\Lib\pb\Data\Mongo\WebHeaderDetailMongoManagerBase_v2.cs</Link>
+    </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\WebHeaderMongoManagerBase.cs">
       <Link>SourceLnk\Lib\pb\Data\Mongo\WebHeaderMongoManagerBase.cs</Link>
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\WebImageMongoManager.cs">
       <Link>SourceLnk\Lib\pb\Data\Mongo\WebImageMongoManager.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\WebImageMongoTools.cs">
-      <Link>SourceLnk\Lib\pb\Data\Mongo\WebImageMongoTools.cs</Link>
+    <Compile Include="..\..\Lib\pb\Source\pb\Data\OpenXml\AnchorDrawing.cs">
+      <Link>SourceLnk\Lib\pb\Data\OpenXml\AnchorDrawing.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Data\OpenXml\Graphic.cs">
+      <Link>SourceLnk\Lib\pb\Data\OpenXml\Graphic.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Data\OpenXml\zDocXElement.cs">
+      <Link>SourceLnk\Lib\pb\Data\OpenXml\zDocXElement.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Data\OpenXml\zOpenXmlDoc.cs">
+      <Link>SourceLnk\Lib\pb\Data\OpenXml\zOpenXmlDoc.cs</Link>
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Data\TraceData\ITraceData.cs">
       <Link>SourceLnk\Lib\pb\Data\TraceData\ITraceData.cs</Link>
@@ -167,32 +186,41 @@
     <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\WebData.cs">
       <Link>SourceLnk\Lib\pb\Web\Data\WebData.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\WebDataLoad.cs">
-      <Link>SourceLnk\Lib\pb\Web\Data\WebDataLoad.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\WebDataLoad_v2.cs">
-      <Link>SourceLnk\Lib\pb\Web\Data\WebDataLoad_v2.cs</Link>
-    </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\WebDataManager.cs">
       <Link>SourceLnk\Lib\pb\Web\Data\WebDataManager.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\WebDataManagerImage.cs">
-      <Link>SourceLnk\Lib\pb\Web\Data\WebDataManagerImage.cs</Link>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\WebDataManager_v4.cs">
+      <Link>SourceLnk\Lib\pb\Web\Data\WebDataManager_v4.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\WebDataManagerMongoDataStore.cs">
-      <Link>SourceLnk\Lib\pb\Web\Data\WebDataManagerMongoDataStore.cs</Link>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\WebDataManager_v4_MongoDataStore.cs">
+      <Link>SourceLnk\Lib\pb\Web\Data\WebDataManager_v4_MongoDataStore.cs</Link>
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\WebDataPageManager.cs">
       <Link>SourceLnk\Lib\pb\Web\Data\WebDataPageManager.cs</Link>
     </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\WebData_Load_v1.cs">
+      <Link>SourceLnk\Lib\pb\Web\Data\WebData_Load_v1.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\WebData_Load_v2.cs">
+      <Link>SourceLnk\Lib\pb\Web\Data\WebData_Load_v2.cs</Link>
+    </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\WebHeaderDetailManager.cs">
       <Link>SourceLnk\Lib\pb\Web\Data\WebHeaderDetailManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\WebHeaderDetailManager_v4.cs">
+      <Link>SourceLnk\Lib\pb\Web\Data\WebHeaderDetailManager_v4.cs</Link>
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\WebImageCacheManager_v3.cs">
       <Link>SourceLnk\Lib\pb\Web\Data\WebImageCacheManager_v3.cs</Link>
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\WebLoadDataManager_v2.cs">
       <Link>SourceLnk\Lib\pb\Web\Data\WebLoadDataManager_v2.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\WebLoadImageManager_v2.cs">
+      <Link>SourceLnk\Lib\pb\Web\Data\WebLoadImageManager_v2.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Html\HtmlDocReader.cs">
+      <Link>SourceLnk\Lib\pb\Web\Html\HtmlDocReader.cs</Link>
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Web\Html\HtmlReaderBase.cs">
       <Link>SourceLnk\Lib\pb\Web\Html\HtmlReaderBase.cs</Link>
@@ -202,6 +230,9 @@
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Web\Html\HtmlReader_v3.cs">
       <Link>SourceLnk\Lib\pb\Web\Html\HtmlReader_v3.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Html\HtmlReader_v4.cs">
+      <Link>SourceLnk\Lib\pb\Web\Html\HtmlReader_v4.cs</Link>
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Web\Http\Certificate.cs">
       <Link>SourceLnk\Lib\pb\Web\Http\Certificate.cs</Link>
@@ -568,6 +599,8 @@
     <Compile Include="Source\Autre\BlogDemoor\BlogDemoor_v1.cs" />
     <None Include="Source\Autre\BlogDemoor\BlogDemoor.run.cs" />
     <Compile Include="Source\Autre\BlogDemoor\BlogDemoorRun.cs" />
+    <Compile Include="Source\Autre\BlogDemoor\BlogDemoor_v4.cs" />
+    <Compile Include="Source\Autre\BlogDemoor\HtmlToDocx.cs" />
     <Compile Include="Source\Autre\BlogDemoor\WebData.cs" />
     <Compile Include="Source\Print\DownloadManager\DownloadAutomateManagerCreator.cs" />
     <Compile Include="Source\Print\DownloadManager\FindPrintManagerCreator.cs" />
@@ -599,6 +632,7 @@
     <Compile Include="Source\Print\Print\FindPrint.cs" />
     <Compile Include="Source\Print\Print\FindPrintManager.cs" />
     <None Include="Source\Print\Print\_old\IPost.cs" />
+    <Compile Include="Source\Print\Print\InfoFile.cs" />
     <Compile Include="Source\Print\Print\PrintDirectoryManager.cs" />
     <Compile Include="Source\Print\Print\PrintFileManager.cs" />
     <Compile Include="Source\Print\Print\PrintFileManager_v2.cs" />
@@ -679,7 +713,7 @@
     <None Include="Source\Print\Print\Print\_old\le_monde\le_monde_f.cs" />
     <Compile Include="Source\Print\Print\Print\_old\le_monde\le_monde_f2.cs" />
     <Compile Include="Source\Print\Print\zprint.cs" />
-    <None Include="Source\Print\Project\download.test.run.cs" />
+    <None Include="Source\Print\Project\download.run.cs" />
     <None Include="Source\Print\Project\download2.cs" />
     <None Include="Source\Print\Project\_old\download_f.cs" />
     <None Include="Source\Print\Project\_old\compile.cs" />
@@ -784,16 +818,23 @@
     <Content Include="Source\Print\Print\Test\Test_Unit_FindPrint.project.xml">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Source\Print\Project\download.dll.compile.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Source\Print\Project\download.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Source\Print\Project\download.config.xml">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Source\Print\Project\download.dll.project.xml">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Source\Print\Project\download.source.project.xml" />
     <Content Include="Source\Print\Project\download.test.project.xml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Source\Print\Project\download.project.xml">
+    <Content Include="Source\Print\Project\download.v2.project.xml">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Source\Print\Project\download.projects.xml">

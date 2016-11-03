@@ -14,13 +14,14 @@
 
 Trace.WriteLine("toto");
 "toto".zView();
+Trace.WriteLine(XmlConfig.CurrentConfig?.ConfigFile ?? "(null)");
 
 RunSource.CurrentRunSource.SetProjectFromSource();
 
 //RunSource.CurrentRunSource.CompileProject(@"$Root$\Apps\WebData\Source\Print\Project\download.project.xml");
 ProjectCompiler.TraceLevel = 2;
 RunSource.CurrentRunSource.CompileProjects(@"$Root$\Apps\WebData\Source\Print\Project\download.projects.xml");
-RunSource.CurrentRunSource.CompileProject(@"$Root$\Lib\pb\Source\Project\Extension_01.project.xml");
+//RunSource.CurrentRunSource.CompileProject(@"$Root$\Lib\pb\Source\Project\Extension_01.project.xml");
 
 Trace.CurrentTrace.TraceLevel = 0;
 Trace.CurrentTrace.TraceLevel = 1;
@@ -2371,11 +2372,12 @@ WebData.RenameDailyPrintFiles(sourceDirectory, destinationDirectory, logFile, si
 
 // manage new print
 string[] directories = new string[] {
-	//@"g:\pib\media\ebook\_dl\_dl_pib\print\03\print"
-	@"g:\pib\media\ebook\Journaux\print"
+	@"g:\pib\media\ebook\_dl\_dl_pib\print\05\print",
+	@"g:\pib\media\ebook\_dl\_dl_pib\print\06\print"
+  	//@"g:\pib\media\ebook\Journaux\print"
 	};
 //DownloadAutomate_f.Test_ManageDirectories_01(directories, @"g:\pib\media\ebook\print", usePrintDirectories: true, simulate: false, moveFiles: true);
-WebData.ManageDirectories(directories, @"g:\pib\media\ebook\print", usePrintDirectories: true, simulate: false, moveFiles: true);
+WebData.ManageDirectories(directories, @"g:\pib\media\ebook\print", usePrintDirectories: true, simulate: false, moveFiles: true, moveInfoFiles: true);
 
 // manage new book
 string[] directories = new string[] {

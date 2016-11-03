@@ -1,24 +1,72 @@
 // $$info.
 
+Trace.WriteLine("toto");
+
+
+//**********************************************************************************************************************************************************************************************
+//****                                                   new
+//**********************************************************************************************************************************************************************************************
+
+WebData.CreateDataManager_v4().HeaderDetailManager.LoadNewDocuments(maxDocumentsLoadedFromStore: 5, startPage: 1, maxPage: 0, webImageRequest: new WebImageRequest { LoadImageFromWeb = true }).zTraceJson();
+WebData.CreateDataManager_v4().HeaderDetailManager.LoadDetails(startPage: 1, maxPage: 1, reloadHeaderPage: true, reloadDetail: false, loadImageFromWeb: false, loadImageToData: false, refreshImage: false, refreshDocumentStore: false).zView();
+
+
+TraceMongoCommand.Export("BlogDemoor", "BlogDemoor_Detail", @"c:\pib\drive\google\map\voyage Demoor\sites\BlogDemoor\mongo\export_BlogDemoor_Detail.txt", sort: "{ '_id': -1 }");
+TraceMongoCommand.Eval("db.getCollectionNames()", "BlogDemoor");
+//TraceMongoCommand.Eval("db.BlogDemoor_Detail.drop()", "BlogDemoor");
+
+//**********************************************************************************************************************************************************************************************
+//****                                                   old
+//**********************************************************************************************************************************************************************************************
 
 //WebData.CreateDataManager().HeaderDetailManager.LoadNewDocuments(maxDocumentsLoadedFromStore: 5, startPage: 1, maxPage: 0, loadImageFromWeb: true).zTraceJson();
 WebData.CreateDataManager().HeaderDetailManager.LoadNewDocuments(maxDocumentsLoadedFromStore: 5, startPage: 1, maxPage: 0, webImageRequest: new WebImageRequest { LoadImageFromWeb = true }).zTraceJson();
 WebData.Backup();
-
-TraceMongoCommand.Export("BlogDemoor", "BlogDemoor_Detail", @"c:\pib\drive\google\map\voyage Demoor\sites\BlogDemoor\mongo\export_BlogDemoor_Detail.txt", sort: "{ '_id': -1 }");
-
 
 
 //**********************************************************************************************************************************************************************************************
 //****                                                   Test
 //**********************************************************************************************************************************************************************************************
 
-WebData.CreateDataManager("test = true").HeaderDetailManager.LoadNewDocuments(maxDocumentsLoadedFromStore: 5, startPage: 1, maxPage: 1, webImageRequest: new WebImageRequest { LoadImageFromWeb = true }).zTraceJson();
-WebData.CreateDataManager("test = true").HeaderDetailManager.LoadNewDocuments(maxDocumentsLoadedFromStore: 5, startPage: 1, maxPage: 1, webImageRequest: new WebImageRequest { LoadImageFromWeb = true, LoadMissingImageFromWeb = true }).zTraceJson();
+WebData.CreateDataManager_v4("test = true").HeaderDetailManager.LoadNewDocuments(maxDocumentsLoadedFromStore: 5, startPage: 1, maxPage: 1, webImageRequest: new WebImageRequest { LoadImageFromWeb = true }).zTraceJson();
+// LoadNewDocuments ne peut pas charger les missing images (LoadMissingImageFromWeb)
+// loadImage: true
+WebData.CreateDataManager_v4("test = true").HeaderDetailManager.LoadHeaderDetails(startPage: 1, maxPage: 1, reloadHeaderPage: true, reloadDetail: false, refreshDocumentStore: false).zView();
 
 TraceMongoCommand.Export("BlogDemoor_test", "BlogDemoor_Detail_Test", @"c:\pib\drive\google\map\voyage Demoor\sites\BlogDemoor.test\mongo\export_BlogDemoor_Detail_Test.txt", sort: "{ '_id': -1 }");
 TraceMongoCommand.Eval("db.getCollectionNames()", "BlogDemoor_test");
 //TraceMongoCommand.Eval("db.BlogDemoor_Detail_Test.drop()", "BlogDemoor_test");
+
+//**********************************************************************************************************************************************************************************************
+//****                                                   Test HtmlToDocx
+//**********************************************************************************************************************************************************************************************
+
+Test_HtmlToDocx.Test_01(@"c:\pib\_dl\test\BlogDemoor\mongo\page_01.html");
+Test_HtmlToDocx.Test_02(@"c:\pib\_dl\test\BlogDemoor\mongo\page_01.html");
+Test_HtmlToDocx.Test_03(@"c:\pib\_dl\test\BlogDemoor\mongo\page_01.html");
+Test_HtmlToDocx.Test_04(@"c:\pib\_dl\test\BlogDemoor\mongo\page_01.html");
+Test_HtmlToDocx.Test_05(@"c:\pib\_dl\test\BlogDemoor\mongo\page_01.html");
+
+//**********************************************************************************************************************************************************************************************
+//****                                                   Test Test_OpenXml.project.xml
+//**********************************************************************************************************************************************************************************************
+
+RunSource.CurrentRunSource.SetProjectFromSource();
+RunSource.CurrentRunSource.SetProject(@"$Root$\Test\Test.Test_01\Source\Test_OpenXml\Test_OpenXml.project.xml");
+RunSource.CurrentRunSource.SetProject(@"$Root$\Lib\pb\Source\pb\Data\OpenXml\Test\Test_OpenXml.project.xml");
+
+Test_OpenXml_06.Test_01();
+Test_OpenXml_06.Test_02();
+
+//**********************************************************************************************************************************************************************************************
+//****                                                   Test old
+//**********************************************************************************************************************************************************************************************
+
+WebData.CreateDataManager("test = true").HeaderDetailManager.LoadNewDocuments(maxDocumentsLoadedFromStore: 5, startPage: 1, maxPage: 1, webImageRequest: new WebImageRequest { LoadImageFromWeb = true }).zTraceJson();
+// LoadNewDocuments ne peut pas charger les missing images (LoadMissingImageFromWeb)
+//WebData.CreateDataManager("test = true").HeaderDetailManager.LoadNewDocuments(maxDocumentsLoadedFromStore: 5, startPage: 1, maxPage: 1, webImageRequest: new WebImageRequest { LoadImageFromWeb = true, LoadMissingImageFromWeb = true }).zTraceJson();
+
+
 
 //*************************************************************************************************************************
 //****
@@ -140,6 +188,8 @@ Test_HttpLog.Test_WebHeader_01();
 Test_HttpLog.Test_WebHeader_02();
 Test_HttpLog.Test_WebHeader_03();
 new Uri("http://p1.storage.canalblog.com/11/54/1436926/112126657.jpg").Host.zTrace();
+Uri uri = new Uri("http://p1.storage.canalblog.com/11/54/1436926/112126657.jpg");
+uri.Segments[uri.Segments.Length - 1].zTrace();
 
 
 RunSource.CurrentRunSource.SetProjectFromSource();

@@ -121,7 +121,7 @@ namespace pb.old
         {
             try
             {
-                Image image = zimg.LoadFromFile(file);
+                Image image = zimg.LoadBitmapFromFile(file);
                 if (image.Height > 200)
                     image = image.zResize(height: 200);
                 return image;

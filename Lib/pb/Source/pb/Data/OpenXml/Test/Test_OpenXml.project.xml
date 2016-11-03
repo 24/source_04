@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<AssemblyProject>
+  
+  <Root                                      value = "..\..\..\..\..\..\.." />
+
+  <Language                                  name = "CSharp5" version = "6" />
+  <FrameworkVersion                          value = "4.6.1" />  <!-- CSharp5 option : 2.0, 3.0, 3.5, 3.5 client, 4.0, 4.0 client, 4.5, 4.5.1, 4.5.2, 4.6, 4.6.1 -->
+  <GenerateInMemory                          value = "false" />  <!-- CSharp1, JScript option -->
+  <DebugInformation                          value = "true" />  <!-- CSharp1, CSharp5, JScript option -->
+  <WarningLevel                              value = "4" /> <!-- CSharp1, CSharp5, JScript option : 0 no warning, 1 severe warning, 2 + less-severe warnings 1, 3 + less-severe warnings 2, 4 all warning -->
+  <CompilerOptions                           value = "/define:DEBUG;TRACE" />  <!-- CSharp1, JScript option -->
+  <PreprocessorSymbol                        value = "DEBUG;TRACE" />  <!-- CSharp5 option -->
+
+  <IncludeProject                            value = "$Root$\Lib\pb\Source\Project\Basic.project.xml" />
+  <IncludeProject                            value = "$Root$\Lib\pb\Source\Project\RunSourceExtension.project.xml" />
+
+  <NameSpace                                 value = "pb.Data.OpenXml.Test" />
+
+  <!--<InitMethod                                value = "pb.Web.Test.Test_Run.Init" />-->
+  <!--<EndMethod                                 value = "pb.Web.Test.Test_Run.End" />-->
+
+  <!--<Using                                     value = "System.IO" />-->
+
+  <Source                                    value = "Test_OpenXml_06.cs" />
+  
+  <Source                                    value = "$Root$\Lib\pb\Source\pb\Data\Image.cs" />
+
+  <Source                                    value = "$Root$\Lib\pb\Source\pb\Data\OpenXml\AnchorDrawing.cs" />
+  <Source                                    value = "$Root$\Lib\pb\Source\pb\Data\OpenXml\Graphic.cs" />
+  <Source                                    value = "$Root$\Lib\pb\Source\pb\Data\OpenXml\zDocXElement.cs" />
+  <Source                                    value = "$Root$\Lib\pb\Source\pb\Data\OpenXml\zOpenXmlDoc.cs" />
+
+  <Assembly                                  value = "$Root$\Lib\LongPath\Pri.LongPath\bin\Debug\Pri.LongPath.dll" />
+  <!--<Assembly                                  value = "c:\Program Files (x86)\Open XML SDK\V2.5\lib\DocumentFormat.OpenXml.dll" />-->
+  <Assembly                                  value = "$Root$\..\library\OpenXml-sdk\OpenXml.v2.6.1\DocumentFormat.OpenXml.dll" resolve = "true" resolveName = "DocumentFormat.OpenXml, Version=2.6.0.0, Culture=neutral, PublicKeyToken=null" />
+  <Assembly                                  value = "$Root$\..\library\nuget\System.IO.Packaging\System.IO.Packaging,v1.0\System.IO.Packaging.dll" />
+  <Assembly                                  value = "$Root$\..\library\DocX\DocX.v1.0.0.23\DocX.dll" resolve = "true" resolveName = "DocX, Version=1.0.0.23, Culture=neutral, PublicKeyToken=null" />
+  <FrameworkAssembly                         value = "WindowsBase.dll" />
+</AssemblyProject>

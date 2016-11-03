@@ -180,6 +180,7 @@
   <Image>
     <UseUrlCache                                                 value = "true" />
     <CacheDirectory                                              value = "$DataDir$\sites\_images" />
+    <!--<CacheUrlFileNameType                                        value = "Path" />-->
     <UseMongo                                                    value = "true" />
     <MongoServer                                                 value = "mongodb://localhost" />
     <MongoDatabase                                               value = "dl" />

@@ -138,38 +138,37 @@ namespace pb.IO
 
         public static IEnumerable<string> EnumerateDirectories(string directory, string pattern = null, int minLevel = 0, int maxLevel = 0)
         {
-            return from dir in EnumerateDirectoriesInfo(directory, pattern,
-                       dirInfo =>
-                           new EnumDirectoryFilter
-                           {
-                               Select = (minLevel == 0 || dirInfo.Level >= minLevel) && (maxLevel == 0 || dirInfo.Level <= maxLevel),
-                               RecurseSubDirectory = maxLevel == 0 || dirInfo.Level < maxLevel
-                           }
-                       )
-                   select dir.Directory;
+            Func<EnumDirectoryInfo, EnumDirectoryFilter> directoryFilter =
+                dirInfo =>
+                    new EnumDirectoryFilter
+                    {
+                        Select = (minLevel == 0 || dirInfo.Level >= minLevel) && (maxLevel == 0 || dirInfo.Level <= maxLevel),
+                        RecurseSubDirectory = maxLevel == 0 || dirInfo.Level < maxLevel
+                    };
+            return from dir in EnumerateDirectoriesInfo(directory, pattern, new Func<EnumDirectoryInfo, EnumDirectoryFilter>[] { directoryFilter }) select dir.Directory;
         }
 
-        //public static IEnumerable<EnumDirectoryInfo> EnumerateDirectoriesInfo(string directory, string pattern = null, int minLevel = 0, int maxLevel = 0)
         public static IEnumerable<EnumDirectoryInfo> EnumerateDirectoriesInfo(string directory, int minLevel, int maxLevel = 0, string pattern = null,
             Func<EnumDirectoryInfo, EnumDirectoryFilter> directoryFilter = null, bool getSubDirectoryNumber = false)
         {
-            return EnumerateDirectoriesInfo(directory, pattern,
-                directoryFilter: dirInfo =>
-                       {
-                           EnumDirectoryFilter result = new EnumDirectoryFilter
-                           {
-                               Select = (minLevel == 0 || dirInfo.Level >= minLevel) && (maxLevel == 0 || dirInfo.Level <= maxLevel),
-                               RecurseSubDirectory = maxLevel == 0 || dirInfo.Level < maxLevel
-                           };
-                           if (directoryFilter != null && (result.Select || result.RecurseSubDirectory))
-                           {
-                               EnumDirectoryFilter result2 = directoryFilter(dirInfo);
-                               result.Select = result.Select & result2.Select;
-                               result.RecurseSubDirectory = result.RecurseSubDirectory & result2.RecurseSubDirectory;
-                           }
-                           return result;
-                       },
-                       getSubDirectoryNumber: getSubDirectoryNumber);
+            Func<EnumDirectoryInfo, EnumDirectoryFilter> directoryFilter2 =
+                dirInfo =>
+                {
+                    EnumDirectoryFilter result = new EnumDirectoryFilter
+                    {
+                        Select = (minLevel == 0 || dirInfo.Level >= minLevel) && (maxLevel == 0 || dirInfo.Level <= maxLevel),
+                        RecurseSubDirectory = maxLevel == 0 || dirInfo.Level < maxLevel
+                    };
+                    if (directoryFilter != null && (result.Select || result.RecurseSubDirectory))
+                    {
+                        EnumDirectoryFilter result2 = directoryFilter(dirInfo);
+                        result.Select = result.Select & result2.Select;
+                        result.RecurseSubDirectory = result.RecurseSubDirectory & result2.RecurseSubDirectory;
+                    }
+                    return result;
+                };
+
+            return EnumerateDirectoriesInfo(directory, pattern, directoryFilters: new Func<EnumDirectoryInfo, EnumDirectoryFilter>[] { directoryFilter2 }, getSubDirectoryNumber: getSubDirectoryNumber);
         }
 
         // followDirectoryTree : followDirectoryTree est appelé quand on entre dans un répertoire et quand on en sort
@@ -180,8 +179,12 @@ namespace pb.IO
         //   entré dans tutu EnumDirectoryInfo = Directory: "c:\toto\tata\tutu" SubDirectory: "tutu" Level: 2
         //   sortie de tutu EnumDirectoryInfo = Directory: null SubDirectory: null Level: 2
         //   sortie de tata EnumDirectoryInfo = Directory: null SubDirectory: null Level: 1
-        public static IEnumerable<EnumDirectoryInfo> EnumerateDirectoriesInfo(string directory, string pattern = null, Func<EnumDirectoryInfo, EnumDirectoryFilter> directoryFilter = null,
-            Action<EnumDirectoryInfo> followDirectoryTree = null, bool getSubDirectoryNumber = false)
+        public static IEnumerable<EnumDirectoryInfo> EnumerateDirectoriesInfo(string directory, string pattern = null,
+            //Func<EnumDirectoryInfo, EnumDirectoryFilter> directoryFilter = null,
+            IEnumerable<Func<EnumDirectoryInfo, EnumDirectoryFilter>> directoryFilters = null,
+            //Action<EnumDirectoryInfo> followDirectoryTree = null,
+            IEnumerable<Action<EnumDirectoryInfo>> followDirectoryTrees = null,
+            bool getSubDirectoryNumber = false)
         {
             if (!zDirectory.Exists(directory))
                 yield break;
@@ -205,13 +208,18 @@ namespace pb.IO
                         enumDirectoryInfo.Number = directoryNumberInfo.Number;
                     }
 
-                    if (directoryFilter != null)
-                        enumDirectoryFilter = directoryFilter(enumDirectoryInfo);
+                    //if (directoryFilter != null)
+                    //    enumDirectoryFilter = directoryFilter(enumDirectoryInfo);
+                    if (directoryFilters != null)
+                        enumDirectoryFilter = EvaluateDirectoryFilters(directoryFilters, enumDirectoryInfo);
 
                     if (enumDirectoryFilter.Select)
                     {
-                        if (followDirectoryTree != null)
-                            followDirectoryTree(enumDirectoryInfo);
+                        //if (followDirectoryTree != null)
+                        //    followDirectoryTree(enumDirectoryInfo);
+                        if (followDirectoryTrees != null)
+                            FollowDirectoryTrees(followDirectoryTrees, enumDirectoryInfo);
+
                         //if (getSubDirectoryNumber)
                         //{
                         //    FilenameNumberInfo directoryNumberInfo = FilenameNumberInfo.GetFilenameNumberInfo(enumDirectoryInfo.SubDirectory);
@@ -220,14 +228,20 @@ namespace pb.IO
                         //    enumDirectoryInfo.Number = directoryNumberInfo.Number;
                         //}
                         yield return enumDirectoryInfo;
-                        if (!enumDirectoryFilter.RecurseSubDirectory && followDirectoryTree != null)
-                            followDirectoryTree(new EnumDirectoryInfo { Level = level });
+
+                        //if (!enumDirectoryFilter.RecurseSubDirectory && followDirectoryTree != null)
+                        //    followDirectoryTree(new EnumDirectoryInfo { Level = level });
+                        if (!enumDirectoryFilter.RecurseSubDirectory && followDirectoryTrees != null)
+                            FollowDirectoryTrees(followDirectoryTrees, new EnumDirectoryInfo { Level = level });
                     }
 
                     if (enumDirectoryFilter.RecurseSubDirectory)
                     {
-                        if (!enumDirectoryFilter.Select && followDirectoryTree != null)
-                            followDirectoryTree(enumDirectoryInfo);
+                        //if (!enumDirectoryFilter.Select && followDirectoryTree != null)
+                        //    followDirectoryTree(enumDirectoryInfo);
+                        if (!enumDirectoryFilter.Select && followDirectoryTrees != null)
+                            FollowDirectoryTrees(followDirectoryTrees, enumDirectoryInfo);
+
                         directoryStack.Push(enumDirectory);
                         enumDirectory = new EnumDirectory(enumDirectory.directoryEnum.Current, pattern);
                         level++;
@@ -239,14 +253,43 @@ namespace pb.IO
                         break;
                     enumDirectory = directoryStack.Pop();
                     level--;
-                    if (followDirectoryTree != null)
-                        followDirectoryTree(new EnumDirectoryInfo { Level = level });
+
+                    //if (followDirectoryTree != null)
+                    //    followDirectoryTree(new EnumDirectoryInfo { Level = level });
+                    if (followDirectoryTrees != null)
+                        FollowDirectoryTrees(followDirectoryTrees, new EnumDirectoryInfo { Level = level });
                 }
             }
         }
 
-        public static IEnumerable<EnumFileInfo> EnumerateFilesInfo(string directory, string pattern = null, Func<EnumDirectoryInfo, EnumDirectoryFilter> directoryFilter = null,
-            Action<EnumDirectoryInfo> followDirectoryTree = null)
+        private static EnumDirectoryFilter EvaluateDirectoryFilters(IEnumerable<Func<EnumDirectoryInfo, EnumDirectoryFilter>> directoryFilters, EnumDirectoryInfo enumDirectoryInfo)
+        {
+            bool select = true;
+            bool recurseSubDirectory = true;
+            foreach (Func<EnumDirectoryInfo, EnumDirectoryFilter> directoryFilter in directoryFilters)
+            {
+                EnumDirectoryFilter enumDirectoryFilter = directoryFilter(enumDirectoryInfo);
+                if (select)
+                    select = enumDirectoryFilter.Select;
+                if (recurseSubDirectory)
+                    recurseSubDirectory = enumDirectoryFilter.RecurseSubDirectory;
+                if (!select && !recurseSubDirectory)
+                    break;
+            }
+            return new EnumDirectoryFilter { Select = select, RecurseSubDirectory = recurseSubDirectory };
+        }
+
+        private static void FollowDirectoryTrees(IEnumerable<Action<EnumDirectoryInfo>> followDirectoryTrees, EnumDirectoryInfo enumDirectoryInfo)
+        {
+            foreach (Action<EnumDirectoryInfo> followDirectoryTree in followDirectoryTrees)
+                followDirectoryTree(enumDirectoryInfo);
+        }
+
+        // Func<EnumDirectoryInfo, EnumDirectoryFilter> directoryFilter
+        // Action<EnumDirectoryInfo> followDirectoryTree
+        public static IEnumerable<EnumFileInfo> EnumerateFilesInfo(string directory, string pattern = null,
+            IEnumerable<Func<EnumDirectoryInfo, EnumDirectoryFilter>> directoryFilters = null,
+            IEnumerable<Action<EnumDirectoryInfo>> followDirectoryTrees = null)
         {
             if (!zDirectory.Exists(directory))
                 yield break;
@@ -257,7 +300,7 @@ namespace pb.IO
             foreach (string file in zDirectory.EnumerateFiles(directory, pattern))
                 yield return new EnumFileInfo { File = file, SubDirectory = "", Level = 0 };
 
-            foreach (EnumDirectoryInfo directoryInfo in EnumerateDirectoriesInfo(directory, null, directoryFilter, followDirectoryTree))
+            foreach (EnumDirectoryInfo directoryInfo in EnumerateDirectoriesInfo(directory, null, directoryFilters, followDirectoryTrees))
             {
                 foreach (string file in zDirectory.EnumerateFiles(directoryInfo.Directory, pattern))
                     yield return new EnumFileInfo { File = file, SubDirectory = directoryInfo.SubDirectory, Level = directoryInfo.Level };

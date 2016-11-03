@@ -137,48 +137,48 @@ namespace pb.Web.Data.Mongo
             if (urlCache != null)
                 urlCache.GetUrlSubDirectory = GetDetailCacheUrlSubDirectory;
 
-            if (_detailDataManager.Version <= 3)
-            {
+            //if (_detailDataManager.Version <= 3)
+            //{
                 _detailDataManager.WebLoadDataManager = new WebLoadDataManager<TDetailData>();
                 _detailDataManager.WebLoadDataManager.UrlCache = urlCache;
                 _detailDataManager.WebLoadDataManager.InitLoadFromWeb = InitLoadFromWeb;
                 _detailDataManager.WebLoadDataManager.GetHttpRequestParameters = GetHttpRequestParameters;
                 _detailDataManager.WebLoadDataManager.GetData = GetDetailData;
-            }
-            else
-            {
-                _detailDataManager.WebLoadDataManager_v2 = new WebLoadDataManager_v2<TDetailData>();
-                _detailDataManager.WebLoadDataManager_v2.TraceException = true;
-                _detailDataManager.WebLoadDataManager_v2.UrlCache = urlCache;
-                _detailDataManager.WebLoadDataManager_v2.InitLoadFromWeb = InitLoadFromWeb;
-                _detailDataManager.WebLoadDataManager_v2.GetData = GetDetailData_v2;
-                SetHttpRequestParameters(_detailDataManager.WebLoadDataManager_v2.RequestParameters);
-            }
+            //}
+            //else
+            //{
+            //    _detailDataManager.WebLoadDataManager_v2 = new WebLoadDataManager_v2<TDetailData>();
+            //    _detailDataManager.WebLoadDataManager_v2.TraceException = true;
+            //    _detailDataManager.WebLoadDataManager_v2.UrlCache = urlCache;
+            //    _detailDataManager.WebLoadDataManager_v2.InitLoadFromWeb = InitLoadFromWeb;
+            //    _detailDataManager.WebLoadDataManager_v2.GetData = GetDetailData_v2;
+            //    SetHttpRequestParameters(_detailDataManager.WebLoadDataManager_v2.RequestParameters);
+            //}
 
             _detailDataManager.GetKeyFromHttpRequest = GetDetailKey;
             //_detailDataManager.LoadImages = LoadDetailImages;
 
-            if (_detailDataManager.Version < 3)
-            {
+            //if (_detailDataManager.Version < 3)
+            //{
                 _detailDataManager.DocumentStore = MongoDocumentStore<TDetailData>.Create(xe);
-            }
-            else
-            {
-                _detailDataManager.DataStore = MongoDataStore.Create(xe);
-                MongoDataSerializer<TDetailData> dataSerializer = new MongoDataSerializer<TDetailData>();
-                dataSerializer.ItemName = xe.zXPathValue("MongoDocumentItemName");
-                _detailDataManager.DataSerializer = dataSerializer;
-            }
+            //}
+            //else
+            //{
+            //    _detailDataManager.DataStore = MongoDataStore.Create(xe);
+            //    MongoDataSerializer<TDetailData> dataSerializer = new MongoDataSerializer<TDetailData>();
+            //    dataSerializer.ItemName = xe.zXPathValue("MongoDocumentItemName");
+            //    _detailDataManager.DataSerializer = dataSerializer;
+            //}
 
-            UrlCache imageUrlCache = UrlCache.Create(xe.zXPathElement("Image"));
-            if (imageUrlCache != null)
-            {
-                //imageUrlCache.GetUrlSubDirectory = GetDetailImageCacheUrlSubDirectory;
-                //_detailDataManager.WebImageCacheManager = new WebImageCacheManager_v2(imageUrlCache);
-                _detailDataManager.WebImageCacheManager = new WebImageCacheManager_v3(imageUrlCache);
-                _detailDataManager.WebImageCacheManager.TraceException = true;
-                _detailDataManager.GetImageSubDirectory = GetDetailImageCacheUrlSubDirectory;
-            }
+            //UrlCache imageUrlCache = UrlCache.Create(xe.zXPathElement("Image"));
+            //if (imageUrlCache != null)
+            //{
+            //    //imageUrlCache.GetUrlSubDirectory = GetDetailImageCacheUrlSubDirectory;
+            //    //_detailDataManager.WebImageCacheManager = new WebImageCacheManager_v2(imageUrlCache);
+            //    _detailDataManager.WebImageCacheManager = new WebImageCacheManager_v3(imageUrlCache);
+            //    _detailDataManager.WebImageCacheManager.TraceException = true;
+            //    _detailDataManager.GetImageSubDirectory = GetDetailImageCacheUrlSubDirectory;
+            //}
         }
 
         protected virtual void CreateWebHeaderDetailManager()

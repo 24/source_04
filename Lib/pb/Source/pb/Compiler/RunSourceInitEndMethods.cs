@@ -147,7 +147,7 @@ namespace pb.Compiler
                     if (method != null)
                     {
                         if ((__traceRunOnce && !always) || (__traceRunAlways && always))
-                            Trace.WriteLine("call {0} {1} methods \"{2}\"", always ? "always" : "onece", init ? "init" : "end", method.zGetName());
+                            Trace.WriteLine("call {0} {1} methods \"{2}\"", always ? "always" : "once", init ? "init" : "end", method.zGetName());
                         method.Invoke(null, null);
                     }
                 }

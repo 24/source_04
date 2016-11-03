@@ -21,7 +21,6 @@ namespace Download.Print
 
         public static void Init()
         {
-
             __traceListener = new PBTraceListener();
             //__traceListener.Filter = new System.Diagnostics.EventTypeFilter(System.Diagnostics.SourceLevels.Warning);
             System.Diagnostics.Trace.Listeners.Add(__traceListener);

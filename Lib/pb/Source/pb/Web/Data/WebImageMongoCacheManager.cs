@@ -68,7 +68,7 @@ namespace pb.Web
 
         public void LoadImage(MongoImage mongoImage)
         {
-            mongoImage.Image = zimg.LoadFromFile(zPath.Combine(_urlCache.CacheDirectory, mongoImage.File));
+            mongoImage.Image = zimg.LoadBitmapFromFile(zPath.Combine(_urlCache.CacheDirectory, mongoImage.File));
         }
 
         public MongoImage LoadMongoImage(string url, HttpRequestParameters requestParameters = null, bool refreshImage = false)
@@ -99,7 +99,7 @@ namespace pb.Web
             {
                 try
                 {
-                    image = zimg.LoadFromFile(path);
+                    image = zimg.LoadBitmapFromFile(path);
                 }
                 catch (Exception exception)
                 {

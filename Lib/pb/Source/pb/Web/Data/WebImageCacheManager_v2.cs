@@ -100,7 +100,7 @@ namespace pb.Web
         {
             try
             {
-                return zimg.LoadFromFile(path);
+                return zimg.LoadBitmapFromFile(path);
             }
             catch (Exception exception)
             {

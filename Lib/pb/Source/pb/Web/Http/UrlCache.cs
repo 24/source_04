@@ -71,7 +71,7 @@ namespace pb.Web
             if (xe != null && xe.zXPathValue("UseUrlCache").zTryParseAs(false))
             {
                 UrlCache urlCache = new UrlCache(xe.zXPathExplicitValue("CacheDirectory"));
-                urlCache._urlFileNameType = zurl.GetUrlFileNameType(xe.zXPathValue("CacheUrlFileNameType"));
+                urlCache._urlFileNameType = zurl.GetUrlFileNameType(xe.zXPathValue("CacheUrlFileNameType", "Path"));
                 urlCache._saveRequest = xe.zXPathValue("CacheSaveRequest").zTryParseAs(false);
                 return urlCache;
             }

@@ -2,11 +2,16 @@
 using pb;
 using pb.IO;
 
+// todo :
+//  - move also .i files ($$todo)
+//  - delete empty .i directory
+//  - filter file .i
 namespace Download.Print
 {
     public class MovePrintFiles
     {
         private bool _simulate = false;
+        private bool _moveInfoFiles = false;
         private PathPrintFile _pathPrintFile = null;
         private List<string> _moveFiles = null;
         private Dictionary<int, int> _fileNumbers = null;
@@ -15,9 +20,10 @@ namespace Download.Print
         //public bool Simulate { get { return _simulate; } set { _simulate = value; } }
         public PathPrintFile PathPrintFile { get { return _pathPrintFile; } set { _pathPrintFile = value; } }
 
-        public void MoveFiles(IEnumerable<IEnumerable<FileGroup_v2>> filesGroups, string destinationDirectory, bool simulate)
+        public void MoveFiles(IEnumerable<IEnumerable<FileGroup_v2>> filesGroups, string destinationDirectory, bool simulate, bool moveInfoFiles)
         {
             _simulate = simulate;
+            _moveInfoFiles = moveInfoFiles;
             _pathPrintFile.DestinationDirectory = destinationDirectory;
             foreach (IEnumerable<FileGroup_v2> files in filesGroups)
             {
@@ -25,7 +31,7 @@ namespace Download.Print
             }
         }
 
-        public void MoveFiles(IEnumerable<FileGroup_v2> files)
+        private void MoveFiles(IEnumerable<FileGroup_v2> files)
         {
             _moveFiles = new List<string>();
             _fileNumbers = new Dictionary<int, int>();
@@ -99,25 +105,72 @@ namespace Download.Print
 
         private void MoveFileToTmp(string sourcePath, string destinationPath)
         {
+            // example :
+            //   move file              "g:\pib\media\ebook\_dl\_dl_pib\print\03\print\.02_hebdo\Le point\Le point - 2016-05-26 - no 16107.pdf"
+            //          to              "g:\pib\media\ebook\print\.02_hebdo\Le point\2016\Le point - 2016-05-26 - no 16107.pdf.tmp"
+            //   move info file         "g:\pib\media\ebook\_dl\_dl_pib\print\03\print\.02_hebdo\Le point\.i\Le point - 2016-05-26 - no 16107.pdf.i"
+            //          to              "g:\pib\media\ebook\print\.02_hebdo\Le point\2016\.i\Le point - 2016-05-26 - no 16107.pdf.i.tmp"
             _moveFiles.Add(destinationPath);
             string tmpDestinationPath = destinationPath + ".tmp";
-            Trace.WriteLine("move file         \"{0}\"", sourcePath);
-            Trace.WriteLine("       to         \"{0}\"", tmpDestinationPath);
+            Trace.WriteLine("move file              \"{0}\"", sourcePath);
+            Trace.WriteLine("  to                   \"{0}\"", tmpDestinationPath);
+            string sourceInfoPath = null;
+            string tmpDestinationInfoPath = null;
+            bool moveInfoFile = false;
+            if (_moveInfoFiles)
+            {
+                sourceInfoPath = InfoFile.GetInfoFile(sourcePath);
+                if (zFile.Exists(sourceInfoPath))
+                {
+                    moveInfoFile = true;
+                    tmpDestinationInfoPath = InfoFile.GetInfoFile(destinationPath) + ".tmp";
+                    Trace.WriteLine("move info file         \"{0}\"", sourceInfoPath);
+                    Trace.WriteLine("  to                   \"{0}\"", tmpDestinationInfoPath);
+                }
+            }
             if (!_simulate)
             {
-                zfile.CreateFileDirectory(destinationPath);
+                zfile.CreateFileDirectory(tmpDestinationPath);
                 zFile.Move(sourcePath, tmpDestinationPath);
+                if (moveInfoFile)
+                {
+                    zfile.CreateFileDirectory(tmpDestinationInfoPath);
+                    zFile.Move(sourceInfoPath, tmpDestinationInfoPath);
+                }
             }
         }
 
         private void RenameTmpFiles()
         {
+            // example :
+            //   rename tmp file        "g:\pib\media\ebook\print\.02_hebdo\Le point\2016\Le point - 2016-05-26 - no 16107.pdf.tmp"
+            //                to        "g:\pib\media\ebook\print\.02_hebdo\Le point\2016\Le point - 2016-05-26 - no 16107.pdf"
+            //   rename info tmp file   "g:\pib\media\ebook\print\.02_hebdo\Le point\2016\.i\Le point - 2016-05-26 - no 16107.pdf.i.tmp"
+            //                to        "g:\pib\media\ebook\print\.02_hebdo\Le point\2016\.i\Le point - 2016-05-26 - no 16107.pdf.i"
             foreach (string file in _moveFiles)
             {
-                Trace.WriteLine("rename tmp file   \"{0}\"", file + ".tmp");
-                Trace.WriteLine("             to   \"{0}\"", file);
+                Trace.WriteLine("rename tmp file        \"{0}\"", file + ".tmp");
+                Trace.WriteLine("  to                   \"{0}\"", file);
+                string infoFile = null;
+                bool moveInfoFile = false;
+                if (_moveInfoFiles)
+                {
+                    infoFile = InfoFile.GetInfoFile(file);
+                    if (zFile.Exists(infoFile + ".tmp"))
+                    {
+                        moveInfoFile = true;
+                        Trace.WriteLine("rename tmp info file   \"{0}\"", infoFile + ".tmp");
+                        Trace.WriteLine("  to                   \"{0}\"", infoFile);
+                    }
+                }
                 if (!_simulate)
+                {
                     zFile.Move(file + ".tmp", file);
+                    if (moveInfoFile)
+                    {
+                        zFile.Move(infoFile + ".tmp", infoFile);
+                    }
+                }
             }
         }
 

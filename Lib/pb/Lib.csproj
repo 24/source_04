@@ -47,6 +47,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\RuntimeLibrary\DevExpress\DevExpress 2.4.7.0\.NET\DevExpress.XtraGrid.dll</HintPath>
     </Reference>
+    <Reference Include="DocumentFormat.OpenXml, Version=2.5.5631.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\library\OpenXml-sdk\OpenXml.v2.6.1\DocumentFormat.OpenXml.dll</HintPath>
+    </Reference>
     <Reference Include="Ionic.Zip">
       <HintPath>..\..\RuntimeLibrary\Ionic\Ionic.Zip.dll</HintPath>
     </Reference>
@@ -84,6 +88,9 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.IO.Packaging">
+      <HintPath>..\..\..\library\OpenXml-sdk\OpenXml.v2.6.1\System.IO.Packaging.dll</HintPath>
+    </Reference>
     <Reference Include="System.Reflection.Metadata">
       <HintPath>..\..\..\..\..\..\..\dev\NuGet\repository\System.Reflection.Metadata.1.2.0\lib\portable-net45+win8\System.Reflection.Metadata.dll</HintPath>
     </Reference>
@@ -158,10 +165,14 @@
     <Compile Include="Source\pb\Data\Mongo\Serializers\WebHeaderSerializer.cs" />
     <Compile Include="Source\pb\Data\Mongo\Test\Test_Mongo.cs" />
     <Compile Include="Source\pb\Data\Mongo\WebDataMongoManagerBase.cs" />
+    <Compile Include="Source\pb\Data\Mongo\WebHeaderDetailMongoManagerBase_v2.cs" />
     <Compile Include="Source\pb\Data\Mongo\WebHeaderMongoManagerBase.cs" />
     <Compile Include="Source\pb\Data\Mongo\WebImageMongoManager.cs" />
-    <Compile Include="Source\pb\Data\Mongo\WebImageMongoManager_v2.cs" />
-    <Compile Include="Source\pb\Data\Mongo\WebImageMongoTools.cs" />
+    <Compile Include="Source\pb\Data\OpenXml\AnchorDrawing.cs" />
+    <Compile Include="Source\pb\Data\OpenXml\Graphic.cs" />
+    <Compile Include="Source\pb\Data\OpenXml\Test\Test_OpenXml_06.cs" />
+    <Compile Include="Source\pb\Data\OpenXml\zDocXElement.cs" />
+    <Compile Include="Source\pb\Data\OpenXml\zOpenXmlDoc.cs" />
     <Compile Include="Source\pb\Data\TraceDataTable.cs" />
     <Compile Include="Source\pb\Data\_old\IDocumentStore_v4.cs" />
     <Compile Include="Source\pb\Data\IDocumentStore.cs" />
@@ -268,12 +279,14 @@
     <Compile Include="Source\pb\Web\Data\DebriderAlldebrid.cs" />
     <Compile Include="Source\pb\Web\Data\DebriderDebridLinkFr.cs" />
     <Compile Include="Source\pb\Web\Data\WebData.cs" />
-    <Compile Include="Source\pb\Web\Data\WebDataLoad.cs" />
-    <Compile Include="Source\pb\Web\Data\WebDataLoad_v2.cs" />
-    <Compile Include="Source\pb\Web\Data\WebDataManagerImage.cs" />
-    <Compile Include="Source\pb\Web\Data\WebDataManagerImage_v3.cs" />
-    <Compile Include="Source\pb\Web\Data\WebDataManagerMongoDataStore.cs" />
-    <Compile Include="Source\pb\Web\Data\WebDataManager_v3.cs" />
+    <Compile Include="Source\pb\Web\Data\WebData_Load_v1.cs" />
+    <Compile Include="Source\pb\Web\Data\WebData_Load_v2.cs" />
+    <Compile Include="Source\pb\Web\Data\WebHeaderDetailManager_v4.cs" />
+    <Compile Include="Source\pb\Web\Data\WebLoadImageManager_v2.cs" />
+    <Compile Include="Source\pb\Web\Data\_old\WebDataManagerImage_v3_bad.cs" />
+    <Compile Include="Source\pb\Web\Data\WebDataManager_v4_MongoDataStore.cs" />
+    <Compile Include="Source\pb\Web\Data\_old\WebDataManager_v3_bad.cs" />
+    <Compile Include="Source\pb\Web\Data\WebDataManager_v4.cs" />
     <Compile Include="Source\pb\Web\Data\WebImageCacheManager_v2.cs" />
     <Compile Include="Source\pb\Web\Data\WebImageCacheManager_v3.cs" />
     <Compile Include="Source\pb\Web\Data\WebImageMongoCacheManager_v2.cs" />
@@ -317,6 +330,7 @@
     <Compile Include="Source\pb\Web\Data\_old\WebImageCacheManager_v1.cs" />
     <None Include="Source\pb\Web\Data\_old\WebImageMongoCacheManager_v1.cs" />
     <Compile Include="Source\pb\Web\Html\HtmlCharCodes.cs" />
+    <Compile Include="Source\pb\Web\Html\HtmlDocReader.cs" />
     <Compile Include="Source\pb\Web\Html\HtmlReaderBase.cs" />
     <Compile Include="Source\pb\Web\Html\HtmlReader_v2.cs" />
     <Compile Include="Source\pb\Web\Html\HtmlReader.cs" />
@@ -529,6 +543,9 @@
   <ItemGroup>
     <Content Include="Source\Other\PB_Library_project.xml" />
     <Content Include="Source\pb\Data\Mongo\Test\Test_Mongo.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Source\pb\Data\OpenXml\Test\Test_OpenXml.project.xml">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Source\pb\IO\Test\download.config.xml" />

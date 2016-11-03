@@ -205,8 +205,8 @@ namespace Download.Print
 
     public class DownloadAutomateManager : IDisposable
     {
-        private const string _infoDirectory = ".i";
-        private const string _infoSuffixFile = ".i";
+        //private const string _infoDirectory = ".i";
+        //private const string _infoSuffixFile = ".i";
         private string _downloadDirectory = null;
         //private Dictionary<string, ServerManager> _servers = new Dictionary<string, ServerManager>();
         private Dictionary<string, IServerManager> _servers = new Dictionary<string, IServerManager>();
@@ -683,7 +683,8 @@ namespace Download.Print
                 return;
             // save info file to sub-directory .i, file = .i\filename.i
             string file = downloadedFile.DownloadedFiles[0];
-            file = zPath.Combine(_downloadDirectory, zPath.GetDirectoryName(file), _infoDirectory, zPath.GetFileName(file)) + _infoSuffixFile;
+            //file = zPath.Combine(_downloadDirectory, zPath.GetDirectoryName(file), _infoDirectory, zPath.GetFileName(file)) + _infoSuffixFile;
+            file = zPath.Combine(_downloadDirectory, InfoFile.GetInfoFile(file));
 
             zfile.CreateFileDirectory(file);
             BsonDocument postDocument;

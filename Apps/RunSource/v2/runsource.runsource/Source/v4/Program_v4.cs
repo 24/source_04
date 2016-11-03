@@ -17,6 +17,7 @@ namespace runsourced
         {
             try
             {
+                // load runsource.runsource.config.xml (config of runsource.runsource.exe)
                 XmlConfig config = new XmlConfig();
                 FormatInfo.SetInvariantCulture();
                 Application.CurrentCulture = FormatInfo.CurrentFormat.CurrentCulture;

@@ -1,4 +1,5 @@
-﻿using pb.Data.Mongo;
+﻿using MongoDB.Bson;
+using pb.Data.Mongo;
 
 namespace pb.Web.Data
 {
@@ -70,7 +71,8 @@ namespace pb.Web.Data
 
 
 
-    partial class WebDataManager<TData>
+    //partial class WebDataManager<TData>
+    partial class WebDataManager_v4<TData>
     {
         protected MongoDataStore _dataStore = null;
         protected MongoDataSerializer<TData> _dataSerializer = null;
@@ -84,6 +86,11 @@ namespace pb.Web.Data
         {
             _webRequestSerializer = new MongoDataSerializer<HttpLog>();
             _webRequestSerializer.ItemName = "WebRequest";
+        }
+
+        public TData LoadFromId(BsonValue id)
+        {
+            return _dataSerializer.Deserialize(_dataStore.LoadFromId(id));
         }
     }
 }

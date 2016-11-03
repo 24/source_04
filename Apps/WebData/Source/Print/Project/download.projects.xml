@@ -2,5 +2,6 @@
 <Projects>
   <!--<OutputDirectory                             value = "c:\pib\drive\google\prog\tools\runsource\app\ebook.download" />-->
   <OutputDirectory                             value = "c:\pib\prog\tools\runsource\app\ebook.download" />
-  <Project                                     value = "download.project.xml" copyOutput = "$OutputDirectory$\new" />
+  <!--<Project                                     value = "download.project.xml" copyOutput = "$OutputDirectory$\new" />-->
+  <Project                                     value = "download.dll.compile.project.xml" copyOutput = "$OutputDirectory$\new" />
 </Projects>

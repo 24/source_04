@@ -5,6 +5,8 @@ using pb;
 using pb.IO;
 using pb.Text;
 
+// todo :
+//  - concat .i files when delete pdf ($$todo)
 namespace Download.Print
 {
     public enum FileFilter
@@ -80,6 +82,7 @@ namespace Download.Print
         private static string __badFileDirectory = "_bad";
         private bool _simulate = false;
         private bool _moveFiles = false;
+        private bool _moveInfoFiles = false;
         private UncompressManager _uncompressManager = null;
         private RegexValuesList _bonusDirectories = null;
         private MovePrintFiles _movePrintFiles = null;
@@ -99,6 +102,7 @@ namespace Download.Print
 
         public bool Simulate { get { return _simulate; } set { _simulate = value; } }
         public bool MoveFiles { get { return _moveFiles; } set { _moveFiles = value; } }
+        public bool MoveInfoFiles { get { return _moveInfoFiles; } set { _moveInfoFiles = value; } }
         public UncompressManager UncompressManager { get { return _uncompressManager; } set { _uncompressManager = value; } }
         public RegexValuesList BonusDirectories { get { return _bonusDirectories; } set { _bonusDirectories = value; } }
 
@@ -143,7 +147,7 @@ namespace Download.Print
                 // move and rename files
                 if (_moveFiles)
                     //_MoveFiles_v1(filesGroups.Values, bonusDirectory);
-                    _movePrintFiles.MoveFiles(filesGroups.Values, bonusDirectory, _simulate);
+                    _movePrintFiles.MoveFiles(filesGroups.Values, bonusDirectory, _simulate, _moveInfoFiles);
             }
 
             filesGroups = CreateFileGroups();
@@ -162,11 +166,14 @@ namespace Download.Print
             // 6) move and rename files
             if (_moveFiles)
                 //_MoveFiles_v1(filesGroups.Values, destinationDirectory);
-                _movePrintFiles.MoveFiles(filesGroups.Values, destinationDirectory, _simulate);
+                _movePrintFiles.MoveFiles(filesGroups.Values, destinationDirectory, _simulate, _moveInfoFiles);
 
             // 7) delete empty directory
             if (!_simulate)
+            {
+                zdir.DeleteEmptyDirectory(zPath.Combine(sourceDirectory, InfoFile.InfoDirectory) , deleteOnlySubdirectory: false);
                 zdir.DeleteEmptyDirectory(sourceDirectory, deleteOnlySubdirectory: false);
+            }
         }
 
         private static Regex __dailyPrintDirectory = new Regex("Journaux - ([0-9]{4})-([0-9]{2})-([0-9]{2})", RegexOptions.IgnoreCase | RegexOptions.Compiled);
@@ -191,7 +198,7 @@ namespace Download.Print
                 }
                 return new EnumDirectoryFilter { Select = false, RecurseSubDirectory = true };
             };
-            foreach (EnumDirectoryInfo dir in zdir.EnumerateDirectoriesInfo(sourceDirectory, directoryFilter: directoryFilter))
+            foreach (EnumDirectoryInfo dir in zdir.EnumerateDirectoriesInfo(sourceDirectory, directoryFilters: new Func<EnumDirectoryInfo, EnumDirectoryFilter>[] { directoryFilter }))
             {
                 foreach (EnumFileInfo fileInfo in zdir.EnumerateFilesInfo(dir.Directory))
                 {
@@ -359,16 +366,16 @@ namespace Download.Print
 
         public IEnumerable<FileGroup_v2> GetNotBonusFiles(string directory)
         {
-            // Func<EnumDirectoryInfo, EnumDirectoryFilter> filter
-            IEnumerable<EnumFileInfo> files = zdir.EnumerateFilesInfo(directory,
-                directoryFilter: dir =>
-                    {
-                        //if (IsBonusDirectory(dir.SubDirectory))
-                        if (GetBonusDirectoryInfo(dir.SubDirectory).IsBonusDirectory)
-                            return new EnumDirectoryFilter { Select = false, RecurseSubDirectory = false };
-                        else
-                            return new EnumDirectoryFilter { Select = true, RecurseSubDirectory = true };
-                    });
+            Func<EnumDirectoryInfo, EnumDirectoryFilter> directoryFilter =
+                dir =>
+                {
+                    if (GetBonusDirectoryInfo(dir.SubDirectory).IsBonusDirectory)
+                        return new EnumDirectoryFilter { Select = false, RecurseSubDirectory = false };
+                    else
+                        return new EnumDirectoryFilter { Select = true, RecurseSubDirectory = true };
+                };
+
+            IEnumerable< EnumFileInfo> files = zdir.EnumerateFilesInfo(directory, directoryFilters: new Func<EnumDirectoryInfo, EnumDirectoryFilter>[] { directoryFilter });
             foreach (EnumFileInfo file in files)
             {
                 FilenameNumberInfo filenameNumberInfo = FilenameNumberInfo.GetFilenameNumberInfo(file.File);
@@ -397,8 +404,9 @@ namespace Download.Print
             int bonusDirectoryLevel = 0;
             int bonusSubDirectoryLength = 0;
             string bonusSubDirectory = null;
-            IEnumerable<EnumFileInfo> files = zdir.EnumerateFilesInfo(directory,
-                followDirectoryTree: dir =>
+
+            Action<EnumDirectoryInfo> followDirectoryTree =
+                dir =>
                 {
                     if (bonusDirectoryLevel == 0)
                     {
@@ -420,7 +428,9 @@ namespace Download.Print
                         bonusSubDirectoryLength = 0;
                         bonusSubDirectory = null;
                     }
-                });
+                };
+
+            IEnumerable<EnumFileInfo> files = zdir.EnumerateFilesInfo(directory, followDirectoryTrees: new Action<EnumDirectoryInfo>[] { followDirectoryTree });
             foreach (EnumFileInfo file in files)
             {
                 if (bonusDirectoryLevel != 0)
@@ -447,6 +457,14 @@ namespace Download.Print
             }
         }
 
+        public EnumDirectoryFilter InfoDirectoryFilter(EnumDirectoryInfo directory)
+        {
+            if (directory.SubDirectory == InfoFile.InfoDirectory)
+                return new EnumDirectoryFilter { Select = false, RecurseSubDirectory = false };
+            else
+                return new EnumDirectoryFilter { Select = true, RecurseSubDirectory = true };
+        }
+
         public EnumDirectoryFilter NotBonusDirectoryFilter(EnumDirectoryInfo directory)
         {
             if (GetBonusDirectoryInfo(directory.SubDirectory).IsBonusDirectory)
@@ -458,9 +476,10 @@ namespace Download.Print
         public IEnumerable<FileGroup_v2> GetFiles(string directory, FileFilter fileFilter)
         {
             // not bonus files
-            Func<EnumDirectoryInfo, EnumDirectoryFilter> directoryFilter = null;
+            List<Func<EnumDirectoryInfo, EnumDirectoryFilter>> directoryFilters = new List<Func<EnumDirectoryInfo, EnumDirectoryFilter>>();
+            directoryFilters.Add(InfoDirectoryFilter);
             if (fileFilter == FileFilter.NotBonusFiles)
-                directoryFilter = NotBonusDirectoryFilter;
+                directoryFilters.Add(NotBonusDirectoryFilter);
 
             //if (fileFilter == FileFilter.NotBonusFiles)
             //{
@@ -505,7 +524,10 @@ namespace Download.Print
                     };
             }
 
-            IEnumerable<EnumFileInfo> files = zdir.EnumerateFilesInfo(directory, directoryFilter: directoryFilter, followDirectoryTree: followDirectoryTree);
+            IEnumerable<EnumFileInfo> files = zdir.EnumerateFilesInfo(directory,
+                //directoryFilters: directoryFilter != null ? new Func<EnumDirectoryInfo, EnumDirectoryFilter>[] { directoryFilter } : null,
+                directoryFilters: directoryFilters,
+                followDirectoryTrees: followDirectoryTree != null ? new Action<EnumDirectoryInfo>[] { followDirectoryTree } : null);
             foreach (EnumFileInfo file in files)
             {
                 FilenameNumberInfo filenameNumberInfo = FilenameNumberInfo.GetFilenameNumberInfo(file.File);
@@ -601,8 +623,11 @@ namespace Download.Print
                     bool deleteFile2 = false;
                     if (_simulate)
                     {
-                        Trace.WriteLine("compare file      \"{0}\"", file1.File);
-                        Trace.WriteLine("        with      \"{0}\"", file2.File);
+                        Trace.WriteLine("compare file           \"{0}\"", file1.File);
+                        //Trace.WriteLine("        with           \"{0}\"", file2.File);
+                        Trace.WriteLine("  with                 \"{0}\"", file2.File);
+                        if (_moveInfoFiles)
+                            Trace.WriteLine("  concat info files");
                     }
                     else
                     {
@@ -635,9 +660,30 @@ namespace Download.Print
                                 pathFile1 = file2.File;
                                 pathFile2 = file1.File;
                             }
-                            Trace.WriteLine("delete file       \"{0}\"", pathFile1);
-                            Trace.WriteLine("   identical to   \"{0}\"", pathFile2);
+                            Trace.WriteLine("delete file            \"{0}\"", pathFile1);
+                            Trace.WriteLine("  identical to         \"{0}\"", pathFile2);
                             zFile.Delete(pathFile1);
+                            if (_moveInfoFiles)
+                            {
+                                string pathInfoFile1 = InfoFile.GetInfoFile(pathFile1);
+                                string pathInfoFile2 = InfoFile.GetInfoFile(pathFile2);
+                                if (zFile.Exists(pathInfoFile1))
+                                {
+                                    if (zFile.Exists(pathInfoFile2))
+                                        Trace.WriteLine("  append info file     \"{0}\" to \"{0}\"", pathInfoFile1, pathInfoFile2);
+                                    else
+                                        Trace.WriteLine("  move info file       \"{0}\" to \"{0}\"", pathInfoFile1, pathInfoFile2);
+                                }
+                                else
+                                {
+                                    if (zFile.Exists(pathInfoFile2))
+                                        Trace.WriteLine("  no info file to append");
+                                    else
+                                        Trace.WriteLine("  no info file");
+                                }
+                                // append pathInfoFile1 to pathInfoFile2
+                                InfoFile.ConcatFiles(pathInfoFile2, pathInfoFile1);
+                            }
                         }
                     }
                     if (deleteFile1)

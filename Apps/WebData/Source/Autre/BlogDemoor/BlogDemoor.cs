@@ -158,7 +158,6 @@ namespace WebData.BlogDemoor
             return "img\\" + zpath.PathSetExtension(subPath, null);
         }
 
-        private static CultureInfo __cultureInfo = CultureInfo.GetCultureInfo("fr-FR");
         protected override BlogDemoorDetailData GetDetailData(WebResult webResult)
         {
             XXElement xeSource = webResult.Http.zGetXDocument().zXXElement();
@@ -187,6 +186,7 @@ namespace WebData.BlogDemoor
             return data;
         }
 
+        private static CultureInfo __cultureInfo = CultureInfo.GetCultureInfo("fr-FR");
         protected void _GetDetailData(XXElement xeSource, BlogDemoorDetailData data)
         {
 

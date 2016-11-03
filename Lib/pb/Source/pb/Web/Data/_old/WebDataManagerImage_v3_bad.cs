@@ -3,31 +3,22 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-// - filter
-// - http request param, use function _getHttpRequestParameters from WebLoadManager
-// - set width and height
-
+// bad bad bad bad bad bad bad bad bad bad bad bad bad bad bad bad bad bad bad bad bad bad bad bad bad bad bad bad bad bad bad bad bad bad bad bad bad bad bad bad
+// à jeter
 namespace pb.Web.Data
 {
-    public interface IGetWebImages
+    public partial class WebDataManager_v3<TData>
     {
-        //void LoadImages(bool refreshImage = false);
-        IEnumerable<WebImage> GetWebImages();
-    }
-
-    public partial class WebDataManager<TData>
-    {
-        //protected WebImageCacheManager_v2 _webImageCacheManager = null;
-        protected WebImageCacheManager_v3 _webImageCacheManager = null;
+        protected WebImageCacheManager_v2 _webImageCacheManager = null;
         protected Predicate<WebImage> _imageFilter = null;
         //protected Func<TData, string> _getImageSubDirectory = null;
         protected Func<WebData<TData>, string> _getImageSubDirectory = null;
 
-        public WebImageCacheManager_v3 WebImageCacheManager { get { return _webImageCacheManager; } set { _webImageCacheManager = value; } }
+        public WebImageCacheManager_v2 WebImageCacheManager { get { return _webImageCacheManager; } set { _webImageCacheManager = value; } }
         public Predicate<WebImage> ImageFilter { get { return _imageFilter; } set { _imageFilter = value; } }
         public Func<WebData<TData>, string> GetImageSubDirectory { get { return _getImageSubDirectory; } set { _getImageSubDirectory = value; } }
 
-        public bool LoadImagesFromWeb(WebData<TData> webData)
+        protected bool LoadImagesFromWeb(WebData<TData> webData)
         {
             WebImageRequest imageRequest = webData.Request.ImageRequest;
             if (!imageRequest.LoadImageFromWeb && !imageRequest.LoadImageToData && !imageRequest.RefreshImage)
@@ -43,11 +34,11 @@ namespace pb.Web.Data
             string subDirectory = null;
             if (_getImageSubDirectory != null)
                 subDirectory = _getImageSubDirectory(webData);
-            return _webImageCacheManager.LoadImagesFromWeb(images, imageRequest, subDirectory);
+            return _webImageCacheManager.LoadImagesFromWeb(images, imageRequest, subDirectory: subDirectory);
             //}
         }
 
-        public void LoadImagesToData(TData data)
+        protected void LoadImagesToData(TData data)
         {
             if (!(data is IGetWebImages))
                 throw new PBException($"{typeof(TData).zGetTypeName()} is not IGetWebImages");

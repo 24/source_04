@@ -5,7 +5,7 @@
         private WebRequest _request;
         private WebResult _result;
         private HttpResult<string> _result_v2;
-        private bool _error;
+        //private bool _error;
         private TData _document;
         private bool _documentLoaded;
         private bool _documentLoadedFromWeb;
@@ -19,7 +19,7 @@
         public WebRequest Request { get { return _request; } }
         public WebResult Result { get { return _result; } set { _result = value; } }
         public HttpResult<string> Result_v2 { get { return _result_v2; } }
-        public bool Error { get { return _error; } }
+        //public bool Error { get { return _error; } }
         public TData Document { get { return _document; } set { _document = value; } }
         public bool DocumentLoaded { get { return _documentLoaded; } set { _documentLoaded = value; } }
         public bool DocumentLoadedFromWeb { get { return _documentLoadedFromWeb; } set { _documentLoadedFromWeb = value; } }

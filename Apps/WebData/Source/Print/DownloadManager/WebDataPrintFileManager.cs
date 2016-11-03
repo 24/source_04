@@ -14,9 +14,9 @@ namespace Download.Print
     static partial class WebData
     {
         public static void ManageDirectories(IEnumerable<string> sourceDirectories, string destinationDirectory, string bonusDirectory = null, bool usePrintDirectories = true,
-            bool simulate = true, bool moveFiles = false, Func<string, bool> directoryFilter = null)
+            bool simulate = true, bool moveFiles = false, bool moveInfoFiles = false, Func<string, bool> directoryFilter = null)
         {
-            PrintFileManager_v2 printFileManager = CreatePrintFileManager_v2(simulate: simulate, moveFiles: moveFiles);
+            PrintFileManager_v2 printFileManager = CreatePrintFileManager_v2(simulate: simulate, moveFiles: moveFiles, moveInfoFiles: moveInfoFiles);
             PrintDirectoryManager printDirectoryManager = CreatePrintDirectoryManager();
             foreach (string sourceDirectory in sourceDirectories)
             {
@@ -69,7 +69,7 @@ namespace Download.Print
                 zdir.DeleteEmptyDirectory(lastDirectory, deleteOnlySubdirectory: false);
         }
 
-        public static PrintFileManager_v2 CreatePrintFileManager_v2(UncompressManager uncompressManager = null, bool simulate = false, bool moveFiles = false)
+        public static PrintFileManager_v2 CreatePrintFileManager_v2(UncompressManager uncompressManager = null, bool simulate = false, bool moveFiles = false, bool moveInfoFiles = false)
         {
             DownloadAutomateManagerCreator downloadAutomateManagerCreator = GetDownloadAutomateManagerCreator();
             if (uncompressManager == null)
@@ -78,6 +78,7 @@ namespace Download.Print
             PrintFileManager_v2 printFileManager = new PrintFileManager_v2();
             printFileManager.Simulate = simulate;
             printFileManager.MoveFiles = moveFiles;
+            printFileManager.MoveInfoFiles = moveInfoFiles;
             printFileManager.UncompressManager = uncompressManager;
             printFileManager.BonusDirectories = bonusDirectories;
             return printFileManager;

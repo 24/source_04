@@ -173,7 +173,7 @@ namespace pb.Web
             {
                 try
                 {
-                    return zimg.LoadFromFile(httpRequest.Url);
+                    return zimg.LoadBitmapFromFile(httpRequest.Url);
                 }
                 catch (Exception ex)
                 {

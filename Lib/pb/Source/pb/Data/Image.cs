@@ -3,13 +3,17 @@ using System.Drawing;
 using System.IO;
 using System.Net;
 using pb.IO;
+using System.Drawing.Imaging;
 
 namespace pb.Data
 {
+    // Image :
+    //   PixelFormat PixelFormat : Format24bppRgb
+    //   ImageFormat RawFormat   : [ImageFormat: b96b3cae-0728-11d3-9d7b-0000f81ef32e]
     public static class zimg
     {
         //public static Bitmap ReadBitmap(string sourceFile)
-        public static Bitmap LoadFromFile(string file)
+        public static Bitmap LoadBitmapFromFile(string file)
         {
             if (!zFile.Exists(file))
                 throw new PBException("error reading image file \"{0}\" does'nt exists", file);
@@ -18,6 +22,7 @@ namespace pb.Data
             try
             {
                 image = Image.FromFile(file);
+                //image.RawFormat.Guid
             }
             catch (Exception exception)
             {
@@ -33,7 +38,15 @@ namespace pb.Data
             return bitmap;
         }
 
-        public static Image LoadFromUrl(string url)
+        public static Image LoadImageFromFile(string file)
+        {
+            using (FileStream fs = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.Read))
+            {
+                return Image.FromStream(fs);
+            }
+        }
+
+        public static Image LoadImageFromUrl(string url)
         {
             WebRequest wr = WebRequest.Create(url);
             WebResponse r = null;
@@ -88,6 +101,17 @@ namespace pb.Data
                 graphicsHandle.DrawImage(image, 0, 0, newWidth, newHeight);
             }
             return newImage;
+        }
+
+        public static string GetMimeType(Image image)
+        {
+            var guid = image.RawFormat.Guid;
+            foreach (ImageCodecInfo codec in ImageCodecInfo.GetImageDecoders())
+            {
+                if (codec.FormatID == guid)
+                    return codec.MimeType;
+            }
+            return "image/unknown";
         }
     }
 

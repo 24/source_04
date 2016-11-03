@@ -270,7 +270,9 @@ namespace Download.Print
             Dictionary<string, List<PrintFileInfo>> fileGroups = new Dictionary<string, List<PrintFileInfo>>(StringComparer.InvariantCultureIgnoreCase);
             foreach (EnumDirectoryInfo directoryInfo in directories)
             {
-                var query = zdir.EnumerateFilesInfo(directoryInfo.Directory, followDirectoryTree: dir => { });
+                // followDirectoryTree ????
+                //var query = zdir.EnumerateFilesInfo(directoryInfo.Directory, followDirectoryTree: dir => { });
+                var query = zdir.EnumerateFilesInfo(directoryInfo.Directory);
             }
             return fileGroups;
         }

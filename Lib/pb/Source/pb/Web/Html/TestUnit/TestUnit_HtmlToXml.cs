@@ -6,6 +6,7 @@ using MongoDB.Bson;
 using MongoDB.Bson.IO;
 using pb.Data.Mongo;
 using pb.IO;
+using System;
 
 namespace pb.Web.TestUnit
 {
@@ -415,12 +416,13 @@ namespace pb.Web.TestUnit
                 directory = GetDirectory();
             directory = RootDirectory(directory);
             //Trace.WriteLine("read directory \"{0}\"", directory);
-            return zdir.EnumerateFilesInfo(directory, pattern, directoryFilter:
+            Func<EnumDirectoryInfo, EnumDirectoryFilter> directoryFilter =
                 dirInfo =>
                 {
                     bool select = zPath.GetFileName(dirInfo.SubDirectory) != __archiveDirectory;
                     return new EnumDirectoryFilter { Select = select, RecurseSubDirectory = select };
-                }).Select(fileInfo => fileInfo.File);
+                };
+            return zdir.EnumerateFilesInfo(directory, pattern, directoryFilters: new Func<EnumDirectoryInfo, EnumDirectoryFilter>[] { directoryFilter }).Select(fileInfo => fileInfo.File);
         }
 
         public static string GetDirectory()

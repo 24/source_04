@@ -612,17 +612,39 @@ namespace pb.Web
             return _stringBuilder.ToString();
         }
 
+        public static IEnumerable<HtmlNode> Read(TextReader textReader, bool generateCloseTag = false, bool disableLineColumn = false,
+            bool disableScriptTreatment = false, bool useReadAttributeValue_v2 = true, bool useTranslateChar = true)
+        {
+            HtmlReader_v4 htmlReader = new HtmlReader_v4(textReader, useTranslateChar);
+            htmlReader.GenerateCloseTag = generateCloseTag;
+            htmlReader.DisableLineColumn = disableLineColumn;
+            htmlReader.DisableScriptTreatment = disableScriptTreatment;
+            htmlReader.UseReadAttributeValue_v2 = useReadAttributeValue_v2;
+            return htmlReader.Read();
+        }
+
         public static IEnumerable<HtmlNode> ReadFile(string file, Encoding encoding = null, bool generateCloseTag = false, bool disableLineColumn = false,
             bool disableScriptTreatment = false, bool useReadAttributeValue_v2 = true, bool useTranslateChar = true)
         {
             using (StreamReader sr = zfile.OpenText(file, encoding))
             {
-                HtmlReader_v4 htmlReader = new HtmlReader_v4(sr, useTranslateChar);
-                htmlReader.GenerateCloseTag = generateCloseTag;
-                htmlReader.DisableLineColumn = disableLineColumn;
-                htmlReader.DisableScriptTreatment = disableScriptTreatment;
-                htmlReader.UseReadAttributeValue_v2 = useReadAttributeValue_v2;
-                foreach (HtmlNode node in htmlReader.Read())
+                // attention return Read() generate exception Cannot read from a closed TextReader. (System.ObjectDisposedException)
+                //return Read(sr, generateCloseTag, disableLineColumn, disableScriptTreatment, useReadAttributeValue_v2, useTranslateChar);
+                foreach (HtmlNode node in Read(sr, generateCloseTag, disableLineColumn, disableScriptTreatment, useReadAttributeValue_v2, useTranslateChar))
+                {
+                    yield return node;
+                }
+            }
+        }
+
+        public static IEnumerable<HtmlNode> ReadString(string html, bool generateCloseTag = false, bool disableLineColumn = false,
+            bool disableScriptTreatment = false, bool useReadAttributeValue_v2 = true, bool useTranslateChar = true)
+        {
+            using (StringReader sr = new StringReader(html))
+            {
+                // attention return Read() generate exception Cannot read from a closed TextReader. (System.ObjectDisposedException)
+                //return Read(sr, generateCloseTag, disableLineColumn, disableScriptTreatment, useReadAttributeValue_v2, useTranslateChar);
+                foreach (HtmlNode node in Read(sr, generateCloseTag, disableLineColumn, disableScriptTreatment, useReadAttributeValue_v2, useTranslateChar))
                 {
                     yield return node;
                 }

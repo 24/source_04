@@ -35,7 +35,7 @@ namespace pb.Web
                 }
             }
             if (urlPath != null)
-                return zimg.LoadFromFile(urlPath);
+                return zimg.LoadBitmapFromFile(urlPath);
             return null;
         }
     }

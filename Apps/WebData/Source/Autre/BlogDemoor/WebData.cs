@@ -15,6 +15,13 @@ namespace WebData.BlogDemoor
             return BlogDemoor.Create(test);
         }
 
+        public static BlogDemoor_v4 CreateDataManager_v4(string parameters = null)
+        {
+            NamedValues<ZValue> parameters2 = ParseParameters(parameters);
+            bool test = WebData.GetTestValue(parameters2);
+            return BlogDemoor_v4.Create(test);
+        }
+
         public static void Backup(string parameters = null)
         {
             Backup backup = new Backup();

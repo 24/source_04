@@ -5,6 +5,8 @@ using System.Text.RegularExpressions;
 using System.Xml;
 using System.Xml.Linq;
 
+// bug : <br> génère <br>... </br>
+
 namespace pb.Web
 {
     public class XXXNode

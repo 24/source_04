@@ -71,8 +71,8 @@
   </CompilerConfig>
   
   <DefaultProject                              value = "$ProjectDirectory$\Lib\pb\Source\Project\Default.project.xml"/>    <!-- used to compile without project  -->
-  <!--<TraceInitEndOnceMethods                     value = "true"/>-->
-  <!--<TraceInitEndAlwaysMethods                   value = "true"/>-->
+  <TraceInitEndOnceMethods                     value = "true"/>
+  <TraceInitEndAlwaysMethods                   value = "true"/>
   <!--<ProjectDefaultValues                        value = "$ProjectDirectory$\Lib\pb\Source\Project\DefaultValues.project.xml"/>-->
 	<!--<ProjectDefaultValues>
 		<Using                                     value = "System" />

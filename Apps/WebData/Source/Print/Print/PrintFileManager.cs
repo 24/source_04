@@ -202,8 +202,11 @@ namespace Download.Print
         private static Regex __bonusDirectory = new Regex("^b?bonus[0-9]*$", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
         public static IEnumerable<EnumDirectoryInfo> GetBonusDirectories(string directory)
         {
-            return zdir.EnumerateDirectoriesInfo(directory,
-                directoryFilter: directoryInfo => __bonusDirectory.IsMatch(zPath.GetFileName(directoryInfo.SubDirectory)) ? new EnumDirectoryFilter { Select = true, RecurseSubDirectory = false } : new EnumDirectoryFilter { Select = false, RecurseSubDirectory = true });
+            Func<EnumDirectoryInfo, EnumDirectoryFilter> directoryFilter =
+                directoryInfo => __bonusDirectory.IsMatch(zPath.GetFileName(directoryInfo.SubDirectory))
+                    ? new EnumDirectoryFilter { Select = true, RecurseSubDirectory = false }
+                    : new EnumDirectoryFilter { Select = false, RecurseSubDirectory = true };
+            return zdir.EnumerateDirectoriesInfo(directory, directoryFilters: new Func<EnumDirectoryInfo, EnumDirectoryFilter>[] { directoryFilter });
         }
 
         public static Dictionary<string, List<FileGroup>> GetFileGroups(IEnumerable<EnumDirectoryInfo> directories)
@@ -212,7 +215,9 @@ namespace Download.Print
             foreach (EnumDirectoryInfo directoryInfo in directories)
             {
                 //Trace.WriteLine("get files from \"{0}\"", directoryInfo.Directory);
-                var query = zdir.EnumerateFilesInfo(directoryInfo.Directory, followDirectoryTree: dir => { })
+                // followDirectoryTree ????
+                // followDirectoryTree: dir => { }
+                var query = zdir.EnumerateFilesInfo(directoryInfo.Directory)
                 .Select(
                     file =>
                     {

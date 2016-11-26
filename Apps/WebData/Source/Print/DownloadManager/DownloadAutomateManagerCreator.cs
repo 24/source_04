@@ -249,9 +249,9 @@ namespace Download.Print
             return downloadManagerClient;
         }
 
-        public UncompressManager CreateUncompressManager()
+        public UncompressQueueManager CreateUncompressManager()
         {
-            UncompressManager uncompressManager = new UncompressManager();
+            UncompressQueueManager uncompressManager = new UncompressQueueManager();
             //uncompressManager.ArchiveCompressDirectory = XmlConfig.CurrentConfig.Get("DownloadAutomateManager/UncompressManager/ArchiveCompressDirectory");
             uncompressManager.ArchiveCompressDirectory = _xeConfig.zXPathValue("UncompressManager/ArchiveCompressDirectory");
             //uncompressManager.ArchiveErrorCompressDirectory = XmlConfig.CurrentConfig.Get("DownloadAutomateManager/UncompressManager/ArchiveErrorCompressDirectory");
@@ -283,7 +283,7 @@ namespace Download.Print
             //    debrider = new DebriderAlldebridTest();
             Debrider debrider = CreateDebrider();
             DownloadManagerClientBase downloadManagerClient = CreateDownloadManagerClient();
-            UncompressManager uncompressManager = CreateUncompressManager();
+            UncompressQueueManager uncompressManager = CreateUncompressManager();
 
             DownloadManager downloadManager = new DownloadManager();
             downloadManager.DownloadManagerClient = downloadManagerClient;

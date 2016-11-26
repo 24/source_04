@@ -14,11 +14,11 @@ namespace Test.Test_OpenXml
         private DocX _document = null;
         private Paragraph _paragraph = null;
 
-        private void _Create(string file, IEnumerable<zDocXElement> elements)
+        private void _Create(string file, IEnumerable<OXmlElement> elements)
         {
             using (_document = DocX.Create(file))
             {
-                foreach (zDocXElement element in elements)
+                foreach (OXmlElement element in elements)
                 {
                     switch (element.Type)
                     {
@@ -28,16 +28,16 @@ namespace Test.Test_OpenXml
                         //case zDocXElementType.EndParagraph:
                         //    _paragraph = null;
                         //    break;
-                        case zDocXElementType.Paragraph:
+                        case OXmlElementType.Paragraph:
                             _paragraph = _document.InsertParagraph();
                             break;
-                        case zDocXElementType.Text:
+                        case OXmlElementType.Text:
                             AddText(element);
                             break;
-                        case zDocXElementType.Line:
+                        case OXmlElementType.Line:
                             AddLine();
                             break;
-                        case zDocXElementType.Picture:
+                        case OXmlElementType.Picture:
                             AddPicture(element);
                             break;
                     }
@@ -46,13 +46,13 @@ namespace Test.Test_OpenXml
             }
         }
 
-        private void AddText(zDocXElement element)
+        private void AddText(OXmlElement element)
         {
             if (_paragraph == null)
                 throw new PBException("missing begin paragraph");
-            if (!(element is zDocXTextElement))
+            if (!(element is OXmlTextElement))
                 throw new PBException("text element must be a zDocXElementText");
-            _paragraph.Append(((zDocXTextElement)element).Text);
+            _paragraph.Append(((OXmlTextElement)element).Text);
         }
 
         private void AddLine()
@@ -62,13 +62,13 @@ namespace Test.Test_OpenXml
             _paragraph.AppendLine();
         }
 
-        private void AddPicture(zDocXElement element)
+        private void AddPicture(OXmlElement element)
         {
             if (_paragraph == null)
                 throw new PBException("missing begin paragraph");
-            if (!(element is zDocXPictureElement))
+            if (!(element is OXmlPictureElement))
                 throw new PBException("picture element must be a zDocXElementPicture");
-            zDocXPictureElement pictureElement = (zDocXPictureElement)element;
+            OXmlPictureElement pictureElement = (OXmlPictureElement)element;
             Image image = _document.AddImage(pictureElement.File);
             Picture picture = image.CreatePicture();
             Trace.WriteLine("picture width {0} height {1}", picture.Width, picture.Height);
@@ -95,7 +95,7 @@ namespace Test.Test_OpenXml
             //     autoriser le chevauchement de texte
         }
 
-        public static void Create(string file, IEnumerable<zDocXElement> elements)
+        public static void Create(string file, IEnumerable<OXmlElement> elements)
         {
             new zDocX()._Create(file, elements);
         }

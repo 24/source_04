@@ -111,6 +111,12 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <None Include="ClassDiagram1.cd" />
+    <None Include="Source\pb\Data\OpenXml\Test\Data\page_01_01.oxml.json" />
+    <None Include="Source\pb\Data\OpenXml\Test\Data\page_01_02.oxml.json" />
+    <None Include="Source\pb\Data\OpenXml\Test\Data\page_01_03.oxml.json" />
+    <None Include="Source\pb\Data\OpenXml\Test\Data\page_01_04.oxml.json" />
+    <None Include="Source\pb\Data\OpenXml\Test\Data\page_01_06.oxml.json" />
+    <None Include="Source\pb\Data\OpenXml\Test\Data\page_01_05.oxml.json" />
     <None Include="Source\Project\Test\TestMongoCommand.run.cs" />
     <None Include="Source\Project\Test\TestExtension_01.dll.run.cs" />
     <None Include="Source\Project\Test\TestExtension_01.run.cs" />
@@ -170,9 +176,14 @@
     <Compile Include="Source\pb\Data\Mongo\WebImageMongoManager.cs" />
     <Compile Include="Source\pb\Data\OpenXml\AnchorDrawing.cs" />
     <Compile Include="Source\pb\Data\OpenXml\Graphic.cs" />
-    <Compile Include="Source\pb\Data\OpenXml\Test\Test_OpenXml_06.cs" />
-    <Compile Include="Source\pb\Data\OpenXml\zDocXElement.cs" />
-    <Compile Include="Source\pb\Data\OpenXml\zOpenXmlDoc.cs" />
+    <Compile Include="Source\pb\Data\OpenXml\Test\Test_OpenXml_Style_v1.cs" />
+    <Compile Include="Source\pb\Data\OpenXml\Test\Test_OXmlCreator.cs" />
+    <Compile Include="Source\pb\Data\OpenXml\OXmlElementReader.cs" />
+    <Compile Include="Source\pb\Data\OpenXml\Test\Test_OpenXml_Image.cs" />
+    <Compile Include="Source\pb\Data\OpenXml\OXmlElement.cs" />
+    <Compile Include="Source\pb\Data\OpenXml\OXmlDoc.cs" />
+    <Compile Include="Source\pb\Data\OpenXml\Test\Test_OpenXml_Style.cs" />
+    <Compile Include="Source\pb\Data\OpenXml\Test\Test_OpenXml_Zip.cs" />
     <Compile Include="Source\pb\Data\TraceDataTable.cs" />
     <Compile Include="Source\pb\Data\_old\IDocumentStore_v4.cs" />
     <Compile Include="Source\pb\Data\IDocumentStore.cs" />
@@ -236,11 +247,15 @@
     <Compile Include="Source\pb\IO\Backup.cs" />
     <Compile Include="Source\pb\IO\CharStreamReader.cs" />
     <Compile Include="Source\pb\IO\CompressBaseManager.cs" />
+    <Compile Include="Source\pb\IO\CompressFile.cs" />
     <Compile Include="Source\pb\IO\CompressManager.cs" />
+    <Compile Include="Source\pb\IO\CompressManagerMultiple.cs" />
+    <Compile Include="Source\pb\IO\CompressOptions.cs" />
     <Compile Include="Source\pb\IO\FilenameNumberInfo.cs" />
     <Compile Include="Source\pb\IO\FileOption.cs" />
     <Compile Include="Source\pb\IO\Test\Test_SharpCompressManager.cs" />
     <Compile Include="Source\pb\IO\Test\Test_utf8.cs" />
+    <Compile Include="Source\pb\IO\Test\Test_ZipReader.cs" />
     <Compile Include="Source\pb\IO\Test\Test_ZipArchive.cs" />
     <Compile Include="Source\pb\IO\zUpdateFiles.cs" />
     <Compile Include="Source\pb\IO\zDirectory.cs" />
@@ -248,7 +263,7 @@
     <Compile Include="Source\pb\IO\ZipArchive.cs" />
     <Compile Include="Source\pb\IO\zPath.cs" />
     <Compile Include="Source\pb\IO\SharpCompressManager.cs" />
-    <Compile Include="Source\pb\IO\UncompressManager.cs" />
+    <Compile Include="Source\pb\IO\UncompressQueueManager.cs" />
     <Compile Include="Source\pb\IO\WriteToFile.cs" />
     <Compile Include="Source\pb\IO\WriteToFileCreate.cs" />
     <Compile Include="Source\pb\IO\ZipManager.cs" />

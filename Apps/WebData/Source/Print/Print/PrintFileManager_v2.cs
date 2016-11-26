@@ -83,7 +83,7 @@ namespace Download.Print
         private bool _simulate = false;
         private bool _moveFiles = false;
         private bool _moveInfoFiles = false;
-        private UncompressManager _uncompressManager = null;
+        private UncompressQueueManager _uncompressManager = null;
         private RegexValuesList _bonusDirectories = null;
         private MovePrintFiles _movePrintFiles = null;
 
@@ -103,7 +103,7 @@ namespace Download.Print
         public bool Simulate { get { return _simulate; } set { _simulate = value; } }
         public bool MoveFiles { get { return _moveFiles; } set { _moveFiles = value; } }
         public bool MoveInfoFiles { get { return _moveInfoFiles; } set { _moveInfoFiles = value; } }
-        public UncompressManager UncompressManager { get { return _uncompressManager; } set { _uncompressManager = value; } }
+        public UncompressQueueManager UncompressManager { get { return _uncompressManager; } set { _uncompressManager = value; } }
         public RegexValuesList BonusDirectories { get { return _bonusDirectories; } set { _bonusDirectories = value; } }
 
         // book example :
@@ -114,7 +114,8 @@ namespace Download.Print
         {
             // 1) delete empty directory
             if (!_simulate)
-                zdir.DeleteEmptyDirectory(sourceDirectory, deleteOnlySubdirectory: true);
+                //zdir.DeleteEmptyDirectory(sourceDirectory, deleteOnlySubdirectory: true);
+                zdir.DeleteEmptyDirectory(sourceDirectory, recurse: false);
 
             // 2) uncompress .zip .rar (recursive)
             if (!_simulate)
@@ -171,8 +172,10 @@ namespace Download.Print
             // 7) delete empty directory
             if (!_simulate)
             {
-                zdir.DeleteEmptyDirectory(zPath.Combine(sourceDirectory, InfoFile.InfoDirectory) , deleteOnlySubdirectory: false);
-                zdir.DeleteEmptyDirectory(sourceDirectory, deleteOnlySubdirectory: false);
+                //zdir.DeleteEmptyDirectory(zPath.Combine(sourceDirectory, InfoFile.InfoDirectory) , deleteOnlySubdirectory: false);
+                zdir.DeleteEmptyDirectory(zPath.Combine(sourceDirectory, InfoFile.InfoDirectory), recurse: true);
+                //zdir.DeleteEmptyDirectory(sourceDirectory, deleteOnlySubdirectory: false);
+                zdir.DeleteEmptyDirectory(sourceDirectory, recurse: true);
             }
         }
 

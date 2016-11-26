@@ -41,22 +41,52 @@ TraceMongoCommand.Eval("db.getCollectionNames()", "BlogDemoor_test");
 //****                                                   Test HtmlToDocx
 //**********************************************************************************************************************************************************************************************
 
-Test_HtmlToDocx.Test_01(@"c:\pib\_dl\test\BlogDemoor\mongo\page_01.html");
-Test_HtmlToDocx.Test_02(@"c:\pib\_dl\test\BlogDemoor\mongo\page_01.html");
-Test_HtmlToDocx.Test_03(@"c:\pib\_dl\test\BlogDemoor\mongo\page_01.html");
-Test_HtmlToDocx.Test_04(@"c:\pib\_dl\test\BlogDemoor\mongo\page_01.html");
-Test_HtmlToDocx.Test_05(@"c:\pib\_dl\test\BlogDemoor\mongo\page_01.html");
+Test_HtmlToOXmlDoc.Test_Trace_Html(@"c:\pib\_dl\test\BlogDemoor\test\page_01.html");
+Test_HtmlToOXmlDoc.Test_Trace_HtmlDoc(@"c:\pib\_dl\test\BlogDemoor\test\page_01.html");
+Test_HtmlToOXmlDoc.Test_Trace_HtmlDocText(@"c:\pib\_dl\test\BlogDemoor\test\page_01.html");
+Test_HtmlToOXmlDoc.Test_Trace_HtmlToOXml(@"c:\pib\_dl\test\BlogDemoor\test\page_01.html");
+Test_HtmlToOXmlDoc.Test_Trace_HtmlToOXmlText(@"c:\pib\_dl\test\BlogDemoor\test\page_01.html");
+Test_HtmlToOXmlDoc.Test_HtmlToDocx(@"c:\pib\_dl\test\BlogDemoor\test\page_01.html");
+Test_HtmlToOXmlDoc.Test_OXmlToDocx(@"c:\pib\_dl\test\BlogDemoor\test\oxml.example.json");
+Test_HtmlToOXmlDoc.Test_OXmlToDocx(@"c:\pib\_dl\test\BlogDemoor\test\page_01_01.oxml.json");
+Test_HtmlToOXmlDoc.Test_OXmlToDocx(@"c:\pib\_dl\test\BlogDemoor\test\page_01_02.oxml.json");
+Test_HtmlToOXmlDoc.Test_OXmlToDocx(@"c:\pib\_dl\test\BlogDemoor\test\page_01_03.oxml.json");
+Test_HtmlToOXmlDoc.Test_OXmlToDocx(@"c:\pib\_dl\test\BlogDemoor\test\page_01_04.oxml.json");
+Test_HtmlToOXmlDoc.Test_OXmlToDocx(@"c:\pib\_dl\test\BlogDemoor\test\page_01_05.oxml.json");
+Test_HtmlToOXmlDoc.Test_OXmlToDocx(@"c:\pib\_dl\test\BlogDemoor\test\page_01_06.oxml.json");
+Test_HtmlToOXmlDoc.Test_OXmlToDocx(@"c:\pib\drive\google\dev\project\.net\Lib\pb\Source\pb\Data\OpenXml\Test\Data\page_01_06_99.oxml.json");
+
 
 //**********************************************************************************************************************************************************************************************
 //****                                                   Test Test_OpenXml.project.xml
 //**********************************************************************************************************************************************************************************************
 
 RunSource.CurrentRunSource.SetProjectFromSource();
-RunSource.CurrentRunSource.SetProject(@"$Root$\Test\Test.Test_01\Source\Test_OpenXml\Test_OpenXml.project.xml");
+//RunSource.CurrentRunSource.SetProject(@"$Root$\Test\Test.Test_01\Source\Test_OpenXml\Test_OpenXml.project.xml");
 RunSource.CurrentRunSource.SetProject(@"$Root$\Lib\pb\Source\pb\Data\OpenXml\Test\Test_OpenXml.project.xml");
 
-Test_OpenXml_06.Test_01();
-Test_OpenXml_06.Test_02();
+Test_OpenXml_Image.Test_01();
+Test_OpenXml_Image.Test_02();
+Test_OpenXml_Image.Test_03();
+Test_OpenXml_Image.Test_04();
+Test_OpenXml_Image.Test_05();
+Test_OpenXml_Image.Test_06();
+
+Test_OpenXml_Style.Test_DocDefaults_01();
+Test_OpenXml_Style.Test_Style_01();
+
+Test_OpenXml_Style.Test_Header_01(header: true, footer: true, pageNumber: true);
+Test_OpenXml_Style.Test_Header_01(header: true, footer: true, pageNumber: false);
+Test_OpenXml_Style.Test_Header_01(header: true, footer: false);
+Test_OpenXml_Style.Test_Header_01(header: false, footer: false);
+
+Test_OpenXml_Style.Test_Formule_01("=5+7");
+Test_OpenXml_Style.Test_Formule_01("FILENAME");
+
+
+OXmlElementReader.Test_01(@"c:\pib\_dl\test\BlogDemoor\test\oxml.example.json");
+
+Trace.WriteLine("toto");
 
 //**********************************************************************************************************************************************************************************************
 //****                                                   Test old
@@ -199,3 +229,55 @@ Trace.WriteLine("toto");
 new Test_01 { Text = "toto", Number = 123 }.zTraceJson();
 new Test_01 { Text = "toto", Number = 123 }.zSave(@"c:\pib\_dl\test\test_01.json");
 zmongo.ReadFileAs<Test_01>(@"c:\pib\_dl\test\test_01.json").zTraceJson();
+
+
+//**********************************************************************************************************************************************************************************************
+//****                                                   Test Test_SharpCompressManager.project.xml
+//**********************************************************************************************************************************************************************************************
+
+RunSource.CurrentRunSource.SetProjectFromSource();
+//RunSource.CurrentRunSource.SetProject(@"$Root$\Test\Test.Test_01\Source\Test_OpenXml\Test_OpenXml.project.xml");
+RunSource.CurrentRunSource.SetProject(@"$Root$\Lib\pb\Source\pb\IO\Test\Test_SharpCompressManager.project.xml");
+
+Trace.WriteLine("toto");
+
+// uncompress all .docx files in directory .docx.zip
+string docxFile = @"c:\pib\_dl\test\BlogDemoor\test\word\test_01_01.docx";
+string dir = @"c:\pib\_dl\test\BlogDemoor\test\word\test_01_01.docx.zip";
+new CompressManager(new ZipManager()).Uncompress(docxFile, dir, null, UncompressOptions.ExtractFullPath).zTraceJson();
+string docxFile = @"c:\pib\_dl\test\BlogDemoor\test\word\test_01_01.docx";
+new CompressManager(new ZipManager()).Uncompress(docxFile, null, new string[] { @"word/document.xml" });
+
+var xd = System.Xml.Linq.XDocument.Load(@"c:\pib\_dl\test\BlogDemoor\test\word\test_01_01\word\document.xml");
+xd.Save(@"c:\pib\_dl\test\BlogDemoor\test\word\test_01_01\word\document.xml");
+
+//string dir = @"c:\pib\_dl\test\BlogDemoor\test\word\test_01_01.docx.zip$$\";
+string dir = @"c:\pib\_dl\test\BlogDemoor\test\word\test_01_01.docx.zip\";
+string[] files = new string[] {
+    dir + @"word\document.xml"
+    //dir + @"word\styles.xml"
+    //dir + @"word\fontTable.xml"
+};
+ZipArchive.Zip(@"c:\pib\_dl\test\BlogDemoor\test\word\test_01_01_test.docx", files, FileMode.OpenOrCreate, ZipArchiveOptions.StorePartialPath, dir);
+//Test_SharpCompress.Test_Compress_01(@"c:\pib\_dl\test\BlogDemoor\test\word\test_01_01_test.docx", files, dir);
+
+Test_ZipReader.Test_ZipReader_01(@"c:\pib\_dl\test\BlogDemoor\test\word\test_zip_08_pb.IO.ZipArchive.docx");
+
+
+zDirectory.EnumerateFileSystemEntries(@"c:\pib\_dl\test\BlogDemoor\test\word\test_01_01.docx.zip").zTrace();
+
+
+RunSource.CurrentRunSource.SetProject(@"$Root$\Lib\pb\Source\pb\Data\OpenXml\Test\Test_OpenXml.project.xml");
+// ok word and error google doc
+Test_OpenXml_Zip.Test_OpenXml_Zip_01(@"c:\pib\_dl\test\BlogDemoor\test\word\test_zip_03_System.IO.Compression.ZipArchive.docx", @"c:\pib\_dl\test\BlogDemoor\test\word\test_01_01.docx.zip", useSlash: false, addDirectoryEntry: false);
+// ok word and error google doc
+Test_OpenXml_Zip.Test_OpenXml_Zip_01(@"c:\pib\_dl\test\BlogDemoor\test\word\test_zip_04_System.IO.Compression.ZipArchive.docx", @"c:\pib\_dl\test\BlogDemoor\test\word\test_01_01.docx.zip", useSlash: false, addDirectoryEntry: true);
+// ok word and ok google doc
+Test_OpenXml_Zip.Test_OpenXml_Zip_01(@"c:\pib\_dl\test\BlogDemoor\test\word\test_zip_05_System.IO.Compression.ZipArchive.docx", @"c:\pib\_dl\test\BlogDemoor\test\word\test_01_01.docx.zip", useSlash: true, addDirectoryEntry: false);
+// ok word and ok google doc
+Test_OpenXml_Zip.Test_OpenXml_Zip_01(@"c:\pib\_dl\test\BlogDemoor\test\word\test_zip_06_System.IO.Compression.ZipArchive.docx", @"c:\pib\_dl\test\BlogDemoor\test\word\test_01_01.docx.zip", useSlash: true, addDirectoryEntry: true);
+
+// ok word and error google doc
+Test_OpenXml_Zip.Test_OpenXml_Zip_02(@"c:\pib\_dl\test\BlogDemoor\test\word\test_zip_07_pb.IO.ZipArchive.docx", @"c:\pib\_dl\test\BlogDemoor\test\word\test_01_01.docx.zip", useSlash: false);
+// ok word and ok google doc
+Test_OpenXml_Zip.Test_OpenXml_Zip_02(@"c:\pib\_dl\test\BlogDemoor\test\word\test_zip_08_pb.IO.ZipArchive.docx", @"c:\pib\_dl\test\BlogDemoor\test\word\test_01_01.docx.zip", useSlash: true);

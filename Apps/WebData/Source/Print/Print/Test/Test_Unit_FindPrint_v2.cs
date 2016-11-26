@@ -29,7 +29,7 @@ namespace Download.Print.Test
             Trace.WriteLine("  FindPrintList.Count  : {0}", findPrintManager.FindPrintList.Count);
             file = zPath.Combine(GetDirectory(), file);
             string bsonFile = zpath.PathSetFileNameWithoutExtension(file, zPath.GetFileNameWithoutExtension(file) + "_out_bson");
-            zmongo.FileReader<TestPrint_v2>(file).zFindPrint(findPrintManager).zSave(bsonFile);
+            zmongo.BsonRead<TestPrint_v2>(file).zFindPrint(findPrintManager).zSave(bsonFile);
             //WriteAllFindPrint(bsonFile);
         }
 

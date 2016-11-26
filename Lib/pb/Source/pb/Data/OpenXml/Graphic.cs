@@ -2,7 +2,6 @@
 using A = DocumentFormat.OpenXml.Drawing;
 using PIC = DocumentFormat.OpenXml.Drawing.Pictures;
 
-//namespace Test.Test_OpenXml
 namespace pb.Data.OpenXml
 {
     // Graphic Object, <a:graphic>

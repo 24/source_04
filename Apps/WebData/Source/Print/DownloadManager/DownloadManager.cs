@@ -216,7 +216,7 @@ namespace Download.Print
         private Dictionary<int, DownloadLinkRef> _currentDownloadFiles = new Dictionary<int, DownloadLinkRef>();
         private ProtectLink _protectLink = null;
         private Debrider _debrider = null;
-        private UncompressManager _uncompressManager = null;
+        private UncompressQueueManager _uncompressManager = null;
         private Action<DownloadedFile> _onDownloaded = null;
 
         public DownloadManager()
@@ -237,7 +237,7 @@ namespace Download.Print
         public MongoCollectionManager<DownloadLinkRef> MongoCurrentDownloadFileManager { get { return _mongoCurrentDownloadFileManager; } set { _mongoCurrentDownloadFileManager = value; } }
         public ProtectLink ProtectLink { get { return _protectLink; } set { _protectLink = value; } }
         public Debrider Debrider { get { return _debrider; } set { _debrider = value; } }
-        public UncompressManager UncompressManager { get { return _uncompressManager; } set { _uncompressManager = value; } }
+        public UncompressQueueManager UncompressManager { get { return _uncompressManager; } set { _uncompressManager = value; } }
         public Action<DownloadedFile> OnDownloaded { get { return _onDownloaded; } set { _onDownloaded = value; } }
         public int DownloadFilesCount { get { return _queueDownloadFiles.Count; } }
         public long QueueDownloadFilesCount { get { return _mongoQueueDownloadFileManager.Count(); } }
@@ -711,7 +711,8 @@ namespace Download.Print
                         file += "_" + itemLink.Name;
                     if (serverLink.FilePartLinks.Length > 1)
                         //file += ZipManager.GetZipFilePartName(zurl.GetFileName(debridedLink));
-                        file += ZipManager.GetZipFilePartName(urlFileName);
+                        //file += ZipManager.GetZipFilePartName(urlFileName);
+                        file += ZipArchive.GetZipFilePartName(urlFileName);
                     //file += zurl.GetExtension(debridedLink);
                     file += zPath.GetExtension(urlFileName);
                     if (queueDownloadFile.Directory != null)

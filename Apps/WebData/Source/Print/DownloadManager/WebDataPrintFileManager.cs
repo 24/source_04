@@ -56,7 +56,8 @@ namespace Download.Print
                         {
                             // remove empty directories
                             if (lastDirectory != null)
-                                zdir.DeleteEmptyDirectory(lastDirectory, deleteOnlySubdirectory: false);
+                                //zdir.DeleteEmptyDirectory(lastDirectory, deleteOnlySubdirectory: false);
+                                zdir.DeleteEmptyDirectory(lastDirectory, recurse: true);
                             lastDirectory = directory;
                         }
                         if (renamePrintFile.RenameFile)
@@ -66,10 +67,11 @@ namespace Download.Print
                 }).zSave(logFile);
             // remove empty directories
             if (!simulate && lastDirectory != null)
-                zdir.DeleteEmptyDirectory(lastDirectory, deleteOnlySubdirectory: false);
+                //zdir.DeleteEmptyDirectory(lastDirectory, deleteOnlySubdirectory: false);
+                zdir.DeleteEmptyDirectory(lastDirectory, recurse: true);
         }
 
-        public static PrintFileManager_v2 CreatePrintFileManager_v2(UncompressManager uncompressManager = null, bool simulate = false, bool moveFiles = false, bool moveInfoFiles = false)
+        public static PrintFileManager_v2 CreatePrintFileManager_v2(UncompressQueueManager uncompressManager = null, bool simulate = false, bool moveFiles = false, bool moveInfoFiles = false)
         {
             DownloadAutomateManagerCreator downloadAutomateManagerCreator = GetDownloadAutomateManagerCreator();
             if (uncompressManager == null)

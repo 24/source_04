@@ -9,6 +9,7 @@ namespace pb.IO
         private string _backupDirectory = null;
         private string _zipFilename = null;
         private List<Func<string, IEnumerable<string>>> _backupActions = new List<Func<string, IEnumerable<string>>>();
+        private CompressManager _compressManager = new CompressManager(new ZipManager());
 
         public string TempBackupDirectory { get { return _tempBackupDirectory; } set { _tempBackupDirectory = value; } }
         public string BackupDirectory { get { return _backupDirectory; } set { _backupDirectory = value; } }
@@ -45,7 +46,8 @@ namespace pb.IO
                 throw new PBException("temp backup directory is not defined");
             string zipFile = zPath.Combine(_tempBackupDirectory, _zipFilename + ".zip");
             Trace.WriteLine("zip files to \"{0}\"", zipFile);
-            ZipArchive.Zip(zipFile, files, options: ZipArchiveOptions.DeleteSourceFiles);
+            //ZipArchive.Zip(zipFile, files, compressOptions: CompressOptions.DeleteSourceFiles);
+            _compressManager.Compress(zipFile, files, compressOptions: CompressOptions.DeleteSourceFiles);
             return zipFile;
         }
 

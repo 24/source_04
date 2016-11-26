@@ -1,0 +1,133 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{02AD70E3-A426-4132-9AF7-06AE0E2667B7}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>oxml</RootNamespace>
+    <AssemblyName>oxml</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Pri.LongPath">
+      <HintPath>..\..\..\Lib\LongPath\Pri.LongPath\bin\Debug\Pri.LongPath.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpCompress">
+      <HintPath>..\..\..\..\library\SharpCompress\SharpCompress0.10.3\Full\SharpCompress.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\IO\CompressBaseManager.cs">
+      <Link>SourceLnk\Lib\pb\IO\CompressBaseManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\IO\CompressFile.cs">
+      <Link>SourceLnk\Lib\pb\IO\CompressFile.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\IO\CompressManager.cs">
+      <Link>SourceLnk\Lib\pb\IO\CompressManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\IO\CompressOptions.cs">
+      <Link>SourceLnk\Lib\pb\IO\CompressOptions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\IO\Directory.cs">
+      <Link>SourceLnk\Lib\pb\IO\Directory.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\IO\File.cs">
+      <Link>SourceLnk\Lib\pb\IO\File.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\IO\FilenameNumberInfo.cs">
+      <Link>SourceLnk\Lib\pb\IO\FilenameNumberInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\IO\Path.cs">
+      <Link>SourceLnk\Lib\pb\IO\Path.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\IO\SharpCompressManager.cs">
+      <Link>SourceLnk\Lib\pb\IO\SharpCompressManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\IO\WriteToFile.cs">
+      <Link>SourceLnk\Lib\pb\IO\WriteToFile.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\IO\zDirectory.cs">
+      <Link>SourceLnk\Lib\pb\IO\zDirectory.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\IO\zFile.cs">
+      <Link>SourceLnk\Lib\pb\IO\zFile.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\IO\ZipArchive.cs">
+      <Link>SourceLnk\Lib\pb\IO\ZipArchive.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\IO\ZipManager.cs">
+      <Link>SourceLnk\Lib\pb\IO\ZipManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\IO\zPath.cs">
+      <Link>SourceLnk\Lib\pb\IO\zPath.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\Text\Regex.cs">
+      <Link>SourceLnk\Lib\pb\Text\Regex.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\_pb\Application.cs">
+      <Link>SourceLnk\Lib\pb\_pb\Application.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\_pb\Error.cs">
+      <Link>SourceLnk\Lib\pb\_pb\Error.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\_pb\ITrace.cs">
+      <Link>SourceLnk\Lib\pb\_pb\ITrace.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\_pb\PBException.cs">
+      <Link>SourceLnk\Lib\pb\_pb\PBException.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\_pb\Trace.cs">
+      <Link>SourceLnk\Lib\pb\_pb\Trace.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\_pb\TraceError.cs">
+      <Link>SourceLnk\Lib\pb\_pb\TraceError.cs</Link>
+    </Compile>
+    <Compile Include="Source\OXml.cs" />
+    <Compile Include="Source\Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -39,9 +39,9 @@ namespace Download.Print
         private static string __badFileDirectory = "_bad";
         private bool _simulate = false;
         private bool _moveFiles = false;
-        private UncompressManager _uncompressManager = null;
+        private UncompressQueueManager _uncompressManager = null;
 
-        public PrintFileManager(UncompressManager uncompressManager)
+        public PrintFileManager(UncompressQueueManager uncompressManager)
         {
             _uncompressManager = uncompressManager;
         }
@@ -75,7 +75,8 @@ namespace Download.Print
 
             // 1) delete empty directory
             if (!_simulate)
-                directoryGroup.zForEach(dir => zdir.DeleteEmptyDirectory(dir.Directory, deleteOnlySubdirectory: true));
+                //directoryGroup.zForEach(dir => zdir.DeleteEmptyDirectory(dir.Directory, deleteOnlySubdirectory: true));
+                directoryGroup.zForEach(dir => zdir.DeleteEmptyDirectory(dir.Directory, recurse: false));
 
             // 2) uncompress .zip .rar (recursive)
             directoryGroup.zForEach(dir => UncompressDirectoryFiles(dir.Directory));
@@ -110,7 +111,8 @@ namespace Download.Print
             // 7) delete empty directory
             if (!_simulate)
                 // deleteOnlySubdirectory: true
-                directoryGroup.zForEach(dir => zdir.DeleteEmptyDirectory(dir.Directory, deleteOnlySubdirectory: false));
+                //directoryGroup.zForEach(dir => zdir.DeleteEmptyDirectory(dir.Directory, deleteOnlySubdirectory: false));
+                directoryGroup.zForEach(dir => zdir.DeleteEmptyDirectory(dir.Directory, recurse: true));
         }
 
         public void ManageDirectory_v1(int level, params string[] directories)
@@ -129,7 +131,8 @@ namespace Download.Print
             {
                 // 1) delete empty directory
                 if (!_simulate)
-                    directoryGroup.zForEach(dir => zdir.DeleteEmptyDirectory(dir.Directory, deleteOnlySubdirectory: true));
+                    //directoryGroup.zForEach(dir => zdir.DeleteEmptyDirectory(dir.Directory, deleteOnlySubdirectory: true));
+                    directoryGroup.zForEach(dir => zdir.DeleteEmptyDirectory(dir.Directory, recurse: false));
 
                 // 2) uncompress .zip .rar (recursive)
                 directoryGroup.zForEach(dir => UncompressDirectoryFiles(dir.Directory));
@@ -147,7 +150,8 @@ namespace Download.Print
 
                 // 5) delete empty directory
                 if (!_simulate)
-                    directoryGroup.zForEach(dir => zdir.DeleteEmptyDirectory(dir.Directory, deleteOnlySubdirectory: true));
+                    //directoryGroup.zForEach(dir => zdir.DeleteEmptyDirectory(dir.Directory, deleteOnlySubdirectory: true));
+                    directoryGroup.zForEach(dir => zdir.DeleteEmptyDirectory(dir.Directory, recurse: false));
             }
 
         }

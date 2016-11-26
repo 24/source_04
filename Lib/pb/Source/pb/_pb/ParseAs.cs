@@ -368,6 +368,19 @@ namespace pb
                         throw new PBException("can't parse string to {0}", asType.zGetTypeName());
             }
         }
+
+        public static T ParseEnum<T>(string value, bool ignoreCase = true)
+        {
+            return (T)Enum.Parse(typeof(T), value, ignoreCase);
+        }
+
+        public static T TryParseEnum<T>(string value, T defaultValue, bool ignoreCase = true)
+        {
+            if (value == null)
+                return defaultValue;
+            else
+                return (T)Enum.Parse(typeof(T), value, ignoreCase);
+        }
     }
 
     public static partial class GlobalExtension
@@ -390,6 +403,16 @@ namespace pb
         public static object zObjectTryParseAs(this string text, Type asType, object defaultValue = null, string format = null)
         {
             return zparse.ParseAs(text, asType, defaultValue, tryParse: true, format: format);
+        }
+
+        public static T zParseEnum<T>(this string value, bool ignoreCase = false)
+        {
+            return zparse.ParseEnum<T>(value, ignoreCase);
+        }
+
+        public static T zTryParseEnum<T>(this string value, T defaultValue, bool ignoreCase = true)
+        {
+            return zparse.TryParseEnum<T>(value, defaultValue, ignoreCase);
         }
     }
 }

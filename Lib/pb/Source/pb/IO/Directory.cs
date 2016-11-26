@@ -308,7 +308,8 @@ namespace pb.IO
         }
 
         // return true if directory is deleted otherwise false
-        public static bool DeleteEmptyDirectory(string directory, bool deleteOnlySubdirectory = true)
+        //public static bool DeleteEmptyDirectory(string directory, bool deleteOnlySubdirectory = true)
+        public static bool DeleteEmptyDirectory(string directory, bool recurse = false)
         {
             if (!zDirectory.Exists(directory))
                 return false;
@@ -325,7 +326,8 @@ namespace pb.IO
                 {
                     if (directoryStack.Count == 0)
                     {
-                        if (!deleteOnlySubdirectory && IsDirectoryEmpty(enumDirectory.directoryInfo))
+                        //if (!deleteOnlySubdirectory && IsDirectoryEmpty(enumDirectory.directoryInfo))
+                        if (recurse && IsDirectoryEmpty(enumDirectory.directoryInfo))
                         {
                             enumDirectory.directoryInfo.Delete();
                             return true;

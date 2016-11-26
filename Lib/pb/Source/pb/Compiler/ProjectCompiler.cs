@@ -1178,7 +1178,9 @@ namespace pb.Compiler
             //_zipSourceFile = _zipSourceFile.zRootPath(zPath.GetDirectoryName(_outputAssembly));
             _zipSourceFile = GetZipSourceFile(_outputAssembly);
             WriteLine(1, "  create zip source file \"{0}\"", _zipSourceFile);
-            using (ZipArchive zipArchive = new ZipArchive(_zipSourceFile, FileMode.Create))
+            //using (ZipArchive zipArchive = new ZipArchive(_zipSourceFile, FileMode.Create))
+            using (FileStream fs = new FileStream(_zipSourceFile, FileMode.Create))
+            using (ZipArchive zipArchive = new ZipArchive(fs, System.IO.Compression.ZipArchiveMode.Update))
             {
                 if (_projectCompilerFile != null && zFile.Exists(_projectCompilerFile.File))
                     zipArchive.AddFile(_projectCompilerFile.File, _projectCompilerFile.RelativePath);

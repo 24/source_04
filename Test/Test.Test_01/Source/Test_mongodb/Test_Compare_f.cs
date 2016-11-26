@@ -26,7 +26,7 @@ namespace Test.Test_mongodb
                 elementsToCompare: new string[] { "findPrint_file" }, comparatorOptions: BsonDocumentComparatorOptions.ReturnNotEqualDocuments)
                 //.zSaveToJsonFile(resultFile);
                 .Select(result => result.GetResultDocument()).zSave(resultFile);
-            RunSource.CurrentRunSource.SetResult(zmongo.FileReader<BsonDocument>(resultFile)
+            RunSource.CurrentRunSource.SetResult(zmongo.BsonRead<BsonDocument>(resultFile)
                 //.Where(doc => !(doc["result"]["findPrint_file"]["value1"] is BsonNull) && doc["result"]["result"].AsString != "equal")
                 .Where(doc => !(doc["result"]["findPrint_file"]["value1"] is BsonNull))
                 .Select(doc => new BsonDocument { { "result", doc["result"] } }).zToDataTable2_old());
@@ -54,8 +54,8 @@ namespace Test.Test_mongodb
             //        document2 => document2["postTitle"],
             //        (document1, document2) => new BsonDocument { { "document1", document1 }, { "document2", document2 } });
             IEnumerable<BsonDocument> query =
-                zmongo.FileReader<BsonDocument>(file1).zJoin(
-                    zmongo.FileReader<BsonDocument>(file2),
+                zmongo.BsonRead<BsonDocument>(file1).zJoin(
+                    zmongo.BsonRead<BsonDocument>(file2),
                     document1 => document1["postTitle"],
                     document2 => document2["postTitle"],
                     (document1, document2) => new BsonDocument { { "document1", document1 }, { "document2", document2 } },

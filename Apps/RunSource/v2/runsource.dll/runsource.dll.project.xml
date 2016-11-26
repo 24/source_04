@@ -68,6 +68,8 @@
   <Source                                    value = "$Root$\Lib\pb\Source\pb\Data\Xml\Xml.cs" />
   <Source                                    value = "$Root$\Lib\pb\Source\pb\Data\Xml\XmlConfig.cs" />
 
+  <Source                                    value = "$Root$\Lib\pb\Source\pb\IO\CompressFile.cs" />
+  <Source                                    value = "$Root$\Lib\pb\Source\pb\IO\CompressOptions.cs" />
   <Source                                    value = "$Root$\Lib\pb\Source\pb\IO\File.cs" />
   <Source                                    value = "$Root$\Lib\pb\Source\pb\IO\Path.cs" />
   <Source                                    value = "$Root$\Lib\pb\Source\pb\IO\WriteToFile.cs" />

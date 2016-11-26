@@ -126,11 +126,14 @@
     <Compile Include="..\..\Lib\pb\Source\pb\Data\OpenXml\Graphic.cs">
       <Link>SourceLnk\Lib\pb\Data\OpenXml\Graphic.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Data\OpenXml\zDocXElement.cs">
-      <Link>SourceLnk\Lib\pb\Data\OpenXml\zDocXElement.cs</Link>
+    <Compile Include="..\..\Lib\pb\Source\pb\Data\OpenXml\OXmlDoc.cs">
+      <Link>SourceLnk\Lib\pb\Data\OpenXml\OXmlDoc.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Data\OpenXml\zOpenXmlDoc.cs">
-      <Link>SourceLnk\Lib\pb\Data\OpenXml\zOpenXmlDoc.cs</Link>
+    <Compile Include="..\..\Lib\pb\Source\pb\Data\OpenXml\OXmlElement.cs">
+      <Link>SourceLnk\Lib\pb\Data\OpenXml\OXmlElement.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Data\OpenXml\OXmlElementReader.cs">
+      <Link>SourceLnk\Lib\pb\Data\OpenXml\OXmlElementReader.cs</Link>
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Data\TraceData\ITraceData.cs">
       <Link>SourceLnk\Lib\pb\Data\TraceData\ITraceData.cs</Link>
@@ -146,6 +149,15 @@
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\IO\Backup.cs">
       <Link>SourceLnk\Lib\pb\IO\Backup.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\IO\CompressFile.cs">
+      <Link>SourceLnk\Lib\pb\IO\CompressFile.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\IO\CompressOptions.cs">
+      <Link>SourceLnk\Lib\pb\IO\CompressOptions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\IO\UncompressQueueManager.cs">
+      <Link>SourceLnk\Lib\pb\IO\UncompressQueueManager.cs</Link>
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\IO\zDirectory.cs">
       <Link>SourceLnk\Lib\pb\IO\zDirectory.cs</Link>
@@ -402,9 +414,6 @@
     <Compile Include="..\..\Lib\pb\Source\pb\IO\StreamTransfer.cs">
       <Link>SourceLnk\Lib\pb\IO\StreamTransfer.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\IO\UncompressManager.cs">
-      <Link>SourceLnk\Lib\pb\IO\UncompressManager.cs</Link>
-    </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\IO\WriteToFile.cs">
       <Link>SourceLnk\Lib\pb\IO\WriteToFile.cs</Link>
     </Compile>
@@ -600,7 +609,7 @@
     <None Include="Source\Autre\BlogDemoor\BlogDemoor.run.cs" />
     <Compile Include="Source\Autre\BlogDemoor\BlogDemoorRun.cs" />
     <Compile Include="Source\Autre\BlogDemoor\BlogDemoor_v4.cs" />
-    <Compile Include="Source\Autre\BlogDemoor\HtmlToDocx.cs" />
+    <Compile Include="Source\Autre\BlogDemoor\HtmlToOXmlDoc.cs" />
     <Compile Include="Source\Autre\BlogDemoor\WebData.cs" />
     <Compile Include="Source\Print\DownloadManager\DownloadAutomateManagerCreator.cs" />
     <Compile Include="Source\Print\DownloadManager\FindPrintManagerCreator.cs" />

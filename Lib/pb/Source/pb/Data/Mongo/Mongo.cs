@@ -111,27 +111,52 @@ namespace pb.Data.Mongo
             }
         }
 
-        public static IEnumerable<T> FileReader<T>(string file, Encoding encoding = null, bool deleteFile = false)
+        public static BsonReader OpenBsonReader(string file, Encoding encoding = null)
         {
             FileStream fileStream = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.Read);
-            try
+            if (encoding == null)
+                encoding = Encoding.UTF8;
+            StreamReader streamReader = new StreamReader(fileStream, encoding);
+            return BsonReader.Create(streamReader);
+        }
+
+        public static IEnumerable<T> BsonRead<T>(string file, Encoding encoding = null)
+        {
+            using (BsonReader reader = OpenBsonReader(file, encoding))
+                return BsonRead<T>(reader);
+        }
+
+        public static IEnumerable<T> BsonRead<T>(BsonReader reader)
+        {
+            while (reader.ReadBsonType() != BsonType.EndOfDocument)
             {
-                if (encoding == null)
-                    encoding = Encoding.UTF8;
-                StreamReader streamReader = new StreamReader(fileStream, encoding);
-                BsonReader reader = MongoDB.Bson.IO.BsonReader.Create(streamReader);
-                while (reader.ReadBsonType() != BsonType.EndOfDocument)
-                {
-                    yield return BsonSerializer.Deserialize<T>(reader);
-                }
-            }
-            finally
-            {
-                fileStream.Close();
-                if (deleteFile)
-                    zFile.Delete(file);
+                yield return BsonSerializer.Deserialize<T>(reader);
             }
         }
+
+        // deleteFile is used by MongoCursorCache.zCacheCursor()
+        //public static IEnumerable<T> FileReader<T>(string file, Encoding encoding = null, bool deleteFile = false)
+        //{
+        //    FileStream fileStream = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.Read);
+        //    try
+        //    {
+        //        if (encoding == null)
+        //            encoding = Encoding.UTF8;
+        //        StreamReader streamReader = new StreamReader(fileStream, encoding);
+        //        BsonReader reader = BsonReader.Create(streamReader);
+        //        while (reader.ReadBsonType() != BsonType.EndOfDocument)
+        //        {
+        //            yield return BsonSerializer.Deserialize<T>(reader);
+        //        }
+        //        return FileReader<T>(reader);
+        //    }
+        //    finally
+        //    {
+        //        fileStream.Close();
+        //        if (deleteFile)
+        //            zFile.Delete(file);
+        //    }
+        //}
 
         public static IEnumerable<T> Reader<T>(TextReader textReader)
         {
@@ -450,9 +475,24 @@ namespace pb.Data.Mongo
             return bsonValue == null || bsonValue is BsonNull ? false : bsonValue.AsBoolean;
         }
 
+        public static bool? zAsNullableBoolean(this BsonValue bsonValue)
+        {
+            return bsonValue == null || bsonValue is BsonNull ? null : (bool?)bsonValue.AsBoolean;
+        }
+
         public static int zAsInt(this BsonValue bsonValue)
         {
             return bsonValue == null || bsonValue is BsonNull ? 0 : bsonValue.AsInt32;
+        }
+
+        public static int? zAsNullableInt(this BsonValue bsonValue)
+        {
+            return bsonValue == null || bsonValue is BsonNull ? null : (int?)bsonValue.AsInt32;
+        }
+
+        public static long zAsLong(this BsonValue bsonValue)
+        {
+            return bsonValue == null || bsonValue is BsonNull ? 0 : (bsonValue.IsInt32 ? bsonValue.AsInt32 : bsonValue.AsInt64);
         }
 
         public static double zAsDouble(this BsonValue bsonValue)

@@ -11,10 +11,18 @@ namespace pb.Data.Mongo
 
         public static IEnumerable<BsonDocument> zCacheCursor(this IEnumerable<BsonDocument> cursor, bool deleteTempFile = true)
         {
-            //string cacheFile = zfile.GetNewIndexedFileName(__cacheFile);
-            string cacheFile = zfile.GetNewIndexedFileName(__cacheDirectory) + "_" + __cacheFile;
-            cursor.zSave(cacheFile);
-            return zmongo.FileReader<BsonDocument>(cacheFile, deleteFile: deleteTempFile);
+            string cacheFile = null;
+            try
+            {
+                cacheFile = zfile.GetNewIndexedFileName(__cacheDirectory) + "_" + __cacheFile;
+                cursor.zSave(cacheFile);
+                return zmongo.BsonRead<BsonDocument>(cacheFile);
+            }
+            finally
+            {
+                if (deleteTempFile && cacheFile != null)
+                    zFile.Delete(cacheFile);
+            }
         }
 
         public static string CacheFile

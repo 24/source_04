@@ -1,11 +1,22 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <AssemblyProject>
   
-  <Root                             value = "..\..\..\..\..\..\.." />
+  <Root                             value = "..\..\..\..\..\.." />
   
-  <IncludeProject                   value = "$Root$\Source\Lib\pb\Source\Project\Basic.project.xml" />
-  <IncludeProject                   value = "$Root$\Source\Lib\pb\Source\Project\RunSourceExtension.project.xml" />
-  <IncludeProject                   value = "$Root$\Source\Lib\pb\Source\Project\MongoExtension.project.xml" />
+  <Language                         name = "CSharp5" version = "6" />
+  <FrameworkVersion                 value = "4.6.1" />  <!-- CSharp5 option : 2.0, 3.0, 3.5, 3.5 client, 4.0, 4.0 client, 4.5, 4.5.1, 4.5.2, 4.6, 4.6.1 -->
+  <Target                           value = "library" /> <!-- CSharp5 option : exe (exe console default), library (dll), module (.netmodule), winexe (exe windows) -->
+  <GenerateInMemory                 value = "false" />  <!-- CSharp1, JScript option -->
+  <DebugInformation                 value = "true" />  <!-- CSharp1, CSharp5, JScript option -->
+  <WarningLevel                     value = "4" /> <!-- CSharp1, CSharp5, JScript option : 0 no warning, 1 severe warning, 2 + less-severe warnings 1, 3 + less-severe warnings 2, 4 all warning -->
+  <CompilerOptions                  value = "/define:DEBUG;TRACE" />  <!-- CSharp1, JScript option -->
+  <PreprocessorSymbol               value = "DEBUG;TRACE" />  <!-- CSharp5 option -->
+
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\Basic.project.xml" />
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\Extension_01.dll.project.xml" />
+  <!--<IncludeProject                   value = "$Root$\Source\Lib\pb\Source\Project\Basic.project.xml" />-->
+  <!--<IncludeProject                   value = "$Root$\Source\Lib\pb\Source\Project\RunSourceExtension.project.xml" />-->
+  <!--<IncludeProject                   value = "$Root$\Source\Lib\pb\Source\Project\MongoExtension.project.xml" />-->
 
   <NameSpace                        value = "pb.IO.Test" />
   <Using                            value = "SharpCompress.Common" />
@@ -14,13 +25,19 @@
   <Using                            value = "pb.IO.Test" />
 
   <Source                           value = "Test_SharpCompressManager.cs" />
+  <!--<Source                           value = "Test_SharpCompress.cs" />-->
   <Source                           value = "Test_ZipArchive.cs" />
+  <Source                           value = "Test_ZipReader.cs" />
 
-  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\IO\CompressBaseManager.cs" />
-  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\IO\SharpCompressManager.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\CompressBaseManager.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\CompressManager.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\Directory.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\FilenameNumberInfo.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\SharpCompressManager.cs" />
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\IO\ZipArchive.cs" />-->
 
-  <Assembly                         value = "System.IO.Compression.dll" />
-  <Assembly                         value = "System.IO.Compression.FileSystem.dll" />
-  <Assembly                         value = "$Root$\RuntimeLibrary\SharpCompress\SharpCompress0.10.3\Full\SharpCompress.dll" resolve = "true" resolveName = "SharpCompress, Version=0.10.3.0, Culture=neutral, PublicKeyToken=beaf6f427e128133" />
-  <Assembly                         value = "$Root$\Source\Lib\LongPath\Pri.LongPath\bin\Debug\Pri.LongPath.dll" />
+  <FrameworkAssembly                value = "System.IO.Compression.dll" />
+  <FrameworkAssembly                value = "System.IO.Compression.FileSystem.dll" />
+  <Assembly                         value = "$Root$\..\library\SharpCompress\SharpCompress0.10.3\Full\SharpCompress.dll" resolve = "true" resolveName = "SharpCompress, Version=0.10.3.0, Culture=neutral, PublicKeyToken=beaf6f427e128133" />
+  <!--<Assembly                         value = "$Root$\Source\Lib\LongPath\Pri.LongPath\bin\Debug\Pri.LongPath.dll" />-->
 </AssemblyProject>

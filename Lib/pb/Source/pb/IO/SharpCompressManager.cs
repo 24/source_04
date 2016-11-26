@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using SharpCompress.Common;
-using SharpCompress.Compressor.Deflate;
 using SharpCompress.Reader;
-using SharpCompress.Writer;
 
 namespace pb.IO
 {
@@ -13,42 +11,6 @@ namespace pb.IO
         //private CompressionInfo _compressionInfo = new CompressionInfo();
 
         //public CompressionInfo CompressionInfo { get { return _compressionInfo; } }
-
-        // File : Create new, Append to existing, Raz existing
-        // ArchiveType : Rar = 0, Zip = 1, Tar = 2, SevenZip = 3, GZip = 4
-        // CompressionType : None = 0, GZip = 1, BZip2 = 2, PPMd = 3, Deflate = 4, Rar = 5, LZMA = 6, BCJ = 7, BCJ2 = 8, Unknown = 9,
-        // Zip compression type : BZip2
-        // GZip compression type : GZip
-        // example from https://github.com/adamhathcock/sharpcompress/wiki/API-Examples
-        public void Test_Compress_01(string compressFile, IEnumerable<string> files, string baseDirectory = null, ArchiveType archiveType = ArchiveType.Zip,
-            CompressionType compressionType = CompressionType.BZip2, CompressionLevel compressionLevel = CompressionLevel.Default)
-        {
-            //FileOption
-            if (baseDirectory != null && !baseDirectory.EndsWith("\\"))
-                baseDirectory = baseDirectory + "\\";
-            CompressionInfo compressionInfo = new CompressionInfo();
-            compressionInfo.DeflateCompressionLevel = compressionLevel;
-            compressionInfo.Type = compressionType;
-
-            //Trace.WriteLine("SharpCompressManager : DeflateCompressionLevel {0}", compressionInfo.DeflateCompressionLevel);
-            //Trace.WriteLine("SharpCompressManager : CompressionType {0}", compressionInfo.Type);
-
-            // File.OpenWrite ==> OpenOrCreate
-            using (FileStream stream = File.OpenWrite(compressFile))
-            using (IWriter writer = WriterFactory.Open(stream, archiveType, compressionInfo))
-            //using (IWriter writer = WriterFactory.Open(stream, archiveType, CompressionType.BZip2))
-            {
-                foreach (string file in files)
-                {
-                    string entryPath;
-                    if (baseDirectory != null && file.StartsWith(baseDirectory))
-                        entryPath = file.Substring(baseDirectory.Length);
-                    else
-                        entryPath = zPath.GetFileName(file);
-                    writer.Write(entryPath, file);
-                }
-            }
-        }
 
         //public void Test_ZipCompress_01(string compressFile, IEnumerable<string> files, string baseDirectory = null, ArchiveType archiveType = ArchiveType.Zip,
         //    CompressionType compressionType = CompressionType.BZip2, CompressionLevel compressionLevel = CompressionLevel.Default)
@@ -61,27 +23,46 @@ namespace pb.IO
         //    }
         //}
 
-        public override string[] Uncompress(string file, string directory, UncompressBaseOptions options = UncompressBaseOptions.None)
+        public override void Compress(string compressFile, IEnumerable<CompressFile> files, FileMode fileMode = FileMode.Create)
         {
-            bool extractFullPath = (options & UncompressBaseOptions.ExtractFullPath) == UncompressBaseOptions.ExtractFullPath;
-            bool overrideExistingFile = (options & UncompressBaseOptions.OverrideExistingFile) == UncompressBaseOptions.OverrideExistingFile;
-            bool renameExistingFile = (options & UncompressBaseOptions.RenameExistingFile) == UncompressBaseOptions.RenameExistingFile;
+            throw new PBException("not implemented");
+        }
+
+        public override IEnumerable<string> Uncompress(string compressFile, string directory, IEnumerable<string> selectedFiles = null, UncompressOptions uncompressOptions = UncompressOptions.None)
+        {
+            bool extractFullPath = (uncompressOptions & UncompressOptions.ExtractFullPath) == UncompressOptions.ExtractFullPath;
+            bool overrideExistingFile = (uncompressOptions & UncompressOptions.OverrideExistingFile) == UncompressOptions.OverrideExistingFile;
+            bool renameExistingFile = (uncompressOptions & UncompressOptions.RenameExistingFile) == UncompressOptions.RenameExistingFile;
+
             List<string> files = new List<string>();
-            using (Stream stream = zFile.OpenRead(file))
+
+            Dictionary<string, string> dicCompressedFiles = null;
+            if (selectedFiles != null)
+            {
+                dicCompressedFiles = new Dictionary<string, string>();
+                foreach (string compressedFile in selectedFiles)
+                    dicCompressedFiles.Add(compressedFile, compressedFile);
+            }
+
+            using (Stream stream = zFile.OpenRead(compressFile))
             {
                 var reader = ReaderFactory.Open(stream);
                 while (reader.MoveToNextEntry())
                 {
-                    //Trace.WriteLine("  \"{0}\"", reader.Entry.FilePath);
                     if (!reader.Entry.IsDirectory)
                     {
-                        //reader.WriteEntryToDirectory(directory, options);
+                        string compressedFile = reader.Entry.FilePath;
+
+                        if (dicCompressedFiles != null && !dicCompressedFiles.ContainsKey(compressedFile))
+                            continue;
+
                         string uncompressFile;
                         if (extractFullPath)
-                            uncompressFile = reader.Entry.FilePath;
+                            uncompressFile = compressedFile;
                         else
-                            zPath.GetFileName(reader.Entry.FilePath);
-                        uncompressFile = zPath.Combine(directory, reader.Entry.FilePath);
+                            uncompressFile = zPath.GetFileName(compressedFile);
+                        uncompressFile = zPath.Combine(directory, uncompressFile);
+
                         if (zFile.Exists(uncompressFile))
                         {
                             if (overrideExistingFile)
@@ -91,13 +72,85 @@ namespace pb.IO
                             else
                                 throw new PBException("error file already exist can't uncompress \"{0}\"", uncompressFile);
                         }
+
                         zfile.CreateFileDirectory(uncompressFile);
                         reader.WriteEntryToFile(uncompressFile, ExtractOptions.None);
                         files.Add(uncompressFile);
                     }
                 }
             }
-            return files.ToArray();
+            return files;
         }
+
+        public override IEnumerable<string> Uncompress(string compressFile, string directory, IEnumerable<CompressFile> selectedFiles, UncompressOptions uncompressOptions = UncompressOptions.None)
+        {
+            throw new PBException("not implemented");
+        }
+
+        public override bool IsCompressFile(string file)
+        {
+            switch (zPath.GetExtension(file).ToLower())
+            {
+                case ".zip":
+                case ".rar":
+                case ".tar":
+                case ".gz":
+                case ".7z":
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        // before use of GetCompressFiles()
+        //public override string[] Uncompress(string file, string directory, UncompressBaseOptions options = UncompressBaseOptions.None)
+        //{
+        //    bool extractFullPath = (options & UncompressBaseOptions.ExtractFullPath) == UncompressBaseOptions.ExtractFullPath;
+        //    bool overrideExistingFile = (options & UncompressBaseOptions.OverrideExistingFile) == UncompressBaseOptions.OverrideExistingFile;
+        //    bool renameExistingFile = (options & UncompressBaseOptions.RenameExistingFile) == UncompressBaseOptions.RenameExistingFile;
+        //    List<string> files = new List<string>();
+        //    using (Stream stream = zFile.OpenRead(file))
+        //    {
+        //        var reader = ReaderFactory.Open(stream);
+        //        while (reader.MoveToNextEntry())
+        //        {
+        //            //Trace.WriteLine("  \"{0}\"", reader.Entry.FilePath);
+        //            if (!reader.Entry.IsDirectory)
+        //            {
+        //                //reader.WriteEntryToDirectory(directory, options);
+        //                string uncompressFile;
+        //                if (extractFullPath)
+        //                    uncompressFile = reader.Entry.FilePath;
+        //                else
+        //                    zPath.GetFileName(reader.Entry.FilePath);
+        //                uncompressFile = zPath.Combine(directory, reader.Entry.FilePath);
+        //                if (zFile.Exists(uncompressFile))
+        //                {
+        //                    if (overrideExistingFile)
+        //                        zFile.Delete(uncompressFile);
+        //                    else if (renameExistingFile)
+        //                        uncompressFile = zfile.GetNewFilename(uncompressFile);
+        //                    else
+        //                        throw new PBException("error file already exist can't uncompress \"{0}\"", uncompressFile);
+        //                }
+        //                zfile.CreateFileDirectory(uncompressFile);
+        //                reader.WriteEntryToFile(uncompressFile, ExtractOptions.None);
+        //                files.Add(uncompressFile);
+        //            }
+        //        }
+        //    }
+        //    return files.ToArray();
+        //}
+
+        //private static IEnumerable<string> GetCompressFiles(IReader reader)
+        //{
+        //    while (reader.MoveToNextEntry())
+        //    {
+        //        if (!reader.Entry.IsDirectory)
+        //        {
+        //            yield return reader.Entry.FilePath;
+        //        }
+        //    }
+        //}
     }
 }

@@ -3,7 +3,6 @@ using A = DocumentFormat.OpenXml.Drawing;
 using DW = DocumentFormat.OpenXml.Drawing.Wordprocessing;
 using DW2010 = DocumentFormat.OpenXml.Office2010.Word.Drawing;
 
-//namespace Test.Test_OpenXml
 namespace pb.Data.OpenXml
 {
     // Anchor for Floating DrawingML Object, <wp:anchor>
@@ -45,9 +44,10 @@ namespace pb.Data.OpenXml
         private DW.HorizontalPosition _horizontalPosition = null;    // child <wp:positionH> Horizontal Positioning
         private DW.VerticalPosition _verticalPosition = null;        // child <wp:positionV> Vertical Positioning
         private DW.EffectExtent _effectExtent = null;                // child <wp:effectExtent> Object Extents Including Effects
+        private OXmlAnchorWrap _wrap = null;                        // child WrapNone <wp:wrapNone>, WrapSquare <wp:wrapSquare>, WrapTight <wp:wrapTight>, WrapThrough <wp:wrapThrough>, WrapTopBottom <wp:wrapTopAndBottom>,
         private DW2010.RelativeHeight _relativeHeight = null;        // child <wp14:sizeRelV> RelativeHeight (Office2010 or above)
         private DW2010.RelativeWidth _relativeWidth = null;          // child <wp14:sizeRelH> RelativeWidth (Office2010 or above)
-        private OpenXmlElement _wrap = null;                         // child WrapNone <wp:wrapNone>, WrapSquare <wp:wrapSquare>, WrapTight <wp:wrapTight>, WrapThrough <wp:wrapThrough>, WrapTopBottom <wp:wrapTopAndBottom>,
+        //private OpenXmlElement _wrapElement = null;
 
         public int Rotation { get { return _rotation; } set { _rotation = value; } }
         public bool HorizontalFlip { get { return _horizontalFlip; } set { _horizontalFlip = value; } }
@@ -67,6 +67,7 @@ namespace pb.Data.OpenXml
         public bool Hidden { get { return _hidden; } set { _hidden = value; } }
         public string EditId { get { return _editId; } set { _editId = value; } }
         public string AnchorId { get { return _anchorId; } set { _anchorId = value; } }
+        public OXmlAnchorWrap Wrap { get { return _wrap; } set { _wrap = value; } }
 
         public AnchorDrawing(string embeddedReference, uint id, string name, long width, long height, string title = null, string description = null)
         {
@@ -139,9 +140,10 @@ namespace pb.Data.OpenXml
             if (_effectExtent != null)
                 anchor.EffectExtent = _effectExtent;
 
-            if (_wrap == null)
-                SetWrapNone();
-            anchor.AppendChild(_wrap);
+            //if (_wrapElement == null)
+            //    SetWrapNone();
+            //anchor.AppendChild(_wrapElement);
+            anchor.AppendChild(CreateWrap());
 
             // <wp:docPr> Non-Visual Properties, possible child : HyperlinkOnClick <a:hlinkClick> HyperlinkOnHover <a:hlinkHover> NonVisualDrawingPropertiesExtensionList <a:extLst>
             // <wp:docPr id="1" name="Picture1" title="" descr=""/>
@@ -177,43 +179,61 @@ namespace pb.Data.OpenXml
             _simplePosition = new DW.SimplePosition() { X = 0, Y = 0 };
         }
 
-        public void SetHorizontalPosition(EnumValue<DW.HorizontalRelativePositionValues> relativeFrom, long positionOffset, string horizontalAlignment = null, string percentagePositionHeightOffset = null)
+        public void SetHorizontalPosition(EnumValue<DW.HorizontalRelativePositionValues> relativeFrom, long? positionOffset, string horizontalAlignment = null, string percentagePositionHeightOffset = null)
         {
             // Horizontal Positioning
             // <wp:positionH relativeFrom="margin">
             //   <wp:posOffset>-38099</wp:posOffset>
             // </wp:positionH>
+            // <wp:positionH relativeFrom="margin">
+            //   <wp:align>left</wp:align>
+            // </wp:positionH>
+            // Horizontal Alignment (Ecma Office Open XML Part 1 - Fundamentals And Markup Language Reference.pdf - 20.4.3.1 page 3145)
+            //   left, right, center, inside, outside
 
             _horizontalPosition = new DW.HorizontalPosition();
             // Horizontal Position Relative Base, <wp:positionH relativeFrom>
             // Margin - Page Margin ("margin"), Page - Page Edge ("page"), Column - Column ("column"), Character - Character ("character"), LeftMargin - Left Margin ("leftMargin"), RightMargin - Right Margin ("rightMargin")
             // InsideMargin - Inside Margin ("insideMargin"), OutsideMargin - Outside Margin ("outsideMargin")
             _horizontalPosition.RelativeFrom = relativeFrom;
-            // Absolute Position Offset, <wp:posOffset>
-            _horizontalPosition.PositionOffset = new DW.PositionOffset(positionOffset.ToString());
+
+            if (positionOffset != null)
+                // Absolute Position Offset, <wp:posOffset>
+                _horizontalPosition.PositionOffset = new DW.PositionOffset(positionOffset.ToString());
+
             if (horizontalAlignment != null)
                 // Relative Horizontal Alignment, <wp:align>
                 _horizontalPosition.HorizontalAlignment = new DW.HorizontalAlignment(horizontalAlignment);
+
             if (percentagePositionHeightOffset != null)
                 // PercentagePositionHeightOffset, <wp14:pctPosHOffset>, available in Office2010 or above
                 _horizontalPosition.PercentagePositionHeightOffset = new DW2010.PercentagePositionHeightOffset(percentagePositionHeightOffset);
         }
 
-        public void SetVerticalPosition(EnumValue<DW.VerticalRelativePositionValues> relativeFrom, long positionOffset, string verticalAlignment = null, string percentagePositionVerticalOffset = null)
+        public void SetVerticalPosition(EnumValue<DW.VerticalRelativePositionValues> relativeFrom, long? positionOffset, string verticalAlignment = null, string percentagePositionVerticalOffset = null)
         {
             // <wp:positionV relativeFrom="paragraph">
             //   <wp:posOffset>723900</wp:posOffset>
             // </wp:positionV>
+            // <wp:positionV relativeFrom="line">
+            //   <wp:align>top</wp:align>
+            // </wp:positionV>
+            // Vertical Alignment (Ecma Office Open XML Part 1 - Fundamentals And Markup Language Reference.pdf - 20.4.3.2 page 3146)
+            //   top, bottom, center, inside, outside
 
             // Vertical Positioning
             _verticalPosition = new DW.VerticalPosition();
             // Vertical Position Relative Base, <wp:positionV relativeFrom>
             _verticalPosition.RelativeFrom = relativeFrom;
-            // PositionOffset, <wp:posOffset>
-            _verticalPosition.PositionOffset = new DW.PositionOffset(positionOffset.ToString());
+
+            if (positionOffset != null)
+                // PositionOffset, <wp:posOffset>
+                _verticalPosition.PositionOffset = new DW.PositionOffset(positionOffset.ToString());
+
             if (verticalAlignment != null)
                 // Relative Vertical Alignment, <wp:align>
                 _verticalPosition.VerticalAlignment = new DW.VerticalAlignment(verticalAlignment);
+
             if (percentagePositionVerticalOffset != null)
                 // PercentagePositionVerticalOffset <wp14:pctPosVOffset>, available in Office2010 or above
                 _verticalPosition.PercentagePositionVerticalOffset = new DW2010.PercentagePositionVerticalOffset(percentagePositionVerticalOffset);
@@ -242,154 +262,189 @@ namespace pb.Data.OpenXml
             _relativeHeight.PercentageHeight = new DW2010.PercentageHeight(percentageHeight.ToString());
         }
 
-        public void SetWrapNone()
+        //CreateWrap()
+        //OpenXmlElement _wrapElement
+        private OpenXmlElement CreateWrap()
         {
-            // No Text Wrapping, <wp:wrapNone>
-            _wrap = new DW.WrapNone();
+            switch (_wrap.WrapType)
+            {
+                case OXmlAnchorWrapType.WrapNone:
+                    return CreateWrapNone();
+                case OXmlAnchorWrapType.WrapSquare:
+                    return CreateWrapSquare((OXmlAnchorWrapSquare)_wrap);
+                case OXmlAnchorWrapType.WrapThrough:
+                    throw new PBException("missing wrapPolygon in zDocXAnchorWrapTight");
+                    //return CreateWrapThrough((zDocXAnchorWrapTight)_wrap);
+                case OXmlAnchorWrapType.WrapTight:
+                    return CreateWrapTight((OXmlAnchorWrapTight)_wrap);
+                case OXmlAnchorWrapType.WrapTopBottom:
+                    return CreateWrapTopAndBottom((OXmlAnchorWrapTopAndBottom)_wrap);
+                default:
+                    throw new PBException($"unknow wrap type {_wrap.WrapType}");
+            }
         }
 
-        public void SetWrapSquare(EnumValue<DW.WrapTextValues> wrapText, uint distanceFromTop = 0, uint distanceFromBottom = 0, uint distanceFromLeft = 0, uint distanceFromRight = 0, DW.EffectExtent effectExtent = null)
+        //public void SetWrapNone()
+        private OpenXmlElement CreateWrapNone()
+        {
+            // No Text Wrapping, <wp:wrapNone>
+            //_wrapElement = new DW.WrapNone();
+            return new DW.WrapNone();
+        }
+
+        //public void SetWrapSquare(EnumValue<DW.WrapTextValues> wrapText, uint distanceFromTop = 0, uint distanceFromBottom = 0, uint distanceFromLeft = 0, uint distanceFromRight = 0, DW.EffectExtent effectExtent = null)
+        private OpenXmlElement CreateWrapSquare(OXmlAnchorWrapSquare wrap)
         {
             // <wp:wrapSquare wrapText="bothSides" distB="57150" distT="57150" distL="57150" distR="57150"/>
             // <wp:wrapSquare wrapText="bothSides"/>
 
             //Square Wrapping, <wp:wrapSquare>
-            DW.WrapSquare wrap = new DW.WrapSquare();
+            DW.WrapSquare wrapElement = new DW.WrapSquare();
 
             // Text Wrapping Location, <wp:wrapSquare wrapText>
             // BothSides - Both Sides ("bothSides"), Left - Left Side Only ("left"), Right - Right Side Only ("right"), Largest - Largest Side Only ("largest")
-            wrap.WrapText = wrapText;
+            //wrapElement.WrapText = wrapText;
+            wrapElement.WrapText = wrap.WrapText;
 
-            if (distanceFromTop != 0)
+            if (wrap.DistanceFromTop != 0)
                 // Distance From Text (Top), <wp:wrapSquare distT>
-                wrap.DistanceFromTop = distanceFromTop;
-            if (distanceFromBottom != 0)
+                wrapElement.DistanceFromTop = wrap.DistanceFromTop;
+            if (wrap.DistanceFromBottom != 0)
                 // Distance From Text on Bottom Edge, <wp:wrapSquare distB>
-                wrap.DistanceFromBottom = distanceFromBottom;
-            if (distanceFromLeft != 0)
+                wrapElement.DistanceFromBottom = wrap.DistanceFromBottom;
+            if (wrap.DistanceFromLeft != 0)
                 // Distance From Text on Left Edge, <wp:wrapSquare distL>
-                wrap.DistanceFromLeft = distanceFromLeft;
-            if (distanceFromRight != 0)
+                wrapElement.DistanceFromLeft = wrap.DistanceFromLeft;
+            if (wrap.DistanceFromRight != 0)
                 // Distance From Text on Right Edge, <wp:wrapSquare distR>
-                wrap.DistanceFromRight = distanceFromRight;
+                wrapElement.DistanceFromRight = wrap.DistanceFromRight;
 
-            if (effectExtent != null)
+            if (wrap.EffectExtent != null)
                 // Object Extents Including Effects <wp:effectExtent>
                 //   BottomEdge : Additional Extent on Bottom Edge (b)
                 //   LeftEdge   : Additional Extent on Left Edge (l)
                 //   RightEdge  : Additional Extent on Right Edge (r)
                 //   TopEdge    : Additional Extent on Top Edge (t)
                 // <wp:effectExtent b="0" l="0" r="0" t="0"/>
-                wrap.EffectExtent = effectExtent;
+                wrapElement.EffectExtent = wrap.EffectExtent;
 
-            _wrap = wrap;
+            //_wrapElement = wrapElement;
+            return wrapElement;
         }
 
-        public void SetWrapTight(EnumValue<DW.WrapTextValues> wrapText, DW.WrapPolygon wrapPolygon, uint distanceFromLeft = 0, uint distanceFromRight = 0)
-        {
-            // Tight Wrapping, <wp:wrapTight>
-            DW.WrapTight wrap = new DW.WrapTight();
-
-            // Text Wrapping Location, <wp:wrapTight wrapText>
-            // BothSides - Both Sides ("bothSides"), Left - Left Side Only ("left"), Right - Right Side Only ("right"), Largest - Largest Side Only ("largest")
-            wrap.WrapText = wrapText;
-
-            // Tight Wrapping Extents Polygon, <wp:wrapPolygon>
-            wrap.WrapPolygon = wrapPolygon;
-
-            if (distanceFromLeft != 0)
-                // Distance From Text on Left Edge, <wp:wrapTight distL>
-                wrap.DistanceFromLeft = distanceFromLeft;
-            if (distanceFromRight != 0)
-                // Distance From Text on Right Edge, <wp:wrapTight distR>
-                wrap.DistanceFromRight = distanceFromRight;
-
-            _wrap = wrap;
-        }
-
-        public void SetWrapTopAndBottom(uint distanceFromTop = 0, uint distanceFromBottom = 0, DW.EffectExtent effectExtent = null)
-        {
-            // Top and Bottom Wrapping, <wp:wrapTopAndBottom>, possible child : EffectExtent <wp:effectExtent>
-            DW.WrapTopBottom wrap = new DW.WrapTopBottom();
-
-            // Distance From Text on Top Edge, <wp:wrapTopAndBottom distT>
-            wrap.DistanceFromTop = distanceFromTop;
-            // Distance From Text on Bottom Edge, <wp:wrapTopAndBottom distB>
-            wrap.DistanceFromBottom = distanceFromBottom;
-
-            if (effectExtent != null)
-                // Wrapping Boundaries <wp:effectExtent>
-                wrap.EffectExtent = effectExtent;
-
-            _wrap = wrap;
-        }
-
-        public static DW.WrapPolygon CreateSquareWrapPolygon(long size, long startPointX = 0, long startPointY = 0, bool edited = false)
-        {
-            // Tight Wrapping Extents Polygon, <wp:wrapPolygon>, possible child : StartPoint <wp:start>, LineTo <wp:lineTo>
-            // Edited : Wrapping Points Modified, <wp:wrapPolygon edited>
-            DW.WrapPolygon polygon = new DW.WrapPolygon() { Edited = edited };
-            // Wrapping Polygon Start, <wp:start x="0" y="0">
-            polygon.StartPoint = new DW.StartPoint() { X = startPointX, Y = startPointY };
-            long x = startPointX;
-            long y = startPointY;
-            // Wrapping Polygon Line End Position, <wp:lineTo x="0" y="0"/>
-            y += size; polygon.AppendChild(new DW.LineTo() { X = x, Y = y });
-            x += size; polygon.AppendChild(new DW.LineTo() { X = x, Y = y });
-            y -= size; polygon.AppendChild(new DW.LineTo() { X = x, Y = y });
-            x -= size; polygon.AppendChild(new DW.LineTo() { X = x, Y = y });
-            return polygon;
-        }
-
-        public void SetWrapThrough(EnumValue<DW.WrapTextValues> wrapText, DW.WrapPolygon wrapPolygon, uint distanceFromLeft = 0, uint distanceFromRight = 0)
+        //public void SetWrapThrough(EnumValue<DW.WrapTextValues> wrapText, DW.WrapPolygon wrapPolygon, uint distanceFromLeft = 0, uint distanceFromRight = 0)
+        private OpenXmlElement CreateWrapThrough(OXmlAnchorWrapTight wrap)
         {
             // Through Wrapping, <wp:wrapThrough>
-            DW.WrapThrough wrap = new DW.WrapThrough();
+            DW.WrapThrough wrapElement = new DW.WrapThrough();
 
             // Text Wrapping Location, <wp:wrapTight wrapText>
             // BothSides - Both Sides ("bothSides"), Left - Left Side Only ("left"), Right - Right Side Only ("right"), Largest - Largest Side Only ("largest")
-            wrap.WrapText = wrapText;
+            wrapElement.WrapText = wrap.WrapText;
 
             // Tight Wrapping Extents Polygon, <wp:wrapPolygon>
-            wrap.WrapPolygon = wrapPolygon;
+            //wrapElement.WrapPolygon = wrapPolygon;
 
-            if (distanceFromLeft != 0)
+            if (wrap.DistanceFromLeft != 0)
                 // Distance From Text on Left Edge, <wp:wrapTight distL>
-                wrap.DistanceFromLeft = distanceFromLeft;
-            if (distanceFromRight != 0)
+                wrapElement.DistanceFromLeft = wrap.DistanceFromLeft;
+            if (wrap.DistanceFromRight != 0)
                 // Distance From Text on Right Edge, <wp:wrapTight distR>
-                wrap.DistanceFromRight = distanceFromRight;
+                wrapElement.DistanceFromRight = wrap.DistanceFromRight;
 
-            _wrap = wrap;
+            //_wrapElement = wrapElement;
+            return wrapElement;
         }
 
-        public void SetWrapTopBottom(uint distanceFromTop = 0, uint distanceFromBottom = 0, DW.EffectExtent effectExtent = null)
+        //public void SetWrapTight(EnumValue<DW.WrapTextValues> wrapText, DW.WrapPolygon wrapPolygon, uint distanceFromLeft = 0, uint distanceFromRight = 0)
+        private OpenXmlElement CreateWrapTight(OXmlAnchorWrapTight wrap)
         {
-            // Top and Bottom Wrapping, <wp:wrapTopAndBottom>
-            DW.WrapTopBottom wrap = new DW.WrapTopBottom();
+            // Tight Wrapping, <wp:wrapTight>
+            DW.WrapTight wrapElement = new DW.WrapTight();
 
-            if (distanceFromTop != 0)
-                // Distance From Text (Top), <wp:wrapSquare distT>
-                wrap.DistanceFromTop = distanceFromTop;
-            if (distanceFromBottom != 0)
-                // Distance From Text on Bottom Edge, <wp:wrapSquare distB>
-                wrap.DistanceFromBottom = distanceFromBottom;
+            // Text Wrapping Location, <wp:wrapTight wrapText>
+            // BothSides - Both Sides ("bothSides"), Left - Left Side Only ("left"), Right - Right Side Only ("right"), Largest - Largest Side Only ("largest")
+            //wrapElement.WrapText = wrapText;
+            wrapElement.WrapText = wrap.WrapText;
 
-            if (effectExtent != null)
-                // Object Extents Including Effects <wp:effectExtent>
-                //   BottomEdge : Additional Extent on Bottom Edge (b)
-                //   LeftEdge   : Additional Extent on Left Edge (l)
-                //   RightEdge  : Additional Extent on Right Edge (r)
-                //   TopEdge    : Additional Extent on Top Edge (t)
-                // <wp:effectExtent b="0" l="0" r="0" t="0"/>
-                wrap.EffectExtent = effectExtent;
+            if (wrap.DistanceFromLeft != 0)
+                // Distance From Text on Left Edge, <wp:wrapTight distL>
+                wrapElement.DistanceFromLeft = wrap.DistanceFromLeft;
+            if (wrap.DistanceFromRight != 0)
+                // Distance From Text on Right Edge, <wp:wrapTight distR>
+                wrapElement.DistanceFromRight = wrap.DistanceFromRight;
 
-            _wrap = wrap;
+            // Tight Wrapping Extents Polygon, <wp:wrapPolygon>
+            //wrapElement.WrapPolygon = wrapPolygon;
+            //wrapElement.WrapPolygon = CreateSquareWrapPolygon(wrap.SquareSize);
+            wrapElement.WrapPolygon = wrap.WrapPolygon;
+
+            //_wrapElement = wrapElement;
+            return wrapElement;
         }
 
-        public DW.WrapPolygon CreateWrapPolygon()
+        //public void SetWrapTopAndBottom(uint distanceFromTop = 0, uint distanceFromBottom = 0, DW.EffectExtent effectExtent = null)
+        private OpenXmlElement CreateWrapTopAndBottom(OXmlAnchorWrapTopAndBottom wrap)
         {
-            throw new PBException("not implemented");
+            // Top and Bottom Wrapping, <wp:wrapTopAndBottom>, possible child : EffectExtent <wp:effectExtent>
+            DW.WrapTopBottom wrapElement = new DW.WrapTopBottom();
+
+            // Distance From Text on Top Edge, <wp:wrapTopAndBottom distT>
+            //wrapElement.DistanceFromTop = distanceFromTop;
+            wrapElement.DistanceFromTop = wrap.DistanceFromTop;
+
+            // Distance From Text on Bottom Edge, <wp:wrapTopAndBottom distB>
+            //wrapElement.DistanceFromBottom = distanceFromBottom;
+            wrapElement.DistanceFromBottom = wrap.DistanceFromBottom;
+
+            if (wrap.EffectExtent != null)
+                // Wrapping Boundaries <wp:effectExtent>
+                //wrapElement.EffectExtent = effectExtent;
+                wrapElement.EffectExtent = wrap.EffectExtent;
+
+            //_wrapElement = wrapElement;
+            return wrapElement;
         }
+
+        //private static DW.WrapPolygon CreateSquareWrapPolygon(long size, long startPointX = 0, long startPointY = 0, bool edited = false)
+        //{
+        //    // Tight Wrapping Extents Polygon, <wp:wrapPolygon>, possible child : StartPoint <wp:start>, LineTo <wp:lineTo>
+        //    // Edited : Wrapping Points Modified, <wp:wrapPolygon edited>
+        //    DW.WrapPolygon polygon = new DW.WrapPolygon() { Edited = edited };
+        //    // Wrapping Polygon Start, <wp:start x="0" y="0">
+        //    polygon.StartPoint = new DW.StartPoint() { X = startPointX, Y = startPointY };
+        //    long x = startPointX;
+        //    long y = startPointY;
+        //    // Wrapping Polygon Line End Position, <wp:lineTo x="0" y="0"/>
+        //    y += size; polygon.AppendChild(new DW.LineTo() { X = x, Y = y });
+        //    x += size; polygon.AppendChild(new DW.LineTo() { X = x, Y = y });
+        //    y -= size; polygon.AppendChild(new DW.LineTo() { X = x, Y = y });
+        //    x -= size; polygon.AppendChild(new DW.LineTo() { X = x, Y = y });
+        //    return polygon;
+        //}
+
+        //public void SetWrapTopBottom(uint distanceFromTop = 0, uint distanceFromBottom = 0, DW.EffectExtent effectExtent = null)
+        //{
+        //    // Top and Bottom Wrapping, <wp:wrapTopAndBottom>
+        //    DW.WrapTopBottom wrap = new DW.WrapTopBottom();
+
+        //    if (distanceFromTop != 0)
+        //        // Distance From Text (Top), <wp:wrapSquare distT>
+        //        wrap.DistanceFromTop = distanceFromTop;
+        //    if (distanceFromBottom != 0)
+        //        // Distance From Text on Bottom Edge, <wp:wrapSquare distB>
+        //        wrap.DistanceFromBottom = distanceFromBottom;
+
+        //    if (effectExtent != null)
+        //        // Object Extents Including Effects <wp:effectExtent>
+        //        //   BottomEdge : Additional Extent on Bottom Edge (b)
+        //        //   LeftEdge   : Additional Extent on Left Edge (l)
+        //        //   RightEdge  : Additional Extent on Right Edge (r)
+        //        //   TopEdge    : Additional Extent on Top Edge (t)
+        //        // <wp:effectExtent b="0" l="0" r="0" t="0"/>
+        //        wrap.EffectExtent = effectExtent;
+
+        //    _wrapElement = wrap;
+        //}
     }
 }

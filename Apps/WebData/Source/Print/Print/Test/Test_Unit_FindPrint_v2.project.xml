@@ -4,12 +4,7 @@
   <Root                             value = "..\..\..\..\..\.." />
   <ProjectRoot                      value = "..\..\..\.." />
 
-  <Language                                  name = "CSharp5" version = "6" />
-  <FrameworkVersion                          value = "4.6.1" />  <!-- 2.0, 3.0, 3.5, 3.5 client, 4.0, 4.0 client, 4.5, 4.5.1, 4.5.2, 4.6, 4.6.1 -->
-  <WarningLevel                              value = "4" /> <!-- 0 no warning, 1 severe warning, 2 + less-severe warnings 1, 3 + less-severe warnings 2, 4 all warning -->
-  <DebugInformation                 value = "true" />
-  <CompilerOptions                  value = "/define:DEBUG;TRACE" />
-  
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\LanguageCSharp5Debug.project.xml" />
   <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\Basic.project.xml" />
   <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\RunSourceExtension.project.xml" />
   <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\MongoCommand.project.xml" />

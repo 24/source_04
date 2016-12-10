@@ -1,65 +1,59 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <AssemblyProject>
 
-  <Root                                      value = "..\..\..\..\.." />
-  <ProjectRoot                               value = "..\..\.." />
+  <Root                             value = "..\..\..\..\.." />
+  <ProjectRoot                      value = "..\..\.." />
 
-  <Language                                  name = "CSharp5" version = "6" />
-  <FrameworkVersion                          value = "4.6.1" />  <!-- CSharp5 option : 2.0, 3.0, 3.5, 3.5 client, 4.0, 4.0 client, 4.5, 4.5.1, 4.5.2, 4.6, 4.6.1 -->
-  <Target                                    value = "library" /> <!-- CSharp5 option : exe (exe console default), library (dll), module (.netmodule), winexe (exe windows) -->
-  <Platform                                  value = "AnyCpu" /> <!-- CSharp5 option : AnyCpu (default), X86, X64, Itanium, AnyCpu32BitPreferred (only CSharp5), Arm (only CSharp5) -->
-  <WarningLevel                              value = "4" /> <!-- CSharp1, CSharp5, JScript option : 0 no warning, 1 severe warning, 2 + less-severe warnings 1, 3 + less-severe warnings 2, 4 all warning -->
-  <CompilerOptions                           value = "/define:DEBUG;TRACE" />  <!-- CSharp1, JScript option -->
-  <PreprocessorSymbol                        value = "DEBUG;TRACE" />  <!-- CSharp5 option -->
-  <GenerateInMemory                          value = "false" />  <!-- CSharp1, JScript option -->
-  <DebugInformation                          value = "true" />  <!-- CSharp1, CSharp5, JScript option -->
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\LanguageCSharp5Debug.project.xml" />
+  <Target                           value = "library" /> <!-- CSharp5 option : exe (exe console default), library (dll), module (.netmodule), winexe (exe windows) -->
+  <Platform                         value = "AnyCpu" /> <!-- CSharp5 option : AnyCpu (default), X86, X64, Itanium, AnyCpu32BitPreferred (only CSharp5), Arm (only CSharp5) -->
   
-  <!--<Output                                    value = "bin32\ebook.download.dll" />-->  <!-- CSharp1, CSharp5, JScript option -->
-  <CopySourceFiles                           value = "true" />
-  <CopyRunSourceSourceFiles                  value = "true" />
-  <!--<CopyOutput                                value = "c:\pib\prog\tools\runsource\app\ebook.download\new" />-->
+  <!--<Output                           value = "bin32\ebook.download.dll" />-->  <!-- CSharp1, CSharp5, JScript option -->
+  <CopySourceFiles                  value = "true" />
+  <CopyRunSourceSourceFiles         value = "true" />
+  <!--<CopyOutput                       value = "c:\pib\prog\tools\runsource\app\ebook.download\new" />-->
 
-  <IncludeProject                            value = "$Root$\Lib\pb\Source\Project\Basic.project.xml" />
-  <IncludeProject                            value = "$Root$\Lib\pb\Source\Project\Extension_01.dll.project.xml" />
-  <IncludeProject                            value = "download.source.project.xml" />
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\Basic.project.xml" />
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\Extension_01.dll.project.xml" />
+  <IncludeProject                   value = "download.source.project.xml" />
 
-  <NameSpace                                 value = "Download.Print" />
+  <NameSpace                        value = "Download.Print" />
   
-  <!--<SourceFile                                value = "" />-->                 <!-- file is copied in zip source file but not in output directory -->
-  <File                                      value = "download.dll.project.xml" destinationFile = "project\download.dll.project.xml" />
-  <File                                      value = "download.config.xml" destinationFile = "project\download.config.xml" />
-  <File                                      value = "print_list1.xml" destinationFile = "project\print_list1.xml" />
-  <File                                      value = "print_list2.xml" destinationFile = "project\print_list2.xml" />
-  <File                                      value = "print_config.xml" destinationFile = "project\print_config.xml" />
-  <File                                      value = "download.dll.cs" destinationFile = "project\download.dll.cs" />
+  <!--<SourceFile                       value = "" />-->                 <!-- file is copied in zip source file but not in output directory -->
+  <File                             value = "download.dll.project.xml" destinationFile = "project\download.dll.project.xml" />
+  <File                             value = "download.config.xml" destinationFile = "project\download.config.xml" />
+  <File                             value = "print_list1.xml" destinationFile = "project\print_list1.xml" />
+  <File                             value = "print_list2.xml" destinationFile = "project\print_list2.xml" />
+  <File                             value = "print_config.xml" destinationFile = "project\print_config.xml" />
+  <File                             value = "download.dll.cs" destinationFile = "project\download.dll.cs" />
 
   <!-- [{namespace}.{type}.]{method name}[, {assembly name}] default type {namespace}._RunCode -->
   <!-- run = "always, once (default)" -->
-  <InitMethod                                value = "Download.Print.DownloadRun.Init" />
-  <EndMethod                                 value = "Download.Print.DownloadRun.End" />
-  <InitMethod                                value = "Download.Print.DownloadRun.InitAlways" run = "always" />
-  <EndMethod                                 value = "Download.Print.DownloadRun.EndAlways" run = "always" />
+  <InitMethod                       value = "Download.Print.DownloadRun.Init" />
+  <EndMethod                        value = "Download.Print.DownloadRun.End" />
+  <InitMethod                       value = "Download.Print.DownloadRun.InitAlways" run = "always" />
+  <EndMethod                        value = "Download.Print.DownloadRun.EndAlways" run = "always" />
 
-  <Using                                     value = "System.IO" />
-  <Using                                     value = "System.Linq" />
-  <Using                                     value = "System.Xml.Linq" />
-  <Using                                     value = "System.Xml.XPath" />
-  <Using                                     value = "MongoDB.Bson" />
-  <Using                                     value = "MongoDB.Driver" />
-  <Using                                     value = "pb" />
-  <Using                                     value = "pb.Data" />
-  <Using                                     value = "pb.Data.Mongo" />
-  <Using                                     value = "pb.Data.Xml" />
-  <Using                                     value = "pb.Linq" />
-  <Using                                     value = "pb.Text" />
-  <Using                                     value = "pb.Web" />
-  <Using                                     value = "pb.Web.Data" />
-  <Using                                     value = "Download.Print.Ebookdz" />
-  <Using                                     value = "Download.Print.ExtremeDown" />
-  <Using                                     value = "Download.Print.Vosbooks" />
-  <Using                                     value = "Download.Print.TelechargerMagazine" />
+  <Using                            value = "System.IO" />
+  <Using                            value = "System.Linq" />
+  <Using                            value = "System.Xml.Linq" />
+  <Using                            value = "System.Xml.XPath" />
+  <Using                            value = "MongoDB.Bson" />
+  <Using                            value = "MongoDB.Driver" />
+  <Using                            value = "pb" />
+  <Using                            value = "pb.Data" />
+  <Using                            value = "pb.Data.Mongo" />
+  <Using                            value = "pb.Data.Xml" />
+  <Using                            value = "pb.Linq" />
+  <Using                            value = "pb.Text" />
+  <Using                            value = "pb.Web" />
+  <Using                            value = "pb.Web.Data" />
+  <Using                            value = "Download.Print.Ebookdz" />
+  <Using                            value = "Download.Print.ExtremeDown" />
+  <Using                            value = "Download.Print.Vosbooks" />
+  <Using                            value = "Download.Print.TelechargerMagazine" />
 
   <!-- temp source   -->
-  <!--<Source                                    value = "$Root$\Lib\pb\Source\pb\Data\Xml\XmlSerialize.cs" />-->
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Data\Xml\XmlSerialize.cs" />-->
 
 </AssemblyProject>

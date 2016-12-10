@@ -35,6 +35,7 @@ namespace Download.Print
         public bool ArchiveCompress { get { return _archiveCompress; } set { _archiveCompress = value; } }
         public string ArchiveCompressDirectory { get { return _archiveCompressDirectory; } set { _archiveCompressDirectory = value; } }
         public string ArchiveErrorCompressDirectory { get { return _archiveErrorCompressDirectory; } set { _archiveErrorCompressDirectory = value; } }
+        public CompressManager CompressManager { get { return _compressManager; } }
 
         //public void AsyncUncompress(string file, Action<string[]> onEndUncompress = null)
         public void AsyncUncompress(string file, Action<IEnumerable<string>> onEndUncompress = null)

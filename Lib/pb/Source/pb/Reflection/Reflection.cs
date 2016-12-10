@@ -147,6 +147,49 @@ namespace pb.Reflection
             return method;
         }
 
+        // get MethodInfo
+        //   if assembly is not found, try to load assembly with Assembly.Load()
+        public static MethodInfo GetMethod(string methodName, Assembly defaultAssembly = null, ErrorOptions option = ErrorOptions.None)
+        {
+            if (methodName == null)
+                return null;
+
+            MethodElements runMethodElements = GetMethodElements(methodName);
+
+            if (runMethodElements.TypeName == null)
+            {
+                Error.WriteMessage(option, $"type name not defined");
+                return null;
+            }
+
+            Assembly assembly;
+            if (runMethodElements.AssemblyName != null)
+            {
+                assembly = GetAssembly(runMethodElements.AssemblyName, ErrorOptions.None);
+                if (assembly == null)
+                {
+                    assembly = Assembly.Load(runMethodElements.AssemblyName);
+                }
+                if (assembly == null)
+                {
+                    Error.WriteMessage(option, $"unable to load assembly \"{runMethodElements.AssemblyName}\"");
+                    return null;
+                }
+            }
+            else
+                assembly = defaultAssembly;
+
+            Type type = GetType(assembly, runMethodElements.TypeName, option);
+
+            if (type == null)
+            {
+                Error.WriteMessage(option, $"type not found \"{runMethodElements.TypeName}\"");
+                return null;
+            }
+
+            return zReflection.GetMethod(type, runMethodElements.MethodName, option);
+        }
+
         public static MethodElements GetMethodElements(string methodName)
         {
             // methodName : "Init" => MethodName = "Init", TypeName = null, QualifiedTypeName = null, AssemblyName = null
@@ -369,6 +412,14 @@ namespace pb.Reflection
                 if (intType.IsGenericType && intType.GetGenericTypeDefinition() == typeof(IEnumerable<>))
                     return intType.GetGenericArguments()[0];
             }
+            return null;
+        }
+
+        public static object GetDefaultValue(Type type)
+        {
+            if (type.IsValueType)
+                return Activator.CreateInstance(type);
+
             return null;
         }
     }

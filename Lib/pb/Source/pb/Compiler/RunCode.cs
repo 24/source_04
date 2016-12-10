@@ -12,7 +12,7 @@ namespace pb.Compiler
         //private Dictionary<string, CompilerAssembly> _compilerAssemblies = null;
         private string _runMethodName = null;       // "Test._RunCode.Run"
 
-        private Type _runType = null;
+        //private Type _runType = null;
 
         private Thread _runThread = null;
         private Chrono _runChrono = null;
@@ -60,59 +60,65 @@ namespace pb.Compiler
             MethodElements runMethodElements = zReflection.GetMethodElements(_runMethodName);
             if (runMethodElements.TypeName == null)
                 throw new PBException("bad run method name \"{0}\", run method need type name", _runMethodName);
+            Type runType;
             if (runMethodElements.QualifiedTypeName != null)
-                _runType = zReflection.GetType(runMethodElements.QualifiedTypeName, ErrorOptions.ThrowError);
+                runType = zReflection.GetType(runMethodElements.QualifiedTypeName, ErrorOptions.ThrowError);
             else
-                _runType = zReflection.GetType(_runAssembly, runMethodElements.TypeName, ErrorOptions.ThrowError);
-            return zReflection.GetMethod(_runType, runMethodElements.MethodName, ErrorOptions.ThrowError);
+                runType = zReflection.GetType(_runAssembly, runMethodElements.TypeName, ErrorOptions.ThrowError);
+            return zReflection.GetMethod(runType, runMethodElements.MethodName, ErrorOptions.ThrowError);
         }
 
-        public MethodInfo GetMethod(string methodName)
-        {
-            if (methodName == null)
-                return null;
-            MethodElements runMethodElements = zReflection.GetMethodElements(methodName);
-            Type type;
-            if (runMethodElements.TypeName != null)
-            {
-                Assembly assembly = null;
-                if (runMethodElements.AssemblyName != null)
-                {
-                    assembly = zReflection.GetAssembly(runMethodElements.AssemblyName, ErrorOptions.None);
-                    //if (assembly == null && _compilerAssemblies != null)
-                    //{
-                    //    // Compiler.AddAssembly() generate _compilerAssemblies with lower case key (ToLowerInvariant)
-                    //    string assemblyName = zReflection.GetAssemblyName(runMethodElements.AssemblyName).ToLowerInvariant();
-                    //    if (_compilerAssemblies.ContainsKey(assemblyName))
-                    //    {
-                    //        string file = _compilerAssemblies[assemblyName].File;
-                    //        Trace.WriteLine("load assembly from \"{0}\"", file);
-                    //        assembly = Assembly.LoadFrom(file);
-                    //    }
-                    //    else
-                    //        Trace.WriteLine("unknow assembly \"{0}\"", assemblyName);
-                    //}
-                    if (assembly == null)
-                    {
-                        assembly = Assembly.Load(runMethodElements.AssemblyName);
-                    }
-                    if (assembly == null)
-                    {
-                        Error.WriteMessage(ErrorOptions.TraceWarning, "unable to load assembly \"{0}\"", runMethodElements.AssemblyName);
-                        return null;
-                    }
-                }
-                else
-                    assembly = _runAssembly;
-                type = zReflection.GetType(assembly, runMethodElements.TypeName, ErrorOptions.TraceWarning);
-            }
-            else
-                type = _runType;
-            if (type != null)
-                return zReflection.GetMethod(type, runMethodElements.MethodName, ErrorOptions.TraceWarning);
-            else
-                return null;
-        }
+        //public MethodInfo GetMethod(string methodName)
+        //{
+        //    if (methodName == null)
+        //        return null;
+        //    MethodElements runMethodElements = zReflection.GetMethodElements(methodName);
+        //    Type type;
+        //    if (runMethodElements.TypeName != null)
+        //    {
+        //        Assembly assembly = null;
+        //        if (runMethodElements.AssemblyName != null)
+        //        {
+        //            assembly = zReflection.GetAssembly(runMethodElements.AssemblyName, ErrorOptions.None);
+        //            //if (assembly == null && _compilerAssemblies != null)
+        //            //{
+        //            //    // Compiler.AddAssembly() generate _compilerAssemblies with lower case key (ToLowerInvariant)
+        //            //    string assemblyName = zReflection.GetAssemblyName(runMethodElements.AssemblyName).ToLowerInvariant();
+        //            //    if (_compilerAssemblies.ContainsKey(assemblyName))
+        //            //    {
+        //            //        string file = _compilerAssemblies[assemblyName].File;
+        //            //        Trace.WriteLine("load assembly from \"{0}\"", file);
+        //            //        assembly = Assembly.LoadFrom(file);
+        //            //    }
+        //            //    else
+        //            //        Trace.WriteLine("unknow assembly \"{0}\"", assemblyName);
+        //            //}
+        //            if (assembly == null)
+        //            {
+        //                assembly = Assembly.Load(runMethodElements.AssemblyName);
+        //            }
+        //            if (assembly == null)
+        //            {
+        //                Error.WriteMessage(ErrorOptions.TraceWarning, $"unable to load assembly \"{runMethodElements.AssemblyName}\"");
+        //                return null;
+        //            }
+        //        }
+        //        else
+        //            assembly = _runAssembly;
+        //        type = zReflection.GetType(assembly, runMethodElements.TypeName, ErrorOptions.TraceWarning);
+        //    }
+        //    else
+        //        type = _runType;
+        //    if (type != null)
+        //    {
+        //        return zReflection.GetMethod(type, runMethodElements.MethodName, ErrorOptions.TraceWarning);
+        //    }
+        //    else
+        //    {
+        //        Error.WriteMessage(ErrorOptions.TraceWarning, $"type not found \"{runMethodElements.TypeName}\"");
+        //        return null;
+        //    }
+        //}
 
         private void _Run(MethodInfo runMethod)
         {

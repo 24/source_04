@@ -143,9 +143,25 @@ using System;
 
 namespace pb.Compiler
 {
+    public class ProjectCompilerException : Exception
+    {
+        public ProjectCompilerException()
+        {
+        }
+
+        public ProjectCompilerException(string message) : base(message)
+        {
+        }
+
+        public ProjectCompilerException(string message, Exception innerException) : base(message, innerException)
+        {
+        }
+    }
+
     public partial class ProjectCompiler : IProjectCompiler
     {
-        public static int __traceLevel = 1;    // 0 no message, 1 default messages, 2 detailled messaged
+        public static int _traceLevel = 1;    // 0 no message, 1 default messages, 2 detailled messaged
+        public static bool _traceDuplicateSource = true;
 
         private Win32ResourceCompiler _win32ResourceCompiler = null;
         private ResourceCompiler _resourceCompiler = null;
@@ -192,7 +208,8 @@ namespace pb.Compiler
             _resourceCompiler = resourceCompiler;
         }
 
-        public static int TraceLevel { get { return __traceLevel; } set { __traceLevel = value; } }
+        public static int TraceLevel { get { return _traceLevel; } set { _traceLevel = value; } }
+        public static bool TraceDuplicateSource { get { return _traceDuplicateSource; } set { _traceDuplicateSource = value; } }
         public CompilerLanguage Language { get { return _language; } set { _language = value; } }
         public bool GenerateInMemory { get { return _generateInMemory; } set { _generateInMemory = value; } }
         public bool DebugInformation { get { return _debugInformation; } set { _debugInformation = value; } }
@@ -221,32 +238,23 @@ namespace pb.Compiler
         }
 
         // runCode : true when executing code from runsource, true for CompilerDefaultValues and ProjectDefaultValues, otherwise false
-        //public void SetParameters(ICompilerProjectReader project, bool runCode = false, bool includeProject = false)
+        // includeProject : true reading and include project, false reading the main project
+        // set parameters for :
+        //   main project : Win32Resource
+        //   main project but not run code : Target, Platform, Output, Icon, KeyFile, CopySourceFiles, CopyRunSourceSourceFiles, CopyOutputDirectories
+        //   not run code : GenerateInMemory
+        //   always : DebugInformation, WarningLevel, CompilerOptions, PreprocessorSymbols, Sources, Files, SourceFiles, Assemblies
+        //   always but only once : Language, FrameworkVersion
         public void SetParameters(CompilerProjectReader project, bool runCode = false, bool includeProject = false)
         {
             if (project == null)
                 return;
 
-            //string s = project.GetLanguage();
-            //if (s != null)
+            //if (!includeProject)
             //{
-            //    if (_language != null)
-            //        WriteLine(1, "Compiler warning : redefine language \"{0}\" as \"{1}\" from project \"{2}\"", _language, s, project.ProjectFile);
-            //    _language = s;
-            //}
-            //CompilerLanguage language = project.GetLanguage();
-            //if (language != null)
-            //{
-            //    if (_language != null)
-            //        WriteLine(1, "Compiler warning : redefine language \"{0}\"-\"{1}\" as \"{2}\"-\"{3}\" from project \"{4}\"", _language.Name, _language.Version, language.Name, language.Version, project.ProjectFile);
-            //    _language = language;
-            //}
-
-            if (!includeProject)
-            {
                 SetLanguage(project.GetLanguage(), project);
                 SetFrameworkVersion(project.GetFrameworkVersion(), project);
-            }
+            //}
 
             if (!runCode && !includeProject)
             {
@@ -291,24 +299,25 @@ namespace pb.Compiler
                 SetWin32Resource(project.GetWin32Resource());
             }
 
-            if (!includeProject)
+            //if (!includeProject)
+            if (!includeProject && !includeProject)
             {
                 s = project.GetIcon();
                 if (s != null)
                     AddCompilerOption("/win32icon:\"" + s + "\"");
             }
 
-            if (!includeProject)
+            //if (!includeProject)
+            if (!includeProject && !includeProject)
             {
                 s = project.GetKeyFile();
                 if (s != null)
                     AddCompilerOption("/keyfile:\"" + s + "\"");
             }
 
-            // GetIncludeProjects() get include project recursively
             if (!includeProject)
             {
-                //foreach (ICompilerProjectReader project2 in project.GetIncludeProjects())
+                // GetIncludeProjects() get include project recursively
                 foreach (CompilerProjectReader project2 in project.GetIncludeProjects())
                 {
                     SetParameters(project2, runCode: runCode, includeProject: true);
@@ -338,56 +347,6 @@ namespace pb.Compiler
             {
                 AddCopyOutputDirectories(project.GetCopyOutputs());
             }
-
-            //foreach (XElement xe2 in xe.GetElements("ProviderOption"))
-            //    compiler.SetProviderOption(xe2.zAttribValue("name"), xe2.zAttribValue("value"));
-            //SetProviderOptions(project.GetProviderOptions(), project);
-
-            //compiler.ResourceCompiler = xe.Get("ResourceCompiler", compiler.ResourceCompiler);
-            //s = project.GetResourceCompiler();
-            //if (s != null)
-            //{
-            //    if (_resourceCompiler != null)
-            //        WriteLine(1, "Compiler warning : redefine resource compiler \"{0}\" as \"{1}\" from project \"{2}\"", _resourceCompiler, s, project.ProjectFile);
-            //    _resourceCompiler = s;
-            //}
-
-            //if (!runCode)
-            //{
-            //    s = project.GetOutputDir();
-            //    if (s != null)
-            //    {
-            //        if (_outputDir != null)
-            //            WriteLine(1, "Compiler warning : redefine output directory \"{0}\" as \"{1}\" from project \"{2}\"", _outputDir, s, project.ProjectFile);
-            //        _outputDir = s;
-            //    }
-            //}
-
-            //if (s != null)
-            //    _outputAssembly = s;
-            //string ext = zPath.GetExtension(_outputAssembly);
-            //if (ext != null)
-            //{
-            //    if (ext.ToLower() == ".exe")
-            //        _generateExecutable = true;
-            //    else if (ext.ToLower() == ".dll")
-            //        _generateExecutable = false;
-            //}
-
-            //bool? b;
-            //if (!runCode && !includeProject)
-            //{
-            //    b = project.GetGenerateExecutable();
-            //    if (b != null)
-            //        _generateExecutable = (bool)b;
-            //}
-
-            //compiler.AddLocalAssemblies(xe.GetElements("LocalAssembly"));
-
-            //if (!runCode && !includeProject)
-            //{
-            //    AddUpdateDirectory(project.GetUpdateDirectory());
-            //}
         }
 
         //public void SetLanguage(CompilerLanguage language, ICompilerProjectReader project = null)
@@ -396,7 +355,8 @@ namespace pb.Compiler
             if (language != null)
             {
                 if (_language != null)
-                    WriteLine(1, "Compiler warning : redefine language \"{0}\"-\"{1}\" as \"{2}\"-\"{3}\" from project \"{4}\"", _language.Name, _language.Version, language.Name, language.Version, project.ProjectFile);
+                    //WriteLine(1, );
+                    throw new PBException($"Compiler warning : redefine language \"{_language.Name}\"-\"{_language.Version}\" as \"{language.Name}\"-\"{language.Version}\" from project \"{project.ProjectFile}\"");
                 //else
                 //    WriteLine(1, "Compiler info    : set language \"{0}\"-\"{1}\" from project \"{2}\"", language.Name, language.Version, project.ProjectFile);
                 _language = language;
@@ -409,7 +369,8 @@ namespace pb.Compiler
             if (frameworkVersion != null)
             {
                 if (_frameworkVersion != null)
-                    WriteLine(1, "Compiler warning : redefine framework version \"{0}\" as \"{1}\" from project \"{2}\"", _frameworkVersion, frameworkVersion, project != null ? project.ProjectFile : "(no project)");
+                    //WriteLine(1, "Compiler warning : redefine framework version \"{0}\" as \"{1}\" from project \"{2}\"", _frameworkVersion, frameworkVersion, project != null ? project.ProjectFile : "(no project)");
+                    throw new PBException($"Compiler warning : redefine framework version \"{_frameworkVersion}\" as \"{frameworkVersion}\" from project \"{(project != null ? project.ProjectFile : "(no project)")}\"");
                 _frameworkVersion = frameworkVersion;
             }
         }
@@ -504,13 +465,16 @@ namespace pb.Compiler
 
         public void AddSource(CompilerFile source)
         {
+            if (!zFile.Exists(source.File))
+                throw new ProjectCompilerException($"source file not found \"{source.File}\"");
             if (!_sourceList.ContainsKey(source.File))
                 _sourceList.Add(source.File, source);
-            //else
-            //{
-            //    WriteLine(1, "Compiler warning : duplicate source file \"{0}\" from project \"{1}\"", source.File, source.Project.ProjectFile);
-            //    WriteLine(1, "  already loaded from project \"{0}\"", _sourceList[source.File].Project.ProjectFile);
-            //}
+            else if (_traceDuplicateSource)
+            {
+                WriteLine(1, $"Compiler warning : duplicate source file \"{source.File}\"");
+                WriteLine(1, $"                              in project \"{source.Project.ProjectFile}\"");
+                WriteLine(1, $"               already loaded in project \"{_sourceList[source.File].Project.ProjectFile}\"");
+            }
         }
 
         public void AddFiles(IEnumerable<CompilerFile> files)
@@ -588,16 +552,24 @@ namespace pb.Compiler
             if (_finalOutputDir != null)
                 zDirectory.CreateDirectory(_finalOutputDir);
             WriteLine(2, "Compile \"{0}\"", _finalOutputAssembly);
-            WriteLine(2, "  DebugInformation      {0}", _debugInformation);
-            WriteLine(2, "  GenerateInMemory      {0}", _generateInMemory);
-            //WriteLine(2, "  GenerateExecutable    {0}", _generateExecutable);
-            WriteLine(2, "  WarningLevel          {0}", _warningLevel);
-            WriteLine(2, "  CompilerOptions       \"{0}\"", _compilerOptions);
-            WriteLine(2, "  PreprocessorSymbols   {0}", _preprocessorSymbols.Values.zToStringValues());
+
+            WriteLine(2, $"  Language              {(_language != null ? _language.Name : "-undefined-")} version {(_language != null ? _language.Version : "-undefined-")}");
+            if (_frameworkVersion != null)
+                WriteLine(2, $"  FrameworkVersion      {_frameworkVersion}");
+            WriteLine(2, $"  Target                \"{_target}\"");
+            WriteLine(2, $"  Platform              {(_platform ?? "default")}");
+            WriteLine(2, $"  OutputAssembly        \"{_outputAssembly}\"");
+            WriteLine(2, $"  DebugInformation      {_debugInformation}");
+            WriteLine(2, $"  GenerateInMemory      {_generateInMemory}");
+            //WriteLine(2, $"  GenerateExecutable    {_generateExecutable}");
+            WriteLine(2, $"  WarningLevel          {_warningLevel}");
+            WriteLine(2, $"  CompilerOptions       \"{_compilerOptions}\"");
+            if (_preprocessorSymbols != null)
+                WriteLine(2, $"  PreprocessorSymbols   {_preprocessorSymbols.Values.zToStringValues()}");
 
             _appConfig = GetCompilerFileName("app.config");
             if (_appConfig != null)
-                WriteLine(2, "  app.config            \"{0}\"", _appConfig.File);
+                WriteLine(2, $"  app.config            \"{_appConfig.File}\"");
 
             //CompilerParameters options = new CompilerParameters();
             //options.CompilerOptions = _compilerOptions;
@@ -683,7 +655,7 @@ namespace pb.Compiler
                 compiler.Win32ResourceFile = win32CompiledResourceFile;
                 //if (win32CompiledResourceFile != null)
                 //WriteLine(2, "  win32 resource file   \"{0}\"", win32CompiledResourceFile);
-                WriteLine(2, "  win32 resource file   \"{0}\"", _win32ResourceFile.File);
+                WriteLine(2, $"  win32 resource file   \"{_win32ResourceFile.File}\"");
             }
 
             //compiler.ProviderOption = _providerOption;
@@ -1243,7 +1215,7 @@ namespace pb.Compiler
         private void WriteLine(int traceLevel, string msg, params object[] prm)
         {
             //if (Trace == null || traceLevel > TraceLevel)
-            if (traceLevel > __traceLevel)
+            if (traceLevel > _traceLevel)
                 return;
             Trace.WriteLine(msg, prm);
         }

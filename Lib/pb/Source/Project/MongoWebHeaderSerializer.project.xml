@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<AssemblyProject>
+  <Root                             value = "..\..\..\.." />
+
+  <InitMethod                       value = "pb.Data.Mongo.Serializers.RunSerializer.InitWebHeader"    run = "always" params = "traceSerializer = false" />
+  <EndMethod                        value = "pb.Data.Mongo.Serializers.RunSerializer.EndWebHeader"     run = "always" />
+
+  <Using                            value = "pb.Data.Mongo" />
+  <Using                            value = "pb.Data.Mongo.Serializers" />
+
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\Default\RunSerializerWebHeader.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\Default\WebHeaderSerializer.cs" />
+</AssemblyProject>

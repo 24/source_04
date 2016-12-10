@@ -6,12 +6,12 @@ namespace pb.Web.TestUnit
     {
         public static void Init()
         {
-            DefaultMongoSerialization.SetDefaultMongoSerializationOptions();
+            MongoSerializationManager.SetDefaultMongoSerializationOptions();
         }
 
         public static void End()
         {
-            DefaultMongoSerialization.RemoveDefaultMongoSerializationOptions();
+            MongoSerializationManager.RemoveDefaultMongoSerializationOptions();
         }
     }
 }

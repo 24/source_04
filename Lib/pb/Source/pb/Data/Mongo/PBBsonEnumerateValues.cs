@@ -12,11 +12,11 @@ namespace pb.Data.Mongo
 
     public class PBBsonEnumerateValues : IEnumerable<PBBsonNamedValue>, IEnumerator<PBBsonNamedValue>
     {
-        private PBBsonReader _reader;
+        private PBBsonReaderWithBookmark _reader;
         private string _currentName;
         private PBBsonNamedValue _currentValue;
 
-        public PBBsonEnumerateValues(PBBsonReader reader, string name = null)
+        public PBBsonEnumerateValues(PBBsonReaderWithBookmark reader, string name = null)
         {
             _reader = reader;
             _currentName = name;

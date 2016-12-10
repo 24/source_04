@@ -3,34 +3,36 @@
   
   <Root                             value = "..\..\..\.." />
 
-  <InitMethod                       value = "pb.Data.Mongo.Serializers.RunSerializer.Init, Extension_01, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" />
-  <EndMethod                        value = "pb.Data.Mongo.Serializers.RunSerializer.End, Extension_01, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" />
+  <InitMethod                       value = "pb.Data.Mongo.Serializers.RunSerializer.InitDefault, Extension_01, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" params = "traceProvider = false, traceSerializer = false" />
+  <EndMethod                        value = "pb.Data.Mongo.Serializers.RunSerializer.EndDefault, Extension_01, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" />
+  <InitMethod                       value = "pb.Data.Mongo.Serializers.RunSerializer.InitZValue, Extension_01, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" params = "traceSerializer = false" />
+  <EndMethod                        value = "pb.Data.Mongo.Serializers.RunSerializer.EndZValue, Extension_01, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" />
+  <InitMethod                       value = "pb.Data.Mongo.Serializers.RunSerializer.InitWebHeader, Extension_01, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" params = "traceSerializer = false" />
+  <EndMethod                        value = "pb.Data.Mongo.Serializers.RunSerializer.EndWebHeader, Extension_01, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" />
 
-  <Using                            value = "pb" />
+  <!--<Using                            value = "pb" />
   <Using                            value = "pb.Compiler" />
   <Using                            value = "pb.Data.Mongo" />
   <Using                            value = "pb.Data.Mongo.Serializers" />
   <Using                            value = "pb.Reflection" />
-  <Using                            value = "pb.Web" />
+  <Using                            value = "pb.Web" />-->
 
   <!--<FrameworkAssembly                value = "mscorlib.dll" />-->
-  <FrameworkAssembly                value = "System.dll" />
-  <FrameworkAssembly                value = "System.Core.dll" />
-  <FrameworkAssembly                value = "System.Data.dll" />
-  <FrameworkAssembly                value = "System.Drawing.dll" />
-  <FrameworkAssembly                value = "System.IO.Compression.dll" />
-  <FrameworkAssembly                value = "System.IO.Compression.FileSystem.dll" />
-  <FrameworkAssembly                value = "System.Web.dll" />
-  <FrameworkAssembly                value = "System.Xml.dll" />
-  <FrameworkAssembly                value = "System.Xml.Linq.dll" />
-  <FrameworkAssembly                value = "Microsoft.JScript.dll" />
-  <Assembly                         value = "$Root$\Lib\LongPath\Pri.LongPath\bin\Debug\Pri.LongPath.dll" />
-  <Assembly                         value = "$Root$\..\library\Mongo\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Bson.dll" resolve = "true" resolveName = "MongoDB.Bson, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />
-  <Assembly                         value = "$Root$\..\library\Mongo\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Driver.dll" resolve = "true" resolveName = "MongoDB.Driver, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />
-  <!--<Assembly                         value = "runsource.dll" />-->
-  <!--<Assembly                         value = "runsource.irunsource.dll" />-->
-  <Assembly                         value = "$Root$\Apps\RunSource\v2\runsource.dll\bin32\runsource.dll" />
-  <Assembly                         value = "$Root$\Apps\RunSource\v2\runsource.dll\bin32\runsource.irunsource.dll" />
+  <!--<FrameworkAssembly                value = "System.dll" />-->
+  <!--<FrameworkAssembly                value = "System.Core.dll" />-->
+  <!--<FrameworkAssembly                value = "System.Data.dll" />-->
+  <!--<FrameworkAssembly                value = "System.Drawing.dll" />-->
+  <!--<FrameworkAssembly                value = "System.IO.Compression.dll" />-->
+  <!--<FrameworkAssembly                value = "System.IO.Compression.FileSystem.dll" />-->
+  <!--<FrameworkAssembly                value = "System.Web.dll" />-->
+  <!--<FrameworkAssembly                value = "System.Xml.dll" />-->
+  <!--<FrameworkAssembly                value = "System.Xml.Linq.dll" />-->
+  <!--<FrameworkAssembly                value = "Microsoft.JScript.dll" />-->
+  <!--<Assembly                         value = "$Root$\Lib\LongPath\Pri.LongPath\bin\Debug\Pri.LongPath.dll" />-->
+  <!--<Assembly                         value = "$Root$\..\library\Mongo\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Bson.dll" resolve = "true" resolveName = "MongoDB.Bson, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />-->
+  <!--<Assembly                         value = "$Root$\..\library\Mongo\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Driver.dll" resolve = "true" resolveName = "MongoDB.Driver, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />-->
+  <!--<Assembly                         value = "$Root$\Apps\RunSource\v2\runsource.dll\bin32\runsource.dll" />-->
+  <!--<Assembly                         value = "$Root$\Apps\RunSource\v2\runsource.dll\bin32\runsource.irunsource.dll" />-->
   <Assembly                         value = "$Root$\..\library\pib\Extension_01\Extension_01.dll" resolve = "true" resolveName = "Extension_01, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" />
 
 </AssemblyProject>

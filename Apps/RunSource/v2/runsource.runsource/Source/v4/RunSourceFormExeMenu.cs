@@ -9,13 +9,13 @@ namespace runsourced
 {
     partial class RunSourceFormExe
     {
-        //private ToolStripMenuItem _menuViewSourceLineNumber;
+        private ToolStripMenuItem _menuGridSetMaxWidthHeight;
+        private ToolStripMenuItem _menuResizeDatatableImages;
         private ToolStripMenuItem _menuRunInit;
         private ToolStripMenuItem _menuRunOnMainThread;
         private ToolStripMenuItem _menuRunWithoutProject;
         private ToolStripMenuItem _menuAllowMultipleRun;
-        private ToolStripMenuItem _menuGridSetMaxWidthHeight;
-        private ToolStripMenuItem _menuResizeDatatableImages;
+        private ToolStripMenuItem _traceInit;
         private Button _executeButton;
         private Button _pauseButton;
         private Button _stopButton;
@@ -45,17 +45,14 @@ namespace runsourced
                 zForm.CreateMenuItem("&Quit", onClick: menuQuit_Click),
             });
 
-            //ToolStripMenuItem m_options = zForm.CreateMenuItem("&Options");
+            _menuGridSetMaxWidthHeight = zForm.CreateMenuItem("Set grid &max width height", checkOnClick: true, @checked: true, onClick: menuGridSetMaxWidthHeight_Click);
+            _menuResizeDatatableImages = zForm.CreateMenuItem("Resize data table images", checkOnClick: true, @checked: true, onClick: menuResizeDatatableImages_Click);
 
-            //_menuViewSourceLineNumber = zForm.CreateMenuItem("View source line number", checkOnClick: true, @checked: true, onClick: menuViewSourceLineNumber_Click);
-            //_menuRunInit = zForm.CreateMenuItem("Run &init", checkOnClick: true, @checked: true, onClick: menuRunInit_Click);
             _menuRunInit = zForm.CreateMenuItem("Run &init", checkOnClick: true, @checked: true, onClick: (sender, eventArgs) => UpdateRunSourceStatusRunInit());
             _menuRunOnMainThread = zForm.CreateMenuItem("Run on main &thread", checkOnClick: true, @checked: false, onClick: (sender, eventArgs) => UpdateRunSourceStatusRunType());
             _menuRunWithoutProject = zForm.CreateMenuItem("Run without &project", checkOnClick: true, @checked: false, onClick: (sender, eventArgs) => UpdateRunSourceStatusRunType());
-            //_menuAllowMultipleRun = zForm.CreateMenuItem("Allow &multiple run", checkOnClick: true, @checked: true, onClick: menuAllowMultipleExecution_Click);
             _menuAllowMultipleRun = zForm.CreateMenuItem("Allow &multiple run", checkOnClick: true, @checked: _config.Get("AllowMultipleExecution").zTryParseAs(false), onClick: (sender, eventArgs) => UpdateRunSourceStatusRunType());
-            _menuGridSetMaxWidthHeight = zForm.CreateMenuItem("Set grid &max width height", checkOnClick: true, @checked: true, onClick: menuGridSetMaxWidthHeight_Click);
-            _menuResizeDatatableImages = zForm.CreateMenuItem("Resize data table images", checkOnClick: true, @checked: true, onClick: menuResizeDatatableImages_Click);
+            _traceInit = zForm.CreateMenuItem("Trace init", checkOnClick: true, onClick: (sender, eventArgs) => _runSource.TraceInit(_traceInit.Checked));
 
             _menuOptions.DropDownItems.AddRange(new ToolStripItem[] {
                 _menuGridSetMaxWidthHeight,
@@ -65,7 +62,9 @@ namespace runsourced
                 _menuRunInit,
                 _menuRunOnMainThread,
                 _menuRunWithoutProject,
-                _menuAllowMultipleRun
+                _menuAllowMultipleRun,
+                new ToolStripSeparator(),
+                _traceInit
             });
 
             foreach (XElement xe in _config.GetElements("MenuCompile/CompileProjects"))

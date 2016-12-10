@@ -7,7 +7,6 @@
 // $$info.zdate.GetDayInsideDateGap
 // $$info.Backup
 
-
 //*************************************************************************************************************************
 //****                                   Trace
 //*************************************************************************************************************************
@@ -20,6 +19,7 @@ RunSource.CurrentRunSource.SetProjectFromSource();
 
 //RunSource.CurrentRunSource.CompileProject(@"$Root$\Apps\WebData\Source\Print\Project\download.project.xml");
 ProjectCompiler.TraceLevel = 2;
+ProjectCompiler.TraceDuplicateSource = true;
 RunSource.CurrentRunSource.CompileProjects(@"$Root$\Apps\WebData\Source\Print\Project\download.projects.xml");
 //RunSource.CurrentRunSource.CompileProject(@"$Root$\Lib\pb\Source\Project\Extension_01.project.xml");
 
@@ -2362,7 +2362,8 @@ Trace.WriteLine("{0}", zfile.AreFileEqual(@"c:\pib\_dl\_pib\dl\golden-ddl.net\pr
 // $$info.manage.print.directory
 
 // manage new Journaux
-string sourceDirectory = @"g:\pib\media\ebook\_dl\_dl_pib\journaux\05\Journaux";
+//string sourceDirectory = @"g:\pib\media\ebook\_dl\_dl_pib\journaux\05\Journaux";
+string sourceDirectory = @"g:\pib\media\ebook\_dl\dl_pib\print\02\.01_quotidien\Journaux";
 string destinationDirectory = @"g:\pib\media\ebook\Journaux";
 //bool simulate = true; string logFile = @"c:\pib\dev_data\exe\runsource\download\print\RenamePrintFiles_simulate.txt";
 bool simulate = false; string logFile = @"c:\pib\dev_data\exe\runsource\download\print\RenamePrintFiles.txt";
@@ -2372,9 +2373,10 @@ WebData.RenameDailyPrintFiles(sourceDirectory, destinationDirectory, logFile, si
 
 // manage new print
 string[] directories = new string[] {
-	@"g:\pib\media\ebook\_dl\_dl_pib\print\05\print",
-	@"g:\pib\media\ebook\_dl\_dl_pib\print\06\print"
-  	//@"g:\pib\media\ebook\Journaux\print"
+	//@"g:\pib\media\ebook\_dl\_dl_pib\print\05\print",
+	//@"g:\pib\media\ebook\_dl\_dl_pib\print\06\print"
+  @"g:\pib\media\ebook\_dl\dl_pib\print\02"
+  //@"g:\pib\media\ebook\Journaux\print"
 	};
 //DownloadAutomate_f.Test_ManageDirectories_01(directories, @"g:\pib\media\ebook\print", usePrintDirectories: true, simulate: false, moveFiles: true);
 WebData.ManageDirectories(directories, @"g:\pib\media\ebook\print", usePrintDirectories: true, simulate: false, moveFiles: true, moveInfoFiles: true);

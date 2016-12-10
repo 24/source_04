@@ -1,0 +1,67 @@
+{ Type: "Line" }
+{ Type: "TabStop" }
+{ Type: "Paragraph", Style: "HeaderFooter" }
+{ Type: "Paragraph" }
+{ Type: "Paragraph" }
+{ Type: "Text", Text: "First header" }
+{ Type: "Text", Text: "page ", PreserveSpace: true }
+{ Type: "Text", Text: "/", PreserveSpace: true }
+{ Type: "SimpleField", Instruction: "PAGE" }
+{ Type: "SimpleField", Instruction: "NUMPAGES" }
+{ Type: "DocSection",
+  PageSize: { Width: 11907, Height: 16839 },
+  PageMargin: { Top: 720, Bottom: 720, Left: 1418, Right: 1418, Header: 284, Footer: 284 },
+  PageNumberStart: 1
+}
+{ Type: "DocDefaultsRunProperties", RunFonts: { Ascii: "Arial" }, FontSize: "22" }
+{ Type: "DocDefaultsRunProperties", RunFonts: {
+  Ascii: "Arial", AsciiTheme: "MajorAscii",
+  ComplexScript: "TestComplexScript", ComplexScriptTheme: "MajorBidi",
+  EastAsia: "TestEastAsia", EastAsiaTheme: "MajorEastAsia",
+  HighAnsi: "TestHighAnsi", HighAnsiTheme: "MajorHighAnsi",
+  Hint: "ComplexScript" },
+  FontSize: "22" }
+{ Type: "DocDefaultsParagraphProperties" }
+
+{ Type: "OpenHeader", HeaderType: "First" }
+{ Type: "Paragraph", Style: "HeaderFooter" }
+{ Type: "TabStop" }
+{ Type: "Text", Text: "First header" }
+{ Type: "CloseHeader" }
+
+{ Type: "OpenFooter", FooterType: "First" }
+{ Type: "Paragraph", Style: "HeaderFooter" }
+{ Type: "TabStop" }
+{ Type: "Text", Text: "First footer" }
+{ Type: "CloseFooter" }
+
+{ Type: "Style", Id: "HeaderFooter", StyleType: "Paragraph", CustomStyle: true, DefaultStyle: false, StyleParagraphProperties: { Tabs: [{ Position: 4536, Alignment: "Center" }, { Position: 9072, Alignment: "Right" }] } }
+{ Type: "Style", Id: "TinyParagraph", StyleType: "Paragraph", CustomStyle: true, DefaultStyle: false, StyleParagraphProperties: { SpacingBetweenLines: { Line: "48" } } }
+
+{ Type: "Picture", File: "c:\\pib\\_dl\\test\\BlogDemoor\\from-chrome\\files\\images\\112509336.jpg",
+  Width: 300, DrawingType: "AnchorWrapSquare", HorizontalRelativeFrom: "margin", HorizontalAlignment: "left", VerticalRelativeFrom: "line", VerticalAlignment: "top" }
+{ Type: "Picture", File: "c:\\pib\\_dl\\test\\BlogDemoor\\from-chrome\\files\\images\\112509351.jpg",
+  Width: 300, DrawingType: "AnchorWrapTopAndBottom", HorizontalRelativeFrom: "margin", HorizontalPositionOffset: 2, VerticalRelativeFrom: "line", VerticalAlignment: "top" }
+{ Type: "Picture", File: "c:\\pib\\_dl\\test\\BlogDemoor\\from-chrome\\files\\images\\112509354.jpg",
+  Width: 300, DrawingType: "AnchorWrapTopAndBottom", HorizontalRelativeFrom : "margin", HorizontalPositionOffset: 305, VerticalRelativeFrom: "line", VerticalAlignment: "top" }
+{ Type: "Picture", File: "c:\\pib\\_dl\\test\\BlogDemoor\\from-chrome\\files\\images\\112509404.jpg",
+  Width: 300, DrawingType: "Inline" }
+
+
+{ Type: "Picture", File: "image01.jpg", Name: "image01", Description: "description image 01", Width: 300, Height: 300, DrawingType: "Inline" }
+{ Type: "Picture", File: "image01.jpg", Name: "image01", Description: "description image 01", Width: 300, Height: 300, DrawingType: "AnchorWrapSquare",
+    HorizontalRelativeFrom: "margin", HorizontalPositionOffset: 100, "HorizontalAlignment":  "left", VerticalRelativeFrom: "line", VerticalPositionOffset: 100, VerticalAlignment: "top",
+    WrapText: "BothSides", DistanceFromTop: 100, DistanceFromBottom: 100, DistanceFromLeft: 100, DistanceFromRight: 100, EffectExtent: { TopEdge: 100, BottomEdge: 100, LeftEdge: 100, RightEdge:100 }
+}
+{ Type: "Picture", File: "image01.jpg", Name: "image01", Description: "description image 01", Width: 300, Height: 300, DrawingType: "AnchorWrapTight",
+    HorizontalRelativeFrom: "margin", HorizontalPositionOffset: 100, "HorizontalAlignment":  "left", VerticalRelativeFrom: "line", VerticalPositionOffset: 100, VerticalAlignment: "top",
+    WrapText: "BothSides", DistanceFromLeft: 100, DistanceFromRight: 100, Polygon: { StartPointX: 100, StartPointY: 100, LinesTo: [ { X: 200, Y: 100 }, { X: 200, Y: 200 }, { X: 100, Y: 100 }, { X: 100, Y: 100 } ], Edited: true }
+}
+{ Type: "Picture", File: "image01.jpg", Name: "image01", Description: "description image 01", Width: 300, Height: 300, DrawingType: "AnchorWrapTight",
+    HorizontalRelativeFrom: "margin", HorizontalPositionOffset: 100, "HorizontalAlignment":  "left", VerticalRelativeFrom: "line", VerticalPositionOffset: 100, VerticalAlignment: "top",
+    WrapText: "BothSides", DistanceFromLeft: 100, DistanceFromRight: 100, Square: { StartPointX: 100, StartPointY: 100, HorizontalSize: 200, VerticalSize: 200, Edited: true }
+}
+{ Type: "Picture", File: "image01.jpg", Name: "image01", Description: "description image 01", Width: 300, Height: 300, DrawingType: "AnchorWrapTopAndBottom",
+    HorizontalRelativeFrom: "margin", HorizontalPositionOffset: 100, "HorizontalAlignment":  "left", VerticalRelativeFrom: "line", VerticalPositionOffset: 100, VerticalAlignment: "top",
+    DistanceFromTop: 100, DistanceFromBottom: 100, EffectExtent: { TopEdge: 100, BottomEdge: 100, LeftEdge: 100, RightEdge:100 }
+}

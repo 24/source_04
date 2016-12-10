@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<AssemblyProject>
+  
+  <Root                             value = "..\..\..\..\..\..\..\.." />
+
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\LanguageCSharp5Debug.project.xml" />
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\Basic.project.xml" />
+  <!--<IncludeProject                   value = "$Root$\Lib\pb\Source\Project\RunSourceExtension.project.xml" />-->
+  <!--<IncludeProject                   value = "$Root$\Lib\pb\Source\Project\MongoExtension.project.xml" />-->
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\MongoDefaultSerializer.project.xml" />
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\MongoWebHeaderSerializer.project.xml" />
+
+  <NameSpace                        value = "pb.Data.Mongo.Test" />
+
+  <!--<InitMethod                                value = "pb.Web.Test.Test_Run.Init" />-->
+  <!--<EndMethod                                 value = "pb.Web.Test.Test_Run.End" />-->
+
+  <!--<Using                            value = "pb.Data.Mongo" />-->
+
+  <!--<Source                           value = "Test_MongoSerializers.cs" />-->
+
+  <Assembly                         value = "$Root$\Lib\LongPath\Pri.LongPath\bin\Debug\Pri.LongPath.dll" />
+  <!--<Assembly                                  value = "$Root$\..\library\Newtonsoft.Json\Newtonsoft.Json.v9.0.1\Net45\Newtonsoft.Json.dll" resolve = "true" resolveName = "DocumentFormat.OpenXml, Version=2.6.0.0, Culture=neutral, PublicKeyToken=null" />-->
+  <!--<FrameworkAssembly                         value = "WindowsBase.dll" />-->
+  <!--<FrameworkAssembly                         value = "System.IO.Compression.dll" />-->
+  <!--<FrameworkAssembly                         value = "System.IO.Compression.FileSystem.dll" />-->
+</AssemblyProject>

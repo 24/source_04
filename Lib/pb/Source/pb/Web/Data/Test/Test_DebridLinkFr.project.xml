@@ -18,7 +18,7 @@
 
   <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\Date2.cs" />
 
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\NamedValues.cs" />
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Data\NamedValues.cs" />      in runsource.dll -->
 
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\TraceData\ITraceData.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\TraceData\TraceData.cs" />

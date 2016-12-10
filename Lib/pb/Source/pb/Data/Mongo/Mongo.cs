@@ -9,6 +9,7 @@ using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 using pb.IO;
 using pb.Reflection;
+using MongoDB.Bson.Serialization.Serializers;
 
 namespace pb.Data.Mongo
 {
@@ -103,7 +104,7 @@ namespace pb.Data.Mongo
         {
             using (StringReader stringReader = new StringReader(text))
             {
-                BsonReader reader = MongoDB.Bson.IO.BsonReader.Create(stringReader);
+                BsonReader reader = BsonReader.Create(stringReader);
                 while (reader.ReadBsonType() != BsonType.EndOfDocument)
                 {
                     yield return BsonSerializer.Deserialize<T>(reader);
@@ -111,19 +112,36 @@ namespace pb.Data.Mongo
             }
         }
 
-        public static BsonReader OpenBsonReader(string file, Encoding encoding = null)
+        //public static BsonReader OpenBsonReader(string file, Encoding encoding = null)
+        //{
+        //    FileStream fileStream = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.Read);
+        //    if (encoding == null)
+        //        encoding = Encoding.UTF8;
+        //    StreamReader streamReader = new StreamReader(fileStream, encoding);
+        //    return BsonReader.Create(streamReader);
+        //}
+
+        public static BsonReader CreateBsonReaderFromFile(string file, Encoding encoding = null)
         {
-            FileStream fileStream = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.Read);
-            if (encoding == null)
-                encoding = Encoding.UTF8;
-            StreamReader streamReader = new StreamReader(fileStream, encoding);
-            return BsonReader.Create(streamReader);
+            return BsonReader.Create(zfile.ReadAllText(file, encoding));
         }
 
         public static IEnumerable<T> BsonRead<T>(string file, Encoding encoding = null)
         {
-            using (BsonReader reader = OpenBsonReader(file, encoding))
-                return BsonRead<T>(reader);
+            // ATTENTION il faut boucler et retourner chaque élément sinon le using ferme le flux BsonReader
+            //using (BsonReader reader = OpenBsonReader(file, encoding))
+            //    return BsonRead<T>(reader);
+            //using (BsonReader reader = OpenBsonReader(file, encoding))
+            //using (FileStream fileStream = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.Read))
+            //using (StreamReader streamReader = new StreamReader(fileStream, encoding))
+            //using (BsonReader reader = BsonReader.Create(zfile.ReadAllText(file, encoding)))
+            using (BsonReader reader = CreateBsonReaderFromFile(file, encoding))
+            {
+                while (reader.ReadBsonType() != BsonType.EndOfDocument)
+                {
+                    yield return BsonSerializer.Deserialize<T>(reader);
+                }
+            }
         }
 
         public static IEnumerable<T> BsonRead<T>(BsonReader reader)
@@ -181,13 +199,13 @@ namespace pb.Data.Mongo
         //    }
         //}
 
-        public static void SaveToJsonFile<T>(string file, IEnumerable<T> values)
+        public static void SaveToJsonFile<T>(string file, IEnumerable<T> values, bool jsonIndent = false)
         {
             zfile.CreateFileDirectory(file);
             using (StreamWriter sw = zFile.CreateText(file))
             {
                 JsonWriterSettings jsonSettings = new JsonWriterSettings();
-                jsonSettings.Indent = true;
+                jsonSettings.Indent = jsonIndent;
                 foreach (var value in values)
                 {
                     sw.WriteLine(value.ToJson(jsonSettings));
@@ -206,15 +224,27 @@ namespace pb.Data.Mongo
         //    }
         //}
 
-        public static void SaveToJsonFile<T>(string file, T value)
+        public static void SaveToJsonFile<T>(string file, T value, bool jsonIndent = false)
         {
             zfile.CreateFileDirectory(file);
             using (StreamWriter sw = zFile.CreateText(file))
             {
                 JsonWriterSettings jsonSettings = new JsonWriterSettings();
-                jsonSettings.Indent = true;
+                jsonSettings.Indent = jsonIndent;
                 sw.WriteLine(value.ToJson(jsonSettings));
             }
+        }
+
+        public static BsonDocument ReadBsonDocumentWOStartEnd(BsonReader bsonReader)
+        {
+            var document = new BsonDocument();
+            while (bsonReader.ReadBsonType() != BsonType.EndOfDocument)
+            {
+                var name = bsonReader.ReadName();
+                var value = (BsonValue)BsonValueSerializer.Instance.Deserialize(bsonReader, typeof(BsonValue), null);
+                document.Add(name, value);
+            }
+            return document;
         }
     }
 
@@ -249,7 +279,7 @@ namespace pb.Data.Mongo
         {
             if (multiLine)
             {
-                MongoDB.Bson.IO.JsonWriterSettings ws = new MongoDB.Bson.IO.JsonWriterSettings();
+                JsonWriterSettings ws = new JsonWriterSettings();
                 ws.Indent = true;
                 ws.NewLineChars = "\r\n";
                 if (o != null)
@@ -283,13 +313,15 @@ namespace pb.Data.Mongo
             return collection.Database.zGetFullName() + "." + collection.Name;
         }
 
-        public static BsonValue zGet(this BsonValue value, string name)
+        public static BsonValue zGet(this BsonValue value, string name, bool mandatory = false)
         {
             //Trace.WriteLine("zGet : get value \"{0}\" from {1}", name, value != null ? value.GetType().zGetName() : "null");
             //return value.zGet(name.Split('.'));
             BsonElement element = value.zGetElement(name.Split('.'));
             if (element != null)
                 return element.Value;
+            else if (mandatory)
+                throw new PBException($"value not found \"{name}\"");
             else
                 return null;
             //foreach (string name2 in name.Split('.'))
@@ -495,6 +527,11 @@ namespace pb.Data.Mongo
             return bsonValue == null || bsonValue is BsonNull ? 0 : (bsonValue.IsInt32 ? bsonValue.AsInt32 : bsonValue.AsInt64);
         }
 
+        public static long? zAsNullableLong(this BsonValue bsonValue)
+        {
+            return bsonValue == null || bsonValue is BsonNull ? null : bsonValue.IsInt32 ? bsonValue.AsInt32 : (long?)bsonValue.AsInt64;
+        }
+
         public static double zAsDouble(this BsonValue bsonValue)
         {
             return bsonValue == null || bsonValue is BsonNull ? 0.0 : bsonValue.BsonType == BsonType.Int32 ? bsonValue.AsInt32 : bsonValue.AsDouble;
@@ -510,6 +547,34 @@ namespace pb.Data.Mongo
             return bsonValue == null || bsonValue is BsonNull ? null : bsonValue.BsonType == BsonType.String ? (DateTime?)DateTime.Parse(bsonValue.AsString) : (DateTime?)(DateTime)bsonValue.AsBsonDateTime;
         }
 
+        public static T? zAsNullableEnum<T>(this BsonValue bsonValue, bool ignoreCase = false) where T : struct
+        {
+            if (bsonValue == null || bsonValue is BsonNull)
+                return null;
+            else
+                return bsonValue.zAsEnum<T>(ignoreCase);
+        }
+
+        public static T zTryAsEnum<T>(this BsonValue bsonValue, T defaultValue, bool ignoreCase = false)
+        {
+            if (bsonValue == null || bsonValue is BsonNull)
+                return defaultValue;
+            else
+                return bsonValue.zAsEnum<T>(ignoreCase);
+        }
+
+        public static T zAsEnum<T>(this BsonValue bsonValue, bool ignoreCase = false)
+        {
+            if (bsonValue == null || bsonValue is BsonNull)
+                throw new PBException($"no value, can't convert to {typeof(T).zGetTypeName()}");
+            if (bsonValue.BsonType == BsonType.String)
+                return (T)Enum.Parse(typeof(T), bsonValue.AsString, ignoreCase);
+            if (bsonValue.BsonType == BsonType.Int32)
+                return (T)Enum.ToObject(typeof(T), bsonValue.AsInt32);
+            else
+                throw new PBException($"wrong type, can't convert to {typeof(T).zGetTypeName()}");
+        }
+
         public static BsonArray zAsBsonArray(this BsonValue bsonValue)
         {
             return bsonValue == null || bsonValue is BsonNull ? null : bsonValue.AsBsonArray;
@@ -523,20 +588,20 @@ namespace pb.Data.Mongo
             }
         }
 
-        public static void zSave<T>(this T value, string file)
+        public static void zSave<T>(this T value, string file, bool jsonIndent = false)
         {
             //value.zToBsonDocument().zSaveToJsonFile(file);
             //zmongo.SaveToJsonFile(file, value.zToBsonDocument());
             //Trace.WriteLine("zSave() single value");
-            zmongo.SaveToJsonFile(file, value);
+            zmongo.SaveToJsonFile(file, value, jsonIndent);
         }
 
-        public static void zSave<T>(this IEnumerable<T> values, string file)
+        public static void zSave<T>(this IEnumerable<T> values, string file, bool jsonIndent = false)
         {
             //values.zToBsonDocuments().zSaveToJsonFile(file);
             //zmongo.SaveToJsonFile(file, values.zToBsonDocuments());
             //Trace.WriteLine("zSave() enumerable values");
-            zmongo.SaveToJsonFile(file, values);
+            zmongo.SaveToJsonFile(file, values, jsonIndent);
         }
 
         // IOrderedEnumerable<T> is returned by OrderBy

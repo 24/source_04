@@ -3,6 +3,7 @@ using System.Linq;
 using System.Xml.Linq;
 using pb.Data.Xml;
 using pb.IO;
+using pb.Data;
 
 // GetIncludeProjects() used by
 //   GetInitEndMethods()
@@ -62,6 +63,8 @@ namespace pb.Compiler
     public class InitEndMethod
     {
         public string Name;
+        //public object[] Parameters;          // used in RunSourceInitEndMethods_v2
+        public NamedValues<ZValue> Parameters;     // used in RunSourceInitEndMethods_v2
         public RunType RunType;
     }
 
@@ -218,11 +221,11 @@ namespace pb.Compiler
         private IEnumerable<InitEndMethod> GetInitEndMethods(string name)
         {
             foreach (XElement xe in _projectXmlElement.GetElements(name))
-                yield return new InitEndMethod { Name = xe.zExplicitAttribValue("value"), RunType = GetRunType(xe.zAttribValue("run")) };
+                yield return new InitEndMethod { Name = xe.zExplicitAttribValue("value"), RunType = GetRunType(xe.zAttribValue("run")), Parameters = GetParameters(xe.zAttribValue("params")) };
             foreach (CompilerProjectReader includeProject in GetIncludeProjects())
             {
                 foreach (XElement xe in includeProject._projectXmlElement.GetElements(name))
-                    yield return new InitEndMethod { Name = xe.zExplicitAttribValue("value"), RunType = GetRunType(xe.zAttribValue("run")) };
+                    yield return new InitEndMethod { Name = xe.zExplicitAttribValue("value"), RunType = GetRunType(xe.zAttribValue("run")), Parameters = GetParameters(xe.zAttribValue("params")) };
             }
         }
 
@@ -239,7 +242,15 @@ namespace pb.Compiler
                 default:
                     throw new PBException($"unknow run type \"{runType}\"");
             }
+        }
 
+        private static NamedValues<ZValue> GetParameters(string parameters)
+        {
+            if (parameters != null)
+                // warning dont set useLowercaseKey to true these parameters are used to call init and end method
+                return ParseNamedValues.ParseValues(parameters);
+            else
+                return null;
         }
 
         // attention il peut y avoir des doublons, used by GetInitEndMethods() and GetUsings()

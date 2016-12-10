@@ -21,7 +21,7 @@ namespace Download.Print
 
         public static NamedValues<ZValue> ParseParameters(string parameters)
         {
-            return NamedValues.ParseValues(parameters, useLowercaseKey: true);
+            return ParseNamedValues.ParseValues(parameters, useLowercaseKey: true);
         }
 
         public static bool GetTestValue(NamedValues<ZValue> parameters)

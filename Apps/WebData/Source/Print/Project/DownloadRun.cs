@@ -19,24 +19,28 @@ namespace Download.Print
         //{
         //}
 
-        public static void Init()
+        public static void Init(bool traceProvider = false, bool traceSerializer = false)
         {
             __traceListener = new PBTraceListener();
             //__traceListener.Filter = new System.Diagnostics.EventTypeFilter(System.Diagnostics.SourceLevels.Warning);
             System.Diagnostics.Trace.Listeners.Add(__traceListener);
 
-            DefaultMongoSerialization.SetDefaultMongoSerializationOptions();
-            DefaultMongoSerialization.RegisterDefaultMongoSerializer();
+            // ATTENTION à ré-écrire
+            //PBMongoSerialization.SetDefaultMongoSerializationOptions();
+            //PBMongoSerialization.RegisterDefaultMongoSerializer();
+            RunSerializer.InitDefault(traceProvider, traceSerializer);
+            RunSerializer.InitZValue(traceSerializer);
 
             HtmlRun.SetResult = dt => RunSource.CurrentRunSource.SetResult(dt);
         }
 
         public static void End()
         {
-            //Download.Print.RapideDdl.RapideDdl.UnregisterMongoSerializer();
-            DefaultMongoSerialization.RemoveDefaultMongoSerializationOptions();
-            DefaultMongoSerialization.UnregisterDefaultMongoSerializer();
-            //MongoLog.CurrentMongoLog.Log.Writed -= Trace.CurrentTrace.Write;
+            // ATTENTION à ré-écrire
+            //PBMongoSerialization.RemoveDefaultMongoSerializationOptions();
+            MongoSerializationManager.RemoveDefaultMongoSerializationOptions();
+            //PBMongoSerialization.UnregisterDefaultMongoSerializer();
+
             System.Diagnostics.Trace.Listeners.Remove(__traceListener);
             HtmlRun.SetResult = null;
         }

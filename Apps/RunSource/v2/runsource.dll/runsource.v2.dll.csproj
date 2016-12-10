@@ -114,8 +114,8 @@
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\Compiler\RunSourceExecution.cs">
       <Link>SourceLnk\Lib\pb\Compiler\RunSourceExecution.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Compiler\RunSourceInitEndMethods.cs">
-      <Link>SourceLnk\Lib\pb\Compiler\RunSourceInitEndMethods.cs</Link>
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Compiler\RunSourceInitEndMethods_v2.cs">
+      <Link>SourceLnk\Lib\pb\Compiler\RunSourceInitEndMethods_v2.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\Compiler\RunSourceRunCode.cs">
       <Link>SourceLnk\Lib\pb\Compiler\RunSourceRunCode.cs</Link>
@@ -123,11 +123,23 @@
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\Compiler\Win32ResourceCompiler.cs">
       <Link>SourceLnk\Lib\pb\Compiler\Win32ResourceCompiler.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Data\NamedValues.cs">
+      <Link>SourceLnk\Lib\pb\Data\NamedValues.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Data\ParseNamedValues.cs">
+      <Link>SourceLnk\Lib\pb\Data\ParseNamedValues.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\Data\Xml\Xml.cs">
       <Link>SourceLnk\Lib\pb\Data\Xml\Xml.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\Data\Xml\XmlConfig.cs">
       <Link>SourceLnk\Lib\pb\Data\Xml\XmlConfig.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Data\ZValue.cs">
+      <Link>SourceLnk\Lib\pb\Data\ZValue.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\IO\CompressFile.cs">
+      <Link>SourceLnk\Lib\pb\IO\CompressFile.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\IO\CompressOptions.cs">
       <Link>SourceLnk\Lib\pb\IO\CompressOptions.cs</Link>
@@ -156,6 +168,9 @@
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\IO\zUpdateFiles.cs">
       <Link>SourceLnk\Lib\pb\IO\zUpdateFiles.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Reflection\MethodParameters.cs">
+      <Link>SourceLnk\Lib\pb\Reflection\MethodParameters.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\Reflection\Reflection.cs">
       <Link>SourceLnk\Lib\pb\Reflection\Reflection.cs</Link>
     </Compile>
@@ -167,6 +182,9 @@
     </Compile>
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\Chrono.cs">
       <Link>SourceLnk\Lib\pb\_pb\Chrono.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\Date.cs">
+      <Link>SourceLnk\Lib\pb\_pb\Date.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\Error.cs">
       <Link>SourceLnk\Lib\pb\_pb\Error.cs</Link>

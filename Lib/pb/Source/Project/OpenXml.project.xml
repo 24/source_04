@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<AssemblyProject>
+  
+  <Root                             value = "..\..\..\.." />
+
+  <!--<InitMethod                       value = "pb.Web.Test.Test_Run.Init" />-->
+  <!--<EndMethod                        value = "pb.Web.Test.Test_Run.End" />-->
+
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Data\Image.cs" />-->
+
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Mongo.cs" />-->
+
+  <!-- Image.cs already in Extension_01.dll.project.xml  -->
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Data\Image.cs" />-->
+
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\OpenXml\AnchorDrawing.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\OpenXml\Graphic.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\OpenXml\OXmlDoc.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\OpenXml\OXmlElement.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\OpenXml\OXmlPictureElementCreator.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\OpenXml\OXmlElementReader.cs" />
+
+  <FrameworkAssembly                value = "System.Drawing.dll" />
+  <!--<Assembly                         value = "$Root$\Lib\LongPath\Pri.LongPath\bin\Debug\Pri.LongPath.dll" />-->
+  <!--<Assembly                         value = "c:\Program Files (x86)\Open XML SDK\V2.5\lib\DocumentFormat.OpenXml.dll" />-->
+  <Assembly                         value = "$Root$\..\library\OpenXml-sdk\OpenXml.v2.6.1\DocumentFormat.OpenXml.dll" resolve = "true" resolveName = "DocumentFormat.OpenXml, Version=2.6.0.0, Culture=neutral, PublicKeyToken=null" />
+  <Assembly                         value = "$Root$\..\library\nuget\System.IO.Packaging\System.IO.Packaging,v1.0\System.IO.Packaging.dll" />
+  <!--<Assembly                         value = "$Root$\..\library\DocX\DocX.v1.0.0.23\DocX.dll" resolve = "true" resolveName = "DocX, Version=1.0.0.23, Culture=neutral, PublicKeyToken=null" />-->
+  <Assembly                         value = "$Root$\..\library\Mongo\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Bson.dll" resolve = "true" resolveName = "MongoDB.Bson, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />
+  <!--<Assembly                         value = "$Root$\..\library\Mongo\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Driver.dll" resolve = "true" resolveName = "MongoDB.Driver, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />-->
+  <!--<FrameworkAssembly                value = "WindowsBase.dll" />-->
+  <!--<FrameworkAssembly                value = "System.IO.Compression.dll" />-->
+  <!--<FrameworkAssembly                value = "System.IO.Compression.FileSystem.dll" />-->
+</AssemblyProject>

@@ -1,10 +1,7 @@
 ﻿using System.Collections.Generic;
 using MongoDB.Bson;
-using A = DocumentFormat.OpenXml.Drawing;
-using DW = DocumentFormat.OpenXml.Drawing.Wordprocessing;
 using pb.Data.Mongo;
 using DocumentFormat.OpenXml.Wordprocessing;
-using DocumentFormat.OpenXml;
 using MongoDB.Bson.IO;
 using System.Text;
 
@@ -50,48 +47,62 @@ namespace pb.Data.OpenXml
     //     json :
     //     {
     //       Type: "DocSection",
-    //       [PageSize { Width: 11907, Height: 16839 }],
-    //       [PageMargin { Top: 720, Bottom: 720, Left: 1418, Right: 1418, Header: 284, Footer: 284 }],
+    //       [PageSize: { Width: 11907, Height: 16839 }],
+    //       [PageMargin: { Top: 720, Bottom: 720, Left: 1418, Right: 1418, Header: 284, Footer: 284 }],
     //       [PageNumberStart: 1]
     //     }
     //     PageSize unit 1/20 point, 11907 1/20 point = 21 cm, 16839 1/20 point = 29.7 cm
     //     PageMargin unit 1/20 point, 720 1/20 point = 0.6 cm, 1418 1/20 point = 1.27 cm, 284 1/20 point = 0.5 cm
     //
     //
-    //   add default run properties :
+    //   add doc default run properties :
     //     docx : styles.xml <w:styles>/<w:docDefaults>/<w:rPrDefault>
     //     function : OXmlElementReader.CreateRunPropertiesDefault()
     //     json :
     //     {
-    //       Type: "DocDefaults",
-    //       DocDefaultsType: "RunPropertiesDefault",
-    //       RunFonts: "Arial",
+    //       Type: "DocDefaultsRunProperties",
+    //       RunFonts: { Ascii: "Arial", [AsciiTheme: (ThemeFontValues), ComplexScript: (string), ComplexScriptTheme: (ThemeFontValues), EastAsia: (string), EastAsiaTheme: (ThemeFontValues), HighAnsi: (string),
+    //                   HighAnsiTheme: (ThemeFontValues), Hint: (FontTypeHintValues)]  },
     //       FontSize: "22"
     //     }
+    //     ThemeFontValues : MajorEastAsia, MajorBidi, MajorAscii, MajorHighAnsi, MinorEastAsia, MinorBidi, MinorAscii, MinorHighAnsi
+    //     FontTypeHintValues : Default, EastAsia, ComplexScript
     //
-    //   add default paragraph properties  :
+    //   add doc default paragraph properties  :
     //     docx : styles.xml <w:styles>/<w:docDefaults>/<w:pPrDefault />
     //     function : OXmlElementReader.CreateParagraphPropertiesDefault()
     //     json :
     //     {
-    //       Type: "DocDefaults",
-    //       DocDefaultsType: "ParagraphPropertiesDefault"
+    //       Type: "DocDefaultsParagraphProperties",
     //     }
     //
-    //   open header footer
-    //     function : OXmlElementReader.CreateOpenHeaderFooter()
+    //   open header
+    //     function : OXmlElementReader.CreateOpenHeader()
     //     json :
     //     {
-    //       Type: "OpenHeader" | "OpenFooter",
+    //       Type: "OpenHeader",
     //       [HeaderType: "Default" | "First" | "Even" (HeaderFooterValues)],
-    //       //Content: [ Paragraph | Line | Text | Picture, ... ]
     //     }
     //     WARNING even option dont work for google doc
     //
-    //   close header footer
-    //     function : OXmlElementReader.CreateCloseHeaderFooter()
+    //   open footer
+    //     function : OXmlElementReader.CreateOpenFooter()
     //     json :
-    //     { Type: "CloseHeaderFooter" }
+    //     {
+    //       Type: "OpenFooter",
+    //       [FooterType: "Default" | "First" | "Even" (HeaderFooterValues)],
+    //     }
+    //     WARNING even option dont work for google doc
+    //
+    //   close header
+    //     function : OXmlElementReader.CreateCloseHeader()
+    //     json :
+    //     { Type: "CloseHeader" }
+    //
+    //   close header footer
+    //     function : OXmlElementReader.CreateCloseFooter()
+    //     json :
+    //     { Type: "CloseFooter" }
     //
     //
     //   add paragraph style :
@@ -105,7 +116,7 @@ namespace pb.Data.OpenXml
     //       StyleType: "Paragraph",
     //       [Aliases: ""],
     //       [CustomStyle: true],
-    //       [Default: false],
+    //       [DefaultStyle: false],
     //       [Locked: true],
     //       [SemiHidden: true],
     //       [StyleHidden: true],
@@ -115,25 +126,28 @@ namespace pb.Data.OpenXml
     //       [BasedOn: ""],
     //       [NextParagraphStyle: ""]
     //     - paragraph properties :
-    //       SpacingBetweenLines: {
-    //         [After: (string)],                                                               // Spacing Below Paragraph, <w:spacing w:after>, 1 line = 240
-    //         [AfterAutoSpacing: (bool)],                                                      // Automatically Determine Spacing Below Paragraph, <w:spacing w:afterAutospacing>
-    //         [AfterLines: (int)],                                                             // Spacing Below Paragraph in Line Units, <w:spacing w:afterLines>
-    //         [Before: (string)],                                                              // Spacing Above Paragraph, <w:spacing w:before>, 1 line = 240
-    //         [BeforeAutoSpacing: (bool)],                                                     // Automatically Determine Spacing Above Paragraph, <w:spacing w:beforeAutospacing>
-    //         [BeforeLines: (int)],                                                            // Spacing Above Paragraph IN Line Units, <w:spacing w:beforeLines>
-    //         [Line: (string)],                                                                // Spacing Between Lines in Paragraph, <w:spacing w:line>, 1 line = 240
-    //         [LineRule: (string, LineSpacingRuleValues)]                                      // Type of Spacing Between Lines, <w:spacing w:lineRule>, Auto, Exact, AtLeast
-    //       }
-    //       TextAlignment: (string, VerticalTextAlignmentValues)                               // TextAlignment, <w:textAlignment>, Top, Center, Baseline, Bottom, Auto
-    //       Tabs: [
+    //       StyleParagraphProperties: {
+    //         SpacingBetweenLines: {
+    //           [After: (string)],                                                               // Spacing Below Paragraph, <w:spacing w:after>, 1 line = 240
+    //           [AfterAutoSpacing: (bool)],                                                      // Automatically Determine Spacing Below Paragraph, <w:spacing w:afterAutospacing>
+    //           [AfterLines: (int)],                                                             // Spacing Below Paragraph in Line Units, <w:spacing w:afterLines>
+    //           [Before: (string)],                                                              // Spacing Above Paragraph, <w:spacing w:before>, 1 line = 240
+    //           [BeforeAutoSpacing: (bool)],                                                     // Automatically Determine Spacing Above Paragraph, <w:spacing w:beforeAutospacing>
+    //           [BeforeLines: (int)],                                                            // Spacing Above Paragraph IN Line Units, <w:spacing w:beforeLines>
+    //           [Line: (string)],                                                                // Spacing Between Lines in Paragraph, <w:spacing w:line>, 1 line = 240
+    //           [LineRule: (string, LineSpacingRuleValues)]                                      // Type of Spacing Between Lines, <w:spacing w:lineRule>, Auto, Exact, AtLeast
+    //         }
+    //         TextAlignment: (string, VerticalTextAlignmentValues)                               // TextAlignment, <w:textAlignment>, Top, Center, Baseline, Bottom, Auto
+    //         Tabs: [
     //           {
     //             Position: (int),                                                             // Tab Stop Position, <w:tab w:pos="">
     //             Alignment: (string, TabStopValues),                                          // Tab Stop Type, <w:tab w:val="">, Clear, Left, Start, Center, Right, End, Decimal, Bar, Number
     //             [LeaderChar: (string, TabStopLeaderCharValues)]                              // Tab Leader Character, <w:tab w:leader="">, None, Dot, Hyphen, Underscore, Heavy, MiddleDot
-    //           }
+    //           },
+    //           ...
     //         ]
     //       }
+    //     }
     //
     //     not treated StyleParagraphProperties :
     //       AdjustRightIndent, AutoSpaceDE, AutoSpaceDN, BiDi, ContextualSpacing, FrameProperties, Indentation, Justification, KeepLines, KeepNext, Kinsoku, MirrorIndents, NumberingProperties,
@@ -151,38 +165,45 @@ namespace pb.Data.OpenXml
     //     { Type: "Picture", File: "file.jpg", [Name: "image01"], [Description: "image"], [Width: 300], [Height: 300],
     //       [Rotation: (int)], [HorizontalFlip: true], [VerticalFlip: true], [CompressionState: (A.BlipCompressionValues)], [PresetShape: (A.ShapeTypeValues)]
     //
-    //       DrawingMode: "Inline" | "Anchor",
+    //       //////////////////DrawingMode: "Inline" | "Anchor",
+    //       DrawingType: "Inline" | "AnchorWrapNone", "AnchorWrapSquare", "AnchorWrapTight", "AnchorWrapThrough", "AnchorWrapTopAndBottom"
     //
-    //     DrawingMode Inline no parameters
+    //     DrawingType Inline no parameters
     //
-    //     DrawingMode Anchor parameters :
-    //       WrapType: "WrapSquare" | "WrapTight" | "WrapTopAndBottom"
-    //       HorizontalRelativeFrom (DW.HorizontalRelativePositionValues.Margin)
-    //       HorizontalPositionOffset (int)
-    //       HorizontalAlignment (string)
-    //       VerticalRelativeFrom (DW.VerticalRelativePositionValues.Paragraph)
-    //       VerticalPositionOffset (int)
-    //       VerticalAlignment (string)
+    //     DrawingType AnchorWrapNone, AnchorWrapThrough not implemented
     //
-    //     AnchorWrapSquare :
-    //       WrapText(DW.WrapTextValues.BothSides)
-    //       DistanceFromTop(int)
-    //       DistanceFromBottom(int)
-    //       DistanceFromLeft(int)
-    //       DistanceFromRight(int)
+    //     DrawingType Anchor... parameters :
+    //       //////////////////WrapType: "WrapSquare" | "WrapTight" | "WrapTopAndBottom"
+    //       HorizontalRelativeFrom: (DW.HorizontalRelativePositionValues : Margin (default), Page, Column, Character, LeftMargin, RightMargin, InsideMargin, OutsideMargin)
+    //       [HorizontalPositionOffset: (int)]
+    //       [HorizontalAlignment (string : left, right, center, inside, outside)]
+    //       VerticalRelativeFrom (DW.VerticalRelativePositionValues : Paragraph (default), Page, Paragraph, Line, TopMargin, BottomMargin, InsideMargin, OutsideMargin)
+    //       [VerticalPositionOffset (int)]
+    //       [VerticalAlignment (string : top, bottom, center, inside, outside)]
     //
-    //     AnchorWrapTight :
-    //       WrapText(DW.WrapTextValues.BothSides)
-    //       DistanceFromLeft(int)
-    //       DistanceFromRight(int)
-    //       WrapPolygonHorizontalSize(int)
-    //       WrapPolygonVerticalSize(int)
-    //       WrapPolygonStartPointX(int)
-    //       WrapPolygonStartPointY(int)
+    //     DrawingType AnchorWrapSquare parameters :
+    //       WrapText: (DW.WrapTextValues : BothSides (default), Left, Right, Largest)
+    //       [DistanceFromTop: (int)]
+    //       [DistanceFromBottom: (int)]
+    //       [DistanceFromLeft: (int)]
+    //       [DistanceFromRight: (int)]
+    //       [EffectExtent: { [TopEdge: (long)], [BottomEdge: (long)], [LeftEdge: (long)], [RightEdge: (long)] }]
     //
-    //     AnchorWrapTopAndBottom:
-    //       DistanceFromTop(int)
-    //       DistanceFromBottom(int)
+    //     DrawingType AnchorWrapTight parameters :
+    //       WrapText: (DW.WrapTextValues.BothSides)
+    //       [DistanceFromLeft: (int)]
+    //       [DistanceFromRight: (int)]
+    //       [Polygon: { [StartPointX: (long)], [StartPointY: (long)], LinesTo: [ { X: (long), Y: (long) }, ...], [Edited: (bool)] }]
+    //       [Square: { [StartPointX: (long)], [StartPointY: (long)], HorizontalSize: (long), VerticalSize: (long), [Edited: (bool)] }]
+    //       //////////////////[WrapPolygonHorizontalSize: (int)]
+    //       //////////////////[WrapPolygonVerticalSize: (int)]
+    //       //////////////////[WrapPolygonStartPointX: (int)]
+    //       //////////////////[WrapPolygonStartPointY: (int)]
+    //
+    //     DrawingType AnchorWrapTopAndBottom parameters :
+    //       [DistanceFromTop: (int)]
+    //       [DistanceFromBottom: (int)]
+    //       [EffectExtent: { [TopEdge: (long)], [BottomEdge: (long)], [LeftEdge: (long)], [RightEdge: (long)] }]
 
     public class OXmlElementReader
     {
@@ -216,17 +237,28 @@ namespace pb.Data.OpenXml
                     case "docsection":
                         element = CreateDocSection(sourceElement);
                         break;
-                    case "docdefaults":
-                        element = CreateDocDefaults(sourceElement);
+                    //case "docdefaults":
+                    //    element = CreateDocDefaults(sourceElement);
+                    //    break;
+                    case "docdefaultsrunproperties":
+                        element = CreateRunPropertiesDefault(sourceElement);
+                        break;
+                    case "docdefaultsparagraphproperties":
+                        element = CreateParagraphPropertiesDefault();
                         break;
                     case "openheader":
-                        element = CreateOpenHeaderFooter(sourceElement, header: true);
+                        //element = CreateOpenHeaderFooter(sourceElement, header: true);
+                        element = CreateOpenHeader(sourceElement);
                         break;
                     case "openfooter":
-                        element = CreateOpenHeaderFooter(sourceElement, header: false);
+                        //element = CreateOpenHeaderFooter(sourceElement, header: false);
+                        element = CreateOpenFooter(sourceElement);
                         break;
-                    case "closeheaderfooter":
-                        element = CreateCloseHeaderFooter();
+                    case "closeheader":
+                        element = CreateCloseHeader();
+                        break;
+                    case "closefooter":
+                        element = CreateCloseFooter();
                         break;
                     case "style":
                         element = OXmlStyleElementCreator.Create(sourceElement);
@@ -290,100 +322,125 @@ namespace pb.Data.OpenXml
             return docSection;
         }
 
-        private OXmlDocDefaultsElement CreateDocDefaults(BsonDocument element)
-        {
-            if (_headerFooter)
-                throw new PBException("header-footer cant contain doc defaults");
+        //private OXmlDocDefaultsElement CreateDocDefaults(BsonDocument element)
+        //{
+        //    if (_headerFooter)
+        //        throw new PBException("header-footer cant contain doc defaults");
 
-            string type = element.zGet("DocDefaultsType").zAsString();
-            if (type.ToLower() == "runpropertiesdefault")
-                return CreateRunPropertiesDefault(element);
-            else if (type.ToLower() == "paragraphpropertiesdefault")
-                return CreateParagraphPropertiesDefault();
-            else
-                throw new PBException($"unknow oxml doc defaults type \"{type}\"");
-        }
+        //    string type = element.zGet("DocDefaultsType").zAsString();
+        //    if (type.ToLower() == "runpropertiesdefault")
+        //        return CreateRunPropertiesDefault(element);
+        //    else if (type.ToLower() == "paragraphpropertiesdefault")
+        //        return CreateParagraphPropertiesDefault();
+        //    else
+        //        throw new PBException($"unknow oxml doc defaults type \"{type}\"");
+        //}
 
-        private OXmlParagraphPropertiesDefaultElement CreateParagraphPropertiesDefault()
-        {
-            if (_headerFooter)
-                throw new PBException("header-footer cant contain paragraph default properties");
-
-            return new OXmlParagraphPropertiesDefaultElement();
-        }
-
-        private OXmlRunPropertiesDefaultElement CreateRunPropertiesDefault(BsonDocument element)
+        private OXmlDocDefaultsRunPropertiesElement CreateRunPropertiesDefault(BsonDocument element)
         {
             if (_headerFooter)
                 throw new PBException("header-footer cant contain run default properties");
 
-            OXmlRunPropertiesDefaultElement runPropertiesDefault = new OXmlRunPropertiesDefaultElement();
-            string runFonts = element.zGet("RunFonts").zAsString();
-            if (runFonts != null)
-                runPropertiesDefault.RunFonts = new RunFonts { Ascii = runFonts };
-            string fontSize = element.zGet("FontSize").zAsString();
-            if (fontSize != null)
-                runPropertiesDefault.FontSize = new FontSize { Val = fontSize };
+            OXmlDocDefaultsRunPropertiesElement runPropertiesDefault = new OXmlDocDefaultsRunPropertiesElement();
+
+            //string runFonts = element.zGet("RunFonts").zAsString();
+            //if (runFonts != null)
+            //    runPropertiesDefault.RunFonts = new OxmlRunFonts { Ascii = runFonts };
+            BsonDocument element2 = element.zGet("RunFonts").zAsBsonDocument();
+            if (element2 != null)
+            {
+                runPropertiesDefault.RunFonts = new OXmlRunFonts
+                {
+                    Ascii = element2.zGet("Ascii").zAsString(),
+                    AsciiTheme = element2.zGet("AsciiTheme").zAsNullableEnum<ThemeFontValues>(ignoreCase: true),
+                    ComplexScript = element2.zGet("ComplexScript").zAsString(),
+                    ComplexScriptTheme = element2.zGet("ComplexScriptTheme").zAsNullableEnum<ThemeFontValues>(ignoreCase: true),
+                    EastAsia = element2.zGet("EastAsia").zAsString(),
+                    EastAsiaTheme = element2.zGet("EastAsiaTheme").zAsNullableEnum<ThemeFontValues>(ignoreCase: true),
+                    HighAnsi = element2.zGet("HighAnsi").zAsString(),
+                    HighAnsiTheme = element2.zGet("HighAnsiTheme").zAsNullableEnum<ThemeFontValues>(ignoreCase: true),
+                    Hint = element2.zGet("Hint").zAsNullableEnum<FontTypeHintValues>(ignoreCase: true)
+                };
+            }
+
+            runPropertiesDefault.FontSize = element.zGet("FontSize").zAsString();
             return runPropertiesDefault;
         }
 
-        private OXmlElement CreateOpenHeaderFooter(BsonDocument element, bool header)
+        //private OXmlDocDefaultsParagraphPropertiesElement CreateParagraphPropertiesDefault()
+        private OXmlElement CreateParagraphPropertiesDefault()
+        {
+            if (_headerFooter)
+                throw new PBException("header-footer cant contain paragraph default properties");
+
+            //return new OXmlDocDefaultsParagraphPropertiesElement();
+            return new OXmlElement { Type = OXmlElementType.DocDefaultsParagraphProperties };
+        }
+
+        //private OXmlElement CreateOpenHeaderFooter(BsonDocument element, bool header)
+        //{
+        //    if (_headerFooter)
+        //        throw new PBException("header-footer cant contain nested header-footer");
+        //    OXmlOpenHeaderFooter openHeaderFooter = new OXmlOpenHeaderFooter();
+        //    openHeaderFooter.Header = header;
+        //    openHeaderFooter.HeaderType = element.zGet("HeaderType").zAsString().zTryParseEnum(HeaderFooterValues.Default);
+        //    _headerFooter = true;
+        //    return openHeaderFooter;
+        //}
+
+        private OXmlElement CreateOpenHeader(BsonDocument element)
         {
             if (_headerFooter)
                 throw new PBException("header-footer cant contain nested header-footer");
-            OXmlOpenHeaderFooter openHeaderFooter = new OXmlOpenHeaderFooter();
-            openHeaderFooter.Header = header;
-            openHeaderFooter.HeaderType = element.zGet("HeaderType").zAsString().zTryParseEnum(HeaderFooterValues.Default);
+            OXmlOpenHeaderElement openHeader = new OXmlOpenHeaderElement();
+            openHeader.HeaderType = element.zGet("HeaderType").zAsString().zTryParseEnum(HeaderFooterValues.Default);
             _headerFooter = true;
-            return openHeaderFooter;
-
-            //foreach (BsonValue element2 in element.zGet("Content").zAsBsonArray())
-            //{
-            //    BsonDocument docElement2 = element2.AsBsonDocument;
-            //    string type = docElement2.zGet("Type").zAsString();
-            //    OXmlElement element3 = null;
-            //    switch (type.ToLower())
-            //    {
-            //        case "paragraph":
-            //            element3 = CreateParagraph(docElement2);
-            //            break;
-            //        case "line":
-            //            element3 = new OXmlElement { Type = OXmlElementType.Line };
-            //            break;
-            //        case "text":
-            //            element3 = CreateText(docElement2);
-            //            break;
-            //        case "picture":
-            //            element3 = CreatePicture(docElement2);
-            //            break;
-            //        default:
-            //            throw new PBException($"invalid oxml element type \"{type}\" in header or footer");
-            //    }
-            //    if (element != null)
-            //        yield return element3;
-            //}
-
-            //yield return new OXmlElement { Type = OXmlElementType.CloseHeaderFooter };
+            return openHeader;
         }
 
-        private OXmlElement CreateCloseHeaderFooter()
+        private OXmlElement CreateOpenFooter(BsonDocument element)
+        {
+            if (_headerFooter)
+                throw new PBException("header-footer cant contain nested header-footer");
+            OXmlOpenFooterElement openFooter = new OXmlOpenFooterElement();
+            openFooter.FooterType = element.zGet("FooterType").zAsString().zTryParseEnum(HeaderFooterValues.Default);
+            _headerFooter = true;
+            return openFooter;
+        }
+
+        private OXmlElement CreateCloseHeader()
         {
             if (!_headerFooter)
                 throw new PBException("close header-footer without an open header-footer");
             _headerFooter = false;
-            return new OXmlElement { Type = OXmlElementType.CloseHeaderFooter };
+            return new OXmlElement { Type = OXmlElementType.CloseHeader };
+        }
+
+        private OXmlElement CreateCloseFooter()
+        {
+            if (!_headerFooter)
+                throw new PBException("close header-footer without an open header-footer");
+            _headerFooter = false;
+            return new OXmlElement { Type = OXmlElementType.CloseFooter };
         }
 
         public static IEnumerable<OXmlElement> Read(string file, Encoding encoding = null)
         {
-            return new OXmlElementReader()._Read(zmongo.OpenBsonReader(file, encoding));
+            // ATTENTION il faut boucler et retourner chaque élément sinon le using ferme le flux BsonReader
+            //return new OXmlElementReader()._Read(zmongo.OpenBsonReader(file, encoding));
+            using (BsonReader reader = zmongo.CreateBsonReaderFromFile(file, encoding))
+            {
+                foreach (OXmlElement element in new OXmlElementReader()._Read(reader))
+                    yield return element;
+            }
         }
     }
 
     public class OXmlStyleElementCreator
     {
         private BsonDocument _sourceElement = null;
-        private StyleParagraphProperties _paragraphProperties = null;
+        //private StyleParagraphProperties _paragraphProperties = null;
+        private OXmlStyleParagraphProperties _paragraphProperties = null;
         //private SpacingBetweenLines _spacingBetweenLines = null;
         //private TextAlignment _textAlignment = null;
 
@@ -402,7 +459,7 @@ namespace pb.Data.OpenXml
             style.StyleType = _sourceElement.zGet("StyleType").zAsString().zTryParseEnum(StyleValues.Paragraph);
             style.Aliases = _sourceElement.zGet("Aliases").zAsString();
             style.CustomStyle = _sourceElement.zGet("CustomStyle").zAsBoolean();
-            style.DefaultStyle = _sourceElement.zGet("Default").zAsBoolean();
+            style.DefaultStyle = _sourceElement.zGet("DefaultStyle").zAsBoolean();
             style.Locked = _sourceElement.zGet("Locked").zAsNullableBoolean();
             style.SemiHidden = _sourceElement.zGet("SemiHidden").zAsNullableBoolean();
             style.StyleHidden = _sourceElement.zGet("StyleHidden").zAsNullableBoolean();
@@ -426,15 +483,23 @@ namespace pb.Data.OpenXml
             // OutlineLevel, OverflowPunctuation, PageBreakBefore, ParagraphBorders, ParagraphPropertiesChange, Shading, SnapToGrid, SuppressAutoHyphens, SuppressLineNumbers, SuppressOverlap, TextBoxTightWrap, TextDirection,
             // TopLinePunctuation, WidowControl, WordWrap
 
-            _paragraphProperties = new StyleParagraphProperties();
 
-            CreateSpacingBetweenLines();
+            //StyleParagraphProperties
+            BsonDocument spp = _sourceElement.zGet("StyleParagraphProperties").zAsBsonDocument();
+            if (spp == null)
+                return;
 
-            BsonValue v = _sourceElement.zGet("TextAlignment");
+            //_paragraphProperties = new StyleParagraphProperties();
+            _paragraphProperties = new OXmlStyleParagraphProperties();
+
+            CreateSpacingBetweenLines(spp);
+
+            BsonValue v = spp.zGet("TextAlignment");
             if (v != null)
                 // TextAlignment, <w:textAlignment>, Top, Center, Baseline, Bottom, Auto
-                _paragraphProperties.TextAlignment = new TextAlignment { Val = v.zAsString().zParseEnum<VerticalTextAlignmentValues>(ignoreCase: true) };
-            CreateTabs();
+                //_paragraphProperties.TextAlignment = new TextAlignment { Val = v.zAsString().zParseEnum<VerticalTextAlignmentValues>(ignoreCase: true) };
+                _paragraphProperties.TextAlignment = v.zAsString().zParseEnum<VerticalTextAlignmentValues>(ignoreCase: true);
+            CreateTabs(spp);
 
             //if (_spacingBetweenLines != null)
             //{
@@ -446,71 +511,103 @@ namespace pb.Data.OpenXml
             //}
         }
 
-        private void CreateSpacingBetweenLines()
+        private void CreateSpacingBetweenLines(BsonDocument spp)
         {
-            BsonDocument elementSpacingBetweenLines = _sourceElement.zGet("SpacingBetweenLines").zAsBsonDocument();
+            BsonDocument elementSpacingBetweenLines = spp.zGet("SpacingBetweenLines").zAsBsonDocument();
             if (elementSpacingBetweenLines == null)
                 return;
 
-            SpacingBetweenLines spacingBetweenLines = new SpacingBetweenLines { };
-            BsonValue v = elementSpacingBetweenLines.zGet("After");
-            if (v != null)
-                // Spacing Below Paragraph, <w:spacing w:after>, 1 line = 240
-                spacingBetweenLines.After = v.zAsString();
-            v = elementSpacingBetweenLines.zGet("AfterAutoSpacing");
-            if (v != null)
-                // Automatically Determine Spacing Below Paragraph, <w:spacing w:afterAutospacing>
-                spacingBetweenLines.AfterAutoSpacing = new OnOffValue(v.zAsBoolean());
-            v = elementSpacingBetweenLines.zGet("AfterLines");
-            if (v != null)
-                // Spacing Below Paragraph in Line Units, <w:spacing w:afterLines>
-                spacingBetweenLines.AfterLines = v.zAsInt();
-            v = elementSpacingBetweenLines.zGet("Before");
-            if (v != null)
-                // Spacing Above Paragraph, <w:spacing w:before>, 1 line = 240
-                spacingBetweenLines.Before = v.zAsString();
-            v = elementSpacingBetweenLines.zGet("BeforeAutoSpacing");
-            if (v != null)
-                // Automatically Determine Spacing Above Paragraph, <w:spacing w:beforeAutospacing>
-                spacingBetweenLines.BeforeAutoSpacing = new OnOffValue(v.zAsBoolean());
-            v = elementSpacingBetweenLines.zGet("BeforeLines");
-            if (v != null)
-                // Spacing Above Paragraph IN Line Units, <w:spacing w:beforeLines>
-                spacingBetweenLines.BeforeLines = v.zAsInt();
-            v = elementSpacingBetweenLines.zGet("Line");
-            if (v != null)
-                // Spacing Between Lines in Paragraph, <w:spacing w:line>, 1 line = 240
-                spacingBetweenLines.Line = v.zAsString();
-            v = elementSpacingBetweenLines.zGet("LineRule");
-            if (v != null)
-                // Type of Spacing Between Lines, <w:spacing w:lineRule>, Auto, Exact, AtLeast
-                spacingBetweenLines.LineRule = v.zAsString().zParseEnum<LineSpacingRuleValues>(true);
+            //SpacingBetweenLines spacingBetweenLines = new SpacingBetweenLines { };
+            OXmlSpacingBetweenLines spacingBetweenLines = new OXmlSpacingBetweenLines();
 
+            //BsonValue v;
+
+            //BsonValue v = elementSpacingBetweenLines.zGet("After");
+            //if (v != null)
+            //    // Spacing Below Paragraph, <w:spacing w:after>, 1 line = 240
+            //    spacingBetweenLines.After = v.zAsString();
+            // Spacing Below Paragraph, <w:spacing w:after>, 1 line = 240
+            spacingBetweenLines.After = elementSpacingBetweenLines.zGet("After").zAsString();
+
+            //v = elementSpacingBetweenLines.zGet("AfterAutoSpacing");
+            //if (v != null)
+            //    // Automatically Determine Spacing Below Paragraph, <w:spacing w:afterAutospacing>
+            //    spacingBetweenLines.AfterAutoSpacing = new OnOffValue(v.zAsBoolean());
+            // Automatically Determine Spacing Below Paragraph, <w:spacing w:afterAutospacing>
+            spacingBetweenLines.AfterAutoSpacing = elementSpacingBetweenLines.zGet("AfterAutoSpacing").zAsNullableBoolean();
+
+            //v = elementSpacingBetweenLines.zGet("AfterLines");
+            //if (v != null)
+            //    // Spacing Below Paragraph in Line Units, <w:spacing w:afterLines>
+            //    spacingBetweenLines.AfterLines = v.zAsInt();
+            // Spacing Below Paragraph in Line Units, <w:spacing w:afterLines>
+            spacingBetweenLines.AfterLines = elementSpacingBetweenLines.zGet("AfterLines").zAsNullableInt();
+
+            //v = elementSpacingBetweenLines.zGet("Before");
+            //if (v != null)
+            //    // Spacing Above Paragraph, <w:spacing w:before>, 1 line = 240
+            //    spacingBetweenLines.Before = v.zAsString();
+            // Spacing Above Paragraph, <w:spacing w:before>, 1 line = 240
+            spacingBetweenLines.Before = elementSpacingBetweenLines.zGet("Before").zAsString();
+
+            //v = elementSpacingBetweenLines.zGet("BeforeAutoSpacing");
+            //if (v != null)
+            //    // Automatically Determine Spacing Above Paragraph, <w:spacing w:beforeAutospacing>
+            //    spacingBetweenLines.BeforeAutoSpacing = new OnOffValue(v.zAsBoolean());
+            // Automatically Determine Spacing Above Paragraph, <w:spacing w:beforeAutospacing>
+            spacingBetweenLines.BeforeAutoSpacing = elementSpacingBetweenLines.zGet("BeforeAutoSpacing").zAsNullableBoolean();
+
+            //v = elementSpacingBetweenLines.zGet("BeforeLines");
+            //if (v != null)
+            //    // Spacing Above Paragraph IN Line Units, <w:spacing w:beforeLines>
+            //    spacingBetweenLines.BeforeLines = v.zAsInt();
+            // Spacing Above Paragraph IN Line Units, <w:spacing w:beforeLines>
+            spacingBetweenLines.BeforeLines = elementSpacingBetweenLines.zGet("BeforeLines").zAsNullableInt();
+
+            //v = elementSpacingBetweenLines.zGet("Line");
+            //if (v != null)
+            //    // Spacing Between Lines in Paragraph, <w:spacing w:line>, 1 line = 240
+            //    spacingBetweenLines.Line = v.zAsString();
+            // Spacing Between Lines in Paragraph, <w:spacing w:line>, 1 line = 240
+            spacingBetweenLines.Line = elementSpacingBetweenLines.zGet("Line").zAsString();
+
+            //v = elementSpacingBetweenLines.zGet("LineRule");
+            //if (v != null)
+            //    // Type of Spacing Between Lines, <w:spacing w:lineRule>, Auto, Exact, AtLeast
+            //    spacingBetweenLines.LineRule = v.zAsString().zParseEnum<LineSpacingRuleValues>(true);
+            // Type of Spacing Between Lines, <w:spacing w:lineRule>, Auto, Exact, AtLeast
+            spacingBetweenLines.LineRule = elementSpacingBetweenLines.zGet("LineRule").zAsNullableEnum<LineSpacingRuleValues>(true);
+
+            //_paragraphProperties.SpacingBetweenLines = spacingBetweenLines;
             _paragraphProperties.SpacingBetweenLines = spacingBetweenLines;
         }
 
-        private void CreateTabs()
+        private void CreateTabs(BsonDocument spp)
         {
-            BsonArray tabs = _sourceElement.zGet("Tabs").zAsBsonArray();
+            BsonArray tabs = spp.zGet("Tabs").zAsBsonArray();
             if (tabs == null)
                 return;
-            Tabs tabsElement = new Tabs();
+
+            //Tabs tabsElement = new Tabs();
+            List<OXmlTabStop> tabsElement = new List<OXmlTabStop>();
             foreach (BsonValue tab in tabs)
             {
                 BsonDocument dtab = tab.AsBsonDocument;
 
                 // TabStop, <w:tab>
-                TabStop tabStop = new TabStop();
+                //TabStop tabStop = new TabStop();
+                OXmlTabStop tabStop = new OXmlTabStop();
                 // Tab Stop Position, <w:tab w:pos="">
-                tabStop.Position = dtab.zGet("Position").zAsInt();
+                tabStop.Position = dtab.zGet("Position", mandatory: true).zAsInt();
                 // Tab Stop Type, <w:tab w:val="">, Clear, Left, Start, Center, Right, End, Decimal, Bar, Number
-                tabStop.Val = dtab.zGet("Alignment").zAsString().zParseEnum<TabStopValues>(ignoreCase: true);
+                tabStop.Alignment = dtab.zGet("Alignment", mandatory: true).zAsEnum<TabStopValues>(ignoreCase: true);
                 // Tab Leader Character, <w:tab w:leader="">, None, Dot, Hyphen, Underscore, Heavy, MiddleDot
-                tabStop.Leader = dtab.zGet("LeaderChar").zAsString().zTryParseEnum(TabStopLeaderCharValues.None);
+                tabStop.LeaderChar = dtab.zGet("LeaderChar").zTryAsEnum(TabStopLeaderCharValues.None, ignoreCase: true);
 
-                tabsElement.AppendChild(tabStop);
+                //tabsElement.AppendChild(tabStop);
+                tabsElement.Add(tabStop);
             }
-            _paragraphProperties.Tabs = tabsElement;
+            _paragraphProperties.Tabs = tabsElement.ToArray();
         }
 
         //private void CreateStyleParagraphProperties()
@@ -522,105 +619,6 @@ namespace pb.Data.OpenXml
         public static OXmlStyleElement Create(BsonDocument document)
         {
             return new OXmlStyleElementCreator(document)._Create();
-        }
-    }
-
-    public class OXmlPictureElementCreator
-    {
-        public static OXmlElement CreatePicture(BsonDocument sourceElement)
-        {
-            OXmlPictureElement picture = new OXmlPictureElement();
-            picture.File = sourceElement.zGet("File").zAsString();
-            picture.Name = sourceElement.zGet("Name").zAsString();
-            picture.Description = sourceElement.zGet("Description").zAsString();
-            picture.Width = sourceElement.zGet("Width").zAsNullableInt();
-            picture.Height = sourceElement.zGet("Height").zAsNullableInt();
-            picture.Rotation = sourceElement.zGet("Rotation").zAsInt();
-            picture.HorizontalFlip = sourceElement.zGet("HorizontalFlip").zAsBoolean();
-            picture.VerticalFlip = sourceElement.zGet("VerticalFlip").zAsBoolean();
-            //picture.CompressionState = GetCompressionState(element.zGet("Description").zAsString());
-            picture.CompressionState = sourceElement.zGet("CompressionState").zAsString().zTryParseEnum(A.BlipCompressionValues.Print);
-            picture.PresetShape = sourceElement.zGet("PresetShape").zAsString().zTryParseEnum(A.ShapeTypeValues.Rectangle);
-            picture.PictureDrawing = CreatePictureDrawing(sourceElement);
-            return picture;
-        }
-
-        private static OXmlPictureDrawing CreatePictureDrawing(BsonDocument element)
-        {
-            string drawingMode = element.zGet("DrawingMode").zAsString();
-            switch (drawingMode.ToLower())
-            {
-                case "inline":
-                    return new OXmlInlinePictureDrawing();
-                case "anchor":
-                    return CreateAnchorPictureDrawing(element);
-                default:
-                    throw new PBException($"unknow oxml drawing mode \"{drawingMode}\"");
-            }
-        }
-
-        private static OXmlAnchorPictureDrawing CreateAnchorPictureDrawing(BsonDocument element)
-        {
-            OXmlAnchorPictureDrawing anchor = new OXmlAnchorPictureDrawing();
-            string wrapType = element.zGet("WrapType").zAsString();
-            switch (wrapType.ToLower())
-            {
-                //case "wrapnone":
-                case "wrapsquare":
-                    anchor.Wrap = CreateAnchorWrapSquare(element);
-                    break;
-                case "wraptight":
-                    anchor.Wrap = CreateAnchorWrapTight(element);
-                    break;
-                //case "wrapthrough":
-                case "wraptopandbottom":
-                    anchor.Wrap = CreateAnchorWrapTopAndBottom(element);
-                    break;
-                default:
-                    throw new PBException($"unknow oxml wrap type \"{wrapType}\"");
-            }
-
-            // Margin, Page, Column, Character, LeftMargin, RightMargin, InsideMargin, OutsideMargin
-            anchor.HorizontalRelativeFrom = element.zGet("HorizontalRelativeFrom").zAsString().zTryParseEnum(DW.HorizontalRelativePositionValues.Margin);
-            anchor.HorizontalPositionOffset = element.zGet("HorizontalPositionOffset").zAsNullableInt();
-            anchor.HorizontalAlignment = element.zGet("HorizontalAlignment").zAsString();
-
-            anchor.VerticalRelativeFrom = element.zGet("VerticalRelativeFrom").zAsString().zTryParseEnum(DW.VerticalRelativePositionValues.Paragraph);
-            anchor.VerticalPositionOffset = element.zGet("VerticalPositionOffset").zAsNullableInt();
-            anchor.VerticalAlignment = element.zGet("VerticalAlignment").zAsString();
-
-            return anchor;
-        }
-
-        private static OXmlAnchorWrapSquare CreateAnchorWrapSquare(BsonDocument element)
-        {
-            OXmlAnchorWrapSquare wrapSquare = new OXmlAnchorWrapSquare();
-            wrapSquare.WrapText = element.zGet("WrapText").zAsString().zTryParseEnum(DW.WrapTextValues.BothSides);
-            wrapSquare.DistanceFromTop = (uint)element.zGet("DistanceFromTop").zAsInt();
-            wrapSquare.DistanceFromBottom = (uint)element.zGet("DistanceFromBottom").zAsInt();
-            wrapSquare.DistanceFromLeft = (uint)element.zGet("DistanceFromLeft").zAsInt();
-            wrapSquare.DistanceFromRight = (uint)element.zGet("DistanceFromRight").zAsInt();
-            //wrapSquare.EffectExtent
-            return wrapSquare;
-        }
-
-        private static OXmlAnchorWrapTight CreateAnchorWrapTight(BsonDocument element)
-        {
-            OXmlAnchorWrapTight wrapTight = new OXmlAnchorWrapTight();
-            wrapTight.WrapText = element.zGet("WrapText").zAsString().zTryParseEnum(DW.WrapTextValues.BothSides);
-            wrapTight.DistanceFromLeft = (uint)element.zGet("DistanceFromLeft").zAsInt();
-            wrapTight.DistanceFromRight = (uint)element.zGet("DistanceFromRight").zAsInt();
-            wrapTight.WrapPolygon = OXmlDoc.CreateWrapPolygon(element.zGet("WrapPolygonHorizontalSize").zAsLong(), element.zGet("WrapPolygonVerticalSize").zAsLong(), element.zGet("WrapPolygonStartPointX").zAsLong(), element.zGet("WrapPolygonStartPointY").zAsLong());
-            return wrapTight;
-        }
-
-        private static OXmlAnchorWrapTopAndBottom CreateAnchorWrapTopAndBottom(BsonDocument element)
-        {
-            OXmlAnchorWrapTopAndBottom wrapTopAndBottom = new OXmlAnchorWrapTopAndBottom();
-            wrapTopAndBottom.DistanceFromTop = (uint)element.zGet("DistanceFromTop").zAsInt();
-            wrapTopAndBottom.DistanceFromBottom = (uint)element.zGet("DistanceFromBottom").zAsInt();
-            //wrapTopAndBottom.EffectExtent
-            return wrapTopAndBottom;
         }
     }
 }

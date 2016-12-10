@@ -256,8 +256,8 @@ namespace pb.Compiler
             CompilerManager.Current.AddCompiler("CSharp5", () => new CSharp5Compiler(CompilerManager.Current.FrameworkDirectories, CompilerManager.Current.MessageFilter));
             CompilerManager.Current.AddCompiler("JScript", () => new JScriptCompiler());
             //_resourceCompiler = new ResourceCompiler(CompilerManager.Current.ResourceCompiler);
-            RunSourceInitEndMethods.TraceRunOnce = runSourceConfig.Get("TraceInitEndOnceMethods").zTryParseAs(false);
-            RunSourceInitEndMethods.TraceRunAlways = runSourceConfig.Get("TraceInitEndAlwaysMethods").zTryParseAs(false);
+            //RunSourceInitEndMethods_v2.TraceRunOnce = runSourceConfig.Get("TraceInitEndOnceMethods").zTryParseAs(false);
+            //RunSourceInitEndMethods_v2.TraceRunAlways = runSourceConfig.Get("TraceInitEndAlwaysMethods").zTryParseAs(false);
         }
 
         public XmlConfig GetRunSourceConfig()
@@ -380,6 +380,7 @@ namespace pb.Compiler
         //    compiler.ZipSourceFiles(zipFile.zRootPath(zPath.GetDirectoryName(pathProject)));
         //}
 
+        // not used le 04/12/2016, pourquoi ??
         public IProjectCompiler CompileProject(string projectName)
         {
             // - compile assembly project (like runsource.dll.project.xml) and runsource project (like download.project.xml)

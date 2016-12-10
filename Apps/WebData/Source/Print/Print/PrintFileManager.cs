@@ -181,7 +181,8 @@ namespace Download.Print
             //foreach (FileInfo fileInfo in directoryInfo.EnumerateFiles("*.*", SearchOption.AllDirectories))
             foreach (var fileInfo in zDirectory.CreateDirectoryInfo(directory).EnumerateFiles("*.*", SearchOption.AllDirectories))
             {
-                if (CompressManager.IsCompressFile(fileInfo.Name))
+                //if (CompressManager.IsCompressFile(fileInfo.Name))
+                if (_uncompressManager.CompressManager.IsCompressFile(fileInfo.Name))
                 {
                     Trace.WriteLine("uncompress \"{0}\"", fileInfo.FullName);
                     if (!_simulate)

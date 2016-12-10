@@ -348,7 +348,7 @@ namespace Test.Test_Bson
                 //BsonReader reader = BsonReader.Create(document);
                 //BsonReader reader = BsonReader.Create(document.zToJson());
                 //PBBsonReader reader = new PBBsonReader(document);
-                PBBsonReader reader = new PBBsonReader(BsonReader.Create(document));
+                PBBsonReaderWithBookmark reader = new PBBsonReaderWithBookmark(BsonReader.Create(document));
                 while (reader.Read())
                 {
                     if (RunSource.CurrentRunSource.IsExecutionAborted())
@@ -379,7 +379,7 @@ namespace Test.Test_Bson
                 BsonDocument document = test.zToBsonDocument();
                 Trace.WriteLine(document.zToJson());
                 Trace.WriteLine("start reader");
-                foreach (PBBsonNamedValue value in new PBBsonEnumerateValues(new PBBsonReader(BsonReader.Create(document))))
+                foreach (PBBsonNamedValue value in new PBBsonEnumerateValues(new PBBsonReaderWithBookmark(BsonReader.Create(document))))
                 {
                     Trace.WriteLine("{0}: {1} ({2})", value.Name, value.Value, value.Value.BsonType);
                 }

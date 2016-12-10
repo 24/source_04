@@ -7,6 +7,7 @@ using pb.Text;
 using pb.Web;
 using pb.Data;
 using System.Collections.Generic;
+using pb.IO;
 
 namespace Download.Print
 {
@@ -251,7 +252,7 @@ namespace Download.Print
 
         public UncompressQueueManager CreateUncompressManager()
         {
-            UncompressQueueManager uncompressManager = new UncompressQueueManager();
+            UncompressQueueManager uncompressManager = new UncompressQueueManager(new SharpCompressManager());
             //uncompressManager.ArchiveCompressDirectory = XmlConfig.CurrentConfig.Get("DownloadAutomateManager/UncompressManager/ArchiveCompressDirectory");
             uncompressManager.ArchiveCompressDirectory = _xeConfig.zXPathValue("UncompressManager/ArchiveCompressDirectory");
             //uncompressManager.ArchiveErrorCompressDirectory = XmlConfig.CurrentConfig.Get("DownloadAutomateManager/UncompressManager/ArchiveErrorCompressDirectory");

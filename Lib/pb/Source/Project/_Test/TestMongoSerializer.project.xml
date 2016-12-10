@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<AssemblyProject>
+  
+  <Root                             value = "..\..\..\..\.." />
+  
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\MongoDefaultSerializer.project.xml" />
+
+  <NameSpace                        value = "pb.Test" />
+
+  <!--<InitMethod                       value = "pb.Web.TestUnit.TestUnit_HtmlToXmlRun.Init" />-->
+  <!--<EndMethod                        value = "pb.Web.TestUnit.TestUnit_HtmlToXmlRun.End" />-->
+
+  <Using                            value = "pb" />
+
+  <!--<Source                           value = "TestUnit_HtmlToXmlRun.cs" />-->
+
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\_pb\GlobalExtension.cs" />-->
+
+  <!--<Assembly                         value = "$Root$\Lib\LongPath\Pri.LongPath\bin\Debug\Pri.LongPath.dll" />-->
+
+</AssemblyProject>

@@ -99,8 +99,38 @@
     <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\MongoIdGenerator.cs">
       <Link>SourceLnk\Lib\pb\Data\Mongo\MongoIdGenerator.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\Serializers\WebHeaderSerializer.cs">
-      <Link>SourceLnk\Lib\pb\Data\Mongo\Serializers\WebHeaderSerializer.cs</Link>
+    <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\Serializers\Default\DateSerializer.cs">
+      <Link>SourceLnk\Lib\pb\Data\Mongo\Serializers\Default\DateSerializer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\Serializers\Default\MongoSerializationManager.cs">
+      <Link>SourceLnk\Lib\pb\Data\Mongo\Serializers\Default\MongoSerializationManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\Serializers\Default\PBSerializationProvider_v2.cs">
+      <Link>SourceLnk\Lib\pb\Data\Mongo\Serializers\Default\PBSerializationProvider_v2.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\Serializers\Default\RunSerializer.cs">
+      <Link>SourceLnk\Lib\pb\Data\Mongo\Serializers\Default\RunSerializer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\Serializers\Default\RunSerializerWebHeader.cs">
+      <Link>SourceLnk\Lib\pb\Data\Mongo\Serializers\Default\RunSerializerWebHeader.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\Serializers\Default\WebHeaderSerializer.cs">
+      <Link>SourceLnk\Lib\pb\Data\Mongo\Serializers\Default\WebHeaderSerializer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\Serializers\ZValue\RunSerializerZValue.cs">
+      <Link>SourceLnk\Lib\pb\Data\Mongo\Serializers\ZValue\RunSerializerZValue.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\Serializers\ZValue\ZIntSerializer.cs">
+      <Link>SourceLnk\Lib\pb\Data\Mongo\Serializers\ZValue\ZIntSerializer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\Serializers\ZValue\ZStringArraySerializer.cs">
+      <Link>SourceLnk\Lib\pb\Data\Mongo\Serializers\ZValue\ZStringArraySerializer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\Serializers\ZValue\ZStringSerializer.cs">
+      <Link>SourceLnk\Lib\pb\Data\Mongo\Serializers\ZValue\ZStringSerializer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\Serializers\ZValue\ZValueSerializer.cs">
+      <Link>SourceLnk\Lib\pb\Data\Mongo\Serializers\ZValue\ZValueSerializer.cs</Link>
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\WebDataMongoManagerBase.cs">
       <Link>SourceLnk\Lib\pb\Data\Mongo\WebDataMongoManagerBase.cs</Link>
@@ -135,6 +165,9 @@
     <Compile Include="..\..\Lib\pb\Source\pb\Data\OpenXml\OXmlElementReader.cs">
       <Link>SourceLnk\Lib\pb\Data\OpenXml\OXmlElementReader.cs</Link>
     </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Data\ParseNamedValues.cs">
+      <Link>SourceLnk\Lib\pb\Data\ParseNamedValues.cs</Link>
+    </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Data\TraceData\ITraceData.cs">
       <Link>SourceLnk\Lib\pb\Data\TraceData\ITraceData.cs</Link>
     </Compile>
@@ -150,8 +183,14 @@
     <Compile Include="..\..\Lib\pb\Source\pb\IO\Backup.cs">
       <Link>SourceLnk\Lib\pb\IO\Backup.cs</Link>
     </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\IO\CharStreamReader.cs">
+      <Link>SourceLnk\Lib\pb\IO\CharStreamReader.cs</Link>
+    </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\IO\CompressFile.cs">
       <Link>SourceLnk\Lib\pb\IO\CompressFile.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\IO\CompressManagerMultiple.cs">
+      <Link>SourceLnk\Lib\pb\IO\CompressManagerMultiple.cs</Link>
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\IO\CompressOptions.cs">
       <Link>SourceLnk\Lib\pb\IO\CompressOptions.cs</Link>
@@ -332,39 +371,6 @@
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\PBBsonWriter.cs">
       <Link>SourceLnk\Lib\pb\Data\Mongo\PBBsonWriter.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\Serializers\BsonPBSerializationProvider.cs">
-      <Link>SourceLnk\Lib\pb\Data\Mongo\Serializers\BsonPBSerializationProvider.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\Serializers\DateSerializer.cs">
-      <Link>SourceLnk\Lib\pb\Data\Mongo\Serializers\DateSerializer.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\Serializers\DefaultMongoSerializer.cs">
-      <Link>SourceLnk\Lib\pb\Data\Mongo\Serializers\DefaultMongoSerializer.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\Serializers\NameValueCollectionSerializer.cs">
-      <Link>SourceLnk\Lib\pb\Data\Mongo\Serializers\NameValueCollectionSerializer.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\Serializers\PBDictionarySerializer.cs">
-      <Link>SourceLnk\Lib\pb\Data\Mongo\Serializers\PBDictionarySerializer.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\Serializers\PBKeyValuePairSerializer.cs">
-      <Link>SourceLnk\Lib\pb\Data\Mongo\Serializers\PBKeyValuePairSerializer.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\Serializers\UrlImageSerializer.cs">
-      <Link>SourceLnk\Lib\pb\Data\Mongo\Serializers\UrlImageSerializer.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\Serializers\ZIntSerializer.cs">
-      <Link>SourceLnk\Lib\pb\Data\Mongo\Serializers\ZIntSerializer.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\Serializers\ZStringArraySerializer.cs">
-      <Link>SourceLnk\Lib\pb\Data\Mongo\Serializers\ZStringArraySerializer.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\Serializers\ZStringSerializer.cs">
-      <Link>SourceLnk\Lib\pb\Data\Mongo\Serializers\ZStringSerializer.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\Serializers\ZValueSerializer.cs">
-      <Link>SourceLnk\Lib\pb\Data\Mongo\Serializers\ZValueSerializer.cs</Link>
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Data\NamedValues.cs">
       <Link>SourceLnk\Lib\pb\Data\NamedValues.cs</Link>

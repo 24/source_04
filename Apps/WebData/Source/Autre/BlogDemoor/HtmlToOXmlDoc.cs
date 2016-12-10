@@ -58,6 +58,11 @@ namespace WebData.BlogDemoor
         {
             OXmlDoc.Create(file + ".docx", OXmlElementReader.Read(file));
         }
+
+        //public static void Test_SaveOXml(string inputFile, string outputFile)
+        //{
+        //    OXmlElementReader.Read(inputFile).zSave(outputFile);
+        //}
     }
 
     public class HtmlImage
@@ -82,7 +87,8 @@ namespace WebData.BlogDemoor
 
         private IEnumerable<OXmlElement> _ToOXmlXElements(IEnumerable<HtmlDocNode> nodes)
         {
-            yield return new OXmlParagraphPropertiesDefaultElement();
+            //yield return new OXmlDocDefaultsParagraphPropertiesElement();
+            yield return new OXmlElement { Type = OXmlElementType.DocDefaultsParagraphProperties };
             foreach (HtmlDocNode node in nodes)
             {
                 IEnumerable<OXmlElement> elements = null;
@@ -189,7 +195,8 @@ namespace WebData.BlogDemoor
             yield return new OXmlPictureElement { File = htmlImage.File, Width = htmlImage.Width, Height = htmlImage.Height, PictureDrawing = new OXmlAnchorPictureDrawing
             {
                 // SquareSize = 21800
-                Wrap = new OXmlAnchorWrapTight { WrapPolygon = OXmlDoc.CreateWrapPolygon(21800) },
+                //Wrap = new OXmlAnchorWrapTight { WrapPolygon = OXmlDoc.CreateWrapPolygon(21800) },
+                Wrap = new OXmlAnchorWrapTight { WrapPolygon = new OXmlSquare { HorizontalSize = 21800 } },
                 HorizontalRelativeFrom = DW.HorizontalRelativePositionValues.Margin, HorizontalPositionOffset = horizontalPosition,
                 VerticalRelativeFrom = DW.VerticalRelativePositionValues.Paragraph, VerticalPositionOffset = verticalPosition
             } };

@@ -2,6 +2,10 @@
 using pb.Data.Xml;
 using pb.Text;
 
+// todo :
+//   - restore old WebImage (UrlImageSerializer.cs)
+//   - manage .i files in WebData.RenameDailyPrintFiles()
+
 namespace Download.Print
 {
     public static partial class WebData

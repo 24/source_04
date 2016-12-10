@@ -43,7 +43,7 @@ namespace pb.Data.OpenXml
         private DW.SimplePosition _simplePosition = null;            // child <wp:simplePos x y> Simple Positioning Coordinates
         private DW.HorizontalPosition _horizontalPosition = null;    // child <wp:positionH> Horizontal Positioning
         private DW.VerticalPosition _verticalPosition = null;        // child <wp:positionV> Vertical Positioning
-        private DW.EffectExtent _effectExtent = null;                // child <wp:effectExtent> Object Extents Including Effects
+        //private DW.EffectExtent _effectExtent = null;                // child <wp:effectExtent> Object Extents Including Effects
         private OXmlAnchorWrap _wrap = null;                        // child WrapNone <wp:wrapNone>, WrapSquare <wp:wrapSquare>, WrapTight <wp:wrapTight>, WrapThrough <wp:wrapThrough>, WrapTopBottom <wp:wrapTopAndBottom>,
         private DW2010.RelativeHeight _relativeHeight = null;        // child <wp14:sizeRelV> RelativeHeight (Office2010 or above)
         private DW2010.RelativeWidth _relativeWidth = null;          // child <wp14:sizeRelH> RelativeWidth (Office2010 or above)
@@ -137,8 +137,8 @@ namespace pb.Data.OpenXml
             //if (_effectExtent == null)
             //    _effectExtent = new DW.EffectExtent();
             // <wp:effectExtent> is not mandatory
-            if (_effectExtent != null)
-                anchor.EffectExtent = _effectExtent;
+            //if (_effectExtent != null)
+            //    anchor.EffectExtent = _effectExtent;
 
             //if (_wrapElement == null)
             //    SetWrapNone();
@@ -239,10 +239,10 @@ namespace pb.Data.OpenXml
                 _verticalPosition.PercentagePositionVerticalOffset = new DW2010.PercentagePositionVerticalOffset(percentagePositionVerticalOffset);
         }
 
-        public void SetEffectExtent(long topEdge, long bottomEdge, long leftEdge, long rightEdge)
-        {
-            _effectExtent = new DW.EffectExtent() { TopEdge = topEdge, BottomEdge = bottomEdge, LeftEdge = leftEdge, RightEdge = rightEdge };
-        }
+        //public void SetEffectExtent(long topEdge, long bottomEdge, long leftEdge, long rightEdge)
+        //{
+        //    _effectExtent = new DW.EffectExtent() { TopEdge = topEdge, BottomEdge = bottomEdge, LeftEdge = leftEdge, RightEdge = rightEdge };
+        //}
 
         public void SetRelativeWidth(EnumValue<DW2010.SizeRelativeHorizontallyValues> relativeFrom, int percentageWidth)
         {
@@ -277,7 +277,7 @@ namespace pb.Data.OpenXml
                     //return CreateWrapThrough((zDocXAnchorWrapTight)_wrap);
                 case OXmlAnchorWrapType.WrapTight:
                     return CreateWrapTight((OXmlAnchorWrapTight)_wrap);
-                case OXmlAnchorWrapType.WrapTopBottom:
+                case OXmlAnchorWrapType.WrapTopAndBottom:
                     return CreateWrapTopAndBottom((OXmlAnchorWrapTopAndBottom)_wrap);
                 default:
                     throw new PBException($"unknow wrap type {_wrap.WrapType}");
@@ -326,7 +326,7 @@ namespace pb.Data.OpenXml
                 //   RightEdge  : Additional Extent on Right Edge (r)
                 //   TopEdge    : Additional Extent on Top Edge (t)
                 // <wp:effectExtent b="0" l="0" r="0" t="0"/>
-                wrapElement.EffectExtent = wrap.EffectExtent;
+                wrapElement.EffectExtent = wrap.EffectExtent.ToEffectExtent();
 
             //_wrapElement = wrapElement;
             return wrapElement;
@@ -377,7 +377,7 @@ namespace pb.Data.OpenXml
             // Tight Wrapping Extents Polygon, <wp:wrapPolygon>
             //wrapElement.WrapPolygon = wrapPolygon;
             //wrapElement.WrapPolygon = CreateSquareWrapPolygon(wrap.SquareSize);
-            wrapElement.WrapPolygon = wrap.WrapPolygon;
+            wrapElement.WrapPolygon = wrap.WrapPolygon.ToWrapPolygon();
 
             //_wrapElement = wrapElement;
             return wrapElement;
@@ -400,7 +400,7 @@ namespace pb.Data.OpenXml
             if (wrap.EffectExtent != null)
                 // Wrapping Boundaries <wp:effectExtent>
                 //wrapElement.EffectExtent = effectExtent;
-                wrapElement.EffectExtent = wrap.EffectExtent;
+                wrapElement.EffectExtent = wrap.EffectExtent.ToEffectExtent();
 
             //_wrapElement = wrapElement;
             return wrapElement;

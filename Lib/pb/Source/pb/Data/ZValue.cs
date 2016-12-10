@@ -102,6 +102,8 @@ namespace pb.Data
             else
                 return TimeSpan.Zero;
         }
+
+        public abstract object ToObject();
     }
 
     public class ZString : ZValue
@@ -122,6 +124,11 @@ namespace pb.Data
         }
 
         public override string ToString()
+        {
+            return Value;
+        }
+
+        public override object ToObject()
         {
             return Value;
         }
@@ -176,6 +183,11 @@ namespace pb.Data
         {
             return Values.zToStringValues(s => "\"" + s + "\"");
         }
+
+        public override object ToObject()
+        {
+            return Values;
+        }
     }
 
     public class ZBool : ZValue
@@ -198,6 +210,11 @@ namespace pb.Data
         public override string ToString()
         {
             return Value.ToString();
+        }
+
+        public override object ToObject()
+        {
+            return Value;
         }
     }
 
@@ -222,6 +239,11 @@ namespace pb.Data
         {
             return Value.ToString();
         }
+
+        public override object ToObject()
+        {
+            return Value;
+        }
     }
 
     public class ZDouble : ZValue
@@ -244,6 +266,11 @@ namespace pb.Data
         public override string ToString()
         {
             return Value.ToString();
+        }
+
+        public override object ToObject()
+        {
+            return Value;
         }
     }
 
@@ -268,6 +295,11 @@ namespace pb.Data
         {
             return Value.ToString();
         }
+
+        public override object ToObject()
+        {
+            return Value;
+        }
     }
 
     public class ZDateTime : ZValue
@@ -291,6 +323,11 @@ namespace pb.Data
         {
             return Value.ToString();
         }
+
+        public override object ToObject()
+        {
+            return Value;
+        }
     }
 
     public class ZTimeSpan : ZValue
@@ -313,6 +350,11 @@ namespace pb.Data
         public override string ToString()
         {
             return Value.ToString();
+        }
+
+        public override object ToObject()
+        {
+            return Value;
         }
     }
 }

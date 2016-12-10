@@ -35,11 +35,14 @@ namespace pb.Compiler
                 {
                     string projectFile = project.zExplicitAttribValue("value").zRootPath(projectsDirectory);
                     Trace.WriteLine("Compile project \"{0}\"", projectFile);
+
                     ProjectCompiler compiler = ProjectCompiler.Create(projectFile, win32ResourceCompiler, resourceCompiler);
                     compiler.RunsourceSourceDirectory = runsourceSourceDirectory;
                     compiler.Compile();
-                    if (onCompiled != null)
-                        onCompiled(compiler);
+
+                    //if (onCompiled != null)
+                    //    onCompiled(compiler);
+                    onCompiled?.Invoke(compiler);
                     if (!compiler.Success)
                         return false;
                     string copyOutput = project.zAttribValue("copyOutput").zRootPath(zapp.GetEntryAssemblyDirectory());
@@ -57,6 +60,10 @@ namespace pb.Compiler
                     }
                     nbProject++;
                 }
+            }
+            catch (ProjectCompilerException ex)
+            {
+                Error.WriteMessage(ErrorOptions.TraceError, ex.Message);
             }
             finally
             {

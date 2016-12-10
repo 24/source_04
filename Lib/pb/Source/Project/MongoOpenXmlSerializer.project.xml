@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<AssemblyProject>
+  <Root                             value = "..\..\..\.." />
+
+  <InitMethod                       value = "pb.Data.Mongo.Serializers.RunSerializer.InitOpenXml"  run = "always" params = "traceSerializer = false" />
+  <EndMethod                        value = "pb.Data.Mongo.Serializers.RunSerializer.EndOpenXml"   run = "always" />
+
+  <Using                            value = "pb.Data.Mongo" />
+  <Using                            value = "pb.Data.Mongo.Serializers" />
+
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\OpenXml\OXmlCommonSerializer.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\OpenXml\OXmlDocDefaultsRunPropertiesElementSerializer.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\OpenXml\OXmlDocSectionElementSerializer.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\OpenXml\OXmlElementSerializer.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\OpenXml\OXmlOpenHeaderElementSerializer.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\OpenXml\OXmlOpenFooterElementSerializer.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\OpenXml\OXmlParagraphElementSerializer.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\OpenXml\OXmlPictureElementSerializer.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\OpenXml\OXmlSimpleFieldElementSerializer.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\OpenXml\OXmlStyleElementSerializer.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\OpenXml\OXmlTextElementSerializer.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\OpenXml\RunSerializerOpenXml.cs" />
+
+  <!--<FrameworkAssembly                value = "System.Drawing.dll" />-->
+  <Assembly                         value = "$Root$\..\library\Mongo\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Bson.dll" resolve = "true" resolveName = "MongoDB.Bson, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />
+  <!--<Assembly                         value = "$Root$\..\library\OpenXml-sdk\OpenXml.v2.6.1\DocumentFormat.OpenXml.dll" resolve = "true" resolveName = "DocumentFormat.OpenXml, Version=2.6.0.0, Culture=neutral, PublicKeyToken=null" />-->
+</AssemblyProject>

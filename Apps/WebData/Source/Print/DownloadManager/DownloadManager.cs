@@ -788,7 +788,8 @@ namespace Download.Print
                 {
                     foreach (DownloadFilePartLink filePartLink in itemLink.ServerLinks[itemLink.SelectedServerIndex].FilePartLinks)
                     {
-                        if (CompressManager.IsCompressFile(filePartLink.DownloadedPath))
+                        //if (CompressManager.IsCompressFile(filePartLink.DownloadedPath))
+                        if (_uncompressManager.CompressManager.IsCompressFile(filePartLink.DownloadedPath))
                             return true;
                     }
                 }
@@ -802,9 +803,10 @@ namespace Download.Print
             List<string> uncompressFileList = new List<string>();
             foreach (string downloadedPath in downloadedPaths)
             {
-                if (CompressManager.IsCompressFile(downloadedPath))
+                //if (CompressManager.IsCompressFile(downloadedPath))
+                if (_uncompressManager.CompressManager.IsCompressFile(downloadedPath))
                 {
-                    string[] uncompressFiles = _uncompressManager.Uncompress(downloadedPath);
+                    IEnumerable<string> uncompressFiles = _uncompressManager.Uncompress(downloadedPath);
                     uncompressFileList.AddRange(uncompressFiles);
                 }
             }

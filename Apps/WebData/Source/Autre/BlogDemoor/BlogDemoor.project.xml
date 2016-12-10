@@ -5,16 +5,8 @@
   <Root                             value = "..\..\..\..\.." />
   <ProjectRoot                      value = "..\..\.." />
 
-  <!--<IncludeProject                   value = "$Root$\Lib\pb\Source\Project\CSharp.Default.project.xml" />-->
-
-  <Language                         name = "CSharp5" version = "6" />
-  <FrameworkVersion                 value = "4.6.1" />  <!-- CSharp5 option : 2.0, 3.0, 3.5, 3.5 client, 4.0, 4.0 client, 4.5, 4.5.1, 4.5.2, 4.6, 4.6.1 -->
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\LanguageCSharp5Debug.project.xml" />
   <Target                           value = "library" /> <!-- CSharp5 option : exe (exe console default), library (dll), module (.netmodule), winexe (exe windows) -->
-  <GenerateInMemory                 value = "false" />  <!-- CSharp1, JScript option -->
-  <DebugInformation                 value = "true" />  <!-- CSharp1, CSharp5, JScript option -->
-  <WarningLevel                     value = "4" /> <!-- CSharp1, CSharp5, JScript option : 0 no warning, 1 severe warning, 2 + less-severe warnings 1, 3 + less-severe warnings 2, 4 all warning -->
-  <CompilerOptions                  value = "/define:DEBUG;TRACE" />  <!-- CSharp1, JScript option -->
-  <PreprocessorSymbol               value = "DEBUG;TRACE" />  <!-- CSharp5 option -->
   <!--<Output                           value = "bin32\ebook.download.dll" />-->  <!-- CSharp1, CSharp5, JScript option -->
   <CopySourceFiles                  value = "true" />
   <CopyRunSourceSourceFiles         value = "true" />
@@ -22,6 +14,9 @@
 
   <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\Basic.project.xml" />
   <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\Extension_01.dll.project.xml" />
+  <!--<IncludeProject                   value = "$Root$\Lib\pb\Source\Project\MongoDefaultSerializer.project.xml" />-->
+  <!--<IncludeProject                   value = "$Root$\Lib\pb\Source\Project\MongoOpenXmlSerializer.project.xml" />-->
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\OpenXml.project.xml" />
 
   <NameSpace                        value = "WebData.BlogDemoor" />
   
@@ -36,19 +31,20 @@
   <InitMethod                       value = "WebData.BlogDemoor.BlogDemoorRun.InitAlways" run = "always" />
   <EndMethod                        value = "WebData.BlogDemoor.BlogDemoorRun.EndAlways" run = "always" />
 
-  <Using                            value = "System.IO" />
+  <Using                            value = "pb" />
+  <!--<Using                            value = "System.IO" />
   <Using                            value = "System.Linq" />
   <Using                            value = "System.Xml.Linq" />
   <Using                            value = "System.Xml.XPath" />
   <Using                            value = "MongoDB.Bson" />
   <Using                            value = "MongoDB.Driver" />
-  <Using                            value = "pb" />
   <Using                            value = "pb.Data" />
   <Using                            value = "pb.Data.Mongo" />
+  <Using                            value = "pb.Data.OpenXml" />
   <Using                            value = "pb.Web.Data" />
   <Using                            value = "pb.Data.Xml" />
   <Using                            value = "pb.Text" />
-  <Using                            value = "pb.Web" />
+  <Using                            value = "pb.Web" />-->
   
   <!-- temp source   -->
   <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Data\Xml\XmlSerialize.cs" />-->
@@ -63,14 +59,13 @@
   <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\TextSerializer.cs" />
 
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\IDocumentStore.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\NamedValues.cs" />
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Data\NamedValues.cs" />      in runsource.dll -->
 
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\MongoBackup.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\MongoCollectionManager.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\MongoCommand.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\MongoCursorCache.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\MongoDataSerializer.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\MongoDocumentStore.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\MongoDataStore.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\MongoDocumentStore.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\MongoIdGenerator.cs" />
@@ -112,16 +107,23 @@
   <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\UrlCache.cs" />-->
 
   
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\OpenXml\AnchorDrawing.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\OpenXml\Graphic.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\OpenXml\OXmlDoc.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\OpenXml\OXmlElement.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\OpenXml\OXmlElementReader.cs" />
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Data\OpenXml\AnchorDrawing.cs" />-->
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Data\OpenXml\Graphic.cs" />-->
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Data\OpenXml\OXmlDoc.cs" />-->
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Data\OpenXml\OXmlElement.cs" />-->
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Data\OpenXml\OXmlElementReader.cs" />-->
   <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Html\HtmlReader_v4.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Html\HtmlDocReader.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\IO\CharStreamReader.cs" />
 
+
+  <FrameworkAssembly                value = "System.Data.dll" />
+  <FrameworkAssembly                value = "System.Drawing.dll" />
+  <FrameworkAssembly                value = "System.Xml.dll" />
+  <FrameworkAssembly                value = "System.Xml.Linq.dll" />
   <!--<FrameworkAssembly                value = "System.ServiceModel.dll" />-->
+  <Assembly                         value = "$Root$\..\library\Mongo\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Bson.dll" resolve = "true" resolveName = "MongoDB.Bson, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />
+  <Assembly                         value = "$Root$\..\library\Mongo\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Driver.dll" resolve = "true" resolveName = "MongoDB.Driver, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />
   <Assembly                         value = "$Root$\..\library\OpenXml-sdk\OpenXml.v2.6.1\DocumentFormat.OpenXml.dll" resolve = "true" resolveName = "DocumentFormat.OpenXml, Version=2.6.0.0, Culture=neutral, PublicKeyToken=null" />
   <Assembly                         value = "$Root$\..\library\nuget\System.IO.Packaging\System.IO.Packaging,v1.0\System.IO.Packaging.dll" />
 

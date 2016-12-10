@@ -2,6 +2,7 @@
 using System.Reflection;
 using pb.IO;
 using System.Collections.Concurrent;
+using pb.Reflection;
 
 // todo
 //   - nouvelle version (3) pour gérer plusieurs exécutions => RunCode _runCode devient ConcurrentDictionary<int, RunCode> _runCodes
@@ -25,7 +26,7 @@ namespace pb.Compiler
         //private bool _allowMultipleExecution = false;
         //private RunCode _runCode = null;
         //private List<RunCode> _runCodes = new List<RunCode>();
-        private RunSourceInitEndMethods _runSourceInitEndMethods = new RunSourceInitEndMethods();
+        private RunSourceInitEndMethods_v2 _runSourceInitEndMethods = new RunSourceInitEndMethods_v2();
         private ConcurrentDictionary<int, RunCode> _runCodes = new ConcurrentDictionary<int, RunCode>();
         private int _runCodeId = 0;
         private GenerateAssembly _generateAssembly = null;
@@ -55,8 +56,9 @@ namespace pb.Compiler
         public void PauseExecution(bool pause)
         {
             _executionPaused = pause;
-            if (OnPauseExecution != null)
-                OnPauseExecution(pause);
+            //if (OnPauseExecution != null)
+            //    OnPauseExecution(pause);
+            OnPauseExecution?.Invoke(pause);
         }
 
         public void AbortExecution(bool abort)
@@ -100,6 +102,12 @@ namespace pb.Compiler
         public int GetRunningCount()
         {
             return _runCodes.Count;
+        }
+
+        public void TraceInit(bool trace)
+        {
+            _runSourceInitEndMethods.TraceRunOnce = trace;
+            _runSourceInitEndMethods.TraceRunAlways = trace;
         }
 
         //public void RunCode(string code, bool useNewThread = true, bool compileWithoutProject = false, bool allowMultipleRun = false)
@@ -185,10 +193,20 @@ namespace pb.Compiler
                     }
                 }
             }
-            catch
+            //catch
+            //{
+            //    error = true;
+            //    throw;
+            //}
+            catch (Exception ex)
             {
                 error = true;
-                throw;
+                if (ex is ProjectCompilerException)
+                {
+                    Error.WriteMessage(ErrorOptions.TraceError, ex.Message);
+                }
+                else
+                    throw;
             }
             finally
             {
@@ -215,6 +233,9 @@ namespace pb.Compiler
         private ProjectCompiler RunCode_CompileCode(CompilerProjectReader compilerProject, string assemblyFilename, string sourceFile)
         {
             ProjectCompiler compiler = new ProjectCompiler(CompilerManager.Current.Win32ResourceCompiler, CompilerManager.Current.ResourceCompiler);
+
+            //try
+            //{
             compiler.SetOutputAssembly(assemblyFilename + ".dll");
             compiler.AddSource(new CompilerFile(sourceFile));
 
@@ -257,7 +278,8 @@ namespace pb.Compiler
 
             //_runSourceInitEndMethods.CallInit = callInit;
             //if (callInit)
-            _runSourceInitEndMethods.CallInitMethods(compilerProject.GetInitMethods(), compilerProject.GetEndMethods(), callInit, methodName => runCode.GetMethod(methodName));
+            //_runSourceInitEndMethods.CallInitMethods(compilerProject.GetInitMethods(), compilerProject.GetEndMethods(), callInit, methodName => runCode.GetMethod(methodName));
+            _runSourceInitEndMethods.CallInitMethods(compilerProject.GetInitMethods(), compilerProject.GetEndMethods(), callInit, methodName => zReflection.GetMethod(methodName, assembly, ErrorOptions.TraceWarning));
 
             // add runCode to _runCodes after call init, if call init fail runCode is not in _runCodes
             if (!_runCodes.TryAdd(runCode.Id, runCode))
@@ -291,8 +313,7 @@ namespace pb.Compiler
                 errRemoveRunCode = !_runCodes.TryRemove(runCode.Id, out runCode2);
             //Trace.WriteLine("RunCode_EndRun : runCode.Id {0} errRemoveRunCode {1}", runCode.Id, errRemoveRunCode);
 
-            if (_endRunCode != null)
-                _endRunCode(new EndRunCodeInfo { Error = error, RunCodeChrono = runCodeChrono });
+            _endRunCode?.Invoke(new EndRunCodeInfo { Error = error, RunCodeChrono = runCodeChrono });
             if (errRemoveRunCode)
                 throw new PBException("unable to remove RunCode id {0} from ConcurrentDictionary", runCode.Id);
         }

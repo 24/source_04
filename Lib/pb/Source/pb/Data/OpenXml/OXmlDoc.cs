@@ -30,6 +30,13 @@ using System.Drawing;
 
 namespace pb.Data.OpenXml
 {
+    public enum OXmlDocElementType
+    {
+        Body = 0,
+        Header,
+        Footer
+    }
+
     public class OXmlDoc
     {
         private WordprocessingDocument _document = null;
@@ -38,7 +45,8 @@ namespace pb.Data.OpenXml
         private Settings _settings = null;
         private bool _settingsEvenAndOddHeaders = false;
         private OpenXmlCompositeElement _element = null;    // Body, Header or Footer
-        private bool _headerFooter = false;                 // _element is Header or Footer
+        //private bool _headerFooter = false;                 // _element is Header or Footer
+        private OXmlDocElementType _currentElement = OXmlDocElementType.Body;
         private SectionProperties _sectionProperties = null;
         private bool _sectionPropertiesTitlePage = false;
         private Paragraph _paragraph = null;
@@ -77,23 +85,55 @@ namespace pb.Data.OpenXml
                             AddSimpleField((OXmlSimpleFieldElement)element);
                             break;
                         case OXmlElementType.DocSection:
-                            if (_headerFooter)
+                            //if (_headerFooter)
+                            if (_currentElement != OXmlDocElementType.Body)
                                 throw new PBException("DocSection cant be inside Header or Footer");
                             AddDocSection((OXmlDocSectionElement)element);
                             break;
-                        case OXmlElementType.DocDefaults:
-                            if (_headerFooter)
-                                throw new PBException("DocDefaults cant be inside Header or Footer");
-                            AddDocDefaults((OXmlDocDefaultsElement)element);
+                        //case OXmlElementType.DocDefaults:
+                        //    if (_headerFooter)
+                        //        throw new PBException("DocDefaults cant be inside Header or Footer");
+                        //    AddDocDefaults((OXmlDocDefaultsElement)element);
+                        //    break;
+                        case OXmlElementType.DocDefaultsRunProperties:
+                            //if (_headerFooter)
+                            if (_currentElement != OXmlDocElementType.Body)
+                                throw new PBException("DocDefaultsRunProperties cant be inside Header or Footer");
+                            AddRunPropertiesDefault((OXmlDocDefaultsRunPropertiesElement)element);
                             break;
-                        case OXmlElementType.OpenHeaderFooter:
-                            OpenHeaderFooter((OXmlOpenHeaderFooter)element);
+                        case OXmlElementType.DocDefaultsParagraphProperties:
+                            //if (_headerFooter)
+                            if (_currentElement != OXmlDocElementType.Body)
+                                throw new PBException("DocDefaultsParagraphProperties cant be inside Header or Footer");
+                            //AddParagraphPropertiesDefault((OXmlDocDefaultsParagraphPropertiesElement)element);
+                            AddParagraphPropertiesDefault();
                             break;
-                        case OXmlElementType.CloseHeaderFooter:
+                        //case OXmlElementType.OpenHeaderFooter:
+                        //    OpenHeaderFooter((OXmlOpenHeaderFooter)element);
+                        //    break;
+                        case OXmlElementType.OpenHeader:
+                            if (_currentElement != OXmlDocElementType.Body)
+                                throw new PBException("Open header cant be inside Header or Footer");
+                            OpenHeader((OXmlOpenHeaderElement)element);
+                            break;
+                        case OXmlElementType.OpenFooter:
+                            if (_currentElement != OXmlDocElementType.Body)
+                                throw new PBException("Open footer cant be inside Header or Footer");
+                            OpenFooter((OXmlOpenFooterElement)element);
+                            break;
+                        case OXmlElementType.CloseHeader:
+                            if (_currentElement != OXmlDocElementType.Header)
+                                throw new PBException("Close header without open header");
+                            CloseHeaderFooter();
+                            break;
+                        case OXmlElementType.CloseFooter:
+                            if (_currentElement != OXmlDocElementType.Footer)
+                                throw new PBException("Close footer without open footer");
                             CloseHeaderFooter();
                             break;
                         case OXmlElementType.Style:
-                            if (_headerFooter)
+                            //if (_headerFooter)
+                            if (_currentElement != OXmlDocElementType.Body)
                                 throw new PBException("Style cant be inside Header or Footer");
                             AddStyle((OXmlStyleElement)element);
                             break;
@@ -228,22 +268,22 @@ namespace pb.Data.OpenXml
             return pageMargin;
         }
 
-        private void AddDocDefaults(OXmlDocDefaultsElement element)
-        {
-            switch (element.DocDefaultsType)
-            {
-                case OXmlDocDefaultsType.RunPropertiesDefault:
-                    AddRunPropertiesDefault((OXmlRunPropertiesDefaultElement)element);
-                    break;
-                case OXmlDocDefaultsType.ParagraphPropertiesDefault:
-                    AddParagraphPropertiesDefault((OXmlParagraphPropertiesDefaultElement)element);
-                    break;
-                default:
-                    throw new PBException($"unknow doc defaults type {element.DocDefaultsType}");
-            }
-        }
+        //private void AddDocDefaults(OXmlDocDefaultsElement element)
+        //{
+        //    switch (element.DocDefaultsType)
+        //    {
+        //        case OXmlDocDefaultsType.RunPropertiesDefault:
+        //            AddRunPropertiesDefault((OXmlRunPropertiesDefaultElement)element);
+        //            break;
+        //        case OXmlDocDefaultsType.ParagraphPropertiesDefault:
+        //            AddParagraphPropertiesDefault((OXmlParagraphPropertiesDefaultElement)element);
+        //            break;
+        //        default:
+        //            throw new PBException($"unknow doc defaults type {element.DocDefaultsType}");
+        //    }
+        //}
 
-        private void AddRunPropertiesDefault(OXmlRunPropertiesDefaultElement element)
+        private void AddRunPropertiesDefault(OXmlDocDefaultsRunPropertiesElement element)
         {
             Styles styles = CreateStyles();
             DocDefaults docDefaults = CreateDocDefaults(styles);
@@ -252,12 +292,13 @@ namespace pb.Data.OpenXml
             if (docDefaults.RunPropertiesDefault.RunPropertiesBaseStyle == null)
                 docDefaults.RunPropertiesDefault.RunPropertiesBaseStyle = new RunPropertiesBaseStyle();
             if (element.RunFonts != null)
-                docDefaults.RunPropertiesDefault.RunPropertiesBaseStyle.RunFonts = element.RunFonts;
+                docDefaults.RunPropertiesDefault.RunPropertiesBaseStyle.RunFonts = element.RunFonts.ToRunFonts();
             if (element.FontSize != null)
-                docDefaults.RunPropertiesDefault.RunPropertiesBaseStyle.FontSize = element.FontSize;
+                docDefaults.RunPropertiesDefault.RunPropertiesBaseStyle.FontSize = new FontSize { Val = element.FontSize };
         }
 
-        private void AddParagraphPropertiesDefault(OXmlParagraphPropertiesDefaultElement element)
+        //private void AddParagraphPropertiesDefault(OXmlDocDefaultsParagraphPropertiesElement element)
+        private void AddParagraphPropertiesDefault()
         {
             Styles styles = CreateStyles();
             DocDefaults docDefaults = CreateDocDefaults(styles);
@@ -265,62 +306,106 @@ namespace pb.Data.OpenXml
                 docDefaults.ParagraphPropertiesDefault = new ParagraphPropertiesDefault();
         }
 
-        private void OpenHeaderFooter(OXmlOpenHeaderFooter element)
+        //private void OpenHeaderFooter(OXmlOpenHeaderFooter element)
+        //{
+        //    CreateSectionProperties();
+        //    OpenXmlCompositeElement headerFooter;
+        //    if (element.Header)
+        //    {
+        //        HeaderPart headerPart = _mainPart.AddNewPart<HeaderPart>();
+        //        headerFooter = new Header();
+        //        headerPart.Header = (Header)headerFooter;
+        //        string headerPartId = _mainPart.GetIdOfPart(headerPart);
+        //        _sectionProperties.AppendChild(new HeaderReference { Id = headerPartId, Type = element.HeaderType });
+        //    }
+        //    else
+        //    {
+        //        FooterPart footerPart = _mainPart.AddNewPart<FooterPart>();
+        //        headerFooter = new Footer();
+        //        footerPart.Footer = (Footer)headerFooter;
+        //        string footerPartId = _mainPart.GetIdOfPart(footerPart);
+        //        _sectionProperties.AppendChild(new FooterReference { Id = footerPartId, Type = element.HeaderType });
+        //    }
+        //    AddHeaderFooterNamespaceDeclaration((OpenXmlPartRootElement)headerFooter);
+
+        //    SetHeaderFooterProperties(element.HeaderType);
+
+        //    _element = headerFooter;
+        //    _headerFooter = true;
+        //}
+
+        private void OpenHeader(OXmlOpenHeaderElement element)
         {
             CreateSectionProperties();
-            OpenXmlCompositeElement headerFooter;
-            if (element.Header)
-            {
+            //if (element.Header)
+            //{
                 HeaderPart headerPart = _mainPart.AddNewPart<HeaderPart>();
-                headerFooter = new Header();
-                headerPart.Header = (Header)headerFooter;
+            OpenXmlCompositeElement header = new Header();
+                headerPart.Header = (Header)header;
                 string headerPartId = _mainPart.GetIdOfPart(headerPart);
                 _sectionProperties.AppendChild(new HeaderReference { Id = headerPartId, Type = element.HeaderType });
-            }
-            else
-            {
-                FooterPart footerPart = _mainPart.AddNewPart<FooterPart>();
-                headerFooter = new Footer();
-                footerPart.Footer = (Footer)headerFooter;
-                string footerPartId = _mainPart.GetIdOfPart(footerPart);
-                _sectionProperties.AppendChild(new FooterReference { Id = footerPartId, Type = element.HeaderType });
-            }
-            AddHeaderFooterNamespaceDeclaration((OpenXmlPartRootElement)headerFooter);
+            //}
+            //else
+            //{
+            //    FooterPart footerPart = _mainPart.AddNewPart<FooterPart>();
+            //    headerFooter = new Footer();
+            //    footerPart.Footer = (Footer)headerFooter;
+            //    string footerPartId = _mainPart.GetIdOfPart(footerPart);
+            //    _sectionProperties.AppendChild(new FooterReference { Id = footerPartId, Type = element.HeaderType });
+            //}
+            AddHeaderFooterNamespaceDeclaration((OpenXmlPartRootElement)header);
 
-            if (!_sectionPropertiesTitlePage && element.HeaderType == HeaderFooterValues.First)
+            SetHeaderFooterProperties(element.HeaderType);
+
+            _element = header;
+            //_headerFooter = true;
+            _currentElement = OXmlDocElementType.Header;
+        }
+
+        private void OpenFooter(OXmlOpenFooterElement element)
+        {
+            CreateSectionProperties();
+            //if (element.Header)
+            //{
+            //HeaderPart headerPart = _mainPart.AddNewPart<HeaderPart>();
+            //OpenXmlCompositeElement header = new Header();
+            //headerPart.Header = (Header)header;
+            //string headerPartId = _mainPart.GetIdOfPart(headerPart);
+            //_sectionProperties.AppendChild(new HeaderReference { Id = headerPartId, Type = element.HeaderType });
+            //}
+            //else
+            //{
+            FooterPart footerPart = _mainPart.AddNewPart<FooterPart>();
+            OpenXmlCompositeElement footer = new Footer();
+            footerPart.Footer = (Footer)footer;
+            string footerPartId = _mainPart.GetIdOfPart(footerPart);
+            _sectionProperties.AppendChild(new FooterReference { Id = footerPartId, Type = element.FooterType });
+            //}
+            AddHeaderFooterNamespaceDeclaration((OpenXmlPartRootElement)footer);
+
+            SetHeaderFooterProperties(element.FooterType);
+
+            _element = footer;
+            //_headerFooter = true;
+            _currentElement = OXmlDocElementType.Footer;
+        }
+
+        private void SetHeaderFooterProperties(HeaderFooterValues type)
+        {
+            if (!_sectionPropertiesTitlePage && type == HeaderFooterValues.First)
             {
                 // TitlePage, <w:titlePg />,  mandatory for first page header
                 _sectionProperties.AppendChild(new TitlePage { Val = true });
                 _sectionPropertiesTitlePage = true;
             }
 
-            if (!_settingsEvenAndOddHeaders && element.HeaderType == HeaderFooterValues.Even)
+            if (!_settingsEvenAndOddHeaders && type == HeaderFooterValues.Even)
             {
                 CreateSettings();
                 // option for even odd headers footers, WARNING this option dont work for google doc
                 _settings.AppendChild(new EvenAndOddHeaders());
                 _settingsEvenAndOddHeaders = true;
             }
-
-            _element = headerFooter;
-            _headerFooter = true;
-
-            //HeaderPart headerPart = mainPart.AddNewPart<HeaderPart>();
-            //AddHeaderFooterNamespaceDeclaration(header);
-            //headerPart.Header = header;
-            //mainPart.GetIdOfPart(headerPart);
-            //sectionProperties.AppendChild(new HeaderReference { Id = defaultHeaderPartId, Type = HeaderFooterValues.Default });
-
-            //FooterPart footerPart = mainPart.AddNewPart<FooterPart>();
-            //AddHeaderFooterNamespaceDeclaration(footer);
-            //footerPart.Footer = footer;
-            //mainPart.GetIdOfPart(footerPart);
-            //sectionProperties.AppendChild(new FooterReference { Id = defaultFooterPartId, Type = HeaderFooterValues.Default });
-
-            // TitlePage, <w:titlePg />,  mandatory for first page header
-            //sectionProperties.AppendChild(new TitlePage { Val = true });
-            // option for even odd headers footers
-            //settings.AppendChild(new EvenAndOddHeaders());
         }
 
         private static void AddHeaderFooterNamespaceDeclaration(OpenXmlPartRootElement headerFooter)
@@ -345,7 +430,8 @@ namespace pb.Data.OpenXml
         private void CloseHeaderFooter()
         {
             _element = _body;
-            _headerFooter = false;
+            //_headerFooter = false;
+            _currentElement = OXmlDocElementType.Body;
         }
 
         private void AddStyle(OXmlStyleElement element)
@@ -379,9 +465,9 @@ namespace pb.Data.OpenXml
             if (element.NextParagraphStyle != null)
                 style.NextParagraphStyle = new NextParagraphStyle { Val = element.NextParagraphStyle };
             if (element.StyleParagraphProperties != null)
-                style.StyleParagraphProperties = element.StyleParagraphProperties;
+                style.StyleParagraphProperties = element.StyleParagraphProperties.ToStyleParagraphProperties();
             if (element.StyleRunProperties != null)
-                style.StyleRunProperties = element.StyleRunProperties;
+                style.StyleRunProperties = element.StyleRunProperties.ToStyleRunProperties();
 
             styles.Append(style);
         }
@@ -447,24 +533,24 @@ namespace pb.Data.OpenXml
                 return OnOffOnlyValues.Off;
         }
 
-        public static ODW.WrapPolygon CreateWrapPolygon(long horizontalSize, long verticalSize = 0, long startPointX = 0, long startPointY = 0, bool edited = false)
-        {
-            // Tight Wrapping Extents Polygon, <wp:wrapPolygon>, possible child : StartPoint <wp:start>, LineTo <wp:lineTo>
-            // Edited : Wrapping Points Modified, <wp:wrapPolygon edited>
-            if (verticalSize == 0)
-                verticalSize = horizontalSize;
-            ODW.WrapPolygon polygon = new ODW.WrapPolygon() { Edited = edited };
-            // Wrapping Polygon Start, <wp:start x="0" y="0">
-            polygon.StartPoint = new ODW.StartPoint() { X = startPointX, Y = startPointY };
-            long x = startPointX;
-            long y = startPointY;
-            // Wrapping Polygon Line End Position, <wp:lineTo x="0" y="0"/>
-            y += verticalSize; polygon.AppendChild(new ODW.LineTo() { X = x, Y = y });
-            x += horizontalSize; polygon.AppendChild(new ODW.LineTo() { X = x, Y = y });
-            y -= verticalSize; polygon.AppendChild(new ODW.LineTo() { X = x, Y = y });
-            x -= horizontalSize; polygon.AppendChild(new ODW.LineTo() { X = x, Y = y });
-            return polygon;
-        }
+        //public static ODW.WrapPolygon CreateWrapPolygon(long horizontalSize, long verticalSize = 0, long startPointX = 0, long startPointY = 0, bool edited = false)
+        //{
+        //    // Tight Wrapping Extents Polygon, <wp:wrapPolygon>, possible child : StartPoint <wp:start>, LineTo <wp:lineTo>
+        //    // Edited : Wrapping Points Modified, <wp:wrapPolygon edited>
+        //    if (verticalSize == 0)
+        //        verticalSize = horizontalSize;
+        //    ODW.WrapPolygon polygon = new ODW.WrapPolygon() { Edited = edited };
+        //    // Wrapping Polygon Start, <wp:start x="0" y="0">
+        //    polygon.StartPoint = new ODW.StartPoint() { X = startPointX, Y = startPointY };
+        //    long x = startPointX;
+        //    long y = startPointY;
+        //    // Wrapping Polygon Line End Position, <wp:lineTo x="0" y="0"/>
+        //    y += verticalSize; polygon.AppendChild(new ODW.LineTo() { X = x, Y = y });
+        //    x += horizontalSize; polygon.AppendChild(new ODW.LineTo() { X = x, Y = y });
+        //    y -= verticalSize; polygon.AppendChild(new ODW.LineTo() { X = x, Y = y });
+        //    x -= horizontalSize; polygon.AppendChild(new ODW.LineTo() { X = x, Y = y });
+        //    return polygon;
+        //}
 
         public static void Create(string file, IEnumerable<OXmlElement> elements)
         {

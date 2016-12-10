@@ -54,8 +54,11 @@ Test_HtmlToOXmlDoc.Test_OXmlToDocx(@"c:\pib\_dl\test\BlogDemoor\test\page_01_03.
 Test_HtmlToOXmlDoc.Test_OXmlToDocx(@"c:\pib\_dl\test\BlogDemoor\test\page_01_04.oxml.json");
 Test_HtmlToOXmlDoc.Test_OXmlToDocx(@"c:\pib\_dl\test\BlogDemoor\test\page_01_05.oxml.json");
 Test_HtmlToOXmlDoc.Test_OXmlToDocx(@"c:\pib\_dl\test\BlogDemoor\test\page_01_06.oxml.json");
+Test_HtmlToOXmlDoc.Test_OXmlToDocx(@"c:\pib\_dl\test\BlogDemoor\test\page_01_07.oxml.json");
 Test_HtmlToOXmlDoc.Test_OXmlToDocx(@"c:\pib\drive\google\dev\project\.net\Lib\pb\Source\pb\Data\OpenXml\Test\Data\page_01_06_99.oxml.json");
 
+OXmlElementReader.Read(@"c:\pib\_dl\test\BlogDemoor\test\page_01_06.oxml.json").zSave(@"c:\pib\_dl\test\BlogDemoor\test\page_01_06_save.oxml.json");
+zmongo.BsonRead<OXmlElement>(@"c:\pib\_dl\test\BlogDemoor\test\page_01_06_save.oxml.json").zSave(@"c:\pib\_dl\test\BlogDemoor\test\page_01_06_save_02.oxml.json");
 
 //**********************************************************************************************************************************************************************************************
 //****                                                   Test Test_OpenXml.project.xml
@@ -63,7 +66,9 @@ Test_HtmlToOXmlDoc.Test_OXmlToDocx(@"c:\pib\drive\google\dev\project\.net\Lib\pb
 
 RunSource.CurrentRunSource.SetProjectFromSource();
 //RunSource.CurrentRunSource.SetProject(@"$Root$\Test\Test.Test_01\Source\Test_OpenXml\Test_OpenXml.project.xml");
-RunSource.CurrentRunSource.SetProject(@"$Root$\Lib\pb\Source\pb\Data\OpenXml\Test\Test_OpenXml.project.xml");
+RunSource.CurrentRunSource.SetProject(@"$Root$\Lib\pb\Source\pb\Data\OpenXml\_Test\Test_OpenXml.project.xml");
+
+Trace.WriteLine("toto");
 
 Test_OpenXml_Image.Test_01();
 Test_OpenXml_Image.Test_02();
@@ -86,7 +91,13 @@ Test_OpenXml_Style.Test_Formule_01("FILENAME");
 
 OXmlElementReader.Test_01(@"c:\pib\_dl\test\BlogDemoor\test\oxml.example.json");
 
-Trace.WriteLine("toto");
+Test_OpenXml_Serialize.Test_01(@"c:\pib\_dl\test\BlogDemoor\test\test.oxml\test_oxml_01.json");
+Test_OpenXml_Serialize.Test_01(@"c:\pib\_dl\test\BlogDemoor\test\test.oxml\test_oxml_01_out.json");
+Test_OpenXml_Serialize.Test_01(@"c:\pib\drive\google\dev\project\.net\Lib\pb\Source\pb\Data\OpenXml\_Test\Data\test_oxml_01.json");
+Test_OpenXml_Serialize.Test_01(@"c:\pib\drive\google\dev\project\.net\Lib\pb\Source\pb\Data\OpenXml\_Test\Data\test_oxml_01_out.json");
+Test_OpenXml_Serialize.Test_01(@"c:\pib\drive\google\dev\project\.net\Lib\pb\Source\pb\Data\OpenXml\_Test\Data\test_oxml_01_03.json", jsonIndent: true);
+
+
 
 //**********************************************************************************************************************************************************************************************
 //****                                                   Test old
@@ -237,7 +248,7 @@ zmongo.ReadFileAs<Test_01>(@"c:\pib\_dl\test\test_01.json").zTraceJson();
 
 RunSource.CurrentRunSource.SetProjectFromSource();
 //RunSource.CurrentRunSource.SetProject(@"$Root$\Test\Test.Test_01\Source\Test_OpenXml\Test_OpenXml.project.xml");
-RunSource.CurrentRunSource.SetProject(@"$Root$\Lib\pb\Source\pb\IO\Test\Test_SharpCompressManager.project.xml");
+RunSource.CurrentRunSource.SetProject(@"$Root$\Lib\pb\Source\pb\IO\_Test\Test_SharpCompressManager.project.xml");
 
 Trace.WriteLine("toto");
 
@@ -281,3 +292,81 @@ Test_OpenXml_Zip.Test_OpenXml_Zip_01(@"c:\pib\_dl\test\BlogDemoor\test\word\test
 Test_OpenXml_Zip.Test_OpenXml_Zip_02(@"c:\pib\_dl\test\BlogDemoor\test\word\test_zip_07_pb.IO.ZipArchive.docx", @"c:\pib\_dl\test\BlogDemoor\test\word\test_01_01.docx.zip", useSlash: false);
 // ok word and ok google doc
 Test_OpenXml_Zip.Test_OpenXml_Zip_02(@"c:\pib\_dl\test\BlogDemoor\test\word\test_zip_08_pb.IO.ZipArchive.docx", @"c:\pib\_dl\test\BlogDemoor\test\word\test_01_01.docx.zip", useSlash: true);
+
+//**********************************************************************************************************************************************************************************************
+//****                                                   Test Test_Json.project.xml
+//**********************************************************************************************************************************************************************************************
+
+RunSource.CurrentRunSource.SetProjectFromSource();
+RunSource.CurrentRunSource.SetProject(@"$Root$\Lib\pb\Source\pb\Data\Json\_Test\Test_Json.project.xml");
+
+Test_Json.Test_Json_01();
+
+
+//**********************************************************************************************************************************************************************************************
+//****                                                   Test Test_MongoSerializers.project.xml
+//**********************************************************************************************************************************************************************************************
+
+RunSource.CurrentRunSource.SetProjectFromSource();
+RunSource.CurrentRunSource.SetProject(@"$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\_Test\Test_MongoSerializers.project.xml");
+
+Trace.WriteLine("toto");
+
+Test_MongoSerializers.Test_MongoSerializers_01();
+Test_MongoSerializers.Test_Serialize_01();
+Test_MongoSerializers.Test_Serialize_02();
+Test_MongoSerializers.Test_Serialize_03();
+Test_MongoSerializers.Test_Deserialize_01(trace: false);
+Test_MongoSerializers.Test_Deserialize_01(trace: true);
+
+ZValue zv = new ZString("toto");
+zv.zTraceJson();
+ZValue zv = null;
+zv.zTraceJson();
+new ZString("toto").zTraceJson();
+Trace.WriteLine(new ZString("toto").ToJson());
+"toto".zTraceJson();
+DateTime.Now.zTraceJson();
+Date.Today.zTraceJson();
+
+
+
+//**********************************************************************************************************************************************************************************************
+//****                                                   Test Test_Data.project.xml
+//**********************************************************************************************************************************************************************************************
+
+RunSource.CurrentRunSource.SetProjectFromSource();
+RunSource.CurrentRunSource.SetProject(@"$Root$\Lib\pb\Source\pb\Data\_Test\Test_Data.project.xml");
+
+Test_Data.Test_Data_01();
+Test_NamedValues.Test_ParseValues_01("bool = true, int = 123, double = 1.123, string1 = \"toto tata\", string2 = 'toto tata'", useLowercaseKey: true);
+Test_NamedValues.Test_ParseValues_01("datetime1 = 01/01/2015 01:35:52.123, datetime2 = 2015-01-01 01:35:52.123, date1 = 01/01/2015, date2 = 2015-01-01, time = 1.01:35:52.1234567", useLowercaseKey: true);
+
+
+//**********************************************************************************************************************************************************************************************
+//****                                                   Test Test_Reflection.project.xml
+//**********************************************************************************************************************************************************************************************
+
+RunSource.CurrentRunSource.SetProjectFromSource();
+RunSource.CurrentRunSource.SetProject(@"$Root$\Lib\pb\Source\pb\Reflection\_Test\Test_Reflection.project.xml");
+
+
+Trace.WriteLine("toto");
+// pb.Data.Mongo.Serializers.RunSerializer.Init
+zReflection.GetMethodElements("pb.Reflection.Test.Test_MethodInfo.Test_01").zTraceJson();
+zReflection.GetType("pb.Reflection.Test.Test_MethodInfo")?.AssemblyQualifiedName.zTrace();
+
+Test_MethodInfo.Test_GetMethod_01("pb.Reflection.Test.Test_MethodInfo.Test_01");
+Test_MethodInfo.Test_GetMethod_01("pb.Reflection.Test.Test_MethodInfo.Test_GetMethod_01");
+
+
+//**********************************************************************************************************************************************************************************************
+//****                                                   Test TestBasic.project.xml
+//**********************************************************************************************************************************************************************************************
+
+RunSource.CurrentRunSource.SetProjectFromSource();
+RunSource.CurrentRunSource.SetProject(@"$Root$\Lib\pb\Source\Project\_Test\TestBasic.project.xml");
+
+ProjectCompiler.TraceLevel = 1;
+ProjectCompiler.TraceLevel = 2;
+Trace.WriteLine("toto");

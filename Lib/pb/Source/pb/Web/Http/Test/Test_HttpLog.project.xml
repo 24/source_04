@@ -1,82 +1,76 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <AssemblyProject>
   
-  <Root                                      value = "..\..\..\..\..\..\.." />
+  <Root                             value = "..\..\..\..\..\..\.." />
 
-  <Language                                  name = "CSharp5" version = "6" />
-  <FrameworkVersion                          value = "4.6.1" />  <!-- CSharp5 option : 2.0, 3.0, 3.5, 3.5 client, 4.0, 4.0 client, 4.5, 4.5.1, 4.5.2, 4.6, 4.6.1 -->
-  <GenerateInMemory                          value = "false" />  <!-- CSharp1, JScript option -->
-  <DebugInformation                          value = "true" />  <!-- CSharp1, CSharp5, JScript option -->
-  <WarningLevel                              value = "4" /> <!-- CSharp1, CSharp5, JScript option : 0 no warning, 1 severe warning, 2 + less-severe warnings 1, 3 + less-severe warnings 2, 4 all warning -->
-  <CompilerOptions                           value = "/define:DEBUG;TRACE" />  <!-- CSharp1, JScript option -->
-  <PreprocessorSymbol                        value = "DEBUG;TRACE" />  <!-- CSharp5 option -->
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\LanguageCSharp5Debug.project.xml" />
 
-  <IncludeProject                            value = "$Root$\Lib\pb\Source\Project\Basic.project.xml" />
-  <IncludeProject                            value = "$Root$\Lib\pb\Source\Project\RunSourceExtension.project.xml" />
-  <IncludeProject                            value = "$Root$\Lib\pb\Source\Project\MongoExtension.project.xml" />
-  <IncludeProject                            value = "$Root$\Lib\pb\Source\Project\MongoSerialization.project.xml" />
-  <IncludeProject                            value = "$Root$\Lib\pb\Source\Project\HttpRun.project.xml" />
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\Basic.project.xml" />
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\RunSourceExtension.project.xml" />
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\MongoExtension.project.xml" />
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\MongoDefaultSerializer.project.xml" />
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\HttpRun.project.xml" />
 
-  <NameSpace                                 value = "pb.Web.Test" />
+  <NameSpace                        value = "pb.Web.Test" />
 
-  <!--<InitMethod                                value = "pb.Web.Test.Test_Run.Init" />
-  <EndMethod                                 value = "pb.Web.Test.Test_Run.End" />-->
+  <!--<InitMethod                       value = "pb.Web.Test.Test_Run.Init" />
+  <EndMethod                        value = "pb.Web.Test.Test_Run.End" />-->
   
   <!--
-  <Using                                     value = "System.IO" />
-  <Using                                     value = "System.Linq" />
-  <Using                                     value = "System.Xml.Linq" />
-  <Using                                     value = "System.Xml.XPath" />
-  <Using                                     value = "MongoDB.Bson" />
-  <Using                                     value = "MongoDB.Driver" />
-  <Using                                     value = "pb" />
-  <Using                                     value = "pb.Data" />
-  <Using                                     value = "pb.Data.Mongo" />
-  <Using                                     value = "pb.Data.Xml" />
-  <Using                                     value = "pb.Text" />
-  <Using                                     value = "pb.Web" />
+  <Using                            value = "System.IO" />
+  <Using                            value = "System.Linq" />
+  <Using                            value = "System.Xml.Linq" />
+  <Using                            value = "System.Xml.XPath" />
+  <Using                            value = "MongoDB.Bson" />
+  <Using                            value = "MongoDB.Driver" />
+  <Using                            value = "pb" />
+  <Using                            value = "pb.Data" />
+  <Using                            value = "pb.Data.Mongo" />
+  <Using                            value = "pb.Data.Xml" />
+  <Using                            value = "pb.Text" />
+  <Using                            value = "pb.Web" />
   -->
   
-  <Source                                    value = "Test_HttpLog.cs" />
-  <!--<Source                                    value = "Test_Run.cs" />-->
+  <Source                           value = "Test_HttpLog.cs" />
+  <!--<Source                           value = "Test_Run.cs" />-->
   
-  <!--<Source                                    value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Mongo.cs" />-->
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Mongo.cs" />-->
 
   <!--
-  <Source                                    value = "$Root$\Lib\pb\Source\pb\_pb\PBTraceListener.cs" />
-  <Source                                    value = "$Root$\Lib\pb\Source\pb\_pb\TextSerializer.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\PBTraceListener.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\TextSerializer.cs" />
 
-  <Source                                    value = "$Root$\Lib\pb\Source\pb\Data\IDocumentStore.cs" />
-  <Source                                    value = "$Root$\Lib\pb\Source\pb\Data\NamedValues.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\IDocumentStore.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\NamedValues.cs" />
 
-  <Source                                    value = "$Root$\Lib\pb\Source\pb\Data\Mongo\MongoBackup.cs" />
-  <Source                                    value = "$Root$\Lib\pb\Source\pb\Data\Mongo\MongoCollectionManager.cs" />
-  <Source                                    value = "$Root$\Lib\pb\Source\pb\Data\Mongo\MongoCommand.cs" />
-  <Source                                    value = "$Root$\Lib\pb\Source\pb\Data\Mongo\MongoCursorCache.cs" />
-  <Source                                    value = "$Root$\Lib\pb\Source\pb\Data\Mongo\MongoDocumentStore.cs" />
-  <Source                                    value = "$Root$\Lib\pb\Source\pb\Data\Mongo\MongoIdGenerator.cs" />
-  <Source                                    value = "$Root$\Lib\pb\Source\pb\Data\Mongo\MongoLog.cs" />
-  <Source                                    value = "$Root$\Lib\pb\Source\pb\Data\Mongo\WebDataMongoManagerBase.cs" />
-  <Source                                    value = "$Root$\Lib\pb\Source\pb\Data\Mongo\WebDataPageMongoManagerBase.cs" />
-  <Source                                    value = "$Root$\Lib\pb\Source\pb\Data\Mongo\WebHeaderDetailMongoManagerBase.cs" />
-  <Source                                    value = "$Root$\Lib\pb\Source\pb\Data\Mongo\WebImageMongo.cs" />
-  <Source                                    value = "$Root$\Lib\pb\Source\pb\Data\Mongo\WebImageMongoTools.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\MongoBackup.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\MongoCollectionManager.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\MongoCommand.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\MongoCursorCache.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\MongoDocumentStore.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\MongoIdGenerator.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\MongoLog.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\WebDataMongoManagerBase.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\WebDataPageMongoManagerBase.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\WebHeaderDetailMongoManagerBase.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\WebImageMongo.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\WebImageMongoTools.cs" />
 
-  <Source                                    value = "$Root$\Lib\pb\Source\pb\Data\Xml\XmlDescendant.cs" />
-  <Source                                    value = "$Root$\Lib\pb\Source\pb\Data\Xml\XXElement.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Xml\XmlDescendant.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Xml\XXElement.cs" />
 
-  <Source                                    value = "$Root$\Lib\pb\Source\pb\IO\Backup.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\Backup.cs" />
 
-  <Source                                    value = "$Root$\Lib\pb\Source\pb\Web\Data\DataPages.cs" />
-  <Source                                    value = "$Root$\Lib\pb\Source\pb\Web\Data\WebDataManager.cs" />
-  <Source                                    value = "$Root$\Lib\pb\Source\pb\Web\Data\WebDataPageManager.cs" />
-  <Source                                    value = "$Root$\Lib\pb\Source\pb\Web\Data\WebHeaderDetailManager.cs" />
-  <Source                                    value = "$Root$\Lib\pb\Source\pb\Web\Data\WebImageCacheManager.cs" />
-  <Source                                    value = "$Root$\Lib\pb\Source\pb\Web\Data\WebImageMongoCacheManager.cs" />
-  <Source                                    value = "$Root$\Lib\pb\Source\pb\Web\Data\WebLoadDataManager.cs" />
-  <Source                                    value = "$Root$\Lib\pb\Source\pb\Web\Data\WebLoadManager.cs" />
-  <Source                                    value = "$Root$\Lib\pb\Source\pb\Web\Http\UrlCache.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\DataPages.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebDataManager.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebDataPageManager.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebHeaderDetailManager.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebImageCacheManager.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebImageMongoCacheManager.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebLoadDataManager.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebLoadManager.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\UrlCache.cs" />
   -->
 
-  <!--<FrameworkAssembly                         value = "System.ServiceModel.dll" />-->
+  <!--<FrameworkAssembly                value = "System.ServiceModel.dll" />-->
 </AssemblyProject>

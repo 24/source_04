@@ -10,8 +10,8 @@
 
   <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\HttpRun.project.xml" />
 
-  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\Date.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\NamedValue.cs" />
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\_pb\Date.cs" />       in runsource.dll -->
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\_pb\NamedValue.cs" /> in runsource.dll -->
   
   <Source                           value = "$Root$\Lib\pb\Source\pb\Compiler\RunSourceHtmlRun.cs" />
 

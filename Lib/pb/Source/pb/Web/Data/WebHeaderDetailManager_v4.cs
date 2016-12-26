@@ -6,13 +6,15 @@ namespace pb.Web.Data
 {
     // copy from WebHeaderDetailManager
     // - change WebDataManager<TDetailData> _detailDataManager to WebDataManager_v4<TDetailData> _detailDataManager
+    // - change WebDataPageManager<THeaderData> _headerDataPageManager to WebDataPageManager_v4<THeaderData> _headerDataPageManager
     public class WebHeaderDetailManager_v4<THeaderData, TDetailData>
     {
-        private WebDataPageManager<THeaderData> _headerDataPageManager = null;
+        //private WebDataPageManager<THeaderData> _headerDataPageManager = null;
+        private WebDataPageManager_v4<THeaderData> _headerDataPageManager = null;
         private WebDataManager_v4<TDetailData> _detailDataManager = null;
         private Action<WebData<TDetailData>> _onDocumentLoaded = null;
 
-        public WebDataPageManager<THeaderData> HeaderDataPageManager { get { return _headerDataPageManager; } set { _headerDataPageManager = value; } }
+        public WebDataPageManager_v4<THeaderData> HeaderDataPageManager { get { return _headerDataPageManager; } set { _headerDataPageManager = value; } }
         public WebDataManager_v4<TDetailData> DetailDataManager { get { return _detailDataManager; } set { _detailDataManager = value; } }
         public Action<WebData<TDetailData>> OnDocumentLoaded { get { return _onDocumentLoaded; } set { _onDocumentLoaded = value; } }
 

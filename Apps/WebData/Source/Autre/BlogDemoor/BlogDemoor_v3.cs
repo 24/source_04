@@ -14,59 +14,38 @@ using System.Xml.Linq;
 
 namespace WebData.BlogDemoor
 {
-    public class BlogDemoor_v4 : WebHeaderDetailMongoManagerBase_v2<BlogDemoorHeaderData, BlogDemoorDetailData>
+    public class BlogDemoor_v3 : WebHeaderDetailMongoManagerBase<BlogDemoorHeaderData, BlogDemoorDetailData>
     {
         private static string __configName = "BlogDemoor";
-        private static BlogDemoor_v4 __current = null;
+        private static BlogDemoor_v3 __current = null;
         private static string __urlMainPage = "http://dccjta6europe.canalblog.com/";
-        private XElement _configElement = null;
 
-        public static BlogDemoor_v4 Create(bool test)
+        public static BlogDemoor_v3 Create(bool test)
         {
-            //XElement xe;
-            //if (!test)
-            //    xe = XmlConfig.CurrentConfig.GetElement(__configName);
-            //else
-            //{
-            //    Trace.WriteLine("{0} init for test", __configName);
-            //    xe = XmlConfig.CurrentConfig.GetElement(__configName + "_Test");
-            //}
-
-            if (test)
+            XElement xe;
+            if (!test)
+                xe = XmlConfig.CurrentConfig.GetElement(__configName);
+            else
+            {
                 Trace.WriteLine("{0} init for test", __configName);
-            XElement xe = GetConfigElement(test);
-
-            __current = new BlogDemoor_v4();
-            __current._configElement = xe;
+                xe = XmlConfig.CurrentConfig.GetElement(__configName + "_Test");
+            }
+            __current = new BlogDemoor_v3();
             __current.HeaderPageNominalType = typeof(BlogDemoorHeaderDataPages);
             __current.CreateDataManager(xe);
             //__current.DetailDataManager.Version = 2;     // use WebData<TData>.Load()
+            __current.DetailDataManager.ImageLoadVersion = 2;
             return __current;
         }
 
-        public XElement ConfigElement { get { return _configElement; } }
-
-        public static XElement GetConfigElement(bool test = false)
+        protected override IEnumDataPages<BlogDemoorHeaderData> GetHeaderPageData(WebResult webResult)
         {
-            if (!test)
-                return XmlConfig.CurrentConfig.GetElement(__configName);
-            else
-                return XmlConfig.CurrentConfig.GetElement(__configName + "_Test");
-        }
-
-        //protected override IEnumDataPages<BlogDemoorHeaderData> GetHeaderPageData(WebResult webResult)
-        protected override IEnumDataPages<BlogDemoorHeaderData> GetHeaderPageData(HttpResult<string> httpResult)
-        {
-            //XXElement xeSource = new XXElement(webResult.Http.zGetXDocument().Root);
-            XXElement xeSource = httpResult.zGetXDocument().zXXElement();
-            //string url = webResult.WebRequest.HttpRequest.Url;
-            string url = httpResult.Http.HttpRequest.Url;
+            XXElement xeSource = new XXElement(webResult.Http.zGetXDocument().Root);
+            string url = webResult.WebRequest.HttpRequest.Url;
             BlogDemoorHeaderDataPages data = new BlogDemoorHeaderDataPages();
             data.SourceUrl = url;
-            //data.LoadFromWebDate = webResult.LoadFromWebDate;
-            data.LoadFromWebDate = httpResult.Http.RequestTime;
-            //data.Id = GetPageKey(webResult.WebRequest.HttpRequest);
-            data.Id = GetPageKey(httpResult.Http.HttpRequest);
+            data.LoadFromWebDate = webResult.LoadFromWebDate;
+            data.Id = GetPageKey(webResult.WebRequest.HttpRequest);
 
             data.UrlNextPage = zurl.GetUrl(url, xeSource.XPathValue("//a[@class='nextpage']/@href"));
 
@@ -76,8 +55,7 @@ namespace WebData.BlogDemoor
             {
                 BlogDemoorHeaderData header = new BlogDemoorHeaderData();
                 header.SourceUrl = url;
-                //header.LoadFromWebDate = webResult.LoadFromWebDate;
-                header.LoadFromWebDate = httpResult.Http.RequestTime;
+                header.LoadFromWebDate = webResult.LoadFromWebDate;
 
                 XXElement xe = xeHeader.XPathElement(".//h2/a");
                 header.Title = xe.XPathValue(".//text()");
@@ -96,27 +74,18 @@ namespace WebData.BlogDemoor
             return GetPageKey(httpRequest);
         }
 
-        private static Regex __pageKeyRegex = new Regex(@"^p([0-9]+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-        public static int GetPageKey(HttpRequest httpRequest)
+        private static Regex __pageKeyRegex = new Regex(@"^p([0-9])+", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private static int GetPageKey(HttpRequest httpRequest)
         {
             // page 1 : http://dccjta6europe.canalblog.com/
             // page 2 : http://dccjta6europe.canalblog.com/archives/p10-10.html
             string url = httpRequest.Url;
             if (url == __urlMainPage)
-            {
-                //Trace.WriteLine("BlogDemoor_v4.GetPageKey() : 1 (urlMainPage)");
                 return 1;
-            }
             Uri uri = new Uri(url);
             Match match = __pageKeyRegex.Match(uri.Segments[uri.Segments.Length - 1]);
             if (match.Success)
-            {
-                //Trace.WriteLine($"BlogDemoor_v4.GetPageKey() : last segment {uri.Segments[uri.Segments.Length - 1]}");
-                //Trace.WriteLine($"BlogDemoor_v4.GetPageKey() : match value {match.Groups[1].Value}");
-                int page = int.Parse(match.Groups[1].Value) / 10 + 1;
-                //Trace.WriteLine($"BlogDemoor_v4.GetPageKey() : {page}");
-                return page;
-            }
+                return int.Parse(match.Groups[1].Value) / 10 + 1;
             throw new PBException("page key not found in url \"{0}\"", httpRequest.Url);
         }
 
@@ -143,7 +112,21 @@ namespace WebData.BlogDemoor
             return "img\\" + zpath.PathSetExtension(subPath, null);
         }
 
-        protected override BlogDemoorDetailData GetDetailData(HttpResult<string> httpResult)
+        protected override BlogDemoorDetailData GetDetailData(WebResult webResult)
+        {
+            XXElement xeSource = webResult.Http.zGetXDocument().zXXElement();
+
+            BlogDemoorDetailData data = new BlogDemoorDetailData();
+            data.SourceUrl = webResult.WebRequest.HttpRequest.Url;
+            data.LoadFromWebDate = webResult.LoadFromWebDate;
+            data.Id = _GetDetailKey(webResult.WebRequest.HttpRequest);
+
+            _GetDetailData(xeSource, data);
+
+            return data;
+        }
+
+        protected override BlogDemoorDetailData GetDetailData_v2(HttpResult<string> httpResult)
         {
             XXElement xeSource = httpResult.zGetXDocument().zXXElement();
 
@@ -178,8 +161,7 @@ namespace WebData.BlogDemoor
             if (xeBody.XElement != null)
                 data.Content = xeBody.XElement.ToString();
 
-            //data.Images = xeBody.XPathValues(".//a/@href").Where(url => new Uri(url).Host.EndsWith(".canalblog.com")).Select(url => new WebImage(zurl.GetUrl(data.SourceUrl, url))).ToArray();
-            data.Images = GetImageUrls(xeBody.XPathElements(".//img")).Select(url => new WebImage(zurl.GetUrl(data.SourceUrl, url))).ToArray();
+            data.Images = xeBody.XPathValues(".//a/@href").Where(url => new Uri(url).Host.EndsWith(".canalblog.com")).Select(url => new WebImage(zurl.GetUrl(data.SourceUrl, url))).ToArray();
 
             // force load image to get image width and height
             //if (webResult.WebRequest.LoadImage)
@@ -187,25 +169,6 @@ namespace WebData.BlogDemoor
 
             //if (__trace)
             //    pb.Trace.WriteLine(data.zToJson());
-        }
-
-        // 
-        //private static IEnumerable<string> GetImageUrls(XXElement xeBody)
-        private static IEnumerable<string> GetImageUrls(IEnumerable<XXElement> elements)
-        {
-            foreach (XXElement element in elements)
-            {
-                string link = element.ExplicitAttribValue("src");
-                if (link != null)
-                    yield return link;
-                XElement parent = element.XElement.Parent;
-                if (parent != null && parent.Name == "a")
-                {
-                    link = parent.Attribute("href").Value;
-                    if (link != null)
-                        yield return link;
-                }
-            }
         }
 
         protected override BsonValue GetDetailKey(HttpRequest httpRequest)
@@ -242,8 +205,7 @@ namespace WebData.BlogDemoor
 
         public BlogDemoorDetailData Load(BsonValue id)
         {
-            //return _detailDataManager.DocumentStore.LoadFromId(id);
-            return _detailDataManager.LoadFromId(id);
+            return _detailDataManager.DocumentStore.LoadFromId(id);
         }
     }
 }

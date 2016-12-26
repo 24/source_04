@@ -161,6 +161,7 @@
     <Compile Include="Source\pb\Compiler\RunSourceHtmlRun.cs" />
     <Compile Include="Source\pb\Data\Mongo\Serializers\OpenXml\OXmlCommonSerializer.cs" />
     <Compile Include="Source\pb\Data\Mongo\Serializers\OpenXml\OXmlDocDefaultsRunPropertiesElementSerializer.cs" />
+    <Compile Include="Source\pb\Data\Mongo\Serializers\OpenXml\OXmlBreakElementSerializer.cs" />
     <Compile Include="Source\pb\Data\OpenXml\OXmlPictureElementCreator.cs" />
     <Compile Include="Source\pb\Data\Mongo\Serializers\OpenXml\OXmlStyleElementSerializer.cs" />
     <Compile Include="Source\pb\Data\Mongo\Serializers\OpenXml\OXmlOpenFooterElementSerializer.cs" />
@@ -172,7 +173,18 @@
     <Compile Include="Source\pb\Data\Mongo\Serializers\OpenXml\RunSerializerOpenXml.cs" />
     <Compile Include="Source\pb\Data\Mongo\Serializers\Default\RunSerializerWebHeader.cs" />
     <Compile Include="Source\pb\Data\Mongo\Serializers\ZValue\RunSerializerZValue.cs" />
+    <Compile Include="Source\pb\Data\OpenXml\OXmlTools.cs" />
     <Compile Include="Source\pb\Data\OpenXml\_Test\Test_OpenXml_Serialize.cs" />
+    <Compile Include="Source\pb\Web\Data\HeaderDetail.cs" />
+    <Compile Include="Source\pb\Web\Data\IEnumDataPages.cs" />
+    <Compile Include="Source\pb\Web\Data\IHeaderData.cs" />
+    <Compile Include="Source\pb\Web\Data\LoadNewDocumentsResult.cs" />
+    <Compile Include="Source\pb\Web\Data\WebDataPageManager_v4.cs" />
+    <Compile Include="Source\pb\Web\Data\WebData_LoadImages_v1.cs" />
+    <Compile Include="Source\pb\Web\Data\WebData_LoadImages_v2.cs" />
+    <Compile Include="Source\pb\Web\Data\WebData_LoadImages_v3.cs" />
+    <Compile Include="Source\pb\Web\Data\WebLoadImageManager_v1.cs" />
+    <Compile Include="Source\pb\Web\Data\WebRequest.cs" />
     <Compile Include="Source\pb\_old\RunSourceInitEndMethods_v1.cs" />
     <Compile Include="Source\pb\Compiler\RunSourceInitEndMethods_v2.cs" />
     <Compile Include="Source\pb\Compiler\RunSourceRunCode.cs" />
@@ -205,11 +217,11 @@
     <Compile Include="Source\pb\Data\Mongo\WebHeaderMongoManagerBase.cs" />
     <Compile Include="Source\pb\Data\Mongo\WebImageMongoManager.cs" />
     <Compile Include="Source\pb\Data\ParseNamedValues.cs" />
-    <Compile Include="Source\pb\Data\OpenXml\AnchorDrawing.cs" />
+    <Compile Include="Source\pb\Data\OpenXml\OXmlAnchorDrawing.cs" />
     <Compile Include="Source\pb\Data\OpenXml\Graphic.cs" />
     <Compile Include="Source\pb\Data\OpenXml\_Test\Test_OpenXml_Style_v1.cs" />
     <Compile Include="Source\pb\Data\OpenXml\_Test\Test_OpenXml_Creator.cs" />
-    <Compile Include="Source\pb\Data\OpenXml\OXmlElementReader.cs" />
+    <Compile Include="Source\pb\Data\OpenXml\_old\OXmlElementReader.cs" />
     <Compile Include="Source\pb\Data\OpenXml\_Test\Test_OpenXml_Image.cs" />
     <Compile Include="Source\pb\Data\OpenXml\OXmlElement.cs" />
     <Compile Include="Source\pb\Data\OpenXml\OXmlDoc.cs" />
@@ -322,8 +334,8 @@
     <Compile Include="Source\pb\Text\FindDateManager.cs" />
     <Compile Include="Source\pb\Text\FindNumberManager.cs" />
     <Compile Include="Source\pb\Text\StringCompare.cs" />
-    <Compile Include="Source\pb\Text\Test\Test_Regex.cs" />
-    <Compile Include="Source\pb\Text\Test\Test_RegexValues.cs" />
+    <Compile Include="Source\pb\Text\_Test\Test_Regex.cs" />
+    <Compile Include="Source\pb\Text\_Test\Test_RegexValues.cs" />
     <Compile Include="Source\pb\Web\Data\DataPages.cs" />
     <Compile Include="Source\pb\Web\Data\Debrider.cs" />
     <Compile Include="Source\pb\Web\Data\DebriderAlldebrid.cs" />
@@ -615,7 +627,7 @@
     <Content Include="Source\pb\Reflection\_Test\Test_Reflection.project.xml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Source\pb\Text\Test\Test_Text.project.xml">
+    <Content Include="Source\pb\Text\_Test\Test_Text.project.xml">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Source\pb\Web\Data\Test\Test_DebridLinkFr.project.xml">

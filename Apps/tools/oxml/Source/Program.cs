@@ -59,7 +59,7 @@ namespace oxml
         private static string _directory = null;                   // source directory to generate docx
         //private static bool _renameFiles = false;
         //private static bool _selectFiles = false;
-        private static DocxFileType _docxFileType;
+        //private static DocxFileType _docxFileType;
         private static List<SelectFile> _selectFiles = new List<SelectFile>();
         //private static bool _selectDocument = false;               // -f:d   word/document.xml
         //private static bool _selectStyle = false;                  // -f:s   word/styles.xml
@@ -164,25 +164,26 @@ namespace oxml
             {
                 if (arg.StartsWith("-"))
                 {
-                    if (_docxFileType != DocxFileType.Unknow)
-                    {
-                        //string file = GetDocxFile(_docxFileType);
-                        //if (_extract)
-                        //    file = zPath.GetFileName(file);
-                        _selectFiles.Add(new SelectFile { Type = _docxFileType });
-                        _docxFileType = DocxFileType.Unknow;
-                    }
+                    //if (_docxFileType != DocxFileType.Unknow)
+                    //{
+                    //    //string file = GetDocxFile(_docxFileType);
+                    //    //if (_extract)
+                    //    //    file = zPath.GetFileName(file);
+                    //    _selectFiles.Add(new SelectFile { Type = _docxFileType });
+                    //    _docxFileType = DocxFileType.Unknow;
+                    //}
                     if (!SetOption(arg))
                         return false;
                 }
                 else
                 {
-                    if (_docxFileType != DocxFileType.Unknow)
-                    {
-                        _selectFiles.Add(new SelectFile { Type = _docxFileType, File = arg });
-                        _docxFileType = DocxFileType.Unknow;
-                    }
-                    else if (_file == null)
+                    //if (_docxFileType != DocxFileType.Unknow)
+                    //{
+                    //    _selectFiles.Add(new SelectFile { Type = _docxFileType, File = arg });
+                    //    _docxFileType = DocxFileType.Unknow;
+                    //}
+                    //else if (_file == null)
+                    if (_file == null)
                         _file = arg;
                     else if (_directory == null && (_extract || (_generate && _selectFiles.Count == 0)))
                         _directory = arg;
@@ -194,14 +195,11 @@ namespace oxml
                 }
             }
 
-            if (_docxFileType != DocxFileType.Unknow)
-            {
-                //string file = GetDocxFile(_docxFileType);
-                //if (_extract)
-                //    file = zPath.GetFileName(file);
-                _selectFiles.Add(new SelectFile { Type = _docxFileType });
-                _docxFileType = DocxFileType.Unknow;
-            }
+            //if (_docxFileType != DocxFileType.Unknow)
+            //{
+            //    _selectFiles.Add(new SelectFile { Type = _docxFileType });
+            //    _docxFileType = DocxFileType.Unknow;
+            //}
 
             if (!_extract && !_generate)
             {
@@ -231,6 +229,84 @@ namespace oxml
             return true;
         }
 
+        //private static bool ManageParameters_v1(string[] args)
+        //{
+        //    if (args.Length == 0)
+        //    {
+        //        _help = true;
+        //        return true;
+        //    }
+        //    foreach (string arg in args)
+        //    {
+        //        if (arg.StartsWith("-"))
+        //        {
+        //            if (_docxFileType != DocxFileType.Unknow)
+        //            {
+        //                //string file = GetDocxFile(_docxFileType);
+        //                //if (_extract)
+        //                //    file = zPath.GetFileName(file);
+        //                _selectFiles.Add(new SelectFile { Type = _docxFileType });
+        //                _docxFileType = DocxFileType.Unknow;
+        //            }
+        //            if (!SetOption(arg))
+        //                return false;
+        //        }
+        //        else
+        //        {
+        //            if (_docxFileType != DocxFileType.Unknow)
+        //            {
+        //                _selectFiles.Add(new SelectFile { Type = _docxFileType, File = arg });
+        //                _docxFileType = DocxFileType.Unknow;
+        //            }
+        //            else if (_file == null)
+        //                _file = arg;
+        //            else if (_directory == null && (_extract || (_generate && _selectFiles.Count == 0)))
+        //                _directory = arg;
+        //            else
+        //            {
+        //                Trace.WriteLine($"syntax error \"{arg}\"");
+        //                return false;
+        //            }
+        //        }
+        //    }
+
+        //    if (_docxFileType != DocxFileType.Unknow)
+        //    {
+        //        //string file = GetDocxFile(_docxFileType);
+        //        //if (_extract)
+        //        //    file = zPath.GetFileName(file);
+        //        _selectFiles.Add(new SelectFile { Type = _docxFileType });
+        //        _docxFileType = DocxFileType.Unknow;
+        //    }
+
+        //    if (!_extract && !_generate)
+        //    {
+        //        Trace.WriteLine($"error missing -x or -z option");
+        //        return false;
+        //    }
+        //    if (_file == null)
+        //    {
+        //        Trace.WriteLine("no file specified");
+        //        return false;
+        //    }
+
+        //    if (_generate)
+        //    {
+        //        if (_directory == null && _selectFiles.Count == 0)
+        //        {
+        //            Trace.WriteLine($"error missing directory or files to generate docx");
+        //            return false;
+        //        }
+        //        if (_directory != null && _selectFiles.Count > 0)
+        //        {
+        //            Trace.WriteLine($"error choose directory or files to generate docx");
+        //            return false;
+        //        }
+        //    }
+
+        //    return true;
+        //}
+
         private static bool SetOption(string option)
         {
             option = option.ToLower();
@@ -254,22 +330,26 @@ namespace oxml
                 }
                 _generate = true;
             }
-            // -f:name
+            // -f:name[=file]
             else if (option.StartsWith("-f:"))
             {
-                //_renameFiles = true;
-                _docxFileType = GetDocxFileType(option.Substring(3));
-                if (_docxFileType == DocxFileType.Unknow)
+                int i = option.IndexOf('=');
+                string fileType;
+                if (i == -1)
+                    fileType = option.Substring(3);
+                else
+                    fileType = option.Substring(3, i - 3);
+                DocxFileType docxFileType = GetDocxFileType(fileType);
+                //_docxFileType = GetDocxFileType(option.Substring(3));
+                if (docxFileType == DocxFileType.Unknow)
                 {
                     Trace.WriteLine($"unknow value for option \"{option}\"");
                     return false;
                 }
-                //if (_extract)
-                //{
-                //    if (_filesToExtract == null)
-                //        _filesToExtract = new List<DocxFile>();
-                //    _filesToExtract.Add(_docxFile);
-                //}
+                string file = null;
+                if (i != -1)
+                    file = option.Substring(i + 1);
+                _selectFiles.Add(new SelectFile { Type = docxFileType, File = file });
             }
             else
             {
@@ -373,7 +453,7 @@ namespace oxml
             // -z zip
             // -z docx_file directory
             // -z docx_file -f:d file1 -f:s file2 ...
-            Trace.WriteLine("oxml.exe extract content of docx");
+            Trace.WriteLine("oxml.exe extract content of docx or generate docx");
             Trace.WriteLine("oxml -x [-f:name ...] docx_file [directory]");
             Trace.WriteLine("  extract docx files");
             Trace.WriteLine("oxml -z docx_file directory");
@@ -381,22 +461,22 @@ namespace oxml
             Trace.WriteLine("oxml -z docx_file -f:name file1 -f:name file2 ...");
             Trace.WriteLine("  generate docx or update existing docx from files");
             Trace.WriteLine("-f:name :");
-            Trace.WriteLine("  -f:d   word/document.xml");
-            Trace.WriteLine("  -f:s   word/styles.xml");
-            Trace.WriteLine("  -f:se  word/stylesWithEffects.xml");
-            Trace.WriteLine("  -f:st  word/settings.xml");
-            Trace.WriteLine("  -f:ws  word/webSettings.xml");
-            Trace.WriteLine("  -f:h   word/header1.xml ...");
-            Trace.WriteLine("  -f:f   word/footer1.xml ...");
-            Trace.WriteLine("  -f:fn  word/footnotes.xml");
-            Trace.WriteLine("  -f:en  word/endnotes.xml");
-            Trace.WriteLine("  -f:ft  word/fontTable.xml");
-            Trace.WriteLine("  -f:th  word/theme/theme1.xml");
-            Trace.WriteLine("  -f:rd  word/_rels/document.xml.rels");
-            Trace.WriteLine("  -f:ct  [Content_Types].xml");
-            Trace.WriteLine("  -f:re  _rels/.rels");
-            Trace.WriteLine("  -f:ap  docProps/app.xml");
-            Trace.WriteLine("  -f:cp  docProps/core.xml");
+            Trace.WriteLine("  -f:d[=file]   word/document.xml");
+            Trace.WriteLine("  -f:s[=file]   word/styles.xml");
+            Trace.WriteLine("  -f:se[=file]  word/stylesWithEffects.xml");
+            Trace.WriteLine("  -f:st[=file]  word/settings.xml");
+            Trace.WriteLine("  -f:ws[=file]  word/webSettings.xml");
+            Trace.WriteLine("  -f:h[=file]   word/header1.xml ...");
+            Trace.WriteLine("  -f:f[=file]   word/footer1.xml ...");
+            Trace.WriteLine("  -f:fn[=file]  word/footnotes.xml");
+            Trace.WriteLine("  -f:en[=file]  word/endnotes.xml");
+            Trace.WriteLine("  -f:ft[=file]  word/fontTable.xml");
+            Trace.WriteLine("  -f:th[=file]  word/theme/theme1.xml");
+            Trace.WriteLine("  -f:rd[=file]  word/_rels/document.xml.rels");
+            Trace.WriteLine("  -f:ct[=file]  [Content_Types].xml");
+            Trace.WriteLine("  -f:re[=file]  _rels/.rels");
+            Trace.WriteLine("  -f:ap[=file]  docProps/app.xml");
+            Trace.WriteLine("  -f:cp[=file]  docProps/core.xml");
         }
 
         //private static IEnumerable<string> GetSelectedFiles()

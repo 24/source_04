@@ -28,7 +28,7 @@ namespace pb.Web
 
         public string CacheDirectory { get { return _cacheDirectory; } }
         public UrlFileNameType UrlFileNameType { get { return _urlFileNameType; } }  // set { _urlFileNameType = value; }
-        public bool SaveRequest { get { return _saveRequest; } }
+        public bool SaveRequest { get { return _saveRequest; } set { _saveRequest = value; } }
         public Func<HttpRequest, string> GetUrlSubDirectory { get { return _getUrlSubDirectory; } set { _getUrlSubDirectory = value; } }
 
         public string GetUrlPath(HttpRequest httpRequest)

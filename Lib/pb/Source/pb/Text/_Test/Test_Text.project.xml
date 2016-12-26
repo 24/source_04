@@ -2,7 +2,8 @@
 <AssemblyProject>
   
   <Root                             value = "..\..\..\..\..\.." />
-  
+
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\LanguageCSharp5Debug.project.xml" />
   <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\Basic.project.xml" />
   <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\RunSourceExtension.project.xml" />
   <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\MongoExtension.project.xml" />
@@ -14,7 +15,7 @@
   <Source                           value = "Test_Regex.cs" />
   <Source                           value = "Test_RegexValues.cs" />
 
-  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\GlobalExtension.cs" />
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\_pb\GlobalExtension.cs" />-->
   <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Data\NamedValues.cs" />    in runsource.dll -->
   <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Data\ZValue.cs" />         in runsource.dll -->
   <Source                           value = "$Root$\Lib\pb\Source\pb\Text\RegexValues.cs" />

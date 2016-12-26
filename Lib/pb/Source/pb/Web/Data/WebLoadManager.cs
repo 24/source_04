@@ -3,36 +3,6 @@ using pb.IO;
 
 namespace pb.Web.Data
 {
-    public class WebRequest
-    {
-        private HttpRequest _httpRequest = null;
-        private bool _reloadFromWeb = false;
-        private bool _refreshDocumentStore = false;
-        private WebImageRequest _imageRequest = null;
-
-        public HttpRequest HttpRequest { get { return _httpRequest; } set { _httpRequest = value; } }
-        public bool ReloadFromWeb { get { return _reloadFromWeb; } set { _reloadFromWeb = value; } }
-        public WebImageRequest ImageRequest { get { return _imageRequest; } set { _imageRequest = value; } }
-        public bool RefreshDocumentStore { get { return _refreshDocumentStore; } set { _refreshDocumentStore = value; } }
-    }
-
-    public class WebImageRequest
-    {
-        public bool LoadImageFromWeb;
-        public bool LoadMissingImageFromWeb;
-        public bool LoadImageToData;
-        public bool RefreshImage;
-    }
-
-    public class WebResult
-    {
-        public WebRequest WebRequest;
-        public Http Http;
-        public bool LoadResult = false;
-        public DateTime LoadFromWebDate;
-        public UrlCachePathResult UrlCachePathResult;
-    }
-
     public class WebLoadManager
     {
         private UrlCache _urlCache = null;

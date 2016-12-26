@@ -6,24 +6,12 @@ using pb.Reflection;
 
 namespace pb.Web.Data
 {
-    public interface ILoadDocument<TData>
-    {
-        TData Document { get; set; }
-        bool DocumentLoaded { get; set; }
-    }
-
     public interface IHttpRequestData
     {
         // get HttpRequest from data to refresh data and to get url
         // used in WebDataManager_v2<TData>.Refresh() and WebDataManager<TKey, TData>.RefreshDocumentsStore()
         // used in DownloadAutomateManager_v2.GetPostMessage()
         HttpRequest GetDataHttpRequest();  // used in WebDataManager<TKey, TData>.RefreshDocumentsStore() and IPostToDownload
-    }
-
-    public interface ILoadImages
-    {
-        //void LoadImages(bool refreshImage = false);
-        void LoadImages(WebImageRequest imageRequest);
     }
 
     // WebDataManager_v2<TData> :

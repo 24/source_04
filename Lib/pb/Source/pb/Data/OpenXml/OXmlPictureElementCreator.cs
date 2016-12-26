@@ -89,48 +89,51 @@ namespace pb.Data.OpenXml
         private static OXmlAnchorPictureDrawing CreateAnchorPictureDrawing(BsonDocument element, OXmlAnchorWrapType wrapType)
         {
             OXmlAnchorPictureDrawing anchor = new OXmlAnchorPictureDrawing();
-            //string wrapType = element.zGet("WrapType").zAsString();
-            //switch (wrapType.ToLower())
-            //{
-            //    //case "wrapnone":
-            //    case "wrapsquare":
-            //        anchor.Wrap = CreateAnchorWrapSquare(element);
-            //        break;
-            //    case "wraptight":
-            //        anchor.Wrap = CreateAnchorWrapTight(element);
-            //        break;
-            //    //case "wrapthrough":
-            //    case "wraptopandbottom":
-            //        anchor.Wrap = CreateAnchorWrapTopAndBottom(element);
-            //        break;
-            //    default:
-            //        throw new PBException($"unknow oxml wrap type \"{wrapType}\"");
-            //}
+
+            anchor.AnchorId = element.zGet("AnchorId").zAsString();
+            anchor.EditId = element.zGet("EditId").zAsString();
+            anchor.DistanceFromTop = element.zGet("DistanceFromTop").zAsNullableInt();
+            anchor.DistanceFromBottom = element.zGet("DistanceFromBottom").zAsNullableInt();
+            anchor.DistanceFromLeft = element.zGet("DistanceFromLeft").zAsNullableInt();
+            anchor.DistanceFromRight = element.zGet("DistanceFromRight").zAsNullableInt();
+
+            anchor.HorizontalPosition.RelativeFrom = element.zGet("HorizontalRelativeFrom").zAsString().zTryParseEnum(DW.HorizontalRelativePositionValues.Margin);
+            anchor.HorizontalPosition.PositionOffset = element.zGet("HorizontalPositionOffset").zAsNullableInt();
+            anchor.HorizontalPosition.HorizontalAlignment = element.zGet("HorizontalAlignment").zAsString();
+
+            anchor.VerticalPosition.RelativeFrom = element.zGet("VerticalRelativeFrom").zAsString().zTryParseEnum(DW.VerticalRelativePositionValues.Paragraph);
+            anchor.VerticalPosition.PositionOffset = element.zGet("VerticalPositionOffset").zAsNullableInt();
+            anchor.VerticalPosition.VerticalAlignment = element.zGet("VerticalAlignment").zAsString();
+
+            anchor.EffectExtent = CreateEffectExtent(element.zGet("EffectExtent").zAsBsonDocument());
+
+            anchor.AllowOverlap = element.zGet("AllowOverlap").zAsBoolean();
+            anchor.BehindDoc = element.zGet("BehindDoc").zAsBoolean();
+            anchor.Hidden = element.zGet("Hidden").zAsBoolean();
+            anchor.LayoutInCell = element.zGet("LayoutInCell").zAsBoolean();
+            anchor.Locked = element.zGet("Locked").zAsBoolean();
+            anchor.RelativeHeight = element.zGet("RelativeHeight").zAsInt();
+
+            BsonDocument element2 = element.zGet("SimplePosition").zAsBsonDocument();
+            if (element2 != null)
+                anchor.SimplePosition = new OXmlPoint2DType { X = element2.zGet("X").zAsLong(), Y = element.zGet("Y").zAsLong() };
+
             switch (wrapType)
             {
                 //case OXmlAnchorWrapType.WrapNone:
                 case OXmlAnchorWrapType.WrapSquare:
-                    anchor.Wrap = CreateAnchorWrapSquare(element);
+                    anchor.Wrap = CreateAnchorWrapSquare(element.zGet("WrapSquare").zAsBsonDocument());
                     break;
                 case OXmlAnchorWrapType.WrapTight:
-                    anchor.Wrap = CreateAnchorWrapTight(element);
+                    anchor.Wrap = CreateAnchorWrapTight(element.zGet("WrapTight").zAsBsonDocument());
                     break;
                 //case OXmlAnchorWrapType.WrapThrough:
                 case OXmlAnchorWrapType.WrapTopAndBottom:
-                    anchor.Wrap = CreateAnchorWrapTopAndBottom(element);
+                    anchor.Wrap = CreateAnchorWrapTopAndBottom(element.zGet("WrapTopAndBottom").zAsBsonDocument());
                     break;
                 default:
                     throw new PBException($"wrap type \"{wrapType}\" not implemented");
             }
-
-            // Margin, Page, Column, Character, LeftMargin, RightMargin, InsideMargin, OutsideMargin
-            anchor.HorizontalRelativeFrom = element.zGet("HorizontalRelativeFrom").zAsString().zTryParseEnum(DW.HorizontalRelativePositionValues.Margin);
-            anchor.HorizontalPositionOffset = element.zGet("HorizontalPositionOffset").zAsNullableInt();
-            anchor.HorizontalAlignment = element.zGet("HorizontalAlignment").zAsString();
-
-            anchor.VerticalRelativeFrom = element.zGet("VerticalRelativeFrom").zAsString().zTryParseEnum(DW.VerticalRelativePositionValues.Paragraph);
-            anchor.VerticalPositionOffset = element.zGet("VerticalPositionOffset").zAsNullableInt();
-            anchor.VerticalAlignment = element.zGet("VerticalAlignment").zAsString();
 
             return anchor;
         }
@@ -138,12 +141,15 @@ namespace pb.Data.OpenXml
         private static OXmlAnchorWrapSquare CreateAnchorWrapSquare(BsonDocument element)
         {
             OXmlAnchorWrapSquare wrapSquare = new OXmlAnchorWrapSquare();
-            wrapSquare.WrapText = element.zGet("WrapText").zAsString().zTryParseEnum(DW.WrapTextValues.BothSides);
-            wrapSquare.DistanceFromTop = (uint)element.zGet("DistanceFromTop").zAsInt();
-            wrapSquare.DistanceFromBottom = (uint)element.zGet("DistanceFromBottom").zAsInt();
-            wrapSquare.DistanceFromLeft = (uint)element.zGet("DistanceFromLeft").zAsInt();
-            wrapSquare.DistanceFromRight = (uint)element.zGet("DistanceFromRight").zAsInt();
-            wrapSquare.EffectExtent = CreateEffectExtent(element.zGet("EffectExtent").zAsBsonDocument());
+            if (element != null)
+            {
+                wrapSquare.WrapText = element.zGet("WrapText").zAsString().zTryParseEnum(DW.WrapTextValues.BothSides);
+                wrapSquare.DistanceFromTop = element.zGet("DistanceFromTop").zAsNullableInt();
+                wrapSquare.DistanceFromBottom = element.zGet("DistanceFromBottom").zAsNullableInt();
+                wrapSquare.DistanceFromLeft = element.zGet("DistanceFromLeft").zAsNullableInt();
+                wrapSquare.DistanceFromRight = element.zGet("DistanceFromRight").zAsNullableInt();
+                wrapSquare.EffectExtent = CreateEffectExtent(element.zGet("EffectExtent").zAsBsonDocument());
+            }
             return wrapSquare;
         }
 
@@ -162,25 +168,28 @@ namespace pb.Data.OpenXml
         private static OXmlAnchorWrapTight CreateAnchorWrapTight(BsonDocument element)
         {
             OXmlAnchorWrapTight wrapTight = new OXmlAnchorWrapTight();
-            wrapTight.WrapText = element.zGet("WrapText").zAsString().zTryParseEnum(DW.WrapTextValues.BothSides);
-            wrapTight.DistanceFromLeft = (uint)element.zGet("DistanceFromLeft").zAsInt();
-            wrapTight.DistanceFromRight = (uint)element.zGet("DistanceFromRight").zAsInt();
-            //wrapTight.WrapPolygon = OXmlDoc.CreateWrapPolygon(element.zGet("WrapPolygonHorizontalSize").zAsLong(), element.zGet("WrapPolygonVerticalSize").zAsLong(), element.zGet("WrapPolygonStartPointX").zAsLong(), element.zGet("WrapPolygonStartPointY").zAsLong());
-            //wrapTight.WrapPolygon = new OXmlSquare
-            //{
-            //    StartPointX = element.zGet("WrapPolygonStartPointX").zAsLong(),
-            //    StartPointY = element.zGet("WrapPolygonStartPointY").zAsLong(),
-            //    HorizontalSize = element.zGet("WrapPolygonHorizontalSize").zAsLong(),
-            //    VerticalSize = element.zGet("WrapPolygonVerticalSize").zAsLong()
-            //};
-            BsonDocument polygon = element.zGet("Polygon").zAsBsonDocument();
-            if (polygon != null)
-                wrapTight.WrapPolygon = CreatePolygon(polygon);
-            else
+            if (element != null)
             {
-                polygon = element.zGet("Square").zAsBsonDocument();
+                wrapTight.WrapText = element.zGet("WrapText").zAsString().zTryParseEnum(DW.WrapTextValues.BothSides);
+                wrapTight.DistanceFromLeft = element.zGet("DistanceFromLeft").zAsNullableInt();
+                wrapTight.DistanceFromRight = element.zGet("DistanceFromRight").zAsNullableInt();
+                //wrapTight.WrapPolygon = OXmlDoc.CreateWrapPolygon(element.zGet("WrapPolygonHorizontalSize").zAsLong(), element.zGet("WrapPolygonVerticalSize").zAsLong(), element.zGet("WrapPolygonStartPointX").zAsLong(), element.zGet("WrapPolygonStartPointY").zAsLong());
+                //wrapTight.WrapPolygon = new OXmlSquare
+                //{
+                //    StartPointX = element.zGet("WrapPolygonStartPointX").zAsLong(),
+                //    StartPointY = element.zGet("WrapPolygonStartPointY").zAsLong(),
+                //    HorizontalSize = element.zGet("WrapPolygonHorizontalSize").zAsLong(),
+                //    VerticalSize = element.zGet("WrapPolygonVerticalSize").zAsLong()
+                //};
+                BsonDocument polygon = element.zGet("Polygon").zAsBsonDocument();
                 if (polygon != null)
-                    wrapTight.WrapPolygon = CreateSquare(polygon);
+                    wrapTight.WrapPolygon = CreatePolygon(polygon);
+                else
+                {
+                    polygon = element.zGet("Square").zAsBsonDocument();
+                    if (polygon != null)
+                        wrapTight.WrapPolygon = CreateSquare(polygon);
+                }
             }
             return wrapTight;
         }
@@ -222,9 +231,12 @@ namespace pb.Data.OpenXml
         private static OXmlAnchorWrapTopAndBottom CreateAnchorWrapTopAndBottom(BsonDocument element)
         {
             OXmlAnchorWrapTopAndBottom wrapTopAndBottom = new OXmlAnchorWrapTopAndBottom();
-            wrapTopAndBottom.DistanceFromTop = (uint)element.zGet("DistanceFromTop").zAsInt();
-            wrapTopAndBottom.DistanceFromBottom = (uint)element.zGet("DistanceFromBottom").zAsInt();
-            wrapTopAndBottom.EffectExtent = CreateEffectExtent(element.zGet("EffectExtent").zAsBsonDocument());
+            if (element != null)
+            {
+                wrapTopAndBottom.DistanceFromTop = element.zGet("DistanceFromTop").zAsNullableInt();
+                wrapTopAndBottom.DistanceFromBottom = element.zGet("DistanceFromBottom").zAsNullableInt();
+                wrapTopAndBottom.EffectExtent = CreateEffectExtent(element.zGet("EffectExtent").zAsBsonDocument());
+            }
             return wrapTopAndBottom;
         }
     }

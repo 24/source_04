@@ -1,5 +1,7 @@
 ﻿using MongoDB.Bson;
 using pb.Data.Mongo;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace pb.Web.Data
 {
@@ -91,6 +93,24 @@ namespace pb.Web.Data
         public TData LoadFromId(BsonValue id)
         {
             return _dataSerializer.Deserialize(_dataStore.LoadFromId(id));
+        }
+
+        public IEnumerable<TData> Find(string query = null, string sort = null, int limit = 0, bool loadImage = false)
+        {
+            if (loadImage && _webLoadImageManager == null)
+                throw new PBException("web load image manager is not defined");
+            //return _dataStore.Find(query, sort: sort, limit: limit).zAction(
+            //    data =>
+            //    {
+            //        if (loadImage)
+            //        {
+            //            _webLoadImageManager.LoadImagesToData(data);
+            //        }
+            //    });
+            IEnumerable<TData> result = _dataStore.Find(query, sort: sort, limit: limit).Select(document => _dataSerializer.Deserialize(document));
+            if (loadImage)
+                result = result.zAction(data => _webLoadImageManager.LoadImagesToData(data));
+            return result;
         }
     }
 }

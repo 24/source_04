@@ -16,6 +16,7 @@
   <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\Extension_01.dll.project.xml" />
   <!--<IncludeProject                   value = "$Root$\Lib\pb\Source\Project\MongoDefaultSerializer.project.xml" />-->
   <!--<IncludeProject                   value = "$Root$\Lib\pb\Source\Project\MongoOpenXmlSerializer.project.xml" />-->
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\MongoOpenXmlSerializer.project.xml" />
   <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\OpenXml.project.xml" />
 
   <NameSpace                        value = "WebData.BlogDemoor" />
@@ -31,7 +32,10 @@
   <InitMethod                       value = "WebData.BlogDemoor.BlogDemoorRun.InitAlways" run = "always" />
   <EndMethod                        value = "WebData.BlogDemoor.BlogDemoorRun.EndAlways" run = "always" />
 
+  <Using                            value = "System.Linq" />
   <Using                            value = "pb" />
+  <Using                            value = "pb.Web" />
+  <Using                            value = "WebData.BlogDemoor.Test" />
   <!--<Using                            value = "System.IO" />
   <Using                            value = "System.Linq" />
   <Using                            value = "System.Xml.Linq" />
@@ -51,9 +55,14 @@
 
   <Source                           value = "BlogDemoor.cs" />
   <Source                           value = "BlogDemoor_v4.cs" />
+  <Source                           value = "BlogDemoorOXmlDoc.cs" />
   <Source                           value = "BlogDemoorRun.cs" />
-  <Source                           value = "HtmlToOXmlDoc.cs" />
+  <Source                           value = "HtmlToOXmlElements_v1.cs" />
+  <Source                           value = "HtmlToOXmlElements_v2.cs" />
   <Source                           value = "WebData.cs" />
+  <!--<Source                           value = "WebData_v3.cs" />-->
+  <Source                           value = "_Test\Test_HtmlToOXmlDoc_v1.cs" />
+  <Source                           value = "_Test\Test_HtmlToOXmlDoc_v2.cs" />
 
   <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\PBTraceListener.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\TextSerializer.cs" />
@@ -70,10 +79,10 @@
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\MongoDocumentStore.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\MongoIdGenerator.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\MongoLog.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\WebDataMongoManagerBase.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\WebDataPageMongoManagerBase.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\WebHeaderDetailMongoManagerBase.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\WebHeaderDetailMongoManagerBase_v2.cs" />
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\WebDataMongoManagerBase.cs" />-->
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\WebDataPageMongoManagerBase.cs" />-->
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\WebHeaderDetailMongoManagerBase.cs" />-->
   <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\WebImageMongoManager.cs" />-->
   <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\WebImageMongoTools.cs" />-->
 
@@ -85,25 +94,32 @@
   <Source                           value = "$Root$\Lib\pb\Source\pb\IO\ZipManager.cs" />
 
   <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\DataPages.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\HeaderDetail.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\IEnumDataPages.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\IHeaderData.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\LoadNewDocumentsResult.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebData.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebData_Load_v1.cs" />
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebData_Load_v1.cs" />-->
   <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebData_Load_v2.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebDataManager.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebData_LoadImages_v3.cs" />
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebDataManager.cs" />-->
   <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebDataManager_v4.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebDataManager_v4_MongoDataStore.cs" />
   <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebDataManagerImage.cs" />-->
   <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebDataManagerMongoDataStore.cs" />-->
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebDataPageManager.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebHeaderDetailManager.cs" />
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebDataPageManager.cs" />-->
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebDataPageManager_v4.cs" />
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebHeaderDetailManager.cs" />-->
   <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebHeaderDetailManager_v4.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebImage.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebImageCacheManager.cs" />
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebImageCacheManager.cs" />-->
   <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebImageCacheManager_v3.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebImageMongoCacheManager.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebLoadDataManager.cs" />
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebImageMongoCacheManager.cs" />-->
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebLoadDataManager.cs" />-->
   <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebLoadDataManager_v2.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebLoadImageManager_v2.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebLoadManager.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebRequest.cs" />
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebLoadManager.cs" />-->
   <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\UrlCache.cs" />-->
 
   

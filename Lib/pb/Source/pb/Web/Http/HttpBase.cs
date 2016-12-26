@@ -575,7 +575,7 @@ namespace pb.Web
         protected void ExportRequest(string file)
         {
             //new HttpResponseLog(_webRequest, _httpRequest.Content, _webResponse).zSave(zpath.PathSetExtension(file, ".request.json"));
-            GetHttpLog().zSave(zpath.PathSetExtension(file, ".request.json"));
+            GetHttpLog().zSave(zpath.PathSetExtension(file, ".request.json"), jsonIndent: true);
         }
 
         private void ImportRequest(string file)

@@ -29,7 +29,7 @@ namespace pb.Compiler
 
         public static void zTrace<T>(this T value)
         {
-            if (value is IEnumerable)
+            if (value is IEnumerable && !(value is string))
             {
                 foreach (object o in value as IEnumerable)
                     Trace.WriteLine(o.ToString());

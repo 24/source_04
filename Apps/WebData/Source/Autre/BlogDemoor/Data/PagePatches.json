@@ -1,0 +1,19 @@
+
+{ Rem: "page_006_19-04_en_vol_pour_Lisbonne", PageId: 33690013, PageBreak: true }
+
+{ Rem: "page_007_19-04_très_bonne_adaptation_au_pays_!", PageId: 33690043, PageBreak: true,  Patches: [
+    { Type: "Image", Url: "http://p8.storage.canalblog.com/82/11/1436926/110245146.jpg", Values: "width = 264" }
+    { Type: "Image", Url: "http://p1.storage.canalblog.com/18/37/1436926/110245152.jpg", Values: "width = 264" }
+    { Type: "Image", Url: "http://p3.storage.canalblog.com/36/43/1436926/110245154.jpg", Values: "width = 264" }
+    { Type: "Image", Url: "http://p9.storage.canalblog.com/91/34/1436926/110245155.jpg", Values: "width = 264" }
+  ]
+}
+
+{ Rem: "page 008 - 19 avril 2016     - une école", PageId: 33690051, PageBreak: true }
+
+{ Rem: "page 168 - plovdiv : 2ème ville", PageId: 34324922, Patches: [
+    { Type: "Image", Url: "http://p2.storage.canalblog.com/24/99/1436926/112509351.jpg", Values: "width = 300" }
+    { Type: "Image", Url: "http://p6.storage.canalblog.com/67/44/1436926/112509354.jpg", Values: "width = 300" }
+  ]
+}
+

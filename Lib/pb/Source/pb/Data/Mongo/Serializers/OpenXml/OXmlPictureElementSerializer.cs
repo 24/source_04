@@ -198,16 +198,50 @@ namespace pb.Data.Mongo.Serializers
             {
                 OXmlAnchorPictureDrawing anchor = (OXmlAnchorPictureDrawing)element.PictureDrawing;
                 //bsonWriter.WriteString("WrapType", anchor.Wrap.WrapType.ToString());
-                bsonWriter.WriteString("HorizontalRelativeFrom", anchor.HorizontalRelativeFrom.ToString());
-                if (anchor.HorizontalPositionOffset != null)
-                    bsonWriter.WriteInt32("HorizontalPositionOffset", (int)anchor.HorizontalPositionOffset);
-                if (anchor.HorizontalAlignment != null)
-                    bsonWriter.WriteString("HorizontalAlignment", anchor.HorizontalAlignment);
-                bsonWriter.WriteString("VerticalRelativeFrom", anchor.VerticalRelativeFrom.ToString());
-                if (anchor.VerticalPositionOffset != null)
-                    bsonWriter.WriteInt32("VerticalPositionOffset", (int)anchor.VerticalPositionOffset);
-                if (anchor.VerticalAlignment != null)
-                    bsonWriter.WriteString("VerticalAlignment", anchor.VerticalAlignment);
+
+                if (anchor.AnchorId != null)
+                    bsonWriter.WriteString("AnchorId", anchor.AnchorId);
+                if (anchor.EditId != null)
+                    bsonWriter.WriteString("EditId", anchor.AnchorId);
+                if (anchor.DistanceFromTop != null)
+                    bsonWriter.WriteInt32("DistanceFromTop", (int)anchor.DistanceFromTop);
+                if (anchor.DistanceFromBottom != null)
+                    bsonWriter.WriteInt32("DistanceFromBottom", (int)anchor.DistanceFromBottom);
+                if (anchor.DistanceFromLeft != null)
+                    bsonWriter.WriteInt32("DistanceFromLeft", (int)anchor.DistanceFromLeft);
+                if (anchor.DistanceFromRight != null)
+                    bsonWriter.WriteInt32("DistanceFromRight", (int)anchor.DistanceFromRight);
+
+                bsonWriter.WriteString("HorizontalRelativeFrom", anchor.HorizontalPosition.RelativeFrom.ToString());
+                if (anchor.HorizontalPosition.PositionOffset != null)
+                    bsonWriter.WriteInt32("HorizontalPositionOffset", (int)anchor.HorizontalPosition.PositionOffset);
+                if (anchor.HorizontalPosition.HorizontalAlignment != null)
+                    bsonWriter.WriteString("HorizontalAlignment", anchor.HorizontalPosition.HorizontalAlignment);
+                bsonWriter.WriteString("VerticalRelativeFrom", anchor.VerticalPosition.RelativeFrom.ToString());
+                if (anchor.VerticalPosition.PositionOffset != null)
+                    bsonWriter.WriteInt32("VerticalPositionOffset", (int)anchor.VerticalPosition.PositionOffset);
+                if (anchor.VerticalPosition.VerticalAlignment != null)
+                    bsonWriter.WriteString("VerticalAlignment", anchor.VerticalPosition.VerticalAlignment);
+                SerializeEffectExtent(bsonWriter, anchor.EffectExtent);
+                if (anchor.AllowOverlap)
+                    bsonWriter.WriteBoolean("AllowOverlap", anchor.AllowOverlap);
+                if (anchor.BehindDoc)
+                    bsonWriter.WriteBoolean("BehindDoc", anchor.BehindDoc);
+                if (anchor.Hidden)
+                    bsonWriter.WriteBoolean("Hidden", anchor.Hidden);
+                if (anchor.LayoutInCell)
+                    bsonWriter.WriteBoolean("LayoutInCell", anchor.LayoutInCell);
+                if (anchor.Locked)
+                    bsonWriter.WriteBoolean("Locked", anchor.Locked);
+                if (anchor.RelativeHeight != 0)
+                    bsonWriter.WriteInt32("RelativeHeight", anchor.RelativeHeight);
+                if (anchor.SimplePosition != null)
+                {
+                    bsonWriter.WriteStartDocument("SimplePosition");
+                    bsonWriter.WriteInt64("X", anchor.SimplePosition.X);
+                    bsonWriter.WriteInt64("Y", anchor.SimplePosition.Y);
+                    bsonWriter.WriteEndDocument();
+                }
                 switch (anchor.Wrap.WrapType)
                 {
                     case OXmlAnchorWrapType.WrapSquare:
@@ -228,37 +262,43 @@ namespace pb.Data.Mongo.Serializers
 
         private static void SerializeWrapSquare(BsonWriter bsonWriter, OXmlAnchorWrapSquare wrap)
         {
+            bsonWriter.WriteStartDocument("WrapSquare");
             //if (wrap.WrapText != DW.WrapTextValues.BothSides)
             bsonWriter.WriteString("WrapText", wrap.WrapText.ToString());
-            if (wrap.DistanceFromTop != 0)
+            if (wrap.DistanceFromTop != null)
                 bsonWriter.WriteInt32("DistanceFromTop", (int)wrap.DistanceFromTop);
-            if (wrap.DistanceFromBottom != 0)
+            if (wrap.DistanceFromBottom != null)
                 bsonWriter.WriteInt32("DistanceFromBottom", (int)wrap.DistanceFromBottom);
-            if (wrap.DistanceFromLeft != 0)
+            if (wrap.DistanceFromLeft != null)
                 bsonWriter.WriteInt32("DistanceFromLeft", (int)wrap.DistanceFromLeft);
-            if (wrap.DistanceFromRight != 0)
+            if (wrap.DistanceFromRight != null)
                 bsonWriter.WriteInt32("DistanceFromRight", (int)wrap.DistanceFromRight);
             SerializeEffectExtent(bsonWriter, wrap.EffectExtent);
+            bsonWriter.WriteEndDocument();
         }
 
         private static void SerializeWrapTight(BsonWriter bsonWriter, OXmlAnchorWrapTight wrap)
         {
+            bsonWriter.WriteStartDocument("WrapTight");
             //if (wrap.WrapText != DW.WrapTextValues.BothSides)
             bsonWriter.WriteString("WrapText", wrap.WrapText.ToString());
-            if (wrap.DistanceFromLeft != 0)
+            if (wrap.DistanceFromLeft != null)
                 bsonWriter.WriteInt32("DistanceFromLeft", (int)wrap.DistanceFromLeft);
-            if (wrap.DistanceFromRight != 0)
+            if (wrap.DistanceFromRight != null)
                 bsonWriter.WriteInt32("DistanceFromRight", (int)wrap.DistanceFromRight);
             SerializePolygonBase(bsonWriter, wrap.WrapPolygon);
+            bsonWriter.WriteEndDocument();
         }
 
         private static void SerializeWrapTopBottom(BsonWriter bsonWriter, OXmlAnchorWrapTopAndBottom wrap)
         {
-            if (wrap.DistanceFromTop != 0)
+            bsonWriter.WriteStartDocument("WrapTopAndBottom");
+            if (wrap.DistanceFromTop != null)
                 bsonWriter.WriteInt32("DistanceFromTop", (int)wrap.DistanceFromTop);
-            if (wrap.DistanceFromBottom != 0)
+            if (wrap.DistanceFromBottom != null)
                 bsonWriter.WriteInt32("DistanceFromBottom", (int)wrap.DistanceFromBottom);
             SerializeEffectExtent(bsonWriter, wrap.EffectExtent);
+            bsonWriter.WriteEndDocument();
         }
 
         private static void SerializeEffectExtent(BsonWriter bsonWriter, OXmlEffectExtent effectExtent)

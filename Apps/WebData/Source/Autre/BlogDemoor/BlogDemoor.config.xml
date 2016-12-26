@@ -46,7 +46,7 @@
       <CacheDirectory                                            value = "$BlogDemoor/DataDir$\cache\header" />
       <CacheUrlFileNameType                                      value = "Host, Path, Query" />
       <CacheSaveRequest                                          value = "true" />
-      <UseMongo                                                  value = "false" />
+      <UseMongo                                                  value = "true" />
       <MongoServer                                               value = "mongodb://localhost" />
       <MongoDatabase                                             value = "BlogDemoor" />
       <MongoCollection                                           value = "BlogDemoor_Header" />
@@ -73,6 +73,20 @@
         <!--<ImageFilterMinHeight                                        value = "70" />-->
       </Image>
     </Detail>
+    
+    <HtmlToDocx>
+      <ImageClasses>
+        <ImageClass                                              class = "nonealign" values = "NoneAlign = true" />
+        <ImageClass                                              class = "leftalign" values = "LeftAlign = true" />
+        <ImageClass                                              class = "rightalign" values = "RightAlign = true" />
+        <ImageClass                                              class = "width150"  values = "Width = 150" />
+        <ImageClass                                              class = "width300"  values = "Width = 300" />
+        <ImageClass                                              class = "width450"  values = "Width = 450" />
+        <ImageClass                                              class = "width600"  values = "Width = 600" />
+        <ImageClass                                              class = "bu_cuisine_img_noborder" values = "NoneAlign = true" />
+      </ImageClasses>
+    </HtmlToDocx>
+    
   </BlogDemoor>
 
   <BlogDemoor_Test>

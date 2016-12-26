@@ -95,6 +95,7 @@ namespace pb.Web
     {
         public string Link;
         public IEnumerable<string> ClassList;
+        public int? Width;
 
         public HtmlDocNodeTagImg()
         {
@@ -103,7 +104,7 @@ namespace pb.Web
 
         public override string ToString()
         {
-            return $"{Index.ToString().PadLeft(3)} img link \"{Link}\" class {ClassList.zToStringValues()}";
+            return $"{Index.ToString().PadLeft(3)} img link \"{Link}\" class {ClassList.zToStringValues()} width {Width}";
         }
     }
 
@@ -205,6 +206,13 @@ namespace pb.Web
                     ((HtmlDocNodeTagImg)_node).Link = property.Value;
                 else if (property.Name.ToLower() == "class")
                     ((HtmlDocNodeTagImg)_node).ClassList = zsplit.Split(property.Value, ' ', true);
+                else if (property.Name.ToLower() == "width")
+                {
+                    int? width = property.Value.zTryParseAs<int?>();
+                    if (width == null)
+                        Trace.WriteLine($"unknow width \"{property.Value}\"");
+                    ((HtmlDocNodeTagImg)_node).Width = width;
+                }
             }
         }
 

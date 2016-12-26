@@ -1,5 +1,13 @@
-﻿namespace pb.Web.Data
+﻿using MongoDB.Bson;
+
+namespace pb.Web.Data
 {
+    public interface ILoadDocument<TData>
+    {
+        TData Document { get; set; }
+        bool DocumentLoaded { get; set; }
+    }
+
     public partial class WebData<TData> : ILoadDocument<TData>
     {
         private WebRequest _request;
@@ -10,6 +18,8 @@
         private bool _documentLoaded;
         private bool _documentLoadedFromWeb;
         private bool _documentLoadedFromStore;
+        private BsonValue _id = null;
+        private BsonValue _key = null;
 
         public WebData(WebRequest request)
         {

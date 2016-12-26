@@ -15,21 +15,6 @@ namespace pb.Web.Data
         IEnumerable<WebImage> GetWebImages();
     }
 
-    //[Obsolete]
-    public static class WebLoadImageManager_v1
-    {
-        public static void LoadImages<TData>(TData data, WebImageRequest request)
-        {
-            if (request.LoadImageFromWeb || request.LoadImageToData || request.RefreshImage)
-            {
-                if (!(data is ILoadImages))
-                    throw new PBException($"{typeof(TData).zGetTypeName()} is not ILoadImages");
-                ((ILoadImages)data).LoadImages(request);
-            }
-        }
-    }
-
-
     //public partial class WebDataManager<TData>
     //{
     //    public bool LoadImagesFromWeb(WebData<TData> webData)
@@ -47,6 +32,11 @@ namespace pb.Web.Data
     //   - use WebImageCacheManager_v3 to load image
     // todo :
     //   - replace _getImageSubDirectory with an optional interface
+    // used by :
+    //   - WebData<TData>.Load_v1()
+    //   - WebData<TData>.Load_v2()
+    //   - WebDataManager<TData>
+    //   - WebDataManager_v4<TData>
     public class WebLoadImageManager_v2<TData>
     //public class WebDataImageManager<TData>
     {
@@ -69,7 +59,8 @@ namespace pb.Web.Data
             //if (imageRequest.LoadImageFromWeb || imageRequest.LoadImageToData || imageRequest.RefreshImage)
             //{
             if (!(webData.Document is IGetWebImages))
-                throw new PBException($"{typeof(TData).zGetTypeName()} is not IGetWebImages");
+                //throw new PBException($"{typeof(TData).zGetTypeName()} is not IGetWebImages");
+                return false;
             IEnumerable<WebImage> images = ((IGetWebImages)webData.Document).GetWebImages();
             if (_imageFilter != null)
                 images = images.Where(image => _imageFilter(image));

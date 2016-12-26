@@ -36,6 +36,7 @@ namespace pb.Web
         //private bool _readCommentInText = false;
         private bool _disableScriptTreatment = false;
         private bool _useReadAttributeValue_v2 = true;
+        private bool _textReplaceControl = false;
 
         private int _htmlNodeIndex = 1;
         // construction des string : Tag, Comment, Property ...
@@ -53,6 +54,7 @@ namespace pb.Web
         //public bool ReadCommentInText { get { return _readCommentInText; } set { _readCommentInText = value; } }
         public bool DisableScriptTreatment { get { return _disableScriptTreatment; } set { _disableScriptTreatment = value; } }
         public bool UseReadAttributeValue_v2 { get { return _useReadAttributeValue_v2; } set { _useReadAttributeValue_v2 = value; } }
+        public bool TextReplaceControl { get { return _textReplaceControl; } set { _textReplaceControl = value; } }
 
         private string TranslateChar(char car)
         {
@@ -404,12 +406,18 @@ namespace pb.Web
                 if (car != '\x00')
                     _stringBuilder.Append(car);
             }
+            //
+            string text = _stringBuilder.ToString();
+            text = HtmlCharCodes.TranslateCode(text);
+            if (_textReplaceControl)
+                text = text.zReplaceControl();
             return new HtmlNodeText
             {
                 Index = _htmlNodeIndex++,
                 Line = _disableLineColumn ? 0 : line,
                 Column = _disableLineColumn ? 0 : column,
-                Text = HtmlCharCodes.TranslateCode(_stringBuilder.ToString()).zReplaceControl(),
+                //Text = HtmlCharCodes.TranslateCode(_stringBuilder.ToString()).zReplaceControl(),
+                Text = text,
                 IsTextSeparator = isTextSeparator
             };
         }

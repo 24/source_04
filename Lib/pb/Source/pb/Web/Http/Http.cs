@@ -136,7 +136,7 @@ namespace pb.Web
         private void ExportRequest(string file)
         {
             //new HttpResponseLog(_webRequest, _httpRequest.Content, _webResponse).zSave(zpath.PathSetExtension(file, ".request.json"));
-            new HttpLog { Request = new HttpRequestLog(_webRequest, _httpRequest.Content), Response = new HttpResponseLog(_webResponse) }.zSave(zpath.PathSetExtension(file, ".request.json"));
+            new HttpLog { Request = new HttpRequestLog(_webRequest, _httpRequest.Content), Response = new HttpResponseLog(_webResponse) }.zSave(zpath.PathSetExtension(file, ".request.json"), jsonIndent: true);
         }
 
         private void _LoadText()

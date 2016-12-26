@@ -16,7 +16,9 @@ namespace pb.Data.Mongo
             {
                 cacheFile = zfile.GetNewIndexedFileName(__cacheDirectory) + "_" + __cacheFile;
                 cursor.zSave(cacheFile);
-                return zmongo.BsonRead<BsonDocument>(cacheFile);
+                //return zmongo.BsonRead<BsonDocument>(cacheFile);
+                foreach (BsonDocument document in zmongo.BsonRead<BsonDocument>(cacheFile))
+                    yield return document;
             }
             finally
             {

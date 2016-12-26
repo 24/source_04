@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace pb.Web.Data
 {
-    public class WebDataPageManager<TData> : WebDataManager<IEnumDataPages<TData>>
+    public class WebDataPageManager_v4<TData> : WebDataManager_v4<IEnumDataPages<TData>>
     {
         protected Func<int, HttpRequest> _getHttpRequestPageFunction = null;
 
@@ -19,8 +19,8 @@ namespace pb.Web.Data
 
         public IEnumerable<TData> LoadPages(HttpRequest httpRequest, int maxPage = 1, bool reload = false, bool loadImageFromWeb = false, bool loadImageToData = false, bool refreshImage = false, bool refreshDocumentStore = false)
         {
-            //IEnumDataPages<TData> dataPage = Load(new WebRequest { HttpRequest = httpRequest, ReloadFromWeb = reload, LoadImageFromWeb = loadImageFromWeb, LoadImageToData = loadImageToData, RefreshImage = refreshImage, RefreshDocumentStore = refreshDocumentStore }).Document;
-            IEnumDataPages<TData> dataPage = Load(new WebRequest { HttpRequest = httpRequest, ReloadFromWeb = reload, ImageRequest = new WebImageRequest { LoadImageFromWeb = loadImageFromWeb, LoadImageToData = loadImageToData, RefreshImage = refreshImage }, RefreshDocumentStore = refreshDocumentStore }).Document;
+            WebImageRequest imageRequest = new WebImageRequest { LoadImageFromWeb = loadImageFromWeb, LoadImageToData = loadImageToData, RefreshImage = refreshImage };
+            IEnumDataPages<TData> dataPage = Load(new WebRequest { HttpRequest = httpRequest, ReloadFromWeb = reload, ImageRequest = imageRequest, RefreshDocumentStore = refreshDocumentStore }).Document;
 
             if (dataPage == null)
                 yield break;
@@ -35,8 +35,7 @@ namespace pb.Web.Data
                 httpRequest = dataPage.GetHttpRequestNextPage();
                 if (httpRequest == null)
                     break;
-                //dataPage = Load(new WebRequest { HttpRequest = httpRequest, ReloadFromWeb = reload, LoadImageFromWeb = loadImageFromWeb, LoadImageToData = loadImageToData, RefreshImage = refreshImage, RefreshDocumentStore = refreshDocumentStore }).Document;
-                dataPage = Load(new WebRequest { HttpRequest = httpRequest, ReloadFromWeb = reload, ImageRequest = new WebImageRequest { LoadImageFromWeb = loadImageFromWeb, LoadImageToData = loadImageToData, RefreshImage = refreshImage }, RefreshDocumentStore = refreshDocumentStore }).Document;
+                dataPage = Load(new WebRequest { HttpRequest = httpRequest, ReloadFromWeb = reload, ImageRequest = imageRequest, RefreshDocumentStore = refreshDocumentStore }).Document;
                 foreach (TData data in dataPage.GetDataList())
                     yield return data;
             }

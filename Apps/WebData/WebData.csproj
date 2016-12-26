@@ -234,6 +234,18 @@
     <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\DataPages.cs">
       <Link>SourceLnk\Lib\pb\Web\Data\DataPages.cs</Link>
     </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\HeaderDetail.cs">
+      <Link>SourceLnk\Lib\pb\Web\Data\HeaderDetail.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\IEnumDataPages.cs">
+      <Link>SourceLnk\Lib\pb\Web\Data\IEnumDataPages.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\IHeaderData.cs">
+      <Link>SourceLnk\Lib\pb\Web\Data\IHeaderData.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\LoadNewDocumentsResult.cs">
+      <Link>SourceLnk\Lib\pb\Web\Data\LoadNewDocumentsResult.cs</Link>
+    </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\WebData.cs">
       <Link>SourceLnk\Lib\pb\Web\Data\WebData.cs</Link>
     </Compile>
@@ -248,6 +260,9 @@
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\WebDataPageManager.cs">
       <Link>SourceLnk\Lib\pb\Web\Data\WebDataPageManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\WebData_LoadImages_v3.cs">
+      <Link>SourceLnk\Lib\pb\Web\Data\WebData_LoadImages_v3.cs</Link>
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\WebData_Load_v1.cs">
       <Link>SourceLnk\Lib\pb\Web\Data\WebData_Load_v1.cs</Link>
@@ -269,6 +284,9 @@
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\WebLoadImageManager_v2.cs">
       <Link>SourceLnk\Lib\pb\Web\Data\WebLoadImageManager_v2.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\WebRequest.cs">
+      <Link>SourceLnk\Lib\pb\Web\Data\WebRequest.cs</Link>
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Web\Html\HtmlDocReader.cs">
       <Link>SourceLnk\Lib\pb\Web\Html\HtmlDocReader.cs</Link>
@@ -614,9 +632,15 @@
     <Compile Include="Source\Autre\BlogDemoor\BlogDemoor_v1.cs" />
     <None Include="Source\Autre\BlogDemoor\BlogDemoor.run.cs" />
     <Compile Include="Source\Autre\BlogDemoor\BlogDemoorRun.cs" />
+    <Compile Include="Source\Autre\BlogDemoor\BlogDemoor_v3.cs" />
     <Compile Include="Source\Autre\BlogDemoor\BlogDemoor_v4.cs" />
-    <Compile Include="Source\Autre\BlogDemoor\HtmlToOXmlDoc.cs" />
+    <Compile Include="Source\Autre\BlogDemoor\BlogDemoorOXmlDoc.cs" />
+    <Compile Include="Source\Autre\BlogDemoor\HtmlToOXmlElements_v2.cs" />
+    <Compile Include="Source\Autre\BlogDemoor\HtmlToOXmlElements_v1.cs" />
     <Compile Include="Source\Autre\BlogDemoor\WebData.cs" />
+    <Compile Include="Source\Autre\BlogDemoor\WebData_v3.cs" />
+    <Compile Include="Source\Autre\BlogDemoor\_Test\Test_HtmlToOXmlDoc_v1.cs" />
+    <Compile Include="Source\Autre\BlogDemoor\_Test\Test_HtmlToOXmlDoc_v2.cs" />
     <Compile Include="Source\Print\DownloadManager\DownloadAutomateManagerCreator.cs" />
     <Compile Include="Source\Print\DownloadManager\FindPrintManagerCreator.cs" />
     <Compile Include="Source\Print\DownloadManager\PrintTitleManagerCreator.cs" />
@@ -627,6 +651,7 @@
     <Compile Include="Source\Print\DownloadManager\WebDataPrintFileManager.cs" />
     <Compile Include="Source\Print\DownloadManager\WebDataRun.cs" />
     <Compile Include="Source\Autre\TMServers.cs" />
+    <None Include="Source\Autre\BlogDemoor\Data\PagePatches.json" />
     <None Include="Source\Print\DownloadManager\_old\DownloadAutomateManager_v1.cs" />
     <Compile Include="Source\Print\DownloadManager\DownloadAutomateManager.cs" />
     <None Include="Source\Print\DownloadManager\_old\DownloadAutomate_f.cs" />
@@ -825,6 +850,7 @@
     <Content Include="Source\Autre\BlogDemoor\BlogDemoor.project.xml">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Source\Autre\BlogDemoor\Data\page.txt" />
     <Content Include="Source\Print\Print\Print\_old\le_monde\le_monde_config.xml" />
     <Content Include="Source\Print\Print\Print\_old\le_monde\le_monde_project.xml" />
     <Content Include="Source\Print\Print\Test\Test_Unit_FindPrint_v2.project.xml">

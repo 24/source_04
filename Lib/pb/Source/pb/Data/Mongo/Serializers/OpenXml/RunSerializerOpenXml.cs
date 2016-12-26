@@ -17,6 +17,7 @@ namespace pb.Data.Mongo.Serializers
 
             PBSerializationProvider_v2.Instance.RegisterSerializer(typeof(OXmlElement), new OXmlElementSerializer());
             PBSerializationProvider_v2.Instance.RegisterSerializer(typeof(OXmlParagraphElement), new OXmlParagraphElementSerializer());
+            PBSerializationProvider_v2.Instance.RegisterSerializer(typeof(OXmlBreakElement), new OXmlBreakElementSerializer());
             PBSerializationProvider_v2.Instance.RegisterSerializer(typeof(OXmlTextElement), new OXmlTextElementSerializer());
             PBSerializationProvider_v2.Instance.RegisterSerializer(typeof(OXmlSimpleFieldElement), new OXmlSimpleFieldElementSerializer());
             PBSerializationProvider_v2.Instance.RegisterSerializer(typeof(OXmlDocSectionElement), new OXmlDocSectionElementSerializer());
@@ -32,6 +33,7 @@ namespace pb.Data.Mongo.Serializers
         {
             PBSerializationProvider_v2.Instance.UnregisterSerializer(typeof(OXmlElement));
             PBSerializationProvider_v2.Instance.UnregisterSerializer(typeof(OXmlParagraphElement));
+            PBSerializationProvider_v2.Instance.UnregisterSerializer(typeof(OXmlBreakElement));
             PBSerializationProvider_v2.Instance.UnregisterSerializer(typeof(OXmlTextElement));
             PBSerializationProvider_v2.Instance.UnregisterSerializer(typeof(OXmlSimpleFieldElement));
             PBSerializationProvider_v2.Instance.UnregisterSerializer(typeof(OXmlDocSectionElement));

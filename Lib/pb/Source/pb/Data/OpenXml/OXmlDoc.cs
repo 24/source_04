@@ -8,7 +8,6 @@ using ODP = DocumentFormat.OpenXml.Drawing.Pictures;
 using pb.IO;
 using System.Collections.Generic;
 using System.IO;
-using System.Drawing;
 
 // doc
 //   - Standard ECMA-376 Office Open XML File Formats http://www.ecma-international.org/publications/standards/Ecma-376.htm
@@ -64,6 +63,7 @@ namespace pb.Data.OpenXml
                 _mainPart.Document = new Document();
                 OXmlPicture.AddNamespaceDeclarations(_mainPart.Document);
                 _body = _mainPart.Document.AppendChild(new Body());
+                _element = _body;
 
                 foreach (OXmlElement element in elements)
                 {
@@ -71,6 +71,9 @@ namespace pb.Data.OpenXml
                     {
                         case OXmlElementType.Paragraph:
                             AddParagraph((OXmlParagraphElement)element);
+                            break;
+                        case OXmlElementType.Break:
+                            AddBreak((OXmlBreakElement)element);
                             break;
                         case OXmlElementType.Text:
                             AddText((OXmlTextElement)element);
@@ -163,6 +166,17 @@ namespace pb.Data.OpenXml
             _run = null;
         }
 
+        private void AddBreak(OXmlBreakElement element)
+        {
+            Paragraph paragraph = new Paragraph();
+            _element.AppendChild(paragraph);
+            Run run = paragraph.AppendChild(new Run());
+            // Break, <w:br w:type="">, Page, Column, TextWrapping
+            run.AppendChild(new Break { Type = element.BreakType });
+            _paragraph = null;
+            _run = null;
+        }
+
         private void AddRun()
         {
             if (_run == null)
@@ -218,6 +232,7 @@ namespace pb.Data.OpenXml
 
         private void AddDocSection(OXmlDocSectionElement element)
         {
+            //Trace.WriteLine("OXmlDoc.AddDocSection()");
             CreateSectionProperties();
 
             // PageSize, <w:pgSz w:w="11907" w:h="16839"/>, 11907 1/20 point = 21 cm, 16839 1/20 point = 29.7 cm, unit = 1/20 point, 11907 1/20 point = 595.35 point
@@ -565,54 +580,57 @@ namespace pb.Data.OpenXml
         private OXmlPictureElement _pictureElement;
         private string _embeddedReference = null;
         private uint _id;
-        private string _file;
+        //private string _file;
         private string _name = null;
-        private int? _width;
-        private int? _height;
-        private long _emuWidth;
-        private long _emuHeight;
-        private OXmlPictureDrawing _pictureDrawing;
+        //private int? _width;
+        //private int? _height;
+        //private long _emuWidth;
+        //private long _emuHeight;
+        //private OXmlPictureDrawing _pictureDrawing;
 
         private OXmlPicture(MainDocumentPart mainPart, OXmlPictureElement pictureElement, uint pictureId)
         {
             _mainPart = mainPart;
             _pictureElement = pictureElement;
             _id = pictureId;
-            _file = pictureElement.File;
-            _width = pictureElement.Width;
-            _height = pictureElement.Height;
-            _pictureDrawing = pictureElement.PictureDrawing;
+            //_file = pictureElement.File;
+            //_width = pictureElement.Width;
+            //_height = pictureElement.Height;
+            //_pictureDrawing = pictureElement.PictureDrawing;
         }
 
         private OpenXmlCompositeElement _Create()
         {
-            SetWidthHeight();
-            Trace.WriteLine("add picture \"{0}\" in pixel width {1} height {2} in emu width {3} height {4}", zPath.GetFileName(_file), _width, _height, _emuWidth, _emuHeight);
+            //SetWidthHeight();
+            string file = _pictureElement.File;
+            //Trace.WriteLine("add picture \"{0}\" in pixel width {1} height {2} in emu width {3} height {4}", zPath.GetFileName(_file), _width, _height, _emuWidth, _emuHeight);
+            //Trace.WriteLine($"add picture \"{zPath.GetFileName(file)}\"");
 
-            ImagePart imagePart = _mainPart.AddImagePart(GetImagePartType(zPath.GetExtension(_file)));
+            ImagePart imagePart = _mainPart.AddImagePart(GetImagePartType(zPath.GetExtension(file)));
             _embeddedReference = _mainPart.GetIdOfPart(imagePart);
 
-            using (FileStream stream = new FileStream(_file, FileMode.Open))
+            using (FileStream stream = new FileStream(file, FileMode.Open))
             {
                 imagePart.FeedData(stream);
             }
 
             _name = "Picture" + _id.ToString();
 
-            OpenXmlCompositeElement drawingMode = null;
-            if (_pictureDrawing.DrawingMode == OXmlPictureDrawingMode.Inline)
-                drawingMode = CreateInlineDrawing_v2();
+            OpenXmlCompositeElement drawingModeElement = null;
+            OXmlPictureDrawingMode drawingMode = _pictureElement.PictureDrawing.DrawingMode;
+            if (drawingMode == OXmlPictureDrawingMode.Inline)
+                drawingModeElement = CreateInlineDrawing_v2();
             //else if (_pictureDrawing.DrawingMode == zDocXPictureDrawingMode.AnchorWrapSquare)
             //    drawingMode = CreateAnchorWrapSquareDrawing();
             //else if (_pictureDrawing.DrawingMode == zDocXPictureDrawingMode.AnchorWrapTight)
             //    drawingMode = CreateAnchorWrapTightDrawing();
             //else if (_pictureDrawing.DrawingMode == zDocXPictureDrawingMode.AnchorWrapTopBottom)
             //    drawingMode = CreateAnchorWrapTopAndBottomDrawing();
-            else if (_pictureDrawing.DrawingMode == OXmlPictureDrawingMode.Anchor)
-                drawingMode = CreateAnchorDrawing();
+            else if (drawingMode == OXmlPictureDrawingMode.Anchor)
+                drawingModeElement = CreateAnchorDrawing();
             else
-                throw new PBException("unknow drawing mode {0}", _pictureDrawing.DrawingMode);
-            return drawingMode;
+                throw new PBException("unknow drawing mode {0}", drawingMode);
+            return drawingModeElement;
         }
 
         //private DW.Anchor CreateAnchorWrapSquareDrawing()
@@ -647,29 +665,36 @@ namespace pb.Data.OpenXml
 
         private ODW.Anchor CreateAnchorDrawing()
         {
-            AnchorDrawing drawing = new AnchorDrawing(_embeddedReference, _id, _name, _emuWidth, _emuHeight, _pictureElement.Description);
-            drawing.Rotation = _pictureElement.Rotation;
-            drawing.HorizontalFlip = _pictureElement.HorizontalFlip;
-            drawing.VerticalFlip = _pictureElement.VerticalFlip;
-            drawing.CompressionState = _pictureElement.CompressionState;
-            drawing.PresetShape = _pictureElement.PresetShape;
+            //AnchorDrawing drawing = new AnchorDrawing(_embeddedReference, _id, _name, _emuWidth, _emuHeight, _pictureElement.Description);
+            OXmlAnchorDrawing drawing = new OXmlAnchorDrawing(_embeddedReference, _id, _name, _pictureElement);
+            //drawing.Rotation = _pictureElement.Rotation;
+            //drawing.HorizontalFlip = _pictureElement.HorizontalFlip;
+            //drawing.VerticalFlip = _pictureElement.VerticalFlip;
+            //drawing.CompressionState = _pictureElement.CompressionState;
+            //drawing.PresetShape = _pictureElement.PresetShape;
 
-            OXmlAnchorPictureDrawing anchorDrawing = (OXmlAnchorPictureDrawing)_pictureDrawing;
-            drawing.Wrap = anchorDrawing.Wrap;
-            long? horizontalPositionOffset = anchorDrawing.HorizontalPositionOffset;
-            if (horizontalPositionOffset != null)
-                horizontalPositionOffset = (long)horizontalPositionOffset * _emusInPixel;
-            drawing.SetHorizontalPosition(anchorDrawing.HorizontalRelativeFrom, horizontalPositionOffset, anchorDrawing.HorizontalAlignment);
-            long? verticalPositionOffset = anchorDrawing.VerticalPositionOffset;
-            if (verticalPositionOffset != null)
-                verticalPositionOffset = (long)verticalPositionOffset * _emusInPixel;
-            drawing.SetVerticalPosition(anchorDrawing.VerticalRelativeFrom, verticalPositionOffset, anchorDrawing.VerticalAlignment);
+            //OXmlAnchorPictureDrawing anchorDrawing = (OXmlAnchorPictureDrawing)_pictureDrawing;
+            //drawing.Wrap = anchorDrawing.Wrap;
+            //long? horizontalPositionOffset = anchorDrawing.HorizontalPositionOffset;
+            //if (horizontalPositionOffset != null)
+            //    horizontalPositionOffset = (long)horizontalPositionOffset * _emusInPixel;
+            //drawing.SetHorizontalPosition(anchorDrawing.HorizontalRelativeFrom, horizontalPositionOffset, anchorDrawing.HorizontalAlignment);
+            //long? verticalPositionOffset = anchorDrawing.VerticalPositionOffset;
+            //if (verticalPositionOffset != null)
+            //    verticalPositionOffset = (long)verticalPositionOffset * _emusInPixel;
+            //drawing.SetVerticalPosition(anchorDrawing.VerticalRelativeFrom, verticalPositionOffset, anchorDrawing.VerticalAlignment);
 
             return drawing.Create();
         }
 
         private ODW.Inline CreateInlineDrawing_v2()
         {
+            int width;
+            int height;
+            zimg.CalculateImageWidthHeight(_pictureElement.File, _pictureElement.Width, _pictureElement.Height, out width, out height);
+            long emuWidth = OXmlTools.PixelToEmus(width);
+            long emuHeight = OXmlTools.PixelToEmus(height);
+
             // DW.Inline.EditId : ??? (<wp:inline wp14:editId="">)
 
             //if (_name == null)
@@ -690,7 +715,7 @@ namespace pb.Data.OpenXml
             };
 
             // <wp:extent>
-            inline.AppendChild(new ODW.Extent() { Cx = _emuWidth, Cy = _emuHeight });
+            inline.AppendChild(new ODW.Extent() { Cx = emuWidth, Cy = emuHeight });
             // <wp:effectExtent>
             inline.AppendChild(new ODW.EffectExtent() { LeftEdge = 0L, TopEdge = 0L, RightEdge = 0L, BottomEdge = 0L });
             // <wp:docPr>
@@ -748,7 +773,7 @@ namespace pb.Data.OpenXml
             // <a:off>
             transform2D.AppendChild(new OA.Offset() { X = 0L, Y = 0L });
             // <a:ext>
-            transform2D.AppendChild(new OA.Extents() { Cx = _emuWidth, Cy = _emuHeight });
+            transform2D.AppendChild(new OA.Extents() { Cx = emuWidth, Cy = emuHeight });
             shapeProperties.AppendChild(transform2D);
 
             // <a:prstGeom>
@@ -767,117 +792,119 @@ namespace pb.Data.OpenXml
             return inline;
         }
 
-        private ODW.Inline CreateInlineDrawing()
-        {
-            // DW.Inline.EditId : ??? (<wp:inline wp14:editId="">)
+        //private ODW.Inline CreateInlineDrawing()
+        //{
+        //    // DW.Inline.EditId : ??? (<wp:inline wp14:editId="">)
 
-            if (_name == null)
-                throw new PBException("missing image name");
-            //if (width != null && height == null)
-            //    throw new PBException("missing image height (width has a value)");
-            //if (width == null && height != null)
-            //    throw new PBException("missing image width (height has a value)");
+        //    if (_name == null)
+        //        throw new PBException("missing image name");
+        //    //if (width != null && height == null)
+        //    //    throw new PBException("missing image height (width has a value)");
+        //    //if (width == null && height != null)
+        //    //    throw new PBException("missing image width (height has a value)");
 
-            return new ODW.Inline(                                                    // <wp:inline>
-                new ODW.Extent()                                                      // <wp:extent>
-                {
-                    Cx = _emuWidth,
-                    Cy = _emuHeight
-                },
-                new ODW.EffectExtent()                                                // <wp:effectExtent>
-                {
-                    LeftEdge = 0L,
-                    TopEdge = 0L,
-                    RightEdge = 0L,
-                    BottomEdge = 0L
-                },
-                new ODW.DocProperties()                                               // <wp:docPr>
-                {
-                    Id = _id,
-                    Name = _name,
-                    Description = _pictureElement.Description
-                },
-                new ODW.NonVisualGraphicFrameDrawingProperties(                       // <wp:cNvGraphicFramePr>
-                    new OA.GraphicFrameLocks()                                        // <a:graphicFrameLocks>          { NoChangeAspect = true }
-                ),
-                new OA.Graphic(                                                       // <a:graphic>
-                    new OA.GraphicData(                                               // <a:graphicData>
-                        new ODP.Picture(                                             // <pic:pic>
-                            new ODP.NonVisualPictureProperties(                      // <pic:nvPicPr>
-                                new ODP.NonVisualDrawingProperties()                 // <pic:cNvPr>
-                                {
-                                    Id = (UInt32Value)0U,
-                                    Name = "Image"
-                                },
-                                new ODP.NonVisualPictureDrawingProperties()          // <pic:cNvPicPr>
-                            ),
-                            new ODP.BlipFill(                                        // <pic:blipFill>
-                                new OA.Blip(                                          // <a:blip>
-                                                                                     // $$pb todo comment
-                                    new OA.BlipExtensionList(                       // <a:extLst>
-                                        new OA.BlipExtension()                      // <a:ext>
-                                        { Uri = "{28A0092B-C50C-407E-A947-70E740481C1C}" }
-                                    )
-                                // $$pb todo comment end
-                                )
-                                {
-                                    Embed = _embeddedReference,
-                                    CompressionState =
-                                    OA.BlipCompressionValues.Print
-                                },
-                                new OA.Stretch(                                       // <a:stretch>
-                                    new OA.FillRectangle()                            // <a:fillRect>
-                                )
-                            ),
-                            new ODP.ShapeProperties(                                 // <pic:spPr>
-                                new OA.Transform2D(                                   // <a:xfrm>
-                                    new OA.Offset()                                   // <a:off>
-                                    { X = 0L, Y = 0L },
-                                    //new A.Extents() { Cx = 990000L, Cy = 792000L }),
-                                    new OA.Extents()                                  // <a:ext>
-                                    { Cx = _emuWidth, Cy = _emuHeight }
-                                ),
-                                new OA.PresetGeometry(                                // <a:prstGeom>
-                                    new OA.AdjustValueList()                          // <a:avLst>
-                                )
-                                { Preset = OA.ShapeTypeValues.Rectangle }
-                            )
-                        )
-                    )
-                    { Uri = "http://schemas.openxmlformats.org/drawingml/2006/picture" }
-                )
-            )
-            {
-                DistanceFromTop = (UInt32Value)0U,
-                DistanceFromBottom = (UInt32Value)0U,
-                DistanceFromLeft = (UInt32Value)0U,
-                DistanceFromRight = (UInt32Value)0U,
-                EditId = "50D07946"
-            };
-        }
+        //    return new ODW.Inline(                                                    // <wp:inline>
+        //        new ODW.Extent()                                                      // <wp:extent>
+        //        {
+        //            Cx = _emuWidth,
+        //            Cy = _emuHeight
+        //        },
+        //        new ODW.EffectExtent()                                                // <wp:effectExtent>
+        //        {
+        //            LeftEdge = 0L,
+        //            TopEdge = 0L,
+        //            RightEdge = 0L,
+        //            BottomEdge = 0L
+        //        },
+        //        new ODW.DocProperties()                                               // <wp:docPr>
+        //        {
+        //            Id = _id,
+        //            Name = _name,
+        //            Description = _pictureElement.Description
+        //        },
+        //        new ODW.NonVisualGraphicFrameDrawingProperties(                       // <wp:cNvGraphicFramePr>
+        //            new OA.GraphicFrameLocks()                                        // <a:graphicFrameLocks>          { NoChangeAspect = true }
+        //        ),
+        //        new OA.Graphic(                                                       // <a:graphic>
+        //            new OA.GraphicData(                                               // <a:graphicData>
+        //                new ODP.Picture(                                             // <pic:pic>
+        //                    new ODP.NonVisualPictureProperties(                      // <pic:nvPicPr>
+        //                        new ODP.NonVisualDrawingProperties()                 // <pic:cNvPr>
+        //                        {
+        //                            Id = (UInt32Value)0U,
+        //                            Name = "Image"
+        //                        },
+        //                        new ODP.NonVisualPictureDrawingProperties()          // <pic:cNvPicPr>
+        //                    ),
+        //                    new ODP.BlipFill(                                        // <pic:blipFill>
+        //                        new OA.Blip(                                          // <a:blip>
+        //                                                                             // $$pb todo comment
+        //                            new OA.BlipExtensionList(                       // <a:extLst>
+        //                                new OA.BlipExtension()                      // <a:ext>
+        //                                { Uri = "{28A0092B-C50C-407E-A947-70E740481C1C}" }
+        //                            )
+        //                        // $$pb todo comment end
+        //                        )
+        //                        {
+        //                            Embed = _embeddedReference,
+        //                            CompressionState =
+        //                            OA.BlipCompressionValues.Print
+        //                        },
+        //                        new OA.Stretch(                                       // <a:stretch>
+        //                            new OA.FillRectangle()                            // <a:fillRect>
+        //                        )
+        //                    ),
+        //                    new ODP.ShapeProperties(                                 // <pic:spPr>
+        //                        new OA.Transform2D(                                   // <a:xfrm>
+        //                            new OA.Offset()                                   // <a:off>
+        //                            { X = 0L, Y = 0L },
+        //                            //new A.Extents() { Cx = 990000L, Cy = 792000L }),
+        //                            new OA.Extents()                                  // <a:ext>
+        //                            { Cx = _emuWidth, Cy = _emuHeight }
+        //                        ),
+        //                        new OA.PresetGeometry(                                // <a:prstGeom>
+        //                            new OA.AdjustValueList()                          // <a:avLst>
+        //                        )
+        //                        { Preset = OA.ShapeTypeValues.Rectangle }
+        //                    )
+        //                )
+        //            )
+        //            { Uri = "http://schemas.openxmlformats.org/drawingml/2006/picture" }
+        //        )
+        //    )
+        //    {
+        //        DistanceFromTop = (UInt32Value)0U,
+        //        DistanceFromBottom = (UInt32Value)0U,
+        //        DistanceFromLeft = (UInt32Value)0U,
+        //        DistanceFromRight = (UInt32Value)0U,
+        //        EditId = "50D07946"
+        //    };
+        //}
 
-        private void SetWidthHeight()
-        {
-            if (_width == null || _height == null)
-            {
-                Image image = zimg.LoadImageFromFile(_file);
-                if (_width != null)
-                {
-                    _height = (int)(image.Height * ((double)_width / image.Width) + 0.5);
-                }
-                else if (_height != null)
-                {
-                    _width = (int)(image.Width * ((double)_height / image.Height) + 0.5);
-                }
-                else
-                {
-                    _width = image.Width;
-                    _height = image.Height;
-                }
-            }
-            _emuWidth = (long)_width * _emusInPixel;
-            _emuHeight = (long)_height * _emusInPixel;
-        }
+        //private void SetWidthHeight()
+        //{
+        //    _width = _pictureElement.Width;
+        //    _height = _pictureElement.Height;
+        //    if (_width == null || _height == null)
+        //    {
+        //        Image image = zimg.LoadImageFromFile(_file);
+        //        if (_width != null)
+        //        {
+        //            _height = (int)(image.Height * ((double)_width / image.Width) + 0.5);
+        //        }
+        //        else if (_height != null)
+        //        {
+        //            _width = (int)(image.Width * ((double)_height / image.Height) + 0.5);
+        //        }
+        //        else
+        //        {
+        //            _width = image.Width;
+        //            _height = image.Height;
+        //        }
+        //    }
+        //    _emuWidth = (long)_width * _emusInPixel;
+        //    _emuHeight = (long)_height * _emusInPixel;
+        //}
 
         private static ImagePartType GetImagePartType(string ext)
         {

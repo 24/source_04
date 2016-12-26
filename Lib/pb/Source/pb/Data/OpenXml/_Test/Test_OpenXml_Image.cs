@@ -87,7 +87,8 @@ namespace pb.Data.OpenXml.Test
             //    HorizontalRelativeFrom = DW.HorizontalRelativePositionValues.Margin, HorizontalPositionOffset = 0, VerticalRelativeFrom = DW.VerticalRelativePositionValues.Paragraph, VerticalPositionOffset = 0 } };
             yield return new OXmlPictureElement { File = _pictureDir + "112509336.jpg", Width = 300, PictureDrawing = new OXmlAnchorPictureDrawing {
                 Wrap = new OXmlAnchorWrapTight { WrapPolygon = new OXmlSquare { HorizontalSize = 21800 } },
-                HorizontalRelativeFrom = DW.HorizontalRelativePositionValues.Margin, HorizontalPositionOffset = 0, VerticalRelativeFrom = DW.VerticalRelativePositionValues.Paragraph, VerticalPositionOffset = 0 } };
+                HorizontalPosition = new OXmlHorizontalPosition { RelativeFrom = DW.HorizontalRelativePositionValues.Margin, PositionOffset = 0 },
+                VerticalPosition = new OXmlVerticalPosition { RelativeFrom = DW.VerticalRelativePositionValues.Paragraph, PositionOffset = 0 } } };
             yield return new OXmlElement { Type = OXmlElementType.Paragraph };
             yield return new OXmlTextElement { Text = "Chargement des vélos (5) et du siège enfant dans l habitacle... Oui, nous commencions à nous sentir trop au large dans Baloo... alors nous avons souhaité partager notre espace avec la famille vélo !" };
             yield return new OXmlElement { Type = OXmlElementType.Paragraph };
@@ -115,9 +116,11 @@ namespace pb.Data.OpenXml.Test
             //yield return new OXmlPictureElement { File = _pictureDir + "112509354.jpg", Width = 300, PictureDrawing = new OXmlPictureAnchorDrawing { Wrap = new OXmlAnchorWrapTight { WrapPolygon = OXmlDoc.CreateWrapPolygon(50000, 21800) },
             //    HorizontalRelativeFrom = DW.HorizontalRelativePositionValues.Margin, HorizontalPositionOffset = 305, VerticalRelativeFrom = DW.VerticalRelativePositionValues.Paragraph, VerticalPositionOffset = 0 } };
             yield return new OXmlPictureElement { File = _pictureDir + "112509351.jpg", Width = 300, PictureDrawing = new OXmlAnchorPictureDrawing { Wrap = new OXmlAnchorWrapSquare(),
-                HorizontalRelativeFrom = DW.HorizontalRelativePositionValues.Margin, HorizontalPositionOffset = 0, VerticalRelativeFrom = DW.VerticalRelativePositionValues.Paragraph, VerticalPositionOffset = 0 } };
+                HorizontalPosition = new OXmlHorizontalPosition { RelativeFrom = DW.HorizontalRelativePositionValues.Margin, PositionOffset = 0 },
+                VerticalPosition = new OXmlVerticalPosition { RelativeFrom = DW.VerticalRelativePositionValues.Paragraph, PositionOffset = 0 } } };
             yield return new OXmlPictureElement { File = _pictureDir + "112509354.jpg", Width = 300, PictureDrawing = new OXmlAnchorPictureDrawing { Wrap = new OXmlAnchorWrapSquare(),
-                HorizontalRelativeFrom = DW.HorizontalRelativePositionValues.Margin, HorizontalPositionOffset = 305, VerticalRelativeFrom = DW.VerticalRelativePositionValues.Paragraph, VerticalPositionOffset = 0 } };
+                HorizontalPosition = new OXmlHorizontalPosition { RelativeFrom = DW.HorizontalRelativePositionValues.Margin, PositionOffset = 305 },
+                VerticalPosition = new OXmlVerticalPosition { RelativeFrom = DW.VerticalRelativePositionValues.Paragraph, PositionOffset = 0 } } };
 
             yield return new OXmlElement { Type = OXmlElementType.Paragraph };
             yield return new OXmlTextElement { Text = "Nous passons du temps dans différents lieux romains datant de l antiquité (les restes d un stade qui pouvait contenir 30 000 spectateurs mais dont il ne reste pas grand chose, avec film en 3D aidant les enfants à imaginer, situe dans la zone commerçante et un théâtre romain dans la vieille ville). Balade dans la zone pietonne de Plovdiv et visite de la mosquée Djoumaya qui est l’une des plus grandes de Bulgarie. Elle date du XIVe siècle, date à laquelle Plovdiv a été conquise par les Ottomans. Les non-musulmans peuvent entrer pour la visiter et les femmes n’ont pas besoin d’être voilées donc l occasion fut prise pour nous qui n avaient jamais eu l occasion de rentrer dedans sauf Damien qui avait déjà eu l occasion au Maroc." };
@@ -129,9 +132,11 @@ namespace pb.Data.OpenXml.Test
             //yield return new OXmlPictureElement { File = _pictureDir + "112509399.jpg", Width = 300, PictureDrawing = new OXmlPictureAnchorDrawing { Wrap = new OXmlAnchorWrapTight { WrapPolygon = OXmlDoc.CreateWrapPolygon(50000, 21800) },
             //    HorizontalRelativeFrom = DW.HorizontalRelativePositionValues.Margin, HorizontalPositionOffset = 305, VerticalRelativeFrom = DW.VerticalRelativePositionValues.Paragraph, VerticalPositionOffset = 0 } };
             yield return new OXmlPictureElement { File = _pictureDir + "112509392.jpg", Width = 300, PictureDrawing = new OXmlAnchorPictureDrawing { Wrap = new OXmlAnchorWrapSquare(),
-            HorizontalRelativeFrom = DW.HorizontalRelativePositionValues.Margin, HorizontalPositionOffset = 0, VerticalRelativeFrom = DW.VerticalRelativePositionValues.Paragraph, VerticalPositionOffset = 0 } };
+                HorizontalPosition = new OXmlHorizontalPosition { RelativeFrom = DW.HorizontalRelativePositionValues.Margin, PositionOffset = 0 },
+                VerticalPosition = new OXmlVerticalPosition { RelativeFrom = DW.VerticalRelativePositionValues.Paragraph, PositionOffset = 0 } } };
             yield return new OXmlPictureElement { File = _pictureDir + "112509399.jpg", Width = 300, PictureDrawing = new OXmlAnchorPictureDrawing { Wrap = new OXmlAnchorWrapSquare(),
-            HorizontalRelativeFrom = DW.HorizontalRelativePositionValues.Margin, HorizontalPositionOffset = 305, VerticalRelativeFrom = DW.VerticalRelativePositionValues.Paragraph, VerticalPositionOffset = 0 } };
+                HorizontalPosition = new OXmlHorizontalPosition { RelativeFrom = DW.HorizontalRelativePositionValues.Margin, PositionOffset = 305 },
+                VerticalPosition = new OXmlVerticalPosition { RelativeFrom = DW.VerticalRelativePositionValues.Paragraph, PositionOffset = 0 } } };
 
             yield return new OXmlElement { Type = OXmlElementType.Paragraph };
             //yield return new OXmlPictureElement { File = _pictureDir + "112509404.jpg", Width = 300, PictureDrawing = new OXmlPictureAnchorDrawing { Wrap = new OXmlAnchorWrapTight { WrapPolygon = OXmlDoc.CreateWrapPolygon(50000, 21800) },
@@ -148,7 +153,8 @@ namespace pb.Data.OpenXml.Test
             //    HorizontalRelativeFrom = DW.HorizontalRelativePositionValues.Margin, HorizontalPositionOffset = 0, VerticalRelativeFrom = DW.VerticalRelativePositionValues.Paragraph, VerticalPositionOffset = 0 } };
             yield return new OXmlPictureElement { File = _pictureDir + "112509359.jpg", Width = 300, PictureDrawing = new OXmlAnchorPictureDrawing {
                 Wrap = new OXmlAnchorWrapTight { WrapPolygon = new OXmlSquare { HorizontalSize = 50000, VerticalSize = 21800 } },
-                HorizontalRelativeFrom = DW.HorizontalRelativePositionValues.Margin, HorizontalPositionOffset = 0, VerticalRelativeFrom = DW.VerticalRelativePositionValues.Paragraph, VerticalPositionOffset = 0 } };
+                HorizontalPosition = new OXmlHorizontalPosition { RelativeFrom = DW.HorizontalRelativePositionValues.Margin, PositionOffset = 0 },
+                VerticalPosition = new OXmlVerticalPosition { RelativeFrom = DW.VerticalRelativePositionValues.Paragraph, PositionOffset = 0 } } };
 
             yield return new OXmlElement { Type = OXmlElementType.Paragraph };
             yield return new OXmlTextElement { Text = "D autres vestiges, des ruines d un forum, s etendent vers la ville moderne mais très vaste et très en ruine, un passage sans explication et pas encore mis en valeur ne permet pas de comprendre toute cette richesse à nos pieds." };
@@ -164,23 +170,27 @@ namespace pb.Data.OpenXml.Test
             //    HorizontalRelativeFrom = DW.HorizontalRelativePositionValues.Margin, HorizontalPositionOffset = 0, VerticalRelativeFrom = DW.VerticalRelativePositionValues.Paragraph, VerticalPositionOffset = 0 } };
             yield return new OXmlPictureElement { File = _pictureDir + "112509426.jpg", Width = 300, PictureDrawing = new OXmlAnchorPictureDrawing {
                 Wrap = new OXmlAnchorWrapTight { WrapPolygon = new OXmlSquare { HorizontalSize = 21800 } },
-                HorizontalRelativeFrom = DW.HorizontalRelativePositionValues.Margin, HorizontalPositionOffset = 0, VerticalRelativeFrom = DW.VerticalRelativePositionValues.Paragraph, VerticalPositionOffset = 0 } };
+                HorizontalPosition = new OXmlHorizontalPosition { RelativeFrom = DW.HorizontalRelativePositionValues.Margin, PositionOffset = 0 },
+                VerticalPosition = new OXmlVerticalPosition { RelativeFrom = DW.VerticalRelativePositionValues.Paragraph, PositionOffset = 0 } } };
             //yield return new OXmlPictureElement { File = _pictureDir + "112509432.jpg", Width = 300, PictureDrawing = new OXmlAnchorPictureDrawing { Wrap = new OXmlAnchorWrapTight { WrapPolygon = OXmlDoc.CreateWrapPolygon(50000, 21800) },
             //    HorizontalRelativeFrom = DW.HorizontalRelativePositionValues.Margin, HorizontalPositionOffset = 305, VerticalRelativeFrom = DW.VerticalRelativePositionValues.Paragraph, VerticalPositionOffset = 0 } };
             yield return new OXmlPictureElement { File = _pictureDir + "112509432.jpg", Width = 300, PictureDrawing = new OXmlAnchorPictureDrawing {
                 Wrap = new OXmlAnchorWrapTight { WrapPolygon = new OXmlSquare { HorizontalSize = 50000, VerticalSize = 21800 } },
-                HorizontalRelativeFrom = DW.HorizontalRelativePositionValues.Margin, HorizontalPositionOffset = 305, VerticalRelativeFrom = DW.VerticalRelativePositionValues.Paragraph, VerticalPositionOffset = 0 } };
+                HorizontalPosition = new OXmlHorizontalPosition { RelativeFrom = DW.HorizontalRelativePositionValues.Margin, PositionOffset = 305 },
+                VerticalPosition = new OXmlVerticalPosition { RelativeFrom = DW.VerticalRelativePositionValues.Paragraph, PositionOffset = 0 } } };
             yield return new OXmlElement { Type = OXmlElementType.Paragraph };
             //yield return new OXmlPictureElement { File = _pictureDir + "112509438.jpg", Width = 300, PictureDrawing = new OXmlAnchorPictureDrawing { Wrap = new OXmlAnchorWrapTight { WrapPolygon = OXmlDoc.CreateWrapPolygon(21800) },
             //    HorizontalRelativeFrom = DW.HorizontalRelativePositionValues.Margin, HorizontalPositionOffset = 0, VerticalRelativeFrom = DW.VerticalRelativePositionValues.Paragraph, VerticalPositionOffset = 0 } };
             yield return new OXmlPictureElement { File = _pictureDir + "112509438.jpg", Width = 300, PictureDrawing = new OXmlAnchorPictureDrawing {
                 Wrap = new OXmlAnchorWrapTight { WrapPolygon = new OXmlSquare { HorizontalSize = 21800 } },
-                HorizontalRelativeFrom = DW.HorizontalRelativePositionValues.Margin, HorizontalPositionOffset = 0, VerticalRelativeFrom = DW.VerticalRelativePositionValues.Paragraph, VerticalPositionOffset = 0 } };
+                HorizontalPosition = new OXmlHorizontalPosition { RelativeFrom = DW.HorizontalRelativePositionValues.Margin, PositionOffset = 0 },
+                VerticalPosition = new OXmlVerticalPosition { RelativeFrom = DW.VerticalRelativePositionValues.Paragraph, PositionOffset = 0 } } };
             //yield return new OXmlPictureElement { File = _pictureDir + "112509447.jpg", Width = 300, PictureDrawing = new OXmlAnchorPictureDrawing { Wrap = new OXmlAnchorWrapTight { WrapPolygon = OXmlDoc.CreateWrapPolygon(50000, 21800) },
             //    HorizontalRelativeFrom = DW.HorizontalRelativePositionValues.Margin, HorizontalPositionOffset = 305, VerticalRelativeFrom = DW.VerticalRelativePositionValues.Paragraph, VerticalPositionOffset = 0 } };
             yield return new OXmlPictureElement { File = _pictureDir + "112509447.jpg", Width = 300, PictureDrawing = new OXmlAnchorPictureDrawing {
                 Wrap = new OXmlAnchorWrapTight { WrapPolygon = new OXmlSquare { HorizontalSize = 50000, VerticalSize = 21800 } },
-                HorizontalRelativeFrom = DW.HorizontalRelativePositionValues.Margin, HorizontalPositionOffset = 305, VerticalRelativeFrom = DW.VerticalRelativePositionValues.Paragraph, VerticalPositionOffset = 0 } };
+                HorizontalPosition = new OXmlHorizontalPosition { RelativeFrom = DW.HorizontalRelativePositionValues.Margin, PositionOffset = 305 },
+                VerticalPosition = new OXmlVerticalPosition { RelativeFrom = DW.VerticalRelativePositionValues.Paragraph, PositionOffset = 0 } } };
 
             yield return new OXmlElement { Type = OXmlElementType.Paragraph };
             yield return new OXmlTextElement { Text = "Dodo sous la tombe thrace après que Charlotte ait joué au super héros en haut du toi pour y accrocher 3 vélos... sans bloquer les fenêtres de toit... mais en coinçant le coffre de toit... récupérer les planches sera difficile..." };
@@ -216,12 +226,14 @@ namespace pb.Data.OpenXml.Test
             //    HorizontalRelativeFrom = DW.HorizontalRelativePositionValues.Margin, HorizontalPositionOffset = 0, VerticalRelativeFrom = DW.VerticalRelativePositionValues.Paragraph, VerticalPositionOffset = 0 } };
             yield return new OXmlPictureElement { File = _pictureDir + "112509351.jpg", Width = 450, PictureDrawing = new OXmlAnchorPictureDrawing {
                 Wrap = new OXmlAnchorWrapTight { WrapPolygon = new OXmlSquare { HorizontalSize = 21800 } },
-                HorizontalRelativeFrom = DW.HorizontalRelativePositionValues.Margin, HorizontalPositionOffset = 0, VerticalRelativeFrom = DW.VerticalRelativePositionValues.Paragraph, VerticalPositionOffset = 0 } };
+                HorizontalPosition = new OXmlHorizontalPosition { RelativeFrom = DW.HorizontalRelativePositionValues.Margin, PositionOffset = 0 },
+                VerticalPosition = new OXmlVerticalPosition { RelativeFrom = DW.VerticalRelativePositionValues.Paragraph, PositionOffset = 0 } } };
             //yield return new OXmlPictureElement { File = _pictureDir + "112509354.jpg", Width = 450, PictureDrawing = new OXmlAnchorPictureDrawing { Wrap = new OXmlAnchorWrapTight { WrapPolygon = OXmlDoc.CreateWrapPolygon(21800) },
             //    HorizontalRelativeFrom = DW.HorizontalRelativePositionValues.Margin, HorizontalPositionOffset = 0, VerticalRelativeFrom = DW.VerticalRelativePositionValues.Paragraph, VerticalPositionOffset = 455 } };
             yield return new OXmlPictureElement { File = _pictureDir + "112509354.jpg", Width = 450, PictureDrawing = new OXmlAnchorPictureDrawing {
                 Wrap = new OXmlAnchorWrapTight { WrapPolygon = new OXmlSquare { HorizontalSize = 21800 } },
-                HorizontalRelativeFrom = DW.HorizontalRelativePositionValues.Margin, HorizontalPositionOffset = 0, VerticalRelativeFrom = DW.VerticalRelativePositionValues.Paragraph, VerticalPositionOffset = 455 } };
+                HorizontalPosition = new OXmlHorizontalPosition { RelativeFrom = DW.HorizontalRelativePositionValues.Margin, PositionOffset = 0 },
+                VerticalPosition = new OXmlVerticalPosition { RelativeFrom = DW.VerticalRelativePositionValues.Paragraph, PositionOffset = 455 } } };
 
             yield return new OXmlElement { Type = OXmlElementType.Paragraph };
             yield return new OXmlTextElement { Text = "Nous passons du temps dans différents lieux romains datant de l antiquité (les restes d un stade qui pouvait contenir 30 000 spectateurs mais dont il ne reste pas grand chose, avec film en 3D aidant les enfants à imaginer, situe dans la zone commerçante et un théâtre romain dans la vieille ville). Balade dans la zone pietonne de Plovdiv et visite de la mosquée Djoumaya qui est l’une des plus grandes de Bulgarie. Elle date du XIVe siècle, date à laquelle Plovdiv a été conquise par les Ottomans. Les non-musulmans peuvent entrer pour la visiter et les femmes n’ont pas besoin d’être voilées donc l occasion fut prise pour nous qui n avaient jamais eu l occasion de rentrer dedans sauf Damien qui avait déjà eu l occasion au Maroc." };
@@ -251,18 +263,21 @@ namespace pb.Data.OpenXml.Test
             //    HorizontalRelativeFrom = DW.HorizontalRelativePositionValues.Margin, HorizontalPositionOffset = 0, VerticalRelativeFrom = DW.VerticalRelativePositionValues.Paragraph, VerticalPositionOffset = 0 } };
             yield return new OXmlPictureElement { File = _pictureDir + "112509426.jpg", Width = 300, PictureDrawing = new OXmlAnchorPictureDrawing {
                 Wrap = new OXmlAnchorWrapTight { WrapPolygon = new OXmlSquare { HorizontalSize = 21800 } },
-                HorizontalRelativeFrom = DW.HorizontalRelativePositionValues.Margin, HorizontalPositionOffset = 0, VerticalRelativeFrom = DW.VerticalRelativePositionValues.Paragraph, VerticalPositionOffset = 0 } };
+                HorizontalPosition = new OXmlHorizontalPosition { RelativeFrom = DW.HorizontalRelativePositionValues.Margin, PositionOffset = 0 },
+                VerticalPosition = new OXmlVerticalPosition { RelativeFrom = DW.VerticalRelativePositionValues.Paragraph, PositionOffset = 0 } } };
             //yield return new OXmlPictureElement { File = _pictureDir + "112509432.jpg", Width = 300, PictureDrawing = new OXmlAnchorPictureDrawing { Wrap = new OXmlAnchorWrapTight { WrapPolygon = OXmlDoc.CreateWrapPolygon(21800) },
             //    HorizontalRelativeFrom = DW.HorizontalRelativePositionValues.Margin, HorizontalPositionOffset = 305, VerticalRelativeFrom = DW.VerticalRelativePositionValues.Paragraph, VerticalPositionOffset = 0 } };
             yield return new OXmlPictureElement { File = _pictureDir + "112509432.jpg", Width = 300, PictureDrawing = new OXmlAnchorPictureDrawing {
                 Wrap = new OXmlAnchorWrapTight { WrapPolygon = new OXmlSquare { HorizontalSize = 21800 } },
-                HorizontalRelativeFrom = DW.HorizontalRelativePositionValues.Margin, HorizontalPositionOffset = 305, VerticalRelativeFrom = DW.VerticalRelativePositionValues.Paragraph, VerticalPositionOffset = 0 } };
+                HorizontalPosition = new OXmlHorizontalPosition { RelativeFrom = DW.HorizontalRelativePositionValues.Margin, PositionOffset = 305 },
+                VerticalPosition = new OXmlVerticalPosition { RelativeFrom = DW.VerticalRelativePositionValues.Paragraph, PositionOffset = 0 } } };
 
             //yield return new OXmlPictureElement { File = _pictureDir + "112509438.jpg", Width = 300, PictureDrawing = new OXmlAnchorPictureDrawing { Wrap = new OXmlAnchorWrapTight { WrapPolygon = OXmlDoc.CreateWrapPolygon(21800) },
             //    HorizontalRelativeFrom = DW.HorizontalRelativePositionValues.Margin, HorizontalPositionOffset = 0, VerticalRelativeFrom = DW.VerticalRelativePositionValues.Paragraph, VerticalPositionOffset = 174 } };
             yield return new OXmlPictureElement { File = _pictureDir + "112509438.jpg", Width = 300, PictureDrawing = new OXmlAnchorPictureDrawing {
                 Wrap = new OXmlAnchorWrapTight { WrapPolygon = new OXmlSquare { HorizontalSize = 21800 } },
-                HorizontalRelativeFrom = DW.HorizontalRelativePositionValues.Margin, HorizontalPositionOffset = 0, VerticalRelativeFrom = DW.VerticalRelativePositionValues.Paragraph, VerticalPositionOffset = 174 } };
+                HorizontalPosition = new OXmlHorizontalPosition { RelativeFrom = DW.HorizontalRelativePositionValues.Margin, PositionOffset = 0 },
+                VerticalPosition = new OXmlVerticalPosition { RelativeFrom = DW.VerticalRelativePositionValues.Paragraph, PositionOffset = 174 } } };
 
             //yield return new OXmlElement { Type = OXmlElementType.Paragraph };
             yield return new OXmlElement { Type = OXmlElementType.Line };
@@ -295,15 +310,19 @@ namespace pb.Data.OpenXml.Test
             yield return new OXmlElement { Type = OXmlElementType.Paragraph };
             // picture width 300 height 169
             yield return new OXmlPictureElement { File = _pictureDir + "112509426.jpg", Width = 300, PictureDrawing = new OXmlAnchorPictureDrawing() { Wrap = new OXmlAnchorWrapTopAndBottom(),
-                HorizontalRelativeFrom = DW.HorizontalRelativePositionValues.Margin, HorizontalPositionOffset = 0, VerticalRelativeFrom = DW.VerticalRelativePositionValues.Paragraph, VerticalPositionOffset = 0 } };
+                HorizontalPosition = new OXmlHorizontalPosition { RelativeFrom = DW.HorizontalRelativePositionValues.Margin, PositionOffset = 0 },
+                VerticalPosition = new OXmlVerticalPosition { RelativeFrom = DW.VerticalRelativePositionValues.Paragraph, PositionOffset = 0 } } };
             yield return new OXmlPictureElement { File = _pictureDir + "112509432.jpg", Width = 300, PictureDrawing = new OXmlAnchorPictureDrawing() { Wrap = new OXmlAnchorWrapTopAndBottom(),
-                HorizontalRelativeFrom = DW.HorizontalRelativePositionValues.Margin, HorizontalPositionOffset = 305, VerticalRelativeFrom = DW.VerticalRelativePositionValues.Paragraph, VerticalPositionOffset = 0 } };
+                HorizontalPosition = new OXmlHorizontalPosition { RelativeFrom = DW.HorizontalRelativePositionValues.Margin, PositionOffset = 305 },
+                VerticalPosition = new OXmlVerticalPosition { RelativeFrom = DW.VerticalRelativePositionValues.Paragraph, PositionOffset = 0 } } };
 
             yield return new OXmlElement { Type = OXmlElementType.Paragraph };
             yield return new OXmlPictureElement { File = _pictureDir + "112509438.jpg", Width = 300, PictureDrawing = new OXmlAnchorPictureDrawing() { Wrap = new OXmlAnchorWrapTopAndBottom(),
-                HorizontalRelativeFrom = DW.HorizontalRelativePositionValues.Margin, HorizontalPositionOffset = 0, VerticalRelativeFrom = DW.VerticalRelativePositionValues.Paragraph, VerticalPositionOffset = 0 } };
+                HorizontalPosition = new OXmlHorizontalPosition { RelativeFrom = DW.HorizontalRelativePositionValues.Margin, PositionOffset = 0 },
+                VerticalPosition = new OXmlVerticalPosition { RelativeFrom = DW.VerticalRelativePositionValues.Paragraph, PositionOffset = 0 } } };
             yield return new OXmlPictureElement { File = _pictureDir + "112509447.jpg", Width = 300, PictureDrawing = new OXmlAnchorPictureDrawing() { Wrap = new OXmlAnchorWrapTopAndBottom(),
-                HorizontalRelativeFrom = DW.HorizontalRelativePositionValues.Margin, HorizontalPositionOffset = 305, VerticalRelativeFrom = DW.VerticalRelativePositionValues.Paragraph, VerticalPositionOffset = 0 } };
+                HorizontalPosition = new OXmlHorizontalPosition { RelativeFrom = DW.HorizontalRelativePositionValues.Margin, PositionOffset = 305 },
+                VerticalPosition = new OXmlVerticalPosition { RelativeFrom = DW.VerticalRelativePositionValues.Paragraph, PositionOffset = 0 } } };
 
             yield return new OXmlElement { Type = OXmlElementType.Paragraph };
             yield return new OXmlTextElement { Text = "Dodo sous la tombe thrace après que Charlotte ait joué au super héros en haut du toi pour y accrocher 3 vélos... sans bloquer les fenêtres de toit... mais en coinçant le coffre de toit... récupérer les planches sera difficile..." };
@@ -334,13 +353,17 @@ namespace pb.Data.OpenXml.Test
             yield return new OXmlElement { Type = OXmlElementType.Paragraph };
             // picture width 300 height 169
             yield return new OXmlPictureElement { File = _pictureDir + "112509426.jpg", Width = 300, PictureDrawing = new OXmlAnchorPictureDrawing() { Wrap = new OXmlAnchorWrapTopAndBottom(),
-                HorizontalRelativeFrom = DW.HorizontalRelativePositionValues.Margin, HorizontalPositionOffset = 0, VerticalRelativeFrom = DW.VerticalRelativePositionValues.Paragraph, VerticalPositionOffset = 0 } };
+                HorizontalPosition = new OXmlHorizontalPosition { RelativeFrom = DW.HorizontalRelativePositionValues.Margin, PositionOffset = 0 },
+                VerticalPosition = new OXmlVerticalPosition { RelativeFrom = DW.VerticalRelativePositionValues.Paragraph, PositionOffset = 0 } } };
             yield return new OXmlPictureElement { File = _pictureDir + "112509432.jpg", Width = 300, PictureDrawing = new OXmlAnchorPictureDrawing() { Wrap = new OXmlAnchorWrapTopAndBottom(),
-                HorizontalRelativeFrom = DW.HorizontalRelativePositionValues.Margin, HorizontalPositionOffset = 305, VerticalRelativeFrom = DW.VerticalRelativePositionValues.Paragraph, VerticalPositionOffset = 0 } };
+                HorizontalPosition = new OXmlHorizontalPosition { RelativeFrom = DW.HorizontalRelativePositionValues.Margin, PositionOffset = 305 },
+                VerticalPosition = new OXmlVerticalPosition { RelativeFrom = DW.VerticalRelativePositionValues.Paragraph, PositionOffset = 0 } } };
             yield return new OXmlPictureElement { File = _pictureDir + "112509438.jpg", Width = 300, PictureDrawing = new OXmlAnchorPictureDrawing() { Wrap = new OXmlAnchorWrapTopAndBottom(),
-                HorizontalRelativeFrom = DW.HorizontalRelativePositionValues.Margin, HorizontalPositionOffset = 0, VerticalRelativeFrom = DW.VerticalRelativePositionValues.Paragraph, VerticalPositionOffset = 174 } };
+                HorizontalPosition = new OXmlHorizontalPosition { RelativeFrom = DW.HorizontalRelativePositionValues.Margin, PositionOffset = 0 },
+                VerticalPosition = new OXmlVerticalPosition { RelativeFrom = DW.VerticalRelativePositionValues.Paragraph, PositionOffset = 174 } } };
             yield return new OXmlPictureElement { File = _pictureDir + "112509447.jpg", Width = 300, PictureDrawing = new OXmlAnchorPictureDrawing() { Wrap = new OXmlAnchorWrapTopAndBottom(),
-                HorizontalRelativeFrom = DW.HorizontalRelativePositionValues.Margin, HorizontalPositionOffset = 305, VerticalRelativeFrom = DW.VerticalRelativePositionValues.Paragraph, VerticalPositionOffset = 174 } };
+                HorizontalPosition = new OXmlHorizontalPosition { RelativeFrom = DW.HorizontalRelativePositionValues.Margin, PositionOffset = 305 },
+                VerticalPosition = new OXmlVerticalPosition { RelativeFrom = DW.VerticalRelativePositionValues.Paragraph, PositionOffset = 174 } } };
 
             yield return new OXmlElement { Type = OXmlElementType.Paragraph };
             yield return new OXmlTextElement { Text = "Dodo sous la tombe thrace après que Charlotte ait joué au super héros en haut du toi pour y accrocher 3 vélos... sans bloquer les fenêtres de toit... mais en coinçant le coffre de toit... récupérer les planches sera difficile..." };

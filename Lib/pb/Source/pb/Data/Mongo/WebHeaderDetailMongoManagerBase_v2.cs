@@ -4,7 +4,6 @@ using pb.Data.Xml;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Xml.Linq;
 
 namespace pb.Web.Data.Mongo
@@ -12,15 +11,19 @@ namespace pb.Web.Data.Mongo
     // copy of WebHeaderDetailMongoManagerBase
     //   - change WebDataManager<TDetailData> _detailDataManager to WebDataManager_v4<TDetailData> _detailDataManager
     //   - change WebHeaderDetailManager<THeaderData, TDetailData> _headerDetailManager to WebHeaderDetailManager_v4<THeaderData, TDetailData>
+    //   - change WebDataPageManager<THeaderData> _headerDataPageManager to WebDataPageManager_v4<THeaderData> _headerDataPageManager
+    //   - change IEnumDataPages<THeaderData> GetHeaderPageData(WebResult webResult) to IEnumDataPages<THeaderData> GetHeaderPageData(HttpResult<string> httpResult)
+    //   - remove HttpRequestParameters GetHttpRequestParameters()
     public class WebHeaderDetailMongoManagerBase_v2<THeaderData, TDetailData>
     {
         protected Type _headerPageNominalType = null;
-        protected WebDataPageManager<THeaderData> _headerDataPageManager = null;
+        //protected WebDataPageManager<THeaderData> _headerDataPageManager = null;
+        protected WebDataPageManager_v4<THeaderData> _headerDataPageManager = null;
         protected WebDataManager_v4<TDetailData> _detailDataManager = null;
         protected WebHeaderDetailManager_v4<THeaderData, TDetailData> _headerDetailManager = null;
 
         public Type HeaderPageNominalType { get { return _headerPageNominalType; } set { _headerPageNominalType = value; } }
-        public WebDataPageManager<THeaderData> HeaderDataPageManager { get { return _headerDataPageManager; } }
+        public WebDataPageManager_v4<THeaderData> HeaderDataPageManager { get { return _headerDataPageManager; } }
         public WebDataManager_v4<TDetailData> DetailDataManager { get { return _detailDataManager; } }
         public WebHeaderDetailManager_v4<THeaderData, TDetailData> HeaderDetailManager { get { return _headerDetailManager; } }
 
@@ -30,10 +33,10 @@ namespace pb.Web.Data.Mongo
         }
 
         // used by header and detail
-        protected virtual HttpRequestParameters GetHttpRequestParameters()
-        {
-            return new HttpRequestParameters { Encoding = Encoding.UTF8 };
-        }
+        //protected virtual HttpRequestParameters GetHttpRequestParameters()
+        //{
+        //    return new HttpRequestParameters { Encoding = Encoding.UTF8 };
+        //}
 
         // used by header and detail
         protected virtual void SetHttpRequestParameters(HttpRequestParameters requestParameters)
@@ -48,7 +51,8 @@ namespace pb.Web.Data.Mongo
         }
 
         // header get data
-        protected virtual IEnumDataPages<THeaderData> GetHeaderPageData(WebResult webResult)
+        //protected virtual IEnumDataPages<THeaderData> GetHeaderPageData(WebResult webResult)
+        protected virtual IEnumDataPages<THeaderData> GetHeaderPageData(HttpResult<string> httpResult)
         {
             throw new PBException("GetHeaderPageData() not implemented");
         }
@@ -103,32 +107,72 @@ namespace pb.Web.Data.Mongo
 
         protected virtual void CreateHeaderWebDataPageManager(XElement xe)
         {
-            _headerDataPageManager = new WebDataPageManager<THeaderData>();
+            _headerDataPageManager = new WebDataPageManager_v4<THeaderData>();
 
-            _headerDataPageManager.WebLoadDataManager = new WebLoadDataManager<IEnumDataPages<THeaderData>>();
             UrlCache urlCache = UrlCache.Create(xe);
             if (urlCache != null)
-            {
                 urlCache.GetUrlSubDirectory = GetHeaderPageCacheUrlSubDirectory;
-                _headerDataPageManager.WebLoadDataManager.UrlCache = urlCache;
-            }
+            //Trace.WriteLine($"WebHeaderDetailMongoManagerBase_v2<THeaderData, TDetailData>.CreateHeaderWebDataPageManager() : {(urlCache != null ? "urlCache created" : "no urlCache")}");
 
+            _headerDataPageManager.WebLoadDataManager = new WebLoadDataManager_v2<IEnumDataPages<THeaderData>>();
+            _headerDataPageManager.WebLoadDataManager.TraceException = true;
+            _headerDataPageManager.WebLoadDataManager.UrlCache = urlCache;
             _headerDataPageManager.WebLoadDataManager.InitLoadFromWeb = InitLoadFromWeb;
-            _headerDataPageManager.WebLoadDataManager.GetHttpRequestParameters = GetHttpRequestParameters;
             _headerDataPageManager.WebLoadDataManager.GetData = GetHeaderPageData;
+            //_headerDataPageManager.WebLoadDataManager.GetHttpRequestParameters = GetHttpRequestParameters;
+            SetHttpRequestParameters(_headerDataPageManager.WebLoadDataManager.RequestParameters);
             _headerDataPageManager.GetKeyFromHttpRequest = GetHeaderKey;
 
-            _headerDataPageManager.DocumentStore = MongoDocumentStore<IEnumDataPages<THeaderData>>.Create(xe);
-            if (_headerDataPageManager.DocumentStore != null)
-                _headerDataPageManager.DocumentStore.NominalType = _headerPageNominalType;
+            //_headerDataPageManager.DocumentStore = MongoDocumentStore<IEnumDataPages<THeaderData>>.Create(xe);
+            //if (_headerDataPageManager.DocumentStore != null)
+            //    _headerDataPageManager.DocumentStore.NominalType = _headerPageNominalType;
+
+            _headerDataPageManager.DataStore = MongoDataStore.Create(xe);
+            MongoDataSerializer<IEnumDataPages<THeaderData>> dataSerializer = new MongoDataSerializer<IEnumDataPages<THeaderData>>();
+            dataSerializer.ItemName = xe.zXPathValue("MongoDocumentItemName");
+            dataSerializer.NominalType = _headerPageNominalType;
+            _headerDataPageManager.DataSerializer = dataSerializer;
+
+            UrlCache imageUrlCache = UrlCache.Create(xe.zXPathElement("Image"));
+            _headerDataPageManager.WebLoadImageManager = new WebLoadImageManager_v2<IEnumDataPages<THeaderData>>();
+            if (imageUrlCache != null)
+            {
+                _detailDataManager.WebLoadImageManager.WebImageCacheManager = new WebImageCacheManager_v3(imageUrlCache);
+                _detailDataManager.WebLoadImageManager.WebImageCacheManager.TraceException = true;
+                //_detailDataManager.WebLoadImageManager.GetImageSubDirectory = GetHeaderImageCacheUrlSubDirectory;
+            }
 
             _headerDataPageManager.GetHttpRequestPageFunction = GetHttpRequestPage;
         }
 
+        //protected virtual void CreateHeaderWebDataPageManager_v1(XElement xe)
+        //{
+        //    _headerDataPageManager = new WebDataPageManager<THeaderData>();
+
+        //    _headerDataPageManager.WebLoadDataManager = new WebLoadDataManager<IEnumDataPages<THeaderData>>();
+        //    UrlCache urlCache = UrlCache.Create(xe);
+        //    if (urlCache != null)
+        //    {
+        //        urlCache.GetUrlSubDirectory = GetHeaderPageCacheUrlSubDirectory;
+        //        _headerDataPageManager.WebLoadDataManager.UrlCache = urlCache;
+        //    }
+
+        //    _headerDataPageManager.WebLoadDataManager.InitLoadFromWeb = InitLoadFromWeb;
+        //    _headerDataPageManager.WebLoadDataManager.GetHttpRequestParameters = GetHttpRequestParameters;
+        //    _headerDataPageManager.WebLoadDataManager.GetData = GetHeaderPageData;
+        //    _headerDataPageManager.GetKeyFromHttpRequest = GetHeaderKey;
+
+        //    _headerDataPageManager.DocumentStore = MongoDocumentStore<IEnumDataPages<THeaderData>>.Create(xe);
+        //    if (_headerDataPageManager.DocumentStore != null)
+        //        _headerDataPageManager.DocumentStore.NominalType = _headerPageNominalType;
+
+        //    _headerDataPageManager.GetHttpRequestPageFunction = GetHttpRequestPage;
+        //}
+
         protected virtual void CreateDetailWebDataManager(XElement xe)
         {
             _detailDataManager = new WebDataManager_v4<TDetailData>();
-            _detailDataManager.Version = xe.zXPathValue("Version").zTryParseAs(1);
+            //_detailDataManager.Version = xe.zXPathValue("Version").zTryParseAs(1);
 
             UrlCache urlCache = UrlCache.Create(xe);
             if (urlCache != null)
@@ -157,15 +201,15 @@ namespace pb.Web.Data.Mongo
             //}
 
             UrlCache imageUrlCache = UrlCache.Create(xe.zXPathElement("Image"));
-            if (imageUrlCache != null)
-            {
-                //imageUrlCache.GetUrlSubDirectory = GetDetailImageCacheUrlSubDirectory;
-                //_detailDataManager.WebImageCacheManager = new WebImageCacheManager_v2(imageUrlCache);
+            //if (imageUrlCache != null)
+            //{
+            //    //imageUrlCache.GetUrlSubDirectory = GetDetailImageCacheUrlSubDirectory;
+            //    //_detailDataManager.WebImageCacheManager = new WebImageCacheManager_v2(imageUrlCache);
 
-                //_detailDataManager.WebImageCacheManager = new WebImageCacheManager_v3(imageUrlCache);
-                //_detailDataManager.WebImageCacheManager.TraceException = true;
-                //_detailDataManager.GetImageSubDirectory = GetDetailImageCacheUrlSubDirectory;
-            }
+            //    //_detailDataManager.WebImageCacheManager = new WebImageCacheManager_v3(imageUrlCache);
+            //    //_detailDataManager.WebImageCacheManager.TraceException = true;
+            //    //_detailDataManager.GetImageSubDirectory = GetDetailImageCacheUrlSubDirectory;
+            //}
 
             _detailDataManager.WebLoadImageManager = new WebLoadImageManager_v2<TDetailData>();
             if (imageUrlCache != null)

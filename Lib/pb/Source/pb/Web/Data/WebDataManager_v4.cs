@@ -10,7 +10,7 @@ namespace pb.Web.Data
     //   - use WebLoadImageManager_v2<TData>
     public partial class WebDataManager_v4<TData>
     {
-        protected int _version = 1; // WebDataManager version : 1 use Load_v1(), 2 use WebData<TData>.Load(), 3 use MongoDataStore, 4 use WebLoadDataManager_v2
+        //protected int _version = 1; // WebDataManager version : 1 use Load_v1(), 2 use WebData<TData>.Load(), 3 use MongoDataStore, 4 use WebLoadDataManager_v2
         protected WebLoadDataManager_v2<TData> _webLoadDataManager = null;
         //protected IDocumentStore<TData> _documentStore = null;
         protected bool _desactivateDocumentStore = false;
@@ -18,7 +18,7 @@ namespace pb.Web.Data
         protected Func<HttpRequest, BsonValue> _getKeyFromHttpRequest = null;
         protected WebLoadImageManager_v2<TData> _webLoadImageManager = null;
 
-        public int Version { get { return _version; } set { _version = value; } }
+        //public int Version { get { return _version; } set { _version = value; } }
         public WebLoadDataManager_v2<TData> WebLoadDataManager { get { return _webLoadDataManager; } set { _webLoadDataManager = value; } }
         //public IDocumentStore<TData> DocumentStore { get { return _documentStore; } set { _documentStore = value; } }
         public bool DesactivateDocumentStore { get { return _desactivateDocumentStore; } set { _desactivateDocumentStore = value; } }
@@ -198,21 +198,21 @@ namespace pb.Web.Data
         //    }
         //}
 
-        public IEnumerable<TData> Find(string query = null, string sort = null, int limit = 0, bool loadImage = false)
-        {
-            //return _documentStore.Find(query, sort: sort, limit: limit).zAction(
-            //    data =>
-            //    {
-            //        if (loadImage)
-            //        {
-            //            if (_imageLoadVersion == 1)
-            //                LoadImages_v1(data, new WebImageRequest { LoadImageToData = true });
-            //            else
-            //                LoadImagesToData(data);
-            //        }
-            //    });
-            throw new PBException("not implemented");
-        }
+        //public IEnumerable<TData> Find(string query = null, string sort = null, int limit = 0, bool loadImage = false)
+        //{
+        //    //return _documentStore.Find(query, sort: sort, limit: limit).zAction(
+        //    //    data =>
+        //    //    {
+        //    //        if (loadImage)
+        //    //        {
+        //    //            if (_imageLoadVersion == 1)
+        //    //                LoadImages_v1(data, new WebImageRequest { LoadImageToData = true });
+        //    //            else
+        //    //                LoadImagesToData(data);
+        //    //        }
+        //    //    });
+        //    throw new PBException("not implemented");
+        //}
 
         public int Update(Action<TData> updateDocument, string query = null, string sort = null, int limit = 0)
         {

@@ -4,10 +4,13 @@ using pb.Data.Mongo;
 
 namespace pb.Web.Data
 {
+    // WebData_LoadImages_v2
     partial class WebData<TData>
     {
         private MongoDataStore _dataStore = null;
         private WebDataManager_v4<TData> _webDataManager_v4 = null;
+        //private BsonValue _id = null;
+        //private BsonValue _key = null;
 
         private WebData(WebDataManager_v4<TData> webDataManager, WebRequest request)
         {
@@ -17,97 +20,60 @@ namespace pb.Web.Data
 
         private void Load_v2()
         {
-            BsonValue id = null;
-            BsonValue key = null;
+            //BsonValue id = null;
+            //BsonValue key = null;
             bool dataExists = false;
             _dataStore = _webDataManager_v4.DataStore;
-            _webLoadImageManager = _webDataManager_v4.WebLoadImageManager;
+            //_webLoadImageManager = _webDataManager_v4.WebLoadImageManager;
             bool useDocumentStore = _dataStore != null && !_webDataManager_v4.DesactivateDocumentStore;
             if (useDocumentStore)
-            //if (_dataStore != null)
             {
-                key = _webDataManager_v4._GetKeyFromHttpRequest(_request.HttpRequest);
-                //key = _getKeyFromHttpRequest(_request.HttpRequest);
+                _key = _webDataManager_v4._GetKeyFromHttpRequest(_request.HttpRequest);
                 if (_dataStore.GenerateId)
                 {
-                    //id = GetId(webData);
-                    id = _dataStore.GetId(key);
-                    if (id != null)
+                    _id = _dataStore.GetId(_key);
+                    if (_id != null)
                         dataExists = true;
                 }
                 else
-                    //dataExists = Exists(webData);
-                    dataExists = _dataStore.Exists(key);
+                    dataExists = _dataStore.Exists(_key);
             }
 
-            //if (!useDocumentStore || !dataExists || _request.ReloadFromWeb || _request.RefreshDocumentStore)
             if (_dataStore == null || !dataExists || _request.ReloadFromWeb || _request.RefreshDocumentStore)
             {
                 _LoadFromWeb_v2(_webDataManager_v4.WebLoadDataManager);
             }
             else
             {
-                _LoadFromDocumentStore_v2(key);
+                _LoadFromDocumentStore_v2(_key);
             }
 
             // _error is not used actually
             //if (_error)
             //    return;
 
-            //if (useDocumentStore && _documentLoadedFromWeb)
             if (_dataStore != null && _documentLoadedFromWeb)
             {
                 BsonDocument data = Serialize();
                 if (_dataStore.GenerateId)
                 {
-                    if (id == null)
-                        id = _dataStore.GetNewId();
-                    _document.zSetId(id);
-                    _dataStore.SaveWithId(id, data);
+                    if (_id == null)
+                        _id = _dataStore.GetNewId();
+                    _document.zSetId(_id);
+                    _dataStore.SaveWithId(_id, data);
                 }
                 else
                 {
-                    _dataStore.SaveWithKey(key, data);
+                    _dataStore.SaveWithKey(_key, data);
                 }
             }
 
-
-            WebImageRequest imageRequest = _request.ImageRequest;
-            //if (_webDataManager.ImageLoadVersion == 1)
-            if (_webLoadImageManager == null)
-            {
-                if ((_documentLoadedFromWeb && (imageRequest.LoadImageFromWeb || imageRequest.RefreshImage))
-                    || (!_documentLoadedFromWeb && (imageRequest.LoadImageToData || imageRequest.LoadMissingImageFromWeb)))
-                {
-                    //_webDataManager.LoadImages_v1(_document, _request.ImageRequest);
-                    WebLoadImageManager_v1.LoadImages(_document, _request.ImageRequest);
-                }
-            }
-            else // _webDataManager.ImageLoadVersion == 2
-            {
-                //if (_documentLoadedFromWeb && (imageRequest.LoadImageFromWeb || imageRequest.LoadMissingImageFromWeb || imageRequest.RefreshImage))
-                if ((_documentLoadedFromWeb && (imageRequest.LoadImageFromWeb || imageRequest.RefreshImage))
-                    || (!_documentLoadedFromWeb && imageRequest.LoadMissingImageFromWeb))
-                {
-                    //if (_webDataManager.LoadImagesFromWeb(this))
-                    if (_webLoadImageManager.LoadImagesFromWeb(this))
-                    {
-                        BsonDocument data = Serialize();
-                        if (id != null)
-                            //SaveWithId(id, webData);
-                            _dataStore.SaveWithId(id, data);
-                        else
-                            //SaveWithKey(webData);
-                            _dataStore.SaveWithKey(key, data);
-                    }
-                }
-
-                if (imageRequest.LoadImageToData)
-                {
-                    //_webDataManager.LoadImagesToData(_document);
-                    _webLoadImageManager.LoadImagesToData(_document);
-                }
-            }
+            //if (_webLoadImageManager == null)
+            //    LoadImages_v1(_request.ImageRequest);
+            //else
+            //    LoadImages_v3(_request.ImageRequest);
+            //LoadImages_v1(_request.ImageRequest);
+            LoadImages_v3(_request.ImageRequest);
         }
 
         private void _LoadFromWeb_v2(WebLoadDataManager_v2<TData> webLoadDataManager)

@@ -13,12 +13,13 @@
   <!-- Image.cs already in Extension_01.dll.project.xml  -->
   <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Data\Image.cs" />-->
 
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\OpenXml\AnchorDrawing.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\OpenXml\Graphic.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\OpenXml\OXmlAnchorDrawing.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\OpenXml\OXmlDoc.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\OpenXml\OXmlElement.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\OpenXml\OXmlPictureElementCreator.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\OpenXml\OXmlElementReader.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\OpenXml\OXmlTools.cs" />
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Data\OpenXml\OXmlElementReader.cs" />-->
 
   <FrameworkAssembly                value = "System.Drawing.dll" />
   <!--<Assembly                         value = "$Root$\Lib\LongPath\Pri.LongPath\bin\Debug\Pri.LongPath.dll" />-->

@@ -2,85 +2,23 @@
 using System.Collections.Generic;
 using System.Drawing;
 using DW = DocumentFormat.OpenXml.Drawing.Wordprocessing;
-using pb.Compiler;
 using pb.Data;
-using pb.Data.Mongo;
 using pb.Data.OpenXml;
 using pb.Web;
 
 namespace WebData.BlogDemoor
 {
-    public static class Test_HtmlToOXmlDoc
-    {
-        public static void Test_Trace_Html(string file)
-        {
-            string traceFile = file + ".html.trace";
-            bool generateCloseTag = true;
-            bool disableLineColumn = false;
-            bool disableScriptTreatment = false;
-            bool useReadAttributeValue_v2 = true;
-            bool useTranslateChar = true;
-            HtmlReader_v4.ReadFile(file, generateCloseTag: generateCloseTag, disableLineColumn: disableLineColumn, disableScriptTreatment: disableScriptTreatment,
-                useReadAttributeValue_v2: useReadAttributeValue_v2, useTranslateChar: useTranslateChar)
-                .zSave(traceFile);
-        }
-
-        public static void Test_Trace_HtmlDoc(string file)
-        {
-            string traceFile = file + ".htmldoc.trace";
-            HtmlDocReader.ReadFile(file).zSave(traceFile);
-        }
-
-        public static void Test_Trace_HtmlDocText(string file)
-        {
-            string traceFile = file + ".htmldoc.text.trace";
-            HtmlDocReader.ReadFile(file).zTraceToFile(traceFile);
-        }
-
-        public static void Test_Trace_HtmlToOXml(string file)
-        {
-            string traceFile = file + ".htmltooxml.trace";
-            HtmlToOXmlElements.ToOXmlXElements(HtmlDocReader.ReadFile(file)).zSave(traceFile);
-        }
-
-        public static void Test_Trace_HtmlToOXmlText(string file)
-        {
-            string traceFile = file + ".htmltooxml.text.trace";
-            HtmlToOXmlElements.ToOXmlXElements(HtmlDocReader.ReadFile(file)).zTraceToFile(traceFile);
-        }
-
-        public static void Test_HtmlToDocx(string file)
-        {
-            OXmlDoc.Create(file + ".docx", HtmlToOXmlElements.ToOXmlXElements(HtmlDocReader.ReadFile(file)));
-        }
-
-        public static void Test_OXmlToDocx(string file)
-        {
-            OXmlDoc.Create(file + ".docx", OXmlElementReader.Read(file));
-        }
-
-        //public static void Test_SaveOXml(string inputFile, string outputFile)
-        //{
-        //    OXmlElementReader.Read(inputFile).zSave(outputFile);
-        //}
-    }
-
-    public class HtmlImage
-    {
-        public string File = null;
-        public bool NoneAlign = false;
-        public bool LeftAlign = false;
-        public int? Width = null;
-        public int? Height = null;
-    }
-
-    public class HtmlToOXmlElements
+    public class HtmlToOXmlElements_v1
     {
         private static string _pictureDir = @"c:\pib\_dl\test\BlogDemoor\from-chrome\files\images\";
         //private IEnumerable<HtmlDocNode> _nodes = null;
         private int? _forcedImageWidth = 300;
         private int _maxImageHorizontalPosition = 700;
         private int _imageMarge = 5;
+
+        //private HtmlImage _image = null;
+
+        // Image_v1
         private int _imageHorizontalPosition = 0;
         private int _imageVerticalPosition = 0;
         private int _imageHeight = 0;
@@ -128,15 +66,17 @@ namespace WebData.BlogDemoor
             }
         }
 
-        private IEnumerable<OXmlElement> Paragraph()
+        private IEnumerable<OXmlElement> Paragraph(string style = null)
         {
             if (_imageHorizontalPosition == 0)
-                yield return new OXmlElement { Type = OXmlElementType.Paragraph };
+            //if (_image == null)
+                yield return new OXmlParagraphElement { Style = style };
         }
 
         private IEnumerable<OXmlElement> NewLine()
         {
             if (_imageHorizontalPosition == 0)
+            //if (_image == null)
                 yield return new OXmlElement { Type = OXmlElementType.Line };
         }
 
@@ -144,10 +84,24 @@ namespace WebData.BlogDemoor
         {
             if (_imageHorizontalPosition != 0)
             {
-                yield return new OXmlElement { Type = OXmlElementType.Paragraph };
+                //yield return new OXmlElement { Type = OXmlElementType.Paragraph };
+                yield return new OXmlParagraphElement();
                 _imageHorizontalPosition = 0;
             }
             yield return new OXmlTextElement { Text = text.Text };
+        }
+
+        private HtmlImage GetHtmlImage(HtmlDocNodeTagImg imgTag)
+        {
+            HtmlImage htmlImage = new HtmlImage();
+            Uri uri = new Uri(imgTag.Link);
+            htmlImage.File = _pictureDir + uri.Segments[uri.Segments.Length - 1];
+            foreach (string className in imgTag.ClassList)
+                SetPictureClassParam(htmlImage, className);
+            if (_forcedImageWidth != null)
+                htmlImage.Width = _forcedImageWidth;
+            SetPictureWidthHeight(htmlImage);
+            return htmlImage;
         }
 
         private IEnumerable<OXmlElement> Image(HtmlDocNodeTagImg imgTag)
@@ -166,14 +120,8 @@ namespace WebData.BlogDemoor
             // nonealign width450
             // nonealign width450
 
-            HtmlImage htmlImage = new HtmlImage();
-            Uri uri = new Uri(imgTag.Link);
-            htmlImage.File = _pictureDir + uri.Segments[uri.Segments.Length - 1];
-            foreach (string className in imgTag.ClassList)
-                SetPictureClassParam(htmlImage, className);
-            if (_forcedImageWidth != null)
-                htmlImage.Width = _forcedImageWidth;
-            SetPictureWidthHeight(htmlImage);
+
+            HtmlImage htmlImage = GetHtmlImage(imgTag);
 
             int horizontalPosition;
             int verticalPosition;
@@ -197,8 +145,8 @@ namespace WebData.BlogDemoor
                 // SquareSize = 21800
                 //Wrap = new OXmlAnchorWrapTight { WrapPolygon = OXmlDoc.CreateWrapPolygon(21800) },
                 Wrap = new OXmlAnchorWrapTight { WrapPolygon = new OXmlSquare { HorizontalSize = 21800 } },
-                HorizontalRelativeFrom = DW.HorizontalRelativePositionValues.Margin, HorizontalPositionOffset = horizontalPosition,
-                VerticalRelativeFrom = DW.VerticalRelativePositionValues.Paragraph, VerticalPositionOffset = verticalPosition
+                HorizontalPosition = new OXmlHorizontalPosition { RelativeFrom = DW.HorizontalRelativePositionValues.Margin, PositionOffset = horizontalPosition },
+                VerticalPosition = new OXmlVerticalPosition { RelativeFrom = DW.VerticalRelativePositionValues.Paragraph, PositionOffset = verticalPosition }
             } };
         }
 
@@ -303,7 +251,7 @@ namespace WebData.BlogDemoor
 
         public static IEnumerable<OXmlElement> ToOXmlXElements(IEnumerable<HtmlDocNode> nodes)
         {
-            return new HtmlToOXmlElements()._ToOXmlXElements(nodes);
+            return new HtmlToOXmlElements_v1()._ToOXmlXElements(nodes);
         }
     }
 }

@@ -4,23 +4,6 @@ using pb.Reflection;
 
 namespace pb.Web.Data
 {
-    public interface IHeaderData
-    {
-        HttpRequest GetHttpRequestDetail();
-    }
-
-    public class LoadNewDocumentsResult
-    {
-        public int NbDocumentsLoadedFromWeb;
-        public int NbDocumentsLoadedFromStore;
-    }
-
-    public class HeaderDetail<THeaderData, TDetailData>
-    {
-        public THeaderData Header;
-        public TDetailData Detail;
-    }
-
     public class WebHeaderDetailManager<THeaderData, TDetailData>
     {
         private WebDataPageManager<THeaderData> _headerDataPageManager = null;

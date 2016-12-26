@@ -8,6 +8,7 @@
   <Using                            value = "pb.Data.Mongo" />
   <Using                            value = "pb.Data.Mongo.Serializers" />
 
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\OpenXml\OXmlBreakElementSerializer.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\OpenXml\OXmlCommonSerializer.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\OpenXml\OXmlDocDefaultsRunPropertiesElementSerializer.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\OpenXml\OXmlDocSectionElementSerializer.cs" />

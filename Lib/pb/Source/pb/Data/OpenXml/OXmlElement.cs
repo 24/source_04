@@ -16,6 +16,7 @@ namespace pb.Data.OpenXml
     public enum OXmlElementType
     {
         Paragraph = 0,
+        Break,
         Text,
         Line,
         TabStop,
@@ -57,6 +58,21 @@ namespace pb.Data.OpenXml
         public override string ToString()
         {
             return $"Paragraph : style \"{Style}\"";
+        }
+    }
+
+    public class OXmlBreakElement : OXmlElement
+    {
+        public BreakValues BreakType;
+
+        public OXmlBreakElement()
+        {
+            Type = OXmlElementType.Break;
+        }
+
+        public override string ToString()
+        {
+            return $"Break : type \"{BreakType}\"";
         }
     }
 
@@ -136,8 +152,10 @@ namespace pb.Data.OpenXml
     //public class OXmlRunPropertiesDefaultElement : OXmlDocDefaultsElement
     public class OXmlDocDefaultsRunPropertiesElement : OXmlElement
     {
-        private OXmlRunFonts _runFonts = null;
-        private string _fontSize = null;
+        //private OXmlRunFonts _runFonts = null;
+        //private string _fontSize = null;
+        public OXmlRunFonts RunFonts = null;
+        public string FontSize = null;
 
         public OXmlDocDefaultsRunPropertiesElement()
         {
@@ -145,12 +163,12 @@ namespace pb.Data.OpenXml
             Type = OXmlElementType.DocDefaultsRunProperties;
         }
 
-        public OXmlRunFonts RunFonts { get { return _runFonts; } set { _runFonts = value; } }
-        public string FontSize { get { return _fontSize; } set { _fontSize = value; } }
+        //public OXmlRunFonts RunFonts { get { return _runFonts; } set { _runFonts = value; } }
+        //public string FontSize { get { return _fontSize; } set { _fontSize = value; } }
 
         public override string ToString()
         {
-            return $"DocDefaults.RunProperties : font \"{_runFonts.Ascii}\" size {_fontSize}";
+            return $"DocDefaults.RunProperties : font \"{RunFonts.Ascii}\" size {FontSize}";
         }
     }
 
@@ -254,17 +272,18 @@ namespace pb.Data.OpenXml
     }
 
     // used in OXmlRunPropertiesDefaultElement, OXmlStyleRunProperties
+    // <w:rFonts>
     public class OXmlRunFonts
     {
-        public string Ascii;
-        public ThemeFontValues? AsciiTheme;
-        public string ComplexScript;
-        public ThemeFontValues? ComplexScriptTheme;
-        public string EastAsia;
-        public ThemeFontValues? EastAsiaTheme;
-        public string HighAnsi;
-        public ThemeFontValues? HighAnsiTheme;
-        public FontTypeHintValues? Hint;
+        public string Ascii;                            // <w:rFonts w:ascii>
+        public ThemeFontValues? AsciiTheme;             // <w:rFonts w:asciiTheme>
+        public string ComplexScript;                    // <w:rFonts w:cs>
+        public ThemeFontValues? ComplexScriptTheme;     // <w:rFonts w:cstheme>
+        public string EastAsia;                         // <w:rFonts w:eastAsia>
+        public ThemeFontValues? EastAsiaTheme;          // <w:rFonts w:eastAsiaTheme>
+        public string HighAnsi;                         // <w:rFonts w:hAnsi>
+        public ThemeFontValues? HighAnsiTheme;          // <w:rFonts w:hAnsiTheme>
+        public FontTypeHintValues? Hint;                // <w:rFonts w:hint>
 
         public RunFonts ToRunFonts()
         {
@@ -668,33 +687,79 @@ namespace pb.Data.OpenXml
 
     public class OXmlAnchorPictureDrawing : OXmlPictureDrawing
     {
-        private OXmlAnchorWrap _wrap = null;
-        //private EnumValue<DW.HorizontalRelativePositionValues> _horizontalRelativeFrom = DW.HorizontalRelativePositionValues.Margin;
-        private DW.HorizontalRelativePositionValues _horizontalRelativeFrom = DW.HorizontalRelativePositionValues.Margin;
-        private int? _horizontalPositionOffset = null;   // pixel unit
-        private string _horizontalAlignment = null;      // left, right, center, inside, outside
-        //private EnumValue<DW.VerticalRelativePositionValues> _verticalRelativeFrom = DW.VerticalRelativePositionValues.Paragraph;
-        private DW.VerticalRelativePositionValues _verticalRelativeFrom = DW.VerticalRelativePositionValues.Paragraph;
-        private int? _verticalPositionOffset = null;     // pixel unit
-        private string _verticalAlignment = null;        // top, bottom, center, inside, outside
+        //private OXmlAnchorWrap _wrap = null;
+        //private DW.HorizontalRelativePositionValues _horizontalRelativeFrom = DW.HorizontalRelativePositionValues.Margin;
+        //private int? _horizontalPositionOffset = null;   // pixel unit
+        //private string _horizontalAlignment = null;      // left, right, center, inside, outside
+        //private DW.VerticalRelativePositionValues _verticalRelativeFrom = DW.VerticalRelativePositionValues.Paragraph;
+        //private int? _verticalPositionOffset = null;     // pixel unit
+        //private string _verticalAlignment = null;        // top, bottom, center, inside, outside
+        public string AnchorId = null;                                 // <wp:anchor wp14:anchorId>
+        public string EditId = null;                                   // <wp:anchor wp14:editId>
+        public int? DistanceFromTop = null;                            // Distance From Text on Top Edge, <wp:anchor distT>
+        public int? DistanceFromBottom = null;                         // Distance From Text on Bottom Edge, <wp:anchor distB>
+        public int? DistanceFromLeft = null;                           // Distance From Text on Left Edge, <wp:anchor distL>
+        public int? DistanceFromRight = null;                          // Distance From Text on Right Edge, <wp:anchor distR>
+        //public DW.HorizontalRelativePositionValues HorizontalRelativeFrom = DW.HorizontalRelativePositionValues.Margin;
+        //public int? HorizontalPositionOffset = null;   // pixel unit
+        //public string HorizontalAlignment = null;      // left, right, center, inside, outside
+        public OXmlHorizontalPosition HorizontalPosition = null;       // Horizontal Positioning, <wp:positionH>
+        //public DW.VerticalRelativePositionValues VerticalRelativeFrom = DW.VerticalRelativePositionValues.Paragraph;
+        //public int? VerticalPositionOffset = null;     // pixel unit
+        //public string VerticalAlignment = null;        // top, bottom, center, inside, outside
+        public OXmlVerticalPosition VerticalPosition = null;           // Vertical Positioning, <wp:positionV>
+        public OXmlEffectExtent EffectExtent = null;                   // <wp:effectExtent>
+        //Extent Extent                                                // Inline Drawing Object Extents, <wp:extent>, Extent is set with image width and height
+        public bool AllowOverlap = false;                              // Allow Objects to Overlap, <wp:anchor allowOverlap>
+        public bool BehindDoc = false;                                 // Display Behind Document Text, <wp:anchor behindDoc>
+        public bool Hidden = false;                                    // Hidden, <wp:anchor hidden>
+        public bool LayoutInCell = false;                              // Layout In Table Cell, <wp:anchor layoutInCell>
+        public bool Locked = false;                                    // Lock Anchor, <wp:anchor locked>
+        public int RelativeHeight = 0;                                 // Relative Z-Ordering Position, <wp:anchor relativeHeight>
+        public OXmlPoint2DType SimplePosition = null;                  // Simple Positioning Coordinates, <wp:simplePos>, Page Positioning, <wp:anchor simplePos> (bool)
+        public OXmlAnchorWrap Wrap = null;
 
-        public OXmlAnchorWrap Wrap { get { return _wrap; } set { _wrap = value; } }
-        public DW.HorizontalRelativePositionValues HorizontalRelativeFrom { get { return _horizontalRelativeFrom; } set { _horizontalRelativeFrom = value; } }
-        public int? HorizontalPositionOffset { get { return _horizontalPositionOffset; } set { _horizontalPositionOffset = value; } }
-        public string HorizontalAlignment { get { return _horizontalAlignment; } set { _horizontalAlignment = value; } }
-        public DW.VerticalRelativePositionValues VerticalRelativeFrom { get { return _verticalRelativeFrom; } set { _verticalRelativeFrom = value; } }
-        public int? VerticalPositionOffset { get { return _verticalPositionOffset; } set { _verticalPositionOffset = value; } }
-        public string VerticalAlignment { get { return _verticalAlignment; } set { _verticalAlignment = value; } }
+        //public OXmlAnchorWrap Wrap { get { return _wrap; } set { _wrap = value; } }
+        //public DW.HorizontalRelativePositionValues HorizontalRelativeFrom { get { return _horizontalRelativeFrom; } set { _horizontalRelativeFrom = value; } }
+        //public int? HorizontalPositionOffset { get { return _horizontalPositionOffset; } set { _horizontalPositionOffset = value; } }
+        //public string HorizontalAlignment { get { return _horizontalAlignment; } set { _horizontalAlignment = value; } }
+        //public DW.VerticalRelativePositionValues VerticalRelativeFrom { get { return _verticalRelativeFrom; } set { _verticalRelativeFrom = value; } }
+        //public int? VerticalPositionOffset { get { return _verticalPositionOffset; } set { _verticalPositionOffset = value; } }
+        //public string VerticalAlignment { get { return _verticalAlignment; } set { _verticalAlignment = value; } }
 
         public OXmlAnchorPictureDrawing()
         {
             DrawingMode = OXmlPictureDrawingMode.Anchor;
+            HorizontalPosition = new OXmlHorizontalPosition();
+            VerticalPosition = new OXmlVerticalPosition();
         }
 
         public override string ToString()
         {
-            return $"anchor drawing : {_wrap} h.from {_horizontalRelativeFrom} h.pos {_horizontalPositionOffset} v.from {_verticalRelativeFrom} v.pos {_verticalPositionOffset}";
+            string hfrom = $"";
+            return $"anchor drawing : {Wrap} h.from {HorizontalPosition.RelativeFrom} h.pos {HorizontalPosition.PositionOffset} v.from {VerticalPosition.RelativeFrom} v.pos {VerticalPosition.PositionOffset}";
         }
+    }
+
+    // used by OXmlAnchorPictureDrawing
+    // from DocumentFormat.OpenXml.Drawing.Wordprocessing.HorizontalPosition
+    public class OXmlHorizontalPosition
+    {
+        public DW.HorizontalRelativePositionValues RelativeFrom = DW.HorizontalRelativePositionValues.Margin;      // Horizontal Position Relative Base, <wp:positionH relativeFrom>
+        //public int? HorizontalPositionOffset = null;           // pixel unit
+        public int? PositionOffset = null;                       // Absolute Position Offset, <wp:posOffset>, pixel unit (converted to emus unit), 20.4.2.12 posOffset (Absolute Position Offset)
+        public string HorizontalAlignment = null;                // Relative Horizontal Alignment, <wp:align>, left, right, center, inside, outside, 20.4.3.1 ST_AlignH (Relative Horizontal Alignment Positions)
+        //public string PercentagePositionHeightOffset = null;   // PercentagePositionHeightOffset, <wp14:pctPosHOffset>
+    }
+
+    // used by OXmlAnchorPictureDrawing
+    // from DocumentFormat.OpenXml.Drawing.Wordprocessing.VerticalPosition
+    public class OXmlVerticalPosition
+    {
+        public DW.VerticalRelativePositionValues RelativeFrom = DW.VerticalRelativePositionValues.Paragraph;       // Vertical Position Relative Base, <wp:positionV relativeFrom>
+        public int? PositionOffset = null;                       // PositionOffset, <wp:posOffset>, pixel unit (converted to emus unit)
+        public string VerticalAlignment = null;                  // Relative Vertical Alignment, <wp:align>, top, bottom, center, inside, outside
+        //public string PercentagePositionVerticalOffset = null; // PercentagePositionVerticalOffset, <wp14:pctPosVOffset>
     }
 
     public enum OXmlAnchorWrapType
@@ -714,21 +779,25 @@ namespace pb.Data.OpenXml
     public class OXmlAnchorWrapSquare : OXmlAnchorWrap
     {
         // missing parameters : uint distanceFromTop = 0, uint distanceFromBottom = 0, uint distanceFromLeft = 0, uint distanceFromRight = 0, DW.EffectExtent effectExtent = null
-        //private EnumValue<DW.WrapTextValues> _wrapText = DW.WrapTextValues.BothSides;
-        private DW.WrapTextValues _wrapText = DW.WrapTextValues.BothSides;
-        private uint _distanceFromTop = 0;
-        private uint _distanceFromBottom = 0;
-        private uint _distanceFromLeft = 0;
-        private uint _distanceFromRight = 0;
-        //private DW.EffectExtent _effectExtent = null;
-        private OXmlEffectExtent _effectExtent = null;
+        //private DW.WrapTextValues _wrapText = DW.WrapTextValues.BothSides;
+        //private uint _distanceFromTop = 0;
+        //private uint _distanceFromBottom = 0;
+        //private uint _distanceFromLeft = 0;
+        //private uint _distanceFromRight = 0;
+        //private OXmlEffectExtent _effectExtent = null;
+        public DW.WrapTextValues WrapText = DW.WrapTextValues.BothSides;
+        public int? DistanceFromTop = 0;
+        public int? DistanceFromBottom = 0;
+        public int? DistanceFromLeft = 0;
+        public int? DistanceFromRight = 0;
+        public OXmlEffectExtent EffectExtent = null;
 
-        public DW.WrapTextValues WrapText { get { return _wrapText; } set { _wrapText = value; } }
-        public uint DistanceFromTop { get { return _distanceFromTop; } set { _distanceFromTop = value; } }
-        public uint DistanceFromBottom { get { return _distanceFromBottom; } set { _distanceFromBottom = value; } }
-        public uint DistanceFromLeft { get { return _distanceFromLeft; } set { _distanceFromLeft = value; } }
-        public uint DistanceFromRight { get { return _distanceFromRight; } set { _distanceFromRight = value; } }
-        public OXmlEffectExtent EffectExtent { get { return _effectExtent; } set { _effectExtent = value; } }
+        //public DW.WrapTextValues WrapText { get { return _wrapText; } set { _wrapText = value; } }
+        //public uint DistanceFromTop { get { return _distanceFromTop; } set { _distanceFromTop = value; } }
+        //public uint DistanceFromBottom { get { return _distanceFromBottom; } set { _distanceFromBottom = value; } }
+        //public uint DistanceFromLeft { get { return _distanceFromLeft; } set { _distanceFromLeft = value; } }
+        //public uint DistanceFromRight { get { return _distanceFromRight; } set { _distanceFromRight = value; } }
+        //public OXmlEffectExtent EffectExtent { get { return _effectExtent; } set { _effectExtent = value; } }
 
         public OXmlAnchorWrapSquare()
         {
@@ -743,19 +812,21 @@ namespace pb.Data.OpenXml
 
     public class OXmlAnchorWrapTight : OXmlAnchorWrap
     {
-        //private EnumValue<DW.WrapTextValues> _wrapText = DW.WrapTextValues.BothSides;
-        private DW.WrapTextValues _wrapText = DW.WrapTextValues.BothSides;
-        private uint _distanceFromLeft = 0;
-        private uint _distanceFromRight = 0;
-        //private int _squareSize = 0;
-        //private DW.WrapPolygon _wrapPolygon = null;
-        private OXmlPolygonBase _wrapPolygon = null;
+        //private DW.WrapTextValues _wrapText = DW.WrapTextValues.BothSides;
+        //private uint _distanceFromLeft = 0;
+        //private uint _distanceFromRight = 0;
+        ////private int _squareSize = 0;
+        //private OXmlPolygonBase _wrapPolygon = null;
+        public DW.WrapTextValues WrapText = DW.WrapTextValues.BothSides;
+        public int? DistanceFromLeft = 0;
+        public int? DistanceFromRight = 0;
+        public OXmlPolygonBase WrapPolygon = null;
 
-        public DW.WrapTextValues WrapText { get { return _wrapText; } set { _wrapText = value; } }
-        public uint DistanceFromLeft { get { return _distanceFromLeft; } set { _distanceFromLeft = value; } }
-        public uint DistanceFromRight { get { return _distanceFromRight; } set { _distanceFromRight = value; } }
-        //public int SquareSize { get { return _squareSize; } set { _squareSize = value; } }
-        public OXmlPolygonBase WrapPolygon { get { return _wrapPolygon; } set { _wrapPolygon = value; } }
+        //public DW.WrapTextValues WrapText { get { return _wrapText; } set { _wrapText = value; } }
+        //public uint DistanceFromLeft { get { return _distanceFromLeft; } set { _distanceFromLeft = value; } }
+        //public uint DistanceFromRight { get { return _distanceFromRight; } set { _distanceFromRight = value; } }
+        ////public int SquareSize { get { return _squareSize; } set { _squareSize = value; } }
+        //public OXmlPolygonBase WrapPolygon { get { return _wrapPolygon; } set { _wrapPolygon = value; } }
 
         public OXmlAnchorWrapTight()
         {
@@ -770,14 +841,16 @@ namespace pb.Data.OpenXml
 
     public class OXmlAnchorWrapTopAndBottom : OXmlAnchorWrap
     {
-        private uint _distanceFromTop = 0;
-        private uint _distanceFromBottom = 0;
-        //private DW.EffectExtent _effectExtent = null;
-        private OXmlEffectExtent _effectExtent = null;
+        //private uint _distanceFromTop = 0;
+        //private uint _distanceFromBottom = 0;
+        //private OXmlEffectExtent _effectExtent = null;
+        public int? DistanceFromTop = 0;
+        public int? DistanceFromBottom = 0;
+        public OXmlEffectExtent EffectExtent = null;
 
-        public uint DistanceFromTop { get { return _distanceFromTop; } set { _distanceFromTop = value; } }
-        public uint DistanceFromBottom { get { return _distanceFromBottom; } set { _distanceFromBottom = value; } }
-        public OXmlEffectExtent EffectExtent { get { return _effectExtent; } set { _effectExtent = value; } }
+        //public uint DistanceFromTop { get { return _distanceFromTop; } set { _distanceFromTop = value; } }
+        //public uint DistanceFromBottom { get { return _distanceFromBottom; } set { _distanceFromBottom = value; } }
+        //public OXmlEffectExtent EffectExtent { get { return _effectExtent; } set { _effectExtent = value; } }
 
         public OXmlAnchorWrapTopAndBottom()
         {

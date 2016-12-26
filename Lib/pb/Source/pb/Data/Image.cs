@@ -113,6 +113,34 @@ namespace pb.Data
             }
             return "image/unknown";
         }
+
+        public static void CalculateImageWidthHeight(string file, int? width, int? height, out int calculatedWidth, out int calculatedHeight)
+        {
+            if (width == null || height == null)
+            {
+                Image image = LoadImageFromFile(file);
+                if (width != null)
+                {
+                    calculatedWidth = (int)width;
+                    calculatedHeight = (int)(image.Height * ((double)width / image.Width) + 0.5);
+                }
+                else if (height != null)
+                {
+                    calculatedWidth = (int)(image.Width * ((double)height / image.Height) + 0.5);
+                    calculatedHeight = (int)height;
+                }
+                else
+                {
+                    calculatedWidth = image.Width;
+                    calculatedHeight = image.Height;
+                }
+            }
+            else
+            {
+                calculatedWidth = (int)width;
+                calculatedHeight = (int)height;
+            }
+        }
     }
 
     public static partial class GlobalExtension

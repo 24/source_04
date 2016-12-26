@@ -5,16 +5,8 @@ using System.Xml.Linq;
 
 namespace WebData.BlogDemoor
 {
-    public static class WebData
+    public static partial class WebData
     {
-        public static BlogDemoor CreateDataManager(string parameters = null)
-        {
-            NamedValues<ZValue> parameters2 = ParseParameters(parameters);
-            bool test = WebData.GetTestValue(parameters2);
-            //InitLoadImage(test);
-            return BlogDemoor.Create(test);
-        }
-
         public static BlogDemoor_v4 CreateDataManager_v4(string parameters = null)
         {
             NamedValues<ZValue> parameters2 = ParseParameters(parameters);
@@ -26,7 +18,8 @@ namespace WebData.BlogDemoor
         {
             Backup backup = new Backup();
 
-            BlogDemoor blogDemoor = CreateDataManager(parameters);
+            //BlogDemoor_v3 blogDemoor = CreateDataManager_v3(parameters);
+            BlogDemoor_v4 blogDemoor = CreateDataManager_v4(parameters);
 
             XElement xe = XmlConfig.CurrentConfig.XDocument.Root;
             backup.TempBackupDirectory = xe.zXPathValue("MongoBackupTmpDirectory");  // TempBackupDirectory

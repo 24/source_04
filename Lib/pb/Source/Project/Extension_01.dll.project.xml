@@ -9,6 +9,25 @@
   <EndMethod                        value = "pb.Data.Mongo.Serializers.RunSerializer.EndZValue, Extension_01, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" />
   <InitMethod                       value = "pb.Data.Mongo.Serializers.RunSerializer.InitWebHeader, Extension_01, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" params = "traceSerializer = false" />
   <EndMethod                        value = "pb.Data.Mongo.Serializers.RunSerializer.EndWebHeader, Extension_01, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" />
+  <InitMethod                       value = "pb.Web.Html.HtmlRun.Init, Extension_01, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" />
+  <EndMethod                        value = "pb.Web.Html.HtmlRun.End, Extension_01, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" />
+
+
+  <Using                            value = "System" />
+  <Using                            value = "System.Collections" />
+  <Using                            value = "System.Collections.Generic" />
+  <Using                            value = "System.Globalization" />
+  <Using                            value = "System.IO" />
+  <Using                            value = "System.Linq" />
+  <Using                            value = "System.Reflection" />
+  <Using                            value = "System.Text" />
+  <Using                            value = "System.Text.RegularExpressions" />
+  
+  <Using                            value = "pb" />
+  <Using                            value = "pb.Compiler" />
+  <Using                            value = "pb.Reflection" />
+  <Using                            value = "pb.Web.Html" />
+  <Using                            value = "pb.Web.Http" />
 
   <!--<Using                            value = "pb" />
   <Using                            value = "pb.Compiler" />
@@ -33,6 +52,10 @@
   <!--<Assembly                         value = "$Root$\..\library\Mongo\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Driver.dll" resolve = "true" resolveName = "MongoDB.Driver, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />-->
   <!--<Assembly                         value = "$Root$\Apps\RunSource\v2\runsource.dll\bin32\runsource.dll" />-->
   <!--<Assembly                         value = "$Root$\Apps\RunSource\v2\runsource.dll\bin32\runsource.irunsource.dll" />-->
+  
+  <FrameworkAssembly                value = "System.Data.dll" />
+  <FrameworkAssembly                value = "System.Xml.dll" />
+
   <Assembly                         value = "$Root$\..\library\pib\Extension_01\Extension_01.dll" resolve = "true" resolveName = "Extension_01, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" />
 
 </AssemblyProject>

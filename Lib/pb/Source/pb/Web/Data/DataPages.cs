@@ -1,4 +1,5 @@
-﻿using System;
+﻿using pb.Web.Http;
+using System;
 using System.Collections.Generic;
 
 namespace pb.Web.Data
@@ -11,11 +12,13 @@ namespace pb.Web.Data
         public TData[] Data;
         public string UrlNextPage;
 
+        // IEnumDataPages<TData>
         public IEnumerable<TData> GetDataList()
         {
             return Data;
         }
 
+        // IEnumDataPages<TData>
         public HttpRequest GetHttpRequestNextPage()
         {
             if (UrlNextPage != null)

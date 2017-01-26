@@ -14,6 +14,12 @@
 
   <!-- [{namespace}.{type}.]{method name}[, {assembly name}] default type {namespace}._RunCode -->
   <!-- run = "always, once (default)" -->
+  <InitMethod                       value = "pb.Data.Mongo.Serializers.RunSerializer.InitDefault, Extension_01, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" params = "traceProvider = false, traceSerializer = false" />
+  <EndMethod                        value = "pb.Data.Mongo.Serializers.RunSerializer.EndDefault, Extension_01, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" />
+  <InitMethod                       value = "pb.Data.Mongo.Serializers.RunSerializer.InitZValue, Extension_01, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" params = "traceSerializer = false" />
+  <EndMethod                        value = "pb.Data.Mongo.Serializers.RunSerializer.EndZValue, Extension_01, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" />
+  <InitMethod                       value = "pb.Data.Mongo.Serializers.RunSerializer.InitWebHeader, Extension_01, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" params = "traceSerializer = false" />
+  <EndMethod                        value = "pb.Data.Mongo.Serializers.RunSerializer.EndWebHeader, Extension_01, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" />
   <InitMethod                       value = "Download.Print.DownloadRun.Init, ebook.download, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" />
   <EndMethod                        value = "Download.Print.DownloadRun.End, ebook.download, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" />
   <InitMethod                       value = "Download.Print.DownloadRun.InitAlways, ebook.download, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" run = "always" />

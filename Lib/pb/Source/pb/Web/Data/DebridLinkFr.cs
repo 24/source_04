@@ -7,6 +7,7 @@ using pb.Data.TraceData;
 using pb.Data.Xml;
 using pb.IO;
 using pb.Text;
+using pb.Web.Http;
 
 // doc : https://debrid-link.fr/api_doc/#/home
 //
@@ -114,7 +115,7 @@ using pb.Text;
 //}
 
 
-namespace pb.Web
+namespace pb.Web.Data
 {
     public enum DebridLinkConnexionLifetime
     {
@@ -303,7 +304,7 @@ namespace pb.Web
             }
 
             DateTime dt = DateTime.Now;
-            Http http = HttpManager.CurrentHttpManager.Load(new HttpRequest { Url = url, Method = method, Content = content }, _authenticateRequestParameters);
+            Http.Http http = HttpManager.CurrentHttpManager.Load(new HttpRequest { Url = url, Method = method, Content = content }, _authenticateRequestParameters);
 
             BsonDocument result = BsonDocument.Parse(http.ResultText);
 
@@ -340,7 +341,7 @@ namespace pb.Web
                 if (!zFile.Exists(_connexionFile))
                     return false;
 
-                _connexion = zmongo.ReadFileAs<DebridLinkConnexion>(_connexionFile);
+                _connexion = zMongo.ReadFileAs<DebridLinkConnexion>(_connexionFile);
             }
             if (_connexion.EndConnexionTime != null && DateTime.Now >= _connexion.EndConnexionTime)
             {
@@ -403,7 +404,7 @@ namespace pb.Web
             Exception ex = null;
             try
             {
-                Http http = HttpManager.CurrentHttpManager.Load(new HttpRequest { Url = url }, _requestParameters);
+                Http.Http http = HttpManager.CurrentHttpManager.Load(new HttpRequest { Url = url }, _requestParameters);
                 result = BsonSerializer.Deserialize<BsonDocument>(http.ResultText);
             }
             catch (Exception ex2)
@@ -446,7 +447,7 @@ namespace pb.Web
         private void _Login(string url)
         {
             // https://debrid-link.fr/user/2_21c744ba958f13fac08ee5c8855f72ab9a3b3e3224789126/login
-            Http http = HttpManager.CurrentHttpManager.Load(new HttpRequest { Url = url }, _requestParameters);
+            Http.Http http = HttpManager.CurrentHttpManager.Load(new HttpRequest { Url = url }, _requestParameters);
             XXElement xeSource = HttpManager.CurrentHttpManager.GetXDocument(http).zXXElement();
 
             string loginUrl = __loginUrl;
@@ -459,7 +460,7 @@ namespace pb.Web
             string method = xeForm.AttribValue("method");
             HttpRequestMethod httpMethod = HttpRequestMethod.Get;
             if (method != null && method != "")
-                httpMethod = Http.GetHttpRequestMethod(method);
+                httpMethod = Http.Http.GetHttpRequestMethod(method);
 
             StringBuilder content = new StringBuilder();
             bool first = true;

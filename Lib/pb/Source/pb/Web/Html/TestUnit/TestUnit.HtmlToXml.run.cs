@@ -101,6 +101,10 @@ TestUnit_HtmlToXml.TraceHtmlReader_v3_2(@"c:\pib\drive\google\dev_data\exe\runso
 
 TestUnit_HtmlToXml.Test_HtmlReader_v2_v3();
 
+
+TestUnit_HtmlToXml.Test_HtmlReader_v2_v4(@"c:\pib\drive\google\dev_data\exe\runsource\test_unit\Web\HtmlToXml\sites\cdefi.fr");
+TestUnit_HtmlToXml.Test_HtmlReader_v2_v4(@"c:\pib\dev_data\exe\runsource\download\sites\telecharger-magazine.com.test\cache\detail");
+
 TestUnit_HtmlToXml.Test_HtmlReader_v2_v4(@"c:\pib\drive\google\dev_data\exe\runsource\test_unit\Web\HtmlToXml\sites\ebookdz.com\detail");
 TestUnit_HtmlToXml.Test_HtmlReader_v2_v4();
 
@@ -184,3 +188,13 @@ int code = 97;
 ((char)code).zTrace();
 int code = -1;
 ((char)code).zTrace();
+
+
+TestUnit_HtmlToXml.FileHtmlToXml_HtmlReader_v2(@"c:\pib\drive\google\dev_data\exe\runsource\test_unit\Web\HtmlToXml\sites\vosbooks.net\detail\vosbooks.net_74299-livre_les-imposteurs-francois-cavanna_01_01.html", traceHtmlReader: true, traceHtmlToXml: true, useXDocumentCreator: true, correctionMarkBeginEnd: true);
+TestUnit_HtmlToXml.FileHtmlToXml_v2(@"c:\pib\drive\google\dev_data\exe\runsource\test_unit\Web\HtmlToXml\sites\vosbooks.net\detail\vosbooks.net_74299-livre_les-imposteurs-francois-cavanna_01_01.html", traceHtmlReader: true, traceHtmlToXml: true);
+
+TestUnit_HtmlToXml.FileHtmlToXml_HtmlReader_v2(@"c:\pib\drive\google\dev_data\exe\runsource\test_unit\Web\HtmlToXml\sites\_test\test_01.html", traceHtmlReader: true, traceHtmlToXml: true, useXDocumentCreator: true, correctionMarkBeginEnd: true);
+TestUnit_HtmlToXml.FileHtmlToXml_v2(@"c:\pib\drive\google\dev_data\exe\runsource\test_unit\Web\HtmlToXml\sites\_test\test_03.html", traceHtmlReader: true, traceHtmlToXml: true);
+
+TestUnit_HtmlToXml.Test_HtmlToXml_v1_v2(@"c:\pib\drive\google\dev_data\exe\runsource\test_unit\Web\HtmlToXml\sites\vosbooks.net", correctionMarkBeginEnd: true);
+TestUnit_HtmlToXml.Test_HtmlToXml_v1_v2(@"c:\pib\drive\google\dev_data\exe\runsource\test_unit\Web\HtmlToXml\sites", correctionMarkBeginEnd: true);

@@ -2,7 +2,7 @@
 using System.Collections.Specialized;
 using System.Web;
 
-namespace pb.Web
+namespace pb.Web.Http
 {
     public class PBUriBuilder : UriBuilder
     {

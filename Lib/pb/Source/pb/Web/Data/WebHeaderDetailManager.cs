@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using pb.Reflection;
+using pb.Web.Http;
 
 namespace pb.Web.Data
 {
@@ -23,7 +24,7 @@ namespace pb.Web.Data
                 if (!(header is IHeaderData))
                     throw new PBException("type {0} is not IHeaderData", header.GetType().zGetTypeName());
                 //TDetailData detail = _detailDataManager.Load(new WebRequest { HttpRequest = ((IHeaderData)header).GetHttpRequestDetail(), ReloadFromWeb = reloadDetail, LoadImageFromWeb = loadImageFromWeb, LoadImageToData = loadImageToData, RefreshImage = refreshImage, RefreshDocumentStore = refreshDocumentStore }).Document;
-                TDetailData detail = _detailDataManager.Load(new WebRequest { HttpRequest = ((IHeaderData)header).GetHttpRequestDetail(), ReloadFromWeb = reloadDetail, ImageRequest = new WebImageRequest { LoadImageFromWeb = loadImageFromWeb, LoadImageToData = loadImageToData, RefreshImage = refreshImage }, RefreshDocumentStore = refreshDocumentStore }).Document;
+                TDetailData detail = _detailDataManager.Load(new WebRequest { HttpRequest = ((IHeaderData)header).GetHttpRequestDetail(), ReloadFromWeb = reloadDetail, ImageRequest = new WebImageRequest { LoadImageFromWeb = loadImageFromWeb, LoadImageToData = loadImageToData, RefreshImage = refreshImage }, RefreshDocumentStore = refreshDocumentStore }).Data;
                 yield return new HeaderDetail<THeaderData, TDetailData> { Header = header, Detail = detail };
             }
         }
@@ -38,7 +39,7 @@ namespace pb.Web.Data
                     throw new PBException("type {0} is not IHeaderData", header.GetType().zGetTypeName());
                 yield return _detailDataManager.Load(
                     //new WebRequest { HttpRequest = ((IHeaderData)header).GetHttpRequestDetail(), ReloadFromWeb = reloadDetail, LoadImageFromWeb = loadImageFromWeb, LoadImageToData = loadImageToData, RefreshImage = refreshImage, RefreshDocumentStore = refreshDocumentStore }).Document;
-                    new WebRequest { HttpRequest = ((IHeaderData)header).GetHttpRequestDetail(), ReloadFromWeb = reloadDetail, ImageRequest = new WebImageRequest { LoadImageFromWeb = loadImageFromWeb, LoadImageToData = loadImageToData, RefreshImage = refreshImage }, RefreshDocumentStore = refreshDocumentStore }).Document;
+                    new WebRequest { HttpRequest = ((IHeaderData)header).GetHttpRequestDetail(), ReloadFromWeb = reloadDetail, ImageRequest = new WebImageRequest { LoadImageFromWeb = loadImageFromWeb, LoadImageToData = loadImageToData, RefreshImage = refreshImage }, RefreshDocumentStore = refreshDocumentStore }).Data;
             }
         }
 
@@ -76,9 +77,9 @@ namespace pb.Web.Data
                 //WebData<TDetailData> webData = _detailDataManager.Load(new WebRequest { HttpRequest = ((IHeaderData)header).GetHttpRequestDetail(), ReloadFromWeb = false, ImageRequest = new WebImageRequest { LoadImageFromWeb = loadImageFromWeb }, RefreshDocumentStore = refreshDocumentStore });
                 WebData<TDetailData> webData = _detailDataManager.Load(new WebRequest { HttpRequest = ((IHeaderData)header).GetHttpRequestDetail(), ReloadFromWeb = false, ImageRequest = webImageRequest, RefreshDocumentStore = refreshDocumentStore });
                 nbDocumentsLoaded++;
-                if (webData.DocumentLoadedFromStore)
+                if (webData.DataLoadedFromStore)
                     nbDocumentsLoadedFromStore++;
-                if (webData.DocumentLoadedFromWeb)
+                if (webData.DataLoadedFromWeb)
                     nbDocumentsLoadedFromWeb++;
 
                 if (_onDocumentLoaded != null)

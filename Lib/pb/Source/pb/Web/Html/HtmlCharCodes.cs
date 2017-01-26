@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-namespace pb.Web
+namespace pb.Web.Html
 {
     public class HtmlCharCode
     {

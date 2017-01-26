@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace pb.Web.v1
+namespace pb.Web.Data.v1
 {
     public interface ILoadWebEnumDataPages_v1<T>
     {

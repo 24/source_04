@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Pierre Beuzart")]
 [assembly: AssemblyProduct("runsource.irunsource")]
-[assembly: AssemblyCopyright("Copyright © Pierre Beuzart 2015")]
+[assembly: AssemblyCopyright("Copyright © Pierre Beuzart 2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

@@ -4,7 +4,7 @@ using System.Net;
 using pb.Data;
 using pb.IO;
 
-namespace pb.Web
+namespace pb.Web.Http
 {
     public partial class HttpManager
     {
@@ -45,7 +45,7 @@ namespace pb.Web
                         }
                         if (ex is ProtocolViolationException)
                             throw;
-                        Trace.WriteLine(1, "Error : \"{0}\" ({1})", ex.Message, ex.GetType().ToString());
+                        TraceLevel.WriteLine(1, "Error : \"{0}\" ({1})", ex.Message, ex.GetType().ToString());
                     }
                 }
                 return _Load(httpRequest, requestParameters, exportFile, setExportFileExtension);
@@ -68,7 +68,7 @@ namespace pb.Web
                 //   at Print.download.w.Run()
 
                 if (_traceException)
-                    Trace.CurrentTrace.WriteError(ex);
+                    Trace.WriteError(ex);
                 else
                     throw;
                 return null;
@@ -77,7 +77,7 @@ namespace pb.Web
 
         private Http _Load(HttpRequest httpRequest, HttpRequestParameters requestParameters = null, string exportFile = null, bool setExportFileExtension = false)
         {
-            Trace.WriteLine(1, "Load \"{0}\" ({1}){2}", httpRequest.Url, httpRequest.Method, exportFile != null ? "(\"" + exportFile + "\")" : null);
+            TraceLevel.WriteLine(1, "Load \"{0}\" ({1}){2}", httpRequest.Url, httpRequest.Method, exportFile != null ? "(\"" + exportFile + "\")" : null);
             Http http = CreateHttp(httpRequest, requestParameters, exportFile, setExportFileExtension);
 
             http.LoadAsText();
@@ -105,7 +105,7 @@ namespace pb.Web
                             if (wex.Status == WebExceptionStatus.ProtocolError || wex.Status == WebExceptionStatus.NameResolutionFailure)
                                 throw;
                         }
-                        Trace.WriteLine(1, "Error : \"{0}\" ({1})", ex.Message, ex.GetType().ToString());
+                        TraceLevel.WriteLine(1, "Error : \"{0}\" ({1})", ex.Message, ex.GetType().ToString());
                     }
                 }
                 return _LoadToFile(httpRequest, file, exportRequest, requestParameters);
@@ -122,7 +122,7 @@ namespace pb.Web
 
         private bool _LoadToFile(HttpRequest httpRequest, string file, bool exportRequest = false, HttpRequestParameters requestParameters = null)
         {
-            Trace.WriteLine(1, "LoadToFile(\"{0}\", \"{1}\");", httpRequest.Url, file);
+            TraceLevel.WriteLine(1, "LoadToFile(\"{0}\", \"{1}\");", httpRequest.Url, file);
             Http http = CreateHttp(httpRequest, requestParameters);
 
             return http.LoadToFile(file, exportRequest);
@@ -150,7 +150,7 @@ namespace pb.Web
                             if (wex.Status == WebExceptionStatus.ProtocolError || wex.Status == WebExceptionStatus.NameResolutionFailure)
                                 throw;
                         }
-                        Trace.WriteLine(1, "Error : \"{0}\" ({1})", ex.Message, ex.GetType().ToString());
+                        TraceLevel.WriteLine(1, "Error : \"{0}\" ({1})", ex.Message, ex.GetType().ToString());
                     }
                 }
                 return _LoadImage(httpRequest, requestParameters);
@@ -164,7 +164,7 @@ namespace pb.Web
 
         private Image _LoadImage(HttpRequest httpRequest, HttpRequestParameters requestParameters = null)
         {
-            Trace.WriteLine(1, "LoadImage(\"{0}\");", httpRequest.Url);
+            TraceLevel.WriteLine(1, "LoadImage(\"{0}\");", httpRequest.Url);
             if (httpRequest.Url.StartsWith("http://"))
             {
                 return CreateHttp(httpRequest, requestParameters).LoadImage();
@@ -177,7 +177,7 @@ namespace pb.Web
                 }
                 catch (Exception ex)
                 {
-                    pb.Trace.WriteLine("Error : \"{0}\" ({1})", ex.Message, ex.GetType().ToString());
+                    Trace.WriteLine("Error : \"{0}\" ({1})", ex.Message, ex.GetType().ToString());
                     return null;
                 }
             }

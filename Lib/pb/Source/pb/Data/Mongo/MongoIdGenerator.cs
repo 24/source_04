@@ -34,7 +34,7 @@ namespace pb.Data.Mongo
         protected MongoCollection GetCollection()
         {
             if (_collection == null)
-                _collection = zmongo.GetCollection(_collectionName, _databaseName, _serverName);
+                _collection = zMongoDB.GetCollection(_collectionName, _databaseName, _serverName);
             return _collection;
         }
     }

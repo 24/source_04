@@ -6,6 +6,7 @@ using pb.Data.Mongo;
 using pb.Web;
 using pb.Web.Data;
 using System.Text;
+using pb.Web.Http;
 
 namespace pb.Web.Data.Mongo
 {

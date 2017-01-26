@@ -17,7 +17,7 @@ namespace pb.Data.OpenXml
         private IEnumerable<OXmlElement> _Read(BsonReader reader)
         {
             //foreach (BsonDocument sourceElement in zmongo.BsonRead<BsonDocument>(file))
-            foreach (BsonDocument sourceElement in zmongo.BsonRead<BsonDocument>(reader))
+            foreach (BsonDocument sourceElement in zMongo.BsonRead<BsonDocument>(reader))
             {
                 string type = sourceElement.zGet("Type").zAsString();
                 OXmlElement element = null;
@@ -233,7 +233,7 @@ namespace pb.Data.OpenXml
         {
             // ATTENTION il faut boucler et retourner chaque élément sinon le using ferme le flux BsonReader
             //return new OXmlElementReader()._Read(zmongo.OpenBsonReader(file, encoding));
-            using (BsonReader reader = zmongo.CreateBsonReaderFromFile(file, encoding))
+            using (BsonReader reader = zMongo.CreateBsonReaderFromFile(file, encoding))
             {
                 foreach (OXmlElement element in new OXmlElementReader()._Read(reader))
                     yield return element;

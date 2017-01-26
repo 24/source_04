@@ -1,4 +1,6 @@
-﻿namespace pb.Web.Data
+﻿using pb.Web.Http;
+
+namespace pb.Web.Data
 {
     // used by :
     //   WebHeaderDetailManager<THeaderData, TDetailData>

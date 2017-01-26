@@ -8,7 +8,7 @@ using System.IO;
 using System.Net;
 using System.Text;
 
-namespace pb.Web.Test
+namespace pb.Web.Http.Test
 {
     public static class Test_HttpLog
     {
@@ -19,7 +19,7 @@ namespace pb.Web.Test
             file = zPath.Combine(_directory, file);
             bool exportResult = HttpManager.CurrentHttpManager.ExportResult;
             HttpManager.CurrentHttpManager.ExportResult = true;
-            HttpRun.LoadToFile(new HttpRequest { Url = url, Method = method, Content = content }, file, true, new HttpRequestParameters { Encoding = Encoding.UTF8 });
+            HttpRun_v1.LoadToFile(new HttpRequest { Url = url, Method = method, Content = content }, file, true, new HttpRequestParameters { Encoding = Encoding.UTF8 });
             HttpManager.CurrentHttpManager.ExportResult = exportResult;
         }
 
@@ -63,7 +63,7 @@ namespace pb.Web.Test
             }
             catch (Exception ex)
             {
-                Trace.CurrentTrace.WriteError(ex);
+                Trace.WriteError(ex);
             }
         }
 
@@ -124,7 +124,7 @@ namespace pb.Web.Test
             file = zPath.Combine(_directory, file);
             file2 = zPath.Combine(_directory, file2);
 
-            WebHeaderCollection headers = zmongo.ReadFileAs<WebHeaderCollection>(file);
+            WebHeaderCollection headers = zMongo.ReadFileAs<WebHeaderCollection>(file);
             headers.zSave(file2);
         }
 

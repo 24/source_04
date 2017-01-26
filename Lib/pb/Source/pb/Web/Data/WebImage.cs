@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace pb.Web
+namespace pb.Web.Data
 {
     //[BsonIgnoreExtraElements]
     public class WebImage

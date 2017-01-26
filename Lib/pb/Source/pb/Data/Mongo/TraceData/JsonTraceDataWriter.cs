@@ -4,6 +4,7 @@ using MongoDB.Bson;
 using MongoDB.Bson.IO;
 using pb.Data.TraceData;
 using System.Text;
+using pb.IO;
 
 namespace pb.Data.Mongo.TraceData
 {
@@ -39,7 +40,8 @@ namespace pb.Data.Mongo.TraceData
                 fileMode = FileMode.Append;
             else
                 fileMode = FileMode.Create;
-            FileStream fs = new FileStream(file, fileMode, FileAccess.Write, FileShare.Read);
+            //FileStream fs = new FileStream(file, fileMode, FileAccess.Write, FileShare.Read);
+            FileStream fs = zFile.Open(file, fileMode, FileAccess.Write, FileShare.Read);
             if (encoding == null)
                 encoding = new UTF8Encoding();  // no bom with new UTF8Encoding(), bom with Encoding.UTF8
             _streamWriter = new StreamWriter(fs, encoding);

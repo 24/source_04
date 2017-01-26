@@ -43,32 +43,40 @@ namespace pb.Web.Data
         //protected WebImageCacheManager_v2 _webImageCacheManager = null;
         protected WebImageCacheManager_v3 _webImageCacheManager = null;
         protected Predicate<WebImage> _imageFilter = null;
-        //protected Func<TData, string> _getImageSubDirectory = null;
-        protected Func<WebData<TData>, string> _getImageSubDirectory = null;
+        //protected Func<WebData<TData>, string> _getImageSubDirectory = null;
 
         public WebImageCacheManager_v3 WebImageCacheManager { get { return _webImageCacheManager; } set { _webImageCacheManager = value; } }
         public Predicate<WebImage> ImageFilter { get { return _imageFilter; } set { _imageFilter = value; } }
-        public Func<WebData<TData>, string> GetImageSubDirectory { get { return _getImageSubDirectory; } set { _getImageSubDirectory = value; } }
+        //public Func<WebData<TData>, string> GetImageSubDirectory { get { return _getImageSubDirectory; } set { _getImageSubDirectory = value; } }
 
-        public bool LoadImagesFromWeb(WebData<TData> webData)
+        //public bool LoadImagesFromWeb(WebData<TData> webData)
+        //{
+        //    WebImageRequest imageRequest = webData.Request.ImageRequest;
+        //    if (!imageRequest.LoadImageFromWeb && !imageRequest.LoadImageToData && !imageRequest.RefreshImage)
+        //        return false;
+
+        //    if (!(webData.Data is IGetWebImages))
+        //        //throw new PBException($"{typeof(TData).zGetTypeName()} is not IGetWebImages");
+        //        return false;
+        //    IEnumerable<WebImage> images = ((IGetWebImages)webData.Data).GetWebImages();
+        //    if (_imageFilter != null)
+        //        images = images.Where(image => _imageFilter(image));
+        //    string subDirectory = null;
+        //    if (_getImageSubDirectory != null)
+        //        subDirectory = _getImageSubDirectory(webData);
+        //    return _webImageCacheManager.LoadImagesFromWeb(images, imageRequest, subDirectory);
+        //}
+
+        public bool LoadImagesFromWeb(WebImageRequest imageRequest, IEnumerable<WebImage> images, string subDirectory = null)
         {
-            WebImageRequest imageRequest = webData.Request.ImageRequest;
             if (!imageRequest.LoadImageFromWeb && !imageRequest.LoadImageToData && !imageRequest.RefreshImage)
                 return false;
-
-            //if (imageRequest.LoadImageFromWeb || imageRequest.LoadImageToData || imageRequest.RefreshImage)
-            //{
-            if (!(webData.Document is IGetWebImages))
-                //throw new PBException($"{typeof(TData).zGetTypeName()} is not IGetWebImages");
-                return false;
-            IEnumerable<WebImage> images = ((IGetWebImages)webData.Document).GetWebImages();
             if (_imageFilter != null)
                 images = images.Where(image => _imageFilter(image));
-            string subDirectory = null;
-            if (_getImageSubDirectory != null)
-                subDirectory = _getImageSubDirectory(webData);
+            //string subDirectory = null;
+            //if (_getImageSubDirectory != null)
+            //    subDirectory = _getImageSubDirectory(webData);
             return _webImageCacheManager.LoadImagesFromWeb(images, imageRequest, subDirectory);
-            //}
         }
 
         public void LoadImagesToData(TData data)

@@ -25,7 +25,7 @@ using pb.Text;
 // TraceHtmlReader_v2
 // _traceJsonSettings
 
-namespace pb.Web
+namespace pb.Web.Html
 {
     public class HtmlReader_v2 : HtmlReaderBase
     {
@@ -59,7 +59,9 @@ namespace pb.Web
         //private bool _disableScriptMarkInProgress = false;
         private bool _disableScriptTreatment = false;
         private bool _useReadAttributeValue_v2 = false;
-        
+        //private bool _textReplaceControl = true;
+        private bool _textReplaceControl = false;
+
         //private JsonWriterSettings _traceJsonSettings = null;
         private int _traceIndex = 1;
 
@@ -77,6 +79,7 @@ namespace pb.Web
         private int _posSourceStream = 0;
 
         // control PeekChar(0) pour éviter une boucle sans fin
+        //private static int __maxPeekCharCount = 200;
         private static int __maxPeekCharCount = 200;
         private int _lastPosPeekChar = -1;
         private int _peekCharCount = 0;
@@ -151,7 +154,8 @@ namespace pb.Web
             CloseTraceHtmlReader();
             if (__traceHtmlReaderFile != null)
             {
-                FileStream fs = new FileStream(__traceHtmlReaderFile, FileMode.Create, FileAccess.Write, FileShare.Read, _bufferSize);
+                //FileStream fs = new FileStream(__traceHtmlReaderFile, FileMode.Create, FileAccess.Write, FileShare.Read, _bufferSize);
+                FileStream fs = zFile.Open(__traceHtmlReaderFile, FileMode.Create, FileAccess.Write, FileShare.Read, _bufferSize);
                 _traceHtmlReaderStreamWriter = new StreamWriter(fs, _encoding);
                 //_traceJsonSettings = new JsonWriterSettings();
                 //_traceJsonSettings.Indent = true;
@@ -181,15 +185,18 @@ namespace pb.Web
                 _trace(new HtmlNodeDocType { Index = _traceIndex++, DocType = _docType });
             if (_isComment)
                 //_traceHtmlReaderStreamWriter.WriteLine(new HtmlNodeComment { Index = _traceIndex++, Comment = _comment.zReplaceControl() }.ToJson(_traceJsonSettings));
-                _trace(new HtmlNodeComment { Index = _traceIndex++, Comment = _comment.zReplaceControl() });
+                //_trace(new HtmlNodeComment { Index = _traceIndex++, Comment = _comment.zReplaceControl() });
+                _trace(new HtmlNodeComment { Index = _traceIndex++, Comment = ReplaceControl(_comment) });
             if (_isText)
             {
                 if (_scriptMarkInProgress)
                     //_traceHtmlReaderStreamWriter.WriteLine(new HtmlNodeScript { Index = _traceIndex++, Script = _text.zReplaceControl() }.ToJson(_traceJsonSettings));
-                    _trace(new HtmlNodeScript { Index = _traceIndex++, Script = _text.zReplaceControl() });
+                    //_trace(new HtmlNodeScript { Index = _traceIndex++, Script = _text.zReplaceControl() });
+                    _trace(new HtmlNodeScript { Index = _traceIndex++, Script = ReplaceControl(_text) });
                 else
                     //_traceHtmlReaderStreamWriter.WriteLine(new HtmlNodeText { Index = _traceIndex++, Text = _text.zReplaceControl(), IsTextSeparator = _isTextSeparator }.ToJson(_traceJsonSettings));
-                    _trace(new HtmlNodeText { Index = _traceIndex++, Text = _text.zReplaceControl(), IsTextSeparator = _isTextSeparator });
+                    //_trace(new HtmlNodeText { Index = _traceIndex++, Text = _text.zReplaceControl(), IsTextSeparator = _isTextSeparator });
+                    _trace(new HtmlNodeText { Index = _traceIndex++, Text = ReplaceControl(_text), IsTextSeparator = _isTextSeparator });
             }
             if (_isMarkBegin && !_isDocType)
                 //_traceHtmlReaderStreamWriter.WriteLine(new HtmlNodeOpenTag { Index = _traceIndex++, Name = _markName, IsScript = _scriptMarkInProgress }.ToJson(_traceJsonSettings));
@@ -209,6 +216,14 @@ namespace pb.Web
             }
             //if (htmlNode != null)
             //    _trace(htmlNode);
+        }
+
+        private string ReplaceControl(string text)
+        {
+            if (_textReplaceControl)
+                return text.zReplaceControl();
+            else
+                return text;
         }
 
         private void TraceHtmlReader()
@@ -266,7 +281,8 @@ namespace pb.Web
             CloseExportHtml();
             if (_exportHtmlFile != null)
             {
-                FileStream fs = new FileStream(_exportHtmlFile, FileMode.Create, FileAccess.Write, FileShare.Read, _bufferSize);
+                //FileStream fs = new FileStream(_exportHtmlFile, FileMode.Create, FileAccess.Write, FileShare.Read, _bufferSize);
+                FileStream fs = zFile.Open(_exportHtmlFile, FileMode.Create, FileAccess.Write, FileShare.Read, _bufferSize);
                 _exportHtmlStreamWriter = new StreamWriter(fs, _encoding);
             }
         }
@@ -291,6 +307,7 @@ namespace pb.Web
         public Action<HtmlNode> Trace { get { return _trace; } set { _trace = value; } }
         public bool DisableScriptTreatment { get { return _disableScriptTreatment; } set { _disableScriptTreatment = value; } }
         public bool UseReadAttributeValue_v2 { get { return _useReadAttributeValue_v2; } set { _useReadAttributeValue_v2 = value; } }
+        public bool TextReplaceControl { get { return _textReplaceControl; } set { _textReplaceControl = value; } }
         public string ExportHtmlFile { get { return _exportHtmlFile; } set { _exportHtmlFile = value; } }
         public override bool ReadCommentInText { get { return _readCommentInText; } set { _readCommentInText = value; } }
         public Encoding encoding { get { return _encoding; } set { _encoding = value; } }
@@ -1000,7 +1017,7 @@ namespace pb.Web
             {
                 for (int i1 = _stringStream.Length; i1 <= _posStringStream + i; i1++)
                 {
-                    charInt = _textReader.Read();
+                    //charInt = _textReader.Read();
                     //int iRetry = 0;
                     //int iChar;
                     //while (true)
@@ -1022,6 +1039,16 @@ namespace pb.Web
                     //        cTrace.Trace(cError.GetErrorMessage(ex, false, true));
                     //    }
                     //}
+
+                    // remove bom inside text : bom code = 0xEF, 0xBB, 0xBF, read bom = 0xFEFF
+                    // bom dans http://www.vosbooks.me/146108-revues-magazines/la-classe-maternelle-n256-fevrier-2017.html
+                    while (true)
+                    {
+                        charInt = _textReader.Read();
+                        if (charInt != 0xFEFF)
+                            break;
+                    }
+
                     if (charInt == -1)
                         break;
                     charText = (char)charInt;

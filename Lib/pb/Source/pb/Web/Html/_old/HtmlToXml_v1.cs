@@ -1,11 +1,12 @@
-﻿using System;
+﻿using pb.Web.Html;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Xml;
 using System.Xml.Linq;
 
-namespace pb.Web
+namespace pb.Web.Html
 {
     public class HtmlToXml_v1 : IDisposable
     {
@@ -29,23 +30,23 @@ namespace pb.Web
         private bool gbNoTag = false;
         private bool gbBody = false;
         private bool gbTitle = false;
-        private Stack<HtmlTable> gTableStack = null;
-        private HtmlTable gTable = null;
+        private Stack<HtmlTable_v2> gTableStack = null;
+        private HtmlTable_v2 gTable = null;
         //private XXNode gLastPNode = null;
         private bool gbReadCommentInText = false;
 
         private XmlDocument gXmlDocument = null;
         private XDocument gXDocument = null;
-        private XXXNode gDocumentNode = null;
+        private XXXNode_v2 gDocumentNode = null;
 
-        private XXXNode gCurrentNode = null;
-        private XXXNode gCurrentTreeNode = null;
-        private XXXNode gHtmlNode = null;
-        private XXXNode gHeadNode = null;
-        private XXXNode gBodyNode = null;
-        private XXXNode gTitleNode = null;
-        private Stack<XXXNode> gDefinitionListStack = null;
-        private XXXNode gDefinitionList = null;
+        private XXXNode_v2 gCurrentNode = null;
+        private XXXNode_v2 gCurrentTreeNode = null;
+        private XXXNode_v2 gHtmlNode = null;
+        private XXXNode_v2 gHeadNode = null;
+        private XXXNode_v2 gBodyNode = null;
+        private XXXNode_v2 gTitleNode = null;
+        private Stack<XXXNode_v2> gDefinitionListStack = null;
+        private XXXNode_v2 gDefinitionList = null;
 
         private static Regex gReplace = new Regex(@"[/,;?@!<>\\\[\]\-\*\(\)\+\:\'" + "\\\"]", RegexOptions.Compiled);
         private static Regex gCommentCorrection = new Regex("--+", RegexOptions.Compiled);
@@ -113,9 +114,9 @@ namespace pb.Web
         #endregion
 
         #region CreateElement
-        private XXXNode CreateElement(string name)
+        private XXXNode_v2 CreateElement(string name)
         {
-            XXXNode node = new XXXNode();
+            XXXNode_v2 node = new XXXNode_v2();
             if (gXmlDocument != null)
             {
                 XmlElement element = gXmlDocument.CreateElement(name);
@@ -131,7 +132,7 @@ namespace pb.Web
         #endregion
 
         #region AddElement
-        private void AddElement(XXXNode parent, XXXNode child)
+        private void AddElement(XXXNode_v2 parent, XXXNode_v2 child)
         {
             if (parent.XmlNode != null)
                 parent.XmlNode.AppendChild(child.XmlNode);
@@ -149,7 +150,7 @@ namespace pb.Web
         #endregion
 
         #region AddElement
-        private void AddElement(XXXNode parent, string element)
+        private void AddElement(XXXNode_v2 parent, string element)
         {
             if (parent.XmlNode != null)
             {
@@ -166,7 +167,7 @@ namespace pb.Web
         #endregion
 
         #region AddAttribute
-        private void AddAttribute(XXXNode parent, string name, string value)
+        private void AddAttribute(XXXNode_v2 parent, string name, string value)
         {
             if (gXmlDocument != null)
             {
@@ -203,7 +204,7 @@ namespace pb.Web
         #endregion
 
         #region AddText
-        private void AddText(XXXNode parent, string text)
+        private void AddText(XXXNode_v2 parent, string text)
         {
             if (IsSeparator(text)) return;
             if (gXmlDocument != null)
@@ -222,7 +223,7 @@ namespace pb.Web
         #endregion
 
         #region AddComment
-        private void AddComment(XXXNode parent, string comment)
+        private void AddComment(XXXNode_v2 parent, string comment)
         {
             if (gXmlDocument != null)
             {
@@ -238,9 +239,9 @@ namespace pb.Web
         #endregion
 
         #region GetParentXXNode
-        private static XXXNode GetParentXXNode(XXXNode node)
+        private static XXXNode_v2 GetParentXXNode(XXXNode_v2 node)
         {
-            XXXNode parentNode = new XXXNode();
+            XXXNode_v2 parentNode = new XXXNode_v2();
             if (node.XmlNode != null) parentNode.XmlNode = node.XmlNode.ParentNode;
             if (node.XNode != null) parentNode.XNode = node.XNode.Parent;
             return parentNode;
@@ -248,10 +249,10 @@ namespace pb.Web
         #endregion
 
         #region GetParentXXNodeByName
-        private static XXXNode GetParentXXNodeByName(XXXNode node, string name)
+        private static XXXNode_v2 GetParentXXNodeByName(XXXNode_v2 node, string name)
         {
             bool found = false;
-            XXXNode node2 = new XXXNode();
+            XXXNode_v2 node2 = new XXXNode_v2();
 
             XmlNode xmlNode = node.XmlNode;
             while (xmlNode != null)
@@ -292,7 +293,7 @@ namespace pb.Web
         public XmlDocument GenerateXmlDocument()
         {
             gXmlDocument = new XmlDocument();
-            gDocumentNode = new XXXNode();
+            gDocumentNode = new XXXNode_v2();
             gDocumentNode.XmlNode = gXmlDocument;
 
             GenerateXml();
@@ -304,7 +305,7 @@ namespace pb.Web
         public XDocument GenerateXDocument()
         {
             gXDocument = new XDocument();
-            gDocumentNode = new XXXNode();
+            gDocumentNode = new XXXNode_v2();
             gDocumentNode.XNode = gXDocument;
 
             GenerateXml();
@@ -328,10 +329,10 @@ namespace pb.Web
 
                 InitXml();
 
-                gTableStack = new Stack<HtmlTable>();
+                gTableStack = new Stack<HtmlTable_v2>();
                 gTable = null;
 
-                gDefinitionListStack = new Stack<XXXNode>();
+                gDefinitionListStack = new Stack<XXXNode_v2>();
                 gDefinitionList = null;
 
                 gbNoTag = false;
@@ -479,7 +480,7 @@ namespace pb.Web
             //XmlElement element = gXmlDocument.CreateElement("xml");
             //gXmlDocument.AppendChild(element);
             //gCurrentNode = gCurrentTreeNode = (XmlNode)element;
-            XXXNode element = CreateElement("xml");
+            XXXNode_v2 element = CreateElement("xml");
             AddElement(gDocumentNode, element);
             gCurrentNode = gCurrentTreeNode = element;
 
@@ -591,7 +592,7 @@ namespace pb.Web
                 if (tagType == HtmlTagType.Table && !bTagEnd)
                 {
                     if (gTable != null) gTableStack.Push(gTable);
-                    gTable = new HtmlTable();
+                    gTable = new HtmlTable_v2();
                     gTable.Table = gCurrentNode;
                     //gCurrentTreeNode.AppendChild(gCurrentNode);
                     AddElement(gCurrentTreeNode, gCurrentNode);
@@ -822,7 +823,7 @@ namespace pb.Web
             //    }
             //    node = node.ParentNode;
             //}
-            XXXNode node = GetParentXXNodeByName(gCurrentTreeNode, sTagName);
+            XXXNode_v2 node = GetParentXXNodeByName(gCurrentTreeNode, sTagName);
             if (node != null)
                 gCurrentTreeNode = GetParentXXNode(node);
             gCurrentNode = gCurrentTreeNode;

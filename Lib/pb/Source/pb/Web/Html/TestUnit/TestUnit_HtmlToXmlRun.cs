@@ -1,6 +1,6 @@
 ﻿using pb.Data.Mongo.Serializers;
 
-namespace pb.Web.TestUnit
+namespace pb.Web.Html.TestUnit
 {
     public static class TestUnit_HtmlToXmlRun
     {

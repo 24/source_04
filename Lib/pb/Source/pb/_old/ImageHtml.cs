@@ -5,6 +5,7 @@ using System.Xml.Linq;
 using pb.Data;
 using pb.Data.Xml;
 using pb.Web;
+using pb.Web.Http;
 
 namespace pb.old
 {

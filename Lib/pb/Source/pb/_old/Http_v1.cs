@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Data;
 using System.Drawing;
 using System.IO;
@@ -11,12 +10,12 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Xml;
 using System.Xml.Linq;
-using pb;
 using pb.Data.Xml;
 using pb.IO;
 using pb.Text;
-using pb.Web;
-using pb.Web.old;
+using pb.Web.Http;
+using pb.Web.Html;
+using pb.Web.Http.old;
 
 namespace pb.old
 {
@@ -695,7 +694,7 @@ namespace pb.old
             XmlDocument xml = null;
             if (_resultContentType == "text/html")
             {
-                HtmlToXml hx = new HtmlToXml(new StringReader(_resultText));
+                HtmlToXml_v2 hx = new HtmlToXml_v2(new StringReader(_resultText));
                 hx.ReadCommentInText = _readCommentInText;
                 xml = hx.GenerateXmlDocument();
             }
@@ -728,7 +727,7 @@ namespace pb.old
             XDocument xml = null;
             if (_resultContentType == "text/html")
             {
-                HtmlToXml hx = new HtmlToXml(new StringReader(_resultText));
+                HtmlToXml_v2 hx = new HtmlToXml_v2(new StringReader(_resultText));
                 hx.ReadCommentInText = _readCommentInText;
                 xml = hx.GenerateXDocument();
             }

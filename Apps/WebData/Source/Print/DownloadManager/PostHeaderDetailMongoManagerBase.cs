@@ -4,7 +4,6 @@ using System.Linq;
 using MongoDB.Bson;
 using pb;
 using pb.Web.Data;
-using pb.Data;
 using pb.Web;
 using pb.Web.Data.Mongo;
 
@@ -24,54 +23,8 @@ using pb.Web.Data.Mongo;
 
 namespace Download.Print
 {
-    public class PostHeader : IHeaderData
-    {
-        public string SourceUrl;
-        public DateTime? LoadFromWebDate;
-        public string Title;
-        public string UrlDetail;
-
-        public WebImage[] Images;
-
-        public HttpRequest GetHttpRequestDetail()
-        {
-            return new HttpRequest { Url = UrlDetail };
-        }
-    }
-
-    public class PostHeaderDataPage<TDataPage> : IEnumDataPages<TDataPage>, IKeyData where TDataPage : IHeaderData
-    {
-        public int Id;
-        public string SourceUrl;
-        public DateTime LoadFromWebDate;
-
-        public TDataPage[] Headers;
-        public string UrlNextPage;
-
-        // IKeyData
-        public BsonValue GetKey()
-        {
-            return Id;
-        }
-
-        //public IEnumerable<IHeaderData> GetDataList()
-        public IEnumerable<TDataPage> GetDataList()
-        {
-            return Headers;
-        }
-
-        // IEnumDataPages<TData>
-        public HttpRequest GetHttpRequestNextPage()
-        {
-            if (UrlNextPage != null)
-                return new HttpRequest { Url = UrlNextPage };
-            else
-                return null;
-        }
-    }
-
-    // IPostToDownload => IHttpRequestData, IKeyData, ILoadImages
-    public abstract class PostDetailBase : IPostToDownload
+    // IPostToDownload => IHttpRequestData, IKeyData
+    public abstract class PostDetailBase : IPostToDownload, ILoadImages
     {
         public BsonValue Id;
         public string SourceUrl;
@@ -109,7 +62,7 @@ namespace Download.Print
 
         public virtual void LoadImages()
         {
-            Images = DownloadPrint.LoadImages(Images).ToArray();
+            Images = DownloadPrintImage.LoadImages(Images).ToArray();
         }
 
         //ILoadImages
@@ -200,17 +153,17 @@ namespace Download.Print
         //}
 
         // IServerManager method
-        public virtual void LoadNewDocuments()
+        public virtual LoadNewDocumentsResult LoadNewDocuments()
         {
             throw new PBException("LoadNewDocuments() not implemented");
         }
 
         // IServerManager method
         // bool loadImageFromWeb = true
-        public virtual LoadNewDocumentsResult LoadNewDocuments(int maxNbDocumentsLoadedFromStore = 5, int startPage = 1, int maxPage = 20, WebImageRequest webImageRequest = null)
-        {
-            return _headerDetailManager.LoadNewDocuments(maxDocumentsLoadedFromStore: maxNbDocumentsLoadedFromStore, startPage: startPage, maxPage: maxPage, webImageRequest: webImageRequest);
-        }
+        //public virtual LoadNewDocumentsResult LoadNewDocuments(int maxNbDocumentsLoadedFromStore = 5, int startPage = 1, int maxPage = 20, WebImageRequest webImageRequest = null)
+        //{
+        //    return _headerDetailManager.LoadNewDocuments(maxDocumentsLoadedFromStore: maxNbDocumentsLoadedFromStore, startPage: startPage, maxPage: maxPage, webImageRequest: webImageRequest);
+        //}
 
         // getPostList
         // IServerManager method

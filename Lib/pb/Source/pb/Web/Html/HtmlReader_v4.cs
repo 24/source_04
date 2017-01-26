@@ -16,8 +16,21 @@ using System;
 //     example : line 1063 of free-telechargement.org_1_categorie-Magazines_01_01.html (c:\pib\drive\google\dev_data\exe\runsource\test_unit\Web\HtmlToXml\sites\free-telechargement.org\header)
 //       onmouseover="Tip('<b>Détours en France  No.133 </b><br /><br />Ajoute par <i>devilman000</i> le <i>29/10/2014</i><br /><br /><b>Catégorie :</b> Magazines<br /><b>Date de sortie :</b> 2014<br /><b>Genre :</b> Actualité<br /><b>Type de Fichier :</b> PDF FRENCH<br /><b>Taille :</b> 107 Mo<br /><br /><b>Description :</b> <i>French | HQ PDF | 94 Pages | 107 Mb   Montagnes du Jura  Au sommaire : Jura.....</i>')"
 
-namespace pb.Web
+namespace pb.Web.Html
 {
+    [Flags]
+    public enum HtmlReaderOptions
+    {
+        None                        = 0,
+        GenerateCloseTag            = 0x0001,         // <div>   (OpenTag + CloseTag)
+        DisableLineColumn           = 0x0002,
+        DisableScriptTreatment      = 0x0004,
+        TextReplaceControl          = 0x0008,
+        UseTranslateChar            = 0x0010,
+        UseFilterChar               = 0x0020,
+        Default                     = UseTranslateChar | UseFilterChar
+    }
+
     public enum HtmlReaderNodeType
     {
         Eof = 0,
@@ -28,6 +41,12 @@ namespace pb.Web
         Text
     }
 
+    public class HtmlReaderStringValue
+    {
+        public string Value;
+        public char? Quote;
+    }
+
     public class HtmlReader_v4
     {
         private CharStreamReader _charStreamReader = null;
@@ -35,26 +54,40 @@ namespace pb.Web
         private bool _disableLineColumn = false;
         //private bool _readCommentInText = false;
         private bool _disableScriptTreatment = false;
-        private bool _useReadAttributeValue_v2 = true;
         private bool _textReplaceControl = false;
+        private bool _useReadAttributeValue_v2 = true;
 
         private int _htmlNodeIndex = 1;
         // construction des string : Tag, Comment, Property ...
         private StringBuilder _stringBuilder = new StringBuilder(10000, 1000000);
 
-        public HtmlReader_v4(TextReader textReader, bool useTranslateChar = true)
+        //public HtmlReader_v4(TextReader textReader, bool useTranslateChar = true, bool useFilterChar = true)
+        public HtmlReader_v4(TextReader textReader, HtmlReaderOptions options = HtmlReaderOptions.Default)
         {
             _charStreamReader = new CharStreamReader(textReader);
-            if (useTranslateChar)
+            //if (useTranslateChar)
+            if ((options & HtmlReaderOptions.UseTranslateChar) == HtmlReaderOptions.UseTranslateChar)
                 _charStreamReader.TranslateChar = TranslateChar;
+            //if (useFilterChar)
+            if ((options & HtmlReaderOptions.UseFilterChar) == HtmlReaderOptions.UseFilterChar)
+                _charStreamReader.FilterChar = FilterChar;
+
+            _generateCloseTag = (options & HtmlReaderOptions.GenerateCloseTag) == HtmlReaderOptions.GenerateCloseTag;
+            _disableLineColumn = (options & HtmlReaderOptions.DisableLineColumn) == HtmlReaderOptions.DisableLineColumn;
+            _disableScriptTreatment = (options & HtmlReaderOptions.DisableScriptTreatment) == HtmlReaderOptions.DisableScriptTreatment;
+            _textReplaceControl = (options & HtmlReaderOptions.TextReplaceControl) == HtmlReaderOptions.TextReplaceControl;
         }
 
-        public bool GenerateCloseTag { get { return _generateCloseTag; } set { _generateCloseTag = value; } }
-        public bool DisableLineColumn { get { return _disableLineColumn; } set { _disableLineColumn = value; } }
-        //public bool ReadCommentInText { get { return _readCommentInText; } set { _readCommentInText = value; } }
-        public bool DisableScriptTreatment { get { return _disableScriptTreatment; } set { _disableScriptTreatment = value; } }
+        //public bool GenerateCloseTag { get { return _generateCloseTag; } set { _generateCloseTag = value; } }
+        public bool GenerateCloseTag { get { return _generateCloseTag; } }
+        //public bool DisableLineColumn { get { return _disableLineColumn; } set { _disableLineColumn = value; } }
+        public bool DisableLineColumn { get { return _disableLineColumn; } }
+        ////public bool ReadCommentInText { get { return _readCommentInText; } set { _readCommentInText = value; } }
+        public bool DisableScriptTreatment { get { return _disableScriptTreatment; } }
+        //public bool DisableScriptTreatment { get { return _disableScriptTreatment; } set { _disableScriptTreatment = value; } }
+        //public bool TextReplaceControl { get { return _textReplaceControl; } set { _textReplaceControl = value; } }
+        public bool TextReplaceControl { get { return _textReplaceControl; } }
         public bool UseReadAttributeValue_v2 { get { return _useReadAttributeValue_v2; } set { _useReadAttributeValue_v2 = value; } }
-        public bool TextReplaceControl { get { return _textReplaceControl; } set { _textReplaceControl = value; } }
 
         private string TranslateChar(char car)
         {
@@ -74,6 +107,16 @@ namespace pb.Web
                 return " ";
             }
             return null;
+        }
+
+        private bool FilterChar(int code)
+        {
+            // remove bom inside text : bom code = 0xEF, 0xBB, 0xBF, read bom = 0xFEFF
+            // bom dans http://www.vosbooks.me/146108-revues-magazines/la-classe-maternelle-n256-fevrier-2017.html
+            if (code == 0xFEFF)
+                return true;
+            else
+                return false;
         }
 
         public IEnumerable<HtmlNode> Read()
@@ -347,7 +390,12 @@ namespace pb.Web
             }
             //_text = _stringBuilder.ToString();
             //_text = HtmlCharCodes.TranslateCode(_text);
-            script.Script = HtmlCharCodes.TranslateCode(_stringBuilder.ToString()).zReplaceControl();
+            //script.Script = HtmlCharCodes.TranslateCode(_stringBuilder.ToString()).zReplaceControl();
+            string text = _stringBuilder.ToString();
+            text = HtmlCharCodes.TranslateCode(text);
+            if (_textReplaceControl)
+                text = text.zReplaceControl();
+            script.Script = text;
             return script;
         }
 
@@ -379,7 +427,12 @@ namespace pb.Web
                 _stringBuilder.Append(car);
                 _charStreamReader.ReadChar();
             }
-            comment.Comment = _stringBuilder.ToString().zReplaceControl();
+            //comment.Comment = _stringBuilder.ToString().zReplaceControl();
+            string text = _stringBuilder.ToString();
+            //text = HtmlCharCodes.TranslateCode(text);
+            if (_textReplaceControl)
+                text = text.zReplaceControl();
+            comment.Comment = text;
             return comment;
         }
 
@@ -416,7 +469,6 @@ namespace pb.Web
                 Index = _htmlNodeIndex++,
                 Line = _disableLineColumn ? 0 : line,
                 Column = _disableLineColumn ? 0 : column,
-                //Text = HtmlCharCodes.TranslateCode(_stringBuilder.ToString()).zReplaceControl(),
                 Text = text,
                 IsTextSeparator = isTextSeparator
             };
@@ -620,39 +672,50 @@ namespace pb.Web
             return _stringBuilder.ToString();
         }
 
-        public static IEnumerable<HtmlNode> Read(TextReader textReader, bool generateCloseTag = false, bool disableLineColumn = false,
-            bool disableScriptTreatment = false, bool useReadAttributeValue_v2 = true, bool useTranslateChar = true)
+        //HtmlReaderOptions
+        //public static IEnumerable<HtmlNode> Read(TextReader textReader, bool generateCloseTag = false, bool disableLineColumn = false,
+        //    bool disableScriptTreatment = false, bool useReadAttributeValue_v2 = true, bool useTranslateChar = true, bool useFilterChar = true)
+        public static IEnumerable<HtmlNode> Read(TextReader textReader, HtmlReaderOptions options = HtmlReaderOptions.Default)
         {
-            HtmlReader_v4 htmlReader = new HtmlReader_v4(textReader, useTranslateChar);
-            htmlReader.GenerateCloseTag = generateCloseTag;
-            htmlReader.DisableLineColumn = disableLineColumn;
-            htmlReader.DisableScriptTreatment = disableScriptTreatment;
-            htmlReader.UseReadAttributeValue_v2 = useReadAttributeValue_v2;
+            //HtmlReader_v4 htmlReader = new HtmlReader_v4(textReader, useTranslateChar, useFilterChar);
+            HtmlReader_v4 htmlReader = new HtmlReader_v4(textReader, options);
+            ////htmlReader.GenerateCloseTag = generateCloseTag;
+            //htmlReader.GenerateCloseTag = (options & HtmlReaderOptions.GenerateCloseTag) == HtmlReaderOptions.GenerateCloseTag;
+            ////htmlReader.DisableLineColumn = disableLineColumn;
+            //htmlReader.DisableLineColumn = (options & HtmlReaderOptions.DisableLineColumn) == HtmlReaderOptions.DisableLineColumn;
+            ////htmlReader.DisableScriptTreatment = disableScriptTreatment;
+            //htmlReader.DisableScriptTreatment = (options & HtmlReaderOptions.DisableScriptTreatment) == HtmlReaderOptions.DisableScriptTreatment;
+            ////htmlReader.UseReadAttributeValue_v2 = useReadAttributeValue_v2;
+            //htmlReader.TextReplaceControl = (options & HtmlReaderOptions.TextReplaceControl) == HtmlReaderOptions.TextReplaceControl;
             return htmlReader.Read();
         }
 
-        public static IEnumerable<HtmlNode> ReadFile(string file, Encoding encoding = null, bool generateCloseTag = false, bool disableLineColumn = false,
-            bool disableScriptTreatment = false, bool useReadAttributeValue_v2 = true, bool useTranslateChar = true)
+        //public static IEnumerable<HtmlNode> ReadFile(string file, Encoding encoding = null, bool generateCloseTag = false, bool disableLineColumn = false,
+        //    bool disableScriptTreatment = false, bool useReadAttributeValue_v2 = true, bool useTranslateChar = true)
+        public static IEnumerable<HtmlNode> ReadFile(string file, Encoding encoding = null, HtmlReaderOptions options = HtmlReaderOptions.Default)
         {
             using (StreamReader sr = zfile.OpenText(file, encoding))
             {
                 // attention return Read() generate exception Cannot read from a closed TextReader. (System.ObjectDisposedException)
                 //return Read(sr, generateCloseTag, disableLineColumn, disableScriptTreatment, useReadAttributeValue_v2, useTranslateChar);
-                foreach (HtmlNode node in Read(sr, generateCloseTag, disableLineColumn, disableScriptTreatment, useReadAttributeValue_v2, useTranslateChar))
+                //foreach (HtmlNode node in Read(sr, generateCloseTag, disableLineColumn, disableScriptTreatment, useReadAttributeValue_v2, useTranslateChar))
+                foreach (HtmlNode node in Read(sr, options))
                 {
                     yield return node;
                 }
             }
         }
 
-        public static IEnumerable<HtmlNode> ReadString(string html, bool generateCloseTag = false, bool disableLineColumn = false,
-            bool disableScriptTreatment = false, bool useReadAttributeValue_v2 = true, bool useTranslateChar = true)
+        //public static IEnumerable<HtmlNode> ReadString(string html, bool generateCloseTag = false, bool disableLineColumn = false,
+        //    bool disableScriptTreatment = false, bool useReadAttributeValue_v2 = true, bool useTranslateChar = true)
+        public static IEnumerable<HtmlNode> ReadString(string html, HtmlReaderOptions options = HtmlReaderOptions.Default)
         {
             using (StringReader sr = new StringReader(html))
             {
                 // attention return Read() generate exception Cannot read from a closed TextReader. (System.ObjectDisposedException)
                 //return Read(sr, generateCloseTag, disableLineColumn, disableScriptTreatment, useReadAttributeValue_v2, useTranslateChar);
-                foreach (HtmlNode node in Read(sr, generateCloseTag, disableLineColumn, disableScriptTreatment, useReadAttributeValue_v2, useTranslateChar))
+                //foreach (HtmlNode node in Read(sr, generateCloseTag, disableLineColumn, disableScriptTreatment, useReadAttributeValue_v2, useTranslateChar))
+                foreach (HtmlNode node in Read(sr, options))
                 {
                     yield return node;
                 }

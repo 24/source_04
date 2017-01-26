@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<AssemblyProject>
+  <Root                             value = "..\..\..\.." />
+
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\LanguageCSharp5Debug.project.xml" />
+  <Target                           value = "library" /> <!-- exe (exe console default), library (dll), module (.netmodule), winexe (exe windows), winruntimeexe (windows runtime application), winruntimemetadata (windows runtime metadata) -->
+  <Platform                         value = "X86" /> <!-- AnyCpu (default), X86, X64, Itanium, AnyCpu32BitPreferred (only CSharp5), Arm (only CSharp5) -->
+	<Output                           value = "bin32\runsource.command.dll" />
+  <CopySourceFiles                  value = "true" />
+  <NameSpace                        value = "pb" />
+	<!--<CompilerOptions                  value = "/platform:x86" />  --><!-- x86, Itanium, x64, or anycpu (default). -->
+  <Source                           value = "Properties\AssemblyInfo.cs" />
+
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Compiler\RunSourceCommand.cs" />
+
+  <FrameworkAssembly                value = "mscorlib.dll" />
+  <FrameworkAssembly                value = "System.dll" />
+  <!--<FrameworkAssembly                value = "System.Core.dll" />-->
+	<FrameworkAssembly                value = "System.Data.dll" />
+	<!--<FrameworkAssembly                value = "System.Xml.dll" />-->
+  <!--<FrameworkAssembly                value = "System.Xml.Linq.dll" />-->
+  <!--<Assembly                         value = "$Root$\Lib\LongPath\Pri.LongPath\bin\Debug\Pri.LongPath.dll" />-->
+  <Assembly                         value = "$Root$\Apps\RunSource\v2\runsource.dll\bin32\runsource.dll" />
+  <Assembly                         value = "$Root$\Apps\RunSource\v2\runsource.irunsource\bin32\runsource.irunsource.dll" />
+</AssemblyProject>
+

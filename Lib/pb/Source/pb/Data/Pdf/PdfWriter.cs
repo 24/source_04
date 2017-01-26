@@ -23,7 +23,8 @@ namespace pb.Pdf
             gUpdatePdf = updatePdf;
             if (updatePdf)
                 mode = FileMode.Open;
-            gfs = new FileStream(file, mode, FileAccess.ReadWrite, share);
+            //gfs = new FileStream(file, mode, FileAccess.ReadWrite, share);
+            gfs = zFile.Open(file, mode, FileAccess.ReadWrite, share);
             gw = new Writer(gfs, encoding);
             if (updatePdf)
             {

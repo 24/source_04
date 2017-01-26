@@ -16,16 +16,20 @@ namespace runsourced
 {
     public partial class RunSourceFormExe : RunSourceForm
     {
-        private ITrace _trace = null;
+        private static RunSourceFormExe _current;
+        //private ITrace _trace = null;
         private XmlConfig _config = null;
         private RunSourceRestartParameters _runSourceParameters = null;
         private string _title = "Run source";
 
-        public RunSourceFormExe(IRunSource runSource, ITrace trace, XmlConfig config, RunSourceRestartParameters runSourceParameters)
+        //public RunSourceFormExe(IRunSource runSource, ITrace trace, XmlConfig config, RunSourceRestartParameters runSourceParameters)
+        public RunSourceFormExe(IRunSource runSource, XmlConfig config, RemoteRunSource remoteRunSource, RunSourceRestartParameters runSourceParameters)
         {
             _runSource = runSource;
-            _trace = trace;
-            _trace.SetViewer(TraceWrited);
+
+            TraceManager.Current.SetViewer(TraceWrited);
+            remoteRunSource.GetTraceManager().SetViewer(TraceWrited);
+
             _config = config;
             _runSourceParameters = runSourceParameters;
 
@@ -44,6 +48,8 @@ namespace runsourced
             this.FormClosed += RunSourceForm_FormClosed;
             //this.KeyDown += RunSourceForm_KeyDown;
         }
+
+        public static RunSourceFormExe Current { get { return _current; } set { _current = value; } }
 
         private void SetKeyboardShortcuts()
         {
@@ -130,7 +136,8 @@ namespace runsourced
         {
             SaveSettings();
             EndRunSource();
-            _trace.SetViewer(null);
+            //_trace.SetViewer(null);
+            TraceManager.Current.RemoveViewer();
         }
 
         private void InitExe()
@@ -242,7 +249,8 @@ namespace runsourced
             }
             catch (Exception ex)
             {
-                _trace.WriteError(ex);
+                //_trace.WriteError(ex);
+                Trace.WriteError(ex);
                 if (errorMessageBox)
                     zerrf.ErrorMessageBox(ex);
             }

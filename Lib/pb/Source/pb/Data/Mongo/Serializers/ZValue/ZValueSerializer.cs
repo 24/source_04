@@ -174,7 +174,43 @@ namespace pb.Data.Mongo.Serializers
         public override void Serialize(BsonWriter bsonWriter, Type nominalType, object value, IBsonSerializationOptions options)
         {
             // this function is not called when serializing ZValue, mongo serializer call ZStringSerializer.Serialize(), ...
-            throw new PBException("not implemented");
+            // this function is called when serializing NamedValues<ZValue>
+            //throw new PBException("not implemented");
+
+            if (value == null)
+            {
+                //throw new ArgumentNullException("value");
+                bsonWriter.WriteNull();
+            }
+            else
+            {
+                var bsonValue = (BsonValue)value;
+                switch (bsonValue.BsonType)
+                {
+                    case BsonType.Array: ZStringArraySerializer.Instance.Serialize(bsonWriter, typeof(BsonArray), bsonValue, options); break;
+                    //case BsonType.Binary: BsonBinaryDataSerializer.Instance.Serialize(bsonWriter, typeof(BsonBinaryData), bsonValue, options); break;
+                    //case BsonType.Boolean: BsonBooleanSerializer.Instance.Serialize(bsonWriter, typeof(BsonBoolean), bsonValue, options); break;
+                    //case BsonType.DateTime: BsonDateTimeSerializer.Instance.Serialize(bsonWriter, typeof(BsonDateTime), bsonValue, options); break;
+                    //case BsonType.Document: BsonDocumentSerializer.Instance.Serialize(bsonWriter, typeof(BsonDocument), bsonValue, options); break;
+                    //case BsonType.Double: BsonDoubleSerializer.Instance.Serialize(bsonWriter, typeof(BsonDouble), bsonValue, options); break;
+                    case BsonType.Int32: ZIntSerializer.Instance.Serialize(bsonWriter, typeof(BsonInt32), bsonValue, options); break;
+                    //case BsonType.Int64: BsonInt64Serializer.Instance.Serialize(bsonWriter, typeof(BsonInt64), bsonValue, options); break;
+                    //case BsonType.JavaScript: BsonJavaScriptSerializer.Instance.Serialize(bsonWriter, typeof(BsonJavaScript), bsonValue, options); break;
+                    //case BsonType.JavaScriptWithScope: BsonJavaScriptWithScopeSerializer.Instance.Serialize(bsonWriter, typeof(BsonJavaScriptWithScope), bsonValue, options); break;
+                    //case BsonType.MaxKey: BsonMaxKeySerializer.Instance.Serialize(bsonWriter, typeof(BsonMaxKey), bsonValue, options); break;
+                    //case BsonType.MinKey: BsonMinKeySerializer.Instance.Serialize(bsonWriter, typeof(BsonMinKey), bsonValue, options); break;
+                    //case BsonType.Null: BsonNullSerializer.Instance.Serialize(bsonWriter, typeof(BsonNull), bsonValue, options); break;
+                    //case BsonType.ObjectId: BsonObjectIdSerializer.Instance.Serialize(bsonWriter, typeof(BsonObjectId), bsonValue, options); break;
+                    //case BsonType.RegularExpression: BsonRegularExpressionSerializer.Instance.Serialize(bsonWriter, typeof(BsonRegularExpression), bsonValue, options); break;
+                    //case BsonType.String: BsonStringSerializer.Instance.Serialize(bsonWriter, typeof(BsonString), bsonValue, options); break;
+                    case BsonType.String: ZStringSerializer.Instance.Serialize(bsonWriter, typeof(ZString), bsonValue, options); break;
+                    //case BsonType.Symbol: BsonSymbolSerializer.Instance.Serialize(bsonWriter, typeof(BsonSymbol), bsonValue, options); break;
+                    //case BsonType.Timestamp: BsonTimestampSerializer.Instance.Serialize(bsonWriter, typeof(BsonTimestamp), bsonValue, options); break;
+                    //case BsonType.Undefined: BsonUndefinedSerializer.Instance.Serialize(bsonWriter, typeof(BsonUndefined), bsonValue, options); break;
+                    //default: throw new BsonInternalException("Invalid BsonType.");
+                    default: throw new PBException("error serialize ZValue invalid BsonType {0}.", bsonValue.BsonType);
+                }
+            }
         }
 
         //public override void Serialize(BsonWriter bsonWriter, Type nominalType, object value, IBsonSerializationOptions options)

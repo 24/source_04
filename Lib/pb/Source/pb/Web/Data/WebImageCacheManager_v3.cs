@@ -1,11 +1,11 @@
 ﻿using pb.Data;
 using pb.IO;
-using pb.Web.Data;
+using pb.Web.Http;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 
-namespace pb.Web
+namespace pb.Web.Data
 {
     public class WebImageCacheManager_v3 : HttpManager_v2
     {
@@ -17,13 +17,16 @@ namespace pb.Web
         // HttpRequestParameters requestParameters = null
         public virtual bool LoadImagesFromWeb(IEnumerable<WebImage> images, WebImageRequest imageRequest, string subDirectory = null)
         {
-            if (!imageRequest.LoadImageFromWeb && !imageRequest.RefreshImage)
+            if ((!imageRequest.LoadImageFromWeb && !imageRequest.RefreshImage) || images == null)
                 return false;
             bool ret = false;
             foreach (WebImage image in images)
             {
-                if (LoadImageFromWeb(image, imageRequest, subDirectory))
-                    ret = true;
+                if (image.Url != null)
+                {
+                    if (LoadImageFromWeb(image, imageRequest, subDirectory))
+                        ret = true;
+                }
             }
             return ret;
         }

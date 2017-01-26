@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 using System.Web;
 using pb.IO;
 
-namespace pb.Web
+namespace pb.Web.Http
 {
     [Flags]
     public enum UrlFileNameType
@@ -171,7 +171,7 @@ namespace pb.Web
             {
                 ext = zPath.GetExtension(uri.AbsolutePath);
                 // modif le 09/11/2015 appel Http.GetContentTypeFromFileExtension() pour vérifier le type d'extension
-                if (Http.GetContentTypeFromFileExtension(ext) == null)
+                if (HttpTools.GetContentTypeFromFileExtension(ext) == null)
                 {
                     file += ext;
                     ext = "";
@@ -295,6 +295,19 @@ namespace pb.Web
                 }
             }
             return type;
+        }
+
+        public static bool CheckUrl(string url)
+        {
+            try
+            {
+                new Uri(url);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }

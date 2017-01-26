@@ -11,6 +11,7 @@ using MongoDB.Driver.Builders;
 using pb;
 using pb.IO;
 using pb.Web;
+using pb.Web.Http;
 
 // *********************************************************** deprecated use LoadWebData or LoadWebDataPages ***********************************************************
 

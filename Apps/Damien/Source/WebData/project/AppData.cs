@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace hts
+﻿namespace hts
 {
     public static class AppData
     {

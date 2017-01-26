@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CenterCLR.NamingFormatter">
+      <HintPath>..\..\..\library\CenterCLR.NamingFormatter\CenterCLR.NamingFormatter.1.1.0\net35\CenterCLR.NamingFormatter.dll</HintPath>
+    </Reference>
     <Reference Include="DevExpress.Data, Version=1.2.7.0, Culture=neutral, PublicKeyToken=79868b8147b5eae4">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\RuntimeLibrary\DevExpress\DevExpress 2.4.7.0\.NET\DevExpress.Data.dll</HintPath>
@@ -113,7 +116,28 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <None Include="ClassDiagram1.cd" />
+    <Compile Include="Source\pb\Compiler\RunSourceCommand.cs" />
+    <Compile Include="Source\pb\Compiler\RunSource_Options.cs" />
+    <Compile Include="Source\pb\Data\Mongo\WebHeaderDetailMongoManagerBase_v3.cs" />
+    <Compile Include="Source\pb\Data\Mongo\zMongoDB.cs" />
+    <Compile Include="Source\pb\Data\Xml\_Test\Test_Xpath.cs" />
+    <Compile Include="Source\pb\Text\String_Split.cs" />
+    <Compile Include="Source\pb\Web\Data\DataPages_v2.cs" />
+    <Compile Include="Source\pb\Web\Data\WebDataManager_v5.cs" />
+    <Compile Include="Source\pb\Web\Data\WebData_v2.cs" />
+    <Compile Include="Source\pb\Web\Data\WebHeaderDetailManager_v5.cs" />
+    <Compile Include="Source\pb\Web\Data\WebRequest_v2.cs" />
+    <Compile Include="Source\pb\Web\Html\HtmlNode.cs" />
+    <Compile Include="Source\pb\Web\Html\HtmlRun_v2.cs" />
+    <Compile Include="Source\pb\Web\Html\HtmlRun_v2_SetResult.cs" />
+    <Compile Include="Source\pb\Web\Html\HtmlToXmlManager.cs" />
+    <Compile Include="Source\pb\Web\Http\HttpRun_v2.cs" />
+    <Compile Include="Source\pb\Web\Http\HttpXml_v2.cs" />
+    <Compile Include="Source\pb\_pb\ITrace.cs" />
+    <Compile Include="Source\pb\_pb\ITraceManager.cs" />
+    <Compile Include="Source\pb\_pb\TraceLevel.cs" />
+    <Compile Include="Source\pb\_pb\TraceManager.cs" />
+    <Compile Include="Source\pb\_Test\Test_CSharp.cs" />
     <None Include="Source\pb\Data\OpenXml\_Test\Data\page_01_01.oxml.json" />
     <None Include="Source\pb\Data\OpenXml\_Test\Data\page_01_02.oxml.json" />
     <None Include="Source\pb\Data\OpenXml\_Test\Data\page_01_03.oxml.json" />
@@ -127,17 +151,17 @@
     <None Include="Source\pb\Data\OpenXml\_Test\Data\test_oxml_01_03_out.json" />
     <None Include="Source\pb\Data\OpenXml\_Test\Data\test_oxml_01_out.json" />
     <None Include="Source\pb\Data\OpenXml\_Test\Data\test_oxml_01_out_out.json" />
-    <None Include="Source\Project\_Test\TestMongoCommand.run.cs" />
-    <None Include="Source\Project\_Test\TestExtension_01.dll.run.cs" />
-    <None Include="Source\Project\_Test\TestExtension_01.run.cs" />
-    <None Include="Source\Project\_Test\TestHtmlRun.dll.run.cs" />
-    <None Include="Source\Project\_Test\TestHtmlRun.run.cs" />
-    <None Include="Source\Project\_Test\TestHttpRun.dll.run.cs" />
-    <None Include="Source\Project\_Test\TestHttpRun.run.cs" />
-    <None Include="Source\Project\_Test\TestMongoSerialization.run.cs" />
-    <None Include="Source\Project\_Test\TestMongoExtension.run.cs" />
-    <None Include="Source\Project\_Test\TestRunSourceExtension.run.cs" />
-    <None Include="Source\Project\_Test\TestBasic.run.cs" />
+    <None Include="Source\Project\_Test\Test_MongoCommand.run.cs" />
+    <None Include="Source\Project\_Test\Test_Extension_01.dll.run.cs" />
+    <None Include="Source\Project\_Test\Test_Extension_01.run.cs" />
+    <None Include="Source\Project\_Test\Test_HtmlRun.dll.run.cs" />
+    <None Include="Source\Project\_Test\Test_HtmlRun.run.cs" />
+    <None Include="Source\Project\_Test\Test_HttpRun.dll.run.cs" />
+    <None Include="Source\Project\_Test\Test_HttpRun.run.cs" />
+    <None Include="Source\Project\_Test\Test_MongoSerialization.run.cs" />
+    <None Include="Source\Project\_Test\Test_MongoExtension.run.cs" />
+    <None Include="Source\Project\_Test\Test_RunSourceExtension.run.cs" />
+    <None Include="Source\Project\_Test\Test_Basic.run.cs" />
     <None Include="Source\Other\compile.cs" />
     <Compile Include="Source\Other\CradleOfRomeWatcher.cs" />
     <None Include="Source\Other\PagesJaunes.cs" />
@@ -157,8 +181,8 @@
     <Compile Include="Source\pb\Compiler\ProjectCompilerCreator.cs" />
     <Compile Include="Source\pb\Compiler\ResourceCompiler.cs" />
     <Compile Include="Source\pb\Compiler\ResourceCompilerResult.cs" />
-    <Compile Include="Source\pb\Compiler\RunSourceExecution.cs" />
-    <Compile Include="Source\pb\Compiler\RunSourceHtmlRun.cs" />
+    <Compile Include="Source\pb\Compiler\RunSource_Execution.cs" />
+    <Compile Include="Source\pb\Web\Html\HtmlRun_v1_SetResult.cs" />
     <Compile Include="Source\pb\Data\Mongo\Serializers\OpenXml\OXmlCommonSerializer.cs" />
     <Compile Include="Source\pb\Data\Mongo\Serializers\OpenXml\OXmlDocDefaultsRunPropertiesElementSerializer.cs" />
     <Compile Include="Source\pb\Data\Mongo\Serializers\OpenXml\OXmlBreakElementSerializer.cs" />
@@ -175,20 +199,31 @@
     <Compile Include="Source\pb\Data\Mongo\Serializers\ZValue\RunSerializerZValue.cs" />
     <Compile Include="Source\pb\Data\OpenXml\OXmlTools.cs" />
     <Compile Include="Source\pb\Data\OpenXml\_Test\Test_OpenXml_Serialize.cs" />
+    <Compile Include="Source\pb\Data\VSProject\VSProject.cs" />
+    <Compile Include="Source\pb\Data\_Test\Test_NamingFormatter.cs" />
+    <Compile Include="Source\pb\Text\_Test\Test_Utf8.cs" />
     <Compile Include="Source\pb\Web\Data\HeaderDetail.cs" />
     <Compile Include="Source\pb\Web\Data\IEnumDataPages.cs" />
     <Compile Include="Source\pb\Web\Data\IHeaderData.cs" />
+    <Compile Include="Source\pb\Web\Data\IHttpRequestData.cs" />
     <Compile Include="Source\pb\Web\Data\LoadNewDocumentsResult.cs" />
+    <Compile Include="Source\pb\Web\Data\WebDataManager_v4_MongoUpdate.cs" />
     <Compile Include="Source\pb\Web\Data\WebDataPageManager_v4.cs" />
     <Compile Include="Source\pb\Web\Data\WebData_LoadImages_v1.cs" />
     <Compile Include="Source\pb\Web\Data\WebData_LoadImages_v2.cs" />
     <Compile Include="Source\pb\Web\Data\WebData_LoadImages_v3.cs" />
+    <Compile Include="Source\pb\Web\Data\WebData_Result_v1.cs" />
+    <Compile Include="Source\pb\Web\Data\WebData_Result_v2.cs" />
     <Compile Include="Source\pb\Web\Data\WebLoadImageManager_v1.cs" />
     <Compile Include="Source\pb\Web\Data\WebRequest.cs" />
+    <Compile Include="Source\pb\Web\Data\WebResult.cs" />
+    <Compile Include="Source\pb\Web\Html\HtmlToXml_v3.cs" />
+    <Compile Include="Source\pb\Data\Xml\XDocumentCreator.cs" />
+    <Compile Include="Source\pb\Web\Http\HttpTools.cs" />
     <Compile Include="Source\pb\_old\RunSourceInitEndMethods_v1.cs" />
     <Compile Include="Source\pb\Compiler\RunSourceInitEndMethods_v2.cs" />
-    <Compile Include="Source\pb\Compiler\RunSourceRunCode.cs" />
-    <Compile Include="Source\pb\Compiler\RunSourceCompileProjects.cs" />
+    <Compile Include="Source\pb\Compiler\RunSource_RunCode.cs" />
+    <Compile Include="Source\pb\Compiler\RunSource_CompileProjects.cs" />
     <None Include="Source\pb\Compiler\_old\GenerateAndExecute.cs" />
     <Compile Include="Source\pb\Compiler\CSharpCodeWriter.cs" />
     <Compile Include="Source\pb\Compiler\GenerateAssembly.cs" />
@@ -233,7 +268,7 @@
     <Compile Include="Source\pb\Data\Mongo\BsonDocumentComparator.cs" />
     <Compile Include="Source\pb\Data\Mongo\BsonDocumentsToDataTable.cs" />
     <Compile Include="Source\pb\Data\Mongo\EnumerateBsonDocumentElements.cs" />
-    <Compile Include="Source\pb\Data\Mongo\Mongo.cs" />
+    <Compile Include="Source\pb\Data\Mongo\zMongo.cs" />
     <Compile Include="Source\pb\Data\Mongo\MongoBackup.cs" />
     <Compile Include="Source\pb\Data\Mongo\_old\MongoCollectionManager_v1.cs" />
     <Compile Include="Source\pb\Data\Mongo\MongoCollectionManager.cs" />
@@ -398,9 +433,9 @@
     <Compile Include="Source\pb\Web\Html\HtmlReader.cs" />
     <Compile Include="Source\pb\Web\Html\HtmlReader_v3.cs" />
     <Compile Include="Source\pb\Web\Html\HtmlReader_v4.cs" />
-    <Compile Include="Source\pb\Web\Html\HtmlRun.cs" />
+    <Compile Include="Source\pb\Web\Html\HtmlRun_v1.cs" />
     <Compile Include="Source\pb\Web\Html\HtmlTag.cs" />
-    <Compile Include="Source\pb\Web\Html\HtmlToXml.cs" />
+    <Compile Include="Source\pb\Web\Html\HtmlToXml_v2.cs" />
     <Compile Include="Source\pb\Web\Html\TestUnit\TestUnit_HtmlToXml.cs" />
     <None Include="Source\pb\Web\Html\TestUnit\TestUnit.HtmlToXml.run.cs" />
     <Compile Include="Source\pb\Web\Html\TestUnit\TestUnit_HtmlToXmlRun.cs" />
@@ -410,17 +445,17 @@
     <Compile Include="Source\pb\Web\Http\Http.cs" />
     <Compile Include="Source\pb\Web\Http\HttpArchive.cs" />
     <Compile Include="Source\pb\Web\Http\HttpBase.cs" />
-    <Compile Include="Source\pb\Web\Http\HttpLoadImage_v2.cs" />
-    <Compile Include="Source\pb\Web\Http\HttpLoadToFile_v2.cs" />
+    <Compile Include="Source\pb\Web\Http\Http_v2_LoadImage.cs" />
+    <Compile Include="Source\pb\Web\Http\Http_v2_LoadToFile.cs" />
     <Compile Include="Source\pb\Web\Http\HttpManager.cs" />
-    <Compile Include="Source\pb\Web\Http\HttpManagerLoadText_v2.cs" />
-    <Compile Include="Source\pb\Web\Http\HttpManagerLoadImage_v2.cs" />
-    <Compile Include="Source\pb\Web\Http\HttpManagerXml.cs" />
+    <Compile Include="Source\pb\Web\Http\HttpManager_v2_LoadText.cs" />
+    <Compile Include="Source\pb\Web\Http\HttpManager_v2_LoadImage.cs" />
+    <Compile Include="Source\pb\Web\Http\HttpManager_Xml.cs" />
     <Compile Include="Source\pb\Web\Http\HttpManager_v2.cs" />
     <Compile Include="Source\pb\Web\Http\HttpRequest.cs" />
-    <Compile Include="Source\pb\Web\Http\HttpRun.cs" />
+    <Compile Include="Source\pb\Web\Http\HttpRun_v1.cs" />
     <Compile Include="Source\pb\Web\Http\HttpXml.cs" />
-    <Compile Include="Source\pb\Web\Http\HttpLoadText_v2.cs" />
+    <Compile Include="Source\pb\Web\Http\Http_v2_LoadText.cs" />
     <Compile Include="Source\pb\Web\Http\Http_v2.cs" />
     <Compile Include="Source\pb\Web\Http\PBUriBuilder.cs" />
     <Compile Include="Source\pb\Web\Http\Test\Test_HttpLog.cs" />
@@ -490,9 +525,9 @@
     <Compile Include="Source\pb\_pb\AsyncManager.cs" />
     <Compile Include="Source\pb\_pb\Convert.cs" />
     <Compile Include="Source\pb\_pb\GlobalExtension.cs" />
-    <Compile Include="Source\pb\_pb\ITrace.cs" />
-    <Compile Include="Source\pb\_pb\ITraceError.cs" />
-    <Compile Include="Source\pb\_pb\ITraceSetWriter.cs" />
+    <Compile Include="Source\pb\_pb\ITrace_v2.cs" />
+    <Compile Include="Source\pb\_pb\ITraceError_v2.cs" />
+    <Compile Include="Source\pb\_pb\ITraceSetWriter_v2.cs" />
     <Compile Include="Source\pb\_pb\NamedValue.cs" />
     <Compile Include="Source\pb\_pb\ParseAs.cs" />
     <Compile Include="Source\pb\_pb\PBException.cs" />
@@ -503,10 +538,11 @@
     <Compile Include="Source\pb\Reflection\_Test\Test_Reflection.cs" />
     <Compile Include="Source\pb\Reflection\_Test\Test_TypeView.cs" />
     <Compile Include="Source\pb\_pb\TextSerializer.cs" />
-    <Compile Include="Source\pb\_pb\TraceError.cs" />
-    <Compile Include="Source\pb\_pb\TraceLevel.cs" />
-    <Compile Include="Source\pb\_pb\TraceSetWriter.cs" />
     <Compile Include="Source\pb\_pb\Trace.cs" />
+    <Compile Include="Source\pb\_pb\TraceError_v2.cs" />
+    <Compile Include="Source\pb\_pb\TraceLevel_v2.cs" />
+    <Compile Include="Source\pb\_pb\TraceSetWriter_v2.cs" />
+    <Compile Include="Source\pb\_pb\Trace_v2.cs" />
     <Compile Include="Source\pb\_pb\Tree.cs" />
     <Compile Include="Source\pb\Reflection\TypeAccess.cs" />
     <Compile Include="Source\pb\Reflection\TypeView.cs" />
@@ -616,6 +652,9 @@
     <Content Include="Source\pb\Data\OpenXml\_Test\Test_OpenXml.project.xml">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Source\pb\Data\Xml\_Test\Test_Xml.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Source\pb\Data\_Test\Test_Data.project.xml">
       <SubType>Designer</SubType>
     </Content>
@@ -625,6 +664,9 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Source\pb\Reflection\_Test\Test_Reflection.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Source\pb\Text\_Test\Test_Utf8.project.xml">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Source\pb\Text\_Test\Test_Text.project.xml">
@@ -637,6 +679,9 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Source\pb\Web\Http\Test\Test_HttpLog.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Source\pb\_Test\Test_01.project.xml">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Source\Project\Extension_01.projects.xml">
@@ -652,6 +697,20 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Source\Project\OpenXml.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Source\Project\VSProject_v2.project.xml" />
+    <Content Include="Source\Project\VSProject.project.xml" />
+    <Content Include="Source\Project\vs\WebData.vsproject.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Source\Project\WebData_v2.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Source\Project\WebData.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Source\Project\_Test\Test_01.project.xml">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Source\Project\_Test\Test_Include.project.xml">
@@ -681,7 +740,9 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Source\Project\HttpRun.dll.project.xml" />
-    <Content Include="Source\Project\HtmlRun.project.xml" />
+    <Content Include="Source\Project\HtmlRun.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Source\Project\HttpRun.project.xml">
       <SubType>Designer</SubType>
     </Content>
@@ -689,43 +750,48 @@
     <Content Include="Source\Project\MongoDefaultSerializer.project.xml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Source\Project\MongoExtension.project.xml" />
+    <Content Include="Source\Project\MongoExtension.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Source\Project\pb.Web.WebDriver.dll.project.xml" />
     <Content Include="Source\Project\Extension_01.project.xml">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Source\Project\RunSourceExtension.project.xml" />
-    <Content Include="Source\Project\_Test\TestExtension_01.dll.project.xml">
+    <Content Include="Source\Project\_Test\Test_Extension_01.dll.project.xml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Source\Project\_Test\TestHtmlRun.dll.project.xml">
+    <Content Include="Source\Project\_Test\Test_HtmlRun.dll.project.xml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Source\Project\_Test\TestHttpRun.dll.project.xml">
+    <Content Include="Source\Project\_Test\Test_HttpRun.dll.project.xml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Source\Project\_Test\TestHtmlRun.project.xml">
+    <Content Include="Source\Project\_Test\Test_HtmlRun.project.xml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Source\Project\_Test\TestHttpRun.project.xml">
+    <Content Include="Source\Project\_Test\Test_HttpRun.project.xml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Source\Project\_Test\TestMongoCommand.project.xml">
+    <Content Include="Source\Project\_Test\Test_MongoCommand.project.xml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Source\Project\_Test\TestMongoSerializer.project.xml">
+    <Content Include="Source\Project\_Test\Test_MongoSerializer.project.xml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Source\Project\_Test\TestMongoExtension.project.xml">
+    <Content Include="Source\Project\_Test\Test_MongoExtension.project.xml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Source\Project\_Test\TestExtension_01.project.xml">
+    <Content Include="Source\Project\_Test\Test_Extension_01.project.xml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Source\Project\_Test\TestRunSourceExtension.project.xml">
+    <Content Include="Source\Project\_Test\Test_VSProject.project.xml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Source\Project\_Test\TestBasic.project.xml">
+    <Content Include="Source\Project\_Test\Test_RunSourceExtension.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Source\Project\_Test\Test_Basic.project.xml">
       <SubType>Designer</SubType>
     </Content>
   </ItemGroup>

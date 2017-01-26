@@ -26,9 +26,9 @@ namespace pb.Web.Data
 
             //if (imageRequest.LoadImageFromWeb || imageRequest.LoadImageToData || imageRequest.RefreshImage)
             //{
-            if (!(webData.Document is IGetWebImages))
+            if (!(webData.Data is IGetWebImages))
                 throw new PBException($"{typeof(TData).zGetTypeName()} is not IGetWebImages");
-            IEnumerable<WebImage> images = ((IGetWebImages)webData.Document).GetWebImages();
+            IEnumerable<WebImage> images = ((IGetWebImages)webData.Data).GetWebImages();
             if (_imageFilter != null)
                 images = images.Where(image => _imageFilter(image));
             string subDirectory = null;

@@ -2,7 +2,7 @@
 using pb.Web.Data;
 using System.Xml.Linq;
 
-namespace pb.Web
+namespace pb.Web.Data
 {
     //public class WebImageMongoCacheManager_v2 : WebImageCacheManager_v2
     //{

@@ -1,7 +1,7 @@
 ﻿using pb.Web.old;
 using pb.Data.old;
 
-namespace pb.Web.v1
+namespace pb.Web.Data.v1
 {
     // pb.Web.v1.RequestFromWeb  pb.Web.v1.LoadDataFromWeb<T>
     public class WebDataRequest_v2<T> : RequestFromWeb_v2, IDocumentRequest_v1<T>

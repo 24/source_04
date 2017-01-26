@@ -1,4 +1,4 @@
-﻿namespace pb.Web
+﻿namespace pb.Web.Http
 {
     public partial class Http_v2 : HttpBase
     {

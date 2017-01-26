@@ -393,9 +393,9 @@ namespace Download.Print.MagazinesGratuits
         //    data.LoadImages();
         //}
 
-        public override void LoadNewDocuments()
+        public override LoadNewDocumentsResult LoadNewDocuments()
         {
-            _headerDetailManager.LoadNewDocuments(maxDocumentsLoadedFromStore: 10, startPage: 1, maxPage: 10);
+            return _headerDetailManager.LoadNewDocuments(maxDocumentsLoadedFromStore: 10, startPage: 1, maxPage: 10);
         }
 
         //public override LoadNewDocumentsResult LoadNewDocuments(int maxNbDocumentsLoadedFromStore = 5, int startPage = 1, int maxPage = 20, bool loadImage = true)

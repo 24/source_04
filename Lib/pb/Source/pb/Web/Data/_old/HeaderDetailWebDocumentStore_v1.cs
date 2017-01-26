@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace pb.Web.old
+namespace pb.Web.Data.old
 {
     public interface IHeaderData_v1
     {

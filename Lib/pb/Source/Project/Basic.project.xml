@@ -26,6 +26,9 @@
   <!--<FrameworkAssembly                value = "System.Windows.Forms.dll" />-->
   <!--<FrameworkAssembly                value = "System.Xml.dll" />-->
   <Assembly                         value = "$Root$\Lib\LongPath\Pri.LongPath\bin\Debug\Pri.LongPath.dll" />
-  <Assembly                         value = "$Root$\Apps\RunSource\v2\runsource.dll\bin32\runsource.dll" />
-  <Assembly                         value = "$Root$\Apps\RunSource\v2\runsource.dll\bin32\runsource.irunsource.dll" />
+  <!--<Assembly                         value = "$Root$\Apps\RunSource\v2\runsource.dll\bin32\runsource.dll" />-->
+  <!--<Assembly                         value = "$Root$\Apps\RunSource\v2\runsource.dll\bin32\runsource.irunsource.dll" />-->
+  <!--<RunSourceAssembly                value = "$Root$\Apps\RunSource\v2\runsource.dll\bin\Debug\runsource.irunsource.dll" />-->
+  <RunSourceAssembly                value = "runsource.irunsource.dll" />
+  <RunSourceAssembly                value = "runsource.command.dll" />
 </AssemblyProject>

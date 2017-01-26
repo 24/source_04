@@ -2,7 +2,7 @@
 using pb.Web.old;
 using pb.Data.old;
 
-namespace pb.Web.old
+namespace pb.Web.Data.old
 {
     public interface IEnumDataPages_v1<TKey, TData>
     {

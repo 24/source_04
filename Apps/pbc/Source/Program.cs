@@ -19,7 +19,12 @@ namespace pbc
         {
             try
             {
-                Trace.CurrentTrace.AddOnWrite("console", text => Console.Write(text));
+                //Trace.CurrentTrace.AddOnWrite("console", text => Console.Write(text));
+                //Trace.Current.AddOnWrite("console", text => Console.Write(text));
+                //Trace.Current.AddOnWriteError("console", text => Console.Write(text));
+                TraceManager.Current.AddTrace(Trace.Current);
+                TraceManager.Current.SetViewer(text => Console.Write(text));
+                XmlConfig.CurrentConfig = new XmlConfig();
                 if (!GetArguments(args))
                 {
                     HelpUsage();
@@ -48,7 +53,7 @@ namespace pbc
             }
             catch (Exception ex)
             {
-                Trace.CurrentTrace.WriteError(ex);
+                Trace.WriteError(ex);
             }
         }
 

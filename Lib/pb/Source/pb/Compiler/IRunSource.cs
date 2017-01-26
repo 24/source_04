@@ -71,7 +71,8 @@ namespace pb.Compiler
         void ForceAbortExecution();
         bool IsExecutionAlive();
         int GetRunningCount();
-        void TraceInit(bool trace);
+        void SetOptions(string options);
+        //void TraceInit(bool trace);
         //void RunCode(string source, bool useNewThread = true, bool compileWithoutProject = false);
         //void RunCode(string code, bool useNewThread = true, bool compileWithoutProject = false, bool allowMultipleRun = false);
         void RunCode(string code, bool runOnMainThread = false, bool compileWithoutProject = false, bool allowMultipleRun = false, bool callInit = false);

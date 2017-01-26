@@ -47,18 +47,18 @@ namespace pb.Web.Data
                 _LoadFromDocumentStore(_key);
             }
 
-            if (_documentStore != null && _documentLoadedFromWeb)
+            if (_documentStore != null && _dataLoadedFromWeb)
             {
                 if (_documentStore.GenerateId)
                 {
                     if (_id == null)
                         _id = _documentStore.GetNewId();
-                    _document.zSetId(_id);
-                    _documentStore.SaveWithId(_id, _document);
+                    _data.zSetId(_id);
+                    _documentStore.SaveWithId(_id, _data);
                 }
                 else
                 {
-                    _documentStore.SaveWithKey(_key, _document);
+                    _documentStore.SaveWithKey(_key, _data);
                 }
             }
 
@@ -102,9 +102,9 @@ namespace pb.Web.Data
             //WebDataResult<TData> webDataResult = _webLoadDataManager.LoadData(_request);
             WebDataResult<TData> webDataResult = webLoadDataManager.LoadData(_request);
             _result = webDataResult.Result;
-            _document = webDataResult.Data;
-            _documentLoaded = true;
-            _documentLoadedFromWeb = true;
+            _data = webDataResult.Data;
+            _dataLoaded = true;
+            _dataLoadedFromWeb = true;
             //}
             //else // if (_webDataManager.WebLoadDataManager_v2 != null)
             //{
@@ -121,9 +121,9 @@ namespace pb.Web.Data
         private void _LoadFromDocumentStore(BsonValue key)
         {
             //_document = _webDataManager.DocumentStore.LoadFromKey(key);
-            _document = _documentStore.LoadFromKey(key);
-            _documentLoaded = true;
-            _documentLoadedFromStore = true;
+            _data = _documentStore.LoadFromKey(key);
+            _dataLoaded = true;
+            _dataLoadedFromStore = true;
         }
 
         public static WebData<TData> Load_v1(WebDataManager<TData> webDataManager, WebRequest request)

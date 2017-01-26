@@ -65,7 +65,7 @@ namespace pb.Windows.Forms
             }
             catch (Exception ex)
             {
-                Trace.CurrentTrace.WriteError(ex);
+                Trace.WriteError(ex);
                 if (errorMessageBox)
                     zerrf.ErrorMessageBox(ex);
             }

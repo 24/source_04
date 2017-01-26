@@ -1,7 +1,6 @@
 ﻿using System.Text.RegularExpressions;
-using pb;
 
-namespace Test.Test_Text
+namespace pb.Text.Test
 {
     public static class Test_Regex
     {

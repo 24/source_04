@@ -91,6 +91,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "oxml", "oxml", "{4CC2261B-1
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "oxml", "Apps\tools\oxml\oxml.csproj", "{02AD70E3-A426-4132-9AF7-06AE0E2667B7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "runsource.v2.command", "Apps\RunSource\v2\runsource.command\runsource.v2.command.csproj", "{12D4A2FB-84E4-4067-8655-A019E2CF7B5F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -263,6 +265,14 @@ Global
 		{02AD70E3-A426-4132-9AF7-06AE0E2667B7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{02AD70E3-A426-4132-9AF7-06AE0E2667B7}.Release|x86.ActiveCfg = Release|Any CPU
 		{02AD70E3-A426-4132-9AF7-06AE0E2667B7}.Release|x86.Build.0 = Release|Any CPU
+		{12D4A2FB-84E4-4067-8655-A019E2CF7B5F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12D4A2FB-84E4-4067-8655-A019E2CF7B5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12D4A2FB-84E4-4067-8655-A019E2CF7B5F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{12D4A2FB-84E4-4067-8655-A019E2CF7B5F}.Debug|x86.Build.0 = Debug|Any CPU
+		{12D4A2FB-84E4-4067-8655-A019E2CF7B5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12D4A2FB-84E4-4067-8655-A019E2CF7B5F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{12D4A2FB-84E4-4067-8655-A019E2CF7B5F}.Release|x86.ActiveCfg = Release|Any CPU
+		{12D4A2FB-84E4-4067-8655-A019E2CF7B5F}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -306,5 +316,6 @@ Global
 		{8FE853CB-5AA3-4643-9B7C-3982B9436641} = {D3564AC8-049B-4FFE-A425-95D069DDD660}
 		{4CC2261B-1553-4AEB-8456-A7818A4FDB61} = {791C72D5-65C5-4199-B1E6-03D247CA52E2}
 		{02AD70E3-A426-4132-9AF7-06AE0E2667B7} = {4CC2261B-1553-4AEB-8456-A7818A4FDB61}
+		{12D4A2FB-84E4-4067-8655-A019E2CF7B5F} = {ECF3D1B7-CCB4-4805-8EE3-F362E77348D3}
 	EndGlobalSection
 EndGlobal

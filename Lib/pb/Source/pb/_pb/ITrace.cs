@@ -2,14 +2,12 @@
 
 namespace pb
 {
-    public partial interface ITrace
+    public interface ITrace
     {
-        void Write(string msg);
-        void Write(string msg, params object[] prm);
-        void WriteLine();
-        void WriteLine(string msg);
-        void WriteLine(string msg, params object[] prm);
-        void SetAsCurrentTrace();
-        void SetViewer(Action<string> viewer);
+        void SetAsCurrent();
+        void AddOnWrite(string name, Action<string> onWrite);
+        void RemoveOnWrite(string name);
+        void AddOnWriteError(string name, Action<Exception> onWriteError);
+        void RemoveOnWriteError(string name);
     }
 }

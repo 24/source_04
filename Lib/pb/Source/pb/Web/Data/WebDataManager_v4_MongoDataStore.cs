@@ -1,5 +1,6 @@
 ﻿using MongoDB.Bson;
 using pb.Data.Mongo;
+using pb.Web.Http;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -69,11 +70,6 @@ namespace pb.Web.Data
     //    private bool _exportRequest = true;
     //    private bool _setExportFileExtension = false;
 
-
-
-
-
-    //partial class WebDataManager<TData>
     partial class WebDataManager_v4<TData>
     {
         protected MongoDataStore _dataStore = null;

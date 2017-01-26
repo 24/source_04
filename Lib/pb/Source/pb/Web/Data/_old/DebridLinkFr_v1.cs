@@ -7,8 +7,9 @@ using pb.Data.Xml;
 using pb.IO;
 using pb.Text;
 using pb.Data.TraceData;
+using pb.Web.Http;
 
-namespace pb.Web
+namespace pb.Web.Data
 {
     //public class DebridLinkServerTime
     //{
@@ -100,7 +101,7 @@ namespace pb.Web
 
             HttpRequestParameters requestParameters = new HttpRequestParameters { Encoding = Encoding.UTF8 };
             DateTime dt = DateTime.Now;
-            Http http = HttpManager.CurrentHttpManager.Load(new HttpRequest { Url = url }, requestParameters);
+            Http.Http http = HttpManager.CurrentHttpManager.Load(new HttpRequest { Url = url }, requestParameters);
             BsonDocument result = BsonSerializer.Deserialize<BsonDocument>(http.ResultText);
             if (__trace)
             {
@@ -180,7 +181,7 @@ namespace pb.Web
                 pb.Trace.WriteLine("  form action                 : \"{0}\"", action);
             if (action != null && action != "")
                 url = action;
-            HttpRequestMethod method = Http.GetHttpRequestMethod(xeForm.AttribValue("method"));
+            HttpRequestMethod method = Http.Http.GetHttpRequestMethod(xeForm.AttribValue("method"));
             if (__trace)
                 pb.Trace.WriteLine("  form method                 : {0}", method);
 
@@ -250,7 +251,7 @@ namespace pb.Web
                 if (!zFile.Exists(_connexionFile))
                     return false;
 
-                _connexion = zmongo.ReadFileAs<DebridLinkConnexion>(_connexionFile);
+                _connexion = zMongo.ReadFileAs<DebridLinkConnexion>(_connexionFile);
             }
             if (_connexion.EndConnexionTime != null && DateTime.Now >= _connexion.EndConnexionTime)
             {
@@ -441,7 +442,7 @@ namespace pb.Web
                 pb.Trace.WriteLine("DebriderDebridLink.ExecuteGetCommand() :");
             HttpRequestParameters requestParameters = new HttpRequestParameters { Encoding = Encoding.UTF8 };
 
-            Http http = HttpManager.CurrentHttpManager.Load(new HttpRequest { Url = url }, requestParameters);
+            Http.Http http = HttpManager.CurrentHttpManager.Load(new HttpRequest { Url = url }, requestParameters);
             BsonDocument result = BsonDocument.Parse(http.ResultText);
             if (__trace)
             {
@@ -478,7 +479,7 @@ namespace pb.Web
             if (__trace)
                 pb.Trace.WriteLine("  content                     : \"{0}\"", contentBuilder.ToString());
             DateTime dt = DateTime.Now;
-            Http http = HttpManager.CurrentHttpManager.Load(new HttpRequest { Url = url, Method = HttpRequestMethod.Post, Content = contentBuilder.ToString() }, requestParameters);
+            Http.Http http = HttpManager.CurrentHttpManager.Load(new HttpRequest { Url = url, Method = HttpRequestMethod.Post, Content = contentBuilder.ToString() }, requestParameters);
             BsonDocument result = BsonDocument.Parse(http.ResultText);
             //if (__trace)
             //{

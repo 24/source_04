@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Windows.Forms;
 using pb.IO;
 
 namespace pb.Compiler
@@ -12,6 +11,8 @@ namespace pb.Compiler
         private AppDomain _domain = null;
         private string _runsourceClassName = null;    // "pb.Compiler.RunSource"
         private IRunSource _runSource = null;
+        private ITraceManager _traceManager = null;
+        private string _traceManagerClassName = null;
         private string _traceClassName = null;        // "pb.TTrace"
         private ITrace _trace = null;
 
@@ -67,6 +68,7 @@ namespace pb.Compiler
         public string RunSourceDomainName { get { return _runSourceDomainName; } set { _runSourceDomainName = value; } }
         public bool CreateRunSourceDomain { get { return _createRunSourceDomain; } set { _createRunSourceDomain = value; } }
         public string RunsourceClassName { get { return _runsourceClassName; } set { _runsourceClassName = value; } }
+        public string TraceManagerClassName { get { return _traceManagerClassName; } set { _traceManagerClassName = value; } }
         public string TraceClassName { get { return _traceClassName; } set { _traceClassName = value; } }
 
         private AppDomain GetAppDomain()
@@ -99,20 +101,51 @@ namespace pb.Compiler
             return _runSource;
         }
 
+        public ITraceManager GetTraceManager()
+        {
+            if (_traceManager == null)
+            {
+                _traceManager = (ITraceManager)GetAppDomain().CreateInstanceFromAndUnwrap(_runsourceDllFilename, _traceManagerClassName);
+                _traceManager.SetAsCurrent();
+            }
+            return _traceManager;
+        }
+
+        //public ITrace GetTrace()
+        //{
+        //    if (_trace == null)
+        //    {
+        //        _trace = (ITrace)GetAppDomain().CreateInstanceFromAndUnwrap(_runsourceDllFilename, _traceClassName);
+        //        _trace.SetAsCurrentTrace();
+        //    }
+        //    return _trace;
+        //}
+
         public ITrace GetTrace()
         {
             if (_trace == null)
             {
-                _trace = (ITrace)GetAppDomain().CreateInstanceFromAndUnwrap(_runsourceDllFilename, _traceClassName);
-                _trace.SetAsCurrentTrace();
+                //_trace = (ITrace)GetAppDomain().CreateInstanceFromAndUnwrap(_runsourceDllFilename, _traceClassName);
+                _trace = (ITrace)GetAppDomain().CreateInstanceFromAndUnwrap("runsource.irunsource.dll", _traceClassName);
+                _trace.SetAsCurrent();
             }
             return _trace;
         }
 
-        public Form CreateRunSourceForm(string formClassName)
-        {
-            //return (Form)_domain.CreateInstanceFromAndUnwrap("runsource.dll", "runsourced.frunsource");
-            return (Form)GetAppDomain().CreateInstanceFromAndUnwrap(_runsourceDllFilename, formClassName);
-        }
+        //private bool _assemblyRunsourceCommandLoaded = false;
+        //public void LoadRunsourceCommand()
+        //{
+        //    if (!_assemblyRunsourceCommandLoaded)
+        //    {
+        //        GetAppDomain().Load("runsource.command.dll");
+        //        _assemblyRunsourceCommandLoaded = true;
+        //    }
+        //}
+
+        //public Form CreateRunSourceForm(string formClassName)
+        //{
+        //    //return (Form)_domain.CreateInstanceFromAndUnwrap("runsource.dll", "runsourced.frunsource");
+        //    return (Form)GetAppDomain().CreateInstanceFromAndUnwrap(_runsourceDllFilename, formClassName);
+        //}
     }
 }

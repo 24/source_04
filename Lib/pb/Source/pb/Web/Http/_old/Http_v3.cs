@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Specialized;
+﻿using System.Collections.Specialized;
 using System.Net;
 using System.Text;
 
-namespace pb.Web.old
+namespace pb.Web.Http.old
 {
     public class HttpRequestParameters_v1
     {

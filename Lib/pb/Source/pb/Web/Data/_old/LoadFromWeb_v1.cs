@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Text;
 using System.Xml.Linq;
 using pb.Data.Xml;
 using pb.IO;
-using pb.Web.old;
+using pb.Web.Http;
+using pb.Web.Http.old;
 
 // *********************************************************** deprecated use LoadDataFromWeb ***********************************************************
 
-namespace pb.Web.old
+namespace pb.Web.Data.old
 {
     public abstract class LoadListFromWebBasePages_v1<T> : IEnumerable<T>, IEnumerator<T> where T : class
     {

@@ -77,7 +77,7 @@ namespace WebData.BlogDemoor
             if (patchesFile == null)
                 return;
             _patches = new Dictionary<int, PagePatch>();
-            foreach (PagePatch pagePatch in zmongo.BsonRead<PagePatch>(patchesFile))
+            foreach (PagePatch pagePatch in zMongo.BsonRead<PagePatch>(patchesFile))
                 _patches.Add(pagePatch.PageId, pagePatch);
         }
 

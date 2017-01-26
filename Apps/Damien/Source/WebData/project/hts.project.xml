@@ -3,57 +3,76 @@
   
   <!--<Root                             value = "..\..\..\..\..\.." />-->
   <Root                             value = "..\..\..\..\.." />
-  
-	<Target                           value = "library" /> <!-- exe (exe console default), library (dll), module (.netmodule), winexe (exe windows) -->
-	<Output                           value = "bin32\hts.dll" />
-  <CopySourceFiles                  value = "true" />
-  <CopyRunSourceSourceFiles         value = "true" />
-  <CopyOutput                       value = "c:\pib\prog\tools\runsource\app\hts\new" />
 
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\LanguageCSharp5Debug.project.xml" />
+  <Target                           value = "library" /> <!-- exe (exe console default), library (dll), module (.netmodule), winexe (exe windows) -->
+	<Output                           value = "bin32\hts.dll" />
+  <!--<CopySourceFiles                  value = "true" />-->
+  <!--<CopyRunSourceSourceFiles         value = "true" />-->
+  <!--<CopyOutput                       value = "c:\pib\prog\tools\runsource\app\hts\new" />-->
+
+  <!--
   <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\Basic.project.xml" />
   <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\RunSourceExtension.project.xml" />
   <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\MongoExtension.project.xml" />
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\MongoDefaultSerializer.project.xml" />
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\MongoWebHeaderSerializer.project.xml" />
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\HttpRun.project.xml" />
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\HtmlRun.project.xml" />
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\VSProject.project.xml" />
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\WebData.project.xml" />
+  -->
+
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\Extension_01.dll.project.xml" />
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\VSProject_v2.project.xml" />
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\WebData_v2.project.xml" />
 
   <NameSpace                        value = "hts" />
 
-  <InitMethod                       value = "hts.Run.Init" />      <!-- [{namespace}.{type}.]{method name}[, {assembly name}] default type {namespace}._RunCode -->
-  <EndMethod                        value = "hts.Run.End" />       <!-- [{namespace}.{type}.]{method name}[, {assembly name}] default type {namespace}._RunCode -->
+  <InitMethod                       value = "hts.Run.Init" run = "always" />      <!-- [{namespace}.{type}.]{method name}[, {assembly name}] default type {namespace}._RunCode -->
+  <EndMethod                        value = "hts.Run.End" run = "always" />       <!-- [{namespace}.{type}.]{method name}[, {assembly name}] default type {namespace}._RunCode -->
 
   <Using                            value = "System.Linq" />
   <Using                            value = "System.Xml.Linq" />
-  <Using                            value = "System.Xml.XPath" />
+  <!--<Using                            value = "System.Xml.XPath" />-->
   <Using                            value = "MongoDB.Bson" />
-  <Using                            value = "MongoDB.Driver" />
+  <!--<Using                            value = "MongoDB.Driver" />-->
   <Using                            value = "pb" />
   <Using                            value = "pb.Data" />
   <Using                            value = "pb.Data.Mongo" />
   <Using                            value = "pb.Data.Xml" />
+  <Using                            value = "pb.IO" />
   <Using                            value = "pb.Text" />
-  <Using                            value = "pb.Web" />
-  <Using                            value = "pb.Web.Data" />
+  <!--<Using                            value = "pb.Web" />-->
+  <!--<Using                            value = "pb.Web.Data" />-->
   <Using                            value = "hts" />
   <Using                            value = "hts.WebData" />
-
-  <Assembly                         value = "Microsoft.JScript.dll" />
-	<!--<Assembly                         value = "System.Drawing.dll" />-->
-  <Assembly                         value = "System.IO.Compression.dll" />
-  <Assembly                         value = "System.IO.Compression.FileSystem.dll" />
-  <Assembly                         value = "System.ServiceModel.dll" />
-  <Assembly                         value = "System.Web.dll" />
-  <!--<Assembly                         value = "System.Xml.Linq.dll" />-->
-	<!--<Assembly                         value = "bin\magazine3k.dll" resolve = "true" resolveName="magazine3k, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />-->
-	<!--<Assembly                         value = "c:\pib\prog\dev\mongodb\driver\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Bson.dll" resolve = "true" resolveName = "MongoDB.Bson, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />
-	<Assembly                         value = "c:\pib\prog\dev\mongodb\driver\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Driver.dll" resolve = "true" resolveName = "MongoDB.Driver, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />-->
-
-  <Assembly                         value = "$Root$\..\library\itextsharp\itextsharp-all-5.5.2\itextsharp.dll" resolve = "true" resolveName = "itextsharp, Version=5.5.2.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca" />
-  <Assembly                         value = "$Root$\..\library\SharpCompress\SharpCompress0.10.3\Full\SharpCompress.dll" resolve = "true" resolveName = "SharpCompress, Version=0.10.3.0, Culture=neutral, PublicKeyToken=beaf6f427e128133" />
-  <Assembly                         value = "$Root$\Lib\LongPath\Pri.LongPath\bin\Debug\Pri.LongPath.dll" />
-
-  <!-- temp source   -->
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Xml\XmlSerialize.cs" />
+  <Using                            value = "hts.WebData.Handeco" />
 
   <Source                           value = "AppData.cs" />
   <Source                           value = "Run.cs" />
+  <Source                           value = "WebData.cs" />
+  <Source                           value = "WebData_Handeco.cs" />
+  <Source                           value = "WebData_Unea.cs" />
+
+  <Source                           value = "..\sites\handeco.org\Handeco.cs" />
+  <Source                           value = "..\sites\handeco.org\Handeco_v2.cs" />
+  <Source                           value = "..\sites\unea.fr\Unea_v2.cs" />
+  <Source                           value = "..\sites\unea.fr\UneaData.cs" />
+  <Source                           value = "..\sites\unea.fr\UneaExport.cs" />
+
+  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\TextSerializer.cs" />
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\_pb\TraceManager.cs" />-->
+  
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\NamedValues.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\ParseNamedValues.cs" />
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Data\ZValue.cs" />-->
+
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Xml\XmlWrite.cs" />
+
+  <!-- temp source   -->
+  <!--
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Xml\XmlSerialize.cs" />
 
   <Source                           value = "..\sites\cdefi.fr\Cdefi.cs" />
   <Source                           value = "..\sites\cdefi.fr\Cdefi_Header.cs" />
@@ -68,45 +87,15 @@
   <Source                           value = "..\sites\onisep.fr\OnisepInstitution_Header.cs" />
   <Source                           value = "..\sites\onisep.fr\OnisepInstitution_Detail.cs" />
   <Source                           value = "..\sites\onisep.fr\OnisepInstitution_Xml.cs" />
-
-  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\_pb\Application.cs" />-->
-  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\_pb\Chrono.cs" />-->
-  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\_pb\Convert.cs" />-->
-  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\_pb\Error.cs" />-->
-  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\_pb\FormatInfo.cs" />-->
+  
   <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\GlobalExtension.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\TextSerializer.cs" />
-  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\_pb\IChrono.cs" />-->
-  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\_pb\ITrace.cs" />-->
-  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\_pb\PBException.cs" />-->
-  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\_pb\ParseAs.cs" />-->
-  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\_pb\Progress.cs" />-->
-  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\_pb\Reflection.cs" />-->
-  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\_pb\Trace.cs" />-->
-  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\_pb\TraceError.cs" />-->
-  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\_pb\TraceLevel.cs" />-->
-  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Compiler\AssemblyResolve.cs" />-->
-  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Compiler\CSharpCodeWriter.cs" />-->
-  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Compiler\Compiler.cs" />-->
-  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Compiler\CompilerProject.cs" />-->
-  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Compiler\GenerateAssembly.cs" />-->
-  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Compiler\GenerateCSharpCode.cs" />-->
-  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Compiler\ICompiler.cs" />-->
-  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Compiler\ICompilerProject.cs" />-->
-  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Compiler\IRunSource.cs" />-->
-  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Compiler\RunCode.cs" />-->
-  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Compiler\RunSource.cs" />-->
-  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Compiler\RunSourceRunCode.cs" />-->
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\_old\IDocumentStore_v4.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\IDocumentStore.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\ZValue.cs" />
-  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Data\Image.cs" />-->
-  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\BsonDocumentsToDataTable.cs" />-->
-  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Mongo.cs" />-->
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\_old\MongoDocumentStore_v4.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\MongoCommand.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\MongoCursorCache.cs" />
-  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\MongoDocumentStore.cs" />-->
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\MongoLog.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\BsonPBSerializationProvider.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\DateSerializer.cs" />
@@ -117,26 +106,11 @@
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\ZStringSerializer.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\ZValueSerializer.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Xml\XXElement.cs" />
-  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Data\Xml\Xml.cs" />-->
-  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Data\Xml\XmlConfig.cs" />-->
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Xml\XmlDescendant.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Xml\XmlExport.cs" />
-  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Data\Xml\XmlExport_v1.cs" />-->
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Xml\XmlSelect.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Xml\XmlWrite.cs" />
-  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\IO\File.cs" />-->
-  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\IO\FileOption.cs" />-->
-  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\IO\Path.cs" />-->
-  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\IO\StreamTransfer.cs" />-->
-  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\IO\WriteToFile.cs" />-->
-  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\IO\WriteToFileCreate.cs" />-->
-  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\IO\zDirectory.cs" />-->
-  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\IO\zFile.cs" />-->
-  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\IO\zPath.cs" />-->
   <Source                           value = "$Root$\Lib\pb\Source\pb\Text\Regex.cs" />
-  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Text\Split.cs" />-->
-  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Text\String.cs" />-->
-  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Text\StringZones.cs" />-->
   <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\_old\WebDataManager_v1.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\_old\WebDataPageManager_v1.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\_old\WebHeaderDetailManager_v1.cs" />
@@ -147,93 +121,7 @@
   <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebLoadDataManager.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebLoadManager.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Html\HtmlRun.cs" />
-  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Web\Html\HtmlCharCodes.cs" />-->
-  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Web\Html\HtmlReader.cs" />-->
-  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Web\Html\HtmlReaderBase.cs" />-->
-  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Web\Html\HtmlReader_v2.cs" />-->
-  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Web\Html\HtmlTag.cs" />-->
-  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Web\Html\HtmlToXml.cs" />-->
-  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\Http.cs" />-->
-  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\HttpRequest.cs" />-->
-  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\HttpXml.cs" />-->
-  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\Url.cs" />-->
   <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\UrlCache.cs" />
+-->
 
-  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\_pb\AsyncManager.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\Date2.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\GlobalExtension.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\PBTraceListener.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\SpecialDays.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\TaskManager.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\TextSerializer.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\ztrace.cs" />
-
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\IDocumentStore.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\NamedValues.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\ZValue.cs" />
-
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\BsonDocumentComparator.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\EnumerateBsonDocumentElements.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\MongoBackup.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\MongoCollectionManager.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\MongoCommand.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\MongoCursorCache.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\MongoDocumentStore.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\MongoIdGenerator.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\MongoLog.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\PBBsonEnumerateValues.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\PBBsonReader.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\PBBsonWriter.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\BsonPBSerializationProvider.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\DateSerializer.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\DefaultMongoSerializer.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\NameValueCollectionSerializer.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\PBDictionarySerializer.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\PBKeyValuePairSerializer.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\UrlImageSerializer.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\ZIntSerializer.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\ZStringArraySerializer.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\ZStringSerializer.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\ZValueSerializer.cs" />
-
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Xml\XmlDescendant.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Xml\XmlSelect.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Xml\XXElement.cs" />
-
-  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\CompressBaseManager.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\CompressManager.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\Directory.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\FilenameNumberInfo.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\SharpCompressManager.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\UncompressManager.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\ZipManager.cs" />
-
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Linq\Linq.cs" />
-
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Text\Crypt.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Text\FindDateManager.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Text\FindNumberManager.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Text\RegexValues.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Text\StringCompare.cs" />
-
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\Debrider.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\DebriderAlldebrid.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\DebriderDebridLinkFr.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\DebridLinkFr.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\DownloadFileServerInfo.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\ProtectLink.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebDataManager.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebDataPageManager.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebHeaderDetailManager.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebImage.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebImageCacheManager.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebImageMongoCacheManager.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebLoadDataManager.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebLoadManager.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Html\HtmlRun.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\Cookies.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\HttpArchive.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\PBUriBuilder.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\UrlCache.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\MailSender.cs" />-->
 </AssemblyProject>

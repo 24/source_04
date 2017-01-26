@@ -2,10 +2,11 @@
 using pb.Data.Mongo;
 using pb.Data.Xml;
 using pb.IO;
+using pb.Web.Http;
 using System;
 using System.Text;
 
-namespace pb.Web.Test
+namespace pb.Web.Data.Test
 {
     public static class Test_DebridLinkFr
     {
@@ -36,7 +37,7 @@ namespace pb.Web.Test
             Trace.WriteLine("  get new token key     : \"{0}\"", newTokenUrl);
             Trace.WriteLine("  export to file        : \"{0}\"", exportFile);
             DateTime requestTime = DateTime.Now;
-            Http http = Http.LoadAsText(new HttpRequest { Url = newTokenUrl }, exportFile: zPath.Combine(exportDirectory, exportFile));
+            Http.Http http = Http.Http.LoadAsText(new HttpRequest { Url = newTokenUrl }, exportFile: zPath.Combine(exportDirectory, exportFile));
             BsonDocument result = BsonDocument.Parse(http.ResultText);
             int serverTs = result.zGet("ts").zAsInt();
             DateTime serverTime = zdate.UnixTimeStampToDateTime(serverTs);
@@ -51,7 +52,7 @@ namespace pb.Web.Test
             Trace.WriteLine("  load valid token url  : \"{0}\"", validTokenUrl);
             Trace.WriteLine("  export to file        : \"{0}\"", exportFile);
             HttpRequestParameters httpRequestParameters = new HttpRequestParameters { Encoding = Encoding.UTF8 };
-            http = Http.LoadAsText(new HttpRequest { Url = validTokenUrl }, httpRequestParameters, exportFile: zPath.Combine(exportDirectory, exportFile));
+            http = Http.Http.LoadAsText(new HttpRequest { Url = validTokenUrl }, httpRequestParameters, exportFile: zPath.Combine(exportDirectory, exportFile));
             Trace.WriteLine();
 
             string loginUrl = "https://debrid-link.fr/login";
@@ -61,7 +62,7 @@ namespace pb.Web.Test
             string content = string.Format("user={0}&password={1}&understand=true", localConfig.GetExplicit("DownloadAutomateManager/DebridLink/Login"), localConfig.GetExplicit("DownloadAutomateManager/DebridLink/Password"));
             string traceContent = string.Format("user={0}&password={1}&understand=true", "xxxxxx", "xxxxxx");
             Trace.WriteLine("  content               : \"{0}\"", traceContent);
-            http = Http.LoadAsText(new HttpRequest { Url = loginUrl, Method = HttpRequestMethod.Post, Content = content }, httpRequestParameters, exportFile: zPath.Combine(exportDirectory, exportFile));
+            http = Http.Http.LoadAsText(new HttpRequest { Url = loginUrl, Method = HttpRequestMethod.Post, Content = content }, httpRequestParameters, exportFile: zPath.Combine(exportDirectory, exportFile));
             Trace.WriteLine();
 
             XXElement xe = http.zGetXDocument().zXXElement();
@@ -89,7 +90,7 @@ namespace pb.Web.Test
             Trace.WriteLine("  set header            : \"{0}\" = \"{1}\"", "x-dl-sign", signature);
             Trace.WriteLine("  set header            : \"{0}\" = \"{1}\"", "x-dl-ts", timestamp);
             DateTime dt = DateTime.Now;
-            http = Http.LoadAsText(new HttpRequest { Url = urlRequest }, httpRequestParameters, exportFile: zPath.Combine(exportDirectory, exportFile));
+            http = Http.Http.LoadAsText(new HttpRequest { Url = urlRequest }, httpRequestParameters, exportFile: zPath.Combine(exportDirectory, exportFile));
             result = BsonDocument.Parse(http.ResultText);
             // control server time
             int newTimestamp = result.zGet("ts").zAsInt();

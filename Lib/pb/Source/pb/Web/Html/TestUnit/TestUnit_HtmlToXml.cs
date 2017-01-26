@@ -8,7 +8,7 @@ using pb.Data.Mongo;
 using pb.IO;
 using System;
 
-namespace pb.Web.TestUnit
+namespace pb.Web.Html.TestUnit
 {
     public static class TestUnit_HtmlToXml
     {
@@ -16,21 +16,23 @@ namespace pb.Web.TestUnit
         private static string __testUnitSubdirectory = @"Web\HtmlToXml\sites";
         private static string __archiveDirectory = "archive";
 
-        public static void TraceHtmlReader_v4(string file, bool generateCloseTag = false, bool disableLineColumn = false, bool disableScriptTreatment = false,
-            bool useReadAttributeValue_v2 = true, bool useTranslateChar = true)
+        //public static void TraceHtmlReader_v4(string file, bool generateCloseTag = false, bool disableLineColumn = false, bool disableScriptTreatment = false,
+        //    bool useReadAttributeValue_v2 = true, bool useTranslateChar = true)
+        public static void TraceHtmlReader_v4(string file, HtmlReaderOptions options = HtmlReaderOptions.Default)
         {
-            string traceFile = GetTraceFile(file, ".trace.v4.txt");
+            string traceFile = GetFile(file, ".trace.v4.txt");
             Trace.WriteLine("HtmlReader v4");
             Trace.WriteLine("  file  \"{0}\"", file);
             Trace.WriteLine("  trace \"{0}\"", traceFile);
-            HtmlReader_v4.ReadFile(file, generateCloseTag: generateCloseTag, disableLineColumn: disableLineColumn, disableScriptTreatment: disableScriptTreatment,
-                useReadAttributeValue_v2: useReadAttributeValue_v2, useTranslateChar: useTranslateChar)
-                .zSave(traceFile);
+            //HtmlReader_v4.ReadFile(file, generateCloseTag: generateCloseTag, disableLineColumn: disableLineColumn, disableScriptTreatment: disableScriptTreatment,
+            //    useReadAttributeValue_v2: useReadAttributeValue_v2, useTranslateChar: useTranslateChar)
+            //    .zSave(traceFile);
+            HtmlReader_v4.ReadFile(file, options: options).zSave(traceFile);
         }
 
         public static void TraceHtmlReader_v3(string file, bool generateCloseTag = false, bool disableLineColumn = false)
         {
-            string traceFile = GetTraceFile(file, ".trace.v3.txt");
+            string traceFile = GetFile(file, ".trace.v3.txt");
             Trace.WriteLine("HtmlReader v3");
             Trace.WriteLine("  file  \"{0}\"", file);
             Trace.WriteLine("  trace \"{0}\"", traceFile);
@@ -41,7 +43,7 @@ namespace pb.Web.TestUnit
 
         public static void TraceHtmlReader_v3_2(string file, bool generateCloseTag = false, bool disableLineColumn = false)
         {
-            string traceFile = GetTraceFile(file, ".trace.v3.2.txt");
+            string traceFile = GetFile(file, ".trace.v3.2.txt");
             Trace.WriteLine("HtmlReader v3.2");
             Trace.WriteLine("  file  \"{0}\"", file);
             Trace.WriteLine("  trace \"{0}\"", traceFile);
@@ -50,16 +52,16 @@ namespace pb.Web.TestUnit
             HtmlReader_v3.ReadFile_v2(file, generateCloseTag: generateCloseTag, disableLineColumn: disableLineColumn).zSave(traceFile);
         }
 
-        public static void TraceHtmlReader_v2(string file, bool disableScriptTreatment = false, bool useReadAttributeValue_v2 = false)
+        public static void TraceHtmlReader_v2(string file, bool disableScriptTreatment = false, bool useReadAttributeValue_v2 = false, bool textReplaceControl = false)
         {
-            string traceFile = GetTraceFile(file, ".trace.v2.txt");
+            string traceFile = GetFile(file, ".trace.v2.txt");
             Trace.WriteLine("HtmlReader v2");
             Trace.WriteLine("  file  \"{0}\"", file);
             Trace.WriteLine("  trace \"{0}\"", traceFile);
-            TraceHtmlReader_v2(file, traceFile, disableScriptTreatment: disableScriptTreatment, useReadAttributeValue_v2: useReadAttributeValue_v2);
+            TraceHtmlReader_v2(file, traceFile, disableScriptTreatment: disableScriptTreatment, useReadAttributeValue_v2: useReadAttributeValue_v2, textReplaceControl: textReplaceControl);
         }
 
-        public static void TraceHtmlReader_v2(string file, string traceFile, bool disableScriptTreatment = false, bool useReadAttributeValue_v2 = false)
+        public static void TraceHtmlReader_v2(string file, string traceFile, bool disableScriptTreatment = false, bool useReadAttributeValue_v2 = false, bool textReplaceControl = false)
         {
             try
             {
@@ -73,6 +75,7 @@ namespace pb.Web.TestUnit
                     htmlReader.Trace = TraceHtmlReader;
                     htmlReader.DisableScriptTreatment = disableScriptTreatment;
                     htmlReader.UseReadAttributeValue_v2 = useReadAttributeValue_v2;
+                    htmlReader.TextReplaceControl = textReplaceControl;
                     htmlReader.ReadAll();
                 }
             }
@@ -106,13 +109,15 @@ namespace pb.Web.TestUnit
                 nb++;
                 Trace.WriteLine("file \"{0}\"", file);
 
-                string traceFile_v2 = GetTraceFile(file, ".trace.v2.txt", traceDirectory);
-                TraceHtmlReader_v2(file, traceFile_v2, disableScriptTreatment: false);
+                string traceFile_v2 = GetFile(file, ".trace.v2.txt", traceDirectory);
+                TraceHtmlReader_v2(file, traceFile_v2, disableScriptTreatment: false, textReplaceControl: false);
 
-                string traceFile_v4 = GetTraceFile(file, ".trace.v4.txt", traceDirectory);
-                HtmlReader_v4.ReadFile(file, generateCloseTag: false, disableLineColumn: true, disableScriptTreatment: false, useReadAttributeValue_v2: false,
-                    useTranslateChar: true)
-                    .zSave(traceFile_v4);
+                string traceFile_v4 = GetFile(file, ".trace.v4.txt", traceDirectory);
+                //HtmlReader_v4.ReadFile(file, generateCloseTag: false, disableLineColumn: true, disableScriptTreatment: false, useReadAttributeValue_v2: false,
+                //    useTranslateChar: true)
+                //    .zSave(traceFile_v4);
+                //useReadAttributeValue_v2: false
+                HtmlReader_v4.ReadFile(file, options: HtmlReaderOptions.Default | HtmlReaderOptions.DisableLineColumn).zSave(traceFile_v4, jsonIndent: true);
 
                 if (zfile.AreFileEqual(traceFile_v2, traceFile_v4))
                 {
@@ -135,6 +140,45 @@ namespace pb.Web.TestUnit
             Trace.WriteLine("trace files : ok {0}, not ok {1}", okTraceNb, notOkTraceNb);
         }
 
+        public static void Test_HtmlToXml_v1_v2(string directory = null, string traceDirectory = null, string pattern = "*.html", bool useXDocumentCreator = false, bool correctionMarkBeginEnd = false)
+        {
+            bool deleteOkTrace = true;
+
+            int nb = 0;
+            int okNb = 0;
+            int notOkNb = 0;
+            foreach (string file in GetHtmlFiles(directory, pattern))
+            {
+                nb++;
+                Trace.WriteLine("file \"{0}\"", file);
+
+                string xmlFile_v1 = GetFile(file, ".v1.xml", traceDirectory);
+                FileHtmlToXml_HtmlReader_v2(file, xmlFile_v1, null, null, useXDocumentCreator, correctionMarkBeginEnd);
+
+                string xmlFile_v2 = GetFile(file, ".v2.xml", traceDirectory);
+                FileHtmlToXml_v2(file, xmlFile_v2, false, false);
+
+                if (zfile.AreFileEqual(xmlFile_v1, xmlFile_v2))
+                {
+                    okNb++;
+                    Trace.WriteLine("  xml files ok");
+                    if (deleteOkTrace)
+                    {
+                        zFile.Delete(xmlFile_v1);
+                        zFile.Delete(xmlFile_v2);
+                    }
+                }
+                else
+                {
+                    notOkNb++;
+                    Trace.WriteLine("  xml files not identical");
+                }
+            }
+            Trace.WriteLine();
+            Trace.WriteLine("{0} files", nb);
+            Trace.WriteLine("xml files : ok {0}, not ok {1}", okNb, notOkNb);
+        }
+
         public static void Test_HtmlReader_v2_v3(string directory = null)
         {
             // compare HtmlReader_v2 and HtmlReader_v3
@@ -152,11 +196,11 @@ namespace pb.Web.TestUnit
                 Trace.WriteLine("file \"{0}\"", file);
 
                 //string xmlFile = GetXmlFile(file);
-                string traceFile_v2 = GetTraceFile(file, ".trace.v2.txt");
+                string traceFile_v2 = GetFile(file, ".trace.v2.txt");
                 //FileHtmlToXml_v2(file, xmlFile, traceFile_v2);
                 TraceHtmlReader_v2(file, traceFile_v2);
 
-                string traceFile_v3 = GetTraceFile(file, ".trace.v3.txt");
+                string traceFile_v3 = GetFile(file, ".trace.v3.txt");
                 HtmlReader_v3.ReadFile(file, generateCloseTag: false, disableLineColumn: true).zSave(traceFile_v3);
                 if (zfile.AreFileEqual(traceFile_v2, traceFile_v3))
                 {
@@ -200,7 +244,7 @@ namespace pb.Web.TestUnit
                 string xmlFile = GetXmlFile(file);
                 string traceHtmlReaderFile = null;
                 if (traceHtmlReader)
-                    traceHtmlReaderFile = GetTraceFile(file, ".trace.txt");
+                    traceHtmlReaderFile = GetFile(file, ".trace.txt");
                 FileHtmlToXml(file, xmlFile, traceHtmlReaderFile, htmlReaderVersion);
                 string okXmlFile = GetOkFile(xmlFile);
                 string okTraceHtmlReaderFile = GetOkFile(traceHtmlReaderFile);
@@ -255,7 +299,7 @@ namespace pb.Web.TestUnit
             string xmlFile = GetXmlFile(file);
             string traceHtmlReaderFile = null;
             if (traceHtmlReader)
-                traceHtmlReaderFile = GetTraceFile(file, ".trace.txt");
+                traceHtmlReaderFile = GetFile(file, ".trace.txt");
             Trace.WriteLine("convert html file \"{0}\"", file);
             Trace.WriteLine("  to xml file     \"{0}\"", xmlFile);
             Trace.WriteLine("  trace file      \"{0}\"", traceHtmlReaderFile);
@@ -272,27 +316,32 @@ namespace pb.Web.TestUnit
                 //HtmlReader htmlReader = new HtmlReader(sr);
                 //htmlReader.TraceHtmlReaderFile = traceHtmlReaderFile;
                 //HtmlToXml hx = new HtmlToXml(htmlReader);
-                HtmlToXml.HtmlReaderVersion = htmlReaderVersion;
-                HtmlToXml hx = new HtmlToXml(sr);
+                HtmlToXml_v2.HtmlReaderVersion = htmlReaderVersion;
+                HtmlToXml_v2 hx = new HtmlToXml_v2(sr);
                 //hx.ReadCommentInText = _readCommentInText;
                 //file = zpath.PathSetExtension(file, ".xml");
                 hx.GenerateXDocument().Save(xmlFile);
             }
         }
 
-        public static void FileHtmlToXml_v2(string file, bool traceHtmlReader = false, Encoding encoding = null)
+        public static void FileHtmlToXml_HtmlReader_v2(string file, bool traceHtmlReader = false, bool traceHtmlToXml = false, bool useXDocumentCreator = false, bool correctionMarkBeginEnd = false, Encoding encoding = null)
         {
-            string xmlFile = GetXmlFile(file);
+            //string xmlFile = GetXmlFile(file);
+            string xmlFile = GetFile(file, ".v1.xml");
             string traceHtmlReaderFile = null;
             if (traceHtmlReader)
-                traceHtmlReaderFile = GetTraceFile(file, ".trace.v2.txt");
+                traceHtmlReaderFile = GetFile(file, ".HtmlReader.v2.txt");
+            string traceHtmlToXmlFile = null;
+            if (traceHtmlToXml)
+                traceHtmlToXmlFile = GetFile(file, ".HtmlToXml.v1.json");
             Trace.WriteLine("convert html file \"{0}\"", file);
             Trace.WriteLine("  to xml file     \"{0}\"", xmlFile);
             Trace.WriteLine("  trace file      \"{0}\"", traceHtmlReaderFile);
-            FileHtmlToXml_v2(file, xmlFile, traceHtmlReaderFile, encoding);
+
+            FileHtmlToXml_HtmlReader_v2(file, xmlFile, traceHtmlReaderFile, traceHtmlToXmlFile, useXDocumentCreator, correctionMarkBeginEnd, encoding);
         }
 
-        public static void FileHtmlToXml_v2(string file, string xmlFile, string traceHtmlReaderFile, Encoding encoding = null)
+        public static void FileHtmlToXml_HtmlReader_v2(string file, string xmlFile, string traceHtmlReaderFile, string traceHtmlToXmlFile, bool useXDocumentCreator = false, bool correctionMarkBeginEnd = false, Encoding encoding = null)
         {
             try
             {
@@ -312,8 +361,12 @@ namespace pb.Web.TestUnit
                     //htmlReader.Trace += TraceHtmlReader;
                     htmlReader.Trace = TraceHtmlReader;
                     //HtmlToXml hx = new HtmlToXml(sr);
-                    HtmlToXml hx = new HtmlToXml(htmlReader);
+                    HtmlToXml_v2 hx = new HtmlToXml_v2(htmlReader);
+                    hx.UseXDocumentCreator = useXDocumentCreator;
+                    hx.CorrectionMarkBeginEnd = correctionMarkBeginEnd;
                     hx.GenerateXDocument().Save(xmlFile);
+                    if (useXDocumentCreator && traceHtmlToXmlFile != null)
+                        hx.Log.zSave(traceHtmlToXmlFile);
                 }
             }
             finally
@@ -324,6 +377,32 @@ namespace pb.Web.TestUnit
                     __srTraceHtmlReader = null;
                 }
                 __traceJsonSettings = null;
+            }
+        }
+
+        public static void FileHtmlToXml_v2(string file, bool traceHtmlReader = false, bool traceHtmlToXml = false)
+        {
+            //string xmlFile = GetXmlFile(file);
+            string xmlFile = GetFile(file, ".v2.xml");
+            Trace.WriteLine("convert html file \"{0}\"", file);
+            Trace.WriteLine("  to xml file     \"{0}\"", xmlFile);
+            FileHtmlToXml_v2(file, xmlFile, traceHtmlReader, traceHtmlToXml);
+        }
+
+        public static void FileHtmlToXml_v2(string file, string xmlFile, bool traceHtmlReader = false, bool traceHtmlToXml = false)
+        {
+            //HtmlReaderOptions options = HtmlReaderOptions.Default | HtmlReaderOptions.GenerateCloseTag;
+            HtmlReaderOptions options = HtmlReaderOptions.Default;
+            if (traceHtmlReader)
+                HtmlReader_v4.ReadFile(file, options: options | HtmlReaderOptions.DisableLineColumn).zSave(GetFile(file, ".HtmlReader.v4.txt"), jsonIndent: true);
+
+            using (StreamReader sr = zfile.OpenText(file))
+            {
+                HtmlReader_v4 htmlReader = new HtmlReader_v4(sr, options);
+                HtmlToXml_v3 htmlToXml = new HtmlToXml_v3(htmlReader);
+                htmlToXml.CreateXml().Save(xmlFile);
+                if (traceHtmlToXml)
+                    htmlToXml.Log.zSave(GetFile(file, ".HtmlToXml.v2.json"));
             }
         }
 
@@ -341,7 +420,7 @@ namespace pb.Web.TestUnit
             {
                 string xmlFile = GetXmlFile(file);
                 string okXmlFile = GetOkFile(xmlFile);
-                string traceHtmlReaderFile = GetTraceFile(file, ".trace.txt");
+                string traceHtmlReaderFile = GetFile(file, ".trace.txt");
                 string okTraceHtmlReaderFile = GetOkFile(traceHtmlReaderFile);
                 zfile.RenameFile(xmlFile, okXmlFile, overwrite);
                 zfile.RenameFile(traceHtmlReaderFile, okTraceHtmlReaderFile, overwrite);
@@ -361,7 +440,7 @@ namespace pb.Web.TestUnit
                     currentArchiveDir = zdir.GetNewIndexedDirectory(zPath.Combine(dir, __archiveDirectory), indexLength: 2);
                 }
                 string okXmlFile = GetOkFile(GetXmlFile(file));
-                string okTraceHtmlReaderFile = GetOkFile(GetTraceFile(file, ".trace.txt"));
+                string okTraceHtmlReaderFile = GetOkFile(GetFile(file, ".trace.txt"));
                 //zfile.MoveFile(okXmlFile, currentArchiveDir);
                 //zfile.MoveFile(okTraceHtmlReaderFile, currentArchiveDir);
                 zfile.CopyFileToDirectory(okXmlFile, currentArchiveDir);
@@ -374,17 +453,17 @@ namespace pb.Web.TestUnit
             return zpath.PathSetExtension(file, ".xml");
         }
 
-        public static string GetTraceFile(string file, string suffix, string traceDirectory = null)
+        public static string GetFile(string file, string suffix, string directory = null)
         {
             //return HtmlReader.GetTraceFile(file);
             // ".trace.txt"
             //return zpath.PathSetFileName(file, zPath.GetFileName(file) + suffix);
-            string directory;
-            if (traceDirectory == null)
-                directory = zPath.GetDirectoryName(file);
+            string directory2;
+            if (directory == null)
+                directory2 = zPath.GetDirectoryName(file);
             else
-                directory = traceDirectory;
-            return zPath.Combine(directory, zPath.GetFileName(file) + suffix);
+                directory2 = directory;
+            return zPath.Combine(directory2, zPath.GetFileNameWithoutExtension(file) + suffix);
         }
 
         //public static string GetTraceFile_v2(string file)

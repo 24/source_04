@@ -4,7 +4,7 @@ using System.Xml.Linq;
 using pb.IO;
 using pb.Web.old;
 
-namespace pb.Web.v1
+namespace pb.Web.Data.v1
 {
     public class RequestFromWeb_v2
     {

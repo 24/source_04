@@ -56,7 +56,7 @@ namespace pb.Data.Xml
             XmlWriterSettings settings = new XmlWriterSettings();
             settings.Encoding = Encoding.UTF8;
             settings.Indent = true;
-            Trace.CurrentTrace.WriteLine("save {0} to \"{1}\"", _nodeName, file);
+            Trace.WriteLine("save {0} to \"{1}\"", _nodeName, file);
             using (XmlWriter xw = XmlWriter.Create(file, settings))
             {
                 xw.WriteStartElement(_nodeName);

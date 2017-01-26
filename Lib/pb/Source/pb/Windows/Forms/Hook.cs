@@ -159,7 +159,7 @@ namespace pb.Windows.Forms
                     if (kf.TransitionState == 0) sTransition = "WM_KEYDOWN"; else sTransition = "WM_KEYUP";
                     string sPreviousKeyState;
                     if (kf.PreviousKeyState == 0) sPreviousKeyState = "KEYUP"; else sPreviousKeyState = "KEYDOWN";
-                    pb.Trace.CurrentTrace.WriteLine("KeyboardHook                                   : {0,-20} {1,-20} {2:x,4} {3,-11} prev key state {4,-7} lParam {5:x}", sTransition, sKey, wParam, sCode, sPreviousKeyState, lParam);
+                    pb.Trace.WriteLine("KeyboardHook                                   : {0,-20} {1,-20} {2:x,4} {3,-11} prev key state {4,-7} lParam {5:x}", sTransition, sKey, wParam, sCode, sPreviousKeyState, lParam);
                 }
 
                 if (HookEvent != null)
@@ -289,7 +289,7 @@ namespace pb.Windows.Forms
                     else
                         sCode = nCode.ToString();
                     string sKey = vk.ToString();
-                    pb.Trace.CurrentTrace.WriteLine("KeyboardLowLevelHook                           : {0,-20} {1,-20} {2:x,4} {3,-11} process {4:x} thread {5:x}", wm, sKey, kbParam.vkCode, sCode, ProcessId, ThreadId);
+                    pb.Trace.WriteLine("KeyboardLowLevelHook                           : {0,-20} {1,-20} {2:x,4} {3,-11} process {4:x} thread {5:x}", wm, sKey, kbParam.vkCode, sCode, ProcessId, ThreadId);
                 }
 
                 if (HookEvent != null)
@@ -403,7 +403,7 @@ namespace pb.Windows.Forms
                     string sMessage = message.ToString();
                     if (message == User.WM.WM_UNKNOW) sMessage += " (" + cwp.message.ToString("x") + ")";
                     string sCode; if (nCode == User.Const.HC_ACTION) sCode = "HC_ACTION"; else sCode = nCode.ToString();
-                    pb.Trace.CurrentTrace.WriteLine("PreWindowHook                                  : {0,-20} {1,-11} wParam {2,-8:x} wParam {3,-8:x} lParam {4,-8:x} hwnd {5:x}", sMessage, sCode, (int)wParam, (int)cwp.wParam, (int)cwp.lParam, (int)cwp.hwnd);
+                    pb.Trace.WriteLine("PreWindowHook                                  : {0,-20} {1,-11} wParam {2,-8:x} wParam {3,-8:x} lParam {4,-8:x} hwnd {5:x}", sMessage, sCode, (int)wParam, (int)cwp.wParam, (int)cwp.lParam, (int)cwp.hwnd);
                 }
 
                 if (HookEvent != null)
@@ -515,7 +515,7 @@ namespace pb.Windows.Forms
                     string sMessage = message.ToString();
                     if (message == User.WM.WM_UNKNOW) sMessage += " (" + cwp.message.ToString("x") + ")";
                     string sCode; if (nCode == User.Const.HC_ACTION) sCode = "HC_ACTION"; else sCode = nCode.ToString();
-                    pb.Trace.CurrentTrace.WriteLine("PostWindowHook                                 : {0,-20} {1,-11} wParam {2,-8:x} wParam {3,-8:x} lParam {4,-8:x} lResult {5,-8:x} hwnd {6:x}", sMessage, sCode, (int)wParam, (int)cwp.wParam, (int)cwp.lParam, (int)cwp.lResult, (int)cwp.hwnd);
+                    pb.Trace.WriteLine("PostWindowHook                                 : {0,-20} {1,-11} wParam {2,-8:x} wParam {3,-8:x} lParam {4,-8:x} lResult {5,-8:x} hwnd {6:x}", sMessage, sCode, (int)wParam, (int)cwp.wParam, (int)cwp.lParam, (int)cwp.lResult, (int)cwp.hwnd);
                 }
 
                 if (HookEvent != null)
@@ -631,7 +631,7 @@ namespace pb.Windows.Forms
                     string sMessage = wm.ToString();
                     if (wm == User.WM.WM_UNKNOW) sMessage += " (" + msg.message.ToString("x") + ")";
                     string sCode; if (nCode == User.Const.HC_ACTION) sCode = "HC_ACTION"; else sCode = nCode.ToString();
-                    pb.Trace.CurrentTrace.WriteLine("GetMessageWindowHook                           : {0,-20} {1,-11} wParam {2,-8:x} wParam {3,-8:x} lParam {4,-8:x} hwnd {5:x}", sMessage, sCode, (int)wParam, (int)msg.wParam, (int)msg.lParam, (int)msg.hwnd);
+                    pb.Trace.WriteLine("GetMessageWindowHook                           : {0,-20} {1,-11} wParam {2,-8:x} wParam {3,-8:x} lParam {4,-8:x} hwnd {5:x}", sMessage, sCode, (int)wParam, (int)msg.wParam, (int)msg.lParam, (int)msg.hwnd);
                 }
 
                 if (HookEvent != null)

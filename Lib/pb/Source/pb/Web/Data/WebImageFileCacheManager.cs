@@ -1,8 +1,9 @@
 ﻿using System.Drawing;
 using pb.Data;
 using pb.IO;
+using pb.Web.Http;
 
-namespace pb.Web
+namespace pb.Web.Data
 {
     public class WebImageFileCacheManager : WebImageCacheManager
     {

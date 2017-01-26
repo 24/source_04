@@ -161,7 +161,7 @@ namespace pb.Compiler
     public partial class ProjectCompiler : IProjectCompiler
     {
         public static int _traceLevel = 1;    // 0 no message, 1 default messages, 2 detailled messaged
-        public static bool _traceDuplicateSource = true;
+        public static bool _traceDuplicateSource = false;
 
         private Win32ResourceCompiler _win32ResourceCompiler = null;
         private ResourceCompiler _resourceCompiler = null;
@@ -799,7 +799,7 @@ namespace pb.Compiler
         {
             foreach (CompilerAssembly assembly in _assemblyList.Values)
             {
-                WriteLine(2, "  Assembly              \"{0}\" framework assembly {1} resolve {2}", assembly.File, assembly.FrameworkAssembly, assembly.Resolve);
+                WriteLine(2, $"  Assembly              \"{assembly.File}\"{(assembly.FrameworkAssembly ? " framework assembly" : assembly.RunSourceAssembly ? " runsource assembly" : "")}{(assembly.Resolve ? " resolve" : "")}");
                 //yield return assembly.File;
                 yield return new ReferencedAssembly { File = assembly.File, FrameworkAssembly = assembly.FrameworkAssembly };
             }
@@ -1151,7 +1151,8 @@ namespace pb.Compiler
             _zipSourceFile = GetZipSourceFile(_outputAssembly);
             WriteLine(1, "  create zip source file \"{0}\"", _zipSourceFile);
             //using (ZipArchive zipArchive = new ZipArchive(_zipSourceFile, FileMode.Create))
-            using (FileStream fs = new FileStream(_zipSourceFile, FileMode.Create))
+            //using (FileStream fs = new FileStream(_zipSourceFile, FileMode.Create))
+            using (FileStream fs = zFile.Open(_zipSourceFile, FileMode.Create))
             using (ZipArchive zipArchive = new ZipArchive(fs, System.IO.Compression.ZipArchiveMode.Update))
             {
                 if (_projectCompilerFile != null && zFile.Exists(_projectCompilerFile.File))

@@ -183,7 +183,7 @@ namespace pb.Data.Xml
         public static void WriteLine(int traceLevel, string msg, params object[] prm)
         {
             if (traceLevel <= _traceLevel)
-                Trace.CurrentTrace.WriteLine(msg, prm);
+                Trace.WriteLine(msg, prm);
         }
     }
 

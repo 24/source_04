@@ -135,7 +135,7 @@ namespace pb.Compiler
                 {
                     _runChrono.Stop();
                     error = true;
-                    Trace.CurrentTrace.WriteError(ex);
+                    Trace.WriteError(ex);
                 }
             }
             finally

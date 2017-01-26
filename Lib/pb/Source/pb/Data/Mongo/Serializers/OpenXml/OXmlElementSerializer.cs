@@ -311,7 +311,7 @@ namespace pb.Data.Mongo.Serializers
                     break;
                 case "picture":
                     //value = OXmlPictureElementSerializer.Instance._Deserialize(bsonReader, options);
-                    value = OXmlPictureElementCreator.CreatePicture(zmongo.ReadBsonDocumentWOStartEnd(bsonReader));
+                    value = OXmlPictureElementCreator.CreatePicture(zMongo.ReadBsonDocumentWOStartEnd(bsonReader));
                     break;
                 default:
                     throw new PBException($"deserialize OXmlElement, invalid Type {type}.");

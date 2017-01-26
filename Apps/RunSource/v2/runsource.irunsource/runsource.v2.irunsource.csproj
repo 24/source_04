@@ -30,17 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Pri.LongPath, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Lib\LongPath\Pri.LongPath\bin\Debug\Pri.LongPath.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\Compiler\IProjectCompiler.cs">
@@ -49,17 +42,8 @@
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\Compiler\IRunSource.cs">
       <Link>SourceLnk\Lib\pb\Compiler\IRunSource.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Compiler\_old\IGenerateAndExecute.cs">
-      <Link>SourceLnk\Lib\pb\Compiler\_old\IGenerateAndExecute.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\IO\FileOption.cs">
       <Link>SourceLnk\Lib\pb\IO\FileOption.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\Lib\pb\Source\pb\IO\zPath.cs">
-      <Link>SourceLnk\Lib\pb\IO\zPath.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\Application.cs">
-      <Link>SourceLnk\Lib\pb\_pb\Application.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\IChrono.cs">
       <Link>SourceLnk\Lib\pb\_pb\IChrono.cs</Link>
@@ -67,11 +51,14 @@
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\ITrace.cs">
       <Link>SourceLnk\Lib\pb\_pb\ITrace.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\ITraceError.cs">
-      <Link>SourceLnk\Lib\pb\_pb\ITraceError.cs</Link>
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\ITraceManager.cs">
+      <Link>SourceLnk\Lib\pb\_pb\ITraceManager.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\ITraceSetWriter.cs">
-      <Link>SourceLnk\Lib\pb\_pb\ITraceSetWriter.cs</Link>
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\PBException.cs">
+      <Link>SourceLnk\Lib\pb\_pb\PBException.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\Trace.cs">
+      <Link>SourceLnk\Lib\pb\_pb\Trace.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -80,9 +67,7 @@
       <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram1.cd" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

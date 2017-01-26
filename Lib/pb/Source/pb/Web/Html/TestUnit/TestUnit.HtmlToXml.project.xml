@@ -2,30 +2,38 @@
 <AssemblyProject>
   
   <Root                             value = "..\..\..\..\..\..\.." />
-  
+
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\LanguageCSharp5Debug.project.xml" />
   <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\Basic.project.xml" />
   <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\RunSourceExtension.project.xml" />
   <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\MongoExtension.project.xml" />
   <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\MongoDefaultSerializer.project.xml" />
   <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\HttpRun.project.xml" />
 
-  <NameSpace                        value = "pb.Web.TestUnit" />
+  <NameSpace                        value = "pb.Web.Html.TestUnit" />
 
-  <InitMethod                       value = "pb.Web.TestUnit.TestUnit_HtmlToXmlRun.Init" />
-  <EndMethod                        value = "pb.Web.TestUnit.TestUnit_HtmlToXmlRun.End" />
+  <InitMethod                       value = "pb.Web.Html.TestUnit.TestUnit_HtmlToXmlRun.Init" />
+  <EndMethod                        value = "pb.Web.Html.TestUnit.TestUnit_HtmlToXmlRun.End" />
 
   <Using                            value = "pb" />
 
   <Source                           value = "TestUnit_HtmlToXmlRun.cs" />
   <Source                           value = "TestUnit_HtmlToXml.cs" />
 
+  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\PBException.cs" />
+
   <Source                           value = "$Root$\Lib\pb\Source\pb\IO\CharStreamReader.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\IO\Directory.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\IO\FilenameNumberInfo.cs" />
 
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Html\HtmlReader.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Html\HtmlReader_v2.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Html\HtmlReader_v3.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Html\HtmlReader_v4.cs" />
-  
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Html\HtmlReaderBase.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Html\HtmlToXml_v2.cs" />
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Web\Html\XDocumentCreator.cs" />-->
+
   <!--<Source                           value = "$Root$\Lib\pb\Source\pb\_pb\GlobalExtension.cs" />
 
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\ZValue.cs" />

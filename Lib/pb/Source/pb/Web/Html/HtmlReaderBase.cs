@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace pb.Web
+namespace pb.Web.Html
 {
     public abstract class HtmlReaderBase : IDisposable
     {

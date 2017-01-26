@@ -38,7 +38,7 @@ namespace WebData.BlogDemoor.Test
 
         public static void OXmlToDocx(string file)
         {
-            OXmlDoc.Create(file + ".docx", zmongo.BsonRead<OXmlElement>(file));
+            OXmlDoc.Create(file + ".docx", zMongo.BsonRead<OXmlElement>(file));
         }
 
         public static void TracePages(int limit = 0, int skip = 0, string parameters = null)

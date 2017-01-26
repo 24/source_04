@@ -1,6 +1,7 @@
 ﻿using MongoDB.Bson;
 using pb.Data.Mongo;
 using pb.Data.Xml;
+using pb.Web.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +18,6 @@ namespace pb.Web.Data.Mongo
     public class WebHeaderDetailMongoManagerBase_v2<THeaderData, TDetailData>
     {
         protected Type _headerPageNominalType = null;
-        //protected WebDataPageManager<THeaderData> _headerDataPageManager = null;
         protected WebDataPageManager_v4<THeaderData> _headerDataPageManager = null;
         protected WebDataManager_v4<TDetailData> _detailDataManager = null;
         protected WebHeaderDetailManager_v4<THeaderData, TDetailData> _headerDetailManager = null;
@@ -50,6 +50,12 @@ namespace pb.Web.Data.Mongo
             return null;
         }
 
+        // header image cache get sub-directory
+        protected virtual string GetHeaderImageCacheUrlSubDirectory(WebData<IEnumDataPages<THeaderData>> data)
+        {
+            return null;
+        }
+
         // header get data
         //protected virtual IEnumDataPages<THeaderData> GetHeaderPageData(WebResult webResult)
         protected virtual IEnumDataPages<THeaderData> GetHeaderPageData(HttpResult<string> httpResult)
@@ -69,15 +75,15 @@ namespace pb.Web.Data.Mongo
             throw new PBException("GetHttpRequestPage() not implemented");
         }
 
-        // used by detail cache
+        // detail cache get sub-directory
         protected virtual string GetDetailCacheUrlSubDirectory(HttpRequest httpRequest)
         {
             return null;
         }
 
+        // detail image cache get sub-directory
         protected virtual string GetDetailImageCacheUrlSubDirectory(WebData<TDetailData> data)
         {
-            //return "Image";
             return null;
         }
 
@@ -87,6 +93,7 @@ namespace pb.Web.Data.Mongo
             throw new PBException("GetDetailData() not implemented");
         }
 
+        // detail get key
         protected virtual BsonValue GetDetailKey(HttpRequest httpRequest)
         {
             throw new PBException("GetDetailKey() not implemented");
@@ -98,7 +105,8 @@ namespace pb.Web.Data.Mongo
         //    throw new PBException("LoadDetailImages() not implemented");
         //}
 
-        protected virtual void CreateDataManager(XElement xe)
+        //protected virtual void CreateDataManager(XElement xe)
+        protected virtual void Create(XElement xe)
         {
             CreateHeaderWebDataPageManager(xe.zXPathElement("Header"));
             CreateDetailWebDataManager(xe.zXPathElement("Detail"));
@@ -137,9 +145,10 @@ namespace pb.Web.Data.Mongo
             _headerDataPageManager.WebLoadImageManager = new WebLoadImageManager_v2<IEnumDataPages<THeaderData>>();
             if (imageUrlCache != null)
             {
-                _detailDataManager.WebLoadImageManager.WebImageCacheManager = new WebImageCacheManager_v3(imageUrlCache);
-                _detailDataManager.WebLoadImageManager.WebImageCacheManager.TraceException = true;
-                //_detailDataManager.WebLoadImageManager.GetImageSubDirectory = GetHeaderImageCacheUrlSubDirectory;
+                _headerDataPageManager.WebLoadImageManager.WebImageCacheManager = new WebImageCacheManager_v3(imageUrlCache);
+                _headerDataPageManager.WebLoadImageManager.WebImageCacheManager.TraceException = true;
+                //_headerDataPageManager.WebLoadImageManager.GetImageSubDirectory = GetHeaderImageCacheUrlSubDirectory;
+                _headerDataPageManager.GetImageSubDirectory = GetHeaderImageCacheUrlSubDirectory;
             }
 
             _headerDataPageManager.GetHttpRequestPageFunction = GetHttpRequestPage;
@@ -216,7 +225,8 @@ namespace pb.Web.Data.Mongo
             {
                 _detailDataManager.WebLoadImageManager.WebImageCacheManager = new WebImageCacheManager_v3(imageUrlCache);
                 _detailDataManager.WebLoadImageManager.WebImageCacheManager.TraceException = true;
-                _detailDataManager.WebLoadImageManager.GetImageSubDirectory = GetDetailImageCacheUrlSubDirectory;
+                //_detailDataManager.WebLoadImageManager.GetImageSubDirectory = GetDetailImageCacheUrlSubDirectory;
+                _detailDataManager.GetImageSubDirectory = GetDetailImageCacheUrlSubDirectory;
             }
         }
 

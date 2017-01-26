@@ -8,7 +8,7 @@ using pb.Data.Mongo;
 using pb.IO;
 using pb.Web.old;
 
-namespace pb.Web.old
+namespace pb.Web.Data.old
 {
     public class WebImageMongoCacheManager_v1 : WebImageCacheManager_v1
     {

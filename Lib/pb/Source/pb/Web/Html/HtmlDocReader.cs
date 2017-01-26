@@ -13,7 +13,7 @@ using System.Text;
 // tag <img> src class
 // close <a>
 
-namespace pb.Web
+namespace pb.Web.Html
 {
     public enum HtmlDocNodeType
     {
@@ -233,12 +233,14 @@ namespace pb.Web
         public static IEnumerable<HtmlDocNode> Read(TextReader textReader)
         {
             HtmlDocReader reader = new HtmlDocReader();
-            bool disableLineColumn = false;
-            bool disableScriptTreatment = false;
-            bool useReadAttributeValue_v2 = true;
-            bool useTranslateChar = true;
-            reader._nodes = HtmlReader_v4.Read(textReader, generateCloseTag: true, disableLineColumn: disableLineColumn, disableScriptTreatment: disableScriptTreatment,
-                useReadAttributeValue_v2: useReadAttributeValue_v2, useTranslateChar: useTranslateChar);
+            //bool disableLineColumn = false;
+            //bool disableScriptTreatment = false;
+            //bool useReadAttributeValue_v2 = true;
+            //bool useTranslateChar = true;
+            //reader._nodes = HtmlReader_v4.Read(textReader, generateCloseTag: true, disableLineColumn: disableLineColumn, disableScriptTreatment: disableScriptTreatment,
+            //    useReadAttributeValue_v2: useReadAttributeValue_v2, useTranslateChar: useTranslateChar);
+            HtmlReaderOptions options = HtmlReaderOptions.Default | HtmlReaderOptions.GenerateCloseTag;
+            reader._nodes = HtmlReader_v4.Read(textReader, options);
             return reader.Read();
         }
 

@@ -5,7 +5,7 @@ using System.Text;
 using MongoDB.Bson;
 using pb.Data.Mongo;
 
-namespace pb.Web
+namespace pb.Web.Http
 {
     /************************************************************************************************************************************************
      * 
@@ -560,7 +560,7 @@ namespace pb.Web
 
         public HttpArchive(string file, Encoding encoding = null)
         {
-            BsonDocument document = zmongo.ReadFileAs<BsonDocument>(file, encoding);
+            BsonDocument document = zMongo.ReadFileAs<BsonDocument>(file, encoding);
             _document = document["log"].AsBsonDocument;
         }
 

@@ -4,14 +4,14 @@ using System.Net;
 using pb.Data.Mongo;
 using pb.IO;
 
-namespace pb.Web
+namespace pb.Web.Http
 {
     public static class zcookies
     {
         public static CookieContainer LoadCookies(string file)
         {
             CookieContainer cookies = new CookieContainer();
-            foreach (Cookie cookie in zmongo.BsonRead<Cookie>(file))
+            foreach (Cookie cookie in zMongo.BsonRead<Cookie>(file))
                 cookies.Add(cookie);
             return cookies;
         }

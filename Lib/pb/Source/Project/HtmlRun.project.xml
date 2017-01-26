@@ -2,32 +2,45 @@
 <AssemblyProject>
   <Root                             value = "..\..\..\.." />
 
-  <DebugInformation                 value = "true" />
+  <!--<DebugInformation                 value = "true" />
   <CompilerOptions                  value = "/define:DEBUG;TRACE" />
 	<Output                           value = "bin32\HtmlRun\HtmlRun.dll" />
   <CopySourceFiles                  value = "true" />
-  <CopyOutput                       value = "$Root$\..\library\pib\HtmlRun\new" />
+  <CopyOutput                       value = "$Root$\..\library\pib\HtmlRun\new" />-->
 
   <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\HttpRun.project.xml" />
 
-  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\_pb\Date.cs" />       in runsource.dll -->
-  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\_pb\NamedValue.cs" /> in runsource.dll -->
+  <InitMethod                       value = "pb.Web.Html.HtmlRun.Init" />
+  <EndMethod                        value = "pb.Web.Html.HtmlRun.End" />
+
+  <Using                            value = "pb.Web.Html" />
+
+  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\Date.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\FormatInfo.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\NamedValue.cs" />
   
+  <!--
   <Source                           value = "$Root$\Lib\pb\Source\pb\Compiler\RunSourceHtmlRun.cs" />
+  -->
 
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\DataTable.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\FieldList.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\GClass.cs" />
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Data\NamedValues.cs" />-->
 
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\BsonDocumentsToDataTable.cs" />
 
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Xml\XmlSelect.cs" />
 
   <Source                           value = "$Root$\Lib\pb\Source\pb\Reflection\TypeView.cs" />
-
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Html\HtmlRun.cs" />
+  
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Web\Html\HtmlRun.cs" />-->
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Web\Html\HtmlRun_SetResult.cs" />-->
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Html\HtmlRun_v2.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Html\HtmlRun_v2_SetResult.cs" />
 
   <FrameworkAssembly                value = "System.Data.dll" />
-  <Assembly                         value = "$Root$\..\library\Mongo\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Bson.dll" resolve = "true" resolveName = "MongoDB.Bson, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />
+
+  <RunSourceAssembly                value = "runsource.command.dll" />
 
 </AssemblyProject>

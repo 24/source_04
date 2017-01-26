@@ -113,7 +113,8 @@ namespace pb.Data.Mongo
             BsonDocument optionsDoc = options.zDeserializeToBsonDocument();
             MongoLog.CurrentMongoLog.LogExport(collection, file, queryDoc, sortWrapper, fieldsWrapper, limit, optionsDoc);
             zfile.CreateFileDirectory(file);
-            FileStream fs = new FileStream(file, FileMode.Create, FileAccess.Write, FileShare.Read);
+            //FileStream fs = new FileStream(file, FileMode.Create, FileAccess.Write, FileShare.Read);
+            FileStream fs = zFile.Open(file, FileMode.Create, FileAccess.Write, FileShare.Read);
             //StreamWriter sw = new StreamWriter(fs, Encoding.UTF8);
             // no bom with new UTF8Encoding()
             StreamWriter sw = new StreamWriter(fs, new UTF8Encoding());
@@ -142,7 +143,7 @@ namespace pb.Data.Mongo
             //{
             //    collection.zSave(document);
             //}
-            zmongo.BsonRead<BsonDocument>(file).zSave(collection, options);
+            zMongo.BsonRead<BsonDocument>(file).zSave(collection, options);
         }
     }
 

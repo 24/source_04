@@ -18,7 +18,9 @@ using pb.IO;
 namespace Download.Print
 {
     // IKeyData.GetKey() used in DownloadAutomateManager_v2.TryDownloadPost()
-    public interface IPostToDownload : IHttpRequestData, IKeyData, ILoadImages
+    //public interface IPostToDownload : IHttpRequestData, IKeyData, ILoadImages
+    // IHttpRequestData : used in WebDataManager<TKey, TData>.RefreshDocumentsStore() and IPostToDownload, DownloadAutomateManager.GetPostMessage()
+    public interface IPostToDownload : IKeyData, IHttpRequestData
     {
         string GetServer();
         string GetTitle();

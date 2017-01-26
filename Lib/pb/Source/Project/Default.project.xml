@@ -19,8 +19,8 @@
   <!--<Using                            value = "System.Windows.Forms" />-->
   <!--<Using                            value = "System.Xml" />-->
   <Using                            value = "pb" />
-  <Using                            value = "pb.Compiler" />
-  <Using                            value = "pb.Data" />
-  <Using                            value = "pb.Data.Xml" />
-  <Using                            value = "pb.IO" />
+  <!--<Using                            value = "pb.Compiler" />-->
+  <!--<Using                            value = "pb.Data" />-->
+  <!--<Using                            value = "pb.Data.Xml" />-->
+  <!--<Using                            value = "pb.IO" />-->
 </AssemblyProject>

@@ -359,9 +359,9 @@ namespace Download.Print.TelechargerMagazine
         //    data.LoadImages();
         //}
 
-        public override void LoadNewDocuments()
+        public override LoadNewDocumentsResult LoadNewDocuments()
         {
-            _headerDetailManager.LoadNewDocuments(maxDocumentsLoadedFromStore: 25, startPage: 1, maxPage: 10);
+            return _headerDetailManager.LoadNewDocuments(maxDocumentsLoadedFromStore: 25, startPage: 1, maxPage: 10);
         }
 
         public override IEnumerable<IPostToDownload> FindFromDateTime(DateTime date)

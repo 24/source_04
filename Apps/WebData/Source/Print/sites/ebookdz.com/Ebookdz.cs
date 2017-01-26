@@ -311,9 +311,9 @@ namespace Download.Print.Ebookdz
         //    data.LoadImages();
         //}
 
-        public override void LoadNewDocuments()
+        public override LoadNewDocumentsResult LoadNewDocuments()
         {
-            _headerDetailManager.LoadNewDocuments(maxDocumentsLoadedFromStore: 7, startPage: 1, maxPage: 1);
+            return _headerDetailManager.LoadNewDocuments(maxDocumentsLoadedFromStore: 7, startPage: 1, maxPage: 1);
         }
 
         public override IEnumerable<IPostToDownload> FindFromDateTime(DateTime date)

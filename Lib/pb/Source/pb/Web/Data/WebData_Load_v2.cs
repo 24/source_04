@@ -1,10 +1,10 @@
 ﻿using MongoDB.Bson;
 using pb.Data;
 using pb.Data.Mongo;
+using pb.Web.Http;
 
 namespace pb.Web.Data
 {
-    // WebData_LoadImages_v2
     partial class WebData<TData>
     {
         private MongoDataStore _dataStore = null;
@@ -52,19 +52,19 @@ namespace pb.Web.Data
             //if (_error)
             //    return;
 
-            if (_dataStore != null && _documentLoadedFromWeb)
+            if (_dataStore != null && _dataLoadedFromWeb)
             {
-                BsonDocument data = Serialize();
+                BsonDocument document = Serialize();
                 if (_dataStore.GenerateId)
                 {
                     if (_id == null)
                         _id = _dataStore.GetNewId();
-                    _document.zSetId(_id);
-                    _dataStore.SaveWithId(_id, data);
+                    _data.zSetId(_id);
+                    _dataStore.SaveWithId(_id, document);
                 }
                 else
                 {
-                    _dataStore.SaveWithKey(_key, data);
+                    _dataStore.SaveWithKey(_key, document);
                 }
             }
 
@@ -84,9 +84,9 @@ namespace pb.Web.Data
             //WebDataResult<TData> webDataResult = _webLoadDataManager.LoadData(_request);
             WebDataResult_v2<TData> webDataResult = webLoadDataManager.LoadData(_request);
             _result_v2 = webDataResult.Result;
-            _document = webDataResult.Data;
-            _documentLoaded = true;
-            _documentLoadedFromWeb = true;
+            _data = webDataResult.Data;
+            _dataLoaded = true;
+            _dataLoadedFromWeb = true;
             //}
             //else // if (_webDataManager.WebLoadDataManager_v2 != null)
             //{
@@ -104,13 +104,13 @@ namespace pb.Web.Data
         {
             BsonDocument document = _dataStore.LoadFromKey(key);
             Deserialize(document);
-            _documentLoaded = true;
-            _documentLoadedFromStore = true;
+            _dataLoaded = true;
+            _dataLoadedFromStore = true;
         }
 
         private BsonDocument Serialize()
         {
-            BsonDocument document = new BsonDocument { _webDataManager_v4.DataSerializer.Serialize(_document) };
+            BsonDocument document = new BsonDocument { _webDataManager_v4.DataSerializer.Serialize(_data) };
             if (_result_v2 != null)
             {
                 document.Add(_webDataManager_v4.WebRequestSerializer.Serialize(_result_v2.Http.GetHttpLog()));
@@ -120,7 +120,7 @@ namespace pb.Web.Data
 
         private void Deserialize(BsonDocument document)
         {
-            _document = _webDataManager_v4.DataSerializer.Deserialize(document);
+            _data = _webDataManager_v4.DataSerializer.Deserialize(document);
             HttpLog httpLog = _webDataManager_v4.WebRequestSerializer.Deserialize(document);
             _result_v2 = new HttpResult<string> { Http = new Http_v2(httpLog) };
         }

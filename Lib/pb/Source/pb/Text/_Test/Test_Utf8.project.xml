@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<AssemblyProject>
+  
+  <Root                             value = "..\..\..\..\..\.." />
+
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\LanguageCSharp5Debug.project.xml" />
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\Basic.project.xml" />
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\RunSourceExtension.project.xml" />
+
+  <NameSpace                        value = "pb.Text.Test" />
+  <!--<Using                            value = "pb" />-->
+  <!--<Using                            value = "Test.Test_Text" />-->
+
+  <Source                           value = "Test_Utf8.cs" />
+
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\_pb\GlobalExtension.cs" />-->
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Data\NamedValues.cs" />    in runsource.dll -->
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Data\ZValue.cs" />         in runsource.dll -->
+  
+  <!--
+  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Reflection\TypeView_v2.cs" />
+  -->
+
+</AssemblyProject>

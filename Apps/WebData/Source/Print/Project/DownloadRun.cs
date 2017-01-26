@@ -1,7 +1,6 @@
 ﻿using pb;
 using pb.Compiler;
 using pb.Data.Mongo;
-using pb.Data.Mongo.Serializers;
 using pb.Data.Xml;
 using pb.IO;
 using pb.Web;
@@ -25,21 +24,20 @@ namespace Download.Print
             //__traceListener.Filter = new System.Diagnostics.EventTypeFilter(System.Diagnostics.SourceLevels.Warning);
             System.Diagnostics.Trace.Listeners.Add(__traceListener);
 
-            // ATTENTION à ré-écrire
-            //PBMongoSerialization.SetDefaultMongoSerializationOptions();
-            //PBMongoSerialization.RegisterDefaultMongoSerializer();
-            RunSerializer.InitDefault(traceProvider, traceSerializer);
-            RunSerializer.InitZValue(traceSerializer);
+            // called from Extension_01.dll.project.xml
+            //RunSerializer.InitDefault(traceProvider, traceSerializer);
+            //RunSerializer.InitZValue(traceSerializer);
+            //RunSerializer.InitWebHeader(traceSerializer);
 
             HtmlRun.SetResult = dt => RunSource.CurrentRunSource.SetResult(dt);
         }
 
         public static void End()
         {
-            // ATTENTION à ré-écrire
-            //PBMongoSerialization.RemoveDefaultMongoSerializationOptions();
-            MongoSerializationManager.RemoveDefaultMongoSerializationOptions();
-            //PBMongoSerialization.UnregisterDefaultMongoSerializer();
+            // called from Extension_01.dll.project.xml
+            //RunSerializer.EndDefault();
+            //RunSerializer.EndZValue();
+            //RunSerializer.EndWebHeader();
 
             System.Diagnostics.Trace.Listeners.Remove(__traceListener);
             HtmlRun.SetResult = null;

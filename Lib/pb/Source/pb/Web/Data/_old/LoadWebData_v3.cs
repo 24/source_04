@@ -1,7 +1,7 @@
 ﻿using pb.Web.Data;
 using pb.Data.old;
 
-namespace pb.Web.old
+namespace pb.Web.Data.old
 {
     public class RequestWebData_v3 : RequestFromWeb_v3
     {

@@ -1,4 +1,4 @@
-﻿namespace pb.Web
+﻿namespace pb.Web.Http
 {
     public enum XmlDocumentSourceType
     {

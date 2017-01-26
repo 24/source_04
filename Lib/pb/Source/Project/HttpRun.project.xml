@@ -2,63 +2,91 @@
 <AssemblyProject>
   <Root                             value = "..\..\..\.." />
 
-  <DebugInformation                 value = "true" />
+  <!--<DebugInformation                 value = "true" />
   <CompilerOptions                  value = "/define:DEBUG;TRACE" />
 	<Output                           value = "bin32\HttpRun\HttpRun.dll" />
   <CopySourceFiles                  value = "true" />
-  <CopyOutput                       value = "$Root$\..\library\pib\HttpRun\new" />
+  <CopyOutput                       value = "$Root$\..\library\pib\HttpRun\new" />-->
 
-  <Using                            value = "pb.Web" />
+  <Using                            value = "pb.Web.Http" />
 
   <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\Convert.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\ParseAs.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\Error.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\PBException.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\Progress.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\TraceLevel.cs" />
 
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Image.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\zMongo.cs" />
 
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Xml\XDocumentCreator.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Xml\Xml.cs" />
+  
+  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\CharStreamReader.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\File.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\Path.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\IO\StreamTransfer.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\zDirectory.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\zFile.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\zPath.cs" />
+
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Reflection\Reflection.cs" />
 
   <Source                           value = "$Root$\Lib\pb\Source\pb\Text\Regex.cs" />
-  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Text\Split.cs" />-->
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Text\Split.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Text\String.cs" />
-  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Text\StringZones.cs" />-->
-
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Text\StringZones.cs" />
+  
   <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Html\HtmlCharCodes.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Html\HtmlReader.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Html\HtmlReader_v2.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Html\HtmlReader_v3.cs" />        <!-- HtmlReader_v2 need HtmlNode -->
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Html\HtmlReaderBase.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Html\HtmlNode.cs" />
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Web\Html\HtmlReader.cs" />-->
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Web\Html\HtmlReader_v2.cs" />-->
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Web\Html\HtmlReader_v3.cs" />-->
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Html\HtmlReader_v4.cs" />
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Web\Html\HtmlReaderBase.cs" />-->
   <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Html\HtmlTag.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Html\HtmlToXml.cs" />
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Web\Html\HtmlToXml_v2.cs" />-->
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Html\HtmlToXml_v3.cs" />
 
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\Http.cs" />
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\Http.cs" />-->
   <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\Http_v2.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\Http_v2_LoadImage.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\Http_v2_LoadText.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\Http_v2_LoadToFile.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\HttpBase.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\HttpLoadImage_v2.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\HttpLoadText_v2.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\HttpLoadToFile_v2.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\HttpManager.cs" />
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\HttpManager.cs" />-->
   <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\HttpManager_v2.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\HttpManagerLoadImage_v2.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\HttpManagerLoadText_v2.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\HttpManagerXml.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\HttpManager_v2_LoadImage.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\HttpManager_v2_LoadText.cs" />
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\HttpManager_Xml.cs" />-->
   <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\HttpRequest.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\HttpRun.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\HttpXml.cs" />
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\HttpRun.cs" />-->
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\HttpRun_v2.cs" />
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\HttpXml.cs" />-->
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\HttpXml_v2.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\HttpTools.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\Url.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\UrlCache.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\XmlDocumentSourceType.cs" />
 
-  <!--<FrameworkAssembly                value = "mscorlib.dll" />-->
+  <FrameworkAssembly                value = "mscorlib.dll" />
   <FrameworkAssembly                value = "System.dll" />
   <FrameworkAssembly                value = "System.Core.dll" />
   <FrameworkAssembly                value = "System.Drawing.dll" />
   <FrameworkAssembly                value = "System.Web.dll" />
   <FrameworkAssembly                value = "System.Xml.dll" />
   <FrameworkAssembly                value = "System.Xml.Linq.dll" />
+
+  <RunSourceAssembly                value = "runsource.irunsource.dll" />
+
+  <Assembly                         value = "$Root$\Lib\LongPath\Pri.LongPath\bin\Debug\Pri.LongPath.dll" />
+  <Assembly                         value = "$Root$\..\library\Mongo\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Bson.dll" resolve = "true" resolveName = "MongoDB.Bson, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />
+  <!--<Assembly                         value = "$Root$\..\library\Mongo\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Driver.dll" resolve = "true" resolveName = "MongoDB.Driver, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />-->
+
   <!--<Assembly                         value = "runsource.dll" />-->
   <!--<Assembly                         value = "runsource.irunsource.dll" />-->
-  <Assembly                         value = "$Root$\Apps\RunSource\v2\runsource.dll\bin32\runsource.dll" />
-  <Assembly                         value = "$Root$\Apps\RunSource\v2\runsource.dll\bin32\runsource.irunsource.dll" />
+  <!--<Assembly                         value = "$Root$\Apps\RunSource\v2\runsource.dll\bin32\runsource.dll" />-->
+  <!--<Assembly                         value = "$Root$\Apps\RunSource\v2\runsource.dll\bin32\runsource.irunsource.dll" />-->
 
   <!--
   <Assembly                         value = "System.Core.dll" />

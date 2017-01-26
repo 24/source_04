@@ -26,7 +26,7 @@ namespace pb
         {
             bool b = process.CloseMainWindow();
             //if (b) cTrace.Trace("CloseMainWindow() : result {0} hWnd {1} title {2}", b, process.MainWindowHandle, process.MainWindowTitle);
-            if (b) Trace.CurrentTrace.WriteLine("CloseMainWindow() : result {0} hWnd {1} title {2}", b, process.MainWindowHandle, process.MainWindowTitle);
+            if (b) Trace.WriteLine("CloseMainWindow() : result {0} hWnd {1} title {2}", b, process.MainWindowHandle, process.MainWindowTitle);
 
             DateTime t0;
             if (!b)
@@ -37,7 +37,7 @@ namespace pb
                     if ((window.wi.dwExStyle & User.Const.WS_EX_APPWINDOW) == User.Const.WS_EX_APPWINDOW)
                     {
                         //cTrace.Trace("Close window  : hWnd {0} title {1}", (int)window.hWnd, window.Title);
-                        Trace.CurrentTrace.WriteLine("Close window  : hWnd {0} title {1}", (int)window.hWnd, window.Title);
+                        Trace.WriteLine("Close window  : hWnd {0} title {1}", (int)window.hWnd, window.Title);
                         User.SendMessage(window.hWnd, (uint)User.WM.WM_CLOSE, IntPtr.Zero, IntPtr.Zero);
                         b = true;
                         break;
@@ -80,7 +80,7 @@ namespace pb
             }
 
             //cTrace.Trace("Kill process : {0}", process.ProcessName);
-            Trace.CurrentTrace.WriteLine("Kill process : {0}", process.ProcessName);
+            Trace.WriteLine("Kill process : {0}", process.ProcessName);
             process.Kill();
             t0 = DateTime.Now;
             while (!process.HasExited)

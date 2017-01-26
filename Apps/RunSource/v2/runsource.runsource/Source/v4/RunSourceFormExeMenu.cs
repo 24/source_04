@@ -16,6 +16,7 @@ namespace runsourced
         private ToolStripMenuItem _menuRunWithoutProject;
         private ToolStripMenuItem _menuAllowMultipleRun;
         private ToolStripMenuItem _traceInit;
+        private ToolStripMenuItem _traceDuplicateSource;
         private Button _executeButton;
         private Button _pauseButton;
         private Button _stopButton;
@@ -52,7 +53,9 @@ namespace runsourced
             _menuRunOnMainThread = zForm.CreateMenuItem("Run on main &thread", checkOnClick: true, @checked: false, onClick: (sender, eventArgs) => UpdateRunSourceStatusRunType());
             _menuRunWithoutProject = zForm.CreateMenuItem("Run without &project", checkOnClick: true, @checked: false, onClick: (sender, eventArgs) => UpdateRunSourceStatusRunType());
             _menuAllowMultipleRun = zForm.CreateMenuItem("Allow &multiple run", checkOnClick: true, @checked: _config.Get("AllowMultipleExecution").zTryParseAs(false), onClick: (sender, eventArgs) => UpdateRunSourceStatusRunType());
-            _traceInit = zForm.CreateMenuItem("Trace init", checkOnClick: true, onClick: (sender, eventArgs) => _runSource.TraceInit(_traceInit.Checked));
+            //_traceInit = zForm.CreateMenuItem("Trace init", checkOnClick: true, onClick: (sender, eventArgs) => _runSource.TraceInit(_traceInit.Checked));
+            _traceInit = zForm.CreateMenuItem("Trace init", checkOnClick: true, onClick: (sender, eventArgs) => _runSource.SetOptions($"traceInit = {_traceInit.Checked}"));
+            _traceDuplicateSource = zForm.CreateMenuItem("Trace duplicate source", checkOnClick: true, onClick: (sender, eventArgs) => _runSource.SetOptions($"traceDuplicateSource = {_traceDuplicateSource.Checked}"));
 
             _menuOptions.DropDownItems.AddRange(new ToolStripItem[] {
                 _menuGridSetMaxWidthHeight,
@@ -64,7 +67,8 @@ namespace runsourced
                 _menuRunWithoutProject,
                 _menuAllowMultipleRun,
                 new ToolStripSeparator(),
-                _traceInit
+                _traceInit,
+                _traceDuplicateSource
             });
 
             foreach (XElement xe in _config.GetElements("MenuCompile/CompileProjects"))

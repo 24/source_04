@@ -206,8 +206,8 @@ namespace pb.IO
 		private void Open()
 		{
 			Close();
-			gfs = new FileStream(gsPath, FileMode.Open, FileAccess.Read, FileShare.Read, giBufferSize);
-			gsr = new StreamReader(gfs, gEncoding);
+            gfs = new FileStream(gsPath, FileMode.Open, FileAccess.Read, FileShare.Read, giBufferSize);
+            gsr = new StreamReader(gfs, gEncoding);
             gbOpen = true;
 		}
 		#endregion

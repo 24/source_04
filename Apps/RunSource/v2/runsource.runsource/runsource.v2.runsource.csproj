@@ -107,6 +107,9 @@
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\IO\zFile.cs">
       <Link>SourceLnk\Lib\pb\IO\zFile.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\IO\zPath.cs">
+      <Link>SourceLnk\Lib\pb\IO\zPath.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\Reflection\Reflection.cs">
       <Link>SourceLnk\Lib\pb\Reflection\Reflection.cs</Link>
     </Compile>
@@ -217,6 +220,9 @@
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\Windows\Win32\WM.cs">
       <Link>SourceLnk\Lib\pb\Windows\Forms\Win32\WM.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\Application.cs">
+      <Link>SourceLnk\Lib\pb\_pb\Application.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\Chrono.cs">
       <Link>SourceLnk\Lib\pb\_pb\Chrono.cs</Link>
     </Compile>
@@ -235,20 +241,11 @@
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\ParseAs.cs">
       <Link>SourceLnk\Lib\pb\_pb\ParseAs.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\PBException.cs">
-      <Link>SourceLnk\Lib\pb\_pb\PBException.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\TextSerializer.cs">
       <Link>SourceLnk\Lib\pb\_pb\TextSerializer.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\Trace.cs">
-      <Link>SourceLnk\Lib\pb\_pb\Trace.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\TraceError.cs">
-      <Link>SourceLnk\Lib\pb\_pb\TraceError.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\TraceSetWriter.cs">
-      <Link>SourceLnk\Lib\pb\_pb\TraceSetWriter.cs</Link>
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\TraceManager.cs">
+      <Link>SourceLnk\Lib\pb\_pb\TraceManager.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\Tree.cs">
       <Link>SourceLnk\Lib\pb\_pb\Tree.cs</Link>
@@ -378,6 +375,7 @@
     <None Include="Resource\DogFinder.ico" />
     <Content Include="runsource.runsource.config.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="runsource.runsource.project.xml">
       <SubType>Designer</SubType>

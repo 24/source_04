@@ -4,6 +4,7 @@ using System.Xml.Linq;
 using pb.Data.Xml;
 using pb.IO;
 using pb.Data;
+using System.Reflection;
 
 // GetIncludeProjects() used by
 //   GetInitEndMethods()
@@ -49,6 +50,7 @@ namespace pb.Compiler
     {
         public string File = null;
         public bool FrameworkAssembly = false;
+        public bool RunSourceAssembly = false;
         public bool Resolve = false;
         public string ResolveName = null;
         public CompilerProjectReader Project = null;
@@ -317,12 +319,18 @@ namespace pb.Compiler
 
         public IEnumerable<CompilerAssembly> GetAssemblies()
         {
+            string currentAssemblyDirectory = zPath.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             return
                 _projectXmlElement.GetValues("FrameworkAssembly")
                 .Select(file =>
                 {
                     return new CompilerAssembly { File = file, FrameworkAssembly = true, Project = this };
                 }).Concat(
+                _projectXmlElement.GetValues("RunSourceAssembly")
+                .Select(file =>
+                {
+                    return new CompilerAssembly { File = file.zRootPath(currentAssemblyDirectory), RunSourceAssembly = true, Project = this };
+                })).Concat(
                 _projectXmlElement.GetElements("Assembly")
                 .Select(xe =>
                 {

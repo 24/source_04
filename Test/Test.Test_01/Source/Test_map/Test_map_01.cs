@@ -18,7 +18,7 @@ namespace Test.Test_map
             {
                 using (StreamWriter sw = new StreamWriter(fs))
                 {
-                    DataTable dt = BsonDocumentsToDataTable_v2.ToDataTable(Test_map_01.TransformTopojson(zmongo.BsonRead<BsonDocument>(topojsonFile).First()));
+                    DataTable dt = BsonDocumentsToDataTable_v2.ToDataTable(Test_map_01.TransformTopojson(zMongo.BsonRead<BsonDocument>(topojsonFile).First()));
                     TraceDataTable.Trace(dt, sw);
                     sw.WriteLine();
                     string[] columns = new string[] { "type", "properties.scalerank", "properties.featurecla", "properties.labelrank", "properties.adm0_dif", "properties.level", "properties.type", "properties.su_dif", "properties.brk_diff", "properties.mapcolor7", "properties.mapcolor8", "properties.mapcolor9", "properties.mapcolor13" };

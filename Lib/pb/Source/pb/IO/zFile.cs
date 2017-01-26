@@ -85,6 +85,11 @@ namespace pb.IO
             return File.Open(path, mode, access, share);
         }
 
+        public static FileStream Open(string path, FileMode mode, FileAccess access, FileShare share, int bufferSize)
+        {
+            return File.Open(path, mode, access, share, bufferSize);
+        }
+
         public static void SetCreationTime(string path, DateTime creationTime)
         {
             File.SetCreationTime(path, creationTime);

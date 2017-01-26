@@ -35,7 +35,9 @@ namespace pb.Windows.Forms
             InitializeComponent();
 
             //Trace.CurrentTrace.Writed += new WritedEvent(WriteLog);
-            Trace.CurrentTrace.SetViewer(WriteLog);
+            //Trace.CurrentTrace.SetViewer(WriteLog);
+            TraceManager.Current.AddTrace(Trace.Current);
+            TraceManager.Current.SetViewer(WriteLog);
             //string logFile = gTrace.GetLogFile();
             //if (logFile != null && File.Exists(logFile))
             //    WriteLog(zfile.ReadAllText(logFile));
@@ -46,7 +48,9 @@ namespace pb.Windows.Forms
         private void LogForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             //Trace.CurrentTrace.Writed -= new WritedEvent(WriteLog);
-            Trace.CurrentTrace.SetViewer(null);
+            //Trace.CurrentTrace.SetViewer(null);
+            TraceManager.Current.RemoveViewer();
+            TraceManager.Current.RemoveTrace(Trace.Current);
         }
 
         #region LogForm_TextChanged

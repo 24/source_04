@@ -18,6 +18,7 @@ namespace pb.IO
         //private bool _closeTextReader = false;
 
         private Func<char, string> _translateChar = null;
+        private Func<int, bool> _filterChar = null;
 
         // export stream
         private StreamWriter _exportStream = null;
@@ -69,6 +70,7 @@ namespace pb.IO
         //}
 
         public Func<char, string> TranslateChar { get { return _translateChar; } set { _translateChar = value; } }
+        public Func<int, bool> FilterChar { get { return _filterChar; } set { _filterChar = value; } }
         public int Line { get { return _line; } }
         public int Column { get { return _column; } }
 
@@ -185,7 +187,19 @@ namespace pb.IO
             {
                 for (int i1 = _stringStream.Length; i1 <= _posStringStream + index; i1++)
                 {
-                    code = _textReader.Read();
+                    //code = _textReader.Read();
+
+                    while (true)
+                    {
+                        code = _textReader.Read();
+                        if (code == -1)
+                            break;
+                        if (_filterChar == null)
+                            break;
+                        if (!_filterChar(code))
+                            break;
+                    }
+
                     if (code == -1)
                         break;
                     car = (char)code;

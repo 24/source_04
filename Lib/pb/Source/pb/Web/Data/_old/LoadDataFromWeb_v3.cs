@@ -3,7 +3,7 @@ using System.Xml.Linq;
 using pb.IO;
 using pb.Web.old;
 
-namespace pb.Web.old
+namespace pb.Web.Data.old
 {
     public class RequestFromWeb_v3
     {

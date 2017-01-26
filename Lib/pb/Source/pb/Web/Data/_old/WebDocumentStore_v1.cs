@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using pb.Web.old;
 using pb.Data.old;
 
-namespace pb.Web.old
+namespace pb.Web.Data.old
 {
     public abstract class WebDocumentStore_v1<TKey, TData>
     {

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Specialized;
 using System.Drawing;
 using System.IO;
 using System.Net;
@@ -9,7 +8,7 @@ using pb.IO;
 using pb.Text;
 using pb.Data.Mongo;
 
-namespace pb.Web
+namespace pb.Web.Http
 {
     //public class HttpResponseLog
     //{
@@ -28,22 +27,6 @@ namespace pb.Web
     //        }
     //    }
     //}
-
-    public class HttpRequestParameters
-    {
-        //public bool UseWebClient = false;                              // static use System.Net.WebClient or System.Net.WebRequest
-        public Encoding Encoding = null;                                 // static
-        //public HttpRequestMethod Method = HttpRequestMethod.Get;       // request
-        public string UserAgent = "pib/0.1";                             // static   "Mozilla/5.0 Pib";
-        public string Accept = null;                                     // request
-        //public string Referer = null;                                  // request
-        public DecompressionMethods? AutomaticDecompression = null;      // static
-        public NameValueCollection Headers = new NameValueCollection();  // request
-        public string ContentType = "application/x-www-form-urlencoded"; // static    valeur par defaut car obligatoire sur certain serveur (ex: http://www.handeco.org/fournisseurs/rechercher)
-        //public string Content = null;                                  // request
-        public CookieContainer Cookies = new CookieContainer();          // static
-        public bool Expect100Continue = false;                           // false permet d'éviter que le content soit envoyé séparément avec Expect: 100-continue dans l'entete du 1er paquet
-    }
 
     public class Http : IDisposable
     {
@@ -120,7 +103,7 @@ namespace pb.Web
                     if (_exportFile != null)
                     {
                         if (_setExportFileExtension)
-                            _exportFile = zpath.PathSetExtension(_exportFile, GetFileExtensionFromContentType(_resultContentType));
+                            _exportFile = zpath.PathSetExtension(_exportFile, HttpTools.GetFileExtensionFromContentType(_resultContentType));
                         zfile.WriteFile(_exportFile, _resultText);
                         if (_exportRequest)
                             ExportRequest(_exportFile);
@@ -191,7 +174,8 @@ namespace pb.Web
                     pb.Trace.WriteLine("Http.LoadToFile()");
                 Open();
                 zfile.CreateFileDirectory(file);
-                fs = new FileStream(file, FileMode.Create, FileAccess.Write, FileShare.Read);
+                //fs = new FileStream(file, FileMode.Create, FileAccess.Write, FileShare.Read);
+                fs = zFile.Open(file, FileMode.Create, FileAccess.Write, FileShare.Read);
 
                 //DateTime dtFirstCatch = new DateTime(0);
                 DateTime dtFirstCatch = DateTime.Now;
@@ -241,7 +225,8 @@ namespace pb.Web
                         FileStream fs2 = fs;
                         fs = null;
                         fs2.Close();
-                        fs = new FileStream(file, FileMode.Create, FileAccess.Write, FileShare.Read);
+                        //fs = new FileStream(file, FileMode.Create, FileAccess.Write, FileShare.Read);
+                        fs = zFile.Open(file, FileMode.Create, FileAccess.Write, FileShare.Read);
                     }
                 }
             }
@@ -513,7 +498,7 @@ namespace pb.Web
                 //        break;
                 //}
                 // modif le 09/11/2015 ne gère plus les extensions inconnues ("/unknow_ext")
-                _resultContentType = GetContentTypeFromFileExtension(zPath.GetExtension(new Uri(_httpRequest.Url).LocalPath));
+                _resultContentType = HttpTools.GetContentTypeFromFileExtension(zPath.GetExtension(new Uri(_httpRequest.Url).LocalPath));
             }
         }
 
@@ -564,53 +549,6 @@ namespace pb.Web
         //    file = zPath.GetFileName(file);
         //    return file;
         //}
-
-        private static string GetFileExtensionFromContentType(string contentType)
-        {
-            contentType = contentType.ToLower();
-            // text/html
-            if (contentType.EndsWith("/html"))
-                return ".html";
-            // text/xml application/xml
-            else if (contentType.EndsWith("/xml"))
-                return ".xml";
-            else
-                return ".txt";
-        }
-
-        public static string GetContentTypeFromFileExtension(string ext)
-        {
-            //string contentType
-            switch (ext.ToLower())
-            {
-                case ".xml":
-                    return "text/xml";
-                case ".htm":
-                case ".html":
-                case ".asp":
-                case ".php":
-                    return "text/html";
-                case ".txt":
-                    return "text/txt";
-                case ".jpg":
-                case ".jpeg":
-                    return "image/jpeg";
-                case ".gif":
-                    return "image/gif";
-                case ".png":
-                    return "image/png";
-                case ".tiff":
-                    return "image/tiff";
-                case ".bmp":
-                    return "image/bmp";
-                default:
-                    return null;
-                //default:
-                //    if (ext.Length > 1)
-                //        _resultContentType = "/" + ext.Substring(1);
-                //    break;
-            }
-        }
 
         public static HttpRequestMethod GetHttpRequestMethod(string method)
         {

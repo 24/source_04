@@ -92,7 +92,10 @@ RunSource.CurrentRunSource.Compile_Project(@"..\..\..\..\Test\Test.Test_01\Sourc
 //****                                   Automate
 //*************************************************************************************************************************
 
-WebData.RunDownloadAutomate("test = true, runNow = true, stayRunning = true, loadNewPost = false, searchPostToDownload = false, sendMail = false, TraceLevel = 0");
+// test = true, loadNewPost = true, searchPostToDownload = true
+WebData.RunDownloadAutomate("test = true, runNow = true, stayRunning = true, loadNewPost = true, searchPostToDownload = true, sendMail = false, TraceLevel = 1");
+// test = true, loadNewPost = true
+WebData.RunDownloadAutomate("test = true, runNow = true, stayRunning = true, loadNewPost = true, searchPostToDownload = false, sendMail = false, TraceLevel = 1");
 
 // run now, load new post, dont search post to download, dont send mail
 WebData.RunDownloadAutomate("runNow = true, loadNewPost = true, searchPostToDownload = false, sendMail = false");
@@ -149,6 +152,16 @@ TraceMongoCommand.Count("dl", "QueueDownloadFile_new");
 TraceMongoCommand.Count("dl", "CurrentDownloadFile");
 //TraceMongoCommand.Eval("db.QueueDownloadFile_new.drop()", "dl");
 //TraceMongoCommand.Eval("db.CurrentDownloadFile.drop()", "dl");
+
+//TraceMongoCommand.Eval("db.TelechargerMagazine_Header_Test.drop()", "dl_test2");
+//TraceMongoCommand.Eval("db.TelechargerMagazine_Detail_Test.drop()", "dl_test2");
+TraceMongoCommand.Export("dl_test2", "TelechargerMagazine_Header_Test", Path.Combine(AppData.DataDirectory, @"sites\telecharger-magazine.com.test\mongo\export_TelechargerMagazine_Header_Test.txt"), sort: "{ '_id': -1 }");
+TraceMongoCommand.Export("dl_test2", "TelechargerMagazine_Detail_Test", Path.Combine(AppData.DataDirectory, @"sites\telecharger-magazine.com.test\mongo\export_TelechargerMagazine_Detail_Test.txt"), sort: "{ '_id': -1 }");
+//TraceMongoCommand.Eval("db.Vosbooks_Header_Test.drop()", "dl_test2");
+//TraceMongoCommand.Eval("db.Vosbooks_Detail_Test.drop()", "dl_test2");
+TraceMongoCommand.Export("dl_test2", "Vosbooks_Header_Test", Path.Combine(AppData.DataDirectory, @"sites\vosbooks.net.test\mongo\export_Vosbooks_Header_Test.txt"), sort: "{ '_id': -1 }");
+TraceMongoCommand.Export("dl_test2", "Vosbooks_Detail_Test", Path.Combine(AppData.DataDirectory, @"sites\vosbooks.net.test\mongo\export_Vosbooks_Detail_Test.txt"), sort: "{ '_id': -1 }");
+
 
 // old DownloadedFile : DownloadFile3
 pb.Data.Mongo.TraceMongoCommand.Export("dl", "DownloadFile3", Path.Combine(AppData.DataDirectory, @"mongo\export\Download\export_DownloadFile3.txt"), sort: "{ _id: 1 }");
@@ -5388,3 +5401,28 @@ TraceDataTable.Trace(BsonDocumentsToDataTable_v2.ToDataTable(Test_map_01.Transfo
 Test_map_01.CreateTopojsonData(@"c:\pib\_dl\dev\apps\map\topojson-map-generator\test\test_topojson\ne_110m_admin_0_countries.json", @"c:\pib\_dl\dev\apps\map\topojson-map-generator\test\test_topojson\ne_110m_admin_0_countries_data.txt");
 Test_map_01.CreateTopojsonData(@"c:\pib\_dl\dev\apps\map\topojson-map-generator\test\test_topojson\ne_50m_admin_0_countries.json", @"c:\pib\_dl\dev\apps\map\topojson-map-generator\test\test_topojson\ne_50m_admin_0_countries_data.txt");
 Test_map_01.CreateTopojsonData(@"c:\pib\_dl\dev\apps\map\topojson-map-generator\test\test_topojson\ne_10m_admin_0_countries.json", @"c:\pib\_dl\dev\apps\map\topojson-map-generator\test\test_topojson\ne_10m_admin_0_countries_data.txt");
+
+
+
+//***********************************************************************************************************************************************************
+//****                                                  Test_Data.project.xml
+//***********************************************************************************************************************************************************
+
+RunSource.CurrentRunSource.SetProjectFromSource();
+RunSource.CurrentRunSource.SetProject(@"$Root$\Lib\pb\Source\pb\Data\_Test\Test_Data.project.xml");
+Trace.WriteLine("toto");
+
+Test_NamingFormatter.Test_01();
+Test_NamingFormatter.Test_02();
+
+
+//***********************************************************************************************************************************************************
+//****                                                  Test_Utf8.project.xml
+//***********************************************************************************************************************************************************
+
+RunSource.CurrentRunSource.SetProjectFromSource();
+RunSource.CurrentRunSource.SetProject(@"$Root$\Lib\pb\Source\pb\Text\_Test\Test_Utf8.project.xml");
+Trace.WriteLine("toto");
+
+Test_Utf8.Test_WriteBom(@"c:\pib\_dl\test_01.txt");
+Test_Utf8.Test_ReadBom(@"c:\pib\_dl\test_01.txt");

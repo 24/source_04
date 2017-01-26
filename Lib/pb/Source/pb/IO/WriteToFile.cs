@@ -115,7 +115,8 @@ namespace pb.IO
             {
                 try
                 {
-                    fs = new FileStream(_file, FileMode.Append, FileAccess.Write, FileShare.Read);
+                    //fs = new FileStream(_file, FileMode.Append, FileAccess.Write, FileShare.Read);
+                    fs = zFile.Open(_file, FileMode.Append, FileAccess.Write, FileShare.Read);
                     break;
                 }
                 catch // (Exception ex)
@@ -171,7 +172,8 @@ namespace pb.IO
             if (_sw == null)
             {
                 GenerateFile();
-                FileStream fs = new FileStream(_file, FileMode.Append, FileAccess.Write, FileShare.Read);
+                //FileStream fs = new FileStream(_file, FileMode.Append, FileAccess.Write, FileShare.Read);
+                FileStream fs = zFile.Open(_file, FileMode.Append, FileAccess.Write, FileShare.Read);
                 _sw = new StreamWriter(fs, _encoding);
             }
         }

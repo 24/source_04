@@ -5,11 +5,12 @@ using pb.Data;
 using pb.IO;
 using pb.Web.Data;
 using System.Drawing;
+using pb.Web.Http;
 
 // todo :
 //   replace string url by HttpRequest
 
-namespace pb.Web
+namespace pb.Web.Data
 {
     public class WebImageCacheManager_v2
     {

@@ -30,13 +30,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.JScript" />
-    <Reference Include="MongoDB.Bson">
-      <HintPath>..\..\..\..\..\..\..\prog\dev\mongodb\driver\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Bson.dll</HintPath>
-    </Reference>
-    <Reference Include="MongoDB.Driver">
-      <HintPath>..\..\..\..\..\..\..\prog\dev\mongodb\driver\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Driver.dll</HintPath>
-    </Reference>
     <Reference Include="Pri.LongPath">
       <HintPath>..\..\..\RuntimeLibrary\LongPath\LongPath\Pri.LongPath.dll</HintPath>
     </Reference>
@@ -53,104 +46,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\Lib\pb\Source\pb\Compiler\AssemblyResolve.cs">
-      <Link>SourceLnk\Lib\pb\Compiler\AssemblyResolve.cs</Link>
+    <Compile Include="..\..\Lib\pb\Source\pb\Compiler\RunSourceCommand.cs">
+      <Link>SourceLnk\Lib\pb\Compiler\RunSourceCommand.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Compiler\CSharpCodeWriter.cs">
-      <Link>SourceLnk\Lib\pb\Compiler\CSharpCodeWriter.cs</Link>
+    <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\WebHeaderDetailMongoManagerBase_v3.cs">
+      <Link>SourceLnk\Lib\pb\Data\Mongo\WebHeaderDetailMongoManagerBase_v3.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Compiler\GenerateAssembly.cs">
-      <Link>SourceLnk\Lib\pb\Compiler\GenerateAssembly.cs</Link>
+    <Compile Include="..\..\Lib\pb\Source\pb\Data\NamedValues.cs">
+      <Link>SourceLnk\Lib\pb\Data\NamedValues.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Compiler\GenerateCSharpCode.cs">
-      <Link>SourceLnk\Lib\pb\Compiler\GenerateCSharpCode.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Compiler\ICompiler.cs">
-      <Link>SourceLnk\Lib\pb\Compiler\ICompiler.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Compiler\IRunSource.cs">
-      <Link>SourceLnk\Lib\pb\Compiler\IRunSource.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Compiler\RunCode.cs">
-      <Link>SourceLnk\Lib\pb\Compiler\RunCode.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Compiler\RunSource.cs">
-      <Link>SourceLnk\Lib\pb\Compiler\RunSource.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Compiler\RunSourceRunCode.cs">
-      <Link>SourceLnk\Lib\pb\Compiler\RunSourceRunCode.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Data\DataTable.cs">
-      <Link>SourceLnk\Lib\pb\Data\DataTable.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Data\FieldList.cs">
-      <Link>SourceLnk\Lib\pb\Data\FieldList.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Data\GClass.cs">
-      <Link>SourceLnk\Lib\pb\Data\GClass.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Data\IDocumentStore.cs">
-      <Link>SourceLnk\Lib\pb\Data\IDocumentStore.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Data\Image.cs">
-      <Link>SourceLnk\Lib\pb\Data\Image.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\BsonDocumentsToDataTable.cs">
-      <Link>SourceLnk\Lib\pb\Data\Mongo\BsonDocumentsToDataTable.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\Mongo.cs">
-      <Link>SourceLnk\Lib\pb\Data\Mongo\Mongo.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\MongoCommand.cs">
-      <Link>SourceLnk\Lib\pb\Data\Mongo\MongoCommand.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\MongoCursorCache.cs">
-      <Link>SourceLnk\Lib\pb\Data\Mongo\MongoCursorCache.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\MongoLog.cs">
-      <Link>SourceLnk\Lib\pb\Data\Mongo\MongoLog.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\Serializers\BsonPBSerializationProvider.cs">
-      <Link>SourceLnk\Lib\pb\Data\Mongo\Serializers\BsonPBSerializationProvider.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\Serializers\DateSerializer.cs">
-      <Link>SourceLnk\Lib\pb\Data\Mongo\Serializers\DateSerializer.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\Serializers\DefaultMongoSerializer.cs">
-      <Link>SourceLnk\Lib\pb\Data\Mongo\Serializers\DefaultMongoSerializer.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\Serializers\UrlImageSerializer.cs">
-      <Link>SourceLnk\Lib\pb\Data\Mongo\Serializers\UrlImageSerializer.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\Serializers\ZIntSerializer.cs">
-      <Link>SourceLnk\Lib\pb\Data\Mongo\Serializers\ZIntSerializer.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\Serializers\ZStringArraySerializer.cs">
-      <Link>SourceLnk\Lib\pb\Data\Mongo\Serializers\ZStringArraySerializer.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\Serializers\ZStringSerializer.cs">
-      <Link>SourceLnk\Lib\pb\Data\Mongo\Serializers\ZStringSerializer.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\Serializers\ZValueSerializer.cs">
-      <Link>SourceLnk\Lib\pb\Data\Mongo\Serializers\ZValueSerializer.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\_old\MongoDocumentStore_v4.cs">
-      <Link>SourceLnk\Lib\pb\Data\Mongo\_old\MongoDocumentStore_v4.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Data\Xml\Xml.cs">
-      <Link>SourceLnk\Lib\pb\Data\Xml\Xml.cs</Link>
+    <Compile Include="..\..\Lib\pb\Source\pb\Data\ParseNamedValues.cs">
+      <Link>SourceLnk\Lib\pb\Data\ParseNamedValues.cs</Link>
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Data\Xml\XmlConfig.cs">
       <Link>SourceLnk\Lib\pb\Data\Xml\XmlConfig.cs</Link>
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Data\Xml\XmlDescendant.cs">
       <Link>SourceLnk\Lib\pb\Data\Xml\XmlDescendant.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Data\Xml\XmlExport.cs">
-      <Link>SourceLnk\Lib\pb\Data\Xml\XmlExport.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Data\Xml\XmlSelect.cs">
-      <Link>SourceLnk\Lib\pb\Data\Xml\XmlSelect.cs</Link>
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Data\Xml\XmlWrite.cs">
       <Link>SourceLnk\Lib\pb\Data\Xml\XmlWrite.cs</Link>
@@ -161,173 +73,29 @@
     <Compile Include="..\..\Lib\pb\Source\pb\Data\ZValue.cs">
       <Link>SourceLnk\Lib\pb\Data\ZValue.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Data\_old\IDocumentStore_v4.cs">
-      <Link>SourceLnk\Lib\pb\Data\_old\IDocumentStore_v4.cs</Link>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\DataPages.cs">
+      <Link>SourceLnk\Lib\pb\Web\Data\DataPages.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\IO\File.cs">
-      <Link>SourceLnk\Lib\pb\IO\File.cs</Link>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\DataPages_v2.cs">
+      <Link>SourceLnk\Lib\pb\Web\Data\DataPages_v2.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\IO\FileOption.cs">
-      <Link>SourceLnk\Lib\pb\IO\FileOption.cs</Link>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\WebDataManager_v5.cs">
+      <Link>SourceLnk\Lib\pb\Web\Data\WebDataManager_v5.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\IO\Path.cs">
-      <Link>SourceLnk\Lib\pb\IO\Path.cs</Link>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\WebHeaderDetailManager_v5.cs">
+      <Link>SourceLnk\Lib\pb\Web\Data\WebHeaderDetailManager_v5.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\IO\StreamTransfer.cs">
-      <Link>SourceLnk\Lib\pb\IO\StreamTransfer.cs</Link>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Html\HtmlToXmlManager.cs">
+      <Link>SourceLnk\Lib\pb\Web\Html\HtmlToXmlManager.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\IO\WriteToFile.cs">
-      <Link>SourceLnk\Lib\pb\IO\WriteToFile.cs</Link>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Http\HttpRun_v2.cs">
+      <Link>SourceLnk\Lib\pb\Web\Http\HttpRun_v2.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\IO\WriteToFileCreate.cs">
-      <Link>SourceLnk\Lib\pb\IO\WriteToFileCreate.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\IO\zDirectory.cs">
-      <Link>SourceLnk\Lib\pb\IO\zDirectory.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\IO\zFile.cs">
-      <Link>SourceLnk\Lib\pb\IO\zFile.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\IO\ZipArchive.cs">
-      <Link>SourceLnk\Lib\pb\IO\ZipArchive.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\IO\zPath.cs">
-      <Link>SourceLnk\Lib\pb\IO\zPath.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Reflection\Reflection.cs">
-      <Link>SourceLnk\Lib\pb\NewFolder1\Reflection.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Reflection\TypeAccess.cs">
-      <Link>SourceLnk\Lib\pb\NewFolder1\TypeAccess.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Reflection\TypeReflection.cs">
-      <Link>SourceLnk\Lib\pb\Reflection\TypeReflection.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Reflection\TypeValues.cs">
-      <Link>SourceLnk\Lib\pb\Reflection\TypeValues.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Reflection\TypeView.cs">
-      <Link>SourceLnk\Lib\pb\NewFolder1\TypeView.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Text\Regex.cs">
-      <Link>SourceLnk\Lib\pb\Text\Regex.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Text\Split.cs">
-      <Link>SourceLnk\Lib\pb\Text\Split.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Text\String.cs">
-      <Link>SourceLnk\Lib\pb\Text\String.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Text\StringZones.cs">
-      <Link>SourceLnk\Lib\pb\Text\StringZones.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\WebDataManager.cs">
-      <Link>SourceLnk\Lib\pb\Web\Data\WebDataManager.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\WebDataPageManager.cs">
-      <Link>SourceLnk\Lib\pb\Web\Data\WebDataPageManager.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\WebHeaderDetailManager.cs">
-      <Link>SourceLnk\Lib\pb\Web\Data\WebHeaderDetailManager.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\WebImage.cs">
-      <Link>SourceLnk\Lib\pb\Web\Data\WebImage.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\WebLoadDataManager.cs">
-      <Link>SourceLnk\Lib\pb\Web\Data\WebLoadDataManager.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\WebLoadManager.cs">
-      <Link>SourceLnk\Lib\pb\Web\Data\WebLoadManager.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\_old\WebDataManager_v1.cs">
-      <Link>SourceLnk\Lib\pb\Web\Data\_old\WebDataManager_v1.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\_old\WebDataPageManager_v1.cs">
-      <Link>SourceLnk\Lib\pb\Web\Data\_old\WebDataPageManager_v1.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\_old\WebHeaderDetailManager_v1.cs">
-      <Link>SourceLnk\Lib\pb\Web\Data\_old\WebHeaderDetailManager_v1.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Web\Html\HtmlCharCodes.cs">
-      <Link>SourceLnk\Lib\pb\Web\Html\HtmlCharCodes.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Web\Html\HtmlReader.cs">
-      <Link>SourceLnk\Lib\pb\Web\Html\HtmlReader.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Web\Html\HtmlReaderBase.cs">
-      <Link>SourceLnk\Lib\pb\Web\Html\HtmlReaderBase.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Web\Html\HtmlReader_v2.cs">
-      <Link>SourceLnk\Lib\pb\Web\Html\HtmlReader_v2.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Web\Html\HtmlRun.cs">
-      <Link>SourceLnk\Lib\pb\Web\Html\HtmlRun.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Web\Html\HtmlTag.cs">
-      <Link>SourceLnk\Lib\pb\Web\Html\HtmlTag.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Web\Html\HtmlToXml.cs">
-      <Link>SourceLnk\Lib\pb\Web\Html\HtmlToXml.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Web\Http\Http.cs">
-      <Link>SourceLnk\Lib\pb\Web\Http\Http.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Web\Http\HttpRequest.cs">
-      <Link>SourceLnk\Lib\pb\Web\Http\HttpRequest.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Web\Http\HttpRun.cs">
-      <Link>SourceLnk\Lib\pb\Web\Http\HttpRun.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Web\Http\HttpXml.cs">
-      <Link>SourceLnk\Lib\pb\Web\Http\HttpXml.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Web\Http\Url.cs">
-      <Link>SourceLnk\Lib\pb\Web\Http\Url.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Web\Http\UrlCache.cs">
-      <Link>SourceLnk\Lib\pb\Web\Http\UrlCache.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Web\Http\XmlDocumentSourceType.cs">
-      <Link>SourceLnk\Lib\pb\Web\Http\XmlDocumentSourceType.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\_pb\Application.cs">
-      <Link>SourceLnk\Lib\pb\_pb\Application.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\_pb\Chrono.cs">
-      <Link>SourceLnk\Lib\pb\_pb\Chrono.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\_pb\Convert.cs">
-      <Link>SourceLnk\Lib\pb\_pb\Convert.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\_pb\Date.cs">
-      <Link>SourceLnk\Lib\pb\_pb\Date.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\_pb\Error.cs">
-      <Link>SourceLnk\Lib\pb\_pb\Error.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\_pb\FormatInfo.cs">
-      <Link>SourceLnk\Lib\pb\_pb\FormatInfo.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\_pb\GlobalExtension.cs">
-      <Link>SourceLnk\Lib\pb\_pb\GlobalExtension.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\_pb\IChrono.cs">
-      <Link>SourceLnk\Lib\pb\_pb\IChrono.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\_pb\ITrace.cs">
-      <Link>SourceLnk\Lib\pb\_pb\ITrace.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\_pb\NamedValue.cs">
-      <Link>SourceLnk\Lib\pb\_pb\NamedValue.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\_pb\ParseAs.cs">
-      <Link>SourceLnk\Lib\pb\_pb\ParseAs.cs</Link>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Http\HttpXml_v2.cs">
+      <Link>SourceLnk\Lib\pb\Web\Http\HttpXml_v2.cs</Link>
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\_pb\PBException.cs">
       <Link>SourceLnk\Lib\pb\_pb\PBException.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\_pb\Progress.cs">
-      <Link>SourceLnk\Lib\pb\_pb\Progress.cs</Link>
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\_pb\TextSerializer.cs">
       <Link>SourceLnk\Lib\pb\_pb\TextSerializer.cs</Link>
@@ -335,27 +103,26 @@
     <Compile Include="..\..\Lib\pb\Source\pb\_pb\Trace.cs">
       <Link>SourceLnk\Lib\pb\_pb\Trace.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\_pb\TraceError.cs">
-      <Link>SourceLnk\Lib\pb\_pb\TraceError.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\_pb\TraceLevel.cs">
-      <Link>SourceLnk\Lib\pb\_pb\TraceLevel.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\_pb\TraceSetWriter.cs">
-      <Link>SourceLnk\Lib\pb\_pb\TraceSetWriter.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\_pb\Tree.cs">
-      <Link>SourceLnk\Lib\pb\_pb\Tree.cs</Link>
+    <Compile Include="..\..\Lib\pb\Source\pb\_pb\TraceManager.cs">
+      <Link>SourceLnk\Lib\pb\_pb\TraceManager.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Source\WebData\project\WebData.cs" />
+    <Compile Include="Source\WebData\project\WebData_Handeco.cs" />
+    <Compile Include="Source\WebData\project\WebData_Unea.cs" />
     <Compile Include="Source\WebData\sites\cdefi.fr\Cdefi.cs" />
     <Compile Include="Source\WebData\sites\cdefi.fr\Cdefi_Detail.cs" />
     <Compile Include="Source\WebData\sites\cdefi.fr\Cdefi_Header.cs" />
+    <Compile Include="Source\WebData\sites\handeco.org\Handeco_v2.cs" />
+    <Compile Include="Source\WebData\sites\handeco.org\IKeyData_v4.cs" />
     <Compile Include="Source\WebData\sites\onisep.fr\OnisepInstitution.cs" />
     <Compile Include="Source\WebData\sites\onisep.fr\OnisepInstitution_Detail.cs" />
     <Compile Include="Source\WebData\sites\onisep.fr\OnisepInstitution_Header.cs" />
     <Compile Include="Source\WebData\sites\onisep.fr\OnisepInstitution_Xml.cs" />
-    <None Include="Source\WebData\project\hts.cs" />
+    <Compile Include="Source\WebData\sites\unea.fr\UneaData.cs" />
+    <Compile Include="Source\WebData\sites\unea.fr\UneaExport.cs" />
+    <Compile Include="Source\WebData\sites\unea.fr\Unea_v2.cs" />
+    <None Include="Source\WebData\project\hts.run.cs" />
     <Compile Include="Source\WebData\project\AppData.cs" />
     <Compile Include="Source\WebData\project\Run.cs" />
     <Compile Include="Source\WebData\sites\handeco.org\Handeco.cs" />
@@ -386,6 +153,9 @@
     <Content Include="Source\WebData\project\hts.config.xml">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Source\WebData\project\hts.dll.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Source\WebData\project\hts.project.xml">
       <SubType>Designer</SubType>
     </Content>
@@ -399,4 +169,226 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <ItemGroup>
+    <Reference Include="MongoDB.Bson">
+      <HintPath>..\..\..\library\Mongo\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Bson.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Driver">
+      <HintPath>..\..\..\library\Mongo\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Driver.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\Lib\pb\Source\pb\_pb\Application.cs">
+      <Link>SourceLnk\Lib\pb\_pb\Application.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\_pb\Convert.cs">
+      <Link>SourceLnk\Lib\pb\_pb\Convert.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\_pb\Error.cs">
+      <Link>SourceLnk\Lib\pb\_pb\Error.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\_pb\GlobalExtension.cs">
+      <Link>SourceLnk\Lib\pb\_pb\GlobalExtension.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\_pb\ParseAs.cs">
+      <Link>SourceLnk\Lib\pb\_pb\ParseAs.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\_pb\Progress.cs">
+      <Link>SourceLnk\Lib\pb\_pb\Progress.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\_pb\TraceLevel.cs">
+      <Link>SourceLnk\Lib\pb\_pb\TraceLevel.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Data\IDocumentStore.cs">
+      <Link>SourceLnk\Lib\pb\Data\IDocumentStore.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Data\Image.cs">
+      <Link>SourceLnk\Lib\pb\Data\Image.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\MongoBackup.cs">
+      <Link>SourceLnk\Lib\pb\Data\Mongo\MongoBackup.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\MongoCommand.cs">
+      <Link>SourceLnk\Lib\pb\Data\Mongo\MongoCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\MongoCursorCache.cs">
+      <Link>SourceLnk\Lib\pb\Data\Mongo\MongoCursorCache.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\MongoDataSerializer.cs">
+      <Link>SourceLnk\Lib\pb\Data\Mongo\MongoDataSerializer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\MongoDataStore.cs">
+      <Link>SourceLnk\Lib\pb\Data\Mongo\MongoDataStore.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\MongoIdGenerator.cs">
+      <Link>SourceLnk\Lib\pb\Data\Mongo\MongoIdGenerator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\MongoLog.cs">
+      <Link>SourceLnk\Lib\pb\Data\Mongo\MongoLog.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\WebHeaderDetailMongoManagerBase_v2.cs">
+      <Link>SourceLnk\Lib\pb\Data\Mongo\WebHeaderDetailMongoManagerBase_v2.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\zMongo.cs">
+      <Link>SourceLnk\Lib\pb\Data\Mongo\zMongo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\zMongoDB.cs">
+      <Link>SourceLnk\Lib\pb\Data\Mongo\zMongoDB.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Data\Xml\Xml.cs">
+      <Link>SourceLnk\Lib\pb\Data\Xml\Xml.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\IO\File.cs">
+      <Link>SourceLnk\Lib\pb\IO\File.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\IO\FileOption.cs">
+      <Link>SourceLnk\Lib\pb\IO\FileOption.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\IO\Path.cs">
+      <Link>SourceLnk\Lib\pb\IO\Path.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\IO\StreamTransfer.cs">
+      <Link>SourceLnk\Lib\pb\IO\StreamTransfer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\IO\WriteToFile.cs">
+      <Link>SourceLnk\Lib\pb\IO\WriteToFile.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\IO\WriteToFileCreate.cs">
+      <Link>SourceLnk\Lib\pb\IO\WriteToFileCreate.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\IO\zDirectory.cs">
+      <Link>SourceLnk\Lib\pb\IO\zDirectory.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\IO\zFile.cs">
+      <Link>SourceLnk\Lib\pb\IO\zFile.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\IO\zPath.cs">
+      <Link>SourceLnk\Lib\pb\IO\zPath.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Reflection\Reflection.cs">
+      <Link>SourceLnk\Lib\pb\Reflection\Reflection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Text\Split.cs">
+      <Link>SourceLnk\Lib\pb\Text\Split.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Text\StringZones.cs">
+      <Link>SourceLnk\Lib\pb\Text\StringZones.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\IEnumDataPages.cs">
+      <Link>SourceLnk\Lib\pb\Web\Data\IEnumDataPages.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\IHeaderData.cs">
+      <Link>SourceLnk\Lib\pb\Web\Data\IHeaderData.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\HeaderDetail.cs">
+      <Link>SourceLnk\Lib\pb\Web\Data\HeaderDetail.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\LoadNewDocumentsResult.cs">
+      <Link>SourceLnk\Lib\pb\Web\Data\LoadNewDocumentsResult.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\WebData.cs">
+      <Link>SourceLnk\Lib\pb\Web\Data\WebData.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\WebData_Load_v2.cs">
+      <Link>SourceLnk\Lib\pb\Web\Data\WebData_Load_v2.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\WebData_LoadImages_v3.cs">
+      <Link>SourceLnk\Lib\pb\Web\Data\WebData_LoadImages_v3.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\WebData_Result_v2.cs">
+      <Link>SourceLnk\Lib\pb\Web\Data\WebData_Result_v2.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\WebDataManager_v4.cs">
+      <Link>SourceLnk\Lib\pb\Web\Data\WebDataManager_v4.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\WebDataManager_v4_MongoDataStore.cs">
+      <Link>SourceLnk\Lib\pb\Web\Data\WebDataManager_v4_MongoDataStore.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\WebDataPageManager_v4.cs">
+      <Link>SourceLnk\Lib\pb\Web\Data\WebDataPageManager_v4.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\WebHeaderDetailManager_v4.cs">
+      <Link>SourceLnk\Lib\pb\Web\Data\WebHeaderDetailManager_v4.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\WebImage.cs">
+      <Link>SourceLnk\Lib\pb\Web\Data\WebImage.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\WebImageCacheManager_v3.cs">
+      <Link>SourceLnk\Lib\pb\Web\Data\WebImageCacheManager_v3.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\WebLoadDataManager_v2.cs">
+      <Link>SourceLnk\Lib\pb\Web\Data\WebLoadDataManager_v2.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\WebLoadImageManager_v2.cs">
+      <Link>SourceLnk\Lib\pb\Web\Data\WebLoadImageManager_v2.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\WebRequest.cs">
+      <Link>SourceLnk\Lib\pb\Web\Data\WebRequest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Http\Http_v2.cs">
+      <Link>SourceLnk\Lib\pb\Web\Http\Http_v2.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Http\HttpBase.cs">
+      <Link>SourceLnk\Lib\pb\Web\Http\HttpBase.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Http\Http_v2_LoadImage.cs">
+      <Link>SourceLnk\Lib\pb\Web\Http\Http_v2_LoadImage.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Http\Http_v2_LoadText.cs">
+      <Link>SourceLnk\Lib\pb\Web\Http\Http_v2_LoadText.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Http\Http_v2_LoadToFile.cs">
+      <Link>SourceLnk\Lib\pb\Web\Http\Http_v2_LoadToFile.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Http\HttpManager_v2.cs">
+      <Link>SourceLnk\Lib\pb\Web\Http\HttpManager_v2.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Http\HttpManager_v2_LoadImage.cs">
+      <Link>SourceLnk\Lib\pb\Web\Http\HttpManager_v2_LoadImage.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Http\HttpManager_v2_LoadText.cs">
+      <Link>SourceLnk\Lib\pb\Web\Http\HttpManager_v2_LoadText.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Http\HttpRequest.cs">
+      <Link>SourceLnk\Lib\pb\Web\Http\HttpRequest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Http\HttpTools.cs">
+      <Link>SourceLnk\Lib\pb\Web\Http\HttpTools.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Http\Url.cs">
+      <Link>SourceLnk\Lib\pb\Web\Http\Url.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Http\UrlCache.cs">
+      <Link>SourceLnk\Lib\pb\Web\Http\UrlCache.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\Lib\pb\Source\pb\Data\Xml\XDocumentCreator.cs">
+      <Link>SourceLnk\Lib\pb\Data\Xml\XDocumentCreator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\IO\CharStreamReader.cs">
+      <Link>SourceLnk\Lib\pb\IO\CharStreamReader.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\WebData_v2.cs">
+      <Link>SourceLnk\Lib\pb\Web\Data\WebData_v2.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\WebRequest_v2.cs">
+      <Link>SourceLnk\Lib\pb\Web\Data\WebRequest_v2.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Html\HtmlCharCodes.cs">
+      <Link>SourceLnk\Lib\pb\Web\Html\HtmlCharCodes.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Html\HtmlNode.cs">
+      <Link>SourceLnk\Lib\pb\Web\Html\HtmlNode.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Html\HtmlReader_v4.cs">
+      <Link>SourceLnk\Lib\pb\Web\Html\HtmlReader_v4.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Html\HtmlTag.cs">
+      <Link>SourceLnk\Lib\pb\Web\Html\HtmlTag.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Html\HtmlToXml_v3.cs">
+      <Link>SourceLnk\Lib\pb\Web\Html\HtmlToXml_v3.cs</Link>
+    </Compile>
+  </ItemGroup>
 </Project>

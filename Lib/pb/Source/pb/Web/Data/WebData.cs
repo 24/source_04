@@ -1,23 +1,24 @@
 ﻿using MongoDB.Bson;
 
+// todo :
+//   - mettre WebData<TData>._result dans un autre source il est utilisé par WebDataManager<TData>
+
 namespace pb.Web.Data
 {
-    public interface ILoadDocument<TData>
+    public interface ILoadData<TData>
     {
-        TData Document { get; set; }
-        bool DocumentLoaded { get; set; }
+        TData Data { get; set; }
+        bool DataLoaded { get; set; }
     }
 
-    public partial class WebData<TData> : ILoadDocument<TData>
+    public partial class WebData<TData> : ILoadData<TData>
     {
         private WebRequest _request;
-        private WebResult _result;
-        private HttpResult<string> _result_v2;
         //private bool _error;
-        private TData _document;
-        private bool _documentLoaded;
-        private bool _documentLoadedFromWeb;
-        private bool _documentLoadedFromStore;
+        private TData _data;
+        private bool _dataLoaded;
+        private bool _dataLoadedFromWeb;
+        private bool _dataLoadedFromStore;
         private BsonValue _id = null;
         private BsonValue _key = null;
 
@@ -27,12 +28,10 @@ namespace pb.Web.Data
         }
 
         public WebRequest Request { get { return _request; } }
-        public WebResult Result { get { return _result; } set { _result = value; } }
-        public HttpResult<string> Result_v2 { get { return _result_v2; } }
         //public bool Error { get { return _error; } }
-        public TData Document { get { return _document; } set { _document = value; } }
-        public bool DocumentLoaded { get { return _documentLoaded; } set { _documentLoaded = value; } }
-        public bool DocumentLoadedFromWeb { get { return _documentLoadedFromWeb; } set { _documentLoadedFromWeb = value; } }
-        public bool DocumentLoadedFromStore { get { return _documentLoadedFromStore; } set { _documentLoadedFromStore = value; } }
+        public TData Data { get { return _data; } set { _data = value; } }
+        public bool DataLoaded { get { return _dataLoaded; } set { _dataLoaded = value; } }
+        public bool DataLoadedFromWeb { get { return _dataLoadedFromWeb; } set { _dataLoadedFromWeb = value; } }
+        public bool DataLoadedFromStore { get { return _dataLoadedFromStore; } set { _dataLoadedFromStore = value; } }
     }
 }

@@ -14,5 +14,6 @@
   <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\MongoExtension.project.xml" />
   <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\MongoDefaultSerializer.project.xml" />
   <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\MongoWebHeaderSerializer.project.xml" />
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\HttpRun.project.xml" />
   <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\HtmlRun.project.xml" />
 </AssemblyProject>

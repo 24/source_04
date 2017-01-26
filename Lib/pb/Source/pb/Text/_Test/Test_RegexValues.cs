@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
-using pb;
 using pb.Data;
-using pb.Text;
 
-namespace Test.Test_Text
+namespace pb.Text.Test
 {
     public static class Test_RegexValues
     {

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using pb.Web.old;
+using pb.Web.Http.old;
 
-namespace pb.Web.old
+namespace pb.Web.Data.old
 {
     public abstract class LoadWebDataPages_v1<T> : IEnumerable<T>, IEnumerator<T>
     {

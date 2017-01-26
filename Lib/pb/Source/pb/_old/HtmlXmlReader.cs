@@ -1,20 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading;
 using System.Xml;
 using System.Xml.Linq;
-using pb;
-using pb.Data.Xml;
 using pb.IO;
-using pb.Web;
-using pb.Web.old;
+using pb.Web.Http;
+using pb.Web.Html;
+using pb.Web.Http.old;
 
 namespace pb.old
 {
@@ -357,7 +353,7 @@ namespace pb.old
                 {
                     using (StringReader sr = new StringReader(_xmlHtmlSource))
                     {
-                        HtmlToXml hx = new HtmlToXml(sr);
+                        HtmlToXml_v2 hx = new HtmlToXml_v2(sr);
                         hx.ReadCommentInText = _webReadCommentInText;
                         _xmlDocument = hx.GenerateXmlDocument();
                     }
@@ -394,7 +390,7 @@ namespace pb.old
                 {
                     using (StringReader sr = new StringReader(_xmlHtmlSource))
                     {
-                        HtmlToXml hx = new HtmlToXml(sr);
+                        HtmlToXml_v2 hx = new HtmlToXml_v2(sr);
                         hx.ReadCommentInText = _webReadCommentInText;
                         _xDocument = hx.GenerateXDocument();
                     }

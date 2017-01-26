@@ -142,7 +142,7 @@ namespace pb.Compiler
                 }
                 catch (Exception ex)
                 {
-                    Trace.CurrentTrace.WriteError(ex);
+                    Trace.WriteError(ex);
                 }
             }
         }

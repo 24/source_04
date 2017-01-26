@@ -1,4 +1,4 @@
-﻿using pb.Data.Mongo;
+﻿using pb.Data.Mongo;      // use mongo to import and export request (_ExportRequest() use .zSave(), _ImportRequest() use zmongo.ReadFileAs<>(file))
 using pb.IO;
 using pb.Text;
 using System;
@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading;
 
 // save encoding
-namespace pb.Web
+namespace pb.Web.Http
 {
     public class HttpLog
     {
@@ -109,7 +109,7 @@ namespace pb.Web
 
         public HttpBase(HttpLog httpLog)
         {
-            ImportRequest(httpLog);
+            _ImportRequest(httpLog);
             SetHttpRequest(httpLog);
         }
 
@@ -121,6 +121,7 @@ namespace pb.Web
         public HttpRequest HttpRequest { get { return _httpRequest; } }
         public int LoadRetryTimeout { get { return _loadRetryTimeout; } set { _loadRetryTimeout = value; } }
         public string ExportFile { get { return _exportFile; } set { _exportFile = value; } }
+        public bool ExportRequest { get { return _exportRequest; } set { _exportRequest = value; } }
         public bool SetExportFileExtension { get { return _setExportFileExtension; } set { _setExportFileExtension = value; } }
         public DateTime RequestTime { get { return _requestTime; } }
         public TimeSpan RequestDuration { get { return _requestDuration; } }
@@ -226,7 +227,7 @@ namespace pb.Web
 
             //_cacheFile = true;
             //ImportRequest(_httpRequest.Url);
-            ImportRequest(_httpRequest.UrlCachePath.Path);
+            _ImportRequest(_httpRequest.UrlCachePath.Path);
         }
 
         private void CreateWebRequest()
@@ -533,7 +534,7 @@ namespace pb.Web
                     _exportFile = zpath.PathSetExtension(_exportFile, GetFileExtensionFromContentType(_resultContentType));
                 zfile.WriteFile(_exportFile, text);
                 if (_exportRequest)
-                    ExportRequest(_exportFile);
+                    _ExportRequest(_exportFile);
             }
         }
 
@@ -572,21 +573,21 @@ namespace pb.Web
             return _httpResponseLog;
         }
 
-        protected void ExportRequest(string file)
+        protected void _ExportRequest(string file)
         {
             //new HttpResponseLog(_webRequest, _httpRequest.Content, _webResponse).zSave(zpath.PathSetExtension(file, ".request.json"));
             GetHttpLog().zSave(zpath.PathSetExtension(file, ".request.json"), jsonIndent: true);
         }
 
-        private void ImportRequest(string file)
+        private void _ImportRequest(string file)
         {
             file = zpath.PathSetExtension(file, ".request.json");
             if (!zFile.Exists(file))
                 throw new PBException($"request file not found \"{file}\"");
-            ImportRequest(zmongo.ReadFileAs<HttpLog>(file));
+            _ImportRequest(zMongo.ReadFileAs<HttpLog>(file));
         }
 
-        private void ImportRequest(HttpLog httpLog)
+        private void _ImportRequest(HttpLog httpLog)
         {
             _httpRequestLog = httpLog.Request;
             _httpResponseLog = httpLog.Response;

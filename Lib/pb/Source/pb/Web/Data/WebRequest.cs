@@ -1,4 +1,4 @@
-﻿using System;
+﻿using pb.Web.Http;
 
 namespace pb.Web.Data
 {
@@ -17,19 +17,6 @@ namespace pb.Web.Data
         public bool ReloadFromWeb { get { return _reloadFromWeb; } set { _reloadFromWeb = value; } }
         public WebImageRequest ImageRequest { get { return _imageRequest; } set { _imageRequest = value; } }
         public bool RefreshDocumentStore { get { return _refreshDocumentStore; } set { _refreshDocumentStore = value; } }
-    }
-
-    // used by :
-    //   - WebLoadManager
-    //   - WebLoadDataManager<TData>
-    //   - WebData<TData>
-    public class WebResult
-    {
-        public WebRequest WebRequest;
-        public Http Http;
-        public bool LoadResult = false;
-        public DateTime LoadFromWebDate;
-        public UrlCachePathResult UrlCachePathResult;
     }
 
     // used by :

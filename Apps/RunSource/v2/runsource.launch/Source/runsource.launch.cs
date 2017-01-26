@@ -26,7 +26,9 @@ namespace runsource_launch
                 while (true)
                 {
                     __config = new XmlConfig(__configFile);
-                    Trace.CurrentTrace.SetWriter(__config.Get("Log").zRootPath(zapp.GetAppDirectory()), __config.Get("Log/@option").zTextDeserialize(FileOption.None));
+                    //Trace.CurrentTrace.SetWriter(__config.Get("Log").zRootPath(zapp.GetAppDirectory()), __config.Get("Log/@option").zTextDeserialize(FileOption.None));
+                    TraceManager.Current.AddTrace(Trace.Current);
+                    TraceManager.Current.SetWriter(__config.Get("Log").zRootPath(zapp.GetAppDirectory()), __config.Get("Log/@option").zTextDeserialize(FileOption.None));
                     //__traceUpdate = __config.Get("UpdateRunSource/TraceUpdate").zTryParseAs(false);
                     zUpdateFiles.Trace = __config.Get("UpdateRunSource/TraceUpdate").zTryParseAs(false);
 

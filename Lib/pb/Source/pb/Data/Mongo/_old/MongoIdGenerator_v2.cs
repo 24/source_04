@@ -115,7 +115,7 @@ namespace pb.Data.Mongo.old
         private MongoCollection GetCollection()
         {
             if (_collection == null)
-                _collection = zmongo.GetCollection(_collectionName, _databaseName, _serverName);
+                _collection = zMongoDB.GetCollection(_collectionName, _databaseName, _serverName);
             return _collection;
         }
 
@@ -127,14 +127,14 @@ namespace pb.Data.Mongo.old
                 toDatabase = fromDatabase;
             Trace.WriteLine("transfert last id from collection \"{0}\" last id collection \"{1}\" database \"{2}\" server \"{3}\" to collection \"{4}\" database \"{5}\" server \"{6}\"",
                 IdGeneratorCollection, fromCollection, fromDatabase, fromServer, toCollection, toDatabase, toServer);
-            MongoCollection collection = zmongo.GetCollection(fromDatabase, IdGeneratorCollection, fromServer);
+            MongoCollection collection = zMongoDB.GetCollection(fromDatabase, IdGeneratorCollection, fromServer);
             if (!collection.Exists())
                 throw new PBException("collection not found \"{0}\" database \"{1}\" server \"{2}\"", IdGeneratorCollection, fromDatabase, fromServer);
             BsonDocument doc = collection.FindOneAs<BsonDocument>(new QueryDocument { { "collection", fromCollection } });
             if (doc == null)
                 throw new PBException("last id not found for collection \"{0}\"", fromCollection);
             int lastId = doc["lastId"].AsInt32;
-            collection = zmongo.GetCollection(toDatabase, toCollection, toServer);
+            collection = zMongoDB.GetCollection(toDatabase, toCollection, toServer);
             doc = collection.FindOneAs<BsonDocument>(new QueryDocument { { "_id", 0 } });
             if (doc != null)
                 throw new PBException("document _id 0 exists already in collection \"{0}\" database \"{1}\" server \"{2}\"", toCollection, toDatabase, toServer);

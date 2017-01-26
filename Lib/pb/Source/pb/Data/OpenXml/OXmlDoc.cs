@@ -609,7 +609,8 @@ namespace pb.Data.OpenXml
             ImagePart imagePart = _mainPart.AddImagePart(GetImagePartType(zPath.GetExtension(file)));
             _embeddedReference = _mainPart.GetIdOfPart(imagePart);
 
-            using (FileStream stream = new FileStream(file, FileMode.Open))
+            //using (FileStream stream = new FileStream(file, FileMode.Open))
+            using (FileStream stream = zFile.Open(file, FileMode.Open))
             {
                 imagePart.FeedData(stream);
             }

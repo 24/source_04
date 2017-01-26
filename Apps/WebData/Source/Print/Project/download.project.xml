@@ -15,7 +15,10 @@
 
   <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\Basic.project.xml" />
   <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\Extension_01.dll.project.xml" />
-  <IncludeProject                   value = "download.source.project.xml" />
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\WebData.project.xml" />
+  <IncludeProject                   value = "DownloadAutomate.project.xml" />
+  <IncludeProject                   value = "DownloadRun.project.xml" />
+  <!--<IncludeProject                   value = "download.source.project.xml" />-->
 
   <NameSpace                        value = "Download.Print" />
   
@@ -36,7 +39,7 @@
 
   <Using                            value = "System.IO" />
   <Using                            value = "System.Linq" />
-  <Using                            value = "System.Xml.Linq" />
+  <!--<Using                            value = "System.Xml.Linq" />-->
   <Using                            value = "System.Xml.XPath" />
   <Using                            value = "MongoDB.Bson" />
   <Using                            value = "MongoDB.Driver" />
@@ -44,14 +47,14 @@
   <Using                            value = "pb.Data" />
   <Using                            value = "pb.Data.Mongo" />
   <Using                            value = "pb.Data.Xml" />
-  <Using                            value = "pb.Linq" />
+  <!--<Using                            value = "pb.Linq" />-->
   <Using                            value = "pb.Text" />
   <Using                            value = "pb.Web" />
   <Using                            value = "pb.Web.Data" />
-  <Using                            value = "Download.Print.Ebookdz" />
+  <!--<Using                            value = "Download.Print.Ebookdz" />
   <Using                            value = "Download.Print.ExtremeDown" />
-  <Using                            value = "Download.Print.Vosbooks" />
-  <Using                            value = "Download.Print.TelechargerMagazine" />
+  <Using                            value = "Download.Print.Vosbooks" />-->
+  <!--<Using                            value = "Download.Print.TelechargerMagazine" />-->
 
   <!-- temp source   -->
   <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Data\Xml\XmlSerialize.cs" />-->

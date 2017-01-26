@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <ItemGroup>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\IEnumDataPages.cs">
+      <Link>SourceLnk\Lib\pb\Web\Data\IEnumDataPages.cs</Link>
+    </Compile>
+  </ItemGroup>
+</Project>

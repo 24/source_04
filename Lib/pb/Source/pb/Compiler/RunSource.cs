@@ -380,7 +380,7 @@ namespace pb.Compiler
         //    compiler.ZipSourceFiles(zipFile.zRootPath(zPath.GetDirectoryName(pathProject)));
         //}
 
-        // not used le 04/12/2016, pourquoi ??
+        // not used le 04/12/2016, it is used from runsource to compile a project
         public IProjectCompiler CompileProject(string projectName)
         {
             // - compile assembly project (like runsource.dll.project.xml) and runsource project (like download.project.xml)
@@ -483,7 +483,7 @@ namespace pb.Compiler
                 s += string.Format(" ({0} / {1})", value, total);
             //if (Trace.CurrentTrace.TraceLevel >= 2)
             //    Trace.WriteLine("{0:yyyy-MM-dd HH:mm:ss} {1}", DateTime.Now, s);
-            Trace.WriteLine(2, "{0:yyyy-MM-dd HH:mm:ss} {1}", DateTime.Now, s);
+            TraceLevel.WriteLine(2, "{0:yyyy-MM-dd HH:mm:ss} {1}", DateTime.Now, s);
             ProgressChange(value, total, s);
         }
     }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace pb.Web
+namespace pb.Web.Data
 {
     //public abstract class DebridLinkInfo
     //{

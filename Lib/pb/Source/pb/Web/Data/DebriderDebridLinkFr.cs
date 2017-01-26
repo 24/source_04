@@ -1,7 +1,7 @@
 ﻿using MongoDB.Bson;
 using pb.Data.Mongo;
 
-namespace pb.Web
+namespace pb.Web.Data
 {
     public class DebriderDebridLinkFr : Debrider
     {

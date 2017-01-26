@@ -58,9 +58,9 @@ namespace Download.Print.Ebookdz
                 foreach (PostHeader forumHeader in Ebookdz_ForumHeader.Current.LoadPages(new HttpRequest { Url = forum.UrlDetail }, maxPage: maxPage, reload: reloadForumHeader))
                 {
                     WebData<Ebookdz_PostDetail> webData = Ebookdz.Current.DetailDataManager.Load(new WebRequest { HttpRequest = new HttpRequest { Url = forumHeader.UrlDetail },  ReloadFromWeb = reloadDetail });
-                    if (webData.DocumentLoadedFromStore)
+                    if (webData.DataLoadedFromStore)
                         nbDocumentLoadedFromStore++;
-                    if (webData.DocumentLoadedFromWeb)
+                    if (webData.DataLoadedFromWeb)
                     {
                         nbDocumentLoadedFromWeb++;
                         if (nbDocumentLoadedFromWeb == maxNbDocumentsLoadedFromStore)

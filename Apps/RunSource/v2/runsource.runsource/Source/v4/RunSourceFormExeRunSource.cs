@@ -101,7 +101,7 @@ namespace runsourced
             RazProgress();
 
             //_trace.WriteLine("_RunCode {0} {1} {2} {3}", runOnMainThread, allowMultipleRun, runWithoutProject, forceCallInit);
-            _trace.WriteLine(GetRunSourceStatusRunType(runOnMainThread, allowMultipleRun, runWithoutProject, callInit));
+            Trace.WriteLine(GetRunSourceStatusRunType(runOnMainThread, allowMultipleRun, runWithoutProject, callInit));
 
             _stopButton.Enabled = true;
             //_runSource.RunCode(GetCode(), useNewThread, compileWithoutProject);
@@ -168,7 +168,7 @@ namespace runsourced
         {
             cancel = false;
             int timeout = _config.Get("AbortThreadExecutionTimeout").zTryParseAs(30);
-            _trace.WriteLine("Abort execution process (Timeout {0} sec)", timeout);
+            Trace.WriteLine("Abort execution process (Timeout {0} sec)", timeout);
             _runSource.AbortExecution(true);
             DateTime dt = DateTime.Now;
             while (true)
@@ -178,7 +178,7 @@ namespace runsourced
                     Application.DoEvents();
                     if (!_runSource.IsRunning())
                     {
-                        _trace.WriteLine("Execution process aborted");
+                        Trace.WriteLine("Execution process aborted");
                         return;
                     }
                     TimeSpan ts = DateTime.Now.Subtract(dt);
@@ -198,11 +198,11 @@ namespace runsourced
             }
             if (!_runSource.IsRunning())
             {
-                _trace.WriteLine("No thread execution process");
+                Trace.WriteLine("No thread execution process");
                 return;
             }
             timeout = _config.Get("ForceAbortThreadExecutionTimeout").zTryParseAs(30);
-            _trace.WriteLine("Force abort of execution process (Timeout {0})", timeout);
+            Trace.WriteLine("Force abort of execution process (Timeout {0})", timeout);
             _runSource.ForceAbortExecution();
             dt = DateTime.Now;
             while (true)
@@ -214,13 +214,13 @@ namespace runsourced
                 TimeSpan ts = DateTime.Now.Subtract(dt);
                 if (ts.Seconds > timeout)
                 {
-                    _trace.WriteLine("Impossible to abort execution process");
+                    Trace.WriteLine("Impossible to abort execution process");
                     MessageBox.Show("Impossible to abort execution process.", "RunSource", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     cancel = true;
                     return;
                 }
             }
-            _trace.WriteLine("Execution process aborted");
+            Trace.WriteLine("Execution process aborted");
             UpdateRunSourceFormLayout();
         }
 
@@ -347,16 +347,16 @@ namespace runsourced
             {
                 try
                 {
-                    _trace.Write("Process completed ");
+                    Trace.Write("Process completed ");
                     if (endRunCodeInfo.RunCodeChrono != null)
-                        _trace.Write(endRunCodeInfo.RunCodeChrono.TotalTimeString);
+                        Trace.Write(endRunCodeInfo.RunCodeChrono.TotalTimeString);
                     else
-                        _trace.Write("----");
-                    _trace.WriteLine();
+                        Trace.Write("----");
+                    Trace.WriteLine();
                 }
                 catch (Exception ex)
                 {
-                    _trace.WriteError(ex);
+                    Trace.WriteError(ex);
                     zerrf.ErrorMessageBox(ex);
                 }
 
@@ -391,7 +391,7 @@ namespace runsourced
                 }
                 catch (Exception ex)
                 {
-                    _trace.WriteError(ex);
+                    Trace.WriteError(ex);
                 }
 
                 //_executeButton.Enabled = true;

@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using pb.Web.Http;
+using System.Collections.Generic;
 
-namespace pb.Web
+namespace pb.Web.Data
 {
     public class DebriderAlldebrid : Debrider
     {
@@ -54,7 +55,7 @@ namespace pb.Web
                 pb.Trace.Write("DebriderAlldebrid.DebridLink() : \"{0}\"", link);
             string url = string.Format(__url, _login, _password, link);
             //Http2.LoadUrl(url);
-            Http http = HttpManager.CurrentHttpManager.Load(new HttpRequest { Url = url });
+            Http.Http http = HttpManager.CurrentHttpManager.Load(new HttpRequest { Url = url });
             //string debridLink = Http2.HtmlReader.http.TextResult;
             string debridLink = http.ResultText;
             if (__trace)

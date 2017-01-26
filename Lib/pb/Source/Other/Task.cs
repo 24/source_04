@@ -14,7 +14,7 @@ namespace PB_Library
         string TaskName { get; }
         event TaskEventHandler TaskEnded;
         //Trace TaskTrace { get; }
-        ITrace TaskTrace { get; }
+        //ITrace TaskTrace { get; }
         Progress TaskProgress { get; }
         Progress TaskProgressDetail { get; }
         void ExecuteTask();
@@ -93,7 +93,7 @@ namespace PB_Library
         #region property
         public string TaskName { get { return gTaskName; } }
         //public cTraced TaskTrace { get { return null; } }
-        public ITrace TaskTrace { get { return null; } }
+        //public ITrace TaskTrace { get { return null; } }
         public Progress TaskProgress { get { return null; } }
         public Progress TaskProgressDetail { get { return null; } }
         public Thread Thread
@@ -174,8 +174,7 @@ namespace PB_Library
             if (gThread == null) return;
             string s = "unknow";
             if (gCurrentTask != null) s = gCurrentTask.TaskName;
-            //cTrace.Trace("Abort tast {0}", s);
-            Trace.CurrentTrace.WriteLine("Abort tast {0}", s);
+            Trace.WriteLine("Abort tast {0}", s);
             gThread.Abort();
         }
         #endregion

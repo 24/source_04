@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using MongoDB.Bson;
+using pb.Web.Http;
 
 namespace pb.Web.Data
 {
@@ -14,9 +15,10 @@ namespace pb.Web.Data
         protected WebLoadDataManager_v2<TData> _webLoadDataManager = null;
         //protected IDocumentStore<TData> _documentStore = null;
         protected bool _desactivateDocumentStore = false;
-        protected bool _generateId = false;
+        //protected bool _generateId = false;
         protected Func<HttpRequest, BsonValue> _getKeyFromHttpRequest = null;
         protected WebLoadImageManager_v2<TData> _webLoadImageManager = null;
+        protected Func<WebData<TData>, string> _getImageSubDirectory = null;
 
         //public int Version { get { return _version; } set { _version = value; } }
         public WebLoadDataManager_v2<TData> WebLoadDataManager { get { return _webLoadDataManager; } set { _webLoadDataManager = value; } }
@@ -24,6 +26,7 @@ namespace pb.Web.Data
         public bool DesactivateDocumentStore { get { return _desactivateDocumentStore; } set { _desactivateDocumentStore = value; } }
         public Func<HttpRequest, BsonValue> GetKeyFromHttpRequest { get { return _getKeyFromHttpRequest; } set { _getKeyFromHttpRequest = value; } }
         public WebLoadImageManager_v2<TData> WebLoadImageManager { get { return _webLoadImageManager; } set { _webLoadImageManager = value; } }
+        public Func<WebData<TData>, string> GetImageSubDirectory { get { return _getImageSubDirectory; } set { _getImageSubDirectory = value; } }
 
         public WebDataManager_v4()
         {

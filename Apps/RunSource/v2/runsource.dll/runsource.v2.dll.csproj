@@ -108,17 +108,20 @@
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\Compiler\RunSource.cs">
       <Link>SourceLnk\Lib\pb\Compiler\RunSource.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Compiler\RunSourceCompileProjects.cs">
-      <Link>SourceLnk\Lib\pb\Compiler\RunSourceCompileProjects.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Compiler\RunSourceExecution.cs">
-      <Link>SourceLnk\Lib\pb\Compiler\RunSourceExecution.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\Compiler\RunSourceInitEndMethods_v2.cs">
       <Link>SourceLnk\Lib\pb\Compiler\RunSourceInitEndMethods_v2.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Compiler\RunSourceRunCode.cs">
-      <Link>SourceLnk\Lib\pb\Compiler\RunSourceRunCode.cs</Link>
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Compiler\RunSource_CompileProjects.cs">
+      <Link>SourceLnk\Lib\pb\Compiler\RunSource_CompileProjects.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Compiler\RunSource_Execution.cs">
+      <Link>SourceLnk\Lib\pb\Compiler\RunSource_Execution.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Compiler\RunSource_Options.cs">
+      <Link>SourceLnk\Lib\pb\Compiler\RunSource_Options.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Compiler\RunSource_RunCode.cs">
+      <Link>SourceLnk\Lib\pb\Compiler\RunSource_RunCode.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\Compiler\Win32ResourceCompiler.cs">
       <Link>SourceLnk\Lib\pb\Compiler\Win32ResourceCompiler.cs</Link>
@@ -165,6 +168,9 @@
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\IO\ZipArchive.cs">
       <Link>SourceLnk\Lib\pb\IO\ZipArchive.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\IO\zPath.cs">
+      <Link>SourceLnk\Lib\pb\IO\zPath.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\IO\zUpdateFiles.cs">
       <Link>SourceLnk\Lib\pb\IO\zUpdateFiles.cs</Link>
     </Compile>
@@ -179,6 +185,9 @@
     </Compile>
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\Text\StringZones.cs">
       <Link>SourceLnk\Lib\pb\Text\StringZones.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\Application.cs">
+      <Link>SourceLnk\Lib\pb\_pb\Application.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\Chrono.cs">
       <Link>SourceLnk\Lib\pb\_pb\Chrono.cs</Link>
@@ -198,20 +207,11 @@
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\ParseAs.cs">
       <Link>SourceLnk\Lib\pb\_pb\ParseAs.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\PBException.cs">
-      <Link>SourceLnk\Lib\pb\_pb\PBException.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\Trace.cs">
-      <Link>SourceLnk\Lib\pb\_pb\Trace.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\TraceError.cs">
-      <Link>SourceLnk\Lib\pb\_pb\TraceError.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\TraceLevel.cs">
       <Link>SourceLnk\Lib\pb\_pb\TraceLevel.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\TraceSetWriter.cs">
-      <Link>SourceLnk\Lib\pb\_pb\TraceSetWriter.cs</Link>
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\TraceManager.cs">
+      <Link>SourceLnk\Lib\pb\_pb\TraceManager.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -226,11 +226,7 @@
       <Name>runsource.v2.irunsource</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="SourceLnk\Lib\pb\Web\Html\" />
-    <Folder Include="SourceLnk\Lib\pb\Web\Http\" />
-    <Folder Include="SourceLnk\Lib\pb\Windows\Win32\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

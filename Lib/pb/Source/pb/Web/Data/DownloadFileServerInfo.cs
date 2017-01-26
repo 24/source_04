@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 
-namespace pb.Web
+namespace pb.Web.Data
 {
     public class DownloadFileServerInfo
     {

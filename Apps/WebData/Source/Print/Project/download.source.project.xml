@@ -7,8 +7,8 @@
   <!-- temp source   -->
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Xml\XmlSerialize.cs" />
 
-  <Source                           value = "DownloadRun.cs" />
   <Source                           value = "AppData.cs" />
+  <Source                           value = "DownloadRun.cs" />
 
   <Source                           value = "$Root$\Apps\MyDownloader\MyDownloader.Core\Service\DownloaderState.cs" />
   <Source                           value = "$Root$\Apps\MyDownloader\MyDownloader.Core\Service\IDownloadManagerService.cs" />
@@ -194,6 +194,4 @@
   <Assembly                         value = "$Root$\..\library\Mongo\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Driver.dll" resolve = "true" resolveName = "MongoDB.Driver, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />
   <Assembly                         value = "$Root$\..\library\itextsharp\itextsharp-all-5.5.2\itextsharp.dll" resolve = "true" resolveName = "itextsharp, Version=5.5.2.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca" />
   <Assembly                         value = "$Root$\..\library\SharpCompress\SharpCompress0.10.3\Full\SharpCompress.dll" resolve = "true" resolveName = "SharpCompress, Version=0.10.3.0, Culture=neutral, PublicKeyToken=beaf6f427e128133" />
-
-  
 </AssemblyProject>

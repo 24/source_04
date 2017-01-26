@@ -4,6 +4,7 @@
   <UpdateDirectory                             value = "$OutputDirectory$\update" />
   <Project                                     value = "runsource.irunsource\runsource.irunsource.project.xml" />
   <Project                                     value = "runsource.dll\runsource.dll.project.xml" copyOutput = "$OutputDirectory$\new" copyToUpdateDirectory = "true" />
+  <Project                                     value = "runsource.command\runsource.command.project.xml" copyOutput = "$OutputDirectory$\new" copyToUpdateDirectory = "true" />
   <Project                                     value = "runsource.runsource\runsource.runsource.project.xml" copyOutput = "$OutputDirectory$\new" copyToUpdateDirectory = "true" />
   <Project                                     value = "runsource.launch\runsource.launch.project.xml" copyOutput = "$OutputDirectory$\new" />
 </Projects>

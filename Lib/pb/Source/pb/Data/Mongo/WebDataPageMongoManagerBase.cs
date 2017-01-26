@@ -3,6 +3,7 @@ using System.Text;
 using System.Xml.Linq;
 using MongoDB.Bson;
 using pb.Data.Mongo;
+using pb.Web.Http;
 
 namespace pb.Web.Data.Mongo
 {

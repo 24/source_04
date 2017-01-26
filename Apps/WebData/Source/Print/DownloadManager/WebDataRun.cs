@@ -6,7 +6,7 @@ namespace Download.Print
 {
     static partial class WebData
     {
-        private static bool __serverInitialized = false;
+        private static bool _serverInitialized = false;
 
         public static void RunDownloadAutomate(string parameters = null)
         {
@@ -58,26 +58,41 @@ namespace Download.Print
             bool test = WebData.GetTestValue(parameters2);
             DownloadAutomateManagerCreator downloadAutomateManagerCreator = GetDownloadAutomateManagerCreator(parameters2, test);
             DownloadAutomateManager downloadAutomateManager = downloadAutomateManagerCreator.Create();
-            InitServers(test);
+            //InitServers(test);
+            InitServers_v2(test);
             downloadAutomateManager.AddServerManagers(downloadAutomateManagerCreator.CreateServerManagers());
             return downloadAutomateManager;
         }
 
         public static void InitServers(bool test)
         {
-            if (!__serverInitialized)
+            if (!_serverInitialized)
             {
-                __serverInitialized = true;
+                _serverInitialized = true;
                 //Vosbooks.Vosbooks.Init(test);
                 //Ebookdz.Ebookdz.Init(test);
                 //MagazinesGratuits.MagazinesGratuits.Init(test);
                 //TelechargerMagazine.TelechargerMagazine.Init(test);
                 //ExtremeDown.ExtremeDown.Init(test);
-                ServerManagers_v2.Add(Vosbooks.Vosbooks.CreateServerManager(test));
-                ServerManagers_v2.Add(Ebookdz.Ebookdz.CreateServerManager(test));
-                ServerManagers_v2.Add(MagazinesGratuits.MagazinesGratuits.CreateServerManager(test));
-                ServerManagers_v2.Add(TelechargerMagazine.TelechargerMagazine.CreateServerManager(test));
-                ServerManagers_v2.Add(ExtremeDown.ExtremeDown.CreateServerManager(test));
+
+
+                //ServerManagers_v2.Add(Vosbooks.Vosbooks.CreateServerManager(test));
+                //ServerManagers_v2.Add(Ebookdz.Ebookdz.CreateServerManager(test));
+                //ServerManagers_v2.Add(MagazinesGratuits.MagazinesGratuits.CreateServerManager(test));
+                //ServerManagers_v2.Add(TelechargerMagazine.TelechargerMagazine.CreateServerManager(test));
+                //ServerManagers_v2.Add(ExtremeDown.ExtremeDown.CreateServerManager(test));
+
+                //ServerManagers_v2.Add(TelechargerMagazine.TelechargerMagazine_v3.Create(test));
+            }
+        }
+
+        public static void InitServers_v2(bool test)
+        {
+            if (!_serverInitialized)
+            {
+                _serverInitialized = true;
+                ServerManagers_v2.Add(TelechargerMagazine.TelechargerMagazine_v3.Create(test));
+                ServerManagers_v2.Add(Vosbooks.Vosbooks_v6.Create(test));
             }
         }
     }

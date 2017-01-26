@@ -57,7 +57,7 @@ namespace pb.IO.Test
 
             Trace.WriteLine($"open compressed file \"{compressFile}\"");
             // File.OpenWrite ==> OpenOrCreate
-            using (FileStream stream = File.OpenWrite(compressFile))
+            using (FileStream stream = zFile.OpenWrite(compressFile))
             using (IWriter writer = WriterFactory.Open(stream, archiveType, compressionInfo))
             //using (IWriter writer = WriterFactory.Open(stream, archiveType, CompressionType.BZip2))
             {

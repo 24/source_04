@@ -1,9 +1,7 @@
-﻿using System;
-using System.IO;
-using pb.IO;
-using pb.Web.old;
+﻿using pb.IO;
+using pb.Web.Http.old;
 
-namespace pb.Web
+namespace pb.Web.Http
 {
     public delegate string GetUrlSubDirectoryDelegate_v1(string url, HttpRequestParameters_v1 requestParameters = null);
 

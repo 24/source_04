@@ -26,7 +26,7 @@ namespace Test.Test_mongodb
                 elementsToCompare: new string[] { "findPrint_file" }, comparatorOptions: BsonDocumentComparatorOptions.ReturnNotEqualDocuments)
                 //.zSaveToJsonFile(resultFile);
                 .Select(result => result.GetResultDocument()).zSave(resultFile);
-            RunSource.CurrentRunSource.SetResult(zmongo.BsonRead<BsonDocument>(resultFile)
+            RunSource.CurrentRunSource.SetResult(zMongo.BsonRead<BsonDocument>(resultFile)
                 //.Where(doc => !(doc["result"]["findPrint_file"]["value1"] is BsonNull) && doc["result"]["result"].AsString != "equal")
                 .Where(doc => !(doc["result"]["findPrint_file"]["value1"] is BsonNull))
                 .Select(doc => new BsonDocument { { "result", doc["result"] } }).zToDataTable2_old());
@@ -34,8 +34,8 @@ namespace Test.Test_mongodb
 
         public static void Test_Compare_Document_01(string file1, string file2, string resultFile)
         {
-            BsonDocument document1 = zmongo.ReadFileAs<BsonDocument>(file1);
-            BsonDocument document2 = zmongo.ReadFileAs<BsonDocument>(file2);
+            BsonDocument document1 = zMongo.ReadFileAs<BsonDocument>(file1);
+            BsonDocument document2 = zMongo.ReadFileAs<BsonDocument>(file2);
             BsonDocumentComparator.CompareBsonDocuments(document1, document2).zSave(resultFile);
         }
 
@@ -54,8 +54,8 @@ namespace Test.Test_mongodb
             //        document2 => document2["postTitle"],
             //        (document1, document2) => new BsonDocument { { "document1", document1 }, { "document2", document2 } });
             IEnumerable<BsonDocument> query =
-                zmongo.BsonRead<BsonDocument>(file1).zJoin(
-                    zmongo.BsonRead<BsonDocument>(file2),
+                zMongo.BsonRead<BsonDocument>(file1).zJoin(
+                    zMongo.BsonRead<BsonDocument>(file2),
                     document1 => document1["postTitle"],
                     document2 => document2["postTitle"],
                     (document1, document2) => new BsonDocument { { "document1", document1 }, { "document2", document2 } },

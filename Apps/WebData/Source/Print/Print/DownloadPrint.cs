@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Xml.Linq;
-using pb;
 using pb.Data.Xml;
 using pb.Text;
-using pb.Web;
 
 namespace Download.Print
 {
-    public static class DownloadPrint
+    // DownloadPrint_LoadImage
+    public static partial class DownloadPrint
     {
         //private static bool __trace = false;
         //private static bool __test = false;
@@ -18,12 +14,9 @@ namespace Download.Print
         private static char[] __trimCharsWithoutColon = new char[] { ' ', '\t', '\n', '\r', ',', '»', '&', '+', '/', '|', '*', '=', '»', '.', '_', '-' };
         private static Func<string, string> __trim = text => text.Trim(__trimChars);
         private static Func<string, string> __trimWithoutColon = text => text.Trim(__trimCharsWithoutColon);
-        private static Func<string, string> __replaceChars = text => text.Replace('\u2013', '-');
+        private static Func<string, string> __replaceChars = text => text != null ? text.Replace('\u2013', '-') : null;
         private static PrintTextValuesManager __printTextValuesManager = null;
         //private static WebImageMongoCacheManager_v1 __imageCacheManager_v1 = null;
-        private static WebImageMongoCacheManager __imageCacheManager = null;
-        private static int __imageFilterMinHeight = 0;   // 70
-        private static Predicate<ImageMongoCache> __imageFilter = imageCache => (__imageFilterMinHeight == 0 || imageCache.Height > __imageFilterMinHeight) && imageCache.MongoImage.Category != "layout";
 
         static DownloadPrint()
         {
@@ -35,20 +28,7 @@ namespace Download.Print
         public static void Init()
         {
             //__test = XmlConfig.CurrentConfig.Get("Test").zTryParseAs(false);
-            InitImage(XmlConfig.CurrentConfig.GetElement("Image"));
             __printTextValuesManager = new PrintTextValuesManager(new RegexValuesList(XmlConfig.CurrentConfig.GetElements("TextInfos/TextInfo")), __trim);
-        }
-
-        public static void InitImage(XElement xe)
-        {
-            UrlCache urlCache = UrlCache.Create(xe);
-            //if (xe.zXPathValue("UseUrlCache").zTryParseAs(false))
-            if (urlCache != null)
-            {
-                // xe.zXPathValue("CacheDirectory")
-                __imageCacheManager = new WebImageMongoCacheManager(xe.zXPathValue("MongoServer"), xe.zXPathValue("MongoDatabase"), xe.zXPathValue("MongoCollection"), urlCache);
-            }
-            __imageFilterMinHeight = xe.zXPathValue("ImageFilterMinHeight").zParseAs<int>();
         }
 
         //public static bool Trace { get { return __trace; } set { __trace = value; } }
@@ -139,61 +119,6 @@ namespace Download.Print
         //            i++;
         //    }
         //}
-
-        public static IEnumerable<WebImage> LoadImages(IEnumerable<WebImage> images, HttpRequestParameters requestParameters = null)
-        {
-            foreach (WebImage image in images)
-            {
-                if (LoadImage(image, requestParameters, __imageFilter))
-                    yield return image;
-            }
-            //return imageList.ToArray();
-        }
-
-        public static bool LoadImage(WebImage image, HttpRequestParameters requestParameters = null, Predicate<ImageMongoCache> filter = null)
-        {
-            if (image.Url != null && image.Image == null)
-            {
-                try
-                {
-                    if (__imageCacheManager != null)
-                    {
-                        ImageMongoCache imageCache = (ImageMongoCache)__imageCacheManager.GetImageCache(image.Url, requestParameters);
-                        if (filter != null && !filter(imageCache))
-                            return false;
-                        image.Image = imageCache.Image;
-                    }
-                    else
-                        image.Image = HttpManager.CurrentHttpManager.LoadImage(new HttpRequest { Url = image.Url }, requestParameters);
-                }
-                catch (Exception ex)
-                {
-                    Trace.WriteLine("error loading image \"{0}\"", image.Url);
-                    Trace.WriteLine(ex.Message);
-                    //return false;
-                }
-            }
-            return true;
-        }
-
-        public static Image LoadImage(string url, HttpRequestParameters requestParameters = null)
-        {
-            try
-            {
-                if (__imageCacheManager != null)
-                {
-                    ImageCache imageCache = __imageCacheManager.GetImageCache(url, requestParameters);
-                    return imageCache.Image;
-                }
-                else
-                    return HttpManager.CurrentHttpManager.LoadImage(new HttpRequest { Url = url }, requestParameters);
-            }
-            catch (Exception ex)
-            {
-                pb.Trace.WriteLine("error RapideDdl loading image : {0}", ex.Message);
-                return null;
-            }
-        }
 
         //public static MongoBackup CreateMongoBackup(params MongoCollection[] collections)
         //{

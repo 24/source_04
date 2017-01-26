@@ -39,7 +39,7 @@ namespace WebData.BlogDemoor
             __current = new BlogDemoor_v4();
             __current._configElement = xe;
             __current.HeaderPageNominalType = typeof(BlogDemoorHeaderDataPages);
-            __current.CreateDataManager(xe);
+            __current.Create(xe);
             //__current.DetailDataManager.Version = 2;     // use WebData<TData>.Load()
             return __current;
         }
@@ -136,10 +136,10 @@ namespace WebData.BlogDemoor
             //return zpath.PathSetExtension(data.Result.UrlCachePathResult.SubPath, null);
             //UrlCachePathResult urlCachePath = null;
             string subPath = null;
-            if (data.Result != null)
-                subPath = data.Result.UrlCachePathResult.SubPath;
-            else
-                subPath = data.Result_v2.Http.HttpRequest.UrlCachePath.SubPath;
+            //if (data.Result != null)
+            //    subPath = data.Result.UrlCachePathResult.SubPath;
+            //else
+            subPath = data.Result_v2.Http.HttpRequest.UrlCachePath.SubPath;
             return "img\\" + zpath.PathSetExtension(subPath, null);
         }
 
@@ -189,7 +189,6 @@ namespace WebData.BlogDemoor
             //    pb.Trace.WriteLine(data.zToJson());
         }
 
-        // 
         //private static IEnumerable<string> GetImageUrls(XXElement xeBody)
         private static IEnumerable<string> GetImageUrls(IEnumerable<XXElement> elements)
         {

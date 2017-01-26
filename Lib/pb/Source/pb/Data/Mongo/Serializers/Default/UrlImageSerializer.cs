@@ -4,6 +4,7 @@ using MongoDB.Bson.IO;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
 using pb.Web;
+using pb.Web.Data;
 
 namespace pb.Data.Mongo.Serializers
 {

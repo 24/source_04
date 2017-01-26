@@ -22,7 +22,8 @@ namespace pb.Data.OpenXml.Test
             int l = directory.Length;
             if (!directory.EndsWith("\\"))
                 l++;
-            using (FileStream fs = new FileStream(docxFile, FileMode.OpenOrCreate))
+            //using (FileStream fs = new FileStream(docxFile, FileMode.OpenOrCreate))
+            using (FileStream fs = zFile.Open(docxFile, FileMode.OpenOrCreate))
             using (ZipArchive zipArchive = new ZipArchive(fs, ZipArchiveMode.Update, false, Encoding.UTF8))
             {
                 int fileCount = 0;
@@ -65,7 +66,8 @@ namespace pb.Data.OpenXml.Test
             int l = directory.Length;
             if (!directory.EndsWith("\\"))
                 l++;
-            using (FileStream fs = new FileStream(docxFile, FileMode.OpenOrCreate))
+            //using (FileStream fs = new FileStream(docxFile, FileMode.OpenOrCreate))
+            using (FileStream fs = zFile.Open(docxFile, FileMode.OpenOrCreate))
             // Encoding.UTF8
             using (PBZipArchive zipArchive = new PBZipArchive(fs, ZipArchiveMode.Update, Encoding.UTF8))
             {

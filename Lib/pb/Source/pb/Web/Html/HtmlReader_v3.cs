@@ -5,122 +5,8 @@ using System.Text;
 using pb.IO;
 using pb.Text;
 
-namespace pb.Web
+namespace pb.Web.Html
 {
-    public enum HtmlNodeType
-    {
-        DocumentType = 1,
-        OpenTag,
-        CloseTag,
-        EndTag,
-        Property,
-        Comment,
-        Text,
-        Script
-    }
-    // <div>           : OpenTag div, CloseTag div EndTag = false
-    // <div ... >      : OpenTag div, Property ..., CloseTag div EndTag = false
-    // <div ... />     : OpenTag div, Property ..., CloseTag div EndTag = true
-    // <div />         : OpenTag div, CloseTag div EndTag = true
-    // </div>          : EndTag div
-    // <!DOCTYPE ... > : DocumentType
-
-    public class HtmlNode
-    {
-        public int Index;
-        public HtmlNodeType Type;
-        public int Line;
-        public int Column;
-        //private int _line;
-        //private int _column;
-        //public int Line { get { return _line; } set { } }
-        //public int Column { get { return _column; } set { } }
-    }
-
-    public class HtmlNodeDocType : HtmlNode
-    {
-        public string DocType;
-
-        public HtmlNodeDocType()
-        {
-            Type = HtmlNodeType.DocumentType;
-        }
-    }
-
-    public class HtmlNodeOpenTag : HtmlNode
-    {
-        public string Name;
-        public bool IsScript = false;
-
-        public HtmlNodeOpenTag()
-        {
-            Type = HtmlNodeType.OpenTag;
-        }
-    }
-
-    public class HtmlNodeCloseTag : HtmlNode
-    {
-        public string Name;
-        //public bool EndTag = false;
-
-        public HtmlNodeCloseTag()
-        {
-            Type = HtmlNodeType.CloseTag;
-        }
-    }
-
-    public class HtmlNodeEndTag : HtmlNode
-    {
-        public string Name;
-
-        public HtmlNodeEndTag()
-        {
-            Type = HtmlNodeType.EndTag;
-        }
-    }
-
-    public class HtmlNodeProperty : HtmlNode
-    {
-        public string Name;
-        public string Value;
-        public char? Quote;
-
-        public HtmlNodeProperty()
-        {
-            Type = HtmlNodeType.Property;
-        }
-    }
-
-    public class HtmlNodeComment : HtmlNode
-    {
-        public string Comment;
-
-        public HtmlNodeComment()
-        {
-            Type = HtmlNodeType.Comment;
-        }
-    }
-
-    public class HtmlNodeText : HtmlNode
-    {
-        public string Text;
-        public bool IsTextSeparator;
-
-        public HtmlNodeText()
-        {
-            Type = HtmlNodeType.Text;
-        }
-    }
-
-    public class HtmlNodeScript : HtmlNode
-    {
-        public string Script;
-
-        public HtmlNodeScript()
-        {
-            Type = HtmlNodeType.Script;
-        }
-    }
 
     public class HtmlReaderTag
     {
@@ -143,12 +29,6 @@ namespace pb.Web
         public HtmlReaderStringValue Value;
         public bool EndTag = false;
         public bool CloseTag = false;
-    }
-
-    public class HtmlReaderStringValue
-    {
-        public string Value;
-        public char? Quote;
     }
 
     public class HtmlReaderComment

@@ -1,7 +1,7 @@
 ﻿using pb.IO;
 using System;
 
-namespace pb.Web
+namespace pb.Web.Http
 {
     public class HttpResult
     {
@@ -63,7 +63,7 @@ namespace pb.Web
                     string urlPath = urlCachePath.Path;
                     if (httpRequest.ReloadFromWeb || !zFile.Exists(urlPath))
                     {
-                        Trace.WriteLine(1, "Load \"{0}\" ({1})", httpRequest.Url, httpRequest.Method);
+                        TraceLevel.WriteLine(1, "Load \"{0}\" ({1})", httpRequest.Url, httpRequest.Method);
                         Http_v2 http2 = CreateHttp(httpRequest);
                         http2.LoadToFile(urlPath, true);
                         loadFromWeb = true;
@@ -77,7 +77,7 @@ namespace pb.Web
                     loadFromWeb = true;
 
                 if (!trace)
-                    Trace.WriteLine(1, "Load \"{0}\" ({1})", httpRequest.UrlCachePath != null ? httpRequest.UrlCachePath.Path : httpRequest.Url, httpRequest.Method);
+                    TraceLevel.WriteLine(1, "Load \"{0}\" ({1})", httpRequest.UrlCachePath != null ? httpRequest.UrlCachePath.Path : httpRequest.Url, httpRequest.Method);
 
                 http = CreateHttp(httpRequest);
 
@@ -117,7 +117,7 @@ namespace pb.Web
 
         // HttpRequestParameters requestParameters = null, string exportFile = null, bool setExportFileExtension = false
         // bool cacheFile = false
-        private Http_v2 CreateHttp(HttpRequest httpRequest)
+        public Http_v2 CreateHttp(HttpRequest httpRequest)
         {
             //if (!cacheFile)
             if (httpRequest.UrlCachePath == null)

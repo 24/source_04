@@ -9,8 +9,9 @@ using pb.Data.Mongo;
 using pb.IO;
 using System.Xml.Linq;
 using pb.Data.Xml;
+using pb.Web.Http;
 
-namespace pb.Web
+namespace pb.Web.Data
 {
     //[BsonIgnoreExtraElements]
     public class MongoImage

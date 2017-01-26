@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<AssemblyProject>
+  <Root                             value = "..\..\..\..\.." />
+  <ProjectRoot                      value = "..\..\.." />
+
+  <Source                           value = "AppData.cs" />
+  <Source                           value = "DownloadRun.cs" />
+
+  <Source                           value = "$ProjectRoot$\Source\Print\DownloadManager\PostDetail_v2.cs" />
+  <Source                           value = "$ProjectRoot$\Source\Print\DownloadManager\PostHeader.cs" />
+  <Source                           value = "$ProjectRoot$\Source\Print\DownloadManager\PostHeaderDetailMongoManagerBase_v3.cs" />
+  <Source                           value = "$ProjectRoot$\Source\Print\DownloadManager\WebData.cs" />
+  <Source                           value = "$ProjectRoot$\Source\Print\DownloadManager\WebDataParameters.cs" />
+  <Source                           value = "$ProjectRoot$\Source\Print\DownloadManager\WebDataRun.cs" />
+
+  <Source                           value = "$ProjectRoot$\Source\Print\Print\DownloadPrint.cs" />
+  <Source                           value = "$ProjectRoot$\Source\Print\Print\PrintTextValuesManager.cs" />
+
+  <Source                           value = "$ProjectRoot$\Source\Print\sites\vosbooks.net\Vosbooks_v6.cs" />
+  <Source                           value = "$ProjectRoot$\Source\Print\sites\telecharger-magazine.com\TelechargerMagazine_v3.cs" />
+
+  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\PBTraceListener.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\TextSerializer.cs" />
+
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\PBBsonWriter.cs" />
+
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\DataPages.cs" />
+
+  <FrameworkAssembly                value = "System.Data.dll" />
+
+  <Assembly                         value = "$Root$\..\library\CenterCLR.NamingFormatter\CenterCLR.NamingFormatter.1.1.0\net35\CenterCLR.NamingFormatter.dll" resolve = "true" resolveName = "CenterCLR.NamingFormatter, Version=1.0.0.0, Culture=neutral, PublicKeyToken=08a63ca5aab14733" />
+</AssemblyProject>

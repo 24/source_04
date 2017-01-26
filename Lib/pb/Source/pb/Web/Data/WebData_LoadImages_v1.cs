@@ -4,10 +4,10 @@
     {
         private void LoadImages_v1(WebImageRequest imageRequest)
         {
-            if ((_documentLoadedFromWeb && (imageRequest.LoadImageFromWeb || imageRequest.RefreshImage))
-                || (!_documentLoadedFromWeb && (imageRequest.LoadImageToData || imageRequest.LoadMissingImageFromWeb)))
+            if ((_dataLoadedFromWeb && (imageRequest.LoadImageFromWeb || imageRequest.RefreshImage))
+                || (!_dataLoadedFromWeb && (imageRequest.LoadImageToData || imageRequest.LoadMissingImageFromWeb)))
             {
-                WebLoadImageManager_v1.LoadImages(_document, imageRequest);
+                WebLoadImageManager_v1.LoadImages(_data, imageRequest);
             }
         }
     }

@@ -55,8 +55,8 @@ namespace Test.Test_Unit.Print
                 TraceRegexValuesList(findDateManager.DateRegexList);
                 Trace.WriteLine();
 
-                zmongo.BsonRead<TestText>(file).zFindDateNew(findDateManager).zSave(bsonFile);
-                zmongo.BsonRead<TestFindDate>(bsonFile).zTraceFindDate();
+                zMongo.BsonRead<TestText>(file).zFindDateNew(findDateManager).zSave(bsonFile);
+                zMongo.BsonRead<TestFindDate>(bsonFile).zTraceFindDate();
                 Trace.WriteLine("test duration {0}", DateTime.Now - dt);
             }
             finally
@@ -88,8 +88,8 @@ namespace Test.Test_Unit.Print
                 Trace.WriteLine();
 
                 string bsonFile = zpath.PathSetFileNameWithoutExtension(file, zPath.GetFileNameWithoutExtension(file) + "_bson");
-                zmongo.BsonRead<TestText>(file).zFindDate(findDateManager).zSave(bsonFile);
-                zmongo.BsonRead<TestFindDate>(bsonFile).zTraceFindDate();
+                zMongo.BsonRead<TestText>(file).zFindDate(findDateManager).zSave(bsonFile);
+                zMongo.BsonRead<TestFindDate>(bsonFile).zTraceFindDate();
                 Trace.WriteLine("test duration {0}", DateTime.Now - dt);
             }
             finally
@@ -215,7 +215,7 @@ namespace Test.Test_Unit.Print
                 Trace.WriteLine();
                 int nb = 0;
                 int nbDateFound = 0;
-                foreach (BsonDocument document in zmongo.BsonRead<BsonDocument>(file))
+                foreach (BsonDocument document in zMongo.BsonRead<BsonDocument>(file))
                 {
                     string text = document["text"].AsString;
 
@@ -284,7 +284,7 @@ namespace Test.Test_Unit.Print
             {
                 TraceRegexValuesList(findNumberManager.NumberRegexList);
                 Trace.WriteLine();
-                foreach (BsonDocument document in zmongo.BsonRead<BsonDocument>(file))
+                foreach (BsonDocument document in zMongo.BsonRead<BsonDocument>(file))
                 {
                     string title = document["title"].AsString;
                     //FindNumber_old findNumber = findNumberManager.Find_old(title);
@@ -333,7 +333,7 @@ namespace Test.Test_Unit.Print
             {
                 TraceRegexValuesList(dateRegexList);
                 Trace.WriteLine();
-                foreach (BsonDocument document in zmongo.BsonRead<BsonDocument>(file))
+                foreach (BsonDocument document in zMongo.BsonRead<BsonDocument>(file))
                     FindDate(dateRegexList, document["text"].AsString);
             }
             finally

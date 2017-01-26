@@ -23,6 +23,7 @@
       pb\_pb\NamedValue.cs
   -->
 
+  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\Application.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\Chrono.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\Date.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\Error.cs" />
@@ -30,10 +31,11 @@
   <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\GlobalExtension.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\ParseAs.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\PBException.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\Trace.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\TraceError.cs" />
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\_pb\Trace.cs" />-->
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\_pb\TraceError.cs" />-->
   <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\TraceLevel.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\TraceSetWriter.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\TraceManager.cs" />
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\_pb\TraceSetWriter.cs" />-->
 
   <Source                           value = "$Root$\Lib\pb\Source\pb\Compiler\AssemblyResolve.cs" />
   <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Compiler\Compiler.cs" />-->
@@ -54,11 +56,12 @@
   <Source                           value = "$Root$\Lib\pb\Source\pb\Compiler\ResourceCompilerResult.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Compiler\RunCode.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Compiler\RunSource.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Compiler\RunSourceCompileProjects.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Compiler\RunSourceExecution.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Compiler\RunSource_CompileProjects.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Compiler\RunSource_Execution.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Compiler\RunSource_Options.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Compiler\RunSource_RunCode.cs" />
   <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Compiler\RunSourceInitEndMethods.cs" />-->
   <Source                           value = "$Root$\Lib\pb\Source\pb\Compiler\RunSourceInitEndMethods_v2.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Compiler\RunSourceRunCode.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Compiler\Win32ResourceCompiler.cs" />
 
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\NamedValues.cs" />
@@ -71,16 +74,18 @@
   <Source                           value = "$Root$\Lib\pb\Source\pb\IO\CompressFile.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\IO\CompressOptions.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\IO\File.cs" />
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\IO\FileOption.cs" />-->
   <Source                           value = "$Root$\Lib\pb\Source\pb\IO\Path.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\IO\WriteToFile.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\IO\WriteToFileCreate.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\IO\zDirectory.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\IO\zFile.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\IO\ZipArchive.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\zPath.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\IO\zUpdateFiles.cs" />
 
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Reflection\Reflection.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Reflection\MethodParameters.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Reflection\Reflection.cs" />
 
   <Source                           value = "$Root$\Lib\pb\Source\pb\Text\Split.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Text\StringZones.cs" />

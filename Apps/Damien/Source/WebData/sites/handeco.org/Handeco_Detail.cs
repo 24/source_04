@@ -15,26 +15,6 @@ using pb.Web.Data.old;
 
 namespace hts.WebData
 {
-    public class Activity
-    {
-        public string Type;                               // html tag select
-        public string Description;                        // description
-        public string MoyensTechniquesDisponibles;        // moyens techniques disponibles
-        public string EffectifTotalMobilisable;           // effectif total mobilisable (etp)
-        public string ModalitésPratiques;                 // modalités pratiques
-        public string CouvertureGéographique;             // couverture géographique
-    }
-
-    public class Contact
-    {
-        public string Description;       // html tag select
-        public string Nom;               // prénom et nom
-        public string Fonction;          // fonction
-        public string Tel;               // téléphone
-        public string Mobile;            // mobile
-        public string Email;             // e-mail
-    }
-
     public class Handeco_Detail : IKeyData_v4<int> // IPost, IWebData
     {
         public Handeco_Detail()

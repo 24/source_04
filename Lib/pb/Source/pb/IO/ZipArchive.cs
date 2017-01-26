@@ -212,7 +212,8 @@ namespace pb.IO
 
         public static void Zip(string zipFile, IEnumerable<CompressFile> files, FileMode fileMode = FileMode.Create)
         {
-            using (FileStream fs = new FileStream(zipFile, fileMode))
+            //using (FileStream fs = new FileStream(zipFile, fileMode))
+            using (FileStream fs = zFile.Open(zipFile, fileMode))
             using (ZipArchive zipArchive = new ZipArchive(fs, ZipArchiveMode.Update))
             {
                 //Trace.WriteLine("CompressionLevel.Fastest");
@@ -256,7 +257,8 @@ namespace pb.IO
 
         public static IEnumerable<string> Unzip(string zipFile, string directory, IEnumerable<string> selectedFiles = null, UncompressOptions uncompressOptions = UncompressOptions.None)
         {
-            using (FileStream fs = new FileStream(zipFile, FileMode.Open))
+            //using (FileStream fs = new FileStream(zipFile, FileMode.Open))
+            using (FileStream fs = zFile.Open(zipFile, FileMode.Open))
             using (ZipArchive zipArchive = new ZipArchive(fs, ZipArchiveMode.Read))
             {
                 zipArchive.SetUnzipOptions(uncompressOptions);
@@ -267,7 +269,8 @@ namespace pb.IO
 
         public static IEnumerable<string> Unzip(string zipFile, string directory, IEnumerable<CompressFile> selectedFiles, UncompressOptions uncompressOptions = UncompressOptions.None)
         {
-            using (FileStream fs = new FileStream(zipFile, FileMode.Open))
+            //using (FileStream fs = new FileStream(zipFile, FileMode.Open))
+            using (FileStream fs = zFile.Open(zipFile, FileMode.Open))
             using (ZipArchive zipArchive = new ZipArchive(fs, ZipArchiveMode.Read))
             {
                 zipArchive.SetUnzipOptions(uncompressOptions);

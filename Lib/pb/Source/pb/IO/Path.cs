@@ -1,4 +1,6 @@
-﻿namespace pb.IO
+﻿using System;
+
+namespace pb.IO
 {
     public static class zpath
     {
@@ -152,6 +154,11 @@
         //    }
         //    return null;
         //}
+
+        public static string GetRelativePath(string path, string fromPath)
+        {
+            return new Uri(fromPath).MakeRelativeUri(new Uri(path)).ToString().Replace('/', '\\');
+        }
     }
 
     public static class PathExtension

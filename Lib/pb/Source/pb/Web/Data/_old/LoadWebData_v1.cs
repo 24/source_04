@@ -4,9 +4,9 @@ using System.Xml;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using pb.IO;
-using pb.Web.old;
+using pb.Web.Http.old;
 
-namespace pb.Web.old
+namespace pb.Web.Data.old
 {
     public abstract class LoadWebData_v1<T>
     {
@@ -155,7 +155,7 @@ namespace pb.Web.old
             settings.Encoding = Encoding.UTF8;
             settings.Indent = true;
             string name = GetName();
-            Trace.CurrentTrace.WriteLine("save {0} to \"{1}\"", name, file);
+            Trace.WriteLine("save {0} to \"{1}\"", name, file);
             using (XmlWriter xw = XmlWriter.Create(file, settings))
             {
                 xw.WriteStartElement(name);

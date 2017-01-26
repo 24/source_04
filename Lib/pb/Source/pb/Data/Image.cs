@@ -40,7 +40,8 @@ namespace pb.Data
 
         public static Image LoadImageFromFile(string file)
         {
-            using (FileStream fs = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.Read))
+            //using (FileStream fs = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.Read))
+            using (FileStream fs = zFile.Open(file, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
                 return Image.FromStream(fs);
             }

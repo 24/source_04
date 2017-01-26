@@ -8,7 +8,7 @@ using pb.IO;
 
 namespace pb.Compiler
 {
-    public static class CompilerGlobalExtension
+    public static class RunSourceExtension
     {
         public static void zTraceToFile<T>(this T value, string file)
         {
@@ -57,7 +57,8 @@ namespace pb.Compiler
                     table = value.zToDataTable();
                 else
                     table = value as DataTable;
-                RunSource.CurrentRunSource.SetResult(table);
+                //RunSource.CurrentRunSource.SetResult(table);
+                RunSourceCommand.SetResult(table);
             }
             else
                 Trace.WriteLine("value is null");
@@ -73,7 +74,8 @@ namespace pb.Compiler
                     table = value.zToDataTable_v2();
                 else
                     table = value as DataTable;
-                RunSource.CurrentRunSource.SetResult(table);
+                //RunSource.CurrentRunSource.SetResult(table);
+                RunSourceCommand.SetResult(table);
             }
             else
                 Trace.WriteLine("value is null");
@@ -89,7 +91,8 @@ namespace pb.Compiler
                     table = value.zToDataTable_v3();
                 else
                     table = value as DataTable;
-                RunSource.CurrentRunSource.SetResult(table);
+                //RunSource.CurrentRunSource.SetResult(table);
+                RunSourceCommand.SetResult(table);
             }
             else
                 Trace.WriteLine("value is null");
@@ -112,7 +115,8 @@ namespace pb.Compiler
         public static DataTable zSetResult(this DataTable table)
         {
             if (table != null)
-                RunSource.CurrentRunSource.SetResult(table);
+                //RunSource.CurrentRunSource.SetResult(table);
+                RunSourceCommand.SetResult(table);
             else
                 Trace.WriteLine("value is null");
             return table;
@@ -127,7 +131,14 @@ namespace pb.Compiler
 
         public static string zGetRunSourceProjectVariableValue(this string value, bool throwError = false)
         {
-            return RunSource.CurrentRunSource.GetProjectVariableValue(value, throwError);
+            //return RunSource.CurrentRunSource.GetProjectVariableValue(value, throwError);
+            return RunSourceCommand.GetProjectVariableValue(value, throwError);
+        }
+
+        public static string zGetRunSourceProjectPath(this string value, bool throwError = false)
+        {
+            //return RunSource.CurrentRunSource.GetFilePath(RunSource.CurrentRunSource.GetProjectVariableValue(value, throwError));
+            return RunSourceCommand.GetFilePath(RunSourceCommand.GetProjectVariableValue(value, throwError));
         }
     }
 }

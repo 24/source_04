@@ -107,6 +107,9 @@
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\ITrace.cs">
       <Link>SourceLnk\Lib\pb\_pb\ITrace.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\ITraceManager.cs">
+      <Link>SourceLnk\Lib\pb\_pb\ITraceManager.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\ParseAs.cs">
       <Link>SourceLnk\Lib\pb\_pb\ParseAs.cs</Link>
     </Compile>
@@ -119,8 +122,8 @@
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\Trace.cs">
       <Link>SourceLnk\Lib\pb\_pb\Trace.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\TraceSetWriter.cs">
-      <Link>SourceLnk\Lib\pb\_pb\TraceSetWriter.cs</Link>
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\TraceManager.cs">
+      <Link>SourceLnk\Lib\pb\_pb\TraceManager.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\_pb\Tree.cs">
       <Link>SourceLnk\Lib\pb\_pb\Tree.cs</Link>

@@ -8,7 +8,8 @@
   <RunsourceDllFilename                        value = "runsource.dll" />
   <RunsourceClassName                          value = "pb.Compiler.RunSource" />
   <AllowMultipleExecution                      value = "true" />  <!-- default = "false" -->
-  <TraceClassName                              value = "pb.TTrace" />
+  <TraceManagerClassName                       value = "pb.TraceManager" />
+  <TraceClassName                              value = "pb.Trace" />
   
   <!--<TraceAssemblyResolve                        value = "true" /> --><!-- default = "false" -->
   

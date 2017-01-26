@@ -35,7 +35,7 @@
       <UseMongo                                                  value = "false" />
       <MongoServer                                               value = "mongodb://localhost" />
       <MongoDatabase                                             value = "htc" />
-      <MongoCollection                                           value = "Handeco_Header" />
+      <MongoCollection                                           value = "Handeco_Header_2" />
       <MongoDocumentItemName                                     value = "data" />
       <MongoDefaultSort                                          value = "{ 'data.id': 1 }" />
     </Header>
@@ -47,11 +47,50 @@
       <UseMongo                                                  value = "true" />
       <MongoServer                                               value = "mongodb://localhost" />
       <MongoDatabase                                             value = "htc" />
-      <MongoCollection                                           value = "Handeco_Detail" />
+      <MongoCollection                                           value = "Handeco_Detail_2" />
       <MongoDocumentItemName                                     value = "data" />
       <MongoDefaultSort                                          value = "{ 'data.id': 1 }" />
     </Detail>
   </Handeco>
+
+  <Unea>
+    <DataDir                                                     value = "$DataDir$\sites\unea.fr" />
+
+    <Header>
+      <UseUrlCache                                               value = "true" />
+      <CacheDirectory                                            value = "$Unea/DataDir$\cache\header" />
+      <CacheUrlFileNameType                                      value = "Path, Content" />
+      <UseMongo                                                  value = "false" />
+      <MongoServer                                               value = "mongodb://localhost" />
+      <MongoDatabase                                             value = "htc" />
+      <MongoCollection                                           value = "Unea_Header" />
+      <MongoDocumentItemName                                     value = "data" />
+      <MongoDefaultSort                                          value = "{ 'data.id': 1 }" />
+    </Header>
+
+    <Detail>
+      <UseUrlCache                                               value = "true" />
+      <CacheDirectory                                            value = "$Unea/DataDir$\cache\detail" />
+      <CacheUrlFileNameType                                      value = "Path, Query" />
+      <UseMongo                                                  value = "true" />
+      <MongoServer                                               value = "mongodb://localhost" />
+      <MongoDatabase                                             value = "htc" />
+      <MongoCollection                                           value = "Unea_Detail" />
+      <MongoDocumentItemName                                     value = "data" />
+      <MongoDefaultSort                                          value = "{ 'data.id': 1 }" />
+    </Detail>
+    <Export>
+      <CompanyXmlFile                                            value = "$Unea/DataDir$\export\Unea.xml" />
+      <DetailCompanyXmlFile                                      value = "$Unea/DataDir$\export\UneaDetail.xml" />
+      <DuplicatesFile                                            value = "$Unea/DataDir$\export\Unea_duplicates.txt" />
+      <ActivitiesFile                                            value = "$Unea/DataDir$\export\Unea_activities.txt" />
+      <SectorsFile                                               value = "$Unea/DataDir$\export\Unea_sectors.txt" />
+      <DownloadDocumentsNameFile                                 value = "$Unea/DataDir$\export\Unea_downloadDocumentsName.txt" />
+      <DownloadDocumentsUrlFile                                  value = "$Unea/DataDir$\export\Unea_downloadDocumentsUrl.txt" />
+      <PhotosFile                                                value = "$Unea/DataDir$\export\Unea_photos.txt" />
+      <UnknowInfosFile                                           value = "$Unea/DataDir$\export\Unea_unknowInfos.txt" />
+    </Export>
+  </Unea>
 
   <OnisepInstitution>
     <DataDir                                                     value = "$DataDir$\sites\onisep.fr" />

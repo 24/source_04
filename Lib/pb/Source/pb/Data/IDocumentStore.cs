@@ -11,6 +11,11 @@ namespace pb.Data
         BsonValue GetKey();
     }
 
+    public interface IKeyDetail
+    {
+        BsonValue GetDetailKey();
+    }
+
     // used by WebDataManager_v2.SetDataId(), WebDataManager_v2.Refresh(), DocumentStoreExtension.zGetId), DocumentStoreExtension.zSetId()
     public interface IIdData
     {

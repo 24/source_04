@@ -55,8 +55,10 @@ namespace pb.Windows.Forms
             this.AutoScaleDimensions = new SizeF(6F, 13F);
             this.AutoScaleMode = AutoScaleMode.Font;
 
-            this.Controls.Add(_bottomToolsPanel);
+            //this.Controls.Add(_bottomToolsPanel);
+            //this.Controls.Add(_resultTab);
             this.Controls.Add(_resultTab);
+            this.Controls.Add(_bottomToolsPanel);
             this.Controls.Add(zForm.CreateSplitter(DockStyle.Top));
             this.Controls.Add(_editPanel);
             this.Controls.Add(_topToolsPanel);

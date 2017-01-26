@@ -17,10 +17,15 @@ namespace pb.Data.Mongo
             if (_itemName == null)
                 throw new PBException("item name is not defined");
 
+            return new BsonElement(_itemName, SerializeAsDocument(data));
+        }
+
+        public virtual BsonDocument SerializeAsDocument(TData data)
+        {
             Type type = _nominalType;
             if (type == null)
                 type = typeof(TData);
-            return new BsonElement(_itemName, data.ToBsonDocument(type));
+            return data.ToBsonDocument(type);
         }
 
         public virtual TData Deserialize(BsonDocument document)
@@ -37,6 +42,11 @@ namespace pb.Data.Mongo
                 throw new PBException("deserialize data : element \"{0}\" is not a document", _itemName);
             document = element as BsonDocument;
 
+            return DeserializeData(document);
+        }
+
+        public virtual TData DeserializeData(BsonDocument document)
+        {
             if (_nominalType != null)
                 return (TData)BsonSerializer.Deserialize(document, _nominalType);
             else

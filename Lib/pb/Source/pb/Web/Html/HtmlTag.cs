@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace pb.Web
+namespace pb.Web.Html
 {
     public enum HtmlTagCategory
     {

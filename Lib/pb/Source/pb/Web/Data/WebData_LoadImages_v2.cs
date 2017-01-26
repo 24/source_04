@@ -6,21 +6,25 @@
         {
             WebLoadImageManager_v2<TData> webLoadImageManager = _webDataManager_v4.WebLoadImageManager;
 
-            if ((_documentLoadedFromWeb && (imageRequest.LoadImageFromWeb || imageRequest.RefreshImage))
-                || (!_documentLoadedFromWeb && imageRequest.LoadMissingImageFromWeb))
+            if ((_dataLoadedFromWeb && (imageRequest.LoadImageFromWeb || imageRequest.RefreshImage))
+                || (!_dataLoadedFromWeb && imageRequest.LoadMissingImageFromWeb))
             {
-                if (webLoadImageManager.LoadImagesFromWeb(this))
+                //if (webLoadImageManager.LoadImagesFromWeb(this))
+                if (_data is IGetWebImages)
                 {
-                    if (_id != null)
-                        _documentStore.SaveWithId(_id, _document);
-                    else
-                        _documentStore.SaveWithKey(_key, _document);
+                    if (webLoadImageManager.LoadImagesFromWeb(imageRequest, ((IGetWebImages)_data).GetWebImages(), _webDataManager_v4.GetImageSubDirectory?.Invoke(this)))
+                    {
+                        if (_id != null)
+                            _documentStore.SaveWithId(_id, _data);
+                        else
+                            _documentStore.SaveWithKey(_key, _data);
+                    }
                 }
             }
 
             if (imageRequest.LoadImageToData)
             {
-                webLoadImageManager.LoadImagesToData(_document);
+                webLoadImageManager.LoadImagesToData(_data);
             }
         }
     }

@@ -1,4 +1,5 @@
-﻿using pb.IO;
+﻿using pb;
+using pb.IO;
 using System;
 using System.Windows.Forms;
 
@@ -150,7 +151,8 @@ namespace runsourced
             }
             catch (Exception ex)
             {
-                _trace.WriteError(ex);
+                //_trace.WriteError(ex);
+                Trace.WriteError(ex);
                 MessageBox.Show("Error saving file : \r\n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }

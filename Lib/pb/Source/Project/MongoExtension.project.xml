@@ -22,8 +22,25 @@
 
   <Using                            value = "pb.Data.Mongo" />
 
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Mongo.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\Error.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\PBException.cs" />
 
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\zMongo.cs" />
+
+  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\File.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\Path.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\zDirectory.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\zFile.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\zPath.cs" />
+
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Reflection\Reflection.cs" />
+
+  <FrameworkAssembly                value = "mscorlib.dll" />
+  <FrameworkAssembly                value = "System.dll" />
+  <FrameworkAssembly                value = "System.Core.dll" />
+
+  <RunSourceAssembly                value = "runsource.irunsource.dll" />
+  <Assembly                         value = "$Root$\Lib\LongPath\Pri.LongPath\bin\Debug\Pri.LongPath.dll" />
   <Assembly                         value = "$Root$\..\library\Mongo\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Bson.dll" resolve = "true" resolveName = "MongoDB.Bson, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />
-  <Assembly                         value = "$Root$\..\library\Mongo\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Driver.dll" resolve = "true" resolveName = "MongoDB.Driver, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />
+  <!--<Assembly                         value = "$Root$\..\library\Mongo\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Driver.dll" resolve = "true" resolveName = "MongoDB.Driver, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />-->
 </AssemblyProject>

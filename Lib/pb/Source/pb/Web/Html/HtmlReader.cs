@@ -4,7 +4,7 @@ using System.Text;
 using pb.IO;
 using pb.Text;
 
-namespace pb.Web
+namespace pb.Web.Html
 {
     public class HtmlReader : HtmlReaderBase
     {
@@ -124,7 +124,8 @@ namespace pb.Web
             CloseTraceHtmlReader();
             if (__traceHtmlReaderFile != null)
             {
-                FileStream fs = new FileStream(__traceHtmlReaderFile, FileMode.Create, FileAccess.Write, FileShare.Read, _bufferSize);
+                //FileStream fs = new FileStream(__traceHtmlReaderFile, FileMode.Create, FileAccess.Write, FileShare.Read, _bufferSize);
+                FileStream fs = zFile.Open(__traceHtmlReaderFile, FileMode.Create, FileAccess.Write, FileShare.Read, _bufferSize);
                 _traceHtmlReaderStreamWriter = new StreamWriter(fs, _encoding);
                 _traceIndex = 1;
             }
@@ -193,7 +194,8 @@ namespace pb.Web
             CloseExportHtml();
             if (_exportHtmlFile != null)
             {
-                FileStream fs = new FileStream(_exportHtmlFile, FileMode.Create, FileAccess.Write, FileShare.Read, _bufferSize);
+                //FileStream fs = new FileStream(_exportHtmlFile, FileMode.Create, FileAccess.Write, FileShare.Read, _bufferSize);
+                FileStream fs = zFile.Open(_exportHtmlFile, FileMode.Create, FileAccess.Write, FileShare.Read, _bufferSize);
                 _exportHtmlStreamWriter = new StreamWriter(fs, _encoding);
             }
         }

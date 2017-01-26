@@ -72,7 +72,8 @@ namespace pb.IO.Test
             zfile.CreateFileDirectory(file);
             if (zFile.Exists(file))
                 zFile.Delete(file);
-            using (FileStream fs = new FileStream(file, FileMode.Create, FileAccess.Write, FileShare.Read))
+            //using (FileStream fs = new FileStream(file, FileMode.Create, FileAccess.Write, FileShare.Read))
+            using (FileStream fs = zFile.Open(file, FileMode.Create, FileAccess.Write, FileShare.Read))
             using (StreamWriter sw = new StreamWriter(fs, encoding))
             {
                 WriteTest(sw);

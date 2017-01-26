@@ -333,7 +333,8 @@ namespace pb.IO
                 encoding = new UTF8Encoding();
             FileMode fm;
             if (append) fm = FileMode.Append; else fm = FileMode.Create;
-            FileStream fs = new FileStream(file, fm, FileAccess.Write, FileShare.Read);
+            //FileStream fs = new FileStream(file, fm, FileAccess.Write, FileShare.Read);
+            FileStream fs = zFile.Open(file, fm, FileAccess.Write, FileShare.Read);
             StreamWriter sw = new StreamWriter(fs, encoding);
             try
             {
@@ -348,7 +349,8 @@ namespace pb.IO
         public static void WriteFile(string file, byte[] bytes)
         {
             CreateFileDirectory(file);
-            FileStream fs = new FileStream(file, FileMode.Create, FileAccess.Write, FileShare.Read);
+            //FileStream fs = new FileStream(file, FileMode.Create, FileAccess.Write, FileShare.Read);
+            FileStream fs = zFile.Open(file, FileMode.Create, FileAccess.Write, FileShare.Read);
             BinaryWriter bw = new BinaryWriter(fs, Encoding.Default);
             try
             {
@@ -657,7 +659,8 @@ namespace pb.IO
         public static byte[] ReadBinaryFile(string file)
         {
             if (file == null) return null;
-            FileStream fs = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            //FileStream fs = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            FileStream fs = zFile.Open(file, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
             BinaryReader br = new BinaryReader(fs, Encoding.Default);
             try
             {
@@ -680,7 +683,8 @@ namespace pb.IO
                 //encoding = Encoding.UTF8;
                 // no bom with new UTF8Encoding()
                 encoding = new UTF8Encoding();
-            return new StreamWriter(new FileStream(file, fileMode, FileAccess.Write, FileShare.Read), encoding);
+            //return new StreamWriter(new FileStream(file, fileMode, FileAccess.Write, FileShare.Read), encoding);
+            return new StreamWriter(zFile.Open(file, fileMode, FileAccess.Write, FileShare.Read), encoding);
         }
 
         //public static bool FilesEquals(string path1, string path2)
@@ -775,7 +779,7 @@ namespace pb.IO
         private static byte[] __bom = { 0xEF, 0xBB, 0xBF };
         public static bool IsBom(string file)
         {
-            using (FileStream fs = File.OpenRead(file))
+            using (FileStream fs = zFile.OpenRead(file))
             {
                 byte[] buffer = new byte[3];
                 if (fs.Length < 3)
@@ -791,9 +795,11 @@ namespace pb.IO
         // append file2 to file1
         public static void AppendFileToFile(string file1, string file2)
         {
-            using (FileStream fs1 = new FileStream(file1, FileMode.Append, FileAccess.Write, FileShare.Read))
+            //using (FileStream fs1 = new FileStream(file1, FileMode.Append, FileAccess.Write, FileShare.Read))
+            using (FileStream fs1 = zFile.Open(file1, FileMode.Append, FileAccess.Write, FileShare.Read))
             {
-                using (FileStream fs2 = new FileStream(file2, FileMode.Open, FileAccess.Read, FileShare.Read))
+                //using (FileStream fs2 = new FileStream(file2, FileMode.Open, FileAccess.Read, FileShare.Read))
+                using (FileStream fs2 = zFile.Open(file2, FileMode.Open, FileAccess.Read, FileShare.Read))
                 {
                     fs2.CopyTo(fs1);
                 }

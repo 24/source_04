@@ -249,7 +249,7 @@ namespace Test.Test_Bson
             Trace.WriteLine("read file \"{0}\"", file);
             //BsonDocument doc = BsonDocument.ReadFrom(file);
             //BsonDocument doc = BsonSerializer.Deserialize<BsonDocument>(zfile.ReadFile(file, encoding));
-            BsonDocument doc = zmongo.ReadFileAs<BsonDocument>(file, encoding);
+            BsonDocument doc = zMongo.ReadFileAs<BsonDocument>(file, encoding);
             //var r = zmongo.BsonReader<BsonDocument>(file);
             //Trace.WriteLine("count {0}", r.Count());
             //BsonDocument doc = r.First();

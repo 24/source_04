@@ -1,7 +1,7 @@
 ﻿using System;
 using pb.IO;
 
-namespace pb.Web.old
+namespace pb.Web.Data.old
 {
     public class LoadFromWebManager_v4
     {

@@ -4,13 +4,12 @@
   <Root                             value = "..\..\..\..\.." />
 
   <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\LanguageCSharp5Debug.project.xml" />
-  <!--<Target                           value = "library" /> --><!-- exe (exe console default), library (dll), module (.netmodule), winexe (exe windows) -->
-	<!--<Output                           value = "bin32\hts.dll" />-->
-  <!--<CopySourceFiles                  value = "true" />-->
-  <!--<CopyRunSourceSourceFiles         value = "true" />-->
-  <!--<CopyOutput                       value = "c:\pib\prog\tools\runsource\app\hts\new" />-->
+  <Target                           value = "library" /> <!-- exe (exe console default), library (dll), module (.netmodule), winexe (exe windows) -->
+	<Output                           value = "bin32\hts.dll" />
+  <CopySourceFiles                  value = "true" />
+  <CopyRunSourceSourceFiles         value = "true" />
+  <CopyOutput                       value = "c:\pib\prog\tools\runsource\app\hts\new" />
 
-  <!--
   <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\Basic.project.xml" />
   <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\RunSourceExtension.project.xml" />
   <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\MongoExtension.project.xml" />
@@ -20,14 +19,7 @@
   <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\HtmlRun.project.xml" />
   <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\VSProject.project.xml" />
   <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\WebData.project.xml" />
-  -->
-
-  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\Extension_01.dll.project.xml" />
-  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\VSProject_v2.project.xml" />
-  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\WebData_v2.project.xml" />
 
   <IncludeProject                   value = "hts.source.project.xml" />
-
-  <NameSpace                        value = "hts" />
-
+  
 </AssemblyProject>

@@ -153,7 +153,13 @@
     <Content Include="Source\WebData\project\hts.config.xml">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Source\WebData\project\hts.compile.dll.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Source\WebData\project\hts.dll.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Source\WebData\project\hts.source.project.xml">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Source\WebData\project\hts.project.xml">

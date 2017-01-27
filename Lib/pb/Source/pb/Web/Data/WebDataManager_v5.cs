@@ -114,6 +114,7 @@ namespace pb.Web.Data
             foreach (KeyValuePair<string, Action<TData, HttpResult<string>>> value in _getDatas)
             {
                 HttpRequest httpRequest = GetHttpRequest(source, value.Key);
+                httpRequest.ReloadFromWeb = webData.Request.ReloadFromWeb;
                 HttpResult<string> httpResult = _httpManager.LoadText(httpRequest);
                 if (httpResult.Success)
                     value.Value(data, httpResult);

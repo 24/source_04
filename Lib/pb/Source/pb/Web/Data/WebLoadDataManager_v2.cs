@@ -21,6 +21,7 @@ namespace pb.Web.Data
         public WebDataResult_v2<TData> LoadData(WebRequest webRequest)
         {
             //WebResult loadDataFromWeb = Load(webRequest);
+            webRequest.HttpRequest.ReloadFromWeb = webRequest.ReloadFromWeb;
             HttpResult<string> httpResult = LoadText(webRequest.HttpRequest);
             TData data;
             if (httpResult.Success)

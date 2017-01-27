@@ -10,8 +10,9 @@
 //*************************************************************************************************************************
 
 Trace.WriteLine("toto");
-RunSource.CurrentRunSource.SetProjectFromSource();
-RunSource.CurrentRunSource.CompileProject(@"$Root$\Apps\Damien\Source\WebData\project\hts.project.xml");
+RunSourceCommand.SetProjectFromSource();
+RunSourceCommand.CompileProject(@"$Root$\Apps\Damien\Source\WebData\project\hts.compile.dll.project.xml");
+RunSourceCommand.SetProject("hts.dll.project.xml");
 
 HttpManager.CurrentHttpManager.ExportResult = false;
 HttpManager.CurrentHttpManager.ExportResult = true;
@@ -47,6 +48,8 @@ WebData.WebData.CreateUnea().HeaderDetailManager.LoadNewDocuments(maxDocumentsLo
 WebData.WebData.CreateUneaExport().ExportXml(WebData.WebData.CreateUnea().HeaderDetailManager.LoadHeaderDetails(startPage: 1, maxPage: 0, reloadHeaderPage: false, reloadDetail: false, refreshDocumentStore: false, imageRequest: null));
 // refreshDocumentStore: true
 WebData.WebData.CreateUneaExport().ExportXml(WebData.WebData.CreateUnea().HeaderDetailManager.LoadHeaderDetails(startPage: 1, maxPage: 0, reloadHeaderPage: false, reloadDetail: false, refreshDocumentStore: true, imageRequest: null));
+// reloadHeaderPage: true, reloadDetail: true
+WebData.WebData.CreateUneaExport().ExportXml(WebData.WebData.CreateUnea().HeaderDetailManager.LoadHeaderDetails(startPage: 1, maxPage: 0, reloadHeaderPage: true, reloadDetail: true, refreshDocumentStore: false, imageRequest: null));
 
 TraceMongoCommand.Export("htc", "Unea_Header", Path.Combine(AppData.DataDirectory, @"sites\unea.fr\mongo\export_Unea_Header.txt"), sort: "{ _id: 1 }");
 TraceMongoCommand.Export("htc", "Unea_Detail", Path.Combine(AppData.DataDirectory, @"sites\unea.fr\mongo\export_Unea_Detail.txt"), sort: "{ _id: 1 }");

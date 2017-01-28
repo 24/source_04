@@ -12,8 +12,8 @@ namespace hts.WebData.Unea
 {
     public class UneaExport
     {
-        private string _companyXmlFile;
-        private string _detailCompanyXmlFile;
+        private string _xmlFile;
+        private string _detailXmlFile;
         private string _duplicatesFile;
         private string _activitiesFile;
         private string _sectorsFile;
@@ -28,8 +28,8 @@ namespace hts.WebData.Unea
             xe = xe.Element("Export");
             if (xe == null)
                 throw new PBException("Export element not found in config file");
-            export._companyXmlFile = xe.zXPathExplicitValue("CompanyXmlFile");
-            export._detailCompanyXmlFile = xe.zXPathExplicitValue("DetailCompanyXmlFile");
+            export._xmlFile = xe.zXPathExplicitValue("XmlFile");
+            export._detailXmlFile = xe.zXPathExplicitValue("DetailXmlFile");
             export._duplicatesFile = xe.zXPathExplicitValue("DuplicatesFile");
             export._activitiesFile = xe.zXPathExplicitValue("ActivitiesFile");
             export._sectorsFile = xe.zXPathExplicitValue("SectorsFile");
@@ -43,18 +43,18 @@ namespace hts.WebData.Unea
         public void ExportXml(IEnumerable<HeaderDetail<Unea_Header_v2, Unea_Detail_v2>> headerDetails)
         {
             Trace.WriteLine("export Unea");
-            Trace.WriteLine($"   file        \"{_companyXmlFile}\"");
-            Trace.WriteLine($"   file detail \"{_detailCompanyXmlFile}\"");
+            Trace.WriteLine($"   file        \"{_xmlFile}\"");
+            Trace.WriteLine($"   file detail \"{_detailXmlFile}\"");
             XmlWriterSettings settings = new XmlWriterSettings();
             settings.Encoding = Encoding.UTF8;
             settings.Indent = true;
 
-            zfile.CreateFileDirectory(_companyXmlFile);
-            zfile.CreateFileDirectory(_detailCompanyXmlFile);
+            zfile.CreateFileDirectory(_xmlFile);
+            zfile.CreateFileDirectory(_detailXmlFile);
 
             Unea_Company_DuplicateExists duplicate = new Unea_Company_DuplicateExists();
             Unea_CompanyUniqueValues uniqueValues = new Unea_CompanyUniqueValues();
-            using (XmlWriter xw = XmlWriter.Create(_companyXmlFile, settings), xwDetail = XmlWriter.Create(_detailCompanyXmlFile, settings))
+            using (XmlWriter xw = XmlWriter.Create(_xmlFile, settings), xwDetail = XmlWriter.Create(_detailXmlFile, settings))
             {
                 xw.WriteStartElement("Unea");
                 xwDetail.WriteStartElement("Unea");

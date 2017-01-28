@@ -42,6 +42,8 @@ namespace pb.Web.Data
             if (_dataStore == null || !dataExists || _request.ReloadFromWeb || _request.RefreshDocumentStore)
             {
                 _LoadFromWeb_v2(_webDataManager_v4.WebLoadDataManager);
+                if (!_result_v2.Success)
+                    return;
             }
             else
             {

@@ -251,12 +251,12 @@ namespace hts.WebData.Unea
         public static string ConfigName { get { return _configName; } }
         public static Unea_v2 Current { get { return _current; } }
 
-        //public static Unea_v2 Create(bool test)
-        public static Unea_v2 Create(XElement xe)
+        public static Unea_v2 Create(bool test)
+        //public static Unea_v2 Create(XElement xe)
         {
-            //if (test)
-            //    Trace.WriteLine("{0} init for test", _configName);
-            //XElement xe = GetConfigElement(test);
+            if (test)
+                Trace.WriteLine("{0} init for test", _configName);
+            XElement xe = GetConfigElement(test);
 
             _current = new Unea_v2();
             _current.HeaderPageNominalType = typeof(Unea_HeaderDataPages);
@@ -264,13 +264,13 @@ namespace hts.WebData.Unea
             return _current;
         }
 
-        //public static XElement GetConfigElement(bool test = false)
-        //{
-        //    string configName = _configName;
-        //    if (test)
-        //        configName += "_Test";
-        //    return XmlConfig.CurrentConfig.GetElement(configName);
-        //}
+        public static XElement GetConfigElement(bool test = false)
+        {
+            string configName = _configName;
+            if (test)
+                configName += "_Test";
+            return XmlConfig.CurrentConfig.GetElement(configName);
+        }
 
         // header get data, from WebHeaderDetailMongoManagerBase_v2<THeaderData, TDetailData>
         protected override IEnumDataPages<Unea_Header_v2> GetHeaderPageData(HttpResult<string> httpResult)

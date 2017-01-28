@@ -335,6 +335,8 @@ namespace pb.Data.Mongo
 
         public static MongoDataStore Create(XElement xe)
         {
+            if (!xe.zXPathValue("UseMongo").zTryParseAs(false))
+                return null;
             MongoDataStore mongoDataStore = new MongoDataStore(xe.zXPathExplicitValue("MongoServer"), xe.zXPathExplicitValue("MongoDatabase"), xe.zXPathExplicitValue("MongoCollection"), xe.zXPathValue("MongoDocumentItemName"));
             mongoDataStore.DefaultSort = xe.zXPathValue("MongoDefaultSort");
             if (xe.zXPathValue("MongoGenerateId").zTryParseAs(false))

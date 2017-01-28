@@ -19,22 +19,22 @@ namespace pb.Web.Data
         public WebDataManager_v4<TDetailData> DetailDataManager { get { return _detailDataManager; } set { _detailDataManager = value; } }
         public Action<WebData<TDetailData>> OnDocumentLoaded { get { return _onDocumentLoaded; } set { _onDocumentLoaded = value; } }
 
-        public IEnumerable<HeaderDetail<THeaderData, TDetailData>> LoadHeaderDetails(int startPage = 1, int maxPage = 1, bool reloadHeaderPage = false, bool reloadDetail = false,
-            bool loadImageFromWeb = false, bool loadImageToData = false, bool refreshImage = false,
-            bool refreshDocumentStore = false)
+        // bool loadImageFromWeb = false, bool loadImageToData = false, bool refreshImage = false
+        public IEnumerable<HeaderDetail<THeaderData, TDetailData>> LoadHeaderDetails(int startPage = 1, int maxPage = 1, bool reloadHeaderPage = false, bool reloadDetail = false, bool refreshDocumentStore = false,
+            WebImageRequest imageRequest = null)
         {
             foreach (THeaderData header in _headerDataPageManager.LoadPages(startPage, maxPage, reloadHeaderPage, false))
             {
                 if (!(header is IHeaderData))
                     throw new PBException("type {0} is not IHeaderData", header.GetType().zGetTypeName());
-                TDetailData detail = _detailDataManager.Load(new WebRequest { HttpRequest = ((IHeaderData)header).GetHttpRequestDetail(), ReloadFromWeb = reloadDetail, ImageRequest = new WebImageRequest { LoadImageFromWeb = loadImageFromWeb, LoadImageToData = loadImageToData, RefreshImage = refreshImage }, RefreshDocumentStore = refreshDocumentStore }).Data;
+                // ImageRequest = new WebImageRequest { LoadImageFromWeb = loadImageFromWeb, LoadImageToData = loadImageToData, RefreshImage = refreshImage } }
+                TDetailData detail = _detailDataManager.Load(new WebRequest { HttpRequest = ((IHeaderData)header).GetHttpRequestDetail(), ReloadFromWeb = reloadDetail, RefreshDocumentStore = refreshDocumentStore, ImageRequest = imageRequest }).Data;
                 yield return new HeaderDetail<THeaderData, TDetailData> { Header = header, Detail = detail };
             }
         }
 
-        public IEnumerable<TDetailData> LoadDetails(int startPage = 1, int maxPage = 1, bool reloadHeaderPage = false, bool reloadDetail = false,
-            bool loadImageFromWeb = false, bool loadImageToData = false, bool refreshImage = false,
-            bool refreshDocumentStore = false)
+        // bool loadImageFromWeb = false, bool loadImageToData = false, bool refreshImage = false
+        public IEnumerable<TDetailData> LoadDetails(int startPage = 1, int maxPage = 1, bool reloadHeaderPage = false, bool reloadDetail = false, bool refreshDocumentStore = false, WebImageRequest imageRequest = null)
         {
             Trace.WriteLine("WebHeaderDetailManager_v4<>.LoadDetails()");
 
@@ -42,8 +42,9 @@ namespace pb.Web.Data
             {
                 if (!(header is IHeaderData))
                     throw new PBException("type {0} is not IHeaderData", header.GetType().zGetTypeName());
+                // ImageRequest = new WebImageRequest { LoadImageFromWeb = loadImageFromWeb, LoadImageToData = loadImageToData, RefreshImage = refreshImage }
                 yield return _detailDataManager.Load(
-                    new WebRequest { HttpRequest = ((IHeaderData)header).GetHttpRequestDetail(), ReloadFromWeb = reloadDetail, ImageRequest = new WebImageRequest { LoadImageFromWeb = loadImageFromWeb, LoadImageToData = loadImageToData, RefreshImage = refreshImage }, RefreshDocumentStore = refreshDocumentStore }).Data;
+                    new WebRequest { HttpRequest = ((IHeaderData)header).GetHttpRequestDetail(), ReloadFromWeb = reloadDetail, ImageRequest = imageRequest, RefreshDocumentStore = refreshDocumentStore }).Data;
             }
         }
 

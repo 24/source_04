@@ -48,6 +48,10 @@
       <Project>{f03da979-0406-4792-9bb9-14c40eb2a39d}</Project>
       <Name>runsource.v2.dll</Name>
     </ProjectReference>
+    <ProjectReference Include="..\runsource.irunsource\runsource.v2.irunsource.csproj">
+      <Project>{69eeca69-aaba-40b4-b8a0-f830303a831f}</Project>
+      <Name>runsource.v2.irunsource</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="runsource.command.project.xml">

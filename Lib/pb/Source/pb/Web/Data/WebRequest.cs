@@ -15,8 +15,8 @@ namespace pb.Web.Data
 
         public HttpRequest HttpRequest { get { return _httpRequest; } set { _httpRequest = value; } }
         public bool ReloadFromWeb { get { return _reloadFromWeb; } set { _reloadFromWeb = value; } }
-        public WebImageRequest ImageRequest { get { return _imageRequest; } set { _imageRequest = value; } }
         public bool RefreshDocumentStore { get { return _refreshDocumentStore; } set { _refreshDocumentStore = value; } }
+        public WebImageRequest ImageRequest { get { return _imageRequest; } set { _imageRequest = value; } }
     }
 
     // used by :

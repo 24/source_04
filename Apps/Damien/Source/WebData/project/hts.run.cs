@@ -44,7 +44,6 @@ TraceMongoCommand.Export("htc", "OnisepInstitution_Detail", @"$OnisepInstitution
 //****                                   unea.fr - run
 //*************************************************************************************************************************
 
-WebData.WebData.CreateUnea().HeaderDetailManager.LoadNewDocuments(maxDocumentsLoadedFromStore: 5, maxDocumentsLoaded: 10, startPage: 1, maxPage: 20);
 WebData.WebData.CreateUneaExport().ExportXml(WebData.WebData.CreateUnea().HeaderDetailManager.LoadHeaderDetails(startPage: 1, maxPage: 0, reloadHeaderPage: false, reloadDetail: false, refreshDocumentStore: false, imageRequest: null));
 // refreshDocumentStore: true
 WebData.WebData.CreateUneaExport().ExportXml(WebData.WebData.CreateUnea().HeaderDetailManager.LoadHeaderDetails(startPage: 1, maxPage: 0, reloadHeaderPage: false, reloadDetail: false, refreshDocumentStore: true, imageRequest: null));
@@ -54,6 +53,7 @@ WebData.WebData.CreateUneaExport().ExportXml(WebData.WebData.CreateUnea().Header
 TraceMongoCommand.Export("htc", "Unea_Header", Path.Combine(AppData.DataDirectory, @"sites\unea.fr\mongo\export_Unea_Header.txt"), sort: "{ _id: 1 }");
 TraceMongoCommand.Export("htc", "Unea_Detail", Path.Combine(AppData.DataDirectory, @"sites\unea.fr\mongo\export_Unea_Detail.txt"), sort: "{ _id: 1 }");
 
+WebData.WebData.CreateUnea().HeaderDetailManager.LoadNewDocuments(maxDocumentsLoadedFromStore: 5, maxDocumentsLoaded: 10, startPage: 1, maxPage: 20);
 // id: 4741, CRENO ENTREPRISE ADAPTEE
 // startPage: 1, maxPage: 1, refreshDocumentStore: true
 WebData.WebData.CreateUneaExport().ExportXml(WebData.WebData.CreateUnea().HeaderDetailManager.LoadHeaderDetails(startPage: 1, maxPage: 1, reloadHeaderPage: false, reloadDetail: false, refreshDocumentStore: true, imageRequest: null));
@@ -63,6 +63,25 @@ MongoCommand.Find("htc", "Unea_Detail", "{}", limit:10, fields: "{ 'data.Detail1
 // { 'download.creationDate': { $gt: ISODate('2014-06-25') } }
 // { 'data.Detail2.Name': { $ne: 'Entreprise Adaptée' } }
 MongoCommand.Find("htc", "Unea_Detail", "{ 'data.Detail2.Name': { $ne: 'Entreprise Adaptée' } }", fields: "{ 'data.Detail1.Name': 1, 'data.Detail2.Name': 1, 'data.Detail2.SourceUrl': 1 }", sort: "{ _id: 1 }").zView();
+
+//*************************************************************************************************************************
+//****                                   reseau-gesat.com - run
+//*************************************************************************************************************************
+
+WebData.WebData.CreateGesatExport().ExportXml(WebData.WebData.CreateGesat().HeaderDetailManager.LoadHeaderDetails(startPage: 1, maxPage: 0, reloadHeaderPage: false, reloadDetail: false, refreshDocumentStore: false, imageRequest: null));
+// refreshDocumentStore: true
+WebData.WebData.CreateGesatExport().ExportXml(WebData.WebData.CreateGesat().HeaderDetailManager.LoadHeaderDetails(startPage: 1, maxPage: 0, reloadHeaderPage: false, reloadDetail: false, refreshDocumentStore: true, imageRequest: null));
+
+TraceMongoCommand.Export("htc", "Gesat_Header", Path.Combine(AppData.DataDirectory, @"sites\reseau-gesat.com\mongo\export_Gesat_Header.txt"), sort: "{ _id: 1 }");
+TraceMongoCommand.Export("htc", "Gesat_Detail", Path.Combine(AppData.DataDirectory, @"sites\reseau-gesat.com\mongo\export_Gesat_Detail.txt"), sort: "{ _id: 1 }");
+
+WebData.WebData.CreateGesat().HeaderDetailManager.LoadNewDocuments(maxDocumentsLoadedFromStore: 5, maxDocumentsLoaded: 10, startPage: 1, maxPage: 20);
+// startPage: 1, maxPage: 2
+WebData.WebData.CreateGesatExport().ExportXml(WebData.WebData.CreateGesat().HeaderDetailManager.LoadHeaderDetails(startPage: 1, maxPage: 2, reloadHeaderPage: false, reloadDetail: false, refreshDocumentStore: false, imageRequest: null));
+
+TraceMongoCommand.Eval("{ listDatabases: 1 }");
+TraceMongoCommand.Eval("db.getCollectionNames()", "htc");
+
 
 //*************************************************************************************************************************
 //****                                   handeco.org - run
@@ -4448,6 +4467,8 @@ Uri uri = new Uri("http://unea.fr/union-nationale-entreprises-adaptees/annuaire-
 // Scheme "http" Host "unea.fr" AbsolutePath "/union-nationale-entreprises-adaptees/annuaire-unea/71/71/annuaire/detail.asp" Query "?id=4011"
 Uri uri = new Uri("http://www.unea.fr/union-nationale-entreprises-adaptees/annuaire-unea/71/4011/adapei_du_bas-rhin_asea.htm");
 // Scheme "http" Host "www.unea.fr" AbsolutePath "/union-nationale-entreprises-adaptees/annuaire-unea/71/4011/adapei_du_bas-rhin_asea.htm" Query "" Segments /, union-nationale-entreprises-adaptees/, annuaire-unea/, 71/, 4011/, adapei_du_bas-rhin_asea.htm
+Uri uri = new Uri("http://www.reseau-gesat.com/Gesat/Hauts-de-Seine,92/Bois-Colombes,35494/esat-betty-launay-moulin-vert-competences-et-handicap-92,e1837/");
+// Scheme "http" Host "www.reseau-gesat.com" AbsolutePath "/Gesat/Hauts-de-Seine,92/Bois-Colombes,35494/esat-betty-launay-moulin-vert-competences-et-handicap-92,e1837/" Query "" Segments /, Gesat/, Hauts-de-Seine,92/, Bois-Colombes,35494/, esat-betty-launay-moulin-vert-competences-et-handicap-92,e1837/
 Trace.WriteLine($"Scheme \"{uri.Scheme}\" Host \"{uri.Host}\" AbsolutePath \"{uri.AbsolutePath}\" Query \"{uri.Query}\" Segments {uri.Segments.zToStringValues()}");
 
 

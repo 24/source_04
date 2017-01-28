@@ -26,11 +26,15 @@
   <Source                           value = "AppData.cs" />
   <Source                           value = "Run.cs" />
   <Source                           value = "WebData.cs" />
+  <Source                           value = "WebData_Gesat.cs" />
   <Source                           value = "WebData_Handeco.cs" />
   <Source                           value = "WebData_Unea.cs" />
 
   <Source                           value = "..\sites\handeco.org\Handeco.cs" />
   <Source                           value = "..\sites\handeco.org\Handeco_v2.cs" />
+  <Source                           value = "..\sites\reseau-gesat.com\Gesat_v2.cs" />
+  <Source                           value = "..\sites\reseau-gesat.com\GesatData.cs" />
+  <Source                           value = "..\sites\reseau-gesat.com\GesatExport.cs" />
   <Source                           value = "..\sites\unea.fr\Unea_v2.cs" />
   <Source                           value = "..\sites\unea.fr\UneaData.cs" />
   <Source                           value = "..\sites\unea.fr\UneaExport.cs" />

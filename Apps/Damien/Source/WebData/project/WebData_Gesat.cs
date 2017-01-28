@@ -1,32 +1,32 @@
-﻿using hts.WebData.Unea;
+﻿using hts.WebData.Gesat;
 using pb.Data;
 
 namespace hts.WebData
 {
     static partial class WebData
     {
-        public static Unea_v2 CreateUnea(string parameters = null)
+        public static Gesat_v2 CreateGesat(string parameters = null)
         {
             NamedValues<ZValue> parameters2 = ParseParameters(parameters);
             bool test = WebData.GetTestValue(parameters2);
-            //return Unea_v2.Create(GetUneaConfigElement(test));
-            return Unea_v2.Create(test);
+            return Gesat_v2.Create(test);
+            //return Gesat_v2.Create(GetGesatConfigElement(test));
         }
 
-        public static UneaExport CreateUneaExport(string parameters = null)
+        public static GesatExport CreateGesatExport(string parameters = null)
         {
             NamedValues<ZValue> parameters2 = ParseParameters(parameters);
             bool test = WebData.GetTestValue(parameters2);
-            return UneaExport.Create(Unea_v2.GetConfigElement(test));
+            return GesatExport.Create(Gesat_v2.GetConfigElement(test));
         }
 
-        //private static XElement GetUneaConfigElement(bool test = false)
+        //private static XElement GetGesatConfigElement(bool test = false)
         //{
-        //    string configName = Unea_v2.ConfigName;
+        //    string configName = Gesat_v2.ConfigName;
         //    if (test)
         //    {
         //        configName += "_Test";
-        //        Trace.WriteLine($"{Unea_v2.ConfigName} init for test");
+        //        Trace.WriteLine($"{Gesat_v2.ConfigName} init for test");
         //    }
         //    return XmlConfig.CurrentConfig.GetElement(configName);
         //}

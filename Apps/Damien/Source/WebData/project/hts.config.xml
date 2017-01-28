@@ -60,7 +60,7 @@
       <UseUrlCache                                               value = "true" />
       <CacheDirectory                                            value = "$Unea/DataDir$\cache\header" />
       <CacheUrlFileNameType                                      value = "Path, Content" />
-      <UseMongo                                                  value = "false" />
+      <UseMongo                                                  value = "true" />
       <MongoServer                                               value = "mongodb://localhost" />
       <MongoDatabase                                             value = "htc" />
       <MongoCollection                                           value = "Unea_Header" />
@@ -79,9 +79,10 @@
       <MongoDocumentItemName                                     value = "data" />
       <MongoDefaultSort                                          value = "{ 'data.id': 1 }" />
     </Detail>
+    
     <Export>
-      <CompanyXmlFile                                            value = "$Unea/DataDir$\export\Unea.xml" />
-      <DetailCompanyXmlFile                                      value = "$Unea/DataDir$\export\UneaDetail.xml" />
+      <XmlFile                                                   value = "$Unea/DataDir$\export\Unea.xml" />
+      <DetailXmlFile                                             value = "$Unea/DataDir$\export\UneaDetail.xml" />
       <DuplicatesFile                                            value = "$Unea/DataDir$\export\Unea_duplicates.txt" />
       <ActivitiesFile                                            value = "$Unea/DataDir$\export\Unea_activities.txt" />
       <SectorsFile                                               value = "$Unea/DataDir$\export\Unea_sectors.txt" />
@@ -91,6 +92,39 @@
       <UnknowInfosFile                                           value = "$Unea/DataDir$\export\Unea_unknowInfos.txt" />
     </Export>
   </Unea>
+
+  <Gesat>
+    <DataDir                                                     value = "$DataDir$\sites\reseau-gesat.com" />
+
+    <Header>
+      <UseUrlCache                                               value = "true" />
+      <CacheDirectory                                            value = "$Gesat/DataDir$\cache\header" />
+      <CacheUrlFileNameType                                      value = "Path" />
+      <UseMongo                                                  value = "true" />
+      <MongoServer                                               value = "mongodb://localhost" />
+      <MongoDatabase                                             value = "htc" />
+      <MongoCollection                                           value = "Gesat_Header" />
+      <MongoDocumentItemName                                     value = "data" />
+      <MongoDefaultSort                                          value = "{ 'data.id': 1 }" />
+    </Header>
+
+    <Detail>
+      <UseUrlCache                                               value = "true" />
+      <CacheDirectory                                            value = "$Gesat/DataDir$\cache\detail" />
+      <CacheUrlFileNameType                                      value = "Path" />
+      <UseMongo                                                  value = "true" />
+      <MongoServer                                               value = "mongodb://localhost" />
+      <MongoDatabase                                             value = "htc" />
+      <MongoCollection                                           value = "Gesat_Detail" />
+      <MongoDocumentItemName                                     value = "data" />
+      <MongoDefaultSort                                          value = "{ 'data.id': 1 }" />
+    </Detail>
+
+    <Export>
+      <XmlFile                                                   value = "$Gesat/DataDir$\export\Gesat.xml" />
+      <DetailXmlFile                                             value = "$Gesat/DataDir$\export\GesatDetail.xml" />
+    </Export>
+  </Gesat>
 
   <OnisepInstitution>
     <DataDir                                                     value = "$DataDir$\sites\onisep.fr" />

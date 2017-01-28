@@ -5,8 +5,21 @@
 
   <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\LanguageCSharp5Debug.project.xml" />
 
+  <InitMethod                       value = "pb.Data.Mongo.Serializers.RunSerializer.InitDefault, hts, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" params = "traceProvider = false, traceSerializer = false" />
+  <EndMethod                        value = "pb.Data.Mongo.Serializers.RunSerializer.EndDefault, hts, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" />
+  <InitMethod                       value = "pb.Data.Mongo.Serializers.RunSerializer.InitZValue, hts, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" params = "traceSerializer = false" />
+  <EndMethod                        value = "pb.Data.Mongo.Serializers.RunSerializer.EndZValue, hts, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" />
+  <InitMethod                       value = "pb.Data.Mongo.Serializers.RunSerializer.InitWebHeader, hts, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" params = "traceSerializer = false" />
+  <EndMethod                        value = "pb.Data.Mongo.Serializers.RunSerializer.EndWebHeader, hts, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" />
+  <InitMethod                       value = "pb.Web.Html.HtmlRun.Init, hts, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" />
+  <EndMethod                        value = "pb.Web.Html.HtmlRun.End, hts, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" />
+  
+  <InitMethod                       value = "hts.Run.Init, hts, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" run = "always" />      <!-- [{namespace}.{type}.]{method name}[, {assembly name}] default type {namespace}._RunCode -->
+  <EndMethod                        value = "hts.Run.End, hts, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" run = "always" />       <!-- [{namespace}.{type}.]{method name}[, {assembly name}] default type {namespace}._RunCode -->
+  
   <NameSpace                        value = "hts" />
 
+  <Using                            value = "System" />
   <Using                            value = "System.Linq" />
   <Using                            value = "System.Xml.Linq" />
   <!--<Using                            value = "System.Xml.XPath" />-->

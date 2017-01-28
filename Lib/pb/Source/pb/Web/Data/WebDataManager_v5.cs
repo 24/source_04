@@ -69,7 +69,10 @@ namespace pb.Web.Data
 
 
             if (_store == null || !dataExist || request.ReloadFromWeb || request.RefreshDocumentStore)
-                LoadFromWeb(webData);
+            {
+                if (!LoadFromWeb(webData))
+                    return webData;
+            }
             else
                 LoadFromStore(webData);
 
@@ -105,12 +108,13 @@ namespace pb.Web.Data
             return data.GetDetailKey();
         }
 
-        protected void LoadFromWeb(WebData_v2<TSource, TData> webData)
+        protected bool LoadFromWeb(WebData_v2<TSource, TData> webData)
         {
             //Trace.WriteLine($"WebDataManager_v5.LoadFromWeb()");
 
             TData data = webData.Data = _createData();
             TSource source = webData.Request.Data;
+            bool success = true;
             foreach (KeyValuePair<string, Action<TData, HttpResult<string>>> value in _getDatas)
             {
                 HttpRequest httpRequest = GetHttpRequest(source, value.Key);
@@ -118,6 +122,8 @@ namespace pb.Web.Data
                 HttpResult<string> httpResult = _httpManager.LoadText(httpRequest);
                 if (httpResult.Success)
                     value.Value(data, httpResult);
+                else
+                    success = false;
                 webData.HttpResults.Add(value.Key, httpResult);
             }
             webData.DataLoaded = true;
@@ -125,6 +131,8 @@ namespace pb.Web.Data
 
             if (webData.Id != null)
                 webData.Data.zSetId(webData.Id);
+
+            return success;
         }
 
         protected HttpRequest GetHttpRequest(TSource source, string name)

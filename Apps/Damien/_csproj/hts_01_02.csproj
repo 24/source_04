@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -9,9 +9,8 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>hts</RootNamespace>
     <AssemblyName>hts</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Pri.LongPath">
+      <HintPath>..\..\..\RuntimeLibrary\LongPath\LongPath\Pri.LongPath.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -44,6 +46,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\Lib\pb\Source\pb\Compiler\RunSourceCommand.cs">
+      <Link>SourceLnk\Lib\pb\Compiler\RunSourceCommand.cs</Link>
+    </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\WebHeaderDetailMongoManagerBase_v3.cs">
       <Link>SourceLnk\Lib\pb\Data\Mongo\WebHeaderDetailMongoManagerBase_v3.cs</Link>
     </Compile>
@@ -68,12 +73,6 @@
     <Compile Include="..\..\Lib\pb\Source\pb\Data\ZValue.cs">
       <Link>SourceLnk\Lib\pb\Data\ZValue.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Text\Regex.cs">
-      <Link>SourceLnk\Lib\pb\Text\Regex.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Text\String.cs">
-      <Link>SourceLnk\Lib\pb\Text\String.cs</Link>
-    </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\DataPages.cs">
       <Link>SourceLnk\Lib\pb\Web\Data\DataPages.cs</Link>
     </Compile>
@@ -95,34 +94,31 @@
     <Compile Include="..\..\Lib\pb\Source\pb\Web\Http\HttpXml_v2.cs">
       <Link>SourceLnk\Lib\pb\Web\Http\HttpXml_v2.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Web\Http\XmlDocumentSourceType.cs">
-      <Link>SourceLnk\Lib\pb\Web\Http\XmlDocumentSourceType.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\_pb\Date.cs">
-      <Link>SourceLnk\Lib\pb\_pb\Date.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\_pb\FormatInfo.cs">
-      <Link>SourceLnk\Lib\pb\_pb\FormatInfo.cs</Link>
+    <Compile Include="..\..\Lib\pb\Source\pb\_pb\PBException.cs">
+      <Link>SourceLnk\Lib\pb\_pb\PBException.cs</Link>
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\_pb\TextSerializer.cs">
       <Link>SourceLnk\Lib\pb\_pb\TextSerializer.cs</Link>
     </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\_pb\Trace.cs">
+      <Link>SourceLnk\Lib\pb\_pb\Trace.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\_pb\TraceManager.cs">
+      <Link>SourceLnk\Lib\pb\_pb\TraceManager.cs</Link>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Source\WebData\project\WebData.cs" />
-    <Compile Include="Source\WebData\project\WebData_Gesat.cs" />
     <Compile Include="Source\WebData\project\WebData_Handeco.cs" />
     <Compile Include="Source\WebData\project\WebData_Unea.cs" />
-    <None Include="Source\WebData\sites\cdefi.fr\Cdefi.cs" />
-    <None Include="Source\WebData\sites\cdefi.fr\Cdefi_Detail.cs" />
-    <None Include="Source\WebData\sites\cdefi.fr\Cdefi_Header.cs" />
+    <Compile Include="Source\WebData\sites\cdefi.fr\Cdefi.cs" />
+    <Compile Include="Source\WebData\sites\cdefi.fr\Cdefi_Detail.cs" />
+    <Compile Include="Source\WebData\sites\cdefi.fr\Cdefi_Header.cs" />
     <Compile Include="Source\WebData\sites\handeco.org\Handeco_v2.cs" />
-    <None Include="Source\WebData\sites\onisep.fr\OnisepInstitution.cs" />
-    <None Include="Source\WebData\sites\onisep.fr\OnisepInstitution_Detail.cs" />
-    <None Include="Source\WebData\sites\onisep.fr\OnisepInstitution_Header.cs" />
-    <None Include="Source\WebData\sites\onisep.fr\OnisepInstitution_Xml.cs" />
-    <Compile Include="Source\WebData\sites\reseau-gesat.com\GesatData.cs" />
-    <Compile Include="Source\WebData\sites\reseau-gesat.com\GesatExport.cs" />
-    <Compile Include="Source\WebData\sites\reseau-gesat.com\Gesat_v2.cs" />
+    <Compile Include="Source\WebData\sites\handeco.org\IKeyData_v4.cs" />
+    <Compile Include="Source\WebData\sites\onisep.fr\OnisepInstitution.cs" />
+    <Compile Include="Source\WebData\sites\onisep.fr\OnisepInstitution_Detail.cs" />
+    <Compile Include="Source\WebData\sites\onisep.fr\OnisepInstitution_Header.cs" />
+    <Compile Include="Source\WebData\sites\onisep.fr\OnisepInstitution_Xml.cs" />
     <Compile Include="Source\WebData\sites\unea.fr\UneaData.cs" />
     <Compile Include="Source\WebData\sites\unea.fr\UneaExport.cs" />
     <Compile Include="Source\WebData\sites\unea.fr\Unea_v2.cs" />
@@ -130,9 +126,9 @@
     <Compile Include="Source\WebData\project\AppData.cs" />
     <Compile Include="Source\WebData\project\Run.cs" />
     <Compile Include="Source\WebData\sites\handeco.org\Handeco.cs" />
-    <None Include="Source\WebData\sites\handeco.org\Handeco_Detail.cs" />
-    <None Include="Source\WebData\sites\handeco.org\Handeco_Xml.cs" />
-    <None Include="Source\WebData\sites\handeco.org\Handeco_Header.cs" />
+    <Compile Include="Source\WebData\sites\handeco.org\Handeco_Detail.cs" />
+    <Compile Include="Source\WebData\sites\handeco.org\Handeco_Xml.cs" />
+    <Compile Include="Source\WebData\sites\handeco.org\Handeco_Header.cs" />
     <None Include="Source\WebData\_old\compile.cs" />
     <None Include="Source\WebData\_old\damien.cs" />
     <None Include="Source\WebData\_old\damien_f.cs" />
@@ -170,6 +166,7 @@
       <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
@@ -249,6 +246,9 @@
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\IO\File.cs">
       <Link>SourceLnk\Lib\pb\IO\File.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\IO\FileOption.cs">
+      <Link>SourceLnk\Lib\pb\IO\FileOption.cs</Link>
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\IO\Path.cs">
       <Link>SourceLnk\Lib\pb\IO\Path.cs</Link>
@@ -396,22 +396,5 @@
     <Compile Include="..\..\Lib\pb\Source\pb\Web\Html\HtmlToXml_v3.cs">
       <Link>SourceLnk\Lib\pb\Web\Html\HtmlToXml_v3.cs</Link>
     </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="SourceLnk\Lib\pb\Compiler\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Lib\LongPath\Pri.LongPath\Pri.LongPath.csproj">
-      <Project>{df1f23ca-9dc6-4604-8400-6c4b656e0f5d}</Project>
-      <Name>Pri.LongPath</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\RunSource\v2\runsource.command\runsource.v2.command.csproj">
-      <Project>{12d4a2fb-84e4-4067-8655-a019e2cf7b5f}</Project>
-      <Name>runsource.v2.command</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\RunSource\v2\runsource.irunsource\runsource.v2.irunsource.csproj">
-      <Project>{69eeca69-aaba-40b4-b8a0-f830303a831f}</Project>
-      <Name>runsource.v2.irunsource</Name>
-    </ProjectReference>
   </ItemGroup>
 </Project>

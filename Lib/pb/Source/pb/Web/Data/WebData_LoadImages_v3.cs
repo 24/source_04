@@ -8,6 +8,8 @@ namespace pb.Web.Data
         {
             WebLoadImageManager_v2<TData> webLoadImageManager = _webDataManager_v4.WebLoadImageManager;
 
+            if (imageRequest == null)
+                return;
             if ((_dataLoadedFromWeb && (imageRequest.LoadImageFromWeb || imageRequest.RefreshImage))
                 || (!_dataLoadedFromWeb && imageRequest.LoadMissingImageFromWeb))
             {

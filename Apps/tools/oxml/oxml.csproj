@@ -70,6 +70,9 @@
     <Compile Include="..\..\..\Lib\pb\Source\pb\IO\FilenameNumberInfo.cs">
       <Link>SourceLnk\Lib\pb\IO\FilenameNumberInfo.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\IO\FileOption.cs">
+      <Link>SourceLnk\Lib\pb\IO\FileOption.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Lib\pb\Source\pb\IO\Path.cs">
       <Link>SourceLnk\Lib\pb\IO\Path.cs</Link>
     </Compile>
@@ -78,6 +81,9 @@
     </Compile>
     <Compile Include="..\..\..\Lib\pb\Source\pb\IO\WriteToFile.cs">
       <Link>SourceLnk\Lib\pb\IO\WriteToFile.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\IO\WriteToFileCreate.cs">
+      <Link>SourceLnk\Lib\pb\IO\WriteToFileCreate.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Lib\pb\Source\pb\IO\zDirectory.cs">
       <Link>SourceLnk\Lib\pb\IO\zDirectory.cs</Link>
@@ -106,14 +112,17 @@
     <Compile Include="..\..\..\Lib\pb\Source\pb\_pb\ITrace.cs">
       <Link>SourceLnk\Lib\pb\_pb\ITrace.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\_pb\ITraceManager.cs">
+      <Link>SourceLnk\Lib\pb\_pb\ITraceManager.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Lib\pb\Source\pb\_pb\PBException.cs">
       <Link>SourceLnk\Lib\pb\_pb\PBException.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Lib\pb\Source\pb\_pb\Trace.cs">
       <Link>SourceLnk\Lib\pb\_pb\Trace.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Lib\pb\Source\pb\_pb\TraceError.cs">
-      <Link>SourceLnk\Lib\pb\_pb\TraceError.cs</Link>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\_pb\TraceManager.cs">
+      <Link>SourceLnk\Lib\pb\_pb\TraceManager.cs</Link>
     </Compile>
     <Compile Include="Source\OXml.cs" />
     <Compile Include="Source\Program.cs" />

@@ -5,15 +5,16 @@ using System.Text;
 using System.Threading;
 using MongoDB.Bson;
 using pb;
-using pb.Compiler;
 using pb.Data;
 using pb.Web.Data;
-using pb.Web;
 using System.Xml.Linq;
 using pb.Data.Xml;
 using MongoDB.Bson.Serialization.Attributes;
 using pb.Data.Mongo;
 using pb.IO;
+using pb.Web;
+using pb.Web.Http;
+using pb.Compiler;
 
 namespace Download.Print
 {
@@ -446,7 +447,7 @@ namespace Download.Print
             bool messageNextRun = true;
             while (true)
             {
-                if (RunSource.CurrentRunSource.IsExecutionAborted())
+                if (RunSourceCommand.IsExecutionAborted())
                     break;
                 if ((_runNow || DateTime.Now >= nextRunDateTime) && (_loadNewPost || _searchPostToDownload))
                 {
@@ -540,7 +541,7 @@ namespace Download.Print
                     int nb = 0;
                     foreach (IPostToDownload post in server.FindFromDateTime(lastRunDateTime))
                     {
-                        if (RunSource.CurrentRunSource.IsExecutionAborted())
+                        if (RunSourceCommand.IsExecutionAborted())
                             break;
 
                         if (TryDownloadPost(post, server.DownloadDirectory))

@@ -15,10 +15,10 @@
 
   <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\Basic.project.xml" />
   <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\Extension_01.dll.project.xml" />
-  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\WebData.project.xml" />
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\WebData_v2.project.xml" />
   <IncludeProject                   value = "DownloadAutomate.project.xml" />
   <IncludeProject                   value = "DownloadRun.project.xml" />
-  <!--<IncludeProject                   value = "download.source.project.xml" />-->
+  <IncludeProject                   value = "DownloadManagePrint.project.xml" />
 
   <NameSpace                        value = "Download.Print" />
   

@@ -75,13 +75,13 @@ namespace pb.IO
 
         public static string GetNewDirectory(string directory)
         {
-            if (zDirectory.Exists(directory))
+            if (zDirectory.Exists(directory) || zFile.Exists(directory))
             {
                 for (int i = 1; ; i++)
                 {
                     //string newDirectory = zPath.Combine(directory, string.Format("{0}[{1}]", directory, i));
                     string newDirectory = string.Format("{0}[{1}]", directory, i);
-                    if (!zDirectory.Exists(newDirectory))
+                    if (!zDirectory.Exists(newDirectory) && !zFile.Exists(newDirectory))
                     {
                         directory = newDirectory;
                         break;
@@ -203,7 +203,7 @@ namespace pb.IO
 
                     if (getSubDirectoryNumber)
                     {
-                        FilenameNumberInfo directoryNumberInfo = FilenameNumberInfo.GetFilenameNumberInfo(enumDirectoryInfo.Name);
+                        FileNumber directoryNumberInfo = FileNumber.GetFileNumber(enumDirectoryInfo.Name);
                         enumDirectoryInfo.Name = directoryNumberInfo.BasePath;
                         enumDirectoryInfo.Number = directoryNumberInfo.Number;
                     }

@@ -1,5 +1,5 @@
 // $$info.manage.print.directory
-// $$info.test.regex  $$info.test.selenium $$info.test.mongo
+// $$info.test.regex  $$info.test.uri $$info.test.selenium $$info.test.mongo
 // $$info.site          $$info.site Ebookdz ebookdz.com
 // $$info.debrid-link.fr
 // $$info.test_unit.print
@@ -15,7 +15,10 @@ Trace.WriteLine("toto");
 "toto".zView();
 Trace.WriteLine(XmlConfig.CurrentConfig?.ConfigFile ?? "(null)");
 
-RunSource.CurrentRunSource.SetProjectFromSource();
+RunSourceCommand.SetProjectFromSource();
+RunSourceCommand.CompileProject(@"$Root$\Apps\WebData\Source\Print\Project\download.compile.dll.project.xml");
+RunSourceCommand.SetProject("download.dll.project.xml");
+
 
 //RunSource.CurrentRunSource.CompileProject(@"$Root$\Apps\WebData\Source\Print\Project\download.project.xml");
 ProjectCompiler.TraceLevel = 2;
@@ -2376,8 +2379,10 @@ Trace.WriteLine("{0}", zfile.AreFileEqual(@"c:\pib\_dl\_pib\dl\golden-ddl.net\pr
 
 // manage new Journaux
 //string sourceDirectory = @"g:\pib\media\ebook\_dl\_dl_pib\journaux\05\Journaux";
-string sourceDirectory = @"g:\pib\media\ebook\_dl\dl_pib\print\02\.01_quotidien\Journaux";
-string destinationDirectory = @"g:\pib\media\ebook\Journaux";
+//string sourceDirectory = @"g:\pib\media\ebook\_dl\dl_pib\print\02\.01_quotidien\Journaux";
+string sourceDirectory = @"c:\pib\_dl\_dl\_pib\dl\print.w\.01_quotidien\Journaux";
+//string destinationDirectory = @"g:\pib\media\ebook\Journaux";
+string destinationDirectory = @"c:\pib\_dl\_dl\_pib\dl\print.w\Journaux";
 //bool simulate = true; string logFile = @"c:\pib\dev_data\exe\runsource\download\print\RenamePrintFiles_simulate.txt";
 bool simulate = false; string logFile = @"c:\pib\dev_data\exe\runsource\download\print\RenamePrintFiles.txt";
 //string parameters = null; // int version = 6; bool dailyPrintManager = false; int gapDayBefore = 0; int gapDayAfter = 0;
@@ -2388,10 +2393,11 @@ WebData.RenameDailyPrintFiles(sourceDirectory, destinationDirectory, logFile, si
 string[] directories = new string[] {
 	//@"g:\pib\media\ebook\_dl\_dl_pib\print\05\print",
 	//@"g:\pib\media\ebook\_dl\_dl_pib\print\06\print"
-  @"g:\pib\media\ebook\_dl\dl_pib\print\02"
+  //@"g:\pib\media\ebook\_dl\dl_pib\print\02"
   //@"g:\pib\media\ebook\Journaux\print"
+  //@"c:\pib\_dl\_dl\_pib\dl\print.w\Journaux\print"
+  @"c:\pib\_dl\_dl\_pib\dl\print.w"
 	};
-//DownloadAutomate_f.Test_ManageDirectories_01(directories, @"g:\pib\media\ebook\print", usePrintDirectories: true, simulate: false, moveFiles: true);
 WebData.ManageDirectories(directories, @"g:\pib\media\ebook\print", usePrintDirectories: true, simulate: false, moveFiles: true, moveInfoFiles: true);
 
 // manage new book
@@ -3139,8 +3145,12 @@ WebDriverRun.Element.Click();
 
 Trace.WriteLine("toto");
 Trace.WriteLine(RunSource.CurrentRunSource.ProjectFile);
-RunSource.CurrentRunSource.SetProjectFromSource();
-RunSource.CurrentRunSource.SetProject(@"$Root$\Lib\pb\Source\pb\Text\Test\Test_Text.project.xml");
+RunSourceCommand.SetProjectFromSource();
+RunSourceCommand.SetProject(@"$Root$\Lib\pb\Source\pb\Text\_Test\Test_Text.project.xml");
+
+Test_Regex.Test(@"^(•●★|***|===|▃ ▄)", "•●★-CANAL PLAY FR & A LA CARTE-★●•");
+Test_Regex.Test(@"^(•●★|\*\*\*|===|▃ ▄)", "•●★-CANAL PLAY FR & A LA CARTE-★●•");
+Test_Regex.Test("^#EXTINF:(?:(-?[0-9]+),)?(.*)$", "#EXTINF:-1,France 24 free");
 
 Test_Regex.Test(@"\?f=([0-9]+)(?:&page=([0-9]+))?$", "http://www.ebookdz.com/forum/forumdisplay.php?f=156");
 Test_Regex.Test(@"\?f=([0-9]+)(?:&page=([0-9]+))?$", "http://www.ebookdz.com/forum/forumdisplay.php?f=156&page=2");
@@ -5426,3 +5436,90 @@ Trace.WriteLine("toto");
 
 Test_Utf8.Test_WriteBom(@"c:\pib\_dl\test_01.txt");
 Test_Utf8.Test_ReadBom(@"c:\pib\_dl\test_01.txt");
+
+
+//*************************************************************************************************************************
+//****                                   Test Project
+//*************************************************************************************************************************
+
+Trace.WriteLine("toto");
+RunSourceCommand.SetProjectFromSource();
+RunSourceCommand.SetProject(@"$Root$\Lib\pb\Source\Project\_Test\Test_Basic.project.xml");
+RunSourceCommand.SetProject(@"$Root$\Lib\pb\Source\Project\_Test\Test_WriteToFile.project.xml");
+RunSourceCommand.SetProject(@"$Root$\Lib\pb\Source\Project\_Test\Test_XmlConfig.project.xml");
+RunSourceCommand.SetProject(@"$Root$\Lib\pb\Source\Project\_Test\Test_RunSourceExtension.project.xml");
+RunSourceCommand.SetProject(@"$Root$\Lib\pb\Source\Project\_Test\Test_MongoExtension.project.xml");
+RunSourceCommand.SetProject(@"$Root$\Lib\pb\Source\Project\_Test\Test_MongoSerializer.project.xml");
+RunSourceCommand.SetProject(@"$Root$\Lib\pb\Source\Project\_Test\Test_HttpRun.project.xml");
+RunSourceCommand.SetProject(@"$Root$\Lib\pb\Source\Project\_Test\Test_HtmlRun.project.xml");
+RunSourceCommand.SetProject(@"$Root$\Lib\pb\Source\Project\_Test\Test_Extension_01.dll.project.xml");
+RunSourceCommand.SetProject(@"$Root$\Lib\pb\Source\Project\_Test\Test_VSProject.project.xml");
+
+
+
+RunSourceCommand.ProjectCompilerTraceLevel = 1;
+RunSourceCommand.ProjectCompilerTraceLevel = 2;
+
+
+//*************************************************************************************************************************
+//****                                                  Test_MegaApiClient.project.xml
+//*************************************************************************************************************************
+
+RunSourceCommand.CompileProjects(@"$Root$\Apps\tools\mega\mega.projects.xml");
+RunSourceCommand.SetProjectFromSource();
+RunSourceCommand.SetProject(@"$Root$\Lib\pb\Source\pb\Web\Data\_Test\Test_MegaApiClient.project.xml");
+Trace.WriteLine("toto");
+Test_MegaApiClient.Test_TraceNodes_01("pbambou", limit: 0, log: false);
+Test_MegaApiClient.Test_TraceMegaNodes_01("pbambou", directory: "/", options: NodesOptions.File | NodesOptions.Directory, limit: 0, log: false);
+Test_MegaApiClient.Test_TraceMegaNodes_01("pbambou", directory: "/Root", options: NodesOptions.File | NodesOptions.Directory, limit: 0, log: false);
+Test_MegaApiClient.Test_TraceMegaNodes_02("pbambou", directory: "/", options: NodesOptions.File | NodesOptions.Directory, limit: 0, log: false);
+Test_MegaApiClient.Test_TraceMegaNodes_02("labeuzbeuz", directory: "/", options: NodesOptions.File | NodesOptions.Directory, limit: 0, log: false);
+Test_MegaApiClient.Test_TraceMegaNodes_02("pbambou2", directory: "/", options: NodesOptions.File | NodesOptions.Directory, limit: 0, log: false);
+Test_MegaApiClient.Test_TraceMegaNodes_02("pabambou", directory: "/", options: NodesOptions.File | NodesOptions.Directory, limit: 0, log: false);
+Test_MegaApiClient.Test_SaveNodes_01("pbambou");
+Test_MegaApiClient.Test_LoadNodes_01();
+
+Mega.MegaDirectory megaDirectory = new Mega.MegaDirectory("/");
+megaDirectory.SetDirectory("Root");
+Trace.WriteLine(megaDirectory.GetDirectory());
+
+pb.Text.zsplit.Split("toto", '/').zTraceJson();
+
+Test_MegaApiClient.Test_03();
+Test_MegaApiClient.Test_04();
+Test_MegaApiClient.Test_05();
+Test_MegaApiClient.Test_GetMegaNodes_v2();
+Test_MegaApiClient.Test_SaveMegaNodes(@"c:\pib\_dl\meganodes.json");
+Test_MegaApiClient.Test_LoadSaveMegaNodes(@"c:\pib\_dl\meganodes.json", @"c:\pib\_dl\meganodes2.json");
+
+new Stack<string>(new string[] { "toto", "tata" }).Reverse().zView();
+
+zFile.ReadLines(@"c:\pib\drive\google\prog\tv\mybest-server.info\source\tv_channels_pbambou_08.m3u").Take(10).zTrace();
+
+
+//*************************************************************************************************************************
+//****                                                  Test_TV.project.xml
+//*************************************************************************************************************************
+
+RunSourceCommand.SetProjectFromSource();
+RunSourceCommand.SetProject(@"$Root$\Apps\tools\tv\_Test\Test_TV.project.xml");
+Trace.WriteLine("toto");
+PlayListReader.Read(@"c:\pib\drive\google\prog\tv\mybest-server.info\source\tv_channels_pbambou_08.m3u").Take(10).zTraceJson();
+TVPlayListReader.Read(@"c:\pib\drive\google\prog\tv\mybest-server.info\source\tv_channels_pbambou_08.m3u", group: true).Take(50).zView();
+TVPlayListReader.Read(@"c:\pib\drive\google\prog\tv\mybest-server.info\source\tv_channels_pbambou_08.m3u", group: true).zView();
+TVPlayListReader.Read(@"c:\pib\drive\google\prog\tv\mybest-server.info\source\tv_channels_pbambou_08.m3u", group: true).Where(playInfo => playInfo.TvCategory != null).zView();
+TVPlayListReader.Read(@"c:\pib\drive\google\prog\tv\mybest-server.info\source\tv_channels_pbambou_08.m3u", group: true).Where(playInfo => playInfo.Group2?.ToLower() == "fr").zView();
+TVPlayListReader.Read(@"c:\pib\drive\google\prog\tv\mybest-server.info\tv_channels_pbambou_01_03.m3u", group: false).Take(30).zView();
+TVPlayListReader.Read(@"c:\pib\drive\google\prog\tv\mybest-server.info\tv_channels_pbambou_01_03_02.m3u", group: false).zView();
+
+TVPlayListReader.ControlGroupFrance(@"c:\pib\drive\google\prog\tv\mybest-server.info\source\tv_channels_pbambou_08.m3u").zView();
+TVPlayListReader.GetNewTvFrance(@"c:\pib\drive\google\prog\tv\mybest-server.info\tv_channels_pbambou_01_03_02.m3u", @"c:\pib\drive\google\prog\tv\mybest-server.info\source\tv_channels_pbambou_08.m3u").zView();
+TVPlayListReader.SavePlayList(@"c:\pib\drive\google\prog\tv\mybest-server.info\new.m3u", TVPlayListReader.GetNewTvFrance(@"c:\pib\drive\google\prog\tv\mybest-server.info\tv_channels_pbambou_01_03_02.m3u", @"c:\pib\drive\google\prog\tv\mybest-server.info\source\tv_channels_pbambou_08.m3u"));
+// control que toutes les chaines de selectFile existent encore dans newFile
+TVPlayListReader.ControlIptv(@"c:\pib\drive\google\prog\tv\mybest-server.info\tv_channels_pbambou_01_03_02.m3u", @"c:\pib\drive\google\prog\tv\mybest-server.info\source\tv_channels_pbambou_08.m3u").zView();
+
+//*************************************************************************************************************************
+//****                                                  $$info.test.uri
+//*************************************************************************************************************************
+Uri uri = new Uri("http://tv-fan-sat.ovh:25461/live/pbambou/vLKBI80iYs/101.ts");
+Trace.WriteLine($"Scheme \"{uri.Scheme}\" Host \"{uri.Host}\" AbsolutePath \"{uri.AbsolutePath}\" Fragment \"{uri.Fragment}\" LocalPath \"{uri.LocalPath}\" Query \"{uri.Query}\" Segments {uri.Segments.zToStringValues()}");

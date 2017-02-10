@@ -9,10 +9,10 @@
   <NameSpace                        value = "pb.Web.WebDriver" />
   <CompilerOptions                  value = "/platform:x86" />    <!-- x86, Itanium, x64, or anycpu (default). -->
 
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\WebDriver\ChromeWebDriverManager.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\WebDriver\FirefoxWebDriverManager.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\WebDriver\WebDriverManager.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\WebDriver\WebDriverRun.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Web\WebDriver\ChromeWebDriverManager.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Web\WebDriver\FirefoxWebDriverManager.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Web\WebDriver\WebDriverManager.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Web\WebDriver\WebDriverRun.cs" />
 
   <FrameworkAssembly                value = "System.Drawing.dll" />
   <Assembly                         value = "$Root$\..\library\Selenium\selenium-dotnet\selenium-dotnet-2.48.0\net40\WebDriver.dll" />

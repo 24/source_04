@@ -5,7 +5,8 @@ using System.Threading;
 
 namespace pb.IO
 {
-    public abstract class WriteToFileBase : IDisposable
+    // 
+    public abstract class WriteToFileBase : IWriteToFile, IDisposable
     {
         protected Func<string> _generateFile = null;
         protected string _file = null;
@@ -59,7 +60,8 @@ namespace pb.IO
 
         public void WriteLine()
         {
-            Write("\r\n");
+            //Write("\r\n");
+            Write(Environment.NewLine);
         }
 
         public void WriteLine(string msg)
@@ -83,7 +85,7 @@ namespace pb.IO
                 if (_generateFile != null)
                     _file = _generateFile();
                 else if (!_appendToFile)
-                    zFile.Delete(_file);
+                    zfile.DeleteFile(_file);
                 string directory = zPath.GetDirectoryName(_file);
                 if (directory != "" && !zDirectory.Exists(directory))
                     zDirectory.CreateDirectory(directory);

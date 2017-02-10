@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<AssemblyProject>
+  <Root                             value = "..\..\..\.." />
+
+  <Using                            value = "System" />
+  <Using                            value = "System.Collections" />
+  <Using                            value = "System.Collections.Generic" />
+  <!--<Using                            value = "System.Data" />-->
+  <Using                            value = "System.Globalization" />
+  <Using                            value = "System.IO" />
+  <!--<Using                            value = "System.Linq" />-->
+  <Using                            value = "System.Reflection" />
+  <Using                            value = "System.Text" />
+  <!--<Using                            value = "System.Text.RegularExpressions" />-->
+  <!--<Using                            value = "System.Windows.Forms" />-->
+  <!--<Using                            value = "System.Xml" />-->
+  <Using                            value = "pb" />
+  <Using                            value = "pb.IO" />
+  <!--<Using                            value = "pb.Compiler" />-->
+  <!--<Using                            value = "pb.Data" />-->
+  <!--<Using                            value = "pb.Data.Xml" />-->
+  <!--<Using                            value = "pb.IO" />-->
+
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\Application.cs" />
+
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\File.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\Path.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\WriteToFile.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\WriteToFileCreate.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\zDirectory.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\zFile.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\zPath.cs" />
+
+  <FrameworkAssembly                value = "mscorlib.dll" vsExclude = "true" />
+  <FrameworkAssembly                value = "System.dll" />
+  <FrameworkAssembly                value = "System.Core.dll" />
+  <!--<FrameworkAssembly                value = "System.Data.dll" />-->
+  <!--<FrameworkAssembly                value = "System.Windows.Forms.dll" />-->
+  <!--<FrameworkAssembly                value = "System.Xml.dll" />-->
+  <Assembly                         value = "$Root$\Lib\LongPath\Pri.LongPath\bin\Debug\Pri.LongPath.dll" />
+  <!--<Assembly                         value = "$Root$\Apps\RunSource\v2\runsource.dll\bin32\runsource.dll" />-->
+  <!--<Assembly                         value = "$Root$\Apps\RunSource\v2\runsource.dll\bin32\runsource.irunsource.dll" />-->
+  <!--<RunSourceAssembly                value = "$Root$\Apps\RunSource\v2\runsource.dll\bin\Debug\runsource.irunsource.dll" />-->
+  <RunSourceAssembly                value = "runsource.irunsource.dll" vsExclude = "true" />
+  <RunSourceAssembly                value = "runsource.command.dll" vsExclude = "true" />
+</AssemblyProject>

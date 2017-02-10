@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+  <PlayListDirectory                           value = "c:\pib\drive\google\prog\tv\mybest-server.info" />
+  <SelectPlayListDirectory                     value = "c:\pib\drive\google\prog\tv\mybest-server.info" />
+  <NewPlayListDirectory                        value = "c:\pib\drive\google\prog\tv\mybest-server.info\source" />
+</configuration>

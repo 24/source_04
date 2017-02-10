@@ -156,20 +156,21 @@ namespace pb.Compiler
 
             try
             {
-                CompilerProjectReader compilerProject = null;
+                CompilerProjectReader projectReader = null;
                 if (!compileWithoutProject)
-                    compilerProject = GetProjectCompilerProject();
-                if (compilerProject == null)
+                    projectReader = GetProjectCompilerProject();
+                if (projectReader == null)
                 {
-                    compilerProject = GetDefaultProject();
-                    Trace.WriteLine($"compile with default project \"{compilerProject.GetProjectCompilerFile().File}\"");
+                    projectReader = GetDefaultProject();
+                    //Trace.WriteLine($"compile with default project \"{projectReader.GetProjectCompilerFile().File}\"");
+                    Trace.WriteLine($"compile with default project \"{projectReader.ProjectFile}\"");
                 }
 
                 string assemblyFile = GetGenerateAssembly().GetNewAssemblyFile();
 
-                GenerateCSharpCodeResult codeResult = RunCode_GenerateCode(code, compilerProject, assemblyFile);
+                GenerateCSharpCodeResult codeResult = RunCode_GenerateCode(code, projectReader, assemblyFile);
 
-                ProjectCompiler compiler = RunCode_CompileCode(compilerProject, assemblyFile, codeResult.SourceFile);
+                ProjectCompiler compiler = RunCode_CompileCode(projectReader, assemblyFile, codeResult.SourceFile);
 
                 //if (compiler.HasError())
                 if (!compiler.Success)
@@ -185,7 +186,7 @@ namespace pb.Compiler
                     if (!dontRunCode)
                     {
                         //RunCode_ExecuteCode(compiler.Results.CompiledAssembly, codeResult, compilerProject, compiler, runOnMainThread, callInit);
-                        RunCode_ExecuteCode(compiler.Results.LoadAssembly(), codeResult, compilerProject, compiler, runOnMainThread, callInit);
+                        RunCode_ExecuteCode(compiler.Results.LoadAssembly(), codeResult, projectReader, compiler, runOnMainThread, callInit);
                         doEndRun = false;
                     }
                 }
@@ -227,21 +228,22 @@ namespace pb.Compiler
             return generateCSharpCode.GenerateCode(code);
         }
 
-        private ProjectCompiler RunCode_CompileCode(CompilerProjectReader compilerProject, string assemblyFilename, string sourceFile)
+        private ProjectCompiler RunCode_CompileCode(CompilerProjectReader projectReader, string assemblyFilename, string sourceFile)
         {
             ProjectCompiler compiler = new ProjectCompiler(CompilerManager.Current.Win32ResourceCompiler, CompilerManager.Current.ResourceCompiler);
 
             //try
             //{
             compiler.SetOutputAssembly(assemblyFilename + ".dll");
-            compiler.AddSource(new CompilerFile(sourceFile));
+            //compiler.AddSource(new CompilerFile(sourceFile));
+            compiler.AddSource(new CompilerFile { File = sourceFile });
 
-            if (compilerProject != null)
-                compiler.SetProjectCompilerFile(compilerProject.GetProjectCompilerFile());
+            //if (projectReader != null)
+            //    compiler.SetProjectCompilerFile(projectReader.GetProjectCompilerFile());
 
             // CompilerDefaultValues from runsource.runsource.config.xml runsource.runsource.config.local.xml
             //compiler.SetParameters(GetRunSourceConfigCompilerDefaultValues(), runCode: true);
-            compiler.SetParameters(compilerProject, runCode: true);
+            compiler.SetParameters(projectReader, runCode: true);
             compiler.SetTarget("library");
 
             CompilerManager.Current.UpdateAssemblies(compiler.Assemblies.Values);

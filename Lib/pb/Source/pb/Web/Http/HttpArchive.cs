@@ -294,7 +294,7 @@ namespace pb.Web.Http
         public old.HttpRequestParameters_v1 GetHttpRequestParameters()
         {
             old.HttpRequestParameters_v1 requestParameters = new old.HttpRequestParameters_v1();
-            requestParameters.method = Http.GetHttpRequestMethod(method);
+            requestParameters.method = HttpTools.GetHttpRequestMethod(method);
 
             foreach (HttpArchiveHeader header in headers)
             {

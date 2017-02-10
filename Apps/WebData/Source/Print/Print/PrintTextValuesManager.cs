@@ -101,7 +101,7 @@ namespace Download.Print
             {
                 _exportDataWriter.zWrite(s);
                 if (__trace)
-                    pb.Trace.CurrentTrace.WriteLine("SetTextValues : \"{0}\"", s);
+                    pb.Trace.WriteLine("SetTextValues : \"{0}\"", s);
 
                 string name2;
                 string text2;
@@ -116,7 +116,7 @@ namespace Download.Print
                         if (name != null)
                         {
                             if (__trace)
-                                pb.Trace.CurrentTrace.WriteLine("SetTextValues SetValue : \"{0}\" = null", name);
+                                pb.Trace.WriteLine("SetTextValues SetValue : \"{0}\" = null", name);
                             textValues.infos.SetValue(name, null);
                         }
                         name = null;
@@ -124,7 +124,7 @@ namespace Download.Print
                         if (textValues2)
                         {
                             if (__trace)
-                                pb.Trace.CurrentTrace.WriteLine("SetTextValues SetValue : \"{0}\" = \"{1}\"", name2, text2);
+                                pb.Trace.WriteLine("SetTextValues SetValue : \"{0}\" = \"{1}\"", name2, text2);
                             if (text2 != null)
                                 textValues.infos.SetValue(name2, new ZString(text2));
                             else
@@ -139,7 +139,7 @@ namespace Download.Print
                     string s2 = ExtractTextValues(textValues.infos, s);
                     s2 = Trim(s2);
                     if (__trace)
-                        pb.Trace.CurrentTrace.WriteLine("SetTextValues ExtractTextValues : \"{0}\" - \"{1}\"", s, s2);
+                        pb.Trace.WriteLine("SetTextValues ExtractTextValues : \"{0}\" - \"{1}\"", s, s2);
 
                     if (s2 != "" && s2 != title)
                     {
@@ -149,7 +149,7 @@ namespace Download.Print
                         if (name != null)
                         {
                             if (__trace)
-                                pb.Trace.CurrentTrace.WriteLine("SetTextValues SetValue : \"{0}\" = \"{1}\"", name, s2);
+                                pb.Trace.WriteLine("SetTextValues SetValue : \"{0}\" = \"{1}\"", name, s2);
                             textValues.infos.SetValue(name, new ZString(s2));
                             name = null;
                         }
@@ -161,7 +161,7 @@ namespace Download.Print
                             if (s2 != "")
                             {
                                 if (__trace)
-                                    pb.Trace.CurrentTrace.WriteLine("SetTextValues description.Add : \"{0}\"", s2);
+                                    pb.Trace.WriteLine("SetTextValues description.Add : \"{0}\"", s2);
                                 description.Add(s2);
                             }
                         }
@@ -171,7 +171,7 @@ namespace Download.Print
             if (name != null)
             {
                 if (__trace)
-                    pb.Trace.CurrentTrace.WriteLine("SetTextValues SetValue : \"{0}\" = null", name);
+                    pb.Trace.WriteLine("SetTextValues SetValue : \"{0}\" = null", name);
                 textValues.infos.SetValue(name, null);
             }
 
@@ -209,14 +209,14 @@ namespace Download.Print
                 // PDF | 116 pages | 53 Mb | French
                 _exportDataWriter.zWrite(s);
                 if (__trace)
-                    pb.Trace.CurrentTrace.WriteLine("SetTextValues : \"{0}\"", s);
+                    pb.Trace.WriteLine("SetTextValues : \"{0}\"", s);
 
                 // Editeur : Presse fr
                 bool textValues2 = ExtractTextValues2(s, out name2, out text2);
                 if (textValues2)
                 {
                     if (__trace)
-                        pb.Trace.CurrentTrace.WriteLine("SetTextValues SetValue : \"{0}\" = \"{1}\"", name2, text2);
+                        pb.Trace.WriteLine("SetTextValues SetValue : \"{0}\" = \"{1}\"", name2, text2);
                     textValues.infos.SetValue(name2, new ZString(text2));
                 }
 
@@ -225,13 +225,13 @@ namespace Download.Print
                     if (name != null)
                     {
                         if (__trace)
-                            pb.Trace.CurrentTrace.WriteLine("SetTextValues SetValue : \"{0}\" = \"{1}\"", name, text);
+                            pb.Trace.WriteLine("SetTextValues SetValue : \"{0}\" = \"{1}\"", name, text);
                         textValues.infos.SetValue(name, new ZString(text));
                     }
                     else if (text != null)
                     {
                         if (__trace)
-                            pb.Trace.CurrentTrace.WriteLine("SetTextValues description.Add : \"{0}\"", text);
+                            pb.Trace.WriteLine("SetTextValues description.Add : \"{0}\"", text);
                         description.Add(text);
                     }
                     name = null;
@@ -248,25 +248,25 @@ namespace Download.Print
                             if (name != null)
                             {
                                 if (__trace)
-                                    pb.Trace.CurrentTrace.WriteLine("SetTextValues SetValue : \"{0}\" = \"{1}\"", name, text);
+                                    pb.Trace.WriteLine("SetTextValues SetValue : \"{0}\" = \"{1}\"", name, text);
                                 textValues.infos.SetValue(name, new ZString(text));
                             }
                             else if (text != null)
                             {
                                 if (__trace)
-                                    pb.Trace.CurrentTrace.WriteLine("SetTextValues description.Add : \"{0}\"", text);
+                                    pb.Trace.WriteLine("SetTextValues description.Add : \"{0}\"", text);
                                 description.Add(text);
                             }
                             name = s3;
                             text = null;
                             //foundName = true;
                             if (__trace)
-                                pb.Trace.CurrentTrace.WriteLine("SetTextValues Set name \"{0}\"", name);
+                                pb.Trace.WriteLine("SetTextValues Set name \"{0}\"", name);
                         }
                         else
                         {
                             if (__trace)
-                                pb.Trace.CurrentTrace.WriteLine("SetTextValues Nothing to do");
+                                pb.Trace.WriteLine("SetTextValues Nothing to do");
                         }
                     }
                     else
@@ -274,7 +274,7 @@ namespace Download.Print
                         s2 = ExtractTextValues(textValues.infos, s);
                         s2 = Trim(s2);
                         if (__trace)
-                            pb.Trace.CurrentTrace.WriteLine("SetTextValues ExtractTextValues : \"{0}\" - \"{1}\"", s, s2);
+                            pb.Trace.WriteLine("SetTextValues ExtractTextValues : \"{0}\" - \"{1}\"", s, s2);
                         if (textValues.infos.ContainsKey("language"))
                         {
                             textValues.language = (string)textValues.infos["language"];
@@ -298,12 +298,12 @@ namespace Download.Print
                             else
                                 text += " " + s2;
                             if (__trace)
-                                pb.Trace.CurrentTrace.WriteLine("SetTextValues Add string to text : \"{0}\"", text);
+                                pb.Trace.WriteLine("SetTextValues Add string to text : \"{0}\"", text);
                         }
                         else
                         {
                             if (__trace)
-                                pb.Trace.CurrentTrace.WriteLine("SetTextValues dont Add string to text");
+                                pb.Trace.WriteLine("SetTextValues dont Add string to text");
                         }
                     }
                 }
@@ -313,13 +313,13 @@ namespace Download.Print
                 if (name != null)
                 {
                     if (__trace)
-                        pb.Trace.CurrentTrace.WriteLine("SetTextValues SetValue : \"{0}\" = \"{1}\"", name, text);
+                        pb.Trace.WriteLine("SetTextValues SetValue : \"{0}\" = \"{1}\"", name, text);
                     textValues.infos.SetValue(name, new ZString(text));
                 }
                 else
                 {
                     if (__trace)
-                        pb.Trace.CurrentTrace.WriteLine("SetTextValues description.Add : \"{0}\"", text);
+                        pb.Trace.WriteLine("SetTextValues description.Add : \"{0}\"", text);
                     description.Add(text);
                 }
             }

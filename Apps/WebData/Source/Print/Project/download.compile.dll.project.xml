@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<AssemblyProject>
+
+  <Root                             value = "..\..\..\..\.." />
+  <ProjectRoot                      value = "..\..\.." />
+
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\LanguageCSharp5Debug.project.xml" />
+  <Target                           value = "library" /> <!-- CSharp5 option : exe (exe console default), library (dll), module (.netmodule), winexe (exe windows) -->
+  <Output                           value = "bin32\ebook.download.dll" />   CSharp1, CSharp5, JScript option 
+  <CopySourceFiles                  value = "true" />
+  <CopyRunSourceSourceFiles         value = "true" />
+  <!--<CopyOutput                       value = "c:\pib\prog\tools\runsource\app\ebook.download\new" />-->
+
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\Extension_01.project.xml" />
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\WebData.project.xml" />
+  <IncludeProject                   value = "DownloadAutomate.project.xml" />
+  <IncludeProject                   value = "DownloadRun.project.xml" />
+
+  <NameSpace                        value = "Download.Print" />
+  
+  <!--<SourceFile                       value = "" />-->                 <!-- file is copied in zip source file but not in output directory -->
+  <File                             value = "download.dll.project.xml" destinationFile = "project\download.dll.project.xml" />
+  <File                             value = "download.config.xml" destinationFile = "project\download.config.xml" />
+  <File                             value = "print_list1.xml" destinationFile = "project\print_list1.xml" />
+  <File                             value = "print_list2.xml" destinationFile = "project\print_list2.xml" />
+  <File                             value = "print_config.xml" destinationFile = "project\print_config.xml" />
+  <File                             value = "download.dll.cs" destinationFile = "project\download.dll.cs" />
+
+</AssemblyProject>

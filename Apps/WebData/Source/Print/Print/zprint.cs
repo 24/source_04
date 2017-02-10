@@ -8,7 +8,7 @@ namespace Download.Print
 
     public partial class zprint
     {
-        private static ITrace _tr = Trace.CurrentTrace;
+        //private static ITrace _tr = Trace.CurrentTrace;
 
         public static int GetDailyPrintNumber(Date date, int refNumber, Date refDate, SpecialDay noPrintDays, Dictionary<int, int> noPrintDates, Dictionary<int, int> noPrintNumbers)
         {

@@ -3,8 +3,8 @@
   
   <Root                             value = "..\..\..\..\.." />
 
-  <InitMethod                       value = "hts.Run.Init" run = "always" />      <!-- [{namespace}.{type}.]{method name}[, {assembly name}] default type {namespace}._RunCode -->
-  <EndMethod                        value = "hts.Run.End" run = "always" />       <!-- [{namespace}.{type}.]{method name}[, {assembly name}] default type {namespace}._RunCode -->
+  <InitMethod                       value = "hts.Run.InitAlways" run = "always" />      <!-- [{namespace}.{type}.]{method name}[, {assembly name}] default type {namespace}._RunCode -->
+  <EndMethod                        value = "hts.Run.EndAlways" run = "always" />       <!-- [{namespace}.{type}.]{method name}[, {assembly name}] default type {namespace}._RunCode -->
 
   <Using                            value = "System.Linq" />
   <Using                            value = "System.Xml.Linq" />

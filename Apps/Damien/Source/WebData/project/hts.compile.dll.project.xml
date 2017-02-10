@@ -10,13 +10,7 @@
   <CopyRunSourceSourceFiles         value = "true" />
   <CopyOutput                       value = "c:\pib\prog\tools\runsource\app\hts\new" />
 
-  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\Basic.project.xml" />
-  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\RunSourceExtension.project.xml" />
-  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\MongoExtension.project.xml" />
-  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\MongoDefaultSerializer.project.xml" />
-  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\MongoWebHeaderSerializer.project.xml" />
-  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\HttpRun.project.xml" />
-  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\HtmlRun.project.xml" />
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\Extension_01.project.xml" />
   <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\VSProject.project.xml" />
   <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\WebData.project.xml" />
 

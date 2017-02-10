@@ -302,7 +302,7 @@ namespace hts.WebData.Gesat
 
             // <div class="EMAIL">production.launay<img border="0" alt="arobase.png" src="/images/bulles/arobase.png" style=" border: 0;" />lemoulinvert.org</div>
             //data.Email = xe.XPathConcatText(".//div[@class='EMAIL']//text()", "@", itemFunc: _trimFunc1);
-            data.Email = xe.XPathElement(".//div[@class='EMAIL']").DescendantTexts().Select(_trimFunc).zConcatStrings();
+            data.Email = xe.XPathElement(".//div[@class='EMAIL']").DescendantTexts().Select(_trimFunc).zConcatStrings("@");
 
             // <div class="WWW"><a href="http://www.esat-b-launay.com" target="_blank">www.esat-b-launay.com</a></div>
             data.WebSite = _trimFunc(xe.XPathValue(".//div[@class='WWW']//a/@href"));

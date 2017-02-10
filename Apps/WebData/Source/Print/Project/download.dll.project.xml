@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <AssemblyProject>
-  
-  <!--<Root                                      value = "..\..\..\..\..\.." />-->
-  <!--<Root                                      value = "..\..\..\..\.." />-->
+
+  <Root                             value = "..\..\..\..\.." />
 
   <!--<IncludeProject                            value = "$Root$\Source\Lib\pb\Source\Project\Basic.project.xml" />
   <IncludeProject                            value = "$Root$\Source\Lib\pb\Source\Project\RunSourceExtension.project.xml" />
@@ -10,20 +9,23 @@
 
   <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\LanguageCSharp5Debug.project.xml" />
   
-  <NameSpace                        value = "Download.Print" />    <!-- Print.download -->
-
   <!-- [{namespace}.{type}.]{method name}[, {assembly name}] default type {namespace}._RunCode -->
   <!-- run = "always, once (default)" -->
-  <InitMethod                       value = "pb.Data.Mongo.Serializers.RunSerializer.InitDefault, Extension_01, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" params = "traceProvider = false, traceSerializer = false" />
-  <EndMethod                        value = "pb.Data.Mongo.Serializers.RunSerializer.EndDefault, Extension_01, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" />
-  <InitMethod                       value = "pb.Data.Mongo.Serializers.RunSerializer.InitZValue, Extension_01, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" params = "traceSerializer = false" />
-  <EndMethod                        value = "pb.Data.Mongo.Serializers.RunSerializer.EndZValue, Extension_01, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" />
-  <InitMethod                       value = "pb.Data.Mongo.Serializers.RunSerializer.InitWebHeader, Extension_01, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" params = "traceSerializer = false" />
-  <EndMethod                        value = "pb.Data.Mongo.Serializers.RunSerializer.EndWebHeader, Extension_01, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" />
+  <InitMethod                       value = "pb.Data.Mongo.Serializers.RunSerializer.InitDefault, ebook.download, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" params = "traceProvider = false, traceSerializer = false" />
+  <EndMethod                        value = "pb.Data.Mongo.Serializers.RunSerializer.EndDefault, ebook.download, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" />
+  <InitMethod                       value = "pb.Data.Mongo.Serializers.RunSerializer.InitZValue, ebook.download, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" params = "traceSerializer = false" />
+  <EndMethod                        value = "pb.Data.Mongo.Serializers.RunSerializer.EndZValue, ebook.download, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" />
+  <InitMethod                       value = "pb.Data.Mongo.Serializers.RunSerializer.InitWebHeader, ebook.download, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" params = "traceSerializer = false" />
+  <EndMethod                        value = "pb.Data.Mongo.Serializers.RunSerializer.EndWebHeader, ebook.download, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" />
+  <InitMethod                       value = "pb.Web.Html.HtmlRun.Init, ebook.download, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" />
+  <EndMethod                        value = "pb.Web.Html.HtmlRun.End, ebook.download, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" />
+
   <InitMethod                       value = "Download.Print.DownloadRun.Init, ebook.download, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" />
   <EndMethod                        value = "Download.Print.DownloadRun.End, ebook.download, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" />
   <InitMethod                       value = "Download.Print.DownloadRun.InitAlways, ebook.download, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" run = "always" />
   <EndMethod                        value = "Download.Print.DownloadRun.EndAlways, ebook.download, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" run = "always" />
+
+  <NameSpace                        value = "Download.Print" />    <!-- Print.download -->
 
   <Using                            value = "System" />
   <Using                            value = "System.Collections" />
@@ -86,18 +88,22 @@
   <FrameworkAssembly                value = "System.Xml.dll" />
   <FrameworkAssembly                value = "System.Xml.Linq.dll" />
 
+  <RunSourceAssembly                value = "runsource.irunsource.dll" />
+  <RunSourceAssembly                value = "runsource.command.dll" />
+
   <!--<Assembly                         value = "c:\pib\prog\dev\mongodb\driver\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Bson.dll" resolve = "true" resolveName = "MongoDB.Bson, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />
   <Assembly                         value = "c:\pib\prog\dev\mongodb\driver\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Driver.dll" resolve = "true" resolveName = "MongoDB.Driver, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />-->
   <!--<Assembly                         value = "$Root$\..\library\Mongo\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Bson.dll" resolve = "true" resolveName = "MongoDB.Bson, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />-->
   <!--<Assembly                         value = "$Root$\..\library\Mongo\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Driver.dll" resolve = "true" resolveName = "MongoDB.Driver, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />-->
   <!--<Assembly                         value = "..\library\Mongo\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Bson.dll" resolve = "true" resolveName = "MongoDB.Bson, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />-->
   <!--<Assembly                         value = "..\library\Mongo\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Driver.dll" resolve = "true" resolveName = "MongoDB.Driver, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />-->
-  <Assembly                         value = "..\MongoDB.Bson.dll" resolve = "true" resolveName = "MongoDB.Bson, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />
-  <Assembly                         value = "..\MongoDB.Driver.dll" resolve = "true" resolveName = "MongoDB.Driver, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />
-  <Assembly                         value = "runsource.dll" />
-  <Assembly                         value = "runsource.irunsource.dll" />
+  <!--<Assembly                         value = "..\MongoDB.Bson.dll" resolve = "true" resolveName = "MongoDB.Bson, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />-->
+  <!--<Assembly                         value = "..\MongoDB.Driver.dll" resolve = "true" resolveName = "MongoDB.Driver, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />-->
   <!--<Assembly                         value = "bin32\ebook.download.dll" resolve = "true" resolveName = "ebook.download, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" />-->
   <!--<Assembly                         value = "bin32\ebook.download.dll" />-->
   <!--<Assembly                         value = "c:\pib\prog\tools\runsource\app\ebook.download\app\ebook.download.dll" />-->
-  <Assembly                         value = "..\ebook.download.dll" resolve = "true" resolveName = "ebook.download, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" />
+  <!--<Assembly                         value = "..\ebook.download.dll" resolve = "true" resolveName = "ebook.download, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" />-->
+  <Assembly                         value = "bin32\ebook.download.dll" resolve = "true" resolveName = "ebook.download, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" />
+  <Assembly                         value = "bin32\MongoDB.Bson.dll" resolve = "true" resolveName = "MongoDB.Bson, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />
+  <Assembly                         value = "bin32\MongoDB.Driver.dll" resolve = "true" resolveName = "MongoDB.Driver, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />
 </AssemblyProject>

@@ -181,7 +181,7 @@ namespace pb.Web.Data
                 pb.Trace.WriteLine("  form action                 : \"{0}\"", action);
             if (action != null && action != "")
                 url = action;
-            HttpRequestMethod method = Http.Http.GetHttpRequestMethod(xeForm.AttribValue("method"));
+            HttpRequestMethod method = HttpTools.GetHttpRequestMethod(xeForm.AttribValue("method"));
             if (__trace)
                 pb.Trace.WriteLine("  form method                 : {0}", method);
 

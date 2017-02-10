@@ -48,5 +48,18 @@
                     //    break;
             }
         }
+
+        public static HttpRequestMethod GetHttpRequestMethod(string method)
+        {
+            switch (method.ToLower())
+            {
+                case "get":
+                    return HttpRequestMethod.Get;
+                case "post":
+                    return HttpRequestMethod.Post;
+                default:
+                    throw new PBException($"unknow HttpRequestMethod \"{method}\"");
+            }
+        }
     }
 }

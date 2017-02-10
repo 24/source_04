@@ -57,6 +57,9 @@
     <Reference Include="Ionic.Zip">
       <HintPath>..\..\RuntimeLibrary\Ionic\Ionic.Zip.dll</HintPath>
     </Reference>
+    <Reference Include="MegaApiClient">
+      <HintPath>..\..\..\..\..\..\..\dev\NuGet\repository\MegaApiClient.1.3.1\lib\net45\MegaApiClient.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CodeAnalysis">
       <HintPath>..\..\..\..\..\..\..\dev\NuGet\repository\Microsoft.CodeAnalysis.Common.1.2.2\lib\net45\Microsoft.CodeAnalysis.dll</HintPath>
     </Reference>
@@ -117,16 +120,24 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Source\pb\Compiler\RunSourceCommand.cs" />
+    <Compile Include="Source\pb\Compiler\RunSourceVSProjectCommand.cs" />
     <Compile Include="Source\pb\Compiler\RunSource_Options.cs" />
     <Compile Include="Source\pb\Data\Mongo\WebHeaderDetailMongoManagerBase_v3.cs" />
     <Compile Include="Source\pb\Data\Mongo\zMongoDB.cs" />
+    <Compile Include="Source\pb\Data\VSProject\VSProjectManager.cs" />
+    <Compile Include="Source\pb\Data\Xml\XmlSet.cs" />
     <Compile Include="Source\pb\Data\Xml\_Test\Test_Xpath.cs" />
+    <Compile Include="Source\pb\IO\IWriteToFile.cs" />
+    <Compile Include="Source\pb\IO\ProgressionStream.cs" />
     <Compile Include="Source\pb\Text\String_Split.cs" />
     <Compile Include="Source\pb\Web\Data\DataPages_v2.cs" />
+    <Compile Include="Source\pb\Web\Data\DebridLinkFr_v3.cs" />
+    <Compile Include="Source\pb\Web\Data\MegaClient.cs" />
     <Compile Include="Source\pb\Web\Data\WebDataManager_v5.cs" />
     <Compile Include="Source\pb\Web\Data\WebData_v2.cs" />
     <Compile Include="Source\pb\Web\Data\WebHeaderDetailManager_v5.cs" />
     <Compile Include="Source\pb\Web\Data\WebRequest_v2.cs" />
+    <Compile Include="Source\pb\Web\Data\_Test\Test_MegaApiClient.cs" />
     <Compile Include="Source\pb\Web\Html\HtmlNode.cs" />
     <Compile Include="Source\pb\Web\Html\HtmlRun_v2.cs" />
     <Compile Include="Source\pb\Web\Html\HtmlRun_v2_SetResult.cs" />
@@ -137,7 +148,7 @@
     <Compile Include="Source\pb\_pb\ITraceManager.cs" />
     <Compile Include="Source\pb\_pb\TraceLevel.cs" />
     <Compile Include="Source\pb\_pb\TraceManager.cs" />
-    <Compile Include="Source\pb\_Test\Test_CSharp.cs" />
+    <Compile Include="Source\pb\_pb\_Test\Test_CSharp.cs" />
     <None Include="Source\pb\Data\OpenXml\_Test\Data\page_01_01.oxml.json" />
     <None Include="Source\pb\Data\OpenXml\_Test\Data\page_01_02.oxml.json" />
     <None Include="Source\pb\Data\OpenXml\_Test\Data\page_01_03.oxml.json" />
@@ -199,7 +210,7 @@
     <Compile Include="Source\pb\Data\Mongo\Serializers\ZValue\RunSerializerZValue.cs" />
     <Compile Include="Source\pb\Data\OpenXml\OXmlTools.cs" />
     <Compile Include="Source\pb\Data\OpenXml\_Test\Test_OpenXml_Serialize.cs" />
-    <Compile Include="Source\pb\Data\VSProject\VSProject.cs" />
+    <Compile Include="Source\pb\Compiler\RunSourceVSProjectManager.cs" />
     <Compile Include="Source\pb\Data\_Test\Test_NamingFormatter.cs" />
     <Compile Include="Source\pb\Text\_Test\Test_Utf8.cs" />
     <Compile Include="Source\pb\Web\Data\HeaderDetail.cs" />
@@ -220,7 +231,7 @@
     <Compile Include="Source\pb\Web\Html\HtmlToXml_v3.cs" />
     <Compile Include="Source\pb\Data\Xml\XDocumentCreator.cs" />
     <Compile Include="Source\pb\Web\Http\HttpTools.cs" />
-    <Compile Include="Source\pb\_old\RunSourceInitEndMethods_v1.cs" />
+    <Compile Include="Source\pb\_pb\_old\RunSourceInitEndMethods_v1.cs" />
     <Compile Include="Source\pb\Compiler\RunSourceInitEndMethods_v2.cs" />
     <Compile Include="Source\pb\Compiler\RunSource_RunCode.cs" />
     <Compile Include="Source\pb\Compiler\RunSource_CompileProjects.cs" />
@@ -331,7 +342,7 @@
     <Compile Include="Source\pb\IO\CompressManager.cs" />
     <Compile Include="Source\pb\IO\CompressManagerMultiple.cs" />
     <Compile Include="Source\pb\IO\CompressOptions.cs" />
-    <Compile Include="Source\pb\IO\FilenameNumberInfo.cs" />
+    <Compile Include="Source\pb\IO\FileNumber.cs" />
     <Compile Include="Source\pb\IO\FileOption.cs" />
     <Compile Include="Source\pb\IO\_Test\Test_SharpCompressManager.cs" />
     <Compile Include="Source\pb\IO\_Test\Test_utf8.cs" />
@@ -390,10 +401,10 @@
     <Compile Include="Source\pb\Web\Data\WebLoadDataManager_v2.cs" />
     <Compile Include="Source\pb\Web\Data\_old\DebriderDebridLinkFr_v1.cs" />
     <Compile Include="Source\pb\Web\Data\_old\DebridLinkFr_v1.cs" />
-    <Compile Include="Source\pb\Web\Data\DebridLinkFr.cs" />
+    <Compile Include="Source\pb\Web\Data\DebridLinkFr_v2.cs" />
     <Compile Include="Source\pb\Web\Data\DownloadFileServerInfo.cs" />
     <Compile Include="Source\pb\Web\Data\ProtectLink.cs" />
-    <Compile Include="Source\pb\Web\Data\Test\Test_DebridLinkFr.cs" />
+    <Compile Include="Source\pb\Web\Data\_Test\Test_DebridLinkFr.cs" />
     <None Include="Source\pb\Web\Data\_old\WebDataManager_v1.cs" />
     <Compile Include="Source\pb\Web\Data\WebDataManager.cs" />
     <None Include="Source\pb\Web\Data\_old\WebDataPageManager_v1.cs" />
@@ -525,8 +536,8 @@
     <Compile Include="Source\pb\_pb\AsyncManager.cs" />
     <Compile Include="Source\pb\_pb\Convert.cs" />
     <Compile Include="Source\pb\_pb\GlobalExtension.cs" />
-    <Compile Include="Source\pb\_pb\ITrace_v2.cs" />
-    <Compile Include="Source\pb\_pb\ITraceError_v2.cs" />
+    <Compile Include="Source\pb\_pb\_old\ITrace_v2.cs" />
+    <Compile Include="Source\pb\_pb\_old\ITraceError_v2.cs" />
     <Compile Include="Source\pb\_pb\ITraceSetWriter_v2.cs" />
     <Compile Include="Source\pb\_pb\NamedValue.cs" />
     <Compile Include="Source\pb\_pb\ParseAs.cs" />
@@ -539,10 +550,10 @@
     <Compile Include="Source\pb\Reflection\_Test\Test_TypeView.cs" />
     <Compile Include="Source\pb\_pb\TextSerializer.cs" />
     <Compile Include="Source\pb\_pb\Trace.cs" />
-    <Compile Include="Source\pb\_pb\TraceError_v2.cs" />
-    <Compile Include="Source\pb\_pb\TraceLevel_v2.cs" />
-    <Compile Include="Source\pb\_pb\TraceSetWriter_v2.cs" />
-    <Compile Include="Source\pb\_pb\Trace_v2.cs" />
+    <Compile Include="Source\pb\_pb\_old\TraceError_v2.cs" />
+    <Compile Include="Source\pb\_pb\_old\TraceLevel_v2.cs" />
+    <Compile Include="Source\pb\_pb\_old\TraceSetWriter_v2.cs" />
+    <Compile Include="Source\pb\_pb\_old\Trace_v2.cs" />
     <Compile Include="Source\pb\_pb\Tree.cs" />
     <Compile Include="Source\pb\Reflection\TypeAccess.cs" />
     <Compile Include="Source\pb\Reflection\TypeView.cs" />
@@ -576,9 +587,9 @@
     <Compile Include="Source\pb\Compiler\AssemblyResolve.cs" />
     <Compile Include="Source\pb\_pb\Chrono.cs" />
     <Compile Include="Source\pb\Compiler\ProjectCompiler.cs" />
-    <Compile Include="Source\pb\_old\Cookie.cs" />
-    <None Include="Source\pb\_old\cu.cs" />
-    <None Include="Source\pb\_old\cu3.cs" />
+    <Compile Include="Source\pb\_pb\_old\Cookie.cs" />
+    <None Include="Source\pb\_pb\_old\cu.cs" />
+    <None Include="Source\pb\_pb\_old\cu3.cs" />
     <Compile Include="Source\pb\_pb\Date.cs" />
     <Compile Include="Source\pb\_pb\Date2.cs" />
     <Compile Include="Source\pb\IO\Directory.cs" />
@@ -591,14 +602,14 @@
     <Compile Include="Source\pb\_pb\IChrono.cs" />
     <Compile Include="Source\pb\Compiler\IProjectCompiler.cs" />
     <Compile Include="Source\pb\Data\Image.cs" />
-    <None Include="Source\pb\_old\img.cs" />
+    <None Include="Source\pb\_pb\_old\img.cs" />
     <Compile Include="Source\pb\Compiler\IRunSource.cs" />
-    <Compile Include="Source\pb\_pb\ITrace_v1.cs" />
-    <Compile Include="Source\pb\_old\LinqWhereSelect.cs" />
-    <Compile Include="Source\pb\_old\LoadFromXml.cs" />
+    <Compile Include="Source\pb\_pb\_old\ITrace_v1.cs" />
+    <Compile Include="Source\pb\_pb\_old\LinqWhereSelect.cs" />
+    <Compile Include="Source\pb\_pb\_old\LoadFromXml.cs" />
     <Compile Include="Source\pb\Data\NamedValues.cs" />
     <Compile Include="Source\pb\IO\Path.cs" />
-    <Compile Include="Source\pb\_old\PB_Util_Exception.cs" />
+    <Compile Include="Source\pb\_pb\_old\PB_Util_Exception.cs" />
     <Compile Include="Source\pb\_pb\Process.cs" />
     <Compile Include="Source\pb\Text\Regex.cs" />
     <Compile Include="Source\pb\Text\RegexValues.cs" />
@@ -612,23 +623,23 @@
     <Compile Include="Source\pb\Text\String.cs" />
     <Compile Include="Source\pb\Text\StringZones.cs" />
     <Compile Include="Source\pb\_pb\Progress.cs" />
-    <Compile Include="Source\pb\_old\TextVariables.cs" />
-    <Compile Include="Source\pb\_pb\Trace_v1.cs" />
+    <Compile Include="Source\pb\_pb\_old\TextVariables.cs" />
+    <Compile Include="Source\pb\_pb\_old\Trace_v1.cs" />
     <Compile Include="Source\pb\Data\Xml\XmlData.cs" />
     <Compile Include="Source\pb\Data\Xml\XmlParameters_v1.cs" />
     <Compile Include="Source\pb\Data\ZValue.cs" />
-    <Compile Include="Source\pb\_old\HTMLReader_v1.cs" />
-    <Compile Include="Source\pb\_old\HtmlXmlReader.cs" />
-    <Compile Include="Source\pb\_old\HttpLoad.cs" />
-    <Compile Include="Source\pb\_old\Http_v1.cs" />
-    <Compile Include="Source\pb\_old\Http_v2.cs" />
-    <Compile Include="Source\pb\_old\ImageHtml.cs" />
-    <Compile Include="Source\pb\_old\Tools.cs" />
-    <Compile Include="Source\pb\_old\Xml.cs" />
-    <Compile Include="Source\pb\_old\Xml2.cs" />
-    <Compile Include="Source\pb\_old\XmlLinq.cs" />
-    <Compile Include="Source\pb\_old\XmlSelect.cs" />
-    <Compile Include="Source\pb\_old\XXNode.cs" />
+    <Compile Include="Source\pb\_pb\_old\HTMLReader_v1.cs" />
+    <Compile Include="Source\pb\_pb\_old\HtmlXmlReader.cs" />
+    <Compile Include="Source\pb\_pb\_old\HttpLoad.cs" />
+    <Compile Include="Source\pb\_pb\_old\Http_v1.cs" />
+    <Compile Include="Source\pb\_pb\_old\Http_v2.cs" />
+    <Compile Include="Source\pb\_pb\_old\ImageHtml.cs" />
+    <Compile Include="Source\pb\_pb\_old\Tools.cs" />
+    <Compile Include="Source\pb\_pb\_old\Xml.cs" />
+    <Compile Include="Source\pb\_pb\_old\Xml2.cs" />
+    <Compile Include="Source\pb\_pb\_old\XmlLinq.cs" />
+    <Compile Include="Source\pb\_pb\_old\XmlSelect.cs" />
+    <Compile Include="Source\pb\_pb\_old\XXNode.cs" />
     <Compile Include="Source\pb\Windows\Win32\GDI.cs" />
     <Compile Include="Source\pb\Windows\Win32\Kernel.cs" />
     <Compile Include="Source\pb\Windows\Win32\Messages.cs" />
@@ -672,7 +683,10 @@
     <Content Include="Source\pb\Text\_Test\Test_Text.project.xml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Source\pb\Web\Data\Test\Test_DebridLinkFr.project.xml">
+    <Content Include="Source\pb\Web\Data\_Test\Test_MegaApiClient.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Source\pb\Web\Data\_Test\Test_DebridLinkFr.project.xml">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Source\pb\Web\Html\TestUnit\TestUnit.HtmlToXml.project.xml">
@@ -681,7 +695,16 @@
     <Content Include="Source\pb\Web\Http\Test\Test_HttpLog.project.xml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Source\pb\_Test\Test_01.project.xml">
+    <Content Include="Source\pb\_pb\_Test\Test_01.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Source\Project\XmlConfig.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Source\Project\WriteToFile.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Source\Project\Extension_01.compile.project.xml">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Source\Project\Extension_01.projects.xml">
@@ -699,8 +722,12 @@
     <Content Include="Source\Project\OpenXml.project.xml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Source\Project\VSProject_v2.project.xml" />
-    <Content Include="Source\Project\VSProject.project.xml" />
+    <Content Include="Source\Project\VSProject_v2.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Source\Project\VSProject.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Source\Project\vs\WebData.vsproject.xml">
       <SubType>Designer</SubType>
     </Content>
@@ -711,6 +738,12 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Source\Project\_Test\Test_01.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Source\Project\_Test\Test_XmlConfig.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Source\Project\_Test\Test_WriteToFile.project.xml">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Source\Project\_Test\Test_Include.project.xml">

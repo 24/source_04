@@ -37,12 +37,13 @@
     <ServerManagers>
       <!-- ServerManager default values : enableLoadNewPost = "true"  enableSearchPostToDownload = "true" downloadDirectory = "" -->
       <!-- <ServerManager                                             name = "Ebookdz"  enableLoadNewPost = "false"  enableSearchPostToDownload = "false"  downloadDirectory = "Ebookdz" /> -->
-      <ServerManager                                             name = "magazines-gratuits.info" />
-      <ServerManager                                             name = "extreme-down.net" />
-      <ServerManager                                             name = "ebookdz.com" />
-      <ServerManager                                             name = "vosbooks.net" />
-      <ServerManager                                             name = "telecharger-magazine.com" />
       <!--<ServerManager                                             name = "Vosbooks_test" enableLoadNewPost = "false" downloadDirectory = "Vosbooks" />-->
+
+      <!--<ServerManager                                             name = "magazines-gratuits.info" />-->
+      <!--<ServerManager                                             name = "extreme-down.net" />-->
+      <!--<ServerManager                                             name = "ebookdz.com" />-->
+      <!--<ServerManager                                             name = "vosbooks.net" />-->
+      <ServerManager                                             name = "telecharger-magazine.com" />
     </ServerManagers>
 
     <MongoDownloadAutomate>
@@ -112,9 +113,9 @@
     <ServerManagers>
       <!-- ServerManager default values : enableLoadNewPost = "true"  enableSearchPostToDownload = "true" downloadDirectory = "" -->
       <!-- <ServerManager                                             name = "Ebookdz"  enableLoadNewPost = "false"  enableSearchPostToDownload = "false"  downloadDirectory = "Ebookdz" /> -->
-      <!--<ServerManager                                             name = "vosbooks.net" downloadDirectory = "vosbooks.net" />-->
+      <ServerManager                                             name = "vosbooks.net" downloadDirectory = "vosbooks.net" />
       <!--<ServerManager                                             name = "ebookdz.com" downloadDirectory = "ebookdz.com" />-->
-      <ServerManager                                             name = "magazines-gratuits.info" downloadDirectory = "magazines-gratuits.info" />
+      <!--<ServerManager                                             name = "magazines-gratuits.info" downloadDirectory = "magazines-gratuits.info" />-->
       <!--<ServerManager                                             name = "telecharger-magazine.com" downloadDirectory = "telecharger-magazine.com" />-->
       <!--<ServerManager                                             name = "extreme-down.net" downloadDirectory = "extreme-down.net" />-->
       <!--<ServerManager                                             name = "Ebookdz" downloadDirectory = "Ebookdz" />-->
@@ -123,20 +124,20 @@
 
     <MongoDownloadAutomate>
       <MongoServer                                               value = "mongodb://localhost" />
-      <MongoDatabase                                             value = "dl_test" />
+      <MongoDatabase                                             value = "dl_test2" />
       <MongoCollection                                           value = "DownloadAutomate3" />
     </MongoDownloadAutomate>
     <MongoDownloadFile>
       <!-- used only for DownloadManager_v1 as mongoDownloadManager -->
       <MongoServer                                               value = "mongodb://localhost" />
-      <MongoDatabase                                             value = "dl_test" />
+      <MongoDatabase                                             value = "dl_test2" />
       <MongoCollection                                           value = "DownloadFile3" />
       <MongoDocumentItemName                                     value = "downloadFile" />
     </MongoDownloadFile>
     <MongoDownloadedFile>
       <!-- used only for DownloadManager.MongoDownloadedFileManager -->
       <MongoServer                                               value = "mongodb://localhost" />
-      <MongoDatabase                                             value = "dl_test" />
+      <MongoDatabase                                             value = "dl_test2" />
       <MongoCollection                                           value = "DownloadedFile" />
       <!-- DownloadedFile_test -->
       <MongoDocumentItemName                                     value = "downloadedFile" />
@@ -144,21 +145,21 @@
     <MongoQueueDownloadFile>
       <!-- used only for DownloadManager_v1 as mongoQueueDownloadManager -->
       <MongoServer                                               value = "mongodb://localhost" />
-      <MongoDatabase                                             value = "dl_test" />
+      <MongoDatabase                                             value = "dl_test2" />
       <MongoCollection                                           value = "QueueDownloadFile4" />
       <MongoDocumentItemName                                     value = "queueDownloadFile" />
     </MongoQueueDownloadFile>
     <MongoQueueDownloadFile_new>
       <!-- used only for DownloadManager.MongoQueueDownloadFileManager -->
       <MongoServer                                               value = "mongodb://localhost" />
-      <MongoDatabase                                             value = "dl_test" />
+      <MongoDatabase                                             value = "dl_test2" />
       <MongoCollection                                           value = "QueueDownloadFile_new" />
       <MongoDocumentItemName                                     value = "queueDownloadFile" />
     </MongoQueueDownloadFile_new>
     <MongoCurrentDownloadFile>
       <!-- used only for DownloadManager.MongoCurrentDownloadFileManager -->
       <MongoServer                                               value = "mongodb://localhost" />
-      <MongoDatabase                                             value = "dl_test" />
+      <MongoDatabase                                             value = "dl_test2" />
       <MongoCollection                                           value = "CurrentDownloadFile" />
       <MongoDocumentItemName                                     value = "currentDownloadFile" />
     </MongoCurrentDownloadFile>
@@ -510,8 +511,8 @@
       <MongoServer                                               value = "mongodb://localhost" />
       <MongoDatabase                                             value = "dl" />
       <MongoCollection                                           value = "Vosbooks_Header" />
-      <MongoDocumentItemName                                     value = "download" />
-      <MongoDefaultSort                                          value = "{ 'download.id': 1 }" />
+      <MongoDocumentItemName                                     value = "data" />
+      <MongoDefaultSort                                          value = "{ 'data.id': 1 }" />
     </Header>
 
     <Detail>
@@ -522,9 +523,27 @@
       <MongoServer                                               value = "mongodb://localhost" />
       <MongoDatabase                                             value = "dl" />
       <MongoCollection                                           value = "Vosbooks_Detail" />
-      <MongoDocumentItemName                                     value = "download" />
-      <MongoDefaultSort                                          value = "{ 'download.id': 1 }" />
+      <MongoDocumentItemName                                     value = "data" />
+      <!--<MongoDefaultSort                                          value = "{ 'data.id': 1 }" />-->
+      <MongoDefaultSort                                          value = "{ 'data.PostCreationDate': -1 }" />
+      <Image>
+        <UseUrlCache                                                 value = "true" />
+        <CacheDirectory                                              value = "$Vosbooks/DataDir$\cache\detail.image" />
+        <CacheUrlFileNameType                                        value = "Host, Path" />
+        <CacheSaveRequest                                            value = "true" />
+        <!--<ImageFilterMinHeight                                        value = "70" />-->
+      </Image>
     </Detail>
+    <LoadNewDocuments>
+      <MaxDocumentsLoadedFromStore                               value = "10" />
+      <StartPage                                                 value = "1" />
+      <MaxPage                                                   value = "10" />
+      <LoadImageFromWeb                                          value = "true" />
+    </LoadNewDocuments>
+    <FindFromDateTime>
+      <Query                                                     value = "{{ 'data.PostCreationDate': {{ $gt: ISODate('{date}') }} }}" />
+      <!--<Sort                                                      value = "" />-->
+    </FindFromDateTime>
   </Vosbooks>
 
   <Vosbooks_Test>
@@ -537,10 +556,10 @@
       <CacheUrlFileNameType                                      value = "Host, Path, Query" />
       <UseMongo                                                  value = "true" />
       <MongoServer                                               value = "mongodb://localhost" />
-      <MongoDatabase                                             value = "dl_test" />
+      <MongoDatabase                                             value = "dl_test2" />
       <MongoCollection                                           value = "Vosbooks_Header_Test" />
-      <MongoDocumentItemName                                     value = "download" />
-      <MongoDefaultSort                                          value = "{ 'download.id': 1 }" />
+      <MongoDocumentItemName                                     value = "data" />
+      <MongoDefaultSort                                          value = "{ 'data.id': 1 }" />
     </Header>
 
     <Detail>
@@ -549,11 +568,29 @@
       <CacheUrlFileNameType                                      value = "Path, Query" />
       <UseMongo                                                  value = "true" />
       <MongoServer                                               value = "mongodb://localhost" />
-      <MongoDatabase                                             value = "dl_test" />
+      <MongoDatabase                                             value = "dl_test2" />
       <MongoCollection                                           value = "Vosbooks_Detail_Test" />
-      <MongoDocumentItemName                                     value = "download" />
-      <MongoDefaultSort                                          value = "{ 'download.id': 1 }" />
+      <MongoDocumentItemName                                     value = "data" />
+      <!--<MongoDefaultSort                                          value = "{ 'data.id': 1 }" />-->
+      <MongoDefaultSort                                          value = "{ 'data.PostCreationDate': -1 }" />
+      <Image>
+        <UseUrlCache                                                 value = "true" />
+        <CacheDirectory                                              value = "$Vosbooks_Test/DataDir$\cache\detail.image" />
+        <CacheUrlFileNameType                                        value = "Host, Path" />
+        <CacheSaveRequest                                            value = "true" />
+        <!--<ImageFilterMinHeight                                        value = "70" />-->
+      </Image>
     </Detail>
+    <LoadNewDocuments>
+      <MaxDocumentsLoadedFromStore                               value = "10" />
+      <StartPage                                                 value = "1" />
+      <MaxPage                                                   value = "10" />
+      <LoadImageFromWeb                                          value = "true" />
+    </LoadNewDocuments>
+    <FindFromDateTime>
+      <Query                                                     value = "{{ 'data.PostCreationDate': {{ $gt: ISODate('{date}') }} }}" />
+      <!--<Sort                                                      value = "" />-->
+    </FindFromDateTime>
   </Vosbooks_Test>
 
   <TelechargerMagazine>
@@ -564,25 +601,45 @@
       <UseUrlCache                                               value = "true" />
       <CacheDirectory                                            value = "$TelechargerMagazine/DataDir$\cache\header" />
       <CacheUrlFileNameType                                      value = "Host, Path, Query" />
+      <CacheSaveRequest                                          value = "true" />
       <UseMongo                                                  value = "false" />
       <MongoServer                                               value = "mongodb://localhost" />
       <MongoDatabase                                             value = "dl" />
       <MongoCollection                                           value = "TelechargerMagazine_Header" />
-      <MongoDocumentItemName                                     value = "download" />
-      <MongoDefaultSort                                          value = "{ 'download.id': 1 }" />
+      <MongoDocumentItemName                                     value = "data" />
+      <MongoDefaultSort                                          value = "{ 'data.id': 1 }" />
     </Header>
 
     <Detail>
       <UseUrlCache                                               value = "true" />
       <CacheDirectory                                            value = "$TelechargerMagazine/DataDir$\cache\detail" />
       <CacheUrlFileNameType                                      value = "Path, Query" />
+      <CacheSaveRequest                                          value = "true" />
       <UseMongo                                                  value = "true" />
       <MongoServer                                               value = "mongodb://localhost" />
       <MongoDatabase                                             value = "dl" />
       <MongoCollection                                           value = "TelechargerMagazine_Detail" />
-      <MongoDocumentItemName                                     value = "download" />
-      <MongoDefaultSort                                          value = "{ 'download.id': 1 }" />
+      <MongoDocumentItemName                                     value = "data" />
+      <!--<MongoDefaultSort                                          value = "{ 'data.id': 1 }" />-->
+      <MongoDefaultSort                                          value = "{ _id: -1 }" />
+      <Image>
+        <UseUrlCache                                                 value = "true" />
+        <CacheDirectory                                              value = "$TelechargerMagazine/DataDir$\cache\detail.image" />
+        <CacheUrlFileNameType                                        value = "Host, Path" />
+        <CacheSaveRequest                                            value = "true" />
+        <!--<ImageFilterMinHeight                                        value = "70" />-->
+      </Image>
     </Detail>
+    <LoadNewDocuments>
+      <MaxDocumentsLoadedFromStore                               value = "25" />
+      <StartPage                                                 value = "1" />
+      <MaxPage                                                   value = "10" />
+      <LoadImageFromWeb                                          value = "true" />
+    </LoadNewDocuments>
+    <FindFromDateTime>
+      <Query                                                     value = "{{ 'data.LoadFromWebDate': {{ $gt: ISODate('{date}') }} }}" />
+      <!--<Sort                                                      value = "" />-->
+    </FindFromDateTime>
   </TelechargerMagazine>
 
   <TelechargerMagazine_Test>
@@ -593,25 +650,45 @@
       <UseUrlCache                                               value = "true" />
       <CacheDirectory                                            value = "$TelechargerMagazine_Test/DataDir$\cache\header" />
       <CacheUrlFileNameType                                      value = "Host, Path, Query" />
+      <CacheSaveRequest                                          value = "true" />
       <UseMongo                                                  value = "true" />
       <MongoServer                                               value = "mongodb://localhost" />
-      <MongoDatabase                                             value = "dl_test" />
+      <MongoDatabase                                             value = "dl_test2" />
       <MongoCollection                                           value = "TelechargerMagazine_Header_Test" />
-      <MongoDocumentItemName                                     value = "download" />
-      <MongoDefaultSort                                          value = "{ 'download.id': 1 }" />
+      <MongoDocumentItemName                                     value = "data" />
+      <MongoDefaultSort                                          value = "{ 'data.id': 1 }" />
     </Header>
 
     <Detail>
       <UseUrlCache                                               value = "true" />
       <CacheDirectory                                            value = "$TelechargerMagazine_Test/DataDir$\cache\detail" />
       <CacheUrlFileNameType                                      value = "Path, Query" />
+      <CacheSaveRequest                                          value = "true" />
       <UseMongo                                                  value = "true" />
       <MongoServer                                               value = "mongodb://localhost" />
-      <MongoDatabase                                             value = "dl_test" />
+      <MongoDatabase                                             value = "dl_test2" />
       <MongoCollection                                           value = "TelechargerMagazine_Detail_Test" />
-      <MongoDocumentItemName                                     value = "download" />
-      <MongoDefaultSort                                          value = "{ 'download.id': 1 }" />
+      <MongoDocumentItemName                                     value = "data" />
+      <!--<MongoDefaultSort                                          value = "{ 'data.id': 1 }" />-->
+      <MongoDefaultSort                                          value = "{ _id: -1 }" />
+      <Image>
+        <UseUrlCache                                                 value = "true" />
+        <CacheDirectory                                              value = "$TelechargerMagazine_Test/DataDir$\cache\detail.image" />
+        <CacheUrlFileNameType                                        value = "Host, Path" />
+        <CacheSaveRequest                                            value = "true" />
+        <!--<ImageFilterMinHeight                                        value = "70" />-->
+      </Image>
     </Detail>
+    <LoadNewDocuments>
+      <MaxDocumentsLoadedFromStore                               value = "25" />
+      <StartPage                                                 value = "1" />
+      <MaxPage                                                   value = "10" />
+      <LoadImageFromWeb                                          value = "true" />
+    </LoadNewDocuments>
+    <FindFromDateTime>
+      <Query                                                     value = "{{ 'data.LoadFromWebDate': {{ $gt: ISODate('{date}') }} }}" />
+      <!--<Sort                                                      value = "" />-->
+    </FindFromDateTime>
   </TelechargerMagazine_Test>
 
   <Telechargementz>

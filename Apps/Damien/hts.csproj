@@ -405,13 +405,13 @@
       <Project>{df1f23ca-9dc6-4604-8400-6c4b656e0f5d}</Project>
       <Name>Pri.LongPath</Name>
     </ProjectReference>
-    <ProjectReference Include="..\RunSource\v2\runsource.command\runsource.v2.command.csproj">
+    <ProjectReference Include="..\RunSource\v2\runsource.command\runsource.command.csproj">
       <Project>{12d4a2fb-84e4-4067-8655-a019e2cf7b5f}</Project>
-      <Name>runsource.v2.command</Name>
+      <Name>runsource.command</Name>
     </ProjectReference>
-    <ProjectReference Include="..\RunSource\v2\runsource.irunsource\runsource.v2.irunsource.csproj">
+    <ProjectReference Include="..\RunSource\v2\runsource.irunsource\runsource.irunsource.csproj">
       <Project>{69eeca69-aaba-40b4-b8a0-f830303a831f}</Project>
-      <Name>runsource.v2.irunsource</Name>
+      <Name>runsource.irunsource</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>

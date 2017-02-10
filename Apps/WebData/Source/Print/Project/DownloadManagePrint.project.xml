@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<AssemblyProject>
+  <Root                             value = "..\..\..\..\.." />
+  <ProjectRoot                      value = "..\..\.." />
+
+  <Source                           value = "$ProjectRoot$\Source\Print\DownloadManager\WebDataPrintFileManager.cs" />
+
+  <Source                           value = "$ProjectRoot$\Source\Print\Print\MovePrintFiles.cs" />
+  <Source                           value = "$ProjectRoot$\Source\Print\Print\PrintDirectoryManager.cs" />
+  <Source                           value = "$ProjectRoot$\Source\Print\Print\PrintFileManager_v2.cs" />
+
+</AssemblyProject>

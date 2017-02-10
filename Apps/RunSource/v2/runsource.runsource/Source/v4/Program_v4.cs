@@ -42,11 +42,13 @@ namespace runsourced
                 string logFile = config.Get("Log");
                 FileOption logFileOption = config.Get("Log/@option").zTextDeserialize(FileOption.None);
                 TraceManager.Current.AddTrace(Trace.Current);
-                TraceManager.Current.SetWriter(logFile, logFileOption);
+                //TraceManager.Current.SetWriter(logFile, logFileOption);
+                TraceManager.Current.SetWriter(WriteToFile.Create(logFile, logFileOption));
 
                 ITraceManager remoteTraceManager = remoteRunSource.GetTraceManager();
                 remoteTraceManager.AddTrace(remoteRunSource.GetTrace());
-                remoteTraceManager.SetWriter(logFile, logFileOption);
+                //remoteTraceManager.SetWriter(logFile, logFileOption);
+                remoteTraceManager.SetWriter(WriteToFile.Create(logFile, logFileOption));
 
                 // ATTENTION appeler DeleteGeneratedAssemblies() après SetRunSourceConfig()
                 //RunSourceForm form = new RunSourceForm(runSource, trace, config, GetRunSourceRestartParameters());

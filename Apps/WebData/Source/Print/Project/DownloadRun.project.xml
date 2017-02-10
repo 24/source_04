@@ -22,6 +22,8 @@
   <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\PBTraceListener.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\TextSerializer.cs" />
 
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\ParseNamedValues.cs" />
+
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\PBBsonWriter.cs" />
 
   <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\DataPages.cs" />

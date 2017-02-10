@@ -550,19 +550,6 @@ namespace pb.Web.Http
         //    return file;
         //}
 
-        public static HttpRequestMethod GetHttpRequestMethod(string method)
-        {
-            switch (method.ToLower())
-            {
-                case "get":
-                    return HttpRequestMethod.Get;
-                case "post":
-                    return HttpRequestMethod.Post;
-                default:
-                    throw new PBException("Error unknow HttpRequestMethod \"{0}\"", method);
-            }
-        }
-
         public static Http LoadAsText(HttpRequest httpRequest, HttpRequestParameters requestParameters = null, string exportFile = null, bool setExportFileExtension = false)
         {
             Http http = new Http(httpRequest, requestParameters);

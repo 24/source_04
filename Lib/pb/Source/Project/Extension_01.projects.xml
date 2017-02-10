@@ -2,6 +2,6 @@
 <Projects>
   <!--<OutputDirectory                             value = "c:\pib\prog\tools\runsource" />-->
   <!--<UpdateDirectory                             value = "$OutputDirectory$\update" />-->
-  <Project                                     value = "Extension_01.project.xml" />
+  <Project                                     value = "Extension_01.compile.project.xml" />
   <!--<Project                                     value = "runsource.dll\runsource.dll.project.xml" copyOutput = "$OutputDirectory$\new" copyToUpdateDirectory = "true" />-->
 </Projects>

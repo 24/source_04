@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<AssemblyProject>
+  
+  <Root                             value = "..\..\..\..\.." />
+
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\LanguageCSharp5Debug.project.xml" />
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\XmlConfig.project.xml" />
+
+  <NameSpace                        value = "pb.Test" />
+
+  <Using                            value = "pb" />
+
+</AssemblyProject>

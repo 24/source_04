@@ -70,15 +70,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\Lib\pb\Source\pb\Compiler\IProjectCompiler.cs">
-      <Link>SourceLnk\Lib\pb\Compiler\IProjectCompiler.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Compiler\IRunSource.cs">
-      <Link>SourceLnk\Lib\pb\Compiler\IRunSource.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Compiler\RunSourceExecution.cs">
-      <Link>SourceLnk\Lib\pb\Compiler\RunSourceExecution.cs</Link>
-    </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Compiler\RunSourceExtension.cs">
       <Link>SourceLnk\Lib\pb\Compiler\RunSourceExtension.cs</Link>
     </Compile>
@@ -153,6 +144,12 @@
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\WebImageMongoManager.cs">
       <Link>SourceLnk\Lib\pb\Data\Mongo\WebImageMongoManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\zMongo.cs">
+      <Link>SourceLnk\Lib\pb\Data\Mongo\zMongo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\zMongoDB.cs">
+      <Link>SourceLnk\Lib\pb\Data\Mongo\zMongoDB.cs</Link>
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Data\OpenXml\Graphic.cs">
       <Link>SourceLnk\Lib\pb\Data\OpenXml\Graphic.cs</Link>
@@ -237,6 +234,9 @@
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\DataPages.cs">
       <Link>SourceLnk\Lib\pb\Web\Data\DataPages.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\DebridLinkFr_v3.cs">
+      <Link>SourceLnk\Lib\pb\Web\Data\DebridLinkFr_v3.cs</Link>
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\HeaderDetail.cs">
       <Link>SourceLnk\Lib\pb\Web\Data\HeaderDetail.cs</Link>
@@ -334,29 +334,14 @@
     <Compile Include="..\..\Lib\pb\Source\pb\Web\Http\HttpBase.cs">
       <Link>SourceLnk\Lib\pb\Web\Http\HttpBase.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Web\Http\HttpLoadImage_v2.cs">
-      <Link>SourceLnk\Lib\pb\Web\Http\HttpLoadImage_v2.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Web\Http\HttpLoadText_v2.cs">
-      <Link>SourceLnk\Lib\pb\Web\Http\HttpLoadText_v2.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Web\Http\HttpLoadToFile_v2.cs">
-      <Link>SourceLnk\Lib\pb\Web\Http\HttpLoadToFile_v2.cs</Link>
-    </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Web\Http\HttpManager.cs">
       <Link>SourceLnk\Lib\pb\Web\Http\HttpManager.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Web\Http\HttpManagerLoadImage_v2.cs">
-      <Link>SourceLnk\Lib\pb\Web\Http\HttpManagerLoadImage_v2.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Web\Http\HttpManagerLoadText_v2.cs">
-      <Link>SourceLnk\Lib\pb\Web\Http\HttpManagerLoadText_v2.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Web\Http\HttpManagerXml.cs">
-      <Link>SourceLnk\Lib\pb\Web\Http\HttpManagerXml.cs</Link>
-    </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Web\Http\HttpManager_v2.cs">
       <Link>SourceLnk\Lib\pb\Web\Http\HttpManager_v2.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Web\Http\HttpRun_v2.cs">
+      <Link>SourceLnk\Lib\pb\Web\Http\HttpRun_v2.cs</Link>
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Web\Http\HttpTools.cs">
       <Link>SourceLnk\Lib\pb\Web\Http\HttpTools.cs</Link>
@@ -393,9 +378,6 @@
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\EnumerateBsonDocumentElements.cs">
       <Link>SourceLnk\Lib\pb\Data\Mongo\EnumerateBsonDocumentElements.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\Mongo.cs">
-      <Link>SourceLnk\Lib\pb\Data\Mongo\Mongo.cs</Link>
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Data\Mongo\MongoCommand.cs">
       <Link>SourceLnk\Lib\pb\Data\Mongo\MongoCommand.cs</Link>
@@ -447,9 +429,6 @@
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\IO\FilenameNumberInfo.cs">
       <Link>SourceLnk\Lib\pb\IO\FilenameNumberInfo.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\IO\FileOption.cs">
-      <Link>SourceLnk\Lib\pb\IO\FileOption.cs</Link>
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\IO\Path.cs">
       <Link>SourceLnk\Lib\pb\IO\Path.cs</Link>
@@ -505,9 +484,6 @@
     <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\DebriderDebridLinkFr.cs">
       <Link>SourceLnk\Lib\pb\Web\Data\DebriderDebridLinkFr.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\DebridLinkFr.cs">
-      <Link>SourceLnk\Lib\pb\Web\Data\DebridLinkFr.cs</Link>
-    </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Web\Data\DownloadFileServerInfo.cs">
       <Link>SourceLnk\Lib\pb\Web\Data\DownloadFileServerInfo.cs</Link>
     </Compile>
@@ -552,9 +528,6 @@
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Web\Http\HttpRequest.cs">
       <Link>SourceLnk\Lib\pb\Web\Http\HttpRequest.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Web\Http\HttpRun.cs">
-      <Link>SourceLnk\Lib\pb\Web\Http\HttpRun.cs</Link>
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Web\Http\HttpXml.cs">
       <Link>SourceLnk\Lib\pb\Web\Http\HttpXml.cs</Link>
@@ -634,17 +607,8 @@
     <Compile Include="..\..\Lib\pb\Source\pb\_pb\TextSerializer.cs">
       <Link>SourceLnk\Lib\pb\_pb\TextSerializer.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\_pb\Trace.cs">
-      <Link>SourceLnk\Lib\pb\_pb\Trace.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\_pb\TraceError.cs">
-      <Link>SourceLnk\Lib\pb\_pb\TraceError.cs</Link>
-    </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\_pb\TraceLevel.cs">
       <Link>SourceLnk\Lib\pb\_pb\TraceLevel.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\_pb\TraceSetWriter.cs">
-      <Link>SourceLnk\Lib\pb\_pb\TraceSetWriter.cs</Link>
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\_pb\ztrace.cs">
       <Link>SourceLnk\Lib\pb\_pb\ztrace.cs</Link>
@@ -887,7 +851,7 @@
     <Content Include="Source\Print\Print\Test\Test_Unit_FindPrint.project.xml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Source\Print\Project\download.dll.compile.project.xml">
+    <Content Include="Source\Print\Project\download.compile.dll.project.xml">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Source\Print\Project\download.project.xml">
@@ -899,13 +863,16 @@
     <Content Include="Source\Print\Project\download.dll.project.xml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Source\Print\Project\download.source.project.xml">
+    <Content Include="Source\Print\Project\DownloadManagePrint.project.xml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Source\Print\Project\download.test.project.xml">
+    <Content Include="Source\Print\Project\_old\download.source.project.xml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Source\Print\Project\download.v2.project.xml">
+    <Content Include="Source\Print\Project\_old\download.test.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Source\Print\Project\_old\download.v2.project.xml">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Source\Print\Project\download.projects.xml">
@@ -949,6 +916,16 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Source\Autre\TM\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\RunSource\v2\runsource.command\runsource.command.csproj">
+      <Project>{12d4a2fb-84e4-4067-8655-a019e2cf7b5f}</Project>
+      <Name>runsource.command</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RunSource\v2\runsource.irunsource\runsource.irunsource.csproj">
+      <Project>{69eeca69-aaba-40b4-b8a0-f830303a831f}</Project>
+      <Name>runsource.irunsource</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

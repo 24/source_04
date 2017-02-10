@@ -12,7 +12,7 @@ namespace pb.Compiler
             ProjectCompiler compiler = new ProjectCompiler(win32ResourceCompiler, resourceCompiler);
             CompilerProjectReader projectReader = CompilerProjectReader.Create(new XmlConfig(projectFile).GetConfigElementExplicit("/AssemblyProject"));
             compiler.SetParameters(projectReader);
-            compiler.SetProjectCompilerFile(projectReader.GetProjectCompilerFile());
+            //compiler.SetProjectCompilerFile(projectReader.GetProjectCompilerFile());
             return compiler;
         }
 

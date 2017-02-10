@@ -11,16 +11,16 @@
 	<!--<CompilerOptions                  value = "/platform:x86" />  --><!-- x86, Itanium, x64, or anycpu (default). -->
   <Source                           value = "Properties\AssemblyInfo.cs" />
 
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Compiler\RunSourceCommand.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Compiler\RunSourceCommand.cs" />
 
-  <FrameworkAssembly                value = "mscorlib.dll" />
+  <FrameworkAssembly                value = "mscorlib.dll" vsExclude = "true" />
   <FrameworkAssembly                value = "System.dll" />
   <!--<FrameworkAssembly                value = "System.Core.dll" />-->
 	<FrameworkAssembly                value = "System.Data.dll" />
 	<!--<FrameworkAssembly                value = "System.Xml.dll" />-->
   <!--<FrameworkAssembly                value = "System.Xml.Linq.dll" />-->
   <!--<Assembly                         value = "$Root$\Lib\LongPath\Pri.LongPath\bin\Debug\Pri.LongPath.dll" />-->
-  <Assembly                         value = "$Root$\Apps\RunSource\v2\runsource.dll\bin32\runsource.dll" />
-  <Assembly                         value = "$Root$\Apps\RunSource\v2\runsource.irunsource\bin32\runsource.irunsource.dll" />
+  <Assembly                         value = "$Root$\Apps\RunSource\v2\runsource.dll\bin32\runsource.dll" vsExclude = "true" />
+  <Assembly                         value = "$Root$\Apps\RunSource\v2\runsource.irunsource\bin32\runsource.irunsource.dll" vsExclude = "true" />
 </AssemblyProject>
 

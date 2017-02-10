@@ -2,106 +2,106 @@
 <AssemblyProject>
   <Root                             value = "..\..\..\.." />
 
-  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\Application.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\Convert.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\Error.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\GlobalExtension.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\ParseAs.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\PBException.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\Progress.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\TraceLevel.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\Application.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\Convert.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\Error.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\GlobalExtension.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\ParseAs.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\PBException.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\Progress.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\TraceLevel.cs" />
 
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\IDocumentStore.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Image.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\IDocumentStore.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\Image.cs" />
 
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\MongoBackup.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\MongoCommand.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\MongoCursorCache.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\MongoDataSerializer.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\MongoDataStore.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\MongoIdGenerator.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\MongoLog.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\WebHeaderDetailMongoManagerBase_v2.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\WebHeaderDetailMongoManagerBase_v3.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\zMongo.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\zMongoDB.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\Mongo\MongoBackup.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\Mongo\MongoCommand.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\Mongo\MongoCursorCache.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\Mongo\MongoDataSerializer.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\Mongo\MongoDataStore.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\Mongo\MongoIdGenerator.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\Mongo\MongoLog.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\Mongo\WebHeaderDetailMongoManagerBase_v2.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\Mongo\WebHeaderDetailMongoManagerBase_v3.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\Mongo\zMongo.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\Mongo\zMongoDB.cs" />
 
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Xml\XDocumentCreator.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Xml\Xml.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Xml\XmlConfig.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Xml\XmlDescendant.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Xml\XXElement.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\Xml\XDocumentCreator.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\Xml\Xml.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\Xml\XmlConfig.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\Xml\XmlDescendant.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\Xml\XXElement.cs" />
 
-  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\CharStreamReader.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\File.cs" />
-  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\IO\FileOption.cs" />-->
-  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\Path.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\StreamTransfer.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\WriteToFile.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\WriteToFileCreate.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\zDirectory.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\zFile.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\zPath.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\CharStreamReader.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\File.cs" />
+  <!--<SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\FileOption.cs" />-->
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\Path.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\StreamTransfer.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\WriteToFile.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\WriteToFileCreate.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\zDirectory.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\zFile.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\zPath.cs" />
 
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Reflection\Reflection.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Reflection\Reflection.cs" />
 
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Text\Split.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Text\StringZones.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Text\Split.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Text\StringZones.cs" />
 
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\DataPages.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\DataPages_v2.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\IEnumDataPages.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\IHeaderData.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\HeaderDetail.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\LoadNewDocumentsResult.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebData.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebData_Load_v2.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebData_LoadImages_v3.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebData_Result_v2.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebData_v2.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebDataManager_v4.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebDataManager_v4_MongoDataStore.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebDataManager_v5.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebDataPageManager_v4.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebHeaderDetailManager_v4.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebHeaderDetailManager_v5.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebImage.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebImageCacheManager_v3.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebLoadDataManager_v2.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebLoadImageManager_v2.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebRequest.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebRequest_v2.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Web\Data\DataPages.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Web\Data\DataPages_v2.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Web\Data\IEnumDataPages.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Web\Data\IHeaderData.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Web\Data\HeaderDetail.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Web\Data\LoadNewDocumentsResult.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Web\Data\WebData.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Web\Data\WebData_Load_v2.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Web\Data\WebData_LoadImages_v3.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Web\Data\WebData_Result_v2.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Web\Data\WebData_v2.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Web\Data\WebDataManager_v4.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Web\Data\WebDataManager_v4_MongoDataStore.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Web\Data\WebDataManager_v5.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Web\Data\WebDataPageManager_v4.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Web\Data\WebHeaderDetailManager_v4.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Web\Data\WebHeaderDetailManager_v5.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Web\Data\WebImage.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Web\Data\WebImageCacheManager_v3.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Web\Data\WebLoadDataManager_v2.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Web\Data\WebLoadImageManager_v2.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Web\Data\WebRequest.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Web\Data\WebRequest_v2.cs" />
 
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Html\HtmlCharCodes.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Html\HtmlNode.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Html\HtmlReader_v4.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Html\HtmlTag.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Html\HtmlToXml_v3.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Html\HtmlToXmlManager.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Web\Html\HtmlCharCodes.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Web\Html\HtmlNode.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Web\Html\HtmlReader_v4.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Web\Html\HtmlTag.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Web\Html\HtmlToXml_v3.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Web\Html\HtmlToXmlManager.cs" />
 
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\Http_v2.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\HttpBase.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\Http_v2_LoadImage.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\Http_v2_LoadText.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\Http_v2_LoadToFile.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\HttpManager_v2.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\HttpManager_v2_LoadImage.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\HttpManager_v2_LoadText.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\HttpRequest.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\HttpTools.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\HttpXml_v2.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\Url.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\UrlCache.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Web\Http\Http_v2.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Web\Http\HttpBase.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Web\Http\Http_v2_LoadImage.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Web\Http\Http_v2_LoadText.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Web\Http\Http_v2_LoadToFile.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Web\Http\HttpManager_v2.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Web\Http\HttpManager_v2_LoadImage.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Web\Http\HttpManager_v2_LoadText.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Web\Http\HttpRequest.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Web\Http\HttpTools.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Web\Http\HttpXml_v2.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Web\Http\Url.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Web\Http\UrlCache.cs" />
 
-  <FrameworkAssembly                value = "mscorlib.dll" />
+  <FrameworkAssembly                value = "mscorlib.dll" vsExclude = "true" />
   <FrameworkAssembly                value = "System.dll" />
   <FrameworkAssembly                value = "System.Core.dll" />
   <FrameworkAssembly                value = "System.Drawing.dll" />
   <FrameworkAssembly                value = "System.Web.dll" />
   <FrameworkAssembly                value = "System.Xml.Linq.dll" />
 
-  <RunSourceAssembly                value = "runsource.irunsource.dll" />
-  <RunSourceAssembly                value = "runsource.command.dll" />
+  <RunSourceAssembly                value = "runsource.irunsource.dll" vsExclude = "true" />
+  <RunSourceAssembly                value = "runsource.command.dll" vsExclude = "true" />
 
   <Assembly                         value = "$Root$\Lib\LongPath\Pri.LongPath\bin\Debug\Pri.LongPath.dll" />
   <Assembly                         value = "$Root$\..\library\Mongo\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Bson.dll" resolve = "true" resolveName = "MongoDB.Bson, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />

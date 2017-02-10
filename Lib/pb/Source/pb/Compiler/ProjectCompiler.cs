@@ -44,6 +44,8 @@ using System;
  * ...
  * <Source                                    value = "" [namespace = ""] />
  * ...
+ * <SourceLink                                value = "" [namespace = ""] />        <!-- same as Source used in VSProject to differentiate Source and SourceLink -->
+ * ...
  * <SourceFile                                value = "" />       <!-- file are not compiled, not copied to destination, file are copied to zip -->
  * ...
  * <File                                      value = "" [destinationFile = ""] />
@@ -166,8 +168,10 @@ namespace pb.Compiler
         private Win32ResourceCompiler _win32ResourceCompiler = null;
         private ResourceCompiler _resourceCompiler = null;
 
-        private CompilerFile _projectCompilerFile = null;
+        //private CompilerFile _projectCompilerFile = null;
+        private string _projectFile = null;
         private string _projectDirectory = null;
+        private string _projectRootDirectory = null;
 
         private CompilerLanguage _language = null;   // CSharp1 version v3.5, v4.0, CSharp5 version 1, 2, 3, 4, 5, 6, JScript
         private string _frameworkVersion = null;
@@ -231,11 +235,11 @@ namespace pb.Compiler
         // IProjectCompiler
         public bool Success { get { return !_resourceError && _result != null ? _result.Success : false; } }
 
-        public void SetProjectCompilerFile(CompilerFile projectCompilerFile)
-        {
-            _projectCompilerFile = projectCompilerFile;
-            _projectDirectory = zPath.GetDirectoryName(projectCompilerFile.File);
-        }
+        //public void SetProjectCompilerFile(CompilerFile projectCompilerFile)
+        //{
+        //    _projectCompilerFile = projectCompilerFile;
+        //    _projectDirectory = zPath.GetDirectoryName(projectCompilerFile.File);
+        //}
 
         // runCode : true when executing code from runsource, true for CompilerDefaultValues and ProjectDefaultValues, otherwise false
         // includeProject : true reading and include project, false reading the main project
@@ -250,10 +254,14 @@ namespace pb.Compiler
             if (project == null)
                 return;
 
+            _projectFile = project.ProjectFile;
+            _projectDirectory = project.ProjectDirectory;
+            _projectRootDirectory = project.GetRootDirectory();
+
             //if (!includeProject)
             //{
-                SetLanguage(project.GetLanguage(), project);
-                SetFrameworkVersion(project.GetFrameworkVersion(), project);
+            SetLanguage(project.GetLanguage(), project);
+            SetFrameworkVersion(project.GetFrameworkVersion(), project);
             //}
 
             if (!runCode && !includeProject)
@@ -324,7 +332,9 @@ namespace pb.Compiler
                 }
             }
 
+            AddSources(project.GetResources());
             AddSources(project.GetSources());
+            AddSources(project.GetSourcesLinks());
 
             AddFiles(project.GetFiles());
 
@@ -472,8 +482,8 @@ namespace pb.Compiler
             else if (_traceDuplicateSource)
             {
                 WriteLine(1, $"Compiler warning : duplicate source file \"{source.File}\"");
-                WriteLine(1, $"                              in project \"{source.Project.ProjectFile}\"");
-                WriteLine(1, $"               already loaded in project \"{_sourceList[source.File].Project.ProjectFile}\"");
+                WriteLine(1, $"                              in project \"{source.ProjectFile}\"");
+                WriteLine(1, $"               already loaded in project \"{_sourceList[source.File].ProjectFile}\"");
             }
         }
 
@@ -486,8 +496,8 @@ namespace pb.Compiler
                     _fileList.Add(file.File, file);
                 else
                 {
-                    WriteLine(1, "Compiler warning : duplicate file \"{0}\" from project \"{1}\"", file.File, file.Project.ProjectFile);
-                    WriteLine(1, "  already loaded from project \"{0}\"", _fileList[file.File].Project.ProjectFile);
+                    WriteLine(1, "Compiler warning : duplicate file \"{0}\" from project \"{1}\"", file.File, file.ProjectFile);
+                    WriteLine(1, "  already loaded from project \"{0}\"", _fileList[file.File].ProjectFile);
                 }
             }
         }
@@ -514,14 +524,14 @@ namespace pb.Compiler
             string filename = zPath.GetFileNameWithoutExtension(assembly.File).ToLowerInvariant();
             if (!_assemblyList.ContainsKey(filename))
                 _assemblyList.Add(filename, assembly);
-            else if (!assembly.Project.IsIncludeProject)
+            else if (!assembly.IncludeProject)
             {
                 //CompilerAssembly assembly2 = _assemblyList[assembly.File];
                 CompilerAssembly assembly2 = _assemblyList[filename];
-                if (!assembly2.Project.IsIncludeProject)
+                if (!assembly2.IncludeProject)
                 {
-                    WriteLine(1, "Compiler warning : duplicate assembly \"{0}\" from project \"{1}\"", assembly.File, assembly.Project.ProjectFile);
-                    WriteLine(1, "  already loaded from project \"{0}\"", assembly2.Project.ProjectFile);
+                    WriteLine(1, "Compiler warning : duplicate assembly \"{0}\" from project \"{1}\"", assembly.File, assembly.ProjectFile);
+                    WriteLine(1, "  already loaded from project \"{0}\"", assembly2.ProjectFile);
                 }
             }
         }
@@ -1107,32 +1117,34 @@ namespace pb.Compiler
             //    TraceLevel = 1;
         }
 
-        public void CopySourceFiles(string destinationDirectory)
-        {
-            if (zDirectory.Exists(destinationDirectory))
-                zDirectory.Delete(destinationDirectory, true);
-            CopySourceFiles(destinationDirectory, _sourceList.Values);
-            CopySourceFiles(destinationDirectory, _fileList.Values);
-            CopySourceFiles(destinationDirectory, _sourceFileList.Values);
-        }
+        // not used comment 08/02/2017
+        //public void CopySourceFiles(string destinationDirectory)
+        //{
+        //    if (zDirectory.Exists(destinationDirectory))
+        //        zDirectory.Delete(destinationDirectory, true);
+        //    CopySourceFiles(destinationDirectory, _sourceList.Values);
+        //    CopySourceFiles(destinationDirectory, _fileList.Values);
+        //    CopySourceFiles(destinationDirectory, _sourceFileList.Values);
+        //}
 
-        private void CopySourceFiles(string destinationDirectory, IEnumerable<CompilerFile> files)
-        {
-            foreach (CompilerFile file in files)
-            {
-                //WriteLine(1, "Compiler.CopySourceFiles CompilerFile.File         : \"{0}\"", file.File);
-                //WriteLine(1, "Compiler.CopySourceFiles CompilerFile.RelativePath : \"{0}\"", file.RelativePath);
-                if (zFile.Exists(file.File))
-                {
-                    string destinationFile = zPath.Combine(destinationDirectory, file.RelativePath);
-                    //WriteLine(1, "Compiler.CopySourceFiles destinationFile           : \"{0}\"", destinationFile);
-                    zfile.CreateFileDirectory(destinationFile);
-                    zfile.CopyFile(file.File, destinationFile, CopyFileOptions.OverwriteReadOnly);
-                }
-                else
-                    WriteLine(1, "Compiler warning can't copy source file : source file \"{0}\" does not exist from project \"{1}\"", file.File, file.Project.ProjectFile);
-            }
-        }
+        // not used comment 08/02/2017
+        //private void CopySourceFiles(string destinationDirectory, IEnumerable<CompilerFile> files)
+        //{
+        //    foreach (CompilerFile file in files)
+        //    {
+        //        //WriteLine(1, "Compiler.CopySourceFiles CompilerFile.File         : \"{0}\"", file.File);
+        //        //WriteLine(1, "Compiler.CopySourceFiles CompilerFile.RelativePath : \"{0}\"", file.RelativePath);
+        //        if (zFile.Exists(file.File))
+        //        {
+        //            string destinationFile = zPath.Combine(destinationDirectory, file.RelativePath);
+        //            //WriteLine(1, "Compiler.CopySourceFiles destinationFile           : \"{0}\"", destinationFile);
+        //            zfile.CreateFileDirectory(destinationFile);
+        //            zfile.CopyFile(file.File, destinationFile, CopyFileOptions.OverwriteReadOnly);
+        //        }
+        //        else
+        //            WriteLine(1, "Compiler warning can't copy source file : source file \"{0}\" does not exist from project \"{1}\"", file.File, file.Project.ProjectFile);
+        //    }
+        //}
 
         private void CopySourceFiles()
         {
@@ -1148,6 +1160,7 @@ namespace pb.Compiler
             //    _zipSourceFile = projectFile + "." + _zipSourceFile;
             //}
             //_zipSourceFile = _zipSourceFile.zRootPath(zPath.GetDirectoryName(_outputAssembly));
+
             _zipSourceFile = GetZipSourceFile(_outputAssembly);
             WriteLine(1, "  create zip source file \"{0}\"", _zipSourceFile);
             //using (ZipArchive zipArchive = new ZipArchive(_zipSourceFile, FileMode.Create))
@@ -1155,14 +1168,44 @@ namespace pb.Compiler
             using (FileStream fs = zFile.Open(_zipSourceFile, FileMode.Create))
             using (ZipArchive zipArchive = new ZipArchive(fs, System.IO.Compression.ZipArchiveMode.Update))
             {
-                if (_projectCompilerFile != null && zFile.Exists(_projectCompilerFile.File))
-                    zipArchive.AddFile(_projectCompilerFile.File, _projectCompilerFile.RelativePath);
+                //_projectRootDirectory
+                //if (_projectCompilerFile != null && zFile.Exists(_projectCompilerFile.File))
+                //    zipArchive.AddFile(_projectCompilerFile.File, _projectCompilerFile.RelativePath);
+                if (zFile.Exists(_projectFile))
+                    zipArchive.AddFile(_projectFile, GetRelativePath(_projectFile));
                 if (_win32ResourceFile != null && zFile.Exists(_win32ResourceFile.File))
-                    zipArchive.AddFile(_win32ResourceFile.File, _win32ResourceFile.RelativePath);
+                    //zipArchive.AddFile(_win32ResourceFile.File, _win32ResourceFile.RelativePath);
+                    zipArchive.AddFile(_win32ResourceFile.File, GetRelativePath(_win32ResourceFile.File));
                 ZipSourceFiles(zipArchive, _sourceList.Values);
                 ZipSourceFiles(zipArchive, _fileList.Values);
                 ZipSourceFiles(zipArchive, _sourceFileList.Values);
             }
+        }
+
+        private void ZipSourceFiles(ZipArchive zipArchive, IEnumerable<CompilerFile> files)
+        {
+            foreach (CompilerFile file in files)
+            {
+                if (zFile.Exists(file.File))
+                    //zipArchive.AddFile(file.File, file.RelativePath);
+                    zipArchive.AddFile(file.File, GetRelativePath(file.File));
+                else
+                    WriteLine(1, "Compiler warning can't copy source file : source file \"{0}\" does not exist from project \"{1}\"", file.File, file.ProjectFile);
+            }
+        }
+
+        private string GetRelativePath(string file)
+        {
+            string relativePath;
+            if (_projectRootDirectory != null && file.StartsWith(_projectRootDirectory))
+            {
+                relativePath = file.Substring(_projectRootDirectory.Length);
+                if (relativePath.StartsWith("\\"))
+                    relativePath = relativePath.Substring(1);
+            }
+            else
+                relativePath = zPath.Combine("NoRoot", zPath.GetFileName(file));
+            return relativePath;
         }
 
         private void _CopyRunSourceSourceFiles()
@@ -1182,17 +1225,6 @@ namespace pb.Compiler
         private static string GetZipSourceFile(string assemblyFile)
         {
             return zPath.Combine(zPath.GetDirectoryName(assemblyFile), zPath.GetFileNameWithoutExtension(assemblyFile) + __zipSourceFilename);
-        }
-
-        private void ZipSourceFiles(ZipArchive zipArchive, IEnumerable<CompilerFile> files)
-        {
-            foreach (CompilerFile file in files)
-            {
-                if (zFile.Exists(file.File))
-                    zipArchive.AddFile(file.File, file.RelativePath);
-                else
-                    WriteLine(1, "Compiler warning can't copy source file : source file \"{0}\" does not exist from project \"{1}\"", file.File, file.Project.ProjectFile);
-            }
         }
 
         public void TraceMessages(Predicate<CompilerMessage> messageFilter = null)

@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+  <LocalDataDir                                value = "c:\pib\drive\google\dev_data\exe\runsource\mega" />
+  <LocalConfig                                 value = "$LocalDataDir$\config\mega.config.local.xml" />
+  <LocalEnvironment                            value = "$LocalDataDir$\config\mega.environment.xml" />
+</configuration>

@@ -8,6 +8,7 @@ using pb.Web;
 using pb.Data;
 using System.Collections.Generic;
 using pb.IO;
+using pb.Web.Data;
 
 namespace Download.Print
 {
@@ -172,7 +173,8 @@ namespace Download.Print
             //    throw new PBException("error DownloadManagerClient is not working");
 
             if (_traceLevel != null)
-                Trace.CurrentTrace.TraceLevel = (int)_traceLevel;
+                //Trace.CurrentTrace.TraceLevel = (int)_traceLevel;
+                pb.TraceLevel.Level = (int)_traceLevel;
 
             //_downloadAutomateManager.Start();
 
@@ -221,14 +223,14 @@ namespace Download.Print
             return debrider;
         }
 
-        private static DebridLinkFr CreateDebridLinkFr(XmlConfig config)
+        private static DebridLinkFr_v3 CreateDebridLinkFr(XmlConfig config)
         {
-            DebridLinkFr debrider = new DebridLinkFr();
+            DebridLinkFr_v3 debrider = new DebridLinkFr_v3();
             XmlConfig localConfig = config.GetConfig("LocalConfig");
             debrider.Login = localConfig.GetExplicit("DownloadAutomateManager/DebridLink/Login");
             debrider.Password = localConfig.GetExplicit("DownloadAutomateManager/DebridLink/Password");
             debrider.PublicKey = localConfig.GetExplicit("DownloadAutomateManager/DebridLink/PublicKey");
-            debrider.ConnexionLifetime = DebridLinkFr.GetConnexionLifetime(localConfig.GetExplicit("DownloadAutomateManager/DebridLink/ConnexionLifetime"));
+            debrider.ConnexionLifetime = DebridLinkFr_v3.GetConnexionLifetime(localConfig.GetExplicit("DownloadAutomateManager/DebridLink/ConnexionLifetime"));
             debrider.ConnexionFile = config.GetExplicit("DebridLink/ConnexionFile");
             //debrider.ServerTimeFile = XmlConfig.CurrentConfig.GetExplicit("DebridLink/ServerTimeFile");
             return debrider;

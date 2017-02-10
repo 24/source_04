@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<AssemblyProject>
+  
+  <Root                             value = "..\..\..\.." />
+  
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\LanguageCSharp5Debug.project.xml" />
+  <Target                           value = "library" /> <!-- exe (exe console default), library (dll), module (.netmodule), winexe (exe windows), winruntimeexe (windows runtime application), winruntimemetadata (windows runtime metadata) -->
+  <Output                           value = "bin32\Extension_01\Extension_01.dll" />
+  <CopySourceFiles                  value = "true" />
+  <CopyOutput                       value = "$Root$\..\library\pib\Extension_01\new" />
+  
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\Extension_01.project.xml" />
+</AssemblyProject>

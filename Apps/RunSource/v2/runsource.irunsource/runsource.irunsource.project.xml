@@ -12,26 +12,27 @@
   <Source                           value = "Properties\AssemblyInfo.cs" />
   
   <!--<Source                           value = "$Root$\Lib\pb\Source\pb\_pb\Application.cs" />-->
-  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\IChrono.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\ITrace.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\ITraceManager.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\IChrono.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\ITrace.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\ITraceManager.cs" />
   <!--<Source                           value = "$Root$\Lib\pb\Source\pb\_pb\ITraceError.cs" />-->
   <!--<Source                           value = "$Root$\Lib\pb\Source\pb\_pb\ITraceSetWriter.cs" />-->
   <!--<Source                           value = "$Root$\Lib\pb\Source\pb\_pb\PBException.cs" />-->
-  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\Trace.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\Trace.cs" />
 
   <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Compiler\ICompiler.cs" />-->
   <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Compiler\ICompilerProject.cs" />-->
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Compiler\IProjectCompiler.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Compiler\IProjectCompiler.cs" />
   <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Compiler\ICompilerProjectReader.cs" />-->
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Compiler\IRunSource.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Compiler\IRunSource.cs" />
 
   <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Compiler\_old\IGenerateAndExecute.cs" />-->
 
-  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\FileOption.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\FileOption.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\IWriteToFile.cs" />
   <!--<Source                           value = "$Root$\Lib\pb\Source\pb\IO\zPath.cs" />-->
 
-  <FrameworkAssembly                value = "mscorlib.dll" />
+  <FrameworkAssembly                value = "mscorlib.dll" vsExclude = "true" />
   <FrameworkAssembly                value = "System.dll" />
   <FrameworkAssembly                value = "System.Core.dll" />
 	<FrameworkAssembly                value = "System.Data.dll" />

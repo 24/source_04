@@ -6,20 +6,20 @@
   <!--<InitMethod                       value = "pb.Web.Test.Test_Run.Init" />-->
   <!--<EndMethod                        value = "pb.Web.Test.Test_Run.End" />-->
 
-  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Data\Image.cs" />-->
+  <!--<SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\Image.cs" />-->
 
-  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Mongo.cs" />-->
+  <!--<SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Mongo.cs" />-->
 
   <!-- Image.cs already in Extension_01.dll.project.xml  -->
-  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Data\Image.cs" />-->
+  <!--<SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\Image.cs" />-->
 
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\OpenXml\Graphic.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\OpenXml\OXmlAnchorDrawing.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\OpenXml\OXmlDoc.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\OpenXml\OXmlElement.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\OpenXml\OXmlPictureElementCreator.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\OpenXml\OXmlTools.cs" />
-  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Data\OpenXml\OXmlElementReader.cs" />-->
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\OpenXml\Graphic.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\OpenXml\OXmlAnchorDrawing.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\OpenXml\OXmlDoc.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\OpenXml\OXmlElement.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\OpenXml\OXmlPictureElementCreator.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\OpenXml\OXmlTools.cs" />
+  <!--<SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\OpenXml\OXmlElementReader.cs" />-->
 
   <FrameworkAssembly                value = "System.Drawing.dll" />
   <!--<Assembly                         value = "$Root$\Lib\LongPath\Pri.LongPath\bin\Debug\Pri.LongPath.dll" />-->

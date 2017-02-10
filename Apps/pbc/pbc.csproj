@@ -128,8 +128,14 @@
     <Compile Include="..\..\Lib\pb\Source\pb\IO\File.cs">
       <Link>SourceLnk\Lib\pb\IO\File.cs</Link>
     </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\IO\FileNumber.cs">
+      <Link>SourceLnk\Lib\pb\IO\FileNumber.cs</Link>
+    </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\IO\FileOption.cs">
       <Link>SourceLnk\Lib\pb\IO\FileOption.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\IO\IWriteToFile.cs">
+      <Link>SourceLnk\Lib\pb\IO\IWriteToFile.cs</Link>
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\IO\Path.cs">
       <Link>SourceLnk\Lib\pb\IO\Path.cs</Link>
@@ -226,7 +232,9 @@
     <Content Include="pbc.project.xml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="pbc.projects.xml" />
+    <Content Include="pbc.projects.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Resource\Arrioch-Birdies-Audium.ico" />
     <Content Include="Resource\resource.rc" />
   </ItemGroup>

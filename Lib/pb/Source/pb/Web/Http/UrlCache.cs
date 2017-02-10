@@ -3,9 +3,6 @@ using System.Xml.Linq;
 using pb.Data.Xml;
 using pb.IO;
 
-// to do
-//  gérer loadFromWebDate du cache
-
 namespace pb.Web.Http
 {
     public class UrlCachePathResult
@@ -94,6 +91,17 @@ namespace pb.Web.Http
             }
             else
                 return null;
+        }
+
+        public static UrlCache CreateIndexedCache(string directory, UrlFileNameType urlFileNameType = UrlFileNameType.Host | UrlFileNameType.Path | UrlFileNameType.Ext | UrlFileNameType.Query)
+        {
+            if (directory == null)
+                return null;
+            UrlCache urlCache = new UrlCache(directory);
+            urlCache._urlFileNameType = urlFileNameType;
+            urlCache._indexedFile = true;
+            urlCache._saveRequest = true;
+            return urlCache;
         }
     }
 }

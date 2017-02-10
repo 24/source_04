@@ -5,9 +5,10 @@ namespace pb.Web.Data
 {
     public class DebriderDebridLinkFr : Debrider
     {
-        private DebridLinkFr _debridLinkFr = null;
+        //private DebridLinkFr_v2 _debridLinkFr = null;
+        private DebridLinkFr_v3 _debridLinkFr = null;
 
-        public DebridLinkFr DebridLinkFr { get { return _debridLinkFr; } set { _debridLinkFr = value; } }
+        public DebridLinkFr_v3 DebridLinkFr { get { return _debridLinkFr; } set { _debridLinkFr = value; } }
 
         public override string DebridLink(string link)
         {
@@ -31,7 +32,7 @@ namespace pb.Web.Data
         public static int DefaultGetLinkRate(string link)
         {
             //return DownloadFileServerInfo.GetLinkRate(DownloadFileServerInfo.GetServerNameFromLink(link));
-            return DebridLinkFr.GetLinkRate(DownloadFileServerInfo.GetServerNameFromLink(link));
+            return DebridLinkFr_v3.GetLinkRate(DownloadFileServerInfo.GetServerNameFromLink(link));
         }
     }
 }

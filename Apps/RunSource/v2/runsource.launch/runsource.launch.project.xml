@@ -14,40 +14,42 @@
 	<Source                           value = "Properties\AssemblyInfo.cs" />
 	<Source                           value = "Source\runsource.launch.cs" />
 
-  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\Application.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\Date.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\Error.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\FormatInfo.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\ITrace.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\ITraceManager.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\ParseAs.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\PBException.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\TextSerializer.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\Trace.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\TraceManager.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\Application.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\Date.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\Error.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\FormatInfo.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\ITrace.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\ITraceManager.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\ParseAs.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\PBException.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\TextSerializer.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\Trace.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\TraceManager.cs" />
   <!--<Source                           value = "$Root$\Lib\pb\Source\pb\_pb\TraceSetWriter.cs" />-->
-  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\Tree.cs" />
-  
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Xml\Xml.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Xml\XmlConfig.cs" />
-  
-  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\File.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\FileOption.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\Path.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\WriteToFile.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\WriteToFileCreate.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\zDirectory.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\zFile.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\zPath.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\zUpdateFiles.cs" />
-  
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Reflection\Reflection.cs" />
-  
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Text\Regex.cs" />
-  
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Windows\Forms\zerrf.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\Tree.cs" />
 
-  <FrameworkAssembly                value = "mscorlib.dll" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\Xml\Xml.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\Xml\XmlConfig.cs" />
+
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\File.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\FileNumber.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\FileOption.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\IWriteToFile.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\Path.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\WriteToFile.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\WriteToFileCreate.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\zDirectory.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\zFile.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\zPath.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\zUpdateFiles.cs" />
+
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Reflection\Reflection.cs" />
+
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Text\Regex.cs" />
+
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Windows\Forms\zerrf.cs" />
+
+  <FrameworkAssembly                value = "mscorlib.dll" vsExclude = "true" />
   <FrameworkAssembly                value = "System.dll" />
   <FrameworkAssembly                value = "System.Core.dll" />
   <FrameworkAssembly                value = "System.Windows.Forms.dll" />

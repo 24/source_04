@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<AssemblyProject>
+
+  <Root                             value = "..\..\..\.." />
+
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\LanguageCSharp5Debug.project.xml" />
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\Basic.project.xml" />
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\RunSourceExtension.project.xml" />
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\MongoExtension.project.xml" />
+
+  <NameSpace                        value = "tv.Test" />
+
+  <Source                           value = "Test_PlayListReader.cs" />
+
+  <Source                           value = "..\Source\PlayListReader.cs" />
+  <Source                           value = "..\Source\TVPlayListReader.cs" />
+  <Source                           value = "..\Source\TVPlayListReader_Action.cs" />
+  <Source                           value = "..\Source\TVPlayListReader_Filter.cs" />
+
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\GlobalExtension.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\NamedValues.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\ZValue.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Text\RegexValues.cs" />
+  
+  <!--
+  <Source                           value = "$Root$\Source\Lib\pb\Source\pb\Reflection\TypeView_v2.cs" />
+  -->
+
+</AssemblyProject>

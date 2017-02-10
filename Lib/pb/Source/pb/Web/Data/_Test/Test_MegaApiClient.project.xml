@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<AssemblyProject>
+  
+  <Root                             value = "..\..\..\..\..\..\.." />
+
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\LanguageCSharp5Debug.project.xml" />
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\Basic.project.xml" />
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\WriteToFile.project.xml" />
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\XmlConfig.project.xml" />
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\RunSourceExtension.project.xml" />
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\MongoExtension.project.xml" />
+  <!--<IncludeProject                   value = "$Root$\Lib\pb\Source\Project\MongoDefaultSerializer.project.xml" />-->
+
+  <NameSpace                        value = "pb.Web.Data.Test" />
+
+  <!--<InitMethod                                value = "pb.Web.Test.Test_Run.Init" />-->
+  <!--<EndMethod                                 value = "pb.Web.Test.Test_Run.End" />-->
+
+  <!--<Using                                     value = "pb.Data.Mongo" />-->
+
+  <Source                           value = "Test_MegaApiClient.cs" />
+
+  <!--<Source                           value = "$Root$\Apps\tools\mega\Source\MegaDirectory.cs" />-->
+  
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\MegaClient.cs" />
+
+  <!--<Assembly                         value = "$Root$\..\library\MegaApiClient\MegaApiClient.1.3.1\lib\net45\MegaApiClient.dll" resolve = "true" resolveName = "MegaApiClient, Version=1.3.1.269, Culture=neutral, PublicKeyToken=0480d311efbeb4e2" />-->
+  <Assembly                         value = "c:\pib\dev\NuGet\repository\MegaApiClient.1.3.1\lib\net45\MegaApiClient.dll" resolve = "true" resolveName = "MegaApiClient, Version=1.3.1.269, Culture=neutral, PublicKeyToken=0480d311efbeb4e2" />
+  <!--  -->
+  <Assembly                         value = "c:\pib\dev\NuGet\repository\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll" resolve = "true" resolveName = "Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed" />
+</AssemblyProject>

@@ -28,22 +28,23 @@ namespace pb.Compiler
     public class CompilerFile
     {
         public string File = null;
-        public string RelativePath = null;
+        //public string RelativePath = null;       // used in ProjectCompiler.CopySourceFiles() to zip files
         public Dictionary<string, string> Attributes = new Dictionary<string, string>();
-        public CompilerProjectReader Project = null;
+        //public CompilerProjectReader Project = null;
+        public string ProjectFile = null;
 
-        public CompilerFile(string file, string rootDirectory = null)
-        {
-            File = file;
-            if (rootDirectory != null && file.StartsWith(rootDirectory))
-            {
-                RelativePath = file.Substring(rootDirectory.Length);
-                if (RelativePath.StartsWith("\\"))
-                    RelativePath = RelativePath.Substring(1);
-            }
-            else
-                RelativePath = zPath.Combine("NoRoot", zPath.GetFileName(file));
-        }
+        //public CompilerFile(string file, string rootDirectory = null)
+        //{
+        //    File = file;
+        //    if (rootDirectory != null && file.StartsWith(rootDirectory))
+        //    {
+        //        RelativePath = file.Substring(rootDirectory.Length);
+        //        if (RelativePath.StartsWith("\\"))
+        //            RelativePath = RelativePath.Substring(1);
+        //    }
+        //    else
+        //        RelativePath = zPath.Combine("NoRoot", zPath.GetFileName(file));
+        //}
     }
 
     public class CompilerAssembly
@@ -51,9 +52,12 @@ namespace pb.Compiler
         public string File = null;
         public bool FrameworkAssembly = false;
         public bool RunSourceAssembly = false;
+        public bool VSExclude = false;
         public bool Resolve = false;
         public string ResolveName = null;
-        public CompilerProjectReader Project = null;
+        //public CompilerProjectReader Project = null;
+        public string ProjectFile = null;
+        public bool IncludeProject = false;
     }
 
     public enum RunType
@@ -72,6 +76,22 @@ namespace pb.Compiler
 
     public class CompilerProjectReader
     {
+        private class ProjectElement
+        {
+            public XElement Element;
+            public CompilerProjectReader Project;
+            //public string ProjectFile = null;
+            //public bool IncludeProject = false;
+        }
+
+        //private class ProjectValue
+        //{
+        //    public string Value;
+        //    //public CompilerProjectReader Project;
+        //    public string ProjectFile = null;
+        //    public bool IncludeProject = false;
+        //}
+
         private string _projectFile = null;
         private string _projectDirectory = null;
         private XmlConfigElement _projectXmlElement = null;
@@ -102,17 +122,21 @@ namespace pb.Compiler
         public string ProjectDirectory { get { return _projectDirectory; } }
         public bool IsIncludeProject { get { return _isIncludeProject; } }
 
-        public CompilerFile GetProjectCompilerFile()
-        {
-            CompilerFile compilerFile = new CompilerFile(_projectFile, GetRootDirectory());
-            compilerFile.Project = this;
-            return compilerFile;
-        }
+        //public CompilerFile GetProjectCompilerFile()
+        //{
+        //    CompilerFile compilerFile = new CompilerFile(_projectFile, GetRootDirectory());
+        //    //compilerFile.Project = this;
+        //    compilerFile.ProjectFile = _projectFile;
+        //    return compilerFile;
+        //}
 
         public string GetRootDirectory()
         {
             if (_rootDirectory == null)
+            {
                 _rootDirectory = GetFile("Root");
+                //Trace.WriteLine($"GetRootDirectory() : \"{_rootDirectory}\" project \"{_projectFile}\"");
+            }
             return _rootDirectory;
         }
 
@@ -182,7 +206,7 @@ namespace pb.Compiler
 
         public CompilerFile GetWin32Resource()
         {
-            return CreateCompilerFile(_projectXmlElement.GetElement("Win32Resource"));
+            return CreateCompilerFile(_projectXmlElement.GetElement("Win32Resource"), this);
         }
 
         public string GetIcon()
@@ -256,14 +280,18 @@ namespace pb.Compiler
         }
 
         // attention il peut y avoir des doublons, used by GetInitEndMethods() and GetUsings()
-        public IEnumerable<CompilerProjectReader> GetIncludeProjects()
+        public IEnumerable<CompilerProjectReader> GetIncludeProjects(bool withoutExtensionProject = false)
         {
             if (_includeProjects == null)
             {
                 _includeProjects = new List<CompilerProjectReader>();
-                foreach (string includeProject in _projectXmlElement.GetValues("IncludeProject"))
+                //foreach (string includeProject in _projectXmlElement.GetValues("IncludeProject"))
+                foreach (XElement xe in _projectXmlElement.GetElements("IncludeProject"))
                 {
-                    CompilerProjectReader compilerProject = CompilerProjectReader.Create(new XmlConfig(GetPathFile(includeProject)).GetConfigElement("/AssemblyProject"), isIncludeProject: true);
+                    if (withoutExtensionProject && xe.zAttribValue("extension").zTryParseAs(false))
+                        continue;
+                    string includeProject = xe.zAttribValue("value");
+                    CompilerProjectReader compilerProject = Create(new XmlConfig(GetPathFile(includeProject)).GetConfigElement("/AssemblyProject"), isIncludeProject: true);
                     if (compilerProject != null)
                     {
                         _includeProjects.Add(compilerProject);
@@ -288,27 +316,65 @@ namespace pb.Compiler
             }
         }
 
-        public IEnumerable<CompilerFile> GetSources()
+        public IEnumerable<CompilerFile> GetSources(bool recurse = false, bool withoutExtensionProject = false)
         {
-            return _projectXmlElement.GetElements("Source").Select(xe => CreateCompilerFile(xe));
+            //return _projectXmlElement.GetElements("Source").Select(xe => CreateCompilerFile(xe));
+            return _GetCompilerFiles("Source", recurse, withoutExtensionProject);
         }
 
-        public IEnumerable<CompilerFile> GetFiles()
+        public IEnumerable<CompilerFile> GetSourcesLinks(bool recurse = false, bool withoutExtensionProject = false)
         {
-            return _projectXmlElement.GetElements("File").Select(xe => CreateCompilerFile(xe));
+            //return _projectXmlElement.GetElements("SourceLink").Select(xe => CreateCompilerFile(xe));
+            return _GetCompilerFiles("SourceLink", recurse, withoutExtensionProject);
         }
 
-        public IEnumerable<CompilerFile> GetSourceFiles()
+        public IEnumerable<CompilerFile> GetFiles(bool recurse = false, bool withoutExtensionProject = false)
         {
-            return _projectXmlElement.GetElements("SourceFile").Select(xe => CreateCompilerFile(xe));
+            //return _projectXmlElement.GetElements("File").Select(xe => CreateCompilerFile(xe));
+            return _GetCompilerFiles("File", recurse, withoutExtensionProject);
         }
 
-        private CompilerFile CreateCompilerFile(XElement xe)
+        public IEnumerable<CompilerFile> GetSourceFiles(bool recurse = false, bool withoutExtensionProject = false)
+        {
+            //return _projectXmlElement.GetElements("SourceFile").Select(xe => CreateCompilerFile(xe));
+            return _GetCompilerFiles("SourceFile", recurse, withoutExtensionProject);
+        }
+
+        public IEnumerable<CompilerFile> GetResources(bool recurse = false, bool withoutExtensionProject = false)
+        {
+            return _GetCompilerFiles("Resource", recurse, withoutExtensionProject);
+        }
+
+        public IEnumerable<CompilerFile> _GetCompilerFiles(string elementName, bool recurse, bool withoutExtensionProject)
+        {
+            foreach (CompilerFile compilerFile in GetElements(elementName, recurse, withoutExtensionProject).Select(projectElement => CreateCompilerFile(projectElement.Element, projectElement.Project)))
+            //foreach (CompilerFile compilerFile in GetElements(elementName, recurse, withoutExtensionProject).Select(projectElement => CreateCompilerFile(projectElement.Element, projectElement.ProjectFile)))
+                yield return compilerFile;
+            //foreach (CompilerFile compilerFile in _projectXmlElement.GetElements(elementName).Select(xe => CreateCompilerFile(xe)))
+            //    yield return compilerFile;
+            //if (recurse)
+            //{
+            //    foreach (CompilerProjectReader includeProject in GetIncludeProjects(withoutExtensionProject))
+            //    {
+            //        foreach (CompilerFile compilerFile in _projectXmlElement.GetElements(elementName).Select(xe => CreateCompilerFile(xe)))
+            //            yield return compilerFile;
+            //    }
+            //}
+        }
+
+        private CompilerFile CreateCompilerFile(XElement xe, CompilerProjectReader project = null)
+        //private CompilerFile CreateCompilerFile(XElement xe, string projectFile)
         {
             if (xe == null)
                 return null;
-            CompilerFile compilerFile = new CompilerFile(GetPathFile(xe.Attribute("value").Value), GetRootDirectory());
-            compilerFile.Project = this;
+            //if (project == null)
+            //    project = this;
+            //CompilerFile compilerFile = new CompilerFile(GetPathFile(xe.Attribute("value").Value), GetRootDirectory());
+            //CompilerFile compilerFile = new CompilerFile(project.GetPathFile(xe.Attribute("value").Value), project.GetRootDirectory());
+            CompilerFile compilerFile = new CompilerFile { File = project.GetPathFile(xe.Attribute("value").Value), ProjectFile = project._projectFile };
+            //CompilerFile compilerFile = new CompilerFile { File = xe.Attribute("value").Value.zRootPath(zPath.GetDirectoryName(projectFile)), ProjectFile = projectFile };
+            //compilerFile.Project = project;
+            //compilerFile.ProjectFile = project._projectFile;
             foreach (XAttribute xa in xe.Attributes())
             {
                 if (xa.Name != "value")
@@ -317,33 +383,81 @@ namespace pb.Compiler
             return compilerFile;
         }
 
-        public IEnumerable<CompilerAssembly> GetAssemblies()
+        public IEnumerable<CompilerAssembly> GetAssemblies(bool recurse = false, bool withoutExtensionProject = false)
         {
             string currentAssemblyDirectory = zPath.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            //VSExclude = xe.zAttribValue("vsExclude").zTryParseAs(false)
             return
-                _projectXmlElement.GetValues("FrameworkAssembly")
-                .Select(file =>
+                //GetValues("FrameworkAssembly", recurse, withoutExtensionProject)
+                //.Select(projectValue =>
+                //{
+                //    return new CompilerAssembly { File = projectValue.Value, FrameworkAssembly = true, ProjectFile = projectValue.ProjectFile, IncludeProject = projectValue.IncludeProject };
+                //}).Concat(
+                GetElements("FrameworkAssembly", recurse, withoutExtensionProject)
+                .Select(projectElement =>
                 {
-                    return new CompilerAssembly { File = file, FrameworkAssembly = true, Project = this };
+                    XElement xe = projectElement.Element;
+                    return new CompilerAssembly { File = xe.zAttribValue("value"), FrameworkAssembly = true, VSExclude = xe.zAttribValue("vsExclude").zTryParseAs(false),
+                        ProjectFile = projectElement.Project._projectFile, IncludeProject = projectElement.Project._isIncludeProject };
                 }).Concat(
-                _projectXmlElement.GetValues("RunSourceAssembly")
-                .Select(file =>
+                //GetValues("RunSourceAssembly", recurse, withoutExtensionProject)
+                //.Select(projectValue =>
+                //{
+                //    return new CompilerAssembly { File = projectValue.Value.zRootPath(currentAssemblyDirectory), RunSourceAssembly = true, ProjectFile = projectValue.ProjectFile, IncludeProject = projectValue.IncludeProject };
+                //})).Concat(
+                GetElements("RunSourceAssembly", recurse, withoutExtensionProject)
+                .Select(projectElement =>
                 {
-                    return new CompilerAssembly { File = file.zRootPath(currentAssemblyDirectory), RunSourceAssembly = true, Project = this };
+                    XElement xe = projectElement.Element;
+                    return new CompilerAssembly { File = xe.zAttribValue("value").zRootPath(currentAssemblyDirectory), RunSourceAssembly = true, VSExclude = xe.zAttribValue("vsExclude").zTryParseAs(false),
+                        ProjectFile = projectElement.Project._projectFile, IncludeProject = projectElement.Project._isIncludeProject };
                 })).Concat(
-                _projectXmlElement.GetElements("Assembly")
-                .Select(xe =>
+                GetElements("Assembly", recurse, withoutExtensionProject)
+                .Select(projectElement =>
                 {
+                    XElement xe = projectElement.Element;
                     string file = xe.zAttribValue("value");
                     string dir = zPath.GetDirectoryName(file);
                     if (dir != "")
-                        file = GetPathFile(file);
-                    bool resolve = xe.zAttribValue("resolve").zTryParseAs<bool>(false);
+                        //file = GetPathFile(file);
+                        file = file.zRootPath(projectElement.Project._projectDirectory);
+                        //file = file.zRootPath(zPath.GetDirectoryName(projectElement.ProjectFile));
+                    bool resolve = xe.zAttribValue("resolve").zTryParseAs(false);
                     string resolveName = xe.zAttribValue("resolveName");
                     if (resolve && resolveName == null)
                         throw new PBException("missing resolveName for assembly \"{0}\" (resolveName = \"Test_dll, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null\")", file);
-                    return new CompilerAssembly { File = file, Resolve = resolve, ResolveName = resolveName, Project = this };
+                    return new CompilerAssembly { File = file, VSExclude = xe.zAttribValue("vsExclude").zTryParseAs(false), Resolve = resolve, ResolveName = resolveName,
+                        ProjectFile = projectElement.Project._projectFile, IncludeProject = projectElement.Project._isIncludeProject };
                 }));
+        }
+
+        //private IEnumerable<ProjectValue> GetValues(string xpath, bool recurse, bool withoutExtensionProject)
+        //{
+        //    foreach (string value in _projectXmlElement.GetValues(xpath))
+        //        yield return new ProjectValue { Value = value, ProjectFile = _projectFile, IncludeProject = _isIncludeProject };
+        //    if (recurse)
+        //    {
+        //        foreach (CompilerProjectReader includeProject in GetIncludeProjects(withoutExtensionProject))
+        //        {
+        //            foreach (ProjectValue value in includeProject.GetValues(xpath, recurse, withoutExtensionProject))
+        //                yield return value;
+        //        }
+        //    }
+        //}
+
+        private IEnumerable<ProjectElement> GetElements(string xpath, bool recurse, bool withoutExtensionProject)
+        {
+            foreach (XElement xe in _projectXmlElement.GetElements(xpath))
+                //yield return new ProjectElement { Element = xe, ProjectFile = _projectFile, IncludeProject = _isIncludeProject };
+                yield return new ProjectElement { Element = xe, Project = this };
+            if (recurse)
+            {
+                foreach (CompilerProjectReader includeProject in GetIncludeProjects(withoutExtensionProject))
+                {
+                    foreach (ProjectElement projectElement in includeProject.GetElements(xpath, recurse, withoutExtensionProject))
+                        yield return projectElement;
+                }
+            }
         }
 
         public IEnumerable<string> GetCopyOutputs()

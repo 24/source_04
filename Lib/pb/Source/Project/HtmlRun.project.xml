@@ -15,32 +15,33 @@
 
   <Using                            value = "pb.Web.Html" />
 
-  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\Date.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\FormatInfo.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\NamedValue.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\Date.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\FormatInfo.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\NamedValue.cs" />
   
   <!--
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Compiler\RunSourceHtmlRun.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Compiler\RunSourceHtmlRun.cs" />
   -->
 
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\DataTable.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\FieldList.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\GClass.cs" />
-  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Data\NamedValues.cs" />-->
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\DataTable.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\FieldList.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\GClass.cs" />
+  <!--<SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\NamedValues.cs" />-->
 
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\BsonDocumentsToDataTable.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\Mongo\BsonDocumentsToDataTable.cs" />
 
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Xml\XmlSelect.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\Xml\XmlSelect.cs" />
 
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Reflection\TypeView.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Reflection\TypeView.cs" />
   
-  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Web\Html\HtmlRun.cs" />-->
-  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Web\Html\HtmlRun_SetResult.cs" />-->
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Html\HtmlRun_v2.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Html\HtmlRun_v2_SetResult.cs" />
+  <!--<SourceLink                       value = "$Root$\Lib\pb\Source\pb\Web\Html\HtmlRun.cs" />-->
+  <!--<SourceLink                       value = "$Root$\Lib\pb\Source\pb\Web\Html\HtmlRun_SetResult.cs" />-->
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Web\Html\HtmlRun_v2.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Web\Html\HtmlRun_v2_SetResult.cs" />
 
   <FrameworkAssembly                value = "System.Data.dll" />
 
-  <RunSourceAssembly                value = "runsource.command.dll" />
+  <RunSourceAssembly                value = "runsource.irunsource.dll" vsExclude = "true" />
+  <RunSourceAssembly                value = "runsource.command.dll" vsExclude = "true" />
 
 </AssemblyProject>

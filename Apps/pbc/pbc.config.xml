@@ -28,5 +28,6 @@
     <Shortcut                                  shortcut = "MyDownloader" project = "$ProjectDirectory$\Apps\MyDownloader\MyDownloader.projects.xml"/>
     <Shortcut                                  shortcut = "WebData" project = "$ProjectDirectory$\Apps\WebData\Source\Print\Project\download.projects.xml"/>
     <Shortcut                                  shortcut = "Extension_01" project = "$ProjectDirectory$\Lib\pb\Source\Project\Extension_01.project.xml"/>
+    <Shortcut                                  shortcut = "mega" project = "$ProjectDirectory$\Apps\tools\mega\mega.projects.xml"/>
   </Shortcuts>
 </configuration>

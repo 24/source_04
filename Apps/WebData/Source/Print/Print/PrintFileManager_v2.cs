@@ -186,7 +186,7 @@ namespace Download.Print
             Date date = Date.MinValue;
             Func<EnumDirectoryInfo, EnumDirectoryFilter> directoryFilter = dir =>
             {
-                Match match = __dailyPrintDirectory.Match(FilenameNumberInfo.GetFilenameWithoutNumber(zPath.GetFileName(dir.SubDirectory)));
+                Match match = __dailyPrintDirectory.Match(FileNumber.GetFileWithoutNumber(zPath.GetFileName(dir.SubDirectory)));
                 if (match.Success)
                 {
                     int year = int.Parse(match.Groups[1].Value);
@@ -381,7 +381,7 @@ namespace Download.Print
             IEnumerable< EnumFileInfo> files = zdir.EnumerateFilesInfo(directory, directoryFilters: new Func<EnumDirectoryInfo, EnumDirectoryFilter>[] { directoryFilter });
             foreach (EnumFileInfo file in files)
             {
-                FilenameNumberInfo filenameNumberInfo = FilenameNumberInfo.GetFilenameNumberInfo(file.File);
+                FileNumber filenameNumberInfo = FileNumber.GetFileNumber(file.File);
                 string baseFilename = filenameNumberInfo.BaseFilename;
                 bool badFile = false;
                 if (file.SubDirectory == __badFileDirectory)
@@ -438,7 +438,7 @@ namespace Download.Print
             {
                 if (bonusDirectoryLevel != 0)
                 {
-                    FilenameNumberInfo filenameNumberInfo = FilenameNumberInfo.GetFilenameNumberInfo(file.File);
+                    FileNumber filenameNumberInfo = FileNumber.GetFileNumber(file.File);
                     string subDirectory = file.SubDirectory.Length > bonusSubDirectoryLength ? file.SubDirectory.Substring(bonusSubDirectoryLength) : null;
                     if (bonusSubDirectory != null)
                     {
@@ -533,7 +533,7 @@ namespace Download.Print
                 followDirectoryTrees: followDirectoryTree != null ? new Action<EnumDirectoryInfo>[] { followDirectoryTree } : null);
             foreach (EnumFileInfo file in files)
             {
-                FilenameNumberInfo filenameNumberInfo = FilenameNumberInfo.GetFilenameNumberInfo(file.File);
+                FileNumber filenameNumberInfo = FileNumber.GetFileNumber(file.File);
                 string baseFilename = filenameNumberInfo.BaseFilename;
                 bool badFile = false;
                 if (file.SubDirectory == __badFileDirectory)

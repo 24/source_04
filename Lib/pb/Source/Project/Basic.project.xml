@@ -19,7 +19,7 @@
   <!--<Using                            value = "pb.Data" />-->
   <!--<Using                            value = "pb.Data.Xml" />-->
   <!--<Using                            value = "pb.IO" />-->
-  <FrameworkAssembly                value = "mscorlib.dll" />
+  <FrameworkAssembly                value = "mscorlib.dll" vsExclude = "true" />
   <FrameworkAssembly                value = "System.dll" />
   <FrameworkAssembly                value = "System.Core.dll" />
   <!--<FrameworkAssembly                value = "System.Data.dll" />-->
@@ -29,6 +29,6 @@
   <!--<Assembly                         value = "$Root$\Apps\RunSource\v2\runsource.dll\bin32\runsource.dll" />-->
   <!--<Assembly                         value = "$Root$\Apps\RunSource\v2\runsource.dll\bin32\runsource.irunsource.dll" />-->
   <!--<RunSourceAssembly                value = "$Root$\Apps\RunSource\v2\runsource.dll\bin\Debug\runsource.irunsource.dll" />-->
-  <RunSourceAssembly                value = "runsource.irunsource.dll" />
-  <RunSourceAssembly                value = "runsource.command.dll" />
+  <RunSourceAssembly                value = "runsource.irunsource.dll" vsExclude = "true" />
+  <RunSourceAssembly                value = "runsource.command.dll" vsExclude = "true" />
 </AssemblyProject>

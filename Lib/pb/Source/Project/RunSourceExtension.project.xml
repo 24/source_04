@@ -22,43 +22,44 @@
   <Using                            value = "pb.Compiler" />
   <Using                            value = "pb.Reflection" />
 
-  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\Convert.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\Date.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\Error.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\FormatInfo.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\NamedValue.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\ParseAs.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\PBException.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\Tree.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\Convert.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\Date.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\Error.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\FormatInfo.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\NamedValue.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\ParseAs.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\PBException.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\Tree.cs" />
   
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Compiler\RunSourceExtension.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Compiler\RunSourceExtension.cs" />
   
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\DataTable.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\FieldList.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\BsonDocumentsToDataTable.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\MongoDataTableExtension.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\DataTable.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\FieldList.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\Mongo\BsonDocumentsToDataTable.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\Mongo\MongoDataTableExtension.cs" />
 
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Xml\Xml.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\Xml\Xml.cs" />
 
-  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\File.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\Path.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\zDirectory.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\zFile.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\zPath.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\File.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\FileNumber.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\Path.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\zDirectory.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\zFile.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\zPath.cs" />
 
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Reflection\Reflection.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Reflection\TypeAccess.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Reflection\TypeReflection.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Reflection\TypeValues.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Reflection\TypeValuesDataTable.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Reflection\TypeView.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Reflection\Reflection.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Reflection\TypeAccess.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Reflection\TypeReflection.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Reflection\TypeValues.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Reflection\TypeValuesDataTable.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Reflection\TypeView.cs" />
   
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Text\Regex.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Text\Split.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Text\String.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Text\StringZones.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Text\Regex.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Text\Split.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Text\String.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Text\StringZones.cs" />
 
-  <FrameworkAssembly                value = "mscorlib.dll" />
+  <FrameworkAssembly                value = "mscorlib.dll" vsExclude = "true" />
   <FrameworkAssembly                value = "System.dll" />
   <FrameworkAssembly                value = "System.Data.dll" />
   <FrameworkAssembly                value = "System.Drawing.dll" />
@@ -66,9 +67,10 @@
   <FrameworkAssembly                value = "System.Xml.dll" />
   <FrameworkAssembly                value = "System.Xml.Linq.dll" />
 
+  <RunSourceAssembly                value = "runsource.irunsource.dll" vsExclude = "true" />
+  <RunSourceAssembly                value = "runsource.command.dll" vsExclude = "true" />
+
   <Assembly                         value = "$Root$\Lib\LongPath\Pri.LongPath\bin\Debug\Pri.LongPath.dll" />
   <Assembly                         value = "$Root$\..\library\Mongo\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Bson.dll" resolve = "true" resolveName = "MongoDB.Bson, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />
   <!--<Assembly                         value = "$Root$\..\library\Mongo\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Driver.dll" resolve = "true" resolveName = "MongoDB.Driver, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />-->
-  <RunSourceAssembly                value = "runsource.irunsource.dll" />
-  <RunSourceAssembly                value = "runsource.command.dll" />
 </AssemblyProject>

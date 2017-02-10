@@ -7,6 +7,7 @@ namespace pb.Web.Data
     {
         //private static bool __trace = false;
         private static string __url = "http://www.alldebrid.com/service.php?pseudo={0}&password={1}&link={2}&view=1";
+        private HttpManager_v2 _httpManager = new HttpManager_v2();
         private string _login;
         private string _password;
 
@@ -54,10 +55,10 @@ namespace pb.Web.Data
             if (__trace)
                 pb.Trace.Write("DebriderAlldebrid.DebridLink() : \"{0}\"", link);
             string url = string.Format(__url, _login, _password, link);
-            //Http2.LoadUrl(url);
-            Http.Http http = HttpManager.CurrentHttpManager.Load(new HttpRequest { Url = url });
-            //string debridLink = Http2.HtmlReader.http.TextResult;
-            string debridLink = http.ResultText;
+            //Http.Http http = HttpManager.CurrentHttpManager.Load(new HttpRequest { Url = url });
+            HttpResult<string> httpResult = _httpManager.LoadText(new HttpRequest { Url = url });
+            //string debridLink = http.ResultText;
+            string debridLink = httpResult.Data;
             if (__trace)
                 pb.Trace.WriteLine(" result \"{0}\"", debridLink);
             if (!debridLink.StartsWith("http://"))

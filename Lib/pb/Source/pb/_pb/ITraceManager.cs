@@ -7,8 +7,10 @@ namespace pb
     {
         void AddTrace(ITrace trace);
         void RemoveTrace(ITrace trace);
-        void SetWriter(string file, FileOption option);
-        void RemoveWriter();
+        //void SetWriter(string file, FileOption option);
+        void SetWriter(IWriteToFile writer, string name = "_default");
+        //void RemoveWriter();
+        void RemoveWriter(string name = "_default");
         void SetViewer(Action<string> viewer);
         void RemoveViewer();
         void SetAsCurrent();

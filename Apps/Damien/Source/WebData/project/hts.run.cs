@@ -72,8 +72,8 @@ WebData.WebData.CreateGesatExport().ExportXml(WebData.WebData.CreateGesat().Head
 // refreshDocumentStore: true
 WebData.WebData.CreateGesatExport().ExportXml(WebData.WebData.CreateGesat().HeaderDetailManager.LoadHeaderDetails(startPage: 1, maxPage: 0, reloadHeaderPage: false, reloadDetail: false, refreshDocumentStore: true, imageRequest: null));
 
-TraceMongoCommand.Export("htc", "Gesat_Header", Path.Combine(AppData.DataDirectory, @"sites\reseau-gesat.com\mongo\export_Gesat_Header.txt"), sort: "{ _id: 1 }");
-TraceMongoCommand.Export("htc", "Gesat_Detail", Path.Combine(AppData.DataDirectory, @"sites\reseau-gesat.com\mongo\export_Gesat_Detail.txt"), sort: "{ _id: 1 }");
+TraceMongoCommand.Export("htc", "Gesat_Header", zPath.Combine(AppData.DataDirectory, @"sites\reseau-gesat.com\mongo\export_Gesat_Header.txt"), sort: "{ _id: 1 }");
+TraceMongoCommand.Export("htc", "Gesat_Detail", zPath.Combine(AppData.DataDirectory, @"sites\reseau-gesat.com\mongo\export_Gesat_Detail.txt"), sort: "{ _id: 1 }");
 
 WebData.WebData.CreateGesat().HeaderDetailManager.LoadNewDocuments(maxDocumentsLoadedFromStore: 5, maxDocumentsLoaded: 10, startPage: 1, maxPage: 20);
 // startPage: 1, maxPage: 2
@@ -4520,3 +4520,7 @@ foreach (XXElement xe2 in HttpRun.GetXDocument().zXXElement().XPathElements("//d
 }
 
 hts.WebData.Unea.Unea_v2.GetDetail2Activities(HttpRun.GetXDocument().zXXElement().XPathElement("//div[@class='ctn_content-article']//table//*[text() = 'NOS ACTIVITES']/following::div/ul")).zTraceJson();
+
+((Int32)(DateTime.Now.Subtract(new DateTime(2017, 1, 29, 0, 0, 0))).TotalSeconds).zTrace();
+((Int32)(new DateTime(2017, 1, 29, 12, 12, 0).Subtract(new DateTime(2017, 1, 29, 0, 0, 0))).TotalSeconds).zTrace();
+(41400 / 3600).zTrace();

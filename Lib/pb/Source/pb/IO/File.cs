@@ -6,6 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
+//Directory.GetFileSystemEntries();
+//Directory.EnumerateFileSystemEntries();
+
 namespace pb.IO
 {
     [Flags]
@@ -383,20 +386,27 @@ namespace pb.IO
             }
         }
 
-        public static string GetNewFilename(string path)
+        public static string GetNewFilename(string path, bool forceNewFilename = false)
         {
-            if (zFile.Exists(path))
+            if (forceNewFilename || zFile.Exists(path))
             {
-                string filename = zPath.GetFileNameWithoutExtension(path);
-                string ext = zPath.GetExtension(path);
-                string directory = zPath.GetDirectoryName(path);
-                for (int i = 1; ; i++)
+                //string filename = zPath.GetFileNameWithoutExtension(path);
+                //string ext = zPath.GetExtension(path);
+                //string directory = zPath.GetDirectoryName(path);
+                //for (int i = 1; ; i++)
+                //{
+                //    path = zPath.Combine(directory, string.Format("{0}[{1}]{2}", filename, i, ext));
+                //    if (!zFile.Exists(path))
+                //        break;
+                //}
+
+                FileNumber fileNumber = FileNumber.GetFileNumber(path);
+                for (int i = fileNumber.Number + 1; ; i++)
                 {
-                    path = zPath.Combine(directory, string.Format("{0}[{1}]{2}", filename, i, ext));
+                    path = fileNumber.GetPath(i);
                     if (!zFile.Exists(path))
                         break;
                 }
-
             }
             return path;
         }

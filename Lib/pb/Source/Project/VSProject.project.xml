@@ -3,41 +3,51 @@
   <Root                             value = "..\..\..\.." />
 
   <Using                            value = "pb" />
+  <Using                            value = "pb.Compiler" />
   <Using                            value = "pb.Data" />
   <Using                            value = "pb.Data.VSProject" />
 
-  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\Application.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\Date.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\Error.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\FormatInfo.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\GlobalExtension.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\ParseAs.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\PBException.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\Application.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\Date.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\Error.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\FormatInfo.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\GlobalExtension.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\ParseAs.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\PBException.cs" />
 
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Compiler\CompilerProjectReader.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Compiler\CompilerProjectReader.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Compiler\RunSourceVSProjectCommand.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Compiler\RunSourceVSProjectManager.cs" />
 
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\NamedValues.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\ParseNamedValues.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\ZValue.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\NamedValues.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\ParseNamedValues.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\ZValue.cs" />
 
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\VSProject\VSProject.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\VSProject\VSProjectManager.cs" />
 
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Xml\Xml.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Xml\XmlConfig.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\Xml\Xml.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\Xml\XmlConfig.cs" />
 
-  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\Path.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\zFile.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\zPath.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\Directory.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\File.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\FileNumber.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\Path.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\zDirectory.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\zFile.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\zPath.cs" />
 
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Reflection\Reflection.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Reflection\Reflection.cs" />
 
-  <FrameworkAssembly                value = "mscorlib.dll" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Text\Regex.cs" />
+
+  <FrameworkAssembly                value = "mscorlib.dll" vsExclude = "true" />
   <FrameworkAssembly                value = "System.dll" />
   <FrameworkAssembly                value = "System.Core.dll" />
   <FrameworkAssembly                value = "System.Xml.dll" />
   <FrameworkAssembly                value = "System.Xml.Linq.dll" />
 
-  <RunSourceAssembly                value = "runsource.irunsource.dll" />
+  <RunSourceAssembly                value = "runsource.irunsource.dll" vsExclude = "true" />
+  <RunSourceAssembly                value = "runsource.command.dll" vsExclude = "true" />
 
   <Assembly                         value = "$Root$\Lib\LongPath\Pri.LongPath\bin\Debug\Pri.LongPath.dll" />
 

@@ -8,8 +8,9 @@ using MyDownloader.Service;
 using pb;
 using pb.Data;
 using pb.Data.Mongo;
-using pb.Web;
 using pb.IO;
+using pb.Web.Data;
+using pb.Web.Http;
 
 namespace Download.Print
 {

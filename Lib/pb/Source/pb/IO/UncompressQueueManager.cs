@@ -76,10 +76,8 @@ namespace Download.Print
         public IEnumerable<string> Uncompress(string file)
         {
             string dir = zpath.PathSetExtension(file, "");
-            if (zDirectory.Exists(dir))
-            {
+            if (zDirectory.Exists(dir) || zFile.Exists(dir))
                 dir = zdir.GetNewDirectory(dir);
-            }
             zDirectory.CreateDirectory(dir);
 
             //UncompressMultipleResult uncompressResult = _compressManager.Uncompress(file, dir, UncompressMultipleOptions.ExtractFullPath | UncompressMultipleOptions.RenameExistingFile

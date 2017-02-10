@@ -14,12 +14,13 @@
   <InitMethod                       value = "pb.Web.Html.HtmlRun.Init, hts, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" />
   <EndMethod                        value = "pb.Web.Html.HtmlRun.End, hts, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" />
   
-  <InitMethod                       value = "hts.Run.Init, hts, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" run = "always" />      <!-- [{namespace}.{type}.]{method name}[, {assembly name}] default type {namespace}._RunCode -->
-  <EndMethod                        value = "hts.Run.End, hts, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" run = "always" />       <!-- [{namespace}.{type}.]{method name}[, {assembly name}] default type {namespace}._RunCode -->
+  <InitMethod                       value = "hts.Run.InitAlways, hts, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" run = "always" />      <!-- [{namespace}.{type}.]{method name}[, {assembly name}] default type {namespace}._RunCode -->
+  <EndMethod                        value = "hts.Run.EndAlways, hts, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" run = "always" />       <!-- [{namespace}.{type}.]{method name}[, {assembly name}] default type {namespace}._RunCode -->
   
   <NameSpace                        value = "hts" />
 
   <Using                            value = "System" />
+  <Using                            value = "System.IO" />
   <Using                            value = "System.Linq" />
   <Using                            value = "System.Xml.Linq" />
   <!--<Using                            value = "System.Xml.XPath" />-->

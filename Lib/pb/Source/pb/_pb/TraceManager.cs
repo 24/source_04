@@ -1,12 +1,14 @@
 ﻿using pb.IO;
 using System;
+using System.Collections.Generic;
 
 namespace pb
 {
     public class TraceManager : ITraceManager
     {
         private static TraceManager _current = new TraceManager();
-        private WriteToFileBase _writer = null;
+        //private WriteToFileBase _writer = null;
+        private Dictionary<string, IWriteToFile> _writers = new Dictionary<string, IWriteToFile>();
         private bool _disableViewer = false;
         private Action<string> _viewer = null;
         private bool _traceStackErrorToFile = true;
@@ -38,7 +40,8 @@ namespace pb
 
         private void TraceWrite(string msg)
         {
-            _writer?.Write(msg);
+            //_writer?.Write(msg);
+            Write(msg);
             if (!_disableViewer)
                 _viewer?.Invoke(msg);
         }
@@ -48,9 +51,11 @@ namespace pb
             string err = string.Format("{0:dd/MM/yyyy HH:mm:ss} ", DateTime.Now) + Error.GetErrorMessage(ex, false, true) + Environment.NewLine;
             string stack = "----------------------" + Environment.NewLine + Error.GetErrorStackTrace(ex) + Environment.NewLine;
 
-            _writer?.Write(err);
+            //_writer?.Write(err);
+            Write(err);
             if (_traceStackError && _traceStackErrorToFile)
-                _writer?.Write(stack);
+                //_writer?.Write(stack);
+                Write(stack);
             if (!_disableViewer)
             {
                 _viewer?.Invoke(err);
@@ -59,20 +64,40 @@ namespace pb
             }
         }
 
-        public void SetWriter(string file, FileOption option)
+        private void Write(string msg)
         {
-            if (_writer != null)
-                _writer.Close();
-            _writer = WriteToFile.Create(file, option);
-
+            foreach(IWriteToFile writer in _writers.Values)
+                writer.Write(msg);
         }
 
-        public void RemoveWriter()
+        //public void SetWriter(string file, FileOption option = FileOption.None)
+        //{
+        //    if (_writer != null)
+        //        _writer.Close();
+        //    _writer = WriteToFile.Create(file, option);
+        //}
+
+        public void SetWriter(IWriteToFile writer, string name = "_default")
         {
-            if (_writer != null)
+            RemoveWriter(name);
+            _writers.Add(name, writer);
+        }
+
+        //public void RemoveWriter()
+        //{
+        //    if (_writer != null)
+        //    {
+        //        _writer.Close();
+        //        _writer = null;
+        //    }
+        //}
+
+        public void RemoveWriter(string name = "_default")
+        {
+            if (_writers.ContainsKey(name))
             {
-                _writer.Close();
-                _writer = null;
+                _writers[name].Close();
+                _writers.Remove(name);
             }
         }
 

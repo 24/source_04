@@ -39,7 +39,10 @@
   <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\SpecialDays.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\TaskManager.cs" />
 
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\NamedValues.cs" />
+
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\MongoCollectionManager.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\zMongoDB.cs" />
 
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\TraceData\ITraceData.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Data\TraceData\TraceData.cs" />
@@ -51,12 +54,15 @@
 
   <Source                           value = "$Root$\Lib\pb\Source\pb\IO\Backup.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\IO\CompressBaseManager.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\CompressFile.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\IO\CompressManager.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\IO\CompressManagerMultiple.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\CompressOptions.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\IO\Directory.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\IO\FilenameNumberInfo.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\IO\SharpCompressManager.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\IO\UncompressQueueManager.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\ZipArchive.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\IO\ZipManager.cs" />
 
   <Source                           value = "$Root$\Lib\pb\Source\pb\Text\Crypt.cs" />
@@ -69,16 +75,19 @@
   <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\Debrider.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\DebriderAlldebrid.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\DebriderDebridLinkFr.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\DebridLinkFr.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\DebridLinkFr_v3.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\DownloadFileServerInfo.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\IHttpRequestData.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\ProtectLink.cs" />
 
   <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\Certificate.cs" />
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\HttpTools.cs" />-->
 
-  <Source                           value = "$Root$\Lib\pb\Source\pb\_old\TextVariables.cs" />          <!-- used by Print.cs -->
+  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\_old\TextVariables.cs" />          <!-- used by Print.cs -->
   
   <FrameworkAssembly                value = "System.ServiceModel.dll" />
+  <FrameworkAssembly                value = "System.IO.Compression.dll" />
+  <FrameworkAssembly                value = "System.IO.Compression.FileSystem.dll" />
   <FrameworkAssembly                value = "System.Xml.dll" />
 
   <Assembly                         value = "$Root$\..\library\Mongo\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Bson.dll" resolve = "true" resolveName = "MongoDB.Bson, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />

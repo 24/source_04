@@ -226,7 +226,7 @@ namespace Download.Print
                 .Select(
                     file =>
                     {
-                        FilenameNumberInfo filenameNumberInfo = FilenameNumberInfo.GetFilenameNumberInfo(file.File);
+                        FileNumber filenameNumberInfo = FileNumber.GetFileNumber(file.File);
                         string baseFilename = filenameNumberInfo.BaseFilename;
                         bool badFile = false;
                         if (file.SubDirectory == __badFileDirectory)
@@ -260,7 +260,7 @@ namespace Download.Print
                     file =>
                     {
                         //FilenameNumberInfo filenameNumberInfo = zpath.PathGetFilenameNumberInfo(file);
-                        FilenameNumberInfo filenameNumberInfo = FilenameNumberInfo.GetFilenameNumberInfo(file);
+                        FileNumber filenameNumberInfo = FileNumber.GetFileNumber(file);
                         return new FileGroup_v1
                         {
                             DirectoryGroup = directoryGroup,

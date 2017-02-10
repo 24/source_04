@@ -81,7 +81,9 @@ namespace oxml
 
         static void Main(string[] args)
         {
-            Trace.CurrentTrace.AddOnWrite("console", text => Console.Write(text));
+            //Trace.CurrentTrace.AddOnWrite("console", text => Console.Write(text));
+            TraceManager.Current.AddTrace(Trace.Current);
+            TraceManager.Current.SetViewer(text => Console.Write(text));
             try
             {
                 //if (!ManageParameters(args))
@@ -135,7 +137,7 @@ namespace oxml
             }
             catch (Exception ex)
             {
-                Trace.CurrentTrace.WriteError(ex);
+                Trace.WriteError(ex);
             }
         }
 

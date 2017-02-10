@@ -8,37 +8,40 @@
   <EndMethod                        value = "pb.Data.Mongo.Serializers.RunSerializer.EndZValue"        run = "always" />
 
   <Using                            value = "MongoDB.Bson" />
+  <Using                            value = "pb" />
+  <Using                            value = "pb.Compiler" />
   <Using                            value = "pb.Data.Mongo" />
   <Using                            value = "pb.Data.Mongo.Serializers" />
 
-  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\Date.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\Error.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\FormatInfo.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\GlobalExtension.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\PBException.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\Date.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\Error.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\FormatInfo.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\GlobalExtension.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\PBException.cs" />
 
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\ZValue.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\ZValue.cs" />
 
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\Default\DateSerializer.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\Default\MongoSerializationManager.cs" />
-  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\Default\PBSerializationProvider_v1.cs" />-->
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\Default\PBSerializationProvider_v2.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\Default\RunSerializer.cs" />
-  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\Default\UrlImageSerializer.cs" />-->
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\Default\DateSerializer.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\Default\MongoSerializationManager.cs" />
+  <!--<SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\Default\PBSerializationProvider_v1.cs" />-->
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\Default\PBSerializationProvider_v2.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\Default\RunSerializer.cs" />
+  <!--<SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\Default\UrlImageSerializer.cs" />-->
   
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\ZValue\RunSerializerZValue.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\ZValue\ZIntSerializer.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\ZValue\ZStringArraySerializer.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\ZValue\ZStringSerializer.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\ZValue\ZValueSerializer.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\ZValue\RunSerializerZValue.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\ZValue\ZIntSerializer.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\ZValue\ZStringArraySerializer.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\ZValue\ZStringSerializer.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\ZValue\ZValueSerializer.cs" />
 
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Reflection\Reflection.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Reflection\Reflection.cs" />
 
-  <FrameworkAssembly                value = "mscorlib.dll" />
+  <FrameworkAssembly                value = "mscorlib.dll" vsExclude = "true" />
   <!--<FrameworkAssembly                value = "System.dll" />-->
   <FrameworkAssembly                value = "System.Core.dll" />
 
-  <RunSourceAssembly                value = "runsource.irunsource.dll" />
+  <RunSourceAssembly                value = "runsource.irunsource.dll" vsExclude = "true" />
+  <RunSourceAssembly                value = "runsource.command.dll" vsExclude = "true" />
 
   <Assembly                         value = "$Root$\..\library\Mongo\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Bson.dll" resolve = "true" resolveName = "MongoDB.Bson, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />
 </AssemblyProject>

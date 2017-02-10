@@ -8,8 +8,8 @@
   <Using                            value = "pb.Data.Mongo" />
   <Using                            value = "pb.Data.Mongo.Serializers" />
 
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\Default\RunSerializerWebHeader.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\Default\WebHeaderSerializer.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\Default\RunSerializerWebHeader.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\Default\WebHeaderSerializer.cs" />
 
   <FrameworkAssembly                value = "System.dll" />
 </AssemblyProject>

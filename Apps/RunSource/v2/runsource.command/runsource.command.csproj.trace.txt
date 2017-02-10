@@ -1,0 +1,12 @@
+visual studio project "C:\pib\drive\google\dev\project\.net\Apps\RunSource\v2\runsource.command\runsource.command.csproj"
+  sources
+    "Properties\AssemblyInfo.cs"
+  sources links
+    "..\..\..\..\Lib\pb\Source\pb\Compiler\RunSourceCommand.cs"
+  framework references
+    "System"
+    "System.Data"
+  dll references
+  project references
+    "runsource.dll"                                                        "..\runsource.dll\runsource.dll.csproj"
+    "runsource.irunsource"                                                 "..\runsource.irunsource\runsource.irunsource.csproj"

@@ -1,0 +1,10 @@
+runsource project "C:\pib\drive\google\dev\project\.net\Apps\RunSource\v2\runsource.command\runsource.command.project.xml"
+  sources
+    "Properties\AssemblyInfo.cs"
+  sources links
+    "..\..\..\..\Lib\pb\Source\pb\Compiler\RunSourceCommand.cs"
+  framework references
+    "System"
+    "System.Data"
+  dll references
+  runsource references

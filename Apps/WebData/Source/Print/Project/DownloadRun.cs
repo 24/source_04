@@ -3,7 +3,7 @@ using pb.Compiler;
 using pb.Data.Mongo;
 using pb.Data.Xml;
 using pb.IO;
-using pb.Web;
+using pb.Web.Http;
 
 namespace Download.Print
 {
@@ -28,8 +28,6 @@ namespace Download.Print
             //RunSerializer.InitDefault(traceProvider, traceSerializer);
             //RunSerializer.InitZValue(traceSerializer);
             //RunSerializer.InitWebHeader(traceSerializer);
-
-            HtmlRun.SetResult = dt => RunSource.CurrentRunSource.SetResult(dt);
         }
 
         public static void End()
@@ -40,20 +38,21 @@ namespace Download.Print
             //RunSerializer.EndWebHeader();
 
             System.Diagnostics.Trace.Listeners.Remove(__traceListener);
-            HtmlRun.SetResult = null;
         }
 
         public static void InitAlways()
         {
-            XmlConfig.CurrentConfig = new XmlConfig(RunSource.CurrentRunSource.GetFilePath("download.config.xml"));
+            XmlConfig.CurrentConfig = new XmlConfig(RunSourceCommand.GetFilePath("download.config.xml"));
             XmlConfig config = XmlConfig.CurrentConfig;
 
-            Trace.CurrentTrace.SetWriter(config.Get("Log").zRootPath(zapp.GetAppDirectory()), config.Get("Log/@option").zTextDeserialize(FileOption.None));
+            //RunSourceCommand.SetWriter(config.Get("Log").zRootPath(zapp.GetAppDirectory()), config.Get("Log/@option").zTextDeserialize(FileOption.None));
+            RunSourceCommand.TraceSetWriter(WriteToFile.Create(config.Get("Log").zRootPath(zapp.GetAppDirectory()), config.Get("Log/@option").zTextDeserialize(FileOption.None)));
 
             string dataDir = config.GetExplicit("DataDir");
             AppData.DataDirectory = dataDir;
 
-            HttpManager.CurrentHttpManager.ExportDirectory = config.Get("HttpExportDirectory").zRootPath(zapp.GetEntryAssemblyDirectory());
+            //HttpManager.CurrentHttpManager.ExportDirectory = config.Get("HttpExportDirectory").zRootPath(zapp.GetEntryAssemblyDirectory());
+            HttpRun.HttpManager.UrlCache = UrlCache.CreateIndexedCache(config.Get("HttpExportDirectory").zRootPath(zapp.GetEntryAssemblyDirectory()));
 
             MongoLog.CurrentMongoLog.SetLogFile(config.Get("MongoLog").zRootPath(zapp.GetEntryAssemblyDirectory()), config.Get("MongoLog/@option").zTextDeserialize(FileOption.None));
             string mongoCache = config.Get("MongoCache").zRootPath(zapp.GetEntryAssemblyDirectory());
@@ -73,6 +72,8 @@ namespace Download.Print
         public static void EndAlways()
         {
             DownloadPrint.PrintTextValuesManager.CloseExportDataFile();
+            RunSourceCommand.TraceRemoveWriter();
+            XmlConfig.CurrentConfig = null;
         }
     }
 }

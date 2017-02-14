@@ -76,15 +76,24 @@ namespace tv
             }
         }
 
-        public static void UpdateNewTvPlayList(string newPlayList, string selectPlayList, string newSelectPlayList, string fileCategory)
+        public static void UpdateNewTvPlayList(string newSelectPlayList, string selectPlayList, string newPlayList, string fileCategory)
         {
-            //zfile.GetNewFilename(string path)
-            newPlayList = newPlayList.zRootPath(GetPlayListDirectory());
-            SavePlayList(newPlayList, GetNewTvPlayList(selectPlayList, newSelectPlayList, newPlayList, fileCategory));
+            // newSelectPlayList : "new.m3u"
+            // selectPlayList    : "tv_channels_pbambou_01_03_02.m3u"
+            // newPlayList       : "source\tv_channels_pbambou_08.m3u"
+            // fileCategory      : "tv"
+            newSelectPlayList = newSelectPlayList.zRootPath(GetPlayListDirectory());
+            string newSelectPlayList2 = zfile.GetNewFilename(newSelectPlayList);
+            SavePlayList(newSelectPlayList2, GetNewTvPlayList(selectPlayList, newSelectPlayList, newPlayList, fileCategory));
         }
 
         public static IEnumerable<TVPlayInfo> GetNewTvPlayList(string selectPlayList, string newSelectPlayList, string newPlayList, string fileCategory)
         {
+            // selectPlayList    : "tv_channels_pbambou_01_03_02.m3u"
+            // newPlayList       : "source\tv_channels_pbambou_08.m3u"
+            // newSelectPlayList : "new.m3u"
+            // fileCategory      : "tv"
+
             //InitFilter();
             //Filter_AddTvFrance();
 

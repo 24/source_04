@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+  <CardDirectory                               value = "c:\pib\_dl\valentin" />
+  
+  <QuestionInfos>
+    <QuestionInfo regex="^([0-9]{4})$" options="IgnoreCase" values="year" />
+    <QuestionInfo regex="^questions?\s+a\s+complements?\s+(simple|multiples)$" options="IgnoreCase" values="questionType" />
+    <QuestionInfo regex="^question\s+n\s*°\s*([0-9]+)$" options="IgnoreCase" values="questionNumber" />
+    <QuestionInfo regex="^([A-F])\.\s+(.*)$" options="IgnoreCase" values="responseCode, response" />
+    <!--<QuestionInfo regex="^([0-9]{1,2})$" options="IgnoreCase" values="pageNumber" />-->
+  </QuestionInfos>
+  
+  <ResponseInfos>
+    <ResponseInfo regex="([0-9]{4})" options="IgnoreCase" values="year" />
+    <ResponseInfo regex="q\s*([0-9]{2})\s*:\s*([a-e]{1,4})" options="IgnoreCase" values="questionNumber, responseCodes" />
+    <ResponseInfo regex="q\s*([0-9]{2})\s*:" options="IgnoreCase" values="questionNumber" />
+    <ResponseInfo regex="(?&lt;=(?:^|\s))([a-e]{1,4})(?=(?:\s|$))" options="IgnoreCase" values="responseCodes" />
+  </ResponseInfos>
+
+  <Cards>
+    <Card                                      name = "UE3 - Activité électrique cardiaque" >
+      <Directory                               value = "$CardDirectory$\UE3\UE3 - Activité électrique cardiaque" />
+      <AnkiFile                                value = "UE3 - Activité électrique cardiaque.anki.txt" />
+      <QuestionFile                            value = "scan\UE3 - Activité électrique cardiaque-page-009_02.txt" />
+      <QuestionFile                            value = "scan\UE3 - Activité électrique cardiaque-page-010_02.txt" />
+      <QuestionFile                            value = "scan\UE3 - Activité électrique cardiaque-page-011_02.txt" />
+      <QuestionFile                            value = "scan\UE3 - Activité électrique cardiaque-page-012_02.txt" />
+      <QuestionFile                            value = "scan\UE3 - Activité électrique cardiaque-page-013_02.txt" />
+      <QuestionFile                            value = "scan\UE3 - Activité électrique cardiaque-page-014_02.txt" />
+      <QuestionFile                            value = "scan\UE3 - Activité électrique cardiaque-page-015_02.txt" />
+      <QuestionFile                            value = "scan\UE3 - Activité électrique cardiaque-page-016_02.txt" />
+      <QuestionFile                            value = "scan\UE3 - Activité électrique cardiaque-page-017_02.txt" />
+      <QuestionFile                            value = "scan\UE3 - Activité électrique cardiaque-page-018.txt" />
+      <QuestionFile                            value = "scan\UE3 - Activité électrique cardiaque-page-019_02.txt" />
+      <QuestionFile                            value = "scan\UE3 - Activité électrique cardiaque-page-020.txt" />
+      <QuestionFile                            value = "scan\UE3 - Activité électrique cardiaque-page-021_02.txt" />
+      <ResponseFile                            value = "scan\UE3 - Activité électrique cardiaque-page-022_02.txt" />
+    </Card>
+  </Cards>
+</configuration>

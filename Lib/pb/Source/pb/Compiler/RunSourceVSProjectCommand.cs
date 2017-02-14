@@ -1,13 +1,16 @@
 ﻿using pb.Data.VSProject;
 using pb.Data.Xml;
 using pb.IO;
+using pb.Text;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace pb.Compiler
 {
     public static class RunSourceVSProjectCommand
     {
-        public static void UpdateVSProject(string runsourceProject = null, VSProjectUpdateOptions options = VSProjectUpdateOptions.AddSourceLink)
+        public static void UpdateVSProject(string runsourceProject = null, VSProjectUpdateOptions options = VSProjectUpdateOptions.None)
         {
             string currentRunsourceProject = RunSourceCommand.GetCurrentProject();
 
@@ -33,48 +36,144 @@ namespace pb.Compiler
             Trace.WriteLine($"update visual studio project ({label}) \"{vsProject}\"");
             Trace.WriteLine($"  from runsource project \"{runsourceProject}\"");
             //Trace.WriteLine($"  backup visual studio project");
-            string labelRemove = "";
-            if ((options & VSProjectUpdateOptions.RemoveSource) == VSProjectUpdateOptions.RemoveSource)
-                labelRemove = "source";
-            if ((options & VSProjectUpdateOptions.RemoveSourceLink) == VSProjectUpdateOptions.RemoveSourceLink)
-                labelRemove += (labelRemove != "" ? ", " : "") + "source link";
-            if ((options & VSProjectUpdateOptions.RemoveAssemblyReference) == VSProjectUpdateOptions.RemoveAssemblyReference)
-                labelRemove += (labelRemove != "" ? ", " : "") + "assembly reference";
-            if (labelRemove != "")
-                labelRemove = "remove " + labelRemove;
-            //Trace.WriteLine($"  remove {label}");
-            string labelAdd = "";
-            if ((options & VSProjectUpdateOptions.AddSourceLink) == VSProjectUpdateOptions.AddSourceLink)
-                labelAdd = "source";
-            if ((options & VSProjectUpdateOptions.AddSourceLink) == VSProjectUpdateOptions.AddSourceLink)
-                labelAdd += (labelAdd != "" ? ", " : "") + "source link";
-            if ((options & VSProjectUpdateOptions.AddAssemblyReference) == VSProjectUpdateOptions.AddAssemblyReference)
-                labelAdd += (labelAdd != "" ? ", " : "") + "assembly reference";
-            //Trace.WriteLine($"  add {label}");
-            if (labelAdd != "")
-                labelAdd = "add " + labelAdd;
-            label = labelRemove;
-            if (labelAdd != "")
-                label += (label != "" ? ", " : "") + labelAdd;
-            Trace.WriteLine($"  operations : {label}");
+            //string labelRemove = "";
+            //if ((options & VSProjectUpdateOptions.RemoveSource) == VSProjectUpdateOptions.RemoveSource)
+            //    labelRemove = "source";
+            //if ((options & VSProjectUpdateOptions.RemoveSourceLink) == VSProjectUpdateOptions.RemoveSourceLink)
+            //    labelRemove += (labelRemove != "" ? ", " : "") + "source link";
+            //if ((options & VSProjectUpdateOptions.RemoveAssemblyReference) == VSProjectUpdateOptions.RemoveAssemblyReference)
+            //    labelRemove += (labelRemove != "" ? ", " : "") + "assembly reference";
+            //if (labelRemove != "")
+            //    labelRemove = "remove " + labelRemove;
+            ////Trace.WriteLine($"  remove {label}");
+            //string labelAdd = "";
+            //if ((options & VSProjectUpdateOptions.AddSourceLink) == VSProjectUpdateOptions.AddSourceLink)
+            //    labelAdd = "source";
+            //if ((options & VSProjectUpdateOptions.AddSourceLink) == VSProjectUpdateOptions.AddSourceLink)
+            //    labelAdd += (labelAdd != "" ? ", " : "") + "source link";
+            //if ((options & VSProjectUpdateOptions.AddAssemblyReference) == VSProjectUpdateOptions.AddAssemblyReference)
+            //    labelAdd += (labelAdd != "" ? ", " : "") + "assembly reference";
+            ////Trace.WriteLine($"  add {label}");
+            //if (labelAdd != "")
+            //    labelAdd = "add " + labelAdd;
+            //label = labelRemove;
+            //if (labelAdd != "")
+            //    label += (label != "" ? ", " : "") + labelAdd;
+            //Trace.WriteLine($"  operations : {label}");
+            Trace.WriteLine($"  operations : {GetOperationLabel(options)}");
 
             VSProjectUpdateResult result = RunSourceVSProjectManager.UpdateVSProject(vsProject, runsourceProject, options);
 
-            label = "";
-            if ((options & VSProjectUpdateOptions.RemoveSource) == VSProjectUpdateOptions.RemoveSource)
-                label = $"{result.SourceRemovedCount} source removed";
-            if ((options & VSProjectUpdateOptions.AddSource) == VSProjectUpdateOptions.AddSource)
-                label += $"{(label != "" ? ", " : "")}{result.SourceAddedCount} source added";
-            if ((options & VSProjectUpdateOptions.RemoveSourceLink) == VSProjectUpdateOptions.RemoveSourceLink)
-                label += $"{(label != "" ? ", " : "")}{result.SourceLinkRemovedCount} source link removed";
+            //label = "";
+            //if ((options & VSProjectUpdateOptions.RemoveSource) == VSProjectUpdateOptions.RemoveSource)
+            //    label = $"{result.SourceRemovedCount} source removed";
+            //if ((options & VSProjectUpdateOptions.AddSource) == VSProjectUpdateOptions.AddSource)
+            //    label += $"{(label != "" ? ", " : "")}{result.SourceAddedCount} source added";
+            //if ((options & VSProjectUpdateOptions.RemoveSourceLink) == VSProjectUpdateOptions.RemoveSourceLink)
+            //    label += $"{(label != "" ? ", " : "")}{result.SourceLinkRemovedCount} source link removed";
+            //if ((options & VSProjectUpdateOptions.AddSourceLink) == VSProjectUpdateOptions.AddSourceLink)
+            //    label += $"{(label != "" ? ", " : "")}{result.SourceLinkAddedCount} source link added";
+            //if ((options & VSProjectUpdateOptions.RemoveAssemblyReference) == VSProjectUpdateOptions.RemoveAssemblyReference)
+            //    label += $"{(label != "" ? ", " : "")}{result.AssemblyReferenceRemovedCount} assembly reference removed";
+            //if ((options & VSProjectUpdateOptions.AddAssemblyReference) == VSProjectUpdateOptions.AddAssemblyReference)
+            //    label += $"{(label != "" ? ", " : "")}{result.AssemblyReferenceAddedCount} assembly reference added";
+            //if (label != "")
+            //    Trace.WriteLine($"  {label}");
+            Trace.WriteLine($"  {GetResultLabel(result)}");
+        }
+
+        private static string GetOperationLabel(VSProjectUpdateOptions options)
+        {
+            //string labelRemove = "";
+            //if ((options & VSProjectUpdateOptions.RemoveSource) == VSProjectUpdateOptions.RemoveSource)
+            //    labelRemove = "source";
+            //if ((options & VSProjectUpdateOptions.RemoveSourceLink) == VSProjectUpdateOptions.RemoveSourceLink)
+            //    labelRemove += (labelRemove != "" ? ", " : "") + "source link";
+            //if ((options & VSProjectUpdateOptions.RemoveAssemblyReference) == VSProjectUpdateOptions.RemoveAssemblyReference)
+            //    labelRemove += (labelRemove != "" ? ", " : "") + "assembly reference";
+            //if (labelRemove != "")
+            //    labelRemove = "remove " + labelRemove;
+            ////Trace.WriteLine($"  remove {label}");
+            //string labelAdd = "";
+            //if ((options & VSProjectUpdateOptions.AddSourceLink) == VSProjectUpdateOptions.AddSourceLink)
+            //    labelAdd = "source";
+            //if ((options & VSProjectUpdateOptions.AddSourceLink) == VSProjectUpdateOptions.AddSourceLink)
+            //    labelAdd += (labelAdd != "" ? ", " : "") + "source link";
+            //if ((options & VSProjectUpdateOptions.AddAssemblyReference) == VSProjectUpdateOptions.AddAssemblyReference)
+            //    labelAdd += (labelAdd != "" ? ", " : "") + "assembly reference";
+            ////Trace.WriteLine($"  add {label}");
+            //if (labelAdd != "")
+            //    labelAdd = "add " + labelAdd;
+            //string label = labelRemove;
+            //if (labelAdd != "")
+            //    label += (label != "" ? ", " : "") + labelAdd;
+
+            // operations : remove source, source link, assembly reference, add source, source link, assembly reference
+            StringBuilder sb = new StringBuilder();
+            bool first = true;
+            string label = GetRemoveOperationLabels(options).zConcatStrings(", ");
+            if (label != null)
+            {
+                sb.Append("remove ");
+                sb.Append(label);
+                first = false;
+            }
+            label = GetAddOperationLabels(options).zConcatStrings(", ");
+            if (label != null)
+            {
+                if (!first)
+                    sb.Append(", ");
+                sb.Append("add ");
+                sb.Append(label);
+            }
+            if (first)
+                sb.Append("none");
+            return sb.ToString();
+        }
+
+        private static IEnumerable<string> GetAddOperationLabels(VSProjectUpdateOptions options)
+        {
             if ((options & VSProjectUpdateOptions.AddSourceLink) == VSProjectUpdateOptions.AddSourceLink)
-                label += $"{(label != "" ? ", " : "")}{result.SourceLinkAddedCount} source link added";
-            if ((options & VSProjectUpdateOptions.RemoveAssemblyReference) == VSProjectUpdateOptions.RemoveAssemblyReference)
-                label += $"{(label != "" ? ", " : "")}{result.AssemblyReferenceRemovedCount} assembly reference removed";
+                yield return "source";
+            if ((options & VSProjectUpdateOptions.AddSourceLink) == VSProjectUpdateOptions.AddSourceLink)
+                yield return "source link";
             if ((options & VSProjectUpdateOptions.AddAssemblyReference) == VSProjectUpdateOptions.AddAssemblyReference)
-                label += $"{(label != "" ? ", " : "")}{result.AssemblyReferenceAddedCount} assembly reference added";
-            if (label != "")
-                Trace.WriteLine($"  {label}");
+                yield return "assembly reference";
+        }
+
+        private static IEnumerable<string> GetRemoveOperationLabels(VSProjectUpdateOptions options)
+        {
+            if ((options & VSProjectUpdateOptions.RemoveSource) == VSProjectUpdateOptions.RemoveSource)
+                yield return "source";
+            if ((options & VSProjectUpdateOptions.RemoveSourceLink) == VSProjectUpdateOptions.RemoveSourceLink)
+                yield return "source link";
+            if ((options & VSProjectUpdateOptions.RemoveAssemblyReference) == VSProjectUpdateOptions.RemoveAssemblyReference)
+                yield return "assembly reference";
+        }
+
+        private static string GetResultLabel(VSProjectUpdateResult result)
+        {
+            // 0 source removed, 0 source added, 0 source link removed, 0 source link added, 0 assembly reference removed, 0 assembly reference added
+            string label = GetResultLabels(result).zConcatStrings(", ");
+            if (label == null)
+                label = "nothing done";
+            return label;
+        }
+
+        private static IEnumerable<string> GetResultLabels(VSProjectUpdateResult result)
+        {
+            if (result.SourceRemovedCount != 0)
+                yield return $"{result.SourceRemovedCount} source removed";
+            if (result.SourceAddedCount != 0)
+                yield return $"{result.SourceAddedCount} source added";
+            if (result.SourceLinkRemovedCount != 0)
+                yield return $"{result.SourceLinkRemovedCount} source link removed";
+            if (result.SourceLinkAddedCount != 0)
+                yield return $"{result.SourceLinkAddedCount} source link added";
+            if (result.AssemblyReferenceRemovedCount != 0)
+                yield return $"{result.AssemblyReferenceRemovedCount} assembly reference removed";
+            if (result.AssemblyReferenceAddedCount != 0)
+                yield return $"{result.AssemblyReferenceAddedCount} assembly reference added";
         }
 
         public static void TraceRunSourceProject(string runsourceProject = null, bool traceProjectName = false)
@@ -242,5 +341,11 @@ namespace pb.Compiler
             vsProject += ".csproj";
             return zPath.Combine(zPath.GetDirectoryName(runsourceProject), vsProject);
         }
+    }
+
+    public class TextBuilder
+    {
+        private StringBuilder _sb = new StringBuilder();
+
     }
 }

@@ -120,9 +120,4 @@
       <HintPath>..\..\..\Lib\LongPath\Pri.LongPath\bin\Debug\Pri.LongPath.dll</HintPath>
     </Reference>
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="..\..\..\Lib\pb\Source\pb\IO\File.cs">
-      <Link>SourceLnk\Lib\pb\IO\File.cs</Link>
-    </Compile>
-  </ItemGroup>
 </Project>

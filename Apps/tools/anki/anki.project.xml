@@ -7,26 +7,31 @@
   <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\Basic.project.xml" />
   <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\WriteToFile.project.xml" extension = "true" />
   <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\XmlConfig.project.xml" />
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\RegexValues.project.xml" />
   <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\RunSourceExtension.project.xml" extension = "true" />
   <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\MongoExtension.project.xml" extension = "true" />
   <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\VSProject.project.xml" extension = "true" />
 
-  <InitMethod                       value = "tv.Run.InitAlways" run = "always" />      <!-- [{namespace}.{type}.]{method name}[, {assembly name}] default type {namespace}._RunCode -->
-  <EndMethod                        value = "tv.Run.EndAlways" run = "always" />       <!-- [{namespace}.{type}.]{method name}[, {assembly name}] default type {namespace}._RunCode -->
+  <InitMethod                       value = "anki.Run.InitAlways" run = "always" />      <!-- [{namespace}.{type}.]{method name}[, {assembly name}] default type {namespace}._RunCode -->
+  <EndMethod                        value = "anki.Run.EndAlways" run = "always" />       <!-- [{namespace}.{type}.]{method name}[, {assembly name}] default type {namespace}._RunCode -->
   
-  <NameSpace                        value = "tv" />
+  <NameSpace                        value = "anki" />
 
-  <!--<Source                           value = "Test_PlayListReader.cs" />-->
+  <Using                            value = "anki.Test" />
 
-  <Source                           value = "Source\PlayListReader.cs" />
+  <Source                           value = "Source\_Test\QuestionTest.cs" />
+  <Source                           value = "Source\AnkiWriter.cs" />
+  <Source                           value = "Source\QuestionReader.cs" />
+  <Source                           value = "Source\QuestionRun.cs" />
+  <Source                           value = "Source\ResponseReader.cs" />
   <Source                           value = "Source\Run.cs" />
-  <Source                           value = "Source\TVPlayListReader.cs" />
-  <Source                           value = "Source\TVPlayListReader_Action.cs" />
-  <Source                           value = "Source\TVPlayListReader_Filter.cs" />
+
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\ParseAs.cs" />
 
   <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\File.cs" />
-  
-  <!--<SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\GlobalExtension.cs" />
+
+  <!--
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\GlobalExtension.cs" />
   <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\NamedValues.cs" />
   <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\ZValue.cs" />
   <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Text\RegexValues.cs" />-->

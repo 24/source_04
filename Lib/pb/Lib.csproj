@@ -698,6 +698,9 @@
     <Content Include="Source\pb\_pb\_Test\Test_01.project.xml">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Source\Project\RegexValues.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Source\Project\XmlConfig.project.xml">
       <SubType>Designer</SubType>
     </Content>
@@ -738,6 +741,9 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Source\Project\_Test\Test_01.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Source\Project\_Test\Test_RegexValues.project.xml">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Source\Project\_Test\Test_XmlConfig.project.xml">

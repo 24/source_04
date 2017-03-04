@@ -8,17 +8,48 @@ RunSourceCommand.SetProjectFromSource();
 //RunSourceCommand.SetProject(@"$Root$\Apps\tools\tv\_Test\Test_TV.project.xml");
 Trace.WriteLine("toto");
 
-QuestionRun.WriteAnkiCard("UE3 - Activité électrique cardiaque");
+RunSourceCommand.CompileProject("AnkiJS.project.xml");
+
+
+QuestionRun.WriteAnkiCard("UE3 - Activité électrique cardiaque");
+QuestionRun.WriteAnkiCard("UE3 - Equilibre acido-basique");
+QuestionRun.WriteAnkiCard("UE3 - Etat de la matiere et leur caracterisaion Etat d'agregation");
+QuestionRun.WriteAnkiCard("UE3 - Etat de la matiere et leur caracterisation");
+QuestionRun.WriteAnkiCard("UE3 - Etat de la matiere et leur caracterisation Proprietes colligatives");
+QuestionRun.WriteAnkiCard("UE3 - Gaz, eau et solutions aqueuses");
+QuestionRun.WriteAnkiCard("UE3 - pH et equilibre acido-basique");
+
+//QuestionRun.Exec(@"UE3\UE3 - pH et equilibre acido-basique");
+QuestionRun.CreateQuestionsManager(@"UE3\UE3 - pH et equilibre acido-basique").CreateQuestionFiles();
+QuestionRun.CreateQuestionsManager(@"UE3\UE3 - pH et equilibre acido-basique").CreateAnkiFileFromScanFiles();
+QuestionRun.CreateQuestionsManager(@"UE3\UE3 - pH et equilibre acido-basique").CreateAnkiFileFromQuestionFiles();
+QuestionRun.CreateQuestionsManager(@"UE3\UE3 - pH et equilibre acido-basique").CreateResponseFile();
+QuestionRun.CreateQuestionsManager(@"UE3\UE3 - pH et equilibre acido-basique").ExportResponse();
+
+
+
+QuestionRun.ReadResponse("UE3 - Etat de la matiere et leur caracterisaion Etat d'agregation");
+QuestionRun.ReadResponse("UE3 - Etat de la matiere et leur caracterisation");
+QuestionRun.ReadResponse("UE3 - Etat de la matiere et leur caracterisation Proprietes colligatives");
+QuestionRun.ReadResponse("UE3 - Gaz, eau et solutions aqueuses");
+QuestionRun.ReadResponse("UE3 - pH et equilibre acido-basique");
+QuestionRun.ExportResponse(@"");
 
 QuestionTest.Test_Find_01("2016", QuestionRun.GetQuestionRegexValuesList()).zTraceJson();
 QuestionTest.Test_Find_02("Q 24 : Q51 :  Q51 :  Q 60 : Q51 :", QuestionRun.GetResponseRegexValuesList());
-QuestionTest.Test_FindInFile_01(@"c:\pib\_dl\valentin\UE3 - Activité electrique cardiaque-page-012.txt", QuestionRun.GetQuestionRegexValuesList());
-QuestionTest.Test_FindInFile_01(@"c:\pib\_dl\valentin\UE3 - Activité electrique cardiaque-page-022.txt", QuestionRun.GetResponseRegexValuesList());
+QuestionTest.Test_FindInFile_01(@"c:\pib\_dl\valentin\UE3 - Activité électrique cardiaque-page-012.txt", QuestionRun.GetQuestionRegexValuesList());
+QuestionTest.Test_FindInFile_01(@"c:\pib\_dl\valentin\UE3 - Activité électrique cardiaque-page-022.txt", QuestionRun.GetResponseRegexValuesList());
 
-QuestionReader.Read(@"c:\pib\_dl\valentin\UE3 - Activité electrique cardiaque-page-009.txt", QuestionRun.GetQuestionRegexValuesList()).zTraceJson();
-QuestionReader.Read(@"c:\pib\_dl\valentin\UE3 - Activité electrique cardiaque-page-012_02.txt", QuestionRun.GetQuestionRegexValuesList()).zTraceJson();
-ResponseReader.Read(@"c:\pib\_dl\valentin\UE3 - Activité electrique cardiaque-page-022_02.txt", QuestionRun.GetResponseRegexValuesList()).zTraceJson();
-QuestionRun.WriteAnkiFile(@"c:\pib\_dl\valentin\UE3 - Activité electrique cardiaque-page-009.anki.txt", @"c:\pib\_dl\valentin\UE3 - Activité electrique cardiaque-page-009.txt", @"c:\pib\_dl\valentin\UE3 - Activité electrique cardiaque-page-022_02.txt");
+QuestionReader.Read(@"c:\pib\_dl\valentin\UE3 - Activité électrique cardiaque-page-009.txt", QuestionRun.GetQuestionRegexValuesList()).zTraceJson();
+QuestionReader.Read(@"c:\pib\_dl\valentin\UE3 - Activité électrique cardiaque-page-012_02.txt", QuestionRun.GetQuestionRegexValuesList()).zTraceJson();
+ResponseReader.Read(@"c:\pib\drive\google\valentin\UE3\UE3 - Activité électrique cardiaque\scan\UE3 - Activité électrique cardiaque-page-022_02.txt", QuestionRun.GetResponseRegexValuesList()).zTraceJson();
+ResponseReader.Read(@"c:\pib\drive\google\valentin\UE3\UE3 - Activité électrique cardiaque\scan\UE3 - Activité électrique cardiaque-page-022_02.txt", QuestionRun.GetResponseRegexValuesList()).zSave(@"c:\pib\drive\google\valentin\UE3\UE3 - Activité électrique cardiaque\responses.json");
+ResponseReader.Read(@"c:\pib\drive\google\valentin\UE3\UE3 - Equilibre acido-basique\scan\UE3 - Equilibre acido-basique-page-016_02.txt", QuestionRun.GetResponseRegexValuesList()).zTraceJson();
+ResponseReader.Read(@"c:\pib\drive\google\valentin\UE3\UE3 - Equilibre acido-basique\scan\UE3 - Equilibre acido-basique-page-016_02.txt", QuestionRun.GetResponseRegexValuesList()).zSave(@"c:\pib\drive\google\valentin\UE3\UE3 - Equilibre acido-basique\responses.json");
+QuestionRun.WriteAnkiFile(@"c:\pib\_dl\valentin\UE3 - Activité électrique cardiaque-page-009.anki.txt", @"c:\pib\_dl\valentin\UE3 - Activité électrique cardiaque-page-009.txt", @"c:\pib\_dl\valentin\UE3 - Activité électrique cardiaque-page-022_02.txt");
+
+QuestionRun.Test_01();
+QuestionRun.Test_02();
 
 //*************************************************************************************************************************
 //****                                   VSProject
@@ -28,6 +59,10 @@ QuestionRun.WriteAnkiFile(@"c:\pib\_dl\valentin\UE3 - Activité electrique card
 // VSProjectUpdateOptions.AddAssemblyReference | VSProjectUpdateOptions.RemoveAssemblyReference
 // VSProjectUpdateOptions.All | VSProjectUpdateOptions.Simulate
 
+// simulate no remove
+RunSourceVSProjectCommand.UpdateVSProject(options: VSProjectUpdateOptions.AddSourceLink | VSProjectUpdateOptions.AddAssemblyReference | VSProjectUpdateOptions.Simulate);
+// save vs project no remove
+RunSourceVSProjectCommand.UpdateVSProject(options: VSProjectUpdateOptions.AddSourceLink | VSProjectUpdateOptions.AddAssemblyReference);
 // simulate
 RunSourceVSProjectCommand.UpdateVSProject(options: VSProjectUpdateOptions.AddSourceLink | VSProjectUpdateOptions.RemoveSourceLink
   | VSProjectUpdateOptions.AddAssemblyReference | VSProjectUpdateOptions.RemoveAssemblyReference | VSProjectUpdateOptions.Simulate);
@@ -96,6 +131,7 @@ Trace.WriteLine("toto");
 RunSourceCommand.SetProjectFromSource();
 RunSourceCommand.SetProject(@"$Root$\Lib\pb\Source\Project\_Test\Test_Basic.project.xml");
 RunSourceCommand.SetProject(@"$Root$\Lib\pb\Source\Project\_Test\Test_RegexValues.project.xml");
+RunSourceCommand.SetProject(@"$Root$\Lib\pb\Source\Project\_Test\Test_RegexValuesList.project.xml");
 RunSourceCommand.SetProject(@"$Root$\Lib\pb\Source\Project\_Test\Test_RunSourceExtension.project.xml");
 RunSourceCommand.SetProject(@"$Root$\Lib\pb\Source\Project\_Test\Test_MongoExtension.project.xml");
 RunSourceCommand.SetProject(@"$Root$\Lib\pb\Source\Project\_Test\Test_MongoSerializer.project.xml");
@@ -126,3 +162,11 @@ Test_Regex.Test(@"(?<=(?:^|\s))([a-e]{1,4})(?=(?:\s|$))", " abc ");
 ("aa" + ((char)0x2082)).zTrace();
 ("aa" + ((char)0x207A)).zTrace();
 ("aa" + ((char)0x208A)).zTrace();
+
+
+Test_RegexValues.Test2(QuestionRun.GetResponseRegexValuesList(), "Q 37 : D Q 26 : D Q 25 : E  Q 24 : C", contiguous: true);
+Test_Regex.Test(@"\s*([a-e]{1,4})", "  AB ");
+
+
+RunSourceCommand.CompileProject(@"$Root$\Lib\pb\Source\pb\NodeJS\_Test\Test_NodeJS_01.project.xml");
+RunSourceCommand.CompileProject(@"$Root$\Lib\pb\Source\Project\NodeJSLib.project.xml");

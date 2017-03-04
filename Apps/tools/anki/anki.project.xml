@@ -7,9 +7,10 @@
   <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\Basic.project.xml" />
   <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\WriteToFile.project.xml" extension = "true" />
   <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\XmlConfig.project.xml" />
-  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\RegexValues.project.xml" />
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\RegexValuesList.project.xml" />
   <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\RunSourceExtension.project.xml" extension = "true" />
   <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\MongoExtension.project.xml" extension = "true" />
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\MongoDefaultSerializer.project.xml" extension = "true" />
   <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\VSProject.project.xml" extension = "true" />
 
   <InitMethod                       value = "anki.Run.InitAlways" run = "always" />      <!-- [{namespace}.{type}.]{method name}[, {assembly name}] default type {namespace}._RunCode -->
@@ -18,22 +19,44 @@
   <NameSpace                        value = "anki" />
 
   <Using                            value = "anki.Test" />
+  <!--<Using                            value = "pb.Text.Test" />-->
 
   <Source                           value = "Source\_Test\QuestionTest.cs" />
   <Source                           value = "Source\AnkiWriter.cs" />
+  <Source                           value = "Source\QuestionsManager.cs" />
   <Source                           value = "Source\QuestionReader.cs" />
+  <Source                           value = "Source\QuestionResponseHtml.cs" />
+  <Source                           value = "Source\QuestionResponses.cs" />
+  <Source                           value = "Source\QuestionResponses_LoadSave.cs" />
   <Source                           value = "Source\QuestionRun.cs" />
+  <Source                           value = "Source\QuestionType.cs" />
   <Source                           value = "Source\ResponseReader.cs" />
   <Source                           value = "Source\Run.cs" />
 
   <SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\ParseAs.cs" />
+  <!--<SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\ITraceManager.cs" />-->
+  <!--<SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\TraceManager.cs" />-->
 
+  <!--<SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\Mongo\zMongo.cs" />-->
+  <!--<SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\Default\MongoSerializationManager.cs" />-->
+
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\Directory.cs" />
   <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\File.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\FileNumber.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\zDirectory.cs" />
+  <!--<SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\WriteToFile.cs" />-->
+  <!--<SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\WriteToFileCreate.cs" />-->
+
+  <!--
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Text\_Test\Test_Regex.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Text\_Test\Test_RegexValues.cs" />
+  -->
 
   <!--
   <SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\GlobalExtension.cs" />
   <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\NamedValues.cs" />
   <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\ZValue.cs" />
-  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Text\RegexValues.cs" />-->
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Text\RegexValues.cs" />
+  -->
   
 </AssemblyProject>

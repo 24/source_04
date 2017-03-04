@@ -66,6 +66,7 @@
 
   <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Reflection\Reflection.cs" />
 
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Text\MatchValues.cs" />
   <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Text\Regex.cs" />
   <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Text\RegexValues.cs" />
   <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Text\Split.cs" />

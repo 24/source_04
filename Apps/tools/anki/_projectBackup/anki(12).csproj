@@ -1,0 +1,193 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{9D469C2B-87E7-4958-BD14-28F065D5BDA6}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>anki</RootNamespace>
+    <AssemblyName>anki</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Source\AnkiWriter.cs" />
+    <Compile Include="Source\js\jsQuestions.cs" />
+    <Compile Include="Source\Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Source\QuestionResponseHtml.cs" />
+    <Compile Include="Source\QuestionResponses.cs" />
+    <Compile Include="Source\QuestionRun.cs" />
+    <Compile Include="Source\QuestionReader.cs" />
+    <Compile Include="Source\QuestionType.cs" />
+    <Compile Include="Source\ResponseReader.cs" />
+    <Compile Include="Source\_Test\QuestionTest.cs" />
+    <Compile Include="Source\Run.cs" />
+    <None Include="anki.run.cs" />
+    <None Include="app.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="anki.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="anki.config.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Html\style.css" />
+    <Content Include="AnkiJS.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <ItemGroup>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\_pb\Application.cs">
+      <Link>SourceLnk\Lib\pb\_pb\Application.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\_pb\Error.cs">
+      <Link>SourceLnk\Lib\pb\_pb\Error.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\_pb\PBException.cs">
+      <Link>SourceLnk\Lib\pb\_pb\PBException.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\Data\Xml\Xml.cs">
+      <Link>SourceLnk\Lib\pb\Data\Xml\Xml.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\Data\Xml\XmlConfig.cs">
+      <Link>SourceLnk\Lib\pb\Data\Xml\XmlConfig.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\IO\Path.cs">
+      <Link>SourceLnk\Lib\pb\IO\Path.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\IO\zFile.cs">
+      <Link>SourceLnk\Lib\pb\IO\zFile.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\IO\zPath.cs">
+      <Link>SourceLnk\Lib\pb\IO\zPath.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\Reflection\Reflection.cs">
+      <Link>SourceLnk\Lib\pb\Reflection\Reflection.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="Pri.LongPath">
+      <HintPath>..\..\..\Lib\LongPath\Pri.LongPath\bin\Debug\Pri.LongPath.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\RunSource\v2\runsource.command\runsource.command.csproj">
+      <Project>{12d4a2fb-84e4-4067-8655-a019e2cf7b5f}</Project>
+      <Name>runsource.command</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\RunSource\v2\runsource.irunsource\runsource.irunsource.csproj">
+      <Project>{69eeca69-aaba-40b4-b8a0-f830303a831f}</Project>
+      <Name>runsource.irunsource</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\_pb\Date.cs">
+      <Link>SourceLnk\Lib\pb\_pb\Date.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\_pb\FormatInfo.cs">
+      <Link>SourceLnk\Lib\pb\_pb\FormatInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\_pb\GlobalExtension.cs">
+      <Link>SourceLnk\Lib\pb\_pb\GlobalExtension.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\Data\NamedValues.cs">
+      <Link>SourceLnk\Lib\pb\Data\NamedValues.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\Data\ZValue.cs">
+      <Link>SourceLnk\Lib\pb\Data\ZValue.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\Text\Regex.cs">
+      <Link>SourceLnk\Lib\pb\Text\Regex.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\Text\RegexValues.cs">
+      <Link>SourceLnk\Lib\pb\Text\RegexValues.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\Text\Split.cs">
+      <Link>SourceLnk\Lib\pb\Text\Split.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\Text\StringZones.cs">
+      <Link>SourceLnk\Lib\pb\Text\StringZones.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\_pb\ParseAs.cs">
+      <Link>SourceLnk\Lib\pb\_pb\ParseAs.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\IO\File.cs">
+      <Link>SourceLnk\Lib\pb\IO\File.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\Text\MatchValues.cs">
+      <Link>SourceLnk\Lib\pb\Text\MatchValues.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\Text\RegexValuesList.cs">
+      <Link>SourceLnk\Lib\pb\Text\RegexValuesList.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\IO\FileNumber.cs">
+      <Link>SourceLnk\Lib\pb\IO\FileNumber.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\IO\Directory.cs">
+      <Link>SourceLnk\Lib\pb\IO\Directory.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\Data\Mongo\zMongo.cs">
+      <Link>SourceLnk\Lib\pb\Data\Mongo\zMongo.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\IO\zDirectory.cs">
+      <Link>SourceLnk\Lib\pb\IO\zDirectory.cs</Link>
+    </Compile>
+  </ItemGroup>
+</Project>

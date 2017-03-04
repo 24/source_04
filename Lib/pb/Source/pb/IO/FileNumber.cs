@@ -26,7 +26,13 @@ namespace pb.IO
 
         public string GetPath(int number)
         {
-            return zPath.Combine(zPath.GetDirectoryName(BasePath), zPath.GetFileNameWithoutExtension(BaseFilename) + $"{FormatNumber(number, NumberType)}" + zPath.GetExtension(BaseFilename));
+            //return zPath.Combine(zPath.GetDirectoryName(BasePath), zPath.GetFileNameWithoutExtension(BaseFilename) + $"{FormatNumber(number, NumberType)}" + zPath.GetExtension(BaseFilename));
+            return GetPath(FormatNumber(number, NumberType));
+        }
+
+        public string GetPath(string number)
+        {
+            return zPath.Combine(zPath.GetDirectoryName(BasePath), zPath.GetFileNameWithoutExtension(BaseFilename) + $"{number}" + zPath.GetExtension(BaseFilename));
         }
 
         public static string FormatNumber(int number, FileNumberType numberType)

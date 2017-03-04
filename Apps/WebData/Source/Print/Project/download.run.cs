@@ -49,6 +49,34 @@ Trace.WriteLine(RunSource.CurrentRunSource.ProjectFile);
 Trace.WriteLine(RunSource.CurrentRunSource.ProjectDirectory);
 
 //*************************************************************************************************************************
+//****                                   VSProject
+//*************************************************************************************************************************
+
+Trace.WriteLine("toto");
+RunSourceCommand.SetProjectFromSource();
+RunSourceCommand.SetProject(@"$Root$\Lib\pb\Source\Project\_Test\Test_VSProject.project.xml");
+
+// simulate - download.project.xml
+RunSourceVSProjectCommand.UpdateVSProject(@"$Root$\Apps\WebData\Source\Print\Project\download.project.xml", @"$Root$\Apps\WebData\WebData.csproj",
+  options: VSProjectUpdateOptions.All | VSProjectUpdateOptions.Simulate);
+// simulate - RegexValuesList.project.xml
+RunSourceVSProjectCommand.UpdateVSProject(@"$Root$\Lib\pb\Source\Project\RegexValuesList.project.xml", @"$Root$\Apps\WebData\WebData.csproj",
+  options: VSProjectUpdateOptions.AddSourceLink | VSProjectUpdateOptions.Simulate);
+// save vs project - RegexValuesList.project.xml
+RunSourceVSProjectCommand.UpdateVSProject(@"$Root$\Lib\pb\Source\Project\RegexValuesList.project.xml", @"$Root$\Apps\WebData\WebData.csproj",
+  options: VSProjectUpdateOptions.AddSourceLink);
+
+// simulate
+RunSourceVSProjectCommand.UpdateVSProject(options: VSProjectUpdateOptions.AddSourceLink | VSProjectUpdateOptions.RemoveSourceLink
+  | VSProjectUpdateOptions.AddAssemblyReference | VSProjectUpdateOptions.RemoveAssemblyReference | VSProjectUpdateOptions.Simulate);
+// save vs project
+RunSourceVSProjectCommand.UpdateVSProject(options: VSProjectUpdateOptions.AddSourceLink | VSProjectUpdateOptions.RemoveSourceLink
+  | VSProjectUpdateOptions.AddAssemblyReference | VSProjectUpdateOptions.RemoveAssemblyReference);
+
+
+
+
+//*************************************************************************************************************************
 //****                                   Compile_Project
 //*************************************************************************************************************************
 

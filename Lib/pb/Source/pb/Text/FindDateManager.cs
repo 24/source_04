@@ -71,7 +71,8 @@ namespace pb.Text
                             //matchDates.Add(new MatchDate { Date = date, DateType = dateType, MatchValues = matchValues.GetValuesInfos() });
                     }
                     //matchValuesList.Add(matchValues);
-                    matchValues = matchValues.Next();
+                    //matchValues = matchValues.Next();
+                    matchValues.Next();
                 }
             }
 
@@ -113,7 +114,8 @@ namespace pb.Text
                             return new FindDate { Found = true, Date = date, DateType = dateType, matchValues = matchValues };
                             //return new FindDate { Found = true, Date = date, DateType = dateType, MatchValues = matchValues.GetValuesInfos() };
                         }
-                        matchValues = matchValues.Next();
+                        //matchValues = matchValues.Next();
+                        matchValues.Next();
                     }
                 }
             }

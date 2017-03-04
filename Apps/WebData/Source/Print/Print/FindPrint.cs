@@ -92,7 +92,8 @@ namespace Download.Print
         private string _file = null;
         private string _remainText = null;
         private Print _print = null;
-        private FindText _findPrint = null;
+        //private FindText _findPrint = null;
+        private FindText_v2 _findPrint = null;
         private FindPrintType _findPrintType = FindPrintType.UnknowPrint;
         private PrintTitleInfo _titleInfo = null;
 
@@ -146,7 +147,7 @@ namespace Download.Print
 
             _FindPrint();
 
-            if (!_findPrint.Found)
+            if (!_findPrint.Success)
             {
                 if (_findPrintManager.TrySplitTitle)
                 {
@@ -154,7 +155,7 @@ namespace Download.Print
                     _FindPrint();
                 }
 
-                if (!_findPrint.Found)
+                if (!_findPrint.Success)
                     FindDayAndPrint();
             }
 
@@ -187,7 +188,7 @@ namespace Download.Print
                 // pour fichier du monde 20150829_QUO.pdf formatedTitle=""
                 _findPrint = _findPrintManager.FindPrintList.Find(_titleInfo.RemainText);
             else
-                _findPrint = new FindText();   // not found
+                _findPrint = new FindText_v2();   // not found
         }
 
         private void FindDayAndPrint()
@@ -219,7 +220,7 @@ namespace Download.Print
                     if (__traceWarning)
                         Trace.WriteLine("  search print \"{0}\"", title);
                     _findPrint = _findPrintManager.FindPrintList.Find(title);
-                    if (_findPrint.Found)
+                    if (_findPrint.Success)
                     {
                         _dayTitle = title;
                         _date = date;
@@ -258,23 +259,28 @@ namespace Download.Print
         private void GetPrintInfo()
         {
             //if (_findPrint == null || !_findPrint.found)
-            if (!_findPrint.Found)
+            if (!_findPrint.Success)
                 return;
 
             _found = true;
-            MatchValues matchValues = _findPrint.matchValues;
+            //MatchValues matchValues = _findPrint.matchValues;
             //MatchValuesInfos matchValues = _findPrint.MatchValues;
-            _name = matchValues.Name;
+            //_name = matchValues.Name;
+            _name = _findPrint.Name;
 
             _print = _findPrintManager.PrintManager[_name];
 
             if (_print == null)
             {
                 _findPrintType = FindPrintType.PrintType1;
-                if (matchValues.Attributes.ContainsKey("title"))
-                    _title = matchValues.Attributes["title"];
-                if (matchValues.Attributes.ContainsKey("directory"))
-                    _directory = matchValues.Attributes["directory"];
+                //if (matchValues.Attributes.ContainsKey("title"))
+                //    _title = matchValues.Attributes["title"];
+                if (_findPrint.Attributes.ContainsKey("title"))
+                    _title = _findPrint.Attributes["title"];
+                //if (matchValues.Attributes.ContainsKey("directory"))
+                //    _directory = matchValues.Attributes["directory"];
+                if (_findPrint.Attributes.ContainsKey("directory"))
+                    _directory = _findPrint.Attributes["directory"];
                 string directory;
                 if (_directory != null)
                     directory = _directory;
@@ -316,7 +322,8 @@ namespace Download.Print
                 printIssue.Special = _special;
             }
 
-            printIssue.TrySetValues(_findPrint.matchValues.GetAllValues());
+            //printIssue.TrySetValues(_findPrint.matchValues.GetAllValues());
+            printIssue.TrySetValues(_findPrint.GetAllValues());
             _label = printIssue.Label;
 
             _file = zPath.Combine(_print.Directory, zPath.GetFileNameWithoutExtension(printIssue.GetFilename()));

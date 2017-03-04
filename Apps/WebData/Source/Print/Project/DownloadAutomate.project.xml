@@ -59,7 +59,7 @@
   <Source                           value = "$Root$\Lib\pb\Source\pb\IO\CompressManagerMultiple.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\IO\CompressOptions.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\IO\Directory.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\FilenameNumberInfo.cs" />
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\IO\FilenameNumberInfo.cs" />-->
   <Source                           value = "$Root$\Lib\pb\Source\pb\IO\SharpCompressManager.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\IO\UncompressQueueManager.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\IO\ZipArchive.cs" />
@@ -68,7 +68,9 @@
   <Source                           value = "$Root$\Lib\pb\Source\pb\Text\Crypt.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Text\FindDateManager.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Text\FindNumberManager.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Text\MatchValues.cs" />
   <Source                           value = "$Root$\Lib\pb\Source\pb\Text\RegexValues.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Text\RegexValuesList.cs" />
 
   <Source                           value = "$Root$\Lib\pb\Source\pb\Web\MailSender.cs" />
 

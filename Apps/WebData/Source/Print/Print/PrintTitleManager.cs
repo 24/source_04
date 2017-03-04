@@ -20,7 +20,7 @@ namespace Download.Print
         public string FormatedTitle = null;
         public string Name = null;
         public bool Special = false;
-        public MatchValues SpecialMatch = null;
+        //public MatchValues SpecialMatch = null;
         public string SpecialText = null;
         public int? Number = null;
         public MatchValues NumberMatch = null;
@@ -340,12 +340,14 @@ namespace Download.Print
                 }
             }
 
-            FindText findSpecial = _findSpecial.Find(title);
-            if (findSpecial.Found)
+            //FindText findSpecial = _findSpecial.Find(title);
+            FindText_v2 findSpecial = _findSpecial.Find(title);
+            if (findSpecial.Success)
             {
                 titleRequest.Special = true;
-                titleRequest.SpecialMatch = findSpecial.matchValues;
-                title = findSpecial.matchValues.Replace(" $$special$$ ");
+                //titleRequest.SpecialMatch = findSpecial.matchValues;
+                //title = findSpecial.matchValues.Replace(" $$special$$ ");
+                title = findSpecial.Replace(" $$special$$ ");
             }
 
             FindNumber findNumber = _findNumberManager.Find(title);
@@ -414,7 +416,7 @@ namespace Download.Print
                 FormatedTitle = titleRequest.FormatedTitle,
                 Name = titleRequest.Name,
                 Special = titleRequest.Special,
-                SpecialMatch = titleRequest.SpecialMatch,
+                //SpecialMatch = titleRequest.SpecialMatch,
                 SpecialText = titleRequest.SpecialText,
                 Number = titleRequest.Number,
                 NumberMatch = titleRequest.NumberMatch,

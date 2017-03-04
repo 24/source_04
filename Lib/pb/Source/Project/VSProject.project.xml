@@ -32,13 +32,16 @@
   <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\File.cs" />
   <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\FileNumber.cs" />
   <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\Path.cs" />
-  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\zDirectory.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\WriteToFile.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\WriteToFileCreate.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\zDirectory.cs" />
   <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\zFile.cs" />
   <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\zPath.cs" />
 
   <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Reflection\Reflection.cs" />
 
   <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Text\Regex.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Text\String.cs" />
 
   <FrameworkAssembly                value = "mscorlib.dll" vsExclude = "true" />
   <FrameworkAssembly                value = "System.dll" />

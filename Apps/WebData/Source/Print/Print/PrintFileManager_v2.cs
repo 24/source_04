@@ -586,10 +586,11 @@ namespace Download.Print
 
         private BonusDirectoryInfo GetBonusDirectoryInfo(string directory)
         {
-            FindText findText = _bonusDirectories.Find(zPath.GetFileName(directory));
-            if (findText.Found)
+            //FindText findText = _bonusDirectories.Find(zPath.GetFileName(directory));
+            FindText_v2 findText = _bonusDirectories.Find(zPath.GetFileName(directory));
+            if (findText.Success)
             {
-                string bonusDirectory = findText.matchValues.GetAttribute("directory");
+                string bonusDirectory = findText.GetAttribute("directory");
                 return new BonusDirectoryInfo { IsBonusDirectory = true, Directory = bonusDirectory };
             }
             else

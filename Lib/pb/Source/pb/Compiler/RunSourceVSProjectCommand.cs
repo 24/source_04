@@ -10,7 +10,7 @@ namespace pb.Compiler
 {
     public static class RunSourceVSProjectCommand
     {
-        public static void UpdateVSProject(string runsourceProject = null, VSProjectUpdateOptions options = VSProjectUpdateOptions.None)
+        public static void UpdateVSProject(string runsourceProject = null, string vsProject = null, VSProjectUpdateOptions options = VSProjectUpdateOptions.None)
         {
             string currentRunsourceProject = RunSourceCommand.GetCurrentProject();
 
@@ -19,7 +19,11 @@ namespace pb.Compiler
             else
                 runsourceProject = currentRunsourceProject;
 
-            string vsProject = GetVSProject(runsourceProject);
+            //string vsProject = GetVSProject(runsourceProject);
+            if (vsProject != null)
+                vsProject = RunSourceCommand.GetFilePath(RunSourceCommand.GetProjectVariableValue(vsProject));
+            else
+                vsProject = GetVSProject(runsourceProject);
             if (!zFile.Exists(vsProject))
             {
                 Trace.WriteLine($"visual studio project not found \"{vsProject}\"");

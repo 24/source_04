@@ -414,9 +414,9 @@ namespace pb.Data.Xml
         {
             string value = null;
             if (_localElement != null)
-                value = _localElement.zXPathValue(xpath);
+                value = _localElement.zXPathValue(xpath, acceptCData: true);
             if (value == null)
-                value = _element.zXPathValue(xpath, defaultValue);
+                value = _element.zXPathValue(xpath, defaultValue, acceptCData: true);
             return value;
         }
 

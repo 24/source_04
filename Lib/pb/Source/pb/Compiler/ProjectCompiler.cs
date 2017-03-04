@@ -476,7 +476,7 @@ namespace pb.Compiler
         public void AddSource(CompilerFile source)
         {
             if (!zFile.Exists(source.File))
-                throw new ProjectCompilerException($"source file not found \"{source.File}\"");
+                throw new ProjectCompilerException($"source file not found \"{source.File}\" project \"{zPath.GetFileName(source.ProjectFile)}\"");
             if (!_sourceList.ContainsKey(source.File))
                 _sourceList.Add(source.File, source);
             else if (_traceDuplicateSource)

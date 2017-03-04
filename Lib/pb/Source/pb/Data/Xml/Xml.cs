@@ -12,7 +12,7 @@ namespace pb.Data.Xml
     public static class zxml
     {
         //public static string XPathValue(XElement xe, string xpath, string defaultValue = null)
-        public static string XPathValue(XNode node, string xpath, string defaultValue = null)
+        public static string XPathValue(XNode node, string xpath, string defaultValue = null, bool acceptCData = false)
         {
             if (node == null)
                 return defaultValue;
@@ -24,7 +24,7 @@ namespace pb.Data.Xml
                 if (xpathResult2 != null)
                     xpathResult = xpathResult2;
             }
-            string value = XPathResultGetValue(xpathResult);
+            string value = XPathResultGetValue(xpathResult, acceptCData);
             if (value != null)
                 return value;
             else
@@ -191,7 +191,7 @@ namespace pb.Data.Xml
                 return null;
         }
 
-        private static string XPathResultGetValue(object xpathResult)
+        private static string XPathResultGetValue(object xpathResult, bool acceptCData = false)
         {
             if (xpathResult is string)
                 return xpathResult as string;
@@ -203,11 +203,34 @@ namespace pb.Data.Xml
             else if (xpathResult is XElement)
             {
                 //value = (xpathResult as XElement).zTextOrAttribValue();
-                XAttribute attrib = (xpathResult as XElement).Attribute("value");
+                XElement xe = (XElement)xpathResult;
+                XAttribute attrib = xe.Attribute("value");
                 if (attrib != null)
                     return attrib.Value;
+                if (acceptCData)
+                {
+                    XCData cdata = GetUniqueCDataChild(xe);
+                    if (cdata != null)
+                        return cdata.Value;
+                }
             }
             return null;
+        }
+
+        private static XCData GetUniqueCDataChild(XElement xe)
+        {
+            XCData cdata = null;
+            foreach (XNode node in xe.Nodes())
+            {
+                if (node is XCData)
+                {
+                    // if multiple cdata return null
+                    if (cdata != null)
+                        return null;
+                    cdata = (XCData)node;
+                }
+            }
+            return cdata;
         }
 
         //private static string[] zXPathValues(object o)
@@ -278,9 +301,9 @@ namespace pb.Data.Xml
     public static partial class GlobalExtension
     {
         //public static string zXPathValue(this XElement xe, string xpath, string defaultValue = null)
-        public static string zXPathValue(this XNode node, string xpath, string defaultValue = null)
+        public static string zXPathValue(this XNode node, string xpath, string defaultValue = null, bool acceptCData = false)
         {
-            return zxml.XPathValue(node, xpath, defaultValue);
+            return zxml.XPathValue(node, xpath, defaultValue, acceptCData);
         }
 
         //public static string zXPathExplicitValue(this XElement xe, string xpath)

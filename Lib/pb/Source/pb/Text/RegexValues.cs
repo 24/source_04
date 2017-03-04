@@ -11,16 +11,6 @@ using pb.Data.Xml;
 
 namespace pb.Text
 {
-    public class FindText
-    {
-        //public bool found = false;
-        public bool Found = false;
-        //public string text = null;
-        public string Text = null;
-        public MatchValues matchValues = null;
-        //public MatchValuesInfos MatchValues = null;
-    }
-
     public class MatchValuesInfos
     {
         public string Name;
@@ -55,126 +45,6 @@ namespace pb.Text
     //    public RegexValues regexValues;
     //}
 
-    public class RegexValuesList : Dictionary<string, RegexValues>
-    {
-        private int _lastKeyNumber = 0;
-
-        public RegexValuesList()
-        {
-        }
-
-        public RegexValuesList(IEnumerable<XElement> xelements, bool compileRegex = false, bool renameDuplicateKey = true)
-        {
-            //int n = 1;
-            //foreach (XElement xe in xelements)
-            //{
-            //    RegexValues rv = new RegexValues(xe, compileRegex);
-            //    string key = rv.Key;
-            //    if (key == null)
-            //    {
-            //        key = "key" + n++.ToString();
-            //        rv.Key = key;
-            //    }
-            //    if (renameDuplicateKey)
-            //    {
-            //        string key0 = key;
-            //        int i = 1;
-            //        while (ContainsKey(key))
-            //        {
-            //            key = key0 + "_" + i++.ToString();
-            //        }
-            //        rv.Key = key;
-            //    }
-            //    Add(key, rv);
-            //}
-            Add(xelements, compileRegex, renameDuplicateKey);
-        }
-
-        public void Add(IEnumerable<XElement> xelements, bool compileRegex = false, bool renameDuplicateKey = true)
-        {
-            //int n = 1;
-            foreach (XElement xe in xelements)
-            {
-                RegexValues rv = new RegexValues(xe, compileRegex);
-                string key = rv.Key;
-                if (key == null)
-                {
-                    key = "key" + (++_lastKeyNumber).ToString();
-                    rv.Key = key;
-                }
-                if (renameDuplicateKey)
-                {
-                    string key0 = key;
-                    int i = 1;
-                    while (ContainsKey(key))
-                    {
-                        key = key0 + "_" + i++.ToString();
-                    }
-                    rv.Key = key;
-                }
-                Add(key, rv);
-            }
-        }
-
-        public FindText Find(string text)
-        {
-            foreach (RegexValues rv in this.Values)
-            {
-                MatchValues matchValues = rv.Match(text);
-                if (matchValues.Success)
-                {
-                    return new FindText { Found = true, Text = matchValues.Match.Value, matchValues = matchValues };
-                    //return new FindText { Found = true, Text = matchValues.Match.Value, MatchValues = matchValues.GetValuesInfos() };
-                }
-            }
-            return new FindText { Found = false };
-        }
-
-        //[Obsolete]
-        //public FindText_old Find_old(string text)
-        //{
-        //    foreach (RegexValues rv in this.Values)
-        //    {
-        //        rv.Match_old(text);
-        //        if (rv.Success_old)
-        //        {
-        //            return new FindText_old { found = true, text = rv.MatchValue_old.Value, regexValues = rv };
-        //        }
-        //    }
-        //    return new FindText_old { found = false, text = null, regexValues = null };
-        //}
-
-        public RegexValues[] GetRegexValuesListByName(string name)
-        {
-            List<RegexValues> list = new List<RegexValues>();
-            foreach (RegexValues rv in this.Values)
-            {
-                if (rv.Name == name)
-                    list.Add(rv);
-            }
-            return list.ToArray();
-        }
-
-        public NamedValues<ZValue> ExtractTextValues(ref string text)
-        {
-            NamedValues<ZValue> values = new NamedValues<ZValue>();
-            foreach (RegexValues rv in this.Values)
-            {
-                //Match match = rv.Match_old(text);
-                MatchValues matchValues = rv.Match(text);
-                //if (match.Success)
-                if (matchValues.Success)
-                {
-                    //values.SetValues(rv.GetValues_old());
-                    values.SetValues(matchValues.GetValues());
-                    //text = rv.MatchReplace_old("");
-                    text = matchValues.Replace("");
-                }
-            }
-            return values;
-        }
-    }
-
     public enum RegexValueType
     {
         String = 1,
@@ -189,16 +59,33 @@ namespace pb.Text
     //    LastCapture
     //}
 
+    public class RegexValue<T>
+    {
+        public T Value;
+        public int Index;
+        public int Length;
+    }
+
     public class RegexValueDefinition
     {
-        public string name;
-        public RegexValueType type;
-        public int index;
+        public string Name;
+        public RegexValueType Type;
+        public int Index;
 
         public ZValue GetValue(Match match)
         {
-            Group group = match.Groups[index + 1];
-            switch (type)
+            return GetValue(match.Groups[Index + 1]);
+        }
+
+        public RegexValue<ZValue> GetRegexValue(Match match)
+        {
+            Group group = match.Groups[Index + 1];
+            return new RegexValue<ZValue> { Value = GetValue(group), Index = group.Index, Length = group.Length };
+        }
+
+        private ZValue GetValue(Group group)
+        {
+            switch (Type)
             {
                 case RegexValueType.StringArray:
                     string[] values = new string[group.Captures.Count];
@@ -233,7 +120,18 @@ namespace pb.Text
 
         public ZValue GetAllValues(Match match)
         {
-            Group group = match.Groups[index + 1];
+            //Group group = match.Groups[Index + 1];
+            return GetAllValues(match.Groups[Index + 1]);
+        }
+
+        public RegexValue<ZValue> GetAllRegexValues(Match match)
+        {
+            Group group = match.Groups[Index + 1];
+            return new RegexValue<ZValue> { Value = GetAllValues(group), Index = group.Index, Length = group.Length };
+        }
+
+        private ZValue GetAllValues(Group group)
+        {
             if (group.Captures.Count == 0)
                 return null;
             else if (group.Captures.Count == 1)
@@ -360,82 +258,6 @@ namespace pb.Text
         }
     }
 
-    public class MatchValues
-    {
-        private RegexValues _regexValues = null;
-        private Match _match = null;
-        private string _input = null;
-
-        public MatchValues(RegexValues regexValues, string input, Match match)
-        {
-            _regexValues = regexValues;
-            _input = input;
-            _match = match;
-        }
-
-        public string Key { get { return _regexValues.Key; } }
-        public string Name { get { return _regexValues.Name; } }
-        public string Pattern { get { return _regexValues.Pattern; } }
-        public Dictionary<string, string> Attributes { get { return _regexValues.Attributes; } }
-        public bool Success { get { if (_match == null) return false; else return _match.Success; } }
-        public Match Match { get { return _match; } }
-        public string Input { get { return _input; } }
-
-        public MatchValues Next()
-        {
-            if (_match == null)
-                return null;
-            return new MatchValues(_regexValues, _input, _match.NextMatch());
-        }
-
-        public string Replace(string replace)
-        {
-            return _match.zReplace(_input, replace);
-        }
-
-        public MatchValuesInfos GetValuesInfos()
-        {
-            return new MatchValuesInfos { Name = _regexValues.Name,  Values = GetValues(), Attributes = _regexValues.Attributes, MatchInfo = new MatchInfo(_match) };
-        }
-
-        public NamedValues<ZValue> GetValues()
-        {
-            // _match cant be null
-            //if (_match == null)
-            //    throw new PBException("error you need to call Match() before GetValues()");
-            NamedValues<ZValue> values = new NamedValues<ZValue>();
-            if (_match.Success)
-            {
-                foreach (RegexValueDefinition value in _regexValues.NamedValuesDefinitions.Values)
-                {
-                    values.Add(value.name, value.GetValue(_match));
-                }
-            }
-            return values;
-        }
-
-        public NamedValues<ZValue> GetAllValues()
-        {
-            NamedValues<ZValue> values = new NamedValues<ZValue>();
-            if (_match.Success)
-            {
-                foreach (RegexValueDefinition value in _regexValues.NamedValuesDefinitions.Values)
-                {
-                    values.Add(value.name, value.GetAllValues(_match));
-                }
-            }
-            return values;
-        }
-
-        public string GetAttribute(string attribute)
-        {
-            if (_regexValues != null && _regexValues.Attributes.ContainsKey(attribute))
-                return _regexValues.Attributes[attribute];
-            else
-                return null;
-        }
-    }
-
     public class RegexValues : XRegex
     {
         private string _key;
@@ -471,26 +293,26 @@ namespace pb.Text
             foreach (string name in zsplit.Split(names, ',', true))
             {
                 RegexValueDefinition def = new RegexValueDefinition();
-                def.index = i++;
-                def.name = name;
-                def.type = RegexValueType.String;
+                def.Index = i++;
+                def.Name = name;
+                def.Type = RegexValueType.String;
                 if (name.EndsWith("[]"))
                 {
-                    def.name = name.Substring(0, name.Length - 2).TrimEnd();
-                    def.type = RegexValueType.StringArray;
+                    def.Name = name.Substring(0, name.Length - 2).TrimEnd();
+                    def.Type = RegexValueType.StringArray;
                 }
                 else if (name.EndsWith("[first]"))
                 {
-                    def.name = name.Substring(0, name.Length - 7).TrimEnd();
-                    def.type = RegexValueType.StringFirstValue;
+                    def.Name = name.Substring(0, name.Length - 7).TrimEnd();
+                    def.Type = RegexValueType.StringFirstValue;
                 }
                 else if (name.EndsWith("[last]"))
                 {
-                    def.name = name.Substring(0, name.Length - 6).TrimEnd();
-                    def.type = RegexValueType.StringLastValue;
+                    def.Name = name.Substring(0, name.Length - 6).TrimEnd();
+                    def.Type = RegexValueType.StringLastValue;
                 }
-                if (def.name != "")
-                    _namedValuesDefinitions.Add(def.name, def);
+                if (def.Name != "")
+                    _namedValuesDefinitions.Add(def.Name, def);
             }
         }
 
@@ -545,9 +367,9 @@ namespace pb.Text
         //    return _match;
         //}
 
-        public new MatchValues Match(string input)   // obsolete transfered to MatchValues
+        public new MatchValues Match(string input, int startat = 0)   // obsolete transfered to MatchValues
         {
-            return new MatchValues(this, input, base.Match(input));
+            return new MatchValues(this, input, base.Match(input, startat));
         }
 
         //[Obsolete]

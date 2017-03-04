@@ -11,9 +11,12 @@ namespace pb
 {
     public static class zapp
     {
-        private static string __entryAssemblyFile = null;
-        private static string __entryAssemblyDirectory = null;
-        private static string __entryAssemblyFilename = null;
+        private static string _entryAssemblyFile = null;
+        private static string _entryAssemblyDirectory = null;
+        private static string _entryAssemblyFilename = null;
+        private static string _executingAssemblyFile = null;
+        private static string _executingAssemblyDirectory = null;
+        //
 
         //public static Assembly EntryAssembly
         //{
@@ -62,36 +65,58 @@ namespace pb
         //public static string GetExecutablePath()
         public static string GetEntryAssemblyFile()
         {
-            if (__entryAssemblyFile == null)
+            if (_entryAssemblyFile == null)
             {
                 Assembly assembly = Assembly.GetEntryAssembly();
                 if (assembly != null)
-                    __entryAssemblyFile = assembly.Location;
+                    _entryAssemblyFile = assembly.Location;
             }
-            return __entryAssemblyFile;
+            return _entryAssemblyFile;
+        }
+
+        public static string GetExecutingAssemblyFile()
+        {
+            if (_executingAssemblyFile == null)
+            {
+                Assembly assembly = Assembly.GetExecutingAssembly();
+                if (assembly != null)
+                    _executingAssemblyFile = assembly.Location;
+            }
+            return _executingAssemblyFile;
         }
 
         public static string GetEntryAssemblyDirectory()
         {
-            if (__entryAssemblyDirectory == null)
+            if (_entryAssemblyDirectory == null)
             {
                 string file = GetEntryAssemblyFile();
                 if (file != null)
-                    __entryAssemblyDirectory = zPath.GetDirectoryName(file);
+                    _entryAssemblyDirectory = zPath.GetDirectoryName(file);
             }
-            return __entryAssemblyDirectory;
+            return _entryAssemblyDirectory;
+        }
+
+        public static string GetExecutingAssemblyDirectory()
+        {
+            if (_executingAssemblyDirectory == null)
+            {
+                string file = GetExecutingAssemblyFile();
+                if (file != null)
+                    _executingAssemblyDirectory = zPath.GetDirectoryName(file);
+            }
+            return _executingAssemblyDirectory;
         }
 
         //public static string GetExecutableName()
         public static string GetEntryAssemblyFilename()
         {
-            if (__entryAssemblyFilename == null)
+            if (_entryAssemblyFilename == null)
             {
                 string file = GetEntryAssemblyFile();
                 if (file != null)
-                    __entryAssemblyFilename = zPath.GetFileNameWithoutExtension(file);
+                    _entryAssemblyFilename = zPath.GetFileNameWithoutExtension(file);
             }
-            return __entryAssemblyFilename;
+            return _entryAssemblyFilename;
         }
 
         public static string GetAppDirectory()

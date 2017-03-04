@@ -23,19 +23,21 @@ namespace pb.Text.Test
             int n = 1;
             while (match.Success)
             {
-                Trace.WriteLine("Result    : found no {0}", n++);
+                Trace.WriteLine($"Result    : found no {n}");
+                Trace.WriteLine($"  position {match.Index + 1} length {match.Length}");
                 for (int i = 0; i < match.Groups.Count; i++)
                 {
-                    Trace.WriteLine("Groups[{0}] : \"{1}\"", i, match.Groups[i].Value);
+                    Trace.WriteLine($"  Groups[{i}] : \"{match.Groups[i].Value}\" position {match.Groups[i].Index + 1} length {match.Groups[i].Length}");
                     if (match.Groups[i].Captures.Count > 1)
                     {
                         for (int j = 0; j < match.Groups[i].Captures.Count; j++)
                         {
-                            Trace.WriteLine(" Capture[{0}] : \"{1}\"", j, match.Groups[i].Captures[j]);
+                            Trace.WriteLine("    Capture[{0}] : \"{1}\"", j, match.Groups[i].Captures[j]);
                         }
                     }
                 }
                 match = match.NextMatch();
+                n++;
             }
         }
     }

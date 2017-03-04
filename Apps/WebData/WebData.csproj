@@ -427,9 +427,6 @@
     <Compile Include="..\..\Lib\pb\Source\pb\IO\File.cs">
       <Link>SourceLnk\Lib\pb\IO\File.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\IO\FilenameNumberInfo.cs">
-      <Link>SourceLnk\Lib\pb\IO\FilenameNumberInfo.cs</Link>
-    </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\IO\Path.cs">
       <Link>SourceLnk\Lib\pb\IO\Path.cs</Link>
     </Compile>
@@ -511,14 +508,8 @@
     <Compile Include="..\..\Lib\pb\Source\pb\Web\Html\HtmlReader.cs">
       <Link>SourceLnk\Lib\pb\Web\Html\HtmlReader.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Web\Html\HtmlRun.cs">
-      <Link>SourceLnk\Lib\pb\Web\Html\HtmlRun.cs</Link>
-    </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Web\Html\HtmlTag.cs">
       <Link>SourceLnk\Lib\pb\Web\Html\HtmlTag.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Web\Html\HtmlToXml.cs">
-      <Link>SourceLnk\Lib\pb\Web\Html\HtmlToXml.cs</Link>
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Web\Http\Cookies.cs">
       <Link>SourceLnk\Lib\pb\Web\Http\Cookies.cs</Link>
@@ -546,9 +537,6 @@
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Web\MailSender.cs">
       <Link>SourceLnk\Lib\pb\Web\MailSender.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\_old\TextVariables.cs">
-      <Link>SourceLnk\Lib\pb\_old\TextVariables.cs</Link>
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\_pb\Application.cs">
       <Link>SourceLnk\Lib\pb\_pb\Application.cs</Link>
@@ -935,4 +923,12 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <ItemGroup>
+    <Compile Include="..\..\Lib\pb\Source\pb\Text\MatchValues.cs">
+      <Link>SourceLnk\Lib\pb\Text\MatchValues.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Lib\pb\Source\pb\Text\RegexValuesList.cs">
+      <Link>SourceLnk\Lib\pb\Text\RegexValuesList.cs</Link>
+    </Compile>
+  </ItemGroup>
 </Project>

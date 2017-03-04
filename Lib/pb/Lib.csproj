@@ -129,6 +129,10 @@
     <Compile Include="Source\pb\Data\Xml\_Test\Test_Xpath.cs" />
     <Compile Include="Source\pb\IO\IWriteToFile.cs" />
     <Compile Include="Source\pb\IO\ProgressionStream.cs" />
+    <Compile Include="Source\pb\NodeJS\JSFile.cs" />
+    <Compile Include="Source\pb\NodeJS\_Test\Test_NodeJS_01.cs" />
+    <Compile Include="Source\pb\Text\MatchValues.cs" />
+    <Compile Include="Source\pb\Text\RegexValuesList.cs" />
     <Compile Include="Source\pb\Text\String_Split.cs" />
     <Compile Include="Source\pb\Web\Data\DataPages_v2.cs" />
     <Compile Include="Source\pb\Web\Data\DebridLinkFr_v3.cs" />
@@ -674,6 +678,12 @@
     <Content Include="Source\pb\IO\_Test\Test_SharpCompressManager.project.xml">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Source\pb\NodeJS\_Test\Test_NodeJS_01.compile.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Source\pb\NodeJS\_Test\Test_NodeJS_01.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Source\pb\Reflection\_Test\Test_Reflection.project.xml">
       <SubType>Designer</SubType>
     </Content>
@@ -698,7 +708,13 @@
     <Content Include="Source\pb\_pb\_Test\Test_01.project.xml">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Source\Project\RegexValuesList.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Source\Project\RegexValues.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Source\Project\NodeJSLib.project.xml">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Source\Project\XmlConfig.project.xml">
@@ -741,6 +757,9 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Source\Project\_Test\Test_01.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Source\Project\_Test\Test_RegexValuesList.project.xml">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Source\Project\_Test\Test_RegexValues.project.xml">

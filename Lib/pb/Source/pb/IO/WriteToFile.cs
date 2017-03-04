@@ -5,7 +5,6 @@ using System.Threading;
 
 namespace pb.IO
 {
-    // 
     public abstract class WriteToFileBase : IWriteToFile, IDisposable
     {
         protected Func<string> _generateFile = null;

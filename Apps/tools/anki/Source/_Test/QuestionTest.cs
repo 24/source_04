@@ -13,9 +13,9 @@ namespace anki.Test
             Trace.WriteLine($"text : \"{text}\"");
             //RegexValuesList regexList = new RegexValuesList(XmlConfig.CurrentConfig.GetElements("QuestionInfos/QuestionInfo"), compileRegex: true);
             //FindText findText = QuestionRun.GetQuestionRegexValuesList().Find(text);
-            FindText findText = regexList.Find(text);
-            Trace.WriteLine($"found : {findText.Found}");
-            return findText.matchValues.GetAllValues();
+            FindText_v2 findText = regexList.Find(text);
+            Trace.WriteLine($"found : {findText.Success}");
+            return findText.GetAllValues();
         }
 
         //public static void Test_FindInFile_01(string file)
@@ -44,17 +44,18 @@ namespace anki.Test
         public static void Test_Find_02(string text, RegexValuesList regexList)
         {
             Trace.WriteLine($"text : \"{text}\"");
-            FindText findText = regexList.Find(text);
-            if (findText.Found)
+            FindText_v2 findText = regexList.Find(text);
+            if (findText.Success)
             {
-                MatchValues matchValues = findText.matchValues;
-                while (matchValues.Match.Success)
+                //MatchValues matchValues = findText.matchValues;
+                while (findText.Success)
                 {
                     Trace.WriteLine();
-                    Trace.WriteLine($"  found : index {matchValues.Match.Index} length {matchValues.Match.Length}");
-                    foreach (KeyValuePair<string, ZValue> namedValue in matchValues.GetValues())
+                    Trace.WriteLine($"  found : index {findText.Match.Index} length {findText.Match.Length}");
+                    foreach (KeyValuePair<string, ZValue> namedValue in findText.GetValues())
                         Trace.WriteLine($"        : {namedValue.Key} = \"{namedValue.Value}\"");
-                    matchValues = matchValues.Next();
+                    //matchValues = matchValues.Next();
+                    findText.Next();
                 }
             }
             else
@@ -79,17 +80,18 @@ namespace anki.Test
 
                 Trace.WriteLine();
                 Trace.WriteLine($"read : line {lineNumber} \"{line}\"");
-                FindText findText = regexList.Find(line);
-                if (findText.Found)
+                FindText_v2 findText = regexList.Find(line);
+                if (findText.Success)
                 {
-                    MatchValues matchValues = findText.matchValues;
-                    while (matchValues.Match.Success)
+                    //MatchValues matchValues = findText.matchValues;
+                    while (findText.Success)
                     {
                         Trace.WriteLine();
-                        Trace.WriteLine($"  found : index {matchValues.Match.Index} length {matchValues.Match.Length}");
-                        foreach (KeyValuePair<string, ZValue> namedValue in matchValues.GetValues())
+                        Trace.WriteLine($"  found : index {findText.Match.Index} length {findText.Match.Length}");
+                        foreach (KeyValuePair<string, ZValue> namedValue in findText.GetValues())
                             Trace.WriteLine($"        : {namedValue.Key} = \"{namedValue.Value}\"");
-                        matchValues = matchValues.Next();
+                        //matchValues = matchValues.Next();
+                        findText.Next();
                     }
                 }
                 else

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<AssemblyProject>
+
+  <Root                             value = "..\..\..\.." />
+
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\LanguageCSharp5Debug.project.xml" />
+  
+  <Target                           value = "library" /> <!-- exe (exe console default), library (dll), module (.netmodule), winexe (exe windows), winruntimeexe (windows runtime application), winruntimemetadata (windows runtime metadata) -->
+  <Output                           value = "bin32\NodeJSLib\NodeJSLib.dll" />
+  
+  <!--<IncludeProject                   value = "$Root$\Lib\pb\Source\Project\Basic.project.xml" />-->
+  <!--<IncludeProject                   value = "$Root$\Lib\pb\Source\Project\RunSourceExtension.project.xml" />-->
+  <!--<IncludeProject                   value = "$Root$\Lib\pb\Source\Project\MongoExtension.project.xml" />-->
+
+  <!--<NameSpace                        value = "pb.NodeJS.Test" />-->
+
+  <!--<InitMethod                       value = "pb.Web.TestUnit.TestUnit_HtmlToXmlRun.Init" />-->
+  <!--<EndMethod                        value = "pb.Web.TestUnit.TestUnit_HtmlToXmlRun.End" />-->
+
+  <!--<Using                            value = "pb" />-->
+
+  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\FileNumber.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\zPath.cs" />
+
+  <Source                           value = "$Root$\Lib\pb\Source\pb\NodeJS\JSFile.cs" />
+
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Text\Regex.cs" />
+
+  <FrameworkAssembly                value = "mscorlib.dll" vsExclude = "true" />
+  <FrameworkAssembly                value = "System.dll" />
+  <Assembly                         value = "$Root$\Lib\LongPath\Pri.LongPath\bin\Debug\Pri.LongPath.dll" />
+
+</AssemblyProject>

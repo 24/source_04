@@ -7,10 +7,14 @@ namespace anki
 {
     public static partial class QuestionResponses
     {
+        // directory is pdf directory
         public static IEnumerable<string> GetQuestionFiles(string directory)
         {
             SortedDictionary<string, string> files = new SortedDictionary<string, string>();
             // question-01-2015-016.json
+            directory = GetQuestionsDirectory(directory);
+            if (!zDirectory.Exists(directory))
+                throw new PBException($"directory not found \"{directory}\"");
             foreach (string file in zDirectory.EnumerateFiles(directory, "question-*.json"))
             {
                 FileNumber fileNumber = FileNumber.GetFileNumber(file);
@@ -20,23 +24,35 @@ namespace anki
             return files.Keys;
         }
 
-        public static QuestionResponseHtml LoadQuestion(string directory, string file, bool trace = false)
+        // directory is pdf directory
+        public static QuestionResponseHtml LoadQuestion(string directory, string filename, bool trace = false)
         {
-            file = GetLastFileNumber(zPath.Combine(directory, "data", file));
+            //string file = GetLastFileNumber(zPath.Combine(directory, "data", filename));
+            directory = GetQuestionsDirectory(directory);
+            if (!zDirectory.Exists(directory))
+                throw new PBException($"directory not found \"{directory}\"");
+            string file = GetLastFileNumber(zPath.Combine(directory, filename));
             if (trace)
                 Trace.WriteLine($"LoadQuestion() : file \"{file}\"");
             return zMongo.ReadFileAs<QuestionResponseHtml>(file);
         }
 
+        // directory is pdf directory
         public static void SaveQuestion(string directory, string file, string questionHtml, bool trace = false)
         {
             QuestionResponseHtml question = LoadQuestion(directory, file);
 
             question.QuestionHtml = questionHtml;
-            file = GetLastFileNumber(zPath.Combine(directory, "data", file), saveFile: true);
+            // zPath.Combine(directory, "data", file)
+            file = GetLastFileNumber(zPath.Combine(GetQuestionsDirectory(directory), file), saveFile: true);
             if (trace)
                 Trace.WriteLine($"SaveQuestion() : file \"{file}\"");
             question.zSave(file, jsonIndent: true);
+        }
+
+        public static string GetQuestionsDirectory(string directory)
+        {
+            return zPath.Combine(directory, @"data\questions");
         }
 
         private static string GetLastFileNumber(string file, bool saveFile = false)

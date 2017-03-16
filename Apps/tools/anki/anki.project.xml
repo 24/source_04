@@ -23,6 +23,7 @@
 
   <Source                           value = "Source\_Test\QuestionTest.cs" />
   <Source                           value = "Source\AnkiWriter.cs" />
+  <Source                           value = "Source\HtmlEncoder_Level1.cs" />
   <Source                           value = "Source\QuestionsManager.cs" />
   <Source                           value = "Source\QuestionReader.cs" />
   <Source                           value = "Source\QuestionResponseHtml.cs" />
@@ -47,6 +48,8 @@
   <!--<SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\WriteToFile.cs" />-->
   <!--<SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\WriteToFileCreate.cs" />-->
 
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Linq\Linq.cs" />
+  
   <!--
   <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Text\_Test\Test_Regex.cs" />
   <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Text\_Test\Test_RegexValues.cs" />
@@ -58,5 +61,7 @@
   <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\ZValue.cs" />
   <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Text\RegexValues.cs" />
   -->
-  
+
+  <FrameworkAssembly                value = "System.Web.dll" />
+
 </AssemblyProject>

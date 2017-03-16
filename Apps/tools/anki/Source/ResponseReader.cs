@@ -10,6 +10,7 @@ namespace anki
 {
     public class Response
     {
+        public string Category;
         public int Year;
         public int QuestionNumber;
         public string Responses;
@@ -21,6 +22,8 @@ namespace anki
 
         public static string GetFormatedResponse(string responses)
         {
+            if (responses == null)
+                return "(unknow response)";
             StringBuilder sb = new StringBuilder();
             bool first = true;
             // Response.Responses.ToCharArray()
@@ -35,15 +38,22 @@ namespace anki
         }
     }
 
+    // _manageCategory, _category sont utilisés pour lire les réponses en plusieurs parties, ex UE8 - Communication cellulaire
     public class ResponseReader
     {
         private bool _trace = false;
+        private bool _manageCategory = true;
+        private bool _acceptUnknowText = true;
+        private int _maxEmptyLine = 5;
+
         private string _file = null;
+        private string _filename = null;
         private RegexValuesList _regexList = null;
 
         private int _lineNumber = 0;
         private List<ResponseYear> _years = null;
         private List<ResponseQuestion> _responseQuestions = null;
+        private string _category = null;
 
         private class ResponseYear
         {
@@ -82,21 +92,30 @@ namespace anki
 
         private IEnumerable<Response> _Read()
         {
+            _filename = zPath.GetFileName(_file);
             _lineNumber = 0;
             _years = new List<ResponseYear>();
             _responseQuestions = new List<ResponseQuestion>();
-            //Trace.WriteLine($"read response file \"{_file}\"");
+            bool questionBlock = false;
+            int emptyLineCount = 0;
+            Trace.WriteLine($"read response file \"{_filename}\"");
             foreach (string line in zFile.ReadLines(_file))
             {
                 _lineNumber++;
                 //string line2 = line.Trim();
                 if (line == "")
                 {
+                    //if (++emptyLineCount == _maxEmptyLine)
+                    if (++emptyLineCount == _maxEmptyLine && _years.Count > 0)
+                        break;
+                    //int _maxEmptyLine
                     //if (_responseQuestions.Count > 0)
                     //    throw new PBException($"missing response for {GetQuestionWithoutResponse().zToStringValues(", ")}, line {_lineNumber}");
                     continue;
                 }
 
+                emptyLineCount = 0;
+                bool verifyRemainText = true;
                 FindText_v2 findText = _regexList.Find(line, contiguous: true);
                 if (findText.Success)
                 {
@@ -111,9 +130,19 @@ namespace anki
                         {
                             switch (namedValue.Key.ToLower())
                             {
+                                case "category":
+                                    if (!_manageCategory)
+                                        throw new PBException($"");
+                                    if (_trace)
+                                        Trace.WriteLine($"new category \"{namedValue.Value.Value}\"");
+                                    _category = (string)namedValue.Value.Value;
+                                    _years = new List<ResponseYear>();
+                                    questionBlock = false;
+                                    break;
                                 case "year":
-                                    if (_responseQuestions.Count != 0)
-                                        throw new PBException($"wrong year position, line {_lineNumber} column {findText.MatchIndex + 1}");
+                                    //if (_responseQuestions.Count != 0)
+                                    if (questionBlock)
+                                        throw new PBException($"wrong year position, line {_lineNumber} column {findText.MatchIndex + 1} file \"{_filename}\"");
                                     //AddYear(namedValue.Value, findText.Match.Index, findText.Match.Length);
                                     AddYear(namedValue.Value.Value, namedValue.Value.Index, namedValue.Value.Length);
                                     //_years.Add(new ResponseYear(int.Parse((string)namedValue.Value), matchValues.Match.Index, matchValues.Match.Length));
@@ -126,8 +155,9 @@ namespace anki
                                     //responseQuestion.Year = GetYear(responseQuestion.Position);
                                     //responseQuestion = NewQuestion(namedValue.Value, findText.Match.Index, findText.Match.Length, responseQuestion);
                                     responseQuestion = NewQuestion(namedValue.Value.Value, namedValue.Value.Index, namedValue.Value.Length, responseQuestion);
+                                    questionBlock = true;
                                     break;
-                                case "responsecodes":
+                                case "characterresponsecodes":
                                     //if (responseQuestion == null)
                                     //    throw new PBException($"unknow question, line {_lineNumber} column {matchValues.Match.Index + 1}");
                                     //if (namedValue.Value != null)
@@ -142,6 +172,10 @@ namespace anki
                                     yield return SetResponse(namedValue.Value.Value, namedValue.Value.Index, namedValue.Value.Length, responseQuestion);
                                     responseQuestion = null;
                                     //}
+                                    break;
+                                case "numericresponsecodes":
+                                    yield return SetResponse(ConvertNumericResponseCodes(namedValue.Value.Value), namedValue.Value.Index, namedValue.Value.Length, responseQuestion);
+                                    responseQuestion = null;
                                     break;
                             }
                         }
@@ -178,14 +212,21 @@ namespace anki
                     if (!questionWithoutResponse)
                         _responseQuestions = new List<ResponseQuestion>();
                 }
+                else if (_acceptUnknowText)
+                {
+                    Trace.WriteLine($"  unknow text \"{line}\" line {_lineNumber} file \"{_filename}\"");
+                    verifyRemainText = false;
+                }
 
                 // control text not found
-                if (findText.MatchIndex + findText.MatchLength < line.Length)
+                if (verifyRemainText && findText.MatchIndex + findText.MatchLength < line.Length)
                 {
                     string textNotFound = line.Substring(findText.MatchIndex + findText.MatchLength).Trim();
                     if (textNotFound.Length > 0)
-                        //Trace.WriteLine($"warning remain text \"{textNotFound}\" line {_lineNumber} column {findText.MatchIndex + findText.MatchLength + 1}");
-                        throw new PBException($"unknow text \"{textNotFound}\" line {_lineNumber} column {findText.MatchIndex + findText.MatchLength + 1}");
+                    {
+                        //Trace.WriteLine($"unknow text \"{textNotFound}\" line {_lineNumber} column {findText.MatchIndex + findText.MatchLength + 1} file \"{_filename}\"");
+                        throw new PBException($"  unknow text \"{textNotFound}\" line {_lineNumber} column {findText.MatchIndex + findText.MatchLength + 1} file \"{_filename}\"");
+                    }
                 }
             }
             foreach (ResponseQuestion responseQuestion2 in _responseQuestions)
@@ -224,9 +265,17 @@ namespace anki
             foreach (ResponseQuestion responseQuestion2 in _responseQuestions)
             {
                 if (Math.Abs(responseQuestion.Position - responseQuestion2.Position) <= 2)
-                    throw new PBException($"missing response for \"{responseQuestion2.Year} - question no {responseQuestion2.QuestionNumber}\", line {_lineNumber}");
+                    throw new PBException($"missing response for \"{responseQuestion2.Year} - question no {responseQuestion2.QuestionNumber}\", line {_lineNumber} file \"{_filename}\"");
             }
             _responseQuestions.Add(responseQuestion);
+        }
+
+        private ZString ConvertNumericResponseCodes(ZValue value)
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (char c in (string)value)
+                sb.Append((char)(c + 'A' - '1'));
+            return (ZString)sb.ToString();
         }
 
         private Response SetResponse(ZValue value, int index, int length, ResponseQuestion responseQuestion)
@@ -236,7 +285,7 @@ namespace anki
             if (_trace)
                 Trace.WriteLine($"set response \"{value}\" question {responseQuestion.QuestionNumber} index {index} length {length}");
             responseQuestion.FoundResponse = true;
-            return new Response { Year = responseQuestion.Year, QuestionNumber = responseQuestion.QuestionNumber, Responses = (string)value };
+            return new Response { Category = _category, Year = responseQuestion.Year, QuestionNumber = responseQuestion.QuestionNumber, Responses = (string)value };
         }
 
     private IEnumerable<string> GetQuestionWithoutResponse()
@@ -250,12 +299,14 @@ namespace anki
 
         private int GetYear(int position)
         {
+            //Trace.WriteLine($"search year for position {position} year count {_years.Count}");
             foreach (ResponseYear year in _years)
             {
+                //Trace.WriteLine($"  year {year.Year} position {year.Position}");
                 if (Math.Abs(position - year.Position) <= 2)
                     return year.Year;
             }
-            throw new PBException($"year not found, line {_lineNumber} column {position + 1}");
+            throw new PBException($"year not found, line {_lineNumber} column {position + 1} file \"{_filename}\"");
         }
 
         private ResponseQuestion GetResponseQuestion(int position)
@@ -271,7 +322,7 @@ namespace anki
             {
                 Trace.WriteLine($"  question no {responseQuestion.QuestionNumber} at position {responseQuestion.Position + 1} distance {Math.Abs(position - responseQuestion.Position)}");
             }
-            throw new PBException($"question not found, line {_lineNumber} column {position + 1}");
+            throw new PBException($"question not found, line {_lineNumber} column {position + 1} file \"{_filename}\"");
         }
 
         public static int GetMiddlePosition(int startPosition, int length)

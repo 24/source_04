@@ -12,7 +12,7 @@ namespace anki
         public Question Question;
         public Response Response;
 
-        public string GetHtml(bool questionNumber = false, bool questionDiv = false, bool response = false, bool newLine = false)
+        public string GetHtml(bool questionNumber = false, bool questionDiv = false, bool response = false, bool newLine = false, bool replaceSpecialCharacters = false)
         {
             // <div>              (addQuestionDiv)
             // <h1>2015 - QUESTION N 37</h1>
@@ -45,7 +45,12 @@ namespace anki
                 if (newLine)
                     sb.AppendLine();
             }
-            sb.Append($"<div>{Question.QuestionText}</div>");
+            string text = Question.QuestionText;
+            if (replaceSpecialCharacters)
+                //text = HttpUtility.HtmlEncode(text);
+                text = HtmlEncoder.HtmlEncodeLevel1(text);
+            text = text.Replace("\r\n", "<br>");
+            sb.Append($"<div>{text}</div>");
             if (newLine)
                 sb.AppendLine();
             sb.Append("<ol>");
@@ -53,7 +58,12 @@ namespace anki
                 sb.AppendLine();
             foreach (string responseText in Question.Choices)
             {
-                sb.Append($"<li>{responseText}</li>");
+                text = responseText;
+                if (replaceSpecialCharacters)
+                    //text = HttpUtility.HtmlEncode(text);
+                    text = HtmlEncoder.HtmlEncodeLevel1(text);
+                text = text.Replace("\r\n", "<br>");
+                sb.Append($"<li>{text}</li>");
                 if (newLine)
                     sb.AppendLine();
             }
@@ -87,7 +97,12 @@ namespace anki
                 //    sb.Append(responseCode);
                 //    first = false;
                 //}
-                sb.Append(Response.GetFormatedResponse());
+                string responseText;
+                if (Response != null)
+                    responseText = Response.GetFormatedResponse();
+                else
+                    responseText = "(unknow response)";
+                sb.Append(responseText);
                 if (newLine)
                     sb.AppendLine();
             }
@@ -104,9 +119,14 @@ namespace anki
             foreach (Question question in questions)
             {
                 int id = GetQuestionId(question.Year, question.Number);
-                if (!responseDictionary.ContainsKey(id))
-                    throw new PBFileException($"response not found {question.Year} - question no {question.Number}", question.SourceFile, question.SourceLine);
-                yield return new QuestionResponse { Question = question, Response = responseDictionary[id] };
+                //if (!responseDictionary.ContainsKey(id))
+                //    throw new PBFileException($"response not found {question.Year} - question no {question.Number}", question.SourceFile, question.SourceLine);
+                Response response = null;
+                if (responseDictionary.ContainsKey(id))
+                    response = responseDictionary[id];
+                else
+                    Trace.WriteLine($"  warning response not found {question.Year} - question no {question.Number} - line {question.SourceLine} - file {zPath.GetFileName(question.SourceFile)}");
+                yield return new QuestionResponse { Question = question, Response = response };
             }
         }
 
@@ -116,7 +136,7 @@ namespace anki
             int index = 1;
             foreach (QuestionResponse questionResponse in questionResponses)
             {
-                string html = questionResponse.GetHtml(questionNumber: true, questionDiv: true, response: true, newLine: true);
+                string html = questionResponse.GetHtml(questionNumber: true, questionDiv: true, response: true, newLine: true, replaceSpecialCharacters: true);
                 string file = zPath.Combine(directory, $"question_{index:00}.html");
                 using (StreamWriter sw = new StreamWriter(zFile.Create(file)))
                 {
@@ -128,8 +148,10 @@ namespace anki
             }
         }
 
-        public static void CreateQuestionFiles(IEnumerable<QuestionResponse> questionResponses, string directory)
+        // directory is pdf directory
+        public static void CreateQuestionResponseFiles(IEnumerable<QuestionResponse> questionResponses, string directory)
         {
+            directory = GetQuestionsDirectory(directory);
             zdir.CreateDirectory(directory);
             int index = 1;
             foreach (QuestionResponse questionResponse in questionResponses)
@@ -140,15 +162,29 @@ namespace anki
                 questionResponseHtml.Number = questionResponse.Question.Number;
                 questionResponseHtml.QuestionText = questionResponse.Question.QuestionText;
                 // newLine: true
-                questionResponseHtml.QuestionHtml = questionResponse.GetHtml(questionNumber: false, questionDiv: false, response: false, newLine: false);
+                questionResponseHtml.QuestionHtml = questionResponse.GetHtml(questionNumber: false, questionDiv: false, response: false, newLine: false, replaceSpecialCharacters: true);
                 questionResponseHtml.Choices = questionResponse.Question.Choices;
-                questionResponseHtml.Responses = questionResponse.Response.Responses;
+                questionResponseHtml.Responses = questionResponse.Response?.Responses;
                 questionResponseHtml.SourceFile = questionResponse.Question.SourceFile;
                 questionResponseHtml.SourceLine = questionResponse.Question.SourceLine;
 
                 string file = zPath.Combine(directory, $"question-{index:00}-{questionResponseHtml.Year:0000}-{questionResponseHtml.Number:000}.json");
                 questionResponseHtml.zSave(file, jsonIndent: true);
                 index++;
+            }
+        }
+
+        public static void DeleteUnmodifiedQuestionResponseFiles(string directory)
+        {
+            directory = GetQuestionsDirectory(directory);
+            if (!zDirectory.Exists(directory))
+                return;
+            foreach (string file in zDirectory.EnumerateFiles(directory))
+            {
+                if (FileNumber.GetNumber(file) == null)
+                {
+                    zFile.Delete(file);
+                }
             }
         }
 

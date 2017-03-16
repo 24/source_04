@@ -218,9 +218,4 @@
       <Link>SourceLnk\Lib\pb\Data\Mongo\Serializers\Default\MongoSerializationManager.cs</Link>
     </Compile>
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="..\..\..\Lib\pb\Source\pb\Linq\Linq.cs">
-      <Link>SourceLnk\Lib\pb\Linq\Linq.cs</Link>
-    </Compile>
-  </ItemGroup>
 </Project>

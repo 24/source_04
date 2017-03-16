@@ -127,5 +127,17 @@ namespace pb.Linq
         {
             return value => EqualityComparer<T>.Default.Equals(value, defaultValue);
         }
+
+        public static IEnumerable<TSource> zDistinctBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector)
+        {
+            HashSet<TKey> keys = new HashSet<TKey>();
+            foreach (TSource element in source)
+            {
+                if (keys.Add(keySelector(element)))
+                {
+                    yield return element;
+                }
+            }
+        }
     }
 }

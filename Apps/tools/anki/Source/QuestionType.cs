@@ -5,6 +5,7 @@
         None,
         Simple,
         Multiples,
-        Association
+        Association,
+        QTA
     }
 }

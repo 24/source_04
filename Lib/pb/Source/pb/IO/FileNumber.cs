@@ -107,13 +107,22 @@ namespace pb.IO
             return zPath.Combine(zPath.GetDirectoryName(path), _fileNumber.Replace(zPath.GetFileNameWithoutExtension(path), "").Trim()) + zPath.GetExtension(path);
         }
 
-        public static int GetNumber(string path)
+        public static int? GetNumber(string path)
         {
             Match match = _fileNumber.Match(zPath.GetFileNameWithoutExtension(path));
             if (match.Success)
-                return int.Parse(match.Groups[1].Value);
+            {
+                string value = match.Groups[2].Value;
+                if (value == "")
+                {
+                    value = match.Groups[3].Value;
+                    if (value == "")
+                        value = match.Groups[4].Value;
+                }
+                return int.Parse(value);
+            }
             else
-                return 0;
+                return null;
         }
     }
 }

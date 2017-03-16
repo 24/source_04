@@ -1,6 +1,9 @@
 ﻿using pb;
 using pb.Data.Mongo.Serializers;
+using pb.Data.Xml;
 using pb.IO;
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 #pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
@@ -8,20 +11,80 @@ using System.Threading.Tasks;
 
 namespace anki.js
 {
+    //public class ResultMessage
+    //{
+    //    public bool Result;
+    //    public string Message;
+    //}
+
     public class jsQuestions
     {
         static jsQuestions()
         {
             TraceManager.Current.AddTrace(Trace.Current);
-            TraceManager.Current.SetWriter(WriteToFile.Create(@"log\_log.txt".zRootPath(zapp.GetExecutingAssemblyDirectory()), FileOption.IndexedFile), "_default");
+            XmlConfig.CurrentConfig = new XmlConfig("anki.config.xml".zRootPath(zapp.GetExecutingAssemblyDirectory()));
+            //TraceManager.Current.SetWriter(WriteToFile.Create(@"log\_log.txt".zRootPath(zapp.GetExecutingAssemblyDirectory()), FileOption.IndexedFile), "_default");
             MongoSerializationManager.SetDefaultMongoSerializationOptions();
+        }
+
+        public async Task<object> SetLogFile(object file)
+        {
+            Try(
+                () =>
+                {
+                    if (file != null)
+                        TraceManager.Current.SetWriter(WriteToFile.Create((string)file, FileOption.None), "_default");
+                    else
+                        TraceManager.Current.RemoveWriter("_default");
+                });
+            return null;
+        }
+
+        public async Task<object> CreateAnkiFileFromQuestionFiles(object directory)
+        {
+            bool result = true;
+            string message = null;
+            //try
+            //{
+            //    Trace.WriteLine($"CreateAnkiFileFromQuestionFiles() : directory \"{directory}\"");
+            //    string file = QuestionRun.CreateQuestionsManager((string)directory).CreateAnkiFileFromQuestionFiles();
+            //    message = $"anki file created \"{file}\"";
+            //}
+            //catch (Exception ex)
+            //{
+            //    Trace.WriteLine($" error : {ex.Message}");
+            //    Trace.WriteLine(ex.StackTrace);
+            //    result = false;
+            //    message = ex.Message;
+            //}
+            //return new { Result = result, Message = message };
+            //return new ResultMessage { Result = result, Message = message };
+            Try(
+                () =>
+                {
+                    Trace.WriteLine($"CreateAnkiFileFromQuestionFiles() : directory \"{directory}\"");
+                    string file = QuestionRun.CreateQuestionsManager((string)directory).CreateAnkiFileFromQuestionFiles();
+                    message = $"anki file created \"{zPath.GetFileName(file)}\"";
+                },
+                ex =>
+                {
+                    result = false;
+                    message = ex.Message;
+                });
+            return new { Result = result, Message = message };
         }
 
         public async Task<object> GetQuestionFiles(object directory)
         {
-            //return _LoadQuestions((string)directory);
-            Trace.WriteLine($"GetQuestionFiles() : directory \"{directory}\"");
-            return QuestionResponses.GetQuestionFiles(zPath.Combine((string)directory, "data"));
+            IEnumerable<string> questions = null;
+            Try(
+                () =>
+                {
+                    Trace.WriteLine($"GetQuestionFiles() : directory \"{directory}\"");
+                    // zPath.Combine((string)directory, "data")
+                    questions = QuestionResponses.GetQuestionFiles((string)directory);
+                });
+            return questions;
         }
 
         //private static IEnumerable<string> _LoadQuestions(string directory)
@@ -43,7 +106,13 @@ namespace anki.js
         {
             // LoadQuestion : string param.Directory, string param.File
             //return _LoadQuestion((string)param.Directory, (string)param.File);
-            return QuestionResponses.LoadQuestion((string)param.Directory, (string)param.File, trace: true);
+            QuestionResponseHtml question = null;
+            Try(
+                () =>
+                {
+                    question = QuestionResponses.LoadQuestion((string)param.Directory, (string)param.File, trace: true);
+                });
+            return question;
         }
 
         //private static QuestionResponseHtml _LoadQuestion(string directory, string file)
@@ -57,8 +126,26 @@ namespace anki.js
         {
             // SaveQuestion : string param.Directory, string param.File, string param.QuestionHtml
             //_SaveQuestion((string)param.Directory, (string)param.File, (string)param.QuestionHtml);
-            QuestionResponses.SaveQuestion((string)param.Directory, (string)param.File, (string)param.QuestionHtml);
+            Try(
+                () =>
+                {
+                    QuestionResponses.SaveQuestion((string)param.Directory, (string)param.File, (string)param.QuestionHtml, trace: true);
+                });
             return null;
+        }
+
+        private static void Try(Action action, Action<Exception> catchAction = null)
+        {
+            try
+            {
+                action();
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine($" error : {ex.Message}");
+                Trace.WriteLine(ex.StackTrace);
+                catchAction?.Invoke(ex);
+            }
         }
 
         //private static void _SaveQuestion(string directory, string file, string questionHtml)

@@ -1,4 +1,6 @@
-﻿using pb.Data.Xml;
+﻿using pb;
+using pb.Data.Xml;
+using pb.IO;
 using pb.Text;
 
 namespace anki
@@ -40,7 +42,20 @@ namespace anki
 
         public static QuestionsManager CreateQuestionsManager(string directory)
         {
-            return new QuestionsManager(XmlConfig.CurrentConfig.GetExplicit("CardDirectory"), directory, GetQuestionRegexValuesList(), GetResponseRegexValuesList());
+            //return new QuestionsManager(XmlConfig.CurrentConfig.GetExplicit("CardDirectory"), directory, GetQuestionRegexValuesList(), GetResponseRegexValuesList());
+            QuestionsManager questionsManager = new QuestionsManager();
+            string baseDirectory = XmlConfig.CurrentConfig.GetExplicit("CardDirectory");
+            if (!zPath.IsPathRooted(directory))
+                directory = zPath.Combine(baseDirectory, directory);
+            else if (!directory.StartsWith(baseDirectory))
+                baseDirectory = null;
+            questionsManager.BaseDirectory = baseDirectory;
+            questionsManager.Directory = directory;
+            questionsManager.MaxLinesPerQuestion = XmlConfig.CurrentConfig.GetExplicit("MaxLinesPerQuestion").zParseAs<int>();
+            questionsManager.MaxLinesPerResponse = XmlConfig.CurrentConfig.GetExplicit("MaxLinesPerResponse").zParseAs<int>();
+            questionsManager.QuestionRegexValuesList = GetQuestionRegexValuesList();
+            questionsManager.ResponseRegexValuesList = GetResponseRegexValuesList();
+            return questionsManager;
         }
 
         //public static void Exec(string file)

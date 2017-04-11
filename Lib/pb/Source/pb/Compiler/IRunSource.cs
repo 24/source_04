@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data;
+using System.Threading.Tasks;
 
 namespace pb.Compiler
 {
@@ -73,10 +74,10 @@ namespace pb.Compiler
         int GetRunningCount();
         void SetOptions(string options);
         //void TraceInit(bool trace);
-        //void RunCode(string source, bool useNewThread = true, bool compileWithoutProject = false);
-        //void RunCode(string code, bool useNewThread = true, bool compileWithoutProject = false, bool allowMultipleRun = false);
-        void RunCode(string code, bool runOnMainThread = false, bool compileWithoutProject = false, bool allowMultipleRun = false, bool callInit = false);
-        void CompileCode(string source, bool compileWithoutProject = false);
+        //void RunCode(string code, bool runOnMainThread = false, bool compileWithoutProject = false, bool allowMultipleRun = false, bool callInit = false);
+        Task RunCode(string code, bool runOnMainThread = false, bool compileWithoutProject = false, bool allowMultipleRun = false, bool callInit = false);
+        //void CompileCode(string source, bool compileWithoutProject = false);
+        Task CompileCode(string source, bool compileWithoutProject = false);
         void DeleteGeneratedAssemblies();
         IProjectCompiler CompileProject(string projectName);
         bool CompileProjects(string projectsFile, string runsourceSourceDirectory = null);

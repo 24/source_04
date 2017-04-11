@@ -195,8 +195,10 @@ namespace pb.Compiler
 
             try
             {
-                RunSourceCommand.TraceDisableViewer();
-                RunSourceCommand.TraceSetWriter(WriteToFile.Create(zPath.Combine(zPath.GetDirectoryName(runsourceProject), zPath.GetFileNameWithoutExtension(runsourceProject) + ".trace.txt"), FileOption.RazFile), "trace");
+                //RunSourceCommand.TraceDisableViewer();
+                //RunSourceCommand.TraceSetWriter(WriteToFile.Create(zPath.Combine(zPath.GetDirectoryName(runsourceProject), zPath.GetFileNameWithoutExtension(runsourceProject) + ".trace.txt"), FileOption.RazFile), "trace");
+                RunSourceCommand.TraceManager.DisableViewer();
+                RunSourceCommand.TraceManager.SetWriter(WriteToFile.Create(zPath.Combine(zPath.GetDirectoryName(runsourceProject), zPath.GetFileNameWithoutExtension(runsourceProject) + ".trace.txt"), FileOption.RazFile), "trace");
 
                 Trace.WriteLine($"runsource project \"{runsourceProject}\"");
                 CompilerProjectReader runsourceProjectReader = CompilerProjectReader.Create(new XmlConfig(runsourceProject).GetConfigElement("/AssemblyProject"));
@@ -252,8 +254,10 @@ namespace pb.Compiler
             }
             finally
             {
-                RunSourceCommand.TraceRemoveWriter("trace");
-                RunSourceCommand.TraceEnableViewer();
+                //RunSourceCommand.TraceRemoveWriter("trace");
+                //RunSourceCommand.TraceEnableViewer();
+                RunSourceCommand.TraceManager.RemoveWriter("trace");
+                RunSourceCommand.TraceManager.EnableViewer();
             }
         }
 
@@ -272,9 +276,11 @@ namespace pb.Compiler
 
             try
             {
-                RunSourceCommand.TraceDisableViewer();
-                //RunSourceCommand.TraceSetWriter(WriteToFile.Create(zPath.Combine(zPath.GetDirectoryName(vsProject), zPath.GetFileName(vsProject) + ".trace.txt"), FileOption.RazFile), "trace");
-                RunSourceCommand.TraceSetWriter(WriteToFile.Create(vsProject + ".trace.txt", FileOption.RazFile), "trace");
+                //RunSourceCommand.TraceDisableViewer();
+                ////RunSourceCommand.TraceSetWriter(WriteToFile.Create(zPath.Combine(zPath.GetDirectoryName(vsProject), zPath.GetFileName(vsProject) + ".trace.txt"), FileOption.RazFile), "trace");
+                //RunSourceCommand.TraceSetWriter(WriteToFile.Create(vsProject + ".trace.txt", FileOption.RazFile), "trace");
+                RunSourceCommand.TraceManager.DisableViewer();
+                RunSourceCommand.TraceManager.SetWriter(WriteToFile.Create(vsProject + ".trace.txt", FileOption.RazFile), "trace");
 
                 Trace.WriteLine($"visual studio project \"{vsProject}\"");
                 VSProjectManager vsProjectManager = new VSProjectManager(vsProject);
@@ -317,8 +323,10 @@ namespace pb.Compiler
             }
             finally
             {
-                RunSourceCommand.TraceRemoveWriter("trace");
-                RunSourceCommand.TraceEnableViewer();
+                //RunSourceCommand.TraceRemoveWriter("trace");
+                //RunSourceCommand.TraceEnableViewer();
+                RunSourceCommand.TraceManager.RemoveWriter("trace");
+                RunSourceCommand.TraceManager.EnableViewer();
             }
         }
 

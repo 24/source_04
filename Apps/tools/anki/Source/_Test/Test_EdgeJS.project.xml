@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<AssemblyProject>
+
+  <Root                             value = "..\..\.." />
+
+  <!--<IncludeProject                   value = "$Root$\Lib\pb\Source\Project\LanguageCSharp5Debug.project.xml" />-->
+  <Language                         name = "CSharp5" version = "6" />
+  <!-- FrameworkVersion value = "4.0"
+        Predefined type 'System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1' is not defined or imported
+        Missing compiler required member 'System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.Task'
+  -->
+  <FrameworkVersion                 value = "4.5" />  <!-- CSharp5 option : 2.0, 3.0, 3.5, 3.5 client, 4.0, 4.0 client, 4.5, 4.5.1, 4.5.2, 4.6, 4.6.1 -->
+  <GenerateInMemory                 value = "false" />  <!-- CSharp1, JScript option -->
+  <DebugInformation                 value = "true" />  <!-- CSharp1, CSharp5, JScript option -->
+  <WarningLevel                     value = "4" /> <!-- CSharp1, CSharp5, JScript option : 0 no warning, 1 severe warning, 2 + less-severe warnings 1, 3 + less-severe warnings 2, 4 all warning -->
+  <CompilerOptions                  value = "/define:DEBUG;TRACE" />  <!-- CSharp1, JScript option -->
+  <PreprocessorSymbol               value = "DEBUG;TRACE" />  <!-- CSharp5 option -->
+  
+  <Target                           value = "library" /> <!-- exe (exe console default), library (dll), module (.netmodule), winexe (exe windows), winruntimeexe (windows runtime application), winruntimemetadata (windows runtime metadata) -->
+  <Output                           value = "bin32\Test_EdgeJS\Test_EdgeJS.dll" />
+  <!--<CopyOutput                       value = "..\..\..\..\app\qcm-editor\lib\AnkiJS\_newbin" />-->
+  <!--<CopyOutput                       value = "..\..\..\..\app\qcm-editor\lib\AnkiJS" />-->
+  
+  <!--<IncludeProject                   value = "$Root$\Lib\pb\Source\Project\Basic.project.xml" />-->
+  <!--<IncludeProject                   value = "$Root$\Lib\pb\Source\Project\RunSourceExtension.project.xml" />-->
+  <!--<IncludeProject                   value = "$Root$\Lib\pb\Source\Project\MongoExtension.project.xml" />-->
+  <!--<IncludeProject                   value = "$Root$\Lib\pb\Source\Project\XmlConfig.project.xml" />-->
+  <!--<IncludeProject                   value = "$Root$\Lib\pb\Source\Project\RegexValuesList.project.xml" />-->
+
+  <!--<NameSpace                        value = "pb.NodeJS.Test" />-->
+
+  <!--<InitMethod                       value = "pb.Web.TestUnit.TestUnit_HtmlToXmlRun.Init" />-->
+  <!--<EndMethod                        value = "pb.Web.TestUnit.TestUnit_HtmlToXmlRun.End" />-->
+
+  <!--<Using                            value = "pb" />-->
+
+  <Source                           value = "Source\AnkiWriter.cs" />
+  <Source                           value = "Source\HtmlEncoder_Level1.cs" />
+  <Source                           value = "Source\QuestionsManager.cs" />
+  <Source                           value = "Source\QuestionReader.cs" />
+  <Source                           value = "Source\QuestionResponseHtml.cs" />
+  <Source                           value = "Source\QuestionResponses.cs" />
+  <Source                           value = "Source\QuestionResponses_LoadSave.cs" />
+  <Source                           value = "Source\QuestionRun.cs" />
+  <Source                           value = "Source\QuestionType.cs" />
+  <Source                           value = "Source\ResponseReader.cs" />
+
+  <Source                           value = "Source\js\jsQuestions.cs" />
+
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\Application.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\Error.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\ITrace.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\ParseAs.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\PBException.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\Trace.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\ITraceManager.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\TraceManager.cs" />
+
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\Mongo\zMongo.cs" />
+
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\Default\MongoSerializationManager.cs" />
+
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\Directory.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\IWriteToFile.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\File.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\FileOption.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\FileNumber.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\Path.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\WriteToFile.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\WriteToFileCreate.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\zDirectory.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\zFile.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\zPath.cs" />
+
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Linq\Linq.cs" />
+
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Reflection\Reflection.cs" />
+  
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Text\Regex.cs" />
+
+  <FrameworkAssembly                value = "mscorlib.dll" vsExclude = "true" />
+  <FrameworkAssembly                value = "System.dll" />
+  <FrameworkAssembly                value = "System.Core.dll" />
+  <FrameworkAssembly                value = "Microsoft.CSharp.dll" />
+  <Assembly                         value = "$Root$\Lib\LongPath\Pri.LongPath\bin\Debug\Pri.LongPath.dll" />
+  <Assembly                         value = "$Root$\..\library\Mongo\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Bson.dll" resolve = "true" resolveName = "MongoDB.Bson, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f686731cfb9cc103" />
+
+</AssemblyProject>

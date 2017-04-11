@@ -5,6 +5,7 @@ using pb.Windows.Forms;
 using System;
 using System.IO;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace runsourced
@@ -68,8 +69,8 @@ namespace runsourced
         //}
 
 
-        //private void _RunCode(bool useNewThread = true, bool compileWithoutProject = false)
-        private void _RunCode(bool runOnMainThread = false, bool runWithoutProject = false)
+        //private void _RunCode(bool runOnMainThread = false, bool runWithoutProject = false)
+        private async Task _RunCode(bool runOnMainThread = false, bool runWithoutProject = false)
         {
             if (!runOnMainThread)
                 runOnMainThread = _menuRunOnMainThread.Checked;
@@ -104,8 +105,7 @@ namespace runsourced
             Trace.WriteLine(GetRunSourceStatusRunType(runOnMainThread, allowMultipleRun, runWithoutProject, callInit));
 
             _stopButton.Enabled = true;
-            //_runSource.RunCode(GetCode(), useNewThread, compileWithoutProject);
-            _runSource.RunCode(GetCode(), runOnMainThread: runOnMainThread, compileWithoutProject: runWithoutProject, allowMultipleRun: allowMultipleRun, callInit: callInit);
+            await _runSource.RunCode(GetCode(), runOnMainThread: runOnMainThread, compileWithoutProject: runWithoutProject, allowMultipleRun: allowMultipleRun, callInit: callInit);
             _menuRunInit.Checked = _runSource.CallInitRunOnce;
             UpdateRunSourceStatus();
         }
@@ -128,7 +128,8 @@ namespace runsourced
             return status;
         }
 
-        private void CompileCode()
+        //private void CompileCode()
+        private async Task CompileCode()
         {
             if (_runSource.IsRunning())
             {
@@ -148,7 +149,7 @@ namespace runsourced
             RazProgress();
             _executeButton.Enabled = false;
             string s = GetCode();
-            _runSource.CompileCode(s);
+            await _runSource.CompileCode(s);
         }
 
         private void AbortExecution()

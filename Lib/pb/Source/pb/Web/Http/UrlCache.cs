@@ -18,6 +18,7 @@ namespace pb.Web.Http
         protected bool _indexedFile = false;
         protected bool _saveRequest = false;
         protected Func<HttpRequest, string> _getUrlSubDirectory = null;
+        protected Func<HttpRequest_v3, string> _getUrlSubDirectory_v2 = null;
 
         public UrlCache(string cacheDirectory)
         {
@@ -37,7 +38,18 @@ namespace pb.Web.Http
 
         public UrlCachePathResult GetUrlPathResult(HttpRequest httpRequest, string subDirectory = null)
         {
-            string subPath = GetUrlSubPath(httpRequest);
+            return GetUrlPathResult(GetUrlSubPath(httpRequest), subDirectory);
+        }
+
+        public UrlCachePathResult GetUrlPathResult(HttpRequest_v3 httpRequest, string subDirectory = null)
+        {
+            return GetUrlPathResult(GetUrlSubPath(httpRequest), subDirectory);
+        }
+
+        //public UrlCachePathResult GetUrlPathResult(HttpRequest httpRequest, string subDirectory = null)
+        private UrlCachePathResult GetUrlPathResult(string subPath, string subDirectory = null)
+        {
+            //string subPath = GetUrlSubPath(httpRequest);
             string path;
             if (_indexedFile)
                 path = zfile.GetNewIndexedFileName(_cacheDirectory) + "_" + subPath;
@@ -52,13 +64,28 @@ namespace pb.Web.Http
 
         public string GetUrlSubPath(HttpRequest httpRequest)
         {
-            //string file = GetUrlFilename(httpRequest);
-            string file = zurl.UrlToFileName(httpRequest, _urlFileNameType);
+            //string file = zurl.UrlToFileName(httpRequest, _urlFileNameType);
+            string file = zurl.UrlToFileName(httpRequest.Url, _urlFileNameType, httpRequestContent: httpRequest.Content);
 
             if (!_indexedFile)
             {
-                //string dir = _GetUrlSubDirectory(httpRequest);
                 string dir = _getUrlSubDirectory?.Invoke(httpRequest);
+                if (dir != null)
+                    file = zPath.Combine(dir, file);
+            }
+
+            return file;
+        }
+
+        public string GetUrlSubPath(HttpRequest_v3 httpRequest)
+        {
+            //string file = zurl.UrlToFileName(httpRequest, _urlFileNameType);
+            //string file = zurl.UrlToFileName(httpRequest.Url, _urlFileNameType, httpRequestContent: httpRequest.Content);
+            string file = zurl.UrlToFileName(httpRequest.Url, _urlFileNameType);
+
+            if (!_indexedFile)
+            {
+                string dir = _getUrlSubDirectory_v2?.Invoke(httpRequest);
                 if (dir != null)
                     file = zPath.Combine(dir, file);
             }

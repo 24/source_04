@@ -23,11 +23,13 @@
   -->
 
   <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\Extension_01.dll.project.xml" />
-  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\VSProject_v2.project.xml" />
+  <!--<IncludeProject                   value = "$Root$\Lib\pb\Source\Project\VSProject_v2.project.xml" />-->
   <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\WebData_v2.project.xml" />
 
   <IncludeProject                   value = "hts.source.project.xml" />
 
   <NameSpace                        value = "hts" />
 
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\_Test\Test_Http.cs" />
+  
 </AssemblyProject>

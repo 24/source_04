@@ -4524,3 +4524,31 @@ hts.WebData.Unea.Unea_v2.GetDetail2Activities(HttpRun.GetXDocument().zXXElement(
 ((Int32)(DateTime.Now.Subtract(new DateTime(2017, 1, 29, 0, 0, 0))).TotalSeconds).zTrace();
 ((Int32)(new DateTime(2017, 1, 29, 12, 12, 0).Subtract(new DateTime(2017, 1, 29, 0, 0, 0))).TotalSeconds).zTrace();
 (41400 / 3600).zTrace();
+
+
+
+
+
+
+HttpResult<string> result = pb.Web.Http.Test.Test_Http.CreateHttpManager(@"c:\pib\_dl\_aaaaaaaa\cache").LoadText(new HttpRequest { Url = "https://www.google.fr/" });
+Trace.WriteLine($"Success {result.Success} LoadFromWeb {result.LoadFromWeb} LoadFromCache {result.LoadFromCache}");
+Trace.WriteLine(result.Data.Substring(0, 100));
+
+Trace.WriteLine("toto");
+
+WebData.WebData.CreateHandeco().HeaderDetailManager.LoadDetails(startPage: 1, maxPage: 1, reloadHeaderPage: false, reloadDetail: false, refreshDocumentStore: false).zView();
+WebData.WebData.CreateHandeco().HeaderDetailManager.LoadNewDocuments(maxDocumentsLoadedFromStore: 5, maxDocumentsLoaded: 10, startPage: 1, maxPage: 20);
+
+
+
+//*************************************************************************************************************************
+//****                                   Test_Http.project.xml
+//*************************************************************************************************************************
+
+Trace.WriteLine("toto");
+RunSourceCommand.SetProjectFromSource();
+RunSourceCommand.SetProject(@"$Root$\Lib\pb\Source\pb\Web\Http\_Test\Test_Http.project.xml");
+
+HttpResult<string> result = pb.Web.Http.Test.Test_Http.CreateHttpManager(@"c:\pib\_dl\_aaaaaaaa\cache").LoadText(new HttpRequest { Url = "https://www.google.fr/" });
+Trace.WriteLine($"Success {result.Success} LoadFromWeb {result.LoadFromWeb} LoadFromCache {result.LoadFromCache}");
+Trace.WriteLine(result.Data.Substring(0, 100));

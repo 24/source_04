@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
+using System.Threading.Tasks;
 
 namespace pb.Reflection.Test
 {
@@ -69,6 +71,28 @@ namespace pb.Reflection.Test
             //Type type = typeof(TypeValues<>);
             //type.MakeGenericType(typeof(Test_Company));
             //typeof(TypeValues<Test_Company>).zGetTypeName();
+        }
+
+        public static async Task Test_Reflection_04()
+        {
+            // from How to await an async private method invoked using reflection in WinRT? http://stackoverflow.com/questions/14711585/how-to-await-an-async-private-method-invoked-using-reflection-in-winrt
+            Trace.WriteLine("Test_Reflection_04");
+
+            Test_Async testAsync = new Test_Async();
+            MethodInfo methodInfo = typeof(Test_Async).GetTypeInfo().GetDeclaredMethod("Test_01");
+            Trace.WriteLine("Test_Reflection_04 : before call");
+            await (Task)methodInfo.Invoke(testAsync, null);
+            Trace.WriteLine("Test_Reflection_04 : after call");
+        }
+    }
+
+    public class Test_Async
+    {
+        public async Task Test_01()
+        {
+            Trace.WriteLine("Test_Async.Test_01() : 01");
+            await Task.Delay(5000);
+            Trace.WriteLine("Test_Async.Test_01() : 02");
         }
     }
 

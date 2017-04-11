@@ -109,49 +109,41 @@ namespace runsourced
                 case WM.WM_CREATE:
                     _hwnd = m.HWnd;
                     break;
-
                 case WM_CUSTOM_NEW:
-                    //Exe(new fExe(New));
                     Try(New);
                     break;
                 case WM_CUSTOM_OPEN_FILE:
-                    //Exe(new fExe(Open));
                     Try(Open);
                     break;
                 case WM_CUSTOM_SAVE:
-                    //Exe(new fExe(Save));
                     Try(Save);
                     break;
                 case WM_CUSTOM_SAVE_AS:
-                    //Exe(new fExe(SaveAs));
                     Try(SaveAs);
                     break;
                 case WM_CUSTOM_RUN_CODE:
-                    //Exe(new fExe(RunCode));
-                    Try(() => _RunCode());
+                    //Try(() => _RunCode());
+                    TryAsync(async () => await _RunCode());
                     break;
                 case WM_CUSTOM_RUN_CODE_ON_MAIN_THREAD:
-                    //Try(() => _RunCode(useNewThread: false));
-                    Try(() => _RunCode(runOnMainThread: true));
+                    //Try(() => _RunCode(runOnMainThread: true));
+                    TryAsync(async () => await _RunCode(runOnMainThread: true));
                     break;
                 case WM_CUSTOM_RUN_CODE_WITHOUT_PROJECT:
-                    //Try(() => _RunCode(compileWithoutProject: true));
-                    Try(() => _RunCode(runWithoutProject: true));
+                    //Try(() => _RunCode(runWithoutProject: true));
+                    TryAsync(async () => await _RunCode(runWithoutProject: true));
                     break;
                 case WM_CUSTOM_COMPILE_CODE:
-                    //Exe(new fExe(CompileCode));
-                    Try(CompileCode);
+                    //Try(CompileCode);
+                    TryAsync(CompileCode);
                     break;
                 case WM_CUSTOM_COMPILE_RUNSOURCE:
-                    //Exe(new fExe(_CompileRunSource));
                     Try(_CompileRunSource);
                     break;
                 case WM_CUSTOM_RESTART_RUNSOURCE:
-                    //Exe(new fExe(_RestartRunSource));
                     Try(_RestartRunSource);
                     break;
                 case WM_CUSTOM_UPDATE_RUNSOURCE:
-                    //Exe(new fExe(_UpdateRunSource));
                     Try(_UpdateRunSource);
                     break;
                 case WM_CUSTOM_ABORT_EXECUTION:

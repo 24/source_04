@@ -6,6 +6,7 @@ using pb.Compiler;
 using pb.Data.Xml;
 using pb.IO;
 using pb.Windows.Forms;
+using System.Threading.Tasks;
 
 // - améliorer ctrl-f prendre selection et ds la dlg sel le text
 // - faire ctrl-m + ctrl-m
@@ -249,7 +250,20 @@ namespace runsourced
             }
             catch (Exception ex)
             {
-                //_trace.WriteError(ex);
+                Trace.WriteError(ex);
+                if (errorMessageBox)
+                    zerrf.ErrorMessageBox(ex);
+            }
+        }
+
+        private async void TryAsync(Func<Task> action, bool errorMessageBox = false)
+        {
+            try
+            {
+                await action();
+            }
+            catch (Exception ex)
+            {
                 Trace.WriteError(ex);
                 if (errorMessageBox)
                     zerrf.ErrorMessageBox(ex);

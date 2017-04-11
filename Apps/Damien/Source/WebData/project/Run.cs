@@ -17,7 +17,8 @@ namespace hts
             string logFile = config.Get("Log").zRootPath(zapp.GetAppDirectory());
             //Trace.WriteLine($"set log file \"{logFile}\"");
             //RunSourceCommand.SetWriter(logFile, config.Get("Log/@option").zTextDeserialize(FileOption.None));
-            RunSourceCommand.TraceSetWriter(WriteToFile.Create(logFile, config.Get("Log/@option").zTextDeserialize(FileOption.None)));
+            //RunSourceCommand.TraceSetWriter(WriteToFile.Create(logFile, config.Get("Log/@option").zTextDeserialize(FileOption.None)));
+            RunSourceCommand.TraceManager.SetWriter(WriteToFile.Create(logFile, config.Get("Log/@option").zTextDeserialize(FileOption.None)));
 
             AppData.DataDirectory = config.GetExplicit("DataDir");
             //string httpExportDirectory = config.Get("HttpExportDirectory").zRootPath(zapp.GetEntryAssemblyDirectory());
@@ -47,7 +48,8 @@ namespace hts
             //DefaultMongoSerialization.RemoveDefaultMongoSerializationOptions();
             //DefaultMongoSerialization.UnregisterDefaultMongoSerializer();
             //HtmlRun.SetResult = null;
-            RunSourceCommand.TraceRemoveWriter();
+            //RunSourceCommand.TraceRemoveWriter();
+            RunSourceCommand.TraceManager.RemoveWriter();
         }
     }
 }

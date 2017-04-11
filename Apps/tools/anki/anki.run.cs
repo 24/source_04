@@ -15,6 +15,12 @@ RunSourceCommand.CompileProject("AnkiJS.project.xml");
 QuestionRun.CreateQuestionsManager(@"UE8-med\").RenameAndCopyScanFiles();
 QuestionRun.CreateQuestionsManager(@"UE8-med\").CreateAllQuestionResponseFiles();
 
+QuestionTest.Test_ColumnText_01(@"c:\pib\drive\google\valentin\UE5\UE5-01-anatomie\data\scan\test");
+
+
+QuestionRun.CreateQuestionsManager(@"UE5\UE5-01-anatomie").RenameAndCopyScanFiles();
+QuestionRun.CreateQuestionsManager(@"UE5\UE5-01-anatomie").CreateAllQuestionResponseFiles();
+
 //QuestionRun.WriteAnkiCard("UE3 - Activité électrique cardiaque");
 //QuestionRun.WriteAnkiCard("UE3 - Equilibre acido-basique");
 //QuestionRun.WriteAnkiCard("UE3 - Etat de la matiere et leur caracterisaion Etat d'agregation");
@@ -487,3 +493,206 @@ QuestionReader.Read(new string[] { @"c:\pib\drive\google\valentin\_test\test_que
 
 new System.Web.HtmlString("&amp;").ToHtmlString().zTrace();
 System.Web.HttpUtility.HtmlEncode("&").zTrace();
+
+QuestionTest.Test_ColumnText_01(@"c:\pib\drive\google\valentin\UE5\UE5-01-anatomie\data\scan\test");
+QuestionTest.Test_ColumnText_01(@"c:\pib\drive\google\valentin\UE5\UE5-01-anatomie\data\scan\test", limit: 1);
+new ColumnTextManager(minSpaceBeforeColumn: 4).Test_GetColumnInfos(zFile.ReadAllLines(@"c:\pib\drive\google\valentin\UE5\UE5-01-anatomie\data\scan\test\UE5 - Fiche - Introduction à l'anatomie-page-015.txt")).zView();
+new ColumnTextManager(minSpaceBeforeColumn: 4).Test_GetColumnInfos(zFile.ReadAllLines(@"c:\pib\drive\google\valentin\UE5\UE5-01-anatomie\data\scan\test\UE5 - Fiche - Introduction à l'anatomie-page-019.txt")).zView();
+
+new ColumnTextManager(minSpaceBeforeColumn: 4).Test_GetColumnInfos(zFile.ReadAllLines(@"c:\pib\drive\google\valentin\UE5\UE5-01-anatomie\data\scan\test\UE5 - Fiche - Introduction à l'anatomie-page-015.txt"))
+  .Where(columnInfo => columnInfo.ColumnPosition != -1).GroupBy(columnInfo => columnInfo.ColumnPosition).Select(group => new { ColumnPosition = group.Key, Count = group.Count() }).zTraceJson();
+
+new ColumnTextManager(minSpaceBeforeColumn: 4).Test_GetColumnInfos(zFile.ReadAllLines(@"c:\pib\drive\google\valentin\UE5\UE5-01-anatomie\data\scan\test\UE5 - Fiche - Introduction à l'anatomie-page-015.txt"))
+  .Where(columnInfo => columnInfo.ColumnPosition != -1).GroupBy(columnInfo => columnInfo.ColumnPosition).Select(group => new { ColumnPosition = group.Key, Count = group.Count() }).zTraceJson();
+
+new int[] { 11, 5, 15 }.Min().zTrace();
+new int[] { }.Min().zTrace();
+
+
+
+
+System.Drawing.Image img = System.Drawing.Image.FromFile(@"c:\pib\drive\google\valentin\UE5\UE5-01-anatomie\data\images\Document-page-015.jpg");
+Trace.WriteLine($"Type {img.GetType()} PixelFormat {img.PixelFormat} width {img.Width} height {img.Height}");  // Type System.Drawing.Bitmap PixelFormat Format24bppRgb width 1240 height 1754
+System.Drawing.Image img = System.Drawing.Image.FromFile(@"c:\pib\drive\google\valentin\UE5\UE5-01-anatomie\data\images\Document-page-015_01.jpg");
+Trace.WriteLine($"Type {img.GetType()} PixelFormat {img.PixelFormat} width {img.Width} height {img.Height}");  // Type System.Drawing.Bitmap PixelFormat Format24bppRgb width 1240 height 1754
+
+System.Drawing.Image img = zimg.LoadImageFromFile(@"c:\pib\drive\google\valentin\UE5\UE5-01-anatomie\data\images\Document-page-015.jpg");
+Trace.WriteLine($"Type {img.GetType()} PixelFormat {img.PixelFormat} width {img.Width} height {img.Height}");  // Type System.Drawing.Bitmap PixelFormat Format24bppRgb width 1240 height 1754
+
+System.Drawing.Image img = zimg.LoadBitmapFromFile(@"c:\pib\drive\google\valentin\UE5\UE5-01-anatomie\data\images\Document-page-015.jpg");
+Trace.WriteLine($"Type {img.GetType()} PixelFormat {img.PixelFormat} width {img.Width} height {img.Height}");  // Type System.Drawing.Bitmap PixelFormat Format24bppRgb width 1240 height 1754
+
+pb.Data.Test.Test_Image_01.Crop_v1((System.Drawing.Bitmap)zimg.LoadImageFromFile(@"c:\pib\drive\google\valentin\UE5\UE5-01-anatomie\data\images\Document-page-015.jpg"), 0, 0, 1240, 1754 / 2)
+  .Save(@"c:\pib\drive\google\valentin\UE5\UE5-01-anatomie\data\images\Document-page-015_01.jpg");
+pb.Data.Test.Test_Image_01.Crop_v1((System.Drawing.Bitmap)zimg.LoadImageFromFile(@"c:\pib\drive\google\valentin\UE5\UE5-01-anatomie\data\images\Document-page-015.jpg"), 10, 10, 10, 10)
+  .Save(@"c:\pib\drive\google\valentin\UE5\UE5-01-anatomie\data\images\Document-page-015_01.jpg");
+
+// from   : Type System.Drawing.Bitmap PixelFormat Format24bppRgb width 1240 height 1754
+//          Format24bppRgb  24 bits per pixel; 8 bits each are used for the red, green, and blue 
+//          Format32bppArgb 32 bits per pixel; 8 bits each are used for the alpha, red, green, and blue
+// result : Type System.Drawing.Bitmap PixelFormat Format32bppArgb width 1240 height 877
+Test_Image_01.Crop_v2((Bitmap)zimg.LoadImageFromFile(@"c:\pib\drive\google\valentin\UE5\UE5-01-anatomie\data\images\Document-page-015.jpg"),
+  new Rectangle(0, 0, 1240, 1754 / 2))
+  .Save(@"c:\pib\drive\google\valentin\UE5\UE5-01-anatomie\data\images\Document-page-015_01.jpg", ImageFormat.Jpeg);
+  
+var img = Test_Image_01.Crop_v2((Bitmap)zimg.LoadImageFromFile(@"c:\pib\drive\google\valentin\UE5\UE5-01-anatomie\data\images\Document-page-015.jpg"),
+  new Rectangle(0, 0, 1240, 1754 / 2));
+img.RotateFlip(RotateFlipType.Rotate90FlipNone);
+img.Save(@"c:\pib\drive\google\valentin\UE5\UE5-01-anatomie\data\images\Document-page-015_01.jpg", ImageFormat.Jpeg);
+var img = Test_Image_01.Crop_v2((Bitmap)zimg.LoadImageFromFile(@"c:\pib\drive\google\valentin\UE5\UE5-01-anatomie\data\images\Document-page-015.jpg"),
+  new Rectangle(0, 1754 / 2, 1240, 1754 / 2));
+img.RotateFlip(RotateFlipType.Rotate90FlipNone);
+img.Save(@"c:\pib\drive\google\valentin\UE5\UE5-01-anatomie\data\images\Document-page-015_02.jpg", ImageFormat.Jpeg);
+
+
+
+
+
+
+
+pb.Data.Test.Test_Image_01.Crop_v3((System.Drawing.Bitmap)zimg.LoadImageFromFile(@"c:\pib\drive\google\valentin\UE5\UE5-01-anatomie\data\images\Document-page-015.jpg"),
+  new System.Drawing.Rectangle(0, 0, 1500, 1754))
+  .Save(@"c:\pib\drive\google\valentin\UE5\UE5-01-anatomie\data\images\Document-page-015_test_02.jpg", ImageFormat.Jpeg);
+
+
+
+//*************************************************************************************************************************
+//****                                   Test_HttpClient
+//*************************************************************************************************************************
+
+Trace.WriteLine("toto");
+RunSourceCommand.SetProjectFromSource();
+RunSourceCommand.SetProject(@"$Root$\Lib\pb\Source\pb\Web\Http\_Test\Test_Http.project.xml");
+RunSourceCommand.SetProject(@"$Root$\Lib\pb\Source\pb\Web\Http\_Test\Test_HttpClient.project.xml");
+RunSourceCommand.SetProject(@"$Root$\Lib\pb\Source\pb\Web\Http\_Test\Test_HttpManager_v3.project.xml");
+
+Test_HttpClient.Test_01("https://www.google.fr");
+Test_HttpClient.Test_HttpClient_01("https://www.google.fr");
+Test_HttpClient.Test_HttpClient_01("https://www.google.fr",
+  userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.0",
+  accept: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
+Test_HttpClient.Test_HttpClient_01("https://www.google.fr",
+  userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.0");
+Test_HttpClient.Test_HttpClient_01("https://www.google.fr",
+    accept: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
+Test_HttpClient.Test_HttpClient_01("http://localhost:8080/test_utf8_01.html");
+Test_HttpClient.Test_HttpClient_01("http://localhost:8080/test_ansi_01.html");
+// http status : 200 OK, 400 Bad Request, 500 Internal Server Error
+Test_HttpClient.Test_03("https://httpbin.org/status/400");
+Test_HttpClient.Test_03("http://toto.toto");
+//Test_HttpClient.Test_04("http://toto.toto");
+Test_HttpClient.Test_LoadText_01("http://toto.toto");
+Test_HttpClient._Test_LoadText_01("http://toto.toto");
+Test_HttpClient.Test_LoadText_02("http://toto.toto");
+Test_HttpClient.Test_LoadToFile_01("https://www.google.fr", @"c:\pib\_dl\_aaaaaaaa\cache.new\www.google.fr_01.html");
+Test_HttpClient.Test_LoadToFile_01("https://www.google.fr", @"c:\pib\_dl\_aaaaaaaa\cache.new\www.google.fr_02.html", userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.0");
+Test_HttpClient.Test_LoadToFile_01("http://localhost:8080/test_utf8_01.html", @"c:\pib\_dl\_aaaaaaaa\cache.new\test_utf8_01.html");
+Test_HttpClient.Test_LoadToFile_01("http://localhost:8080/test_utf8_bad_01.html", @"c:\pib\_dl\_aaaaaaaa\cache.new\test_utf8_bad_01.html");
+Test_HttpClient.Test_LoadToFile_01("http://localhost:8080/test_ansi_01.html", @"c:\pib\_dl\_aaaaaaaa\cache.new\test_ansi_01.html");
+Test_HttpClient.Test_LoadToFile_01("http://localhost:8080/test_ansi_bad_01.html", @"c:\pib\_dl\_aaaaaaaa\cache.new\test_ansi_bad_01.html");
+
+Test_HttpClient.Test_HttpLog("https://www.google.fr/");
+Test_HttpClient.Test_HttpLog("https://www.google.fr/", userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.0", accept: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
+
+Test_HttpManager_v3.Test_LoadText_01("https://www.google.fr/", @"c:\pib\_dl\_aaaaaaaa\cache");
+Test_HttpManager_v3.Test_LoadText_01("https://www.google.fr", @"c:\pib\_dl\_aaaaaaaa\cache");
+Test_HttpClient.Test_LoadToFile_01("https://www.google.fr", @"c:\pib\_dl\_aaaaaaaa\cache\www.google.fr_01.html");
+Test_HttpClient.Test_Upload_02("http://localhost:8080/upload", "avatar", @"c:\pib\_dl\Document-page-015_01.jpg", "someParam", "someValue");
+
+Test_HttpClient.Test_LoadText_02(HttpMethod.Get, "http://toto.toto");
+Test_HttpClient.Test_LoadText_02(HttpMethod.Get, "https://httpbin.org/get");
+Test_HttpClient.Test_LoadText_02(HttpMethod.Post, "https://httpbin.org/post");
+Test_HttpClient.Test_LoadText_02(HttpMethod.Post, "https://httpbin.org/post", new StringContent("toto,tata"));
+Test_HttpClient.Test_LoadText_02(HttpMethod.Post, "https://httpbin.org/post", new StringContent("toto,tata", Encoding.Default, "text/plain"));
+Test_HttpClient.Test_LoadText_02(HttpMethod.Post, "https://httpbin.org/post", Test_HttpClient.CreateFormUrlEncodedContent("toto", "tata", "zozo", "zaza"));
+//Test_HttpClient.Test_LoadText_02(HttpMethod.Post, "https://httpbin.org/post", Test_HttpClient.CreateMultipartFormDataContent("data", "toto", "tata", "zozo", "zaza"));
+//Test_HttpClient.Test_LoadText_02(HttpMethod.Post, "https://httpbin.org/post", Test_HttpClient.CreateMultipartFormDataContentFile("data", "image", @"c:\pib\_dl\Document-page-015_01.jpg", "toto", "tata", "zozo", "zaza"));
+Test_HttpClient.Test_LoadText_02(HttpMethod.Post, "https://httpbin.org/post", Test_HttpClient.CreateMultipartFormDataContent("data").zAddStringContent("toto", "tata", "zozo", "zaza"));
+Test_HttpClient.Test_LoadText_02(HttpMethod.Post, "https://httpbin.org/post", Test_HttpClient.CreateMultipartFormDataContent("data").zAddStringContent("toto", "tata", "zozo", "zaza").zAddUploadFile("image", @"c:\pib\_dl\Document-page-015_01.jpg"));
+Test_HttpClient.Test_LoadText_02(HttpMethod.Post, "https://httpbin.org/post", Test_HttpClient.CreateMultipartFormDataContent("data").zAddStringContent("toto", "tata", "zozo", "zaza").zAddUploadFile("image1", @"c:\pib\_dl\Document-page-015_01.jpg").zAddUploadFile("image2", @"c:\pib\_dl\Document-page-015_02.jpg"));
+
+Test_HttpClient.Test_LoadText_02(HttpMethod.Post, "http://localhost:8080/post", Test_HttpClient.CreateMultipartFormDataContent("data").zAddStringContent("toto", "tata", "zozo", "zaza"));
+Test_HttpClient.Test_LoadText_02(HttpMethod.Post, "http://localhost:8080/post", Test_HttpClient.CreateMultipartFormDataContent("data").zAddStringContent("toto", "tata", "zozo", "zaza").zAddUploadFile("image", @"c:\pib\_dl\Document-page-015_01.jpg"));
+Test_HttpClient.Test_LoadText_02(HttpMethod.Post, "http://localhost:8080/post", Test_HttpClient.CreateMultipartFormDataContent("data").zAddStringContent("toto", "tata", "zozo", "zaza").zAddUploadFile("image1", @"c:\pib\_dl\Document-page-015_01.jpg").zAddUploadFile("image2", @"c:\pib\_dl\Document-page-015_02.jpg"));
+
+Test_HttpManager_v3.Test_LoadText_01(new HttpRequest_v3 { Url = "https://httpbin.org/get" }, @"c:\pib\_dl\_aaaaaaaa\cache");
+Test_HttpManager_v3.Test_LoadText_01(new HttpRequest_v3 { Method = HttpRequestMethod.Post, Url = "https://httpbin.org/post",
+  Content = new TextContent("toto,tata,zozo,zaza") }, @"c:\pib\_dl\_aaaaaaaa\cache");
+Test_HttpManager_v3.Test_LoadText_01(new HttpRequest_v3 { Method = HttpRequestMethod.Post, Url = "https://httpbin.org/post",
+  Content = new UrlEncodedContent("toto", "tata", "zozo", "zaza") }, @"c:\pib\_dl\_aaaaaaaa\cache");
+Test_HttpManager_v3.Test_LoadText_01(new HttpRequest_v3 { Method = HttpRequestMethod.Post, Url = "https://httpbin.org/post",
+  Content = new MultipartContents("data", new TextContent("tata") { Name = "toto" }, new TextContent("zaza") { Name = "zozo" }) }, @"c:\pib\_dl\_aaaaaaaa\cache");
+Test_HttpManager_v3.Test_LoadText_01(new HttpRequest_v3 { Method = HttpRequestMethod.Post, Url = "https://httpbin.org/post",
+  Content = new MultipartContents("data", new TextContent("tata") { Name = "toto" }, new TextContent("zaza") { Name = "zozo" },
+  new FileContent(@"c:\pib\_dl\Document-page-015_01.jpg") { Name = "image1" }) }, @"c:\pib\_dl\_aaaaaaaa\cache");
+Test_HttpManager_v3.Test_LoadText_01(new HttpRequest_v3 { Method = HttpRequestMethod.Post, Url = "https://httpbin.org/post",
+  Content = new MultipartContents("data", new TextContent("tata") { Name = "toto" }, new TextContent("zaza") { Name = "zozo" },
+  new FileContent(@"c:\pib\_dl\Document-page-015_01.jpg") { Name = "image1" }, new FileContent(@"c:\pib\_dl\Document-page-015_02.jpg") { Name = "image2" }) },
+  @"c:\pib\_dl\_aaaaaaaa\cache");
+
+
+Test_HttpClient.Test_LoadText_02(HttpMethod.Post, "https://httpbin.org/post", Test_HttpClient.CreateMultipartFormDataContent("data", "toto", "tata", "zozo", "zaza"));
+
+
+HttpResult<string> result = Test_Http.CreateHttpManager(@"c:\pib\_dl\_aaaaaaaa\cache").LoadText(new HttpRequest { Url = "https://www.google.fr/" });
+Trace.WriteLine($"Success {result.Success} LoadFromWeb {result.LoadFromWeb} LoadFromCache {result.LoadFromCache}");
+Trace.WriteLine(result.Data.Substring(0, 100));
+Test_Http.Test_LoadText("https://www.google.fr/", cacheDirectory: @"c:\pib\_dl\_aaaaaaaa\cache");
+Test_Http.Test_LoadText("http://localhost:8080/test_utf8_01.html", cacheDirectory: @"c:\pib\_dl\_aaaaaaaa\cache");
+Test_Http.Test_LoadText("http://localhost:8080/test_utf8_bad_01.html", cacheDirectory: @"c:\pib\_dl\_aaaaaaaa\cache");
+Test_Http.Test_LoadText("http://localhost:8080/test_ansi_01.html", cacheDirectory: @"c:\pib\_dl\_aaaaaaaa\cache");
+Test_Http.Test_LoadText("http://localhost:8080/test_ansi_bad_01.html", cacheDirectory: @"c:\pib\_dl\_aaaaaaaa\cache");
+
+HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, "https://www.google.fr/");
+Trace.WriteLine($"{(request.Headers.Accept == null ? "null" : "not null")} \"{request.Headers.Accept}\" {request.Headers.Accept.Count}");
+
+//*************************************************************************************************************************
+//****                                   Test_Async
+//*************************************************************************************************************************
+
+Trace.WriteLine("toto");
+RunSourceCommand.SetProjectFromSource();
+RunSourceCommand.SetProject(@"$Root$\Lib\pb\Source\pb\_pb\_Test\Test_01.project.xml");
+
+Test_Async.Test_Exception();
+
+
+
+//*************************************************************************************************************************
+//****                                   Test_HttpRun.project.xml
+//*************************************************************************************************************************
+
+Trace.WriteLine("toto");
+RunSourceCommand.SetProjectFromSource();
+RunSourceCommand.SetProject(@"$Root$\Lib\pb\Source\Project\_Test\Test_HttpRun.project.xml");
+
+
+List<string> list = new List<string> { "toto", "tata", "tutu" };
+list.zToStringValues().zTrace();
+
+
+//*************************************************************************************************************************
+//****                                   Test_Reflection.project.xml
+//*************************************************************************************************************************
+
+Trace.WriteLine("toto");
+RunSourceCommand.SetProjectFromSource();
+RunSourceCommand.SetProject(@"$Root$\Lib\pb\Source\pb\Reflection\_Test\Test_Reflection.project.xml");
+
+Test_Reflection.Test_Reflection_04();
+
+
+//*************************************************************************************************************************
+//****                                   Test.project.xml
+//*************************************************************************************************************************
+
+Trace.WriteLine("toto");
+RunSourceCommand.SetProjectFromSource();
+RunSourceCommand.SetProject(@"$Root$\Lib\pb\Source\pb\_pb\_Test\Test.project.xml");
+
+Test_Async.Test_Exception();         // exception is not catched
+await Test_Async.Test_Exception();   // exception is catched
+Test_Async.Test_CatchException();    // exception is catched
+Test_Async.Test_Try_01();            // exception is catched
+Test_Async.Test_Try_02();            // exception is catched
+

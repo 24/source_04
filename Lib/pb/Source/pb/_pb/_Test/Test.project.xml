@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <AssemblyProject>
 
-  <Root                             value = "..\..\..\..\.." />
+  <Root                             value = "..\..\..\..\..\.." />
 
   <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\LanguageCSharp5Debug.project.xml" />
   <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\Basic.project.xml" />
@@ -15,6 +15,7 @@
 
   <Using                            value = "pb" />
 
+  <Source                           value = "Test_Async.cs" />
   <Source                           value = "Test_CSharp.cs" />
 
   <!--<Source                           value = "$Root$\Lib\pb\Source\pb\_pb\Application.cs" />-->

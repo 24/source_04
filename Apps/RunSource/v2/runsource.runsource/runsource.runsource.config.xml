@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <configuration>
-  <ProjectDirectory                            value = "c:\pib\drive\google\dev\project\.net" />
+  <!--<ProjectDirectory                            value = "c:\pib\drive\google\dev\project\.net" />-->
+  <ProjectDirectory                            value = "c:\pib\drive\google\dev\.net" />
   <Log                                         value = "log.txt" />  <!-- option = "None" -->
 <!--<TraceDir                                      value = "Log\Trace" />-->
 <!--<RunsourceTitle                              value = "" />-->  <!-- default = "Run source" -->

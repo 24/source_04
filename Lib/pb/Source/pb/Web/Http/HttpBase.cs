@@ -10,6 +10,7 @@ using System.Threading;
 // save encoding
 namespace pb.Web.Http
 {
+    // used in WebData<TData>.Load_v2() to serialize http request
     public class HttpLog
     {
         public HttpRequestLog Request;
@@ -457,7 +458,7 @@ namespace pb.Web.Http
             //if (_httpRequest.CacheFile)
             if (_httpRequest.UrlCachePath != null)
             {
-                // cache encoding is always UTF8
+                // bug - wrong wrong wrong wrong wrong wrong wrong - cache encoding is always UTF8
                 encoding = Encoding.UTF8;
             }
             else

@@ -8,6 +8,12 @@
   <CopySourceFiles                  value = "true" />
   <CopyOutput                       value = "$Root$\..\library\pib\HttpRun\new" />-->
 
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\MongoDefaultSerializer.project.xml" />
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\MongoWebHeaderSerializer.project.xml" />
+
+  <!--<InitMethod                       value = "pb.Data.Mongo.Serializers.RunSerializer.InitWebHeader" params = "traceSerializer = false" />-->
+  <!--<EndMethod                        value = "pb.Data.Mongo.Serializers.RunSerializer.EndWebHeader" />-->
+
   <Using                            value = "pb" />
   <Using                            value = "pb.Compiler" />
   <Using                            value = "pb.Web.Http" />
@@ -56,13 +62,18 @@
   <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Web\Http\Http_v2_LoadImage.cs" />
   <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Web\Http\Http_v2_LoadText.cs" />
   <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Web\Http\Http_v2_LoadToFile.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Web\Http\Http_v3.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Web\Http\HttpCache.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Web\Http\HttpContentValue.cs" />
   <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Web\Http\HttpBase.cs" />
   <!--<SourceLink                       value = "$Root$\Lib\pb\Source\pb\Web\Http\HttpManager.cs" />-->
   <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Web\Http\HttpManager_v2.cs" />
   <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Web\Http\HttpManager_v2_LoadImage.cs" />
   <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Web\Http\HttpManager_v2_LoadText.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Web\Http\HttpManager_v3.cs" />
   <!--<SourceLink                       value = "$Root$\Lib\pb\Source\pb\Web\Http\HttpManager_Xml.cs" />-->
   <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Web\Http\HttpRequest.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Web\Http\HttpResult_v3.cs" />
   <!--<SourceLink                       value = "$Root$\Lib\pb\Source\pb\Web\Http\HttpRun.cs" />-->
   <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Web\Http\HttpRun_v2.cs" />
   <!--<SourceLink                       value = "$Root$\Lib\pb\Source\pb\Web\Http\HttpXml.cs" />-->

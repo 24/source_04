@@ -3,7 +3,7 @@ using System.Collections.Concurrent;
 
 namespace pb
 {
-    public class Task
+    public class zTask
     {
         public string name;
         public string description;
@@ -14,7 +14,7 @@ namespace pb
     {
         private static TaskManager _currentTaskManager = new TaskManager();
         //private Queue<Task> _tasks = new Queue<Task>();
-        private ConcurrentQueue<Task> _tasks = new ConcurrentQueue<Task>();
+        private ConcurrentQueue<zTask> _tasks = new ConcurrentQueue<zTask>();
 
         public static TaskManager CurrentTaskManager { get { return _currentTaskManager; } set { _currentTaskManager = value; } }
         public int Count { get { return _tasks.Count; } }
@@ -34,12 +34,12 @@ namespace pb
             return _currentTaskManager.IsStarted();
         }
 
-        public static void AddTask(Task task)
+        public static void AddTask(zTask task)
         {
             _currentTaskManager.Add(task);
         }
 
-        public void Add(Task task)
+        public void Add(zTask task)
         {
             _tasks.Enqueue(task);
         }
@@ -51,7 +51,7 @@ namespace pb
                 try
                 {
                     //_tasks.Dequeue().task();
-                    Task task;
+                    zTask task;
                     if (_tasks.TryDequeue(out task))
                         task.task();
                 }

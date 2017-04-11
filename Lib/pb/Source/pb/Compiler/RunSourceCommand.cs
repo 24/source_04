@@ -1,5 +1,4 @@
-﻿using pb.IO;
-using System.Data;
+﻿using System.Data;
 
 namespace pb.Compiler
 {
@@ -13,25 +12,27 @@ namespace pb.Compiler
         //    TraceManager.Current.SetWriter(WriteToFile.Create(file, option));
         //}
 
-        public static void TraceSetWriter(IWriteToFile writer, string name = "_default")
-        {
-            TraceManager.Current.SetWriter(writer, name);
-        }
+        public static ITraceManager TraceManager { get { return pb.TraceManager.Current; } }
 
-        public static void TraceRemoveWriter(string name = "_default")
-        {
-            TraceManager.Current.RemoveWriter(name);
-        }
+        //public static void TraceSetWriter(IWriteToFile writer, string name = "_default")
+        //{
+        //    TraceManager.Current.SetWriter(writer, name);
+        //}
 
-        public static void TraceEnableViewer()
-        {
-            TraceManager.Current.DisableViewer = false;
-        }
+        //public static void TraceRemoveWriter(string name = "_default")
+        //{
+        //    TraceManager.Current.RemoveWriter(name);
+        //}
 
-        public static void TraceDisableViewer()
-        {
-            TraceManager.Current.DisableViewer = true;
-        }
+        //public static void TraceEnableViewer()
+        //{
+        //    TraceManager.Current.DisableViewer = false;
+        //}
+
+        //public static void TraceDisableViewer()
+        //{
+        //    TraceManager.Current.DisableViewer = true;
+        //}
 
         public static void SetProjectFromSource()
         {

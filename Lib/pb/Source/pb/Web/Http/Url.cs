@@ -46,10 +46,10 @@ namespace pb.Web.Http
         //    return UrlToFileName(url, type, ext, httpRequestContent);
         //}
 
-        public static string UrlToFileName(HttpRequest request, UrlFileNameType type, string ext = null)
-        {
-            return UrlToFileName(request.Url, type, ext, request.Content);
-        }
+        //public static string UrlToFileName(HttpRequest request, UrlFileNameType type, string ext = null)
+        //{
+        //    return UrlToFileName(request.Url, type, ext, request.Content);
+        //}
 
         public static string UrlToFileName(string url, UrlFileNameType type, string ext = null, string httpRequestContent = null)
         {

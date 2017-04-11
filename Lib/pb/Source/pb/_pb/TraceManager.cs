@@ -16,7 +16,7 @@ namespace pb
         private bool _traceStackError = true;
 
         public static TraceManager Current { get { return _current; } }
-        public bool DisableViewer { get { return _disableViewer; } set { _disableViewer = value; } }
+        //public bool DisableViewer { get { return _disableViewer; } set { _disableViewer = value; } }
         public bool TraceStackError { get { return _traceStackError; } set { _traceStackError = value; } }
         public bool TraceStackErrorToFile { get { return _traceStackErrorToFile; } set { _traceStackErrorToFile = value; } }
         public bool ViewStackError { get { return _viewStackError; } set { _viewStackError = value; } }
@@ -83,6 +83,14 @@ namespace pb
             _writers.Add(name, writer);
         }
 
+        public IWriteToFile GetWriter(string name = "_default")
+        {
+            if (_writers.ContainsKey(name))
+                return _writers[name];
+            else
+                return null;
+        }
+
         //public void RemoveWriter()
         //{
         //    if (_writer != null)
@@ -109,6 +117,21 @@ namespace pb
         public void RemoveViewer()
         {
             _viewer = null;
+        }
+
+        public void EnableViewer()
+        {
+            _disableViewer = false;
+        }
+
+        public void DisableViewer()
+        {
+            _disableViewer = true;
+        }
+
+        public bool IsViewerDisabled()
+        {
+            return _disableViewer;
         }
     }
 }

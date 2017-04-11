@@ -125,24 +125,26 @@ namespace runsourced
 
         private void menuExecute_Click(object sender, EventArgs e)
         {
-            Try(() => _RunCode());
+            //Try(() => _RunCode());
+            TryAsync(async () => await _RunCode());
         }
 
         private void menuExecuteOnMainThread_Click(object sender, EventArgs e)
         {
-            //Try(() => _RunCode(useNewThread: false));
-            Try(() => _RunCode(runOnMainThread: true));
+            //Try(() => _RunCode(runOnMainThread: true));
+            TryAsync(async () => await _RunCode(runOnMainThread: true));
         }
 
         private void menuExecuteWithoutProject_Click(object sender, EventArgs e)
         {
-            //Try(() => _RunCode(compileWithoutProject: true));
-            Try(() => _RunCode(runWithoutProject: true));
+            //Try(() => _RunCode(runWithoutProject: true));
+            TryAsync(async () => await _RunCode(runWithoutProject: true));
         }
 
         private void menuCompile_Click(object sender, EventArgs e)
         {
-            Try(CompileCode);
+            //Try(CompileCode);
+            TryAsync(CompileCode);
         }
 
         private void menuUpdateRunsource_Click(object sender, EventArgs e)
@@ -188,7 +190,8 @@ namespace runsourced
         private void buttonExecute_Click(object sender, EventArgs e)
         {
             if (!_runSource.IsRunning())
-                Try(() => _RunCode());
+                //Try(() => _RunCode());
+                TryAsync(async () => await _RunCode());
             else
             {
                 DialogResult r = MessageBox.Show("Voulez-vous interrompre l'exécution du programme ?", "Run source", MessageBoxButtons.OKCancel, MessageBoxIcon.Stop, MessageBoxDefaultButton.Button2);

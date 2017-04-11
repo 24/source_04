@@ -2,6 +2,7 @@
 using System.Reflection;
 using System.Threading;
 using pb.Reflection;
+using System.Threading.Tasks;
 
 namespace pb.Compiler
 {
@@ -9,10 +10,7 @@ namespace pb.Compiler
     {
         private int _id;
         private Assembly _runAssembly = null;
-        //private Dictionary<string, CompilerAssembly> _compilerAssemblies = null;
         private string _runMethodName = null;       // "Test._RunCode.Run"
-
-        //private Type _runType = null;
 
         private Thread _runThread = null;
         private Chrono _runChrono = null;
@@ -25,7 +23,6 @@ namespace pb.Compiler
 
         public int Id { get { return _id; } }
         public Assembly RunAssembly { get { return _runAssembly; } set { _runAssembly = value; } }
-        //public Dictionary<string, CompilerAssembly> CompilerAssemblies { get { return _compilerAssemblies; } set { _compilerAssemblies = value; } }
         public string RunMethodName { get { return _runMethodName; } set { _runMethodName = value; } }
         public Thread RunThread { get { return _runThread; } }
         public Chrono RunChrono { get { return _runChrono; } }
@@ -38,8 +35,6 @@ namespace pb.Compiler
                 throw new PBException("assembly is null");
             MethodInfo runMethod = GetRunMethod();
 
-            //AssemblyResolve.Clear();
-
             if (!runOnMainThread)
             {
                 _runThread = new Thread(new ThreadStart(() => _Run(runMethod)));
@@ -50,6 +45,26 @@ namespace pb.Compiler
             else
             {
                 _Run(runMethod);
+            }
+        }
+
+        public async Task Run_v2(bool runOnMainThread)
+        {
+            _runChrono = new Chrono();
+            if (_runAssembly == null)
+                throw new PBException("assembly is null");
+            MethodInfo runMethod = GetRunMethod();
+
+            if (!runOnMainThread)
+            {
+                _runThread = new Thread(new ThreadStart(async () => await _Run_v2(runMethod)));
+                _runThread.CurrentCulture = FormatInfo.CurrentFormat.CurrentCulture;
+                _runThread.SetApartmentState(ApartmentState.STA);
+                _runThread.Start();
+            }
+            else
+            {
+                await _Run_v2(runMethod);
             }
         }
 
@@ -67,58 +82,6 @@ namespace pb.Compiler
                 runType = zReflection.GetType(_runAssembly, runMethodElements.TypeName, ErrorOptions.ThrowError);
             return zReflection.GetMethod(runType, runMethodElements.MethodName, ErrorOptions.ThrowError);
         }
-
-        //public MethodInfo GetMethod(string methodName)
-        //{
-        //    if (methodName == null)
-        //        return null;
-        //    MethodElements runMethodElements = zReflection.GetMethodElements(methodName);
-        //    Type type;
-        //    if (runMethodElements.TypeName != null)
-        //    {
-        //        Assembly assembly = null;
-        //        if (runMethodElements.AssemblyName != null)
-        //        {
-        //            assembly = zReflection.GetAssembly(runMethodElements.AssemblyName, ErrorOptions.None);
-        //            //if (assembly == null && _compilerAssemblies != null)
-        //            //{
-        //            //    // Compiler.AddAssembly() generate _compilerAssemblies with lower case key (ToLowerInvariant)
-        //            //    string assemblyName = zReflection.GetAssemblyName(runMethodElements.AssemblyName).ToLowerInvariant();
-        //            //    if (_compilerAssemblies.ContainsKey(assemblyName))
-        //            //    {
-        //            //        string file = _compilerAssemblies[assemblyName].File;
-        //            //        Trace.WriteLine("load assembly from \"{0}\"", file);
-        //            //        assembly = Assembly.LoadFrom(file);
-        //            //    }
-        //            //    else
-        //            //        Trace.WriteLine("unknow assembly \"{0}\"", assemblyName);
-        //            //}
-        //            if (assembly == null)
-        //            {
-        //                assembly = Assembly.Load(runMethodElements.AssemblyName);
-        //            }
-        //            if (assembly == null)
-        //            {
-        //                Error.WriteMessage(ErrorOptions.TraceWarning, $"unable to load assembly \"{runMethodElements.AssemblyName}\"");
-        //                return null;
-        //            }
-        //        }
-        //        else
-        //            assembly = _runAssembly;
-        //        type = zReflection.GetType(assembly, runMethodElements.TypeName, ErrorOptions.TraceWarning);
-        //    }
-        //    else
-        //        type = _runType;
-        //    if (type != null)
-        //    {
-        //        return zReflection.GetMethod(type, runMethodElements.MethodName, ErrorOptions.TraceWarning);
-        //    }
-        //    else
-        //    {
-        //        Error.WriteMessage(ErrorOptions.TraceWarning, $"type not found \"{runMethodElements.TypeName}\"");
-        //        return null;
-        //    }
-        //}
 
         private void _Run(MethodInfo runMethod)
         {
@@ -141,8 +104,32 @@ namespace pb.Compiler
             finally
             {
                 _runThread = null;
-                if (_endRun != null)
-                    _endRun(error);
+                _endRun?.Invoke(error);
+            }
+        }
+
+        private async Task _Run_v2(MethodInfo runMethod)
+        {
+            bool error = false;
+            try
+            {
+                try
+                {
+                    _runChrono.Start();
+                    await (Task)runMethod.Invoke(null, null);
+                    _runChrono.Stop();
+                }
+                catch (Exception ex)
+                {
+                    _runChrono.Stop();
+                    error = true;
+                    Trace.WriteError(ex);
+                }
+            }
+            finally
+            {
+                _runThread = null;
+                _endRun?.Invoke(error);
             }
         }
     }

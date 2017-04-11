@@ -46,7 +46,8 @@ namespace Download.Print
             XmlConfig config = XmlConfig.CurrentConfig;
 
             //RunSourceCommand.SetWriter(config.Get("Log").zRootPath(zapp.GetAppDirectory()), config.Get("Log/@option").zTextDeserialize(FileOption.None));
-            RunSourceCommand.TraceSetWriter(WriteToFile.Create(config.Get("Log").zRootPath(zapp.GetAppDirectory()), config.Get("Log/@option").zTextDeserialize(FileOption.None)));
+            //RunSourceCommand.TraceSetWriter(WriteToFile.Create(config.Get("Log").zRootPath(zapp.GetAppDirectory()), config.Get("Log/@option").zTextDeserialize(FileOption.None)));
+            RunSourceCommand.TraceManager.SetWriter(WriteToFile.Create(config.Get("Log").zRootPath(zapp.GetAppDirectory()), config.Get("Log/@option").zTextDeserialize(FileOption.None)));
 
             string dataDir = config.GetExplicit("DataDir");
             AppData.DataDirectory = dataDir;
@@ -72,7 +73,8 @@ namespace Download.Print
         public static void EndAlways()
         {
             DownloadPrint.PrintTextValuesManager.CloseExportDataFile();
-            RunSourceCommand.TraceRemoveWriter();
+            //RunSourceCommand.TraceRemoveWriter();
+            RunSourceCommand.TraceManager.RemoveWriter();
             XmlConfig.CurrentConfig = null;
         }
     }

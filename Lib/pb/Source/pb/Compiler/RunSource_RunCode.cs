@@ -3,6 +3,7 @@ using System.Reflection;
 using pb.IO;
 using System.Collections.Concurrent;
 using pb.Reflection;
+using System.Threading.Tasks;
 
 // todo
 //   - nouvelle version (3) pour gérer plusieurs exécutions => RunCode _runCode devient ConcurrentDictionary<int, RunCode> _runCodes
@@ -104,15 +105,16 @@ namespace pb.Compiler
             return _runCodes.Count;
         }
 
-        //public void RunCode(string code, bool useNewThread = true, bool compileWithoutProject = false, bool allowMultipleRun = false)
-        public void RunCode(string code, bool runOnMainThread = false, bool compileWithoutProject = false, bool allowMultipleRun = false, bool callInit = false)
+        //public void RunCode(string code, bool runOnMainThread = false, bool compileWithoutProject = false, bool allowMultipleRun = false, bool callInit = false)
+        public async Task RunCode(string code, bool runOnMainThread = false, bool compileWithoutProject = false, bool allowMultipleRun = false, bool callInit = false)
         {
-            _RunCode(code, runOnMainThread: runOnMainThread, compileWithoutProject: compileWithoutProject, allowMultipleRun: allowMultipleRun, callInit: callInit);
+            await _RunCode(code, runOnMainThread: runOnMainThread, compileWithoutProject: compileWithoutProject, allowMultipleRun: allowMultipleRun, callInit: callInit);
         }
 
-        public void CompileCode(string code, bool compileWithoutProject = false)
+        //public void CompileCode(string code, bool compileWithoutProject = false)
+        public async Task CompileCode(string code, bool compileWithoutProject = false)
         {
-            _RunCode(code, compileWithoutProject: compileWithoutProject, dontRunCode: true);
+            await _RunCode(code, compileWithoutProject: compileWithoutProject, dontRunCode: true);
         }
 
         public void DeleteGeneratedAssemblies()
@@ -136,8 +138,8 @@ namespace pb.Compiler
         //    return CompilerProject.Create(GetRunSourceConfig().zGetConfigElement("CompilerDefaultValues"));
         //}
 
-        //private void _RunCode(string code, bool useNewThread = true, bool compileWithoutProject = false, bool allowMultipleRun = false, bool dontRunCode = false)
-        private void _RunCode(string code, bool runOnMainThread = false, bool compileWithoutProject = false, bool allowMultipleRun = false, bool dontRunCode = false, bool callInit = false)
+        //private void _RunCode(string code, bool runOnMainThread = false, bool compileWithoutProject = false, bool allowMultipleRun = false, bool dontRunCode = false, bool callInit = false)
+        private async Task _RunCode(string code, bool runOnMainThread = false, bool compileWithoutProject = false, bool allowMultipleRun = false, bool dontRunCode = false, bool callInit = false)
         {
             if (code == "")
                 return;
@@ -185,8 +187,8 @@ namespace pb.Compiler
 
                     if (!dontRunCode)
                     {
-                        //RunCode_ExecuteCode(compiler.Results.CompiledAssembly, codeResult, compilerProject, compiler, runOnMainThread, callInit);
-                        RunCode_ExecuteCode(compiler.Results.LoadAssembly(), codeResult, projectReader, compiler, runOnMainThread, callInit);
+                        //RunCode_ExecuteCode(compiler.Results.LoadAssembly(), codeResult, projectReader, compiler, runOnMainThread, callInit);
+                        await RunCode_ExecuteCode(compiler.Results.LoadAssembly(), codeResult, projectReader, compiler, runOnMainThread, callInit);
                         doEndRun = false;
                     }
                 }
@@ -254,8 +256,8 @@ namespace pb.Compiler
 
         // RunCode_ExecuteCode must throw an exception if he can't execute run method
         // if no error thrown RunCode_ExecuteCode must call RunCode_EndRun()
-        //private void RunCode_ExecuteCode(Assembly assembly, GenerateCSharpCodeResult codeResult, CompilerProject compilerProject, Compiler compiler, bool useNewThread)
-        private void RunCode_ExecuteCode(Assembly assembly, GenerateCSharpCodeResult codeResult, CompilerProjectReader compilerProject, ProjectCompiler compiler, bool runOnMainThread, bool callInit)
+        //private void RunCode_ExecuteCode(Assembly assembly, GenerateCSharpCodeResult codeResult, CompilerProjectReader compilerProject, ProjectCompiler compiler, bool runOnMainThread, bool callInit)
+        private async Task RunCode_ExecuteCode(Assembly assembly, GenerateCSharpCodeResult codeResult, CompilerProjectReader compilerProject, ProjectCompiler compiler, bool runOnMainThread, bool callInit)
         {
             RunCode runCode = new RunCode(++_runCodeId);
             runCode.RunAssembly = assembly;
@@ -284,7 +286,8 @@ namespace pb.Compiler
             if (!_runCodes.TryAdd(runCode.Id, runCode))
                 throw new PBException("unable to add RunCode id {0} to ConcurrentDictionary", runCode.Id);
 
-            runCode.Run(runOnMainThread);
+            //runCode.Run(runOnMainThread);
+            await runCode.Run_v2(runOnMainThread);
 
             // problem with AssemblyResolve.Clear() end method may need to resolve assembly
             //AssemblyResolve.Clear();

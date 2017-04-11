@@ -415,7 +415,7 @@ namespace Download.Print
                 // _uncompressFile
                 if (_uncompressManager != null && ContainsCompressFiles(queueDownloadFile))
                 {
-                    TaskManager.AddTask(new Task
+                    TaskManager.AddTask(new zTask
                     {
                         name = "Uncompress download file",
                         task = () =>
@@ -429,7 +429,7 @@ namespace Download.Print
                         }
                     });
                     if (_onDownloaded != null)
-                        TaskManager.AddTask(new Task { name = "onDownloaded", task = () => _onDownloaded(downloadedFile) });
+                        TaskManager.AddTask(new zTask { name = "onDownloaded", task = () => _onDownloaded(downloadedFile) });
                 }
                 else if (_onDownloaded != null)
                     _onDownloaded(downloadedFile);

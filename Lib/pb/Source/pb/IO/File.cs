@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 //Directory.GetFileSystemEntries();
 //Directory.EnumerateFileSystemEntries();
@@ -251,6 +252,15 @@ namespace pb.IO
             if (encoding == null)
                 encoding = Encoding.UTF8;
             return zFile.ReadAllText(file, encoding);
+        }
+
+        public static async Task<string> ReadAllTextAsync(string file, Encoding encoding = null)
+        {
+            if (encoding == null)
+                encoding = Encoding.UTF8;
+            using (FileStream fs = zFile.Open(file, FileMode.Open, FileAccess.Read, FileShare.Read))
+            using (StreamReader sr = new StreamReader(fs, encoding))
+                return await sr.ReadToEndAsync();
         }
 
         public static byte[] ReadAllBytes(string file)

@@ -4,7 +4,7 @@ namespace pb.IO
 {
     public partial class WriteToFile : WriteToFileBase
     {
-        public static WriteToFile Create(string file, FileOption option, Encoding encoding = null)
+        public static WriteToFile Create(string file, FileOption option = FileOption.None, Encoding encoding = null)
         {
             if (file != null)
             {

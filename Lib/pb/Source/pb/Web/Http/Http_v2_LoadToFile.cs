@@ -6,6 +6,7 @@ namespace pb.Web.Http
 {
     partial class Http_v2
     {
+        // save http binary content response in a file (dont use character encoding, just save bytes)
         public bool LoadToFile(string file, bool exportRequest = false)
         {
             bool ret = false;

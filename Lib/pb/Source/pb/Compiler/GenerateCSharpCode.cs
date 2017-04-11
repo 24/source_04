@@ -77,7 +77,11 @@ namespace pb.Compiler
                 // public static void Run()
                 if (_runMethodName == null)
                     throw new PBException("run method name is null, can't open method");
-                codeWriter.WriteLine("public static void {0}()", _runMethodName);
+                //codeWriter.WriteLine("public static void {0}()", _runMethodName);
+                // Warning CS1998 source "RunCode_00006.cs" line 17 col 49 "This async method lacks 'await' operators and will run synchronously. Consider using the 'await' operator to await non-blocking API calls, or 'await Task.Run(...)' to do CPU-bound work on a background thread."
+                codeWriter.WriteLine("#pragma warning disable 1998");
+                codeWriter.WriteLine($"public static async System.Threading.Tasks.Task {_runMethodName}()");
+                codeWriter.WriteLine("#pragma warning restore 1998");
                 codeWriter.WriteLine("{");
                 codeWriter.WriteLine(code);
                 codeWriter.WriteLine("}");

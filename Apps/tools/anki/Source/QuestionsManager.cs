@@ -583,7 +583,8 @@ namespace anki
         {
             //return zPath.Combine(_directory, "data", GetFileName() + ".anki.txt");
             //return zPath.Combine(_directory, "data", "anki.txt");
-            return zPath.Combine(_directory, GetFileName() + ".anki.txt");
+            //return zPath.Combine(_directory, GetFileName() + ".anki.txt");
+            return zPath.Combine(_directory, "anki.txt");
         }
 
         private string GetScanDirectory()

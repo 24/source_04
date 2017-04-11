@@ -9,16 +9,25 @@
   <MaxLinesPerResponse                         value = "4" />
   
   <QuestionInfos>
-    <QuestionInfo regex="^([0-9]{4})$" options="IgnoreCase" values="year" />
+    <!--<QuestionInfo regex="^question\s+n\s*°\s*([0-9]+)(?:\s*:)?$" options="IgnoreCase" values="questionNumber" />-->
+    <!--<QuestionInfo regex="^([0-9]{1,2})$" options="IgnoreCase" values="pageNumber" />-->
+    
+    <!--<QuestionInfo regex="^([0-9]{4})$" options="IgnoreCase" values="year" />
     <QuestionInfo regex="^questions?\s+[aà]\s+complements?\s+(simples?|multiples)$" options="IgnoreCase" values="questionType" />
     <QuestionInfo regex="^questions?\s+de\s+type\s+(association)$" options="IgnoreCase" values="questionType" />
     <QuestionInfo regex="^(qcs|qcm|qta)$" options="IgnoreCase" values="questionType" />
-    <!--<QuestionInfo regex="^question\s+n\s*°\s*([0-9]+)(?:\s*:)?$" options="IgnoreCase" values="questionNumber" />-->
     <QuestionInfo regex="^QUESTION\s+(?:N\s*°?\s*)?([0-9]+)(?:\s*:)?$" values="questionNumber" />
     <QuestionInfo regex="^([A-F])\s?[\.)\-]\s*(.*)$" options="IgnoreCase" values="characterChoiceCode, choice" />
-    <QuestionInfo regex="^([1-6])\s?[\.)\-]\s*(.*)$" options="IgnoreCase" values="numericChoiceCode, choice" />
-    <!--<QuestionInfo regex="^([0-9]{1,2})$" options="IgnoreCase" values="pageNumber" />-->
-  </QuestionInfos>
+    <QuestionInfo regex="^([1-6])\s?[\.)\-]\s*(.*)$" options="IgnoreCase" values="numericChoiceCode, choice" />-->
+  
+    <QuestionInfo regex="^\s*([0-9]{4})$" options="IgnoreCase" values="year" />
+    <QuestionInfo regex="^\s*questions?\s+[aà]\s+complements?\s+(simples?|multiples)$" options="IgnoreCase" values="questionType" />
+    <QuestionInfo regex="^\s*questions?\s+de\s+type\s+(association)$" options="IgnoreCase" values="questionType" />
+    <QuestionInfo regex="^\s*(qcs|qcm|qta)$" options="IgnoreCase" values="questionType" />
+    <QuestionInfo regex="^\s*QUESTION\s+(?:N\s*°?\s*)?([0-9]+)(?:\s*:)?$" values="questionNumber" />
+    <QuestionInfo regex="^\s+([A-F])\s?[\.)\-]\s*(.*)$" options="IgnoreCase" values="characterChoiceCode, choice" />
+    <QuestionInfo regex="^\s+([1-6])\s?[\.)\-]\s*(.*)$" options="IgnoreCase" values="numericChoiceCode, choice" />
+</QuestionInfos>
   
   <ResponseInfos>
     <!--

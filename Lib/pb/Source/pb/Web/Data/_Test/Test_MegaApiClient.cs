@@ -149,8 +149,10 @@ namespace pb.Web.Data.Test
             {
                 if (log)
                 {
-                    RunSourceCommand.TraceDisableViewer();
-                    RunSourceCommand.TraceSetWriter(GetLogWriter(), "log");
+                    //RunSourceCommand.TraceDisableViewer();
+                    //RunSourceCommand.TraceSetWriter(GetLogWriter(), "log");
+                    RunSourceCommand.TraceManager.DisableViewer();
+                    RunSourceCommand.TraceManager.SetWriter(GetLogWriter(), "log");
                 }
                 if (limit != 0)
                     nodes = nodes.Take(limit);
@@ -173,8 +175,10 @@ namespace pb.Web.Data.Test
             {
                 if (log)
                 {
-                    RunSourceCommand.TraceRemoveWriter("log");
-                    RunSourceCommand.TraceEnableViewer();
+                    //RunSourceCommand.TraceRemoveWriter("log");
+                    //RunSourceCommand.TraceEnableViewer();
+                    RunSourceCommand.TraceManager.RemoveWriter("log");
+                    RunSourceCommand.TraceManager.EnableViewer();
                 }
             }
         }
@@ -185,8 +189,10 @@ namespace pb.Web.Data.Test
             {
                 if (log)
                 {
-                    RunSourceCommand.TraceDisableViewer();
-                    RunSourceCommand.TraceSetWriter(GetLogWriter(), "log");
+                    //RunSourceCommand.TraceDisableViewer();
+                    //RunSourceCommand.TraceSetWriter(GetLogWriter(), "log");
+                    RunSourceCommand.TraceManager.DisableViewer();
+                    RunSourceCommand.TraceManager.SetWriter(GetLogWriter(), "log");
                 }
                 if (limit != 0)
                     nodes = nodes.Take(limit);
@@ -207,8 +213,10 @@ namespace pb.Web.Data.Test
             {
                 if (log)
                 {
-                    RunSourceCommand.TraceRemoveWriter("log");
-                    RunSourceCommand.TraceEnableViewer();
+                    //RunSourceCommand.TraceRemoveWriter("log");
+                    //RunSourceCommand.TraceEnableViewer();
+                    RunSourceCommand.TraceManager.RemoveWriter("log");
+                    RunSourceCommand.TraceManager.EnableViewer();
                 }
             }
         }

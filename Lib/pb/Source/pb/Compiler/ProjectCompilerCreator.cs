@@ -39,6 +39,7 @@ namespace pb.Compiler
                     ProjectCompiler compiler = ProjectCompiler.Create(projectFile, win32ResourceCompiler, resourceCompiler);
                     compiler.RunsourceSourceDirectory = runsourceSourceDirectory;
                     compiler.Compile();
+                    compiler.TraceMessages();
 
                     //if (onCompiled != null)
                     //    onCompiled(compiler);

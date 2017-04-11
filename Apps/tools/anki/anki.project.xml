@@ -20,6 +20,12 @@
 
   <Using                            value = "anki.Test" />
   <!--<Using                            value = "pb.Text.Test" />-->
+  <Using                            value = "pb.Data.Test" />
+  <Using                            value = "System.Drawing" />
+  <Using                            value = "System.Drawing.Imaging" />
+
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\_Test\Test_Image_01.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\Image.cs" />
 
   <Source                           value = "Source\_Test\QuestionTest.cs" />
   <Source                           value = "Source\AnkiWriter.cs" />
@@ -32,7 +38,9 @@
   <Source                           value = "Source\QuestionRun.cs" />
   <Source                           value = "Source\QuestionType.cs" />
   <Source                           value = "Source\ResponseReader.cs" />
+  <Source                           value = "Source\ResponseReader.cs" />
   <Source                           value = "Source\Run.cs" />
+  <Source                           value = "Source\ColumnText.cs" />
 
   <SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\ParseAs.cs" />
   <!--<SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\ITraceManager.cs" />-->
@@ -62,6 +70,7 @@
   <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Text\RegexValues.cs" />
   -->
 
+  <FrameworkAssembly                value = "System.Drawing.dll" />
   <FrameworkAssembly                value = "System.Web.dll" />
 
 </AssemblyProject>

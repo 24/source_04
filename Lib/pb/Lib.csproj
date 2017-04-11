@@ -100,6 +100,7 @@
     <Reference Include="System.IO.Packaging">
       <HintPath>..\..\..\library\OpenXml-sdk\OpenXml.v2.6.1\System.IO.Packaging.dll</HintPath>
     </Reference>
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Reflection.Metadata">
       <HintPath>..\..\..\..\..\..\..\dev\NuGet\repository\System.Reflection.Metadata.1.2.0\lib\portable-net45+win8\System.Reflection.Metadata.dll</HintPath>
     </Reference>
@@ -127,6 +128,7 @@
     <Compile Include="Source\pb\Data\VSProject\VSProjectManager.cs" />
     <Compile Include="Source\pb\Data\Xml\XmlSet.cs" />
     <Compile Include="Source\pb\Data\Xml\_Test\Test_Xpath.cs" />
+    <Compile Include="Source\pb\Data\_Test\Test_Image_01.cs" />
     <Compile Include="Source\pb\IO\IWriteToFile.cs" />
     <Compile Include="Source\pb\IO\ProgressionStream.cs" />
     <Compile Include="Source\pb\NodeJS\JSFile.cs" />
@@ -137,6 +139,7 @@
     <Compile Include="Source\pb\Web\Data\DataPages_v2.cs" />
     <Compile Include="Source\pb\Web\Data\DebridLinkFr_v3.cs" />
     <Compile Include="Source\pb\Web\Data\MegaClient.cs" />
+    <Compile Include="Source\pb\Web\Data\Ocr\OcrWebService.cs" />
     <Compile Include="Source\pb\Web\Data\WebDataManager_v5.cs" />
     <Compile Include="Source\pb\Web\Data\WebData_v2.cs" />
     <Compile Include="Source\pb\Web\Data\WebHeaderDetailManager_v5.cs" />
@@ -146,12 +149,22 @@
     <Compile Include="Source\pb\Web\Html\HtmlRun_v2.cs" />
     <Compile Include="Source\pb\Web\Html\HtmlRun_v2_SetResult.cs" />
     <Compile Include="Source\pb\Web\Html\HtmlToXmlManager.cs" />
+    <Compile Include="Source\pb\Web\Http\HttpCache.cs" />
+    <Compile Include="Source\pb\Web\Http\HttpContentValue.cs" />
+    <Compile Include="Source\pb\Web\Http\HttpResult_v3.cs" />
+    <Compile Include="Source\pb\Web\Http\Http_v3.cs" />
+    <Compile Include="Source\pb\Web\Http\HttpManager_v3.cs" />
     <Compile Include="Source\pb\Web\Http\HttpRun_v2.cs" />
     <Compile Include="Source\pb\Web\Http\HttpXml_v2.cs" />
+    <Compile Include="Source\pb\Web\Http\_Test\Test_Http.cs" />
+    <Compile Include="Source\pb\Web\Http\_Test\Test_HttpClient.cs" />
+    <Compile Include="Source\pb\Web\Http\_Test\Test_HttpManager_v3.cs" />
+    <Compile Include="Source\pb\Web\Http\_Test\Test_HttpProgress.cs" />
     <Compile Include="Source\pb\_pb\ITrace.cs" />
     <Compile Include="Source\pb\_pb\ITraceManager.cs" />
     <Compile Include="Source\pb\_pb\TraceLevel.cs" />
     <Compile Include="Source\pb\_pb\TraceManager.cs" />
+    <Compile Include="Source\pb\_pb\_Test\Test_Async.cs" />
     <Compile Include="Source\pb\_pb\_Test\Test_CSharp.cs" />
     <None Include="Source\pb\Data\OpenXml\_Test\Data\page_01_01.oxml.json" />
     <None Include="Source\pb\Data\OpenXml\_Test\Data\page_01_02.oxml.json" />
@@ -473,8 +486,8 @@
     <Compile Include="Source\pb\Web\Http\Http_v2_LoadText.cs" />
     <Compile Include="Source\pb\Web\Http\Http_v2.cs" />
     <Compile Include="Source\pb\Web\Http\PBUriBuilder.cs" />
-    <Compile Include="Source\pb\Web\Http\Test\Test_HttpLog.cs" />
-    <Compile Include="Source\pb\Web\Http\Test\Test_Run.cs" />
+    <Compile Include="Source\pb\Web\Http\_Test\Test_HttpLog.cs" />
+    <Compile Include="Source\pb\Web\Http\_Test\Test_Run.cs" />
     <Compile Include="Source\pb\Web\Http\Url.cs" />
     <Compile Include="Source\pb\Web\Http\UrlCache.cs" />
     <Compile Include="Source\pb\Web\Http\XmlDocumentSourceType.cs" />
@@ -702,10 +715,19 @@
     <Content Include="Source\pb\Web\Html\TestUnit\TestUnit.HtmlToXml.project.xml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Source\pb\Web\Http\Test\Test_HttpLog.project.xml">
+    <Content Include="Source\pb\Web\Http\_Test\Test_Http.project.xml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Source\pb\_pb\_Test\Test_01.project.xml">
+    <Content Include="Source\pb\Web\Http\_Test\Test_HttpManager_v3.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Source\pb\Web\Http\_Test\Test_HttpClient.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Source\pb\Web\Http\_Test\Test_HttpLog.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Source\pb\_pb\_Test\Test.project.xml">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Source\Project\RegexValuesList.project.xml">

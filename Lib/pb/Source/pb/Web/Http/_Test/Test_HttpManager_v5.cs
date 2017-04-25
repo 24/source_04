@@ -4,18 +4,18 @@ using System.Threading.Tasks;
 
 namespace pb.Web.Http.Test
 {
-    public static class Test_HttpManager_v3
+    public static class Test_HttpManager_v5
     {
         public static async Task Test_LoadText_01(string url, string cacheDirectory = null)
         {
-            await Test_LoadText_01(new HttpRequest_v3 { Url = url }, cacheDirectory);
+            await Test_LoadText_01(new HttpRequest_v5 { Url = url }, cacheDirectory);
         }
 
-        public static async Task Test_LoadText_01(HttpRequest_v3 request, string cacheDirectory = null)
+        public static async Task Test_LoadText_01(HttpRequest_v5 request, string cacheDirectory = null)
         {
             try
             {
-                using (HttpManager_v3 httpManager = CreateHttpManager(cacheDirectory))
+                using (HttpManager_v5 httpManager = CreateHttpManager(cacheDirectory))
                     await LoadText(httpManager, request);
             }
             catch (Exception ex)
@@ -24,18 +24,18 @@ namespace pb.Web.Http.Test
             }
         }
 
-        private static async Task LoadText(HttpManager_v3 httpManager, HttpRequest_v3 request)
+        private static async Task LoadText(HttpManager_v5 httpManager, HttpRequest_v5 request)
         {
             httpManager.ActiveCookies();
             httpManager.SetDefaultHeaders();
-            HttpResult_v3<string> httpResult = await httpManager.LoadText(request);
+            HttpResult_v5<string> httpResult = await httpManager.LoadText(request);
             Trace.WriteLine($"success {httpResult.Success} loadFromWeb {httpResult.LoadFromWeb} loadFromCache {httpResult.LoadFromCache}");
 
             Trace.WriteLine();
             TraceCookies(httpManager, request.Url);
         }
 
-        public static void TraceCookies(HttpManager_v3 httpManager, string url)
+        public static void TraceCookies(HttpManager_v5 httpManager, string url)
         {
             if (httpManager.HttpClientHandler.CookieContainer == null)
             {
@@ -50,9 +50,9 @@ namespace pb.Web.Http.Test
                 Trace.WriteLine($"  {i++,3} name {cookie.Name} path {cookie.Path} value {cookie.Value}");
         }
 
-        public static HttpManager_v3 CreateHttpManager(string cacheDirectory = null)
+        public static HttpManager_v5 CreateHttpManager(string cacheDirectory = null)
         {
-            HttpManager_v3 httpManager = new HttpManager_v3();
+            HttpManager_v5 httpManager = new HttpManager_v5();
             //httpManager.TraceException = true;
             if (cacheDirectory != null)
             {

@@ -11,10 +11,10 @@ using System.Threading.Tasks;
 
 namespace pb.Web.Http
 {
-    public class HttpManager_v3 : IDisposable
+    public class HttpManager_v5 : IDisposable
     {
         private static string _defaultUserAgent = "pib/0.1";
-        private static string _defaultAccept = "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8";
+        //private static string _defaultAccept = "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8";
 
         private HttpClient _httpClient = null;
         private HttpClientHandler _httpClientHandler = null;
@@ -38,7 +38,7 @@ namespace pb.Web.Http
         //public HttpRequestParameters RequestParameters { get { return _requestParameters; } set { _requestParameters = value; } }
         //public Action InitLoadFromWeb { get { return _initLoadFromWeb; } set { _initLoadFromWeb = value; } }
 
-        public HttpManager_v3()
+        public HttpManager_v5()
         {
             _httpClientHandler = new HttpClientHandler();
             _httpClient = new HttpClient(_httpClientHandler);
@@ -72,16 +72,16 @@ namespace pb.Web.Http
         public void SetDefaultHeaders()
         {
             _httpClient.DefaultRequestHeaders.UserAgent.zSet(_defaultUserAgent);
-            _httpClient.DefaultRequestHeaders.Accept.zSet(_defaultAccept);
+            //_httpClient.DefaultRequestHeaders.Accept.zSet(_defaultAccept);
         }
 
         //public HttpResult<string> LoadText(HttpRequest_v3 httpRequest)
-        public async Task<HttpResult_v3<string>> LoadText(HttpRequest_v3 httpRequest)
+        public async Task<HttpResult_v5<string>> LoadText(HttpRequest_v5 httpRequest)
         {
             if (_httpCacheManager != null)
                 return await _httpCacheManager.LoadText(httpRequest);
             else
-                return await new Http_v3(httpRequest, this).LoadText();
+                return await new Http_v5(httpRequest, this).LoadText();
             //return Load(httpRequest, http => http.LoadText());
             //bool success = false;
             //try
@@ -96,6 +96,11 @@ namespace pb.Web.Http
             //        throw;
             //}
             //return new HttpResult<string> { Success = success, LoadFromWeb = loadFromWeb, LoadFromCache = loadFromCache, Http = http, Data = data };
+        }
+
+        public async Task<HttpResult_v5> LoadToFile(HttpRequest_v5 httpRequest, string file)
+        {
+            return await new Http_v5(httpRequest, this).LoadToFile(file);
         }
 
         //public Http_v2 CreateHttp(HttpRequest httpRequest)

@@ -111,6 +111,9 @@
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\Compiler\RunSourceInitEndMethods_v2.cs">
       <Link>SourceLnk\Lib\pb\Compiler\RunSourceInitEndMethods_v2.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Compiler\RunSourceVSProjectManager.cs">
+      <Link>SourceLnk\Lib\pb\Compiler\RunSourceVSProjectManager.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\Compiler\RunSource_CompileProjects.cs">
       <Link>SourceLnk\Lib\pb\Compiler\RunSource_CompileProjects.cs</Link>
     </Compile>
@@ -132,6 +135,9 @@
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\Data\ParseNamedValues.cs">
       <Link>SourceLnk\Lib\pb\Data\ParseNamedValues.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Data\VSProject\VSProjectManager.cs">
+      <Link>SourceLnk\Lib\pb\Data\VSProject\VSProjectManager.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\Data\Xml\Xml.cs">
       <Link>SourceLnk\Lib\pb\Data\Xml\Xml.cs</Link>
     </Compile>
@@ -146,6 +152,9 @@
     </Compile>
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\IO\CompressOptions.cs">
       <Link>SourceLnk\Lib\pb\IO\CompressOptions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\IO\Directory.cs">
+      <Link>SourceLnk\Lib\pb\IO\Directory.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\IO\File.cs">
       <Link>SourceLnk\Lib\pb\IO\File.cs</Link>
@@ -182,6 +191,9 @@
     </Compile>
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\Text\Split.cs">
       <Link>SourceLnk\Lib\pb\Text\Split.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Text\String.cs">
+      <Link>SourceLnk\Lib\pb\Text\String.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\Text\StringZones.cs">
       <Link>SourceLnk\Lib\pb\Text\StringZones.cs</Link>

@@ -1,19 +1,43 @@
 ﻿using pb;
+using pb.Data;
 using pb.Data.Mongo;
+using pb.Data.Pdf;
+using pb.Data.Xml;
 using pb.IO;
 using pb.Linq;
 using pb.Text;
+using pb.Web.Data.Ocr;
+using pb.Web.Http;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace anki
 {
+    public enum PageRotate
+    {
+        NoRotate,
+        Rotate90,
+        Rotate180,
+        Rotate270
+    }
+
+    public class QuestionsParameters
+    {
+        public string PageRange;
+        public PageRotate PageRotate;
+        public int PageColumn = 1;
+        public bool ImagesExtracted;
+    }
+
     public class QuestionsManager
     {
+        private const int _timeout = 1200; // Timeout 1200" = 20 min
+        private static string[] _imageExtensions = new string[] { ".jpg", ".png" };
         private string _baseDirectory = null;
         private string _directory = null;
         private string _filename = null;
@@ -41,6 +65,243 @@ namespace anki
         //    _questionRegexValuesList = questionRegexValuesList;
         //    _responseRegexValuesList = responseRegexValuesList;
         //}
+
+        public void SetParameters(QuestionsParameters parameters)
+        {
+            string file = GetParametersFile();
+            Trace.WriteLine($"save parameters to \"{file}\"");
+            parameters.zSave(file, jsonIndent: true);
+        }
+
+        public QuestionsParameters GetParameters()
+        {
+            string file = GetParametersFile();
+            if (!zFile.Exists(file))
+                //throw new PBException($"parameters file not found \"{file}\"");
+                return null;
+            else
+                return zMongo.ReadFileAs<QuestionsParameters>(file);
+        }
+
+        //string range = null
+        public void ExtractImagesFromPdf()
+        {
+            QuestionsParameters parameters = GetParameters();
+            if (parameters == null)
+            {
+                Trace.WriteLine($"parameters are not defined");
+                return;
+            }
+            if (parameters.PageRange == null)
+            {
+                Trace.WriteLine($"page range is not defined");
+                return;
+            }
+            ExtractImagesFromPdf(parameters);
+        }
+
+        // string range
+        private void ExtractImagesFromPdf(QuestionsParameters parameters)
+        {
+            string pdfFile = GetPdfFile();
+            //if (range == null)
+            //    range = parameters.PageRange;
+            Trace.WriteLine($"extract images from pdf \"{pdfFile}\" range \"{parameters.PageRange}\"");
+            string directory = GetImagesDirectory();
+            zdir.CreateDirectory(directory);
+            //zfile.DeleteFiles(directory, "*.jpeg");
+            DeleteImageFiles(directory);
+            //iText.ExtractImages(pdfFile,
+            //    (image, page, imageIndex) => image.Save(zPath.Combine(directory, $"page-{page:000}{(imageIndex != 1 ? $"-{imageIndex:00}" : "")}.jpeg"), ImageFormat.Jpeg),
+            //    range: range);
+
+            foreach (PdfImage image in iText7.EnumImages(pdfFile, parameters.PageRange))
+            {
+                iText7.SaveImage(image.Image, zPath.Combine(directory, $"page-{image.PageNumber:000}{(image.ImageNumber != 1 ? $"-{image.ImageNumber:00}" : "")}"));
+            }
+            parameters.ImagesExtracted = true;
+            SetParameters(parameters);
+        }
+
+        public async Task Scan(bool imageScan = false, string range = null, bool simulate = false)
+        {
+            QuestionsParameters parameters = GetParameters();
+            if (parameters == null)
+            {
+                Trace.WriteLine($"parameters are not defined");
+                return;
+            }
+            if (parameters.PageRange == null)
+            {
+                Trace.WriteLine($"page range is not defined");
+                return;
+            }
+            if (parameters.PageColumn == 1 && !imageScan)
+                await ScanPdf(parameters, range, simulate);
+            else
+            {
+                if (!parameters.ImagesExtracted)
+                    ExtractImagesFromPdf(parameters);
+                await ScanImages(parameters, range, simulate);
+            }
+        }
+
+        private async Task ScanPdf(QuestionsParameters parameters, string range, bool simulate = false)
+        {
+            string pdfFile = GetPdfFile();
+            if (!zFile.Exists(pdfFile))
+            {
+                Trace.WriteLine($"pdf file not found \"{pdfFile}\"");
+                return;
+            }
+            if (range == null)
+                range = parameters.PageRange;
+            Trace.WriteLine($"scan pdf \"{pdfFile}\" range \"{range}\"");
+            OcrWebService ocrWebService = CreateOcrWebService();
+            OcrRequest request = CreateOcrRequest();
+            request.DocumentFile = pdfFile;
+            request.PageRange = range;
+            if (!simulate)
+            {
+                OcrResult<OcrProcessDocumentResponse> response = await ocrWebService.ProcessDocument(request);
+                if (response.Success)
+                {
+                    Trace.WriteLine($"scan ok {response.Data.ProcessedPages} pages - remainder {response.Data.AvailablePages} pages");
+                    string directory = GetScanDirectory();
+                    zdir.CreateDirectory(directory);
+                    string scanFile = zPath.Combine(directory, "scan");
+                    Trace.WriteLine($"save scan to \"{scanFile}\"");
+                    await ocrWebService.DownloadResultDocuments(response.Data, scanFile);
+                }
+                else
+                    Trace.WriteLine($"scan error code {response.StatusCode}");
+            }
+            else
+            {
+                Trace.WriteLine("OcrRequest :");
+                request.zTraceJson();
+            }
+        }
+
+        private async Task ScanImages(QuestionsParameters parameters, string range, bool simulate = false)
+        {
+            string directory = GetImagesDirectory();
+            if (!zDirectory.Exists(directory))
+            {
+                Trace.WriteLine($"images directory not found \"{directory}\"");
+                return;
+            }
+            if (range == null)
+                range = parameters.PageRange;
+            Trace.WriteLine($"scan images \"{directory}\" range \"{range}\"");
+            OcrWebService ocrWebService = CreateOcrWebService();
+            OcrRequest request = CreateOcrRequest();
+            //QuestionsParameters parameters = GetParameters();
+            foreach (int page in zstr.EnumRange(range))
+            {
+                //string imageFile = zPath.Combine(directory, $"page-{page:000}.jpeg");
+                string imageBaseFile = zPath.Combine(directory, $"page-{page:000}");
+                string imageFile = FindImageFile(imageBaseFile);
+                if (!zFile.Exists(imageFile))
+                {
+                    Trace.WriteLine($"image not found \"{imageBaseFile}\"");
+                    return;
+                }
+                Trace.WriteLine($"scan image \"{imageFile}\"");
+                request.DocumentFile = imageFile;
+                request.Zone = GetScanZone(parameters, imageFile);
+                if (!simulate)
+                {
+                    OcrResult<OcrProcessDocumentResponse> response = await ocrWebService.ProcessDocument(request);
+                    if (response.Success)
+                    {
+                        string scanDirectory = GetScanDirectory();
+                        zdir.CreateDirectory(scanDirectory);
+                        string scanFile = zPath.Combine(scanDirectory, $"scan-page-{page:000}");
+                        Trace.WriteLine($"save scan to \"{scanFile}\"");
+                        await ocrWebService.DownloadResultDocuments(response.Data, scanFile);
+                    }
+                }
+                else
+                {
+                    Trace.WriteLine("OcrRequest :");
+                    request.zTraceJson();
+                }
+            }
+        }
+
+        private static string FindImageFile(string file)
+        {
+            foreach (string extension in _imageExtensions)
+            {
+                string file2 = file + extension;
+                if (zFile.Exists(file2))
+                    return file2;
+            }
+            return null;
+        }
+
+        private static void DeleteImageFiles(string directory)
+        {
+            foreach (string extension in _imageExtensions)
+                zfile.DeleteFiles(directory, "*" + extension);
+        }
+
+        private static string GetScanZone(QuestionsParameters parameters, string imageFile)
+        {
+            // format: "top:left:height:width,...", example "zone=0:0:100:100,50:50:50:50"
+            if (parameters.PageColumn == 1)
+                return null;
+            else if (parameters.PageColumn == 2)
+            {
+                int width;
+                int height;
+                zimg.GetImageWidthHeight(imageFile, out width, out height);
+                string zone;
+                switch (parameters.PageRotate)
+                {
+                    case PageRotate.NoRotate:
+                    case PageRotate.Rotate180:
+                        int width2 = width / 2;
+                        zone = $"0:0:{width2}:{height},{width2}:0:{width - width2}:{height}";
+                        break;
+                    case PageRotate.Rotate90:
+                    case PageRotate.Rotate270:
+                        int height2 = height / 2;
+                        zone = $"0:0:{width}:{height2},0:{height2}:{width}:{height - height2}";
+                        break;
+                    default:
+                        throw new PBException($"unknow page rotation {parameters.PageRotate}");
+                }
+                return zone;
+            }
+            else
+                throw new PBException($"can't create scan zone for {parameters.PageColumn} columns");
+        }
+
+        private OcrRequest CreateOcrRequest()
+        {
+            return new OcrRequest { Language = "french,english", OutputFormat = "txt" };
+        }
+
+        private OcrWebService CreateOcrWebService()
+        {
+            XmlConfig config = XmlConfig.CurrentConfig;
+            XmlConfig ocrWebServiceConfig = config.GetConfig("OcrWebServiceConfig");
+            OcrWebService ocrWebService = new OcrWebService(ocrWebServiceConfig.GetExplicit("UserName"), ocrWebServiceConfig.GetExplicit("LicenseCode"), _timeout);
+            //ocrWebService.UserName = ocrWebServiceConfig.GetExplicit("UserName");
+            //ocrWebService.LicenseCode = ocrWebServiceConfig.GetExplicit("LicenseCode");
+            string cacheDirectory = config.Get("OcrWebServiceCacheDirectory");
+            if (cacheDirectory != null)
+            {
+                UrlCache urlCache = new UrlCache(cacheDirectory);
+                urlCache.UrlFileNameType = UrlFileNameType.Host | UrlFileNameType.Path;
+                if (config.Get("OcrWebServiceCacheDirectory/@option")?.ToLower() == "indexedfile")
+                    urlCache.IndexedFile = true;
+                ocrWebService.HttpManager.SetCacheManager(urlCache);
+            }
+            return ocrWebService;
+        }
 
         public void CreateAnkiFileFromScanFiles()
         {
@@ -77,6 +338,8 @@ namespace anki
         public void RenameAndCopyScanFiles(bool simulate = false)
         {
             string directory = GetScanDirectory();
+            if (!zDirectory.Exists(directory))
+                throw new PBException($"scan directory not found (\"{directory}\")");
             //string name = zPath.GetFileName(_directory);
             string name = "scan";
             foreach (string file in zDirectory.EnumerateFiles(directory))
@@ -549,9 +812,21 @@ namespace anki
             return _questionResponseFiles;
         }
 
+        private string GetPdfFile()
+        {
+            return zPath.Combine(_directory, GetFileName() + ".pdf");
+        }
+
+        private string GetParametersFile()
+        {
+            return zPath.Combine(_directory, @"data\parameters.json");
+        }
+
         private IEnumerable<string> GetScanFiles()
         {
             string directory = GetScanDirectory();
+            if (!zDirectory.Exists(directory))
+                throw new PBException($"scan directory not found (\"{directory}\")");
             int index = 1;
             bool foundOne = false;
             string file = null;
@@ -587,13 +862,16 @@ namespace anki
             return zPath.Combine(_directory, "anki.txt");
         }
 
+        private string GetImagesDirectory()
+        {
+            return zPath.Combine(_directory, @"data\images");
+        }
+
+
         private string GetScanDirectory()
         {
             //string directory = zPath.Combine(_directory, "scan");
-            string directory = zPath.Combine(_directory, @"data\scan");
-            if (!zDirectory.Exists(directory))
-                throw new PBException($"scan directory not found (\"{directory}\")");
-            return directory;
+            return zPath.Combine(_directory, @"data\scan");
         }
 
         private static string GetLastFileNumber(string file)

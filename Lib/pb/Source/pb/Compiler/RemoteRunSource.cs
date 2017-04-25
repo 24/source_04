@@ -3,7 +3,7 @@ using pb.IO;
 
 namespace pb.Compiler
 {
-    public class RemoteRunSource : IDisposable
+    public partial class RemoteRunSource : IDisposable
     {
         private string _runsourceDllFilename = null;  // "runsource.dll.dll"
         private string _runSourceDomainName = "RunSource";

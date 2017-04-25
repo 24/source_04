@@ -1,0 +1,404 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{9D469C2B-87E7-4958-BD14-28F065D5BDA6}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>anki</RootNamespace>
+    <AssemblyName>anki</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Source\AnkiWriter.cs" />
+    <Compile Include="Source\ColumnText.cs" />
+    <Compile Include="Source\HtmlEncoder.cs" />
+    <Compile Include="Source\HtmlEncoder_Level1.cs" />
+    <Compile Include="Source\js\jsQuestions.cs" />
+    <Compile Include="Source\Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Source\QuestionResponseHtml.cs" />
+    <Compile Include="Source\QuestionResponses_LoadSave.cs" />
+    <Compile Include="Source\QuestionResponses.cs" />
+    <Compile Include="Source\QuestionRun.cs" />
+    <Compile Include="Source\QuestionReader.cs" />
+    <Compile Include="Source\QuestionsManager.cs" />
+    <Compile Include="Source\QuestionType.cs" />
+    <Compile Include="Source\ResponseReader.cs" />
+    <None Include="Source\_Test\HttpEncoder.cs" />
+    <None Include="Source\_Test\HttpUtility.cs" />
+    <Compile Include="Source\_Test\QuestionTest.cs" />
+    <Compile Include="Source\Run.cs" />
+    <None Include="anki.run.cs" />
+    <None Include="app.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="anki.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="anki.config.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Html\style.css" />
+    <Content Include="AnkiJS.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Source\_Test\Test_EdgeJS.project.xml">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <ItemGroup>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\_pb\Application.cs">
+      <Link>SourceLnk\Lib\pb\_pb\Application.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\_pb\Error.cs">
+      <Link>SourceLnk\Lib\pb\_pb\Error.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\_pb\PBException.cs">
+      <Link>SourceLnk\Lib\pb\_pb\PBException.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\Data\Xml\Xml.cs">
+      <Link>SourceLnk\Lib\pb\Data\Xml\Xml.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\Data\Xml\XmlConfig.cs">
+      <Link>SourceLnk\Lib\pb\Data\Xml\XmlConfig.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\IO\Path.cs">
+      <Link>SourceLnk\Lib\pb\IO\Path.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\IO\zFile.cs">
+      <Link>SourceLnk\Lib\pb\IO\zFile.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\IO\zPath.cs">
+      <Link>SourceLnk\Lib\pb\IO\zPath.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\Reflection\Reflection.cs">
+      <Link>SourceLnk\Lib\pb\Reflection\Reflection.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="Pri.LongPath">
+      <HintPath>..\..\..\Lib\LongPath\Pri.LongPath\bin\Debug\Pri.LongPath.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\RunSource\v2\runsource.command\runsource.command.csproj">
+      <Project>{12d4a2fb-84e4-4067-8655-a019e2cf7b5f}</Project>
+      <Name>runsource.command</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\RunSource\v2\runsource.irunsource\runsource.irunsource.csproj">
+      <Project>{69eeca69-aaba-40b4-b8a0-f830303a831f}</Project>
+      <Name>runsource.irunsource</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\_pb\Date.cs">
+      <Link>SourceLnk\Lib\pb\_pb\Date.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\_pb\FormatInfo.cs">
+      <Link>SourceLnk\Lib\pb\_pb\FormatInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\_pb\GlobalExtension.cs">
+      <Link>SourceLnk\Lib\pb\_pb\GlobalExtension.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\Data\NamedValues.cs">
+      <Link>SourceLnk\Lib\pb\Data\NamedValues.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\Data\ZValue.cs">
+      <Link>SourceLnk\Lib\pb\Data\ZValue.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\Text\Regex.cs">
+      <Link>SourceLnk\Lib\pb\Text\Regex.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\Text\RegexValues.cs">
+      <Link>SourceLnk\Lib\pb\Text\RegexValues.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\Text\Split.cs">
+      <Link>SourceLnk\Lib\pb\Text\Split.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\Text\StringZones.cs">
+      <Link>SourceLnk\Lib\pb\Text\StringZones.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\_pb\ParseAs.cs">
+      <Link>SourceLnk\Lib\pb\_pb\ParseAs.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\IO\File.cs">
+      <Link>SourceLnk\Lib\pb\IO\File.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\Text\MatchValues.cs">
+      <Link>SourceLnk\Lib\pb\Text\MatchValues.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\Text\RegexValuesList.cs">
+      <Link>SourceLnk\Lib\pb\Text\RegexValuesList.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\IO\FileNumber.cs">
+      <Link>SourceLnk\Lib\pb\IO\FileNumber.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\IO\Directory.cs">
+      <Link>SourceLnk\Lib\pb\IO\Directory.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\Data\Mongo\zMongo.cs">
+      <Link>SourceLnk\Lib\pb\Data\Mongo\zMongo.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\IO\zDirectory.cs">
+      <Link>SourceLnk\Lib\pb\IO\zDirectory.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\Data\Mongo\Serializers\Default\MongoSerializationManager.cs">
+      <Link>SourceLnk\Lib\pb\Data\Mongo\Serializers\Default\MongoSerializationManager.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\Linq\Linq.cs">
+      <Link>SourceLnk\Lib\pb\Linq\Linq.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\Text\String.cs">
+      <Link>SourceLnk\Lib\pb\Text\String.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\Web\Data\Ocr\OcrWebService.cs">
+      <Link>SourceLnk\Lib\pb\Web\Data\Ocr\OcrWebService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\_pb\Convert.cs">
+      <Link>SourceLnk\Lib\pb\_pb\Convert.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\_pb\Progress.cs">
+      <Link>SourceLnk\Lib\pb\_pb\Progress.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\_pb\TraceLevel.cs">
+      <Link>SourceLnk\Lib\pb\_pb\TraceLevel.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\Data\Xml\XDocumentCreator.cs">
+      <Link>SourceLnk\Lib\pb\Data\Xml\XDocumentCreator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\IO\CharStreamReader.cs">
+      <Link>SourceLnk\Lib\pb\IO\CharStreamReader.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\IO\StreamTransfer.cs">
+      <Link>SourceLnk\Lib\pb\IO\StreamTransfer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\Web\Html\HtmlCharCodes.cs">
+      <Link>SourceLnk\Lib\pb\Web\Html\HtmlCharCodes.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\Web\Html\HtmlNode.cs">
+      <Link>SourceLnk\Lib\pb\Web\Html\HtmlNode.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\Web\Html\HtmlReader_v4.cs">
+      <Link>SourceLnk\Lib\pb\Web\Html\HtmlReader_v4.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\Web\Html\HtmlTag.cs">
+      <Link>SourceLnk\Lib\pb\Web\Html\HtmlTag.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\Web\Html\HtmlToXml_v3.cs">
+      <Link>SourceLnk\Lib\pb\Web\Html\HtmlToXml_v3.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\Web\Http\Http_v2.cs">
+      <Link>SourceLnk\Lib\pb\Web\Http\Http_v2.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\Web\Http\Http_v2_LoadImage.cs">
+      <Link>SourceLnk\Lib\pb\Web\Http\Http_v2_LoadImage.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\Web\Http\Http_v2_LoadText.cs">
+      <Link>SourceLnk\Lib\pb\Web\Http\Http_v2_LoadText.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\Web\Http\Http_v2_LoadToFile.cs">
+      <Link>SourceLnk\Lib\pb\Web\Http\Http_v2_LoadToFile.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\Web\Http\Http_v5.cs">
+      <Link>SourceLnk\Lib\pb\Web\Http\Http_v5.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\Web\Http\HttpCache.cs">
+      <Link>SourceLnk\Lib\pb\Web\Http\HttpCache.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\Web\Http\HttpContentValue.cs">
+      <Link>SourceLnk\Lib\pb\Web\Http\HttpContentValue.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\Web\Http\HttpBase.cs">
+      <Link>SourceLnk\Lib\pb\Web\Http\HttpBase.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\Web\Http\HttpManager_v2.cs">
+      <Link>SourceLnk\Lib\pb\Web\Http\HttpManager_v2.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\Web\Http\HttpManager_v2_LoadImage.cs">
+      <Link>SourceLnk\Lib\pb\Web\Http\HttpManager_v2_LoadImage.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\Web\Http\HttpManager_v2_LoadText.cs">
+      <Link>SourceLnk\Lib\pb\Web\Http\HttpManager_v2_LoadText.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\Web\Http\HttpManager_v5.cs">
+      <Link>SourceLnk\Lib\pb\Web\Http\HttpManager_v5.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\Web\Http\HttpRequest.cs">
+      <Link>SourceLnk\Lib\pb\Web\Http\HttpRequest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\Web\Http\HttpResult_v5.cs">
+      <Link>SourceLnk\Lib\pb\Web\Http\HttpResult_v5.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\Web\Http\HttpRun_v2.cs">
+      <Link>SourceLnk\Lib\pb\Web\Http\HttpRun_v2.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\Web\Http\HttpXml_v2.cs">
+      <Link>SourceLnk\Lib\pb\Web\Http\HttpXml_v2.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\Web\Http\HttpTools.cs">
+      <Link>SourceLnk\Lib\pb\Web\Http\HttpTools.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\Web\Http\Url.cs">
+      <Link>SourceLnk\Lib\pb\Web\Http\Url.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\Web\Http\UrlCache.cs">
+      <Link>SourceLnk\Lib\pb\Web\Http\UrlCache.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\Web\Http\XmlDocumentSourceType.cs">
+      <Link>SourceLnk\Lib\pb\Web\Http\XmlDocumentSourceType.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\Data\Mongo\Serializers\Default\DateSerializer.cs">
+      <Link>SourceLnk\Lib\pb\Data\Mongo\Serializers\Default\DateSerializer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\Data\Mongo\Serializers\Default\PBSerializationProvider_v2.cs">
+      <Link>SourceLnk\Lib\pb\Data\Mongo\Serializers\Default\PBSerializationProvider_v2.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\Data\Mongo\Serializers\Default\RunSerializer.cs">
+      <Link>SourceLnk\Lib\pb\Data\Mongo\Serializers\Default\RunSerializer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\Data\Mongo\Serializers\ZValue\RunSerializerZValue.cs">
+      <Link>SourceLnk\Lib\pb\Data\Mongo\Serializers\ZValue\RunSerializerZValue.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\Data\Mongo\Serializers\ZValue\ZIntSerializer.cs">
+      <Link>SourceLnk\Lib\pb\Data\Mongo\Serializers\ZValue\ZIntSerializer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\Data\Mongo\Serializers\ZValue\ZStringArraySerializer.cs">
+      <Link>SourceLnk\Lib\pb\Data\Mongo\Serializers\ZValue\ZStringArraySerializer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\Data\Mongo\Serializers\ZValue\ZStringSerializer.cs">
+      <Link>SourceLnk\Lib\pb\Data\Mongo\Serializers\ZValue\ZStringSerializer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\Data\Mongo\Serializers\ZValue\ZValueSerializer.cs">
+      <Link>SourceLnk\Lib\pb\Data\Mongo\Serializers\ZValue\ZValueSerializer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\Data\Mongo\Serializers\Default\RunSerializerWebHeader.cs">
+      <Link>SourceLnk\Lib\pb\Data\Mongo\Serializers\Default\RunSerializerWebHeader.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\Data\Mongo\Serializers\Default\WebHeaderSerializer.cs">
+      <Link>SourceLnk\Lib\pb\Data\Mongo\Serializers\Default\WebHeaderSerializer.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Net.Http" />
+    <Reference Include="MongoDB.Bson">
+      <HintPath>..\..\..\..\library\Mongo\CSharpDriver-1.9.2\source\MongoDB.Driver\bin\Debug\MongoDB.Bson.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\Data\Image.cs">
+      <Link>SourceLnk\Lib\pb\Data\Image.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\IO\FileNumber.cs" />
+    <Compile Include="..\..\..\Lib\pb\Source\pb\Text\Regex.cs" />
+    <Compile Include="..\..\..\Lib\pb\Source\pb\Data\Pdf\iText7.cs">
+      <Link>SourceLnk\Lib\pb\Data\Pdf\iText7.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\_pb\ITrace.cs">
+      <Link>SourceLnk\Lib\pb\_pb\ITrace.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\_pb\Trace.cs">
+      <Link>SourceLnk\Lib\pb\_pb\Trace.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\_pb\ITraceManager.cs">
+      <Link>SourceLnk\Lib\pb\_pb\ITraceManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\_pb\TraceManager.cs">
+      <Link>SourceLnk\Lib\pb\_pb\TraceManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\IO\IWriteToFile.cs">
+      <Link>SourceLnk\Lib\pb\IO\IWriteToFile.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\IO\FileOption.cs">
+      <Link>SourceLnk\Lib\pb\IO\FileOption.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\IO\WriteToFile.cs">
+      <Link>SourceLnk\Lib\pb\IO\WriteToFile.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\pb\Source\pb\IO\WriteToFileCreate.cs">
+      <Link>SourceLnk\Lib\pb\IO\WriteToFileCreate.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="itext.kernel">
+      <HintPath>..\..\..\..\library\iText\itext7.7.0.2.2\net40\itext.kernel.dll</HintPath>
+    </Reference>
+    <Reference Include="itext.io">
+      <HintPath>..\..\..\..\library\iText\itext7.7.0.2.2\net40\itext.io.dll</HintPath>
+    </Reference>
+    <Reference Include="itext.layout">
+      <HintPath>..\..\..\..\library\iText\itext7.7.0.2.2\net40\itext.layout.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+</Project>

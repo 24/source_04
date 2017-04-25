@@ -2,6 +2,8 @@
 <AssemblyProject>
   <Root                             value = "..\.." />
 
+  <VSProject                        value = "pbc.csproj" />
+
   <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\LanguageCSharp5Debug.project.xml" />
   <Target                           value = "exe" /> <!-- exe (exe console default), library (dll), module (.netmodule), winexe (exe windows), winruntimeexe (windows runtime application), winruntimemetadata (windows runtime metadata) -->
   <!--<Platform                         value = "X86" /> --><!-- AnyCpu (default), X86, X64, Itanium, AnyCpu32BitPreferred (only CSharp5), Arm (only CSharp5) -->

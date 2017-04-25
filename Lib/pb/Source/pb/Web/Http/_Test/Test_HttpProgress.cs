@@ -1,37 +1,37 @@
-﻿using System;
-using System.IO;
-using System.Net;
-using System.Net.Http;
-using System.Threading.Tasks;
+﻿//using System;
+//using System.IO;
+//using System.Net;
+//using System.Net.Http;
+//using System.Threading.Tasks;
 
 namespace pb.Web.Http.Test
 {
     // impossible to access to private Stream _content
-    public class StreamContentProgress : StreamContent
-    {
-        // from Progress bar for HttpClient uploading http://stackoverflow.com/questions/21130362/progress-bar-for-httpclient-uploading
-        const int chunkSize = 4096;
-        readonly byte[] bytes;
-        readonly Action<double> progress;
+    //public class StreamContentProgress : StreamContent
+    //{
+    //    // from Progress bar for HttpClient uploading http://stackoverflow.com/questions/21130362/progress-bar-for-httpclient-uploading
+    //    const int chunkSize = 4096;
+    //    readonly byte[] bytes;
+    //    readonly Action<double> progress;
 
-        public StreamContentProgress(Stream content) : base(content)
-        {
-        }
+    //    public StreamContentProgress(Stream content) : base(content)
+    //    {
+    //    }
 
-        public StreamContentProgress(Stream content, int bufferSize) : base(content, bufferSize)
-        {
-        }
+    //    public StreamContentProgress(Stream content, int bufferSize) : base(content, bufferSize)
+    //    {
+    //    }
 
-        protected override async Task SerializeToStreamAsync(Stream stream, TransportContext context)
-        {
-            for (int i = 0; i < this.bytes.Length; i += chunkSize)
-            {
-                await stream.WriteAsync(this.bytes, i, Math.Min(chunkSize, this.bytes.Length - i));
-                this.progress(100.0 * i / this.bytes.Length);
-            }
-        }
+    //    protected override async Task SerializeToStreamAsync(Stream stream, TransportContext context)
+    //    {
+    //        for (int i = 0; i < this.bytes.Length; i += chunkSize)
+    //        {
+    //            await stream.WriteAsync(this.bytes, i, Math.Min(chunkSize, this.bytes.Length - i));
+    //            this.progress(100.0 * i / this.bytes.Length);
+    //        }
+    //    }
 
-    }
+    //}
 
     //internal class ProgressableStreamContent : HttpContent
     //{

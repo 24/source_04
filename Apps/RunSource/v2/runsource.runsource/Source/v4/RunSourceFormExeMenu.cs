@@ -1,7 +1,9 @@
 ﻿using pb;
 using pb.Data.Xml;
+using pb.IO;
 using pb.Windows.Forms;
 using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Xml.Linq;
 
@@ -17,6 +19,12 @@ namespace runsourced
         private ToolStripMenuItem _menuAllowMultipleRun;
         private ToolStripMenuItem _traceInit;
         private ToolStripMenuItem _traceDuplicateSource;
+        private ToolStripMenuItem _vsProjectAddSource;
+        private ToolStripMenuItem _vsProjectRemoveSource;
+        private ToolStripMenuItem _vsProjectAddSourceLink;
+        private ToolStripMenuItem _vsProjectRemoveSourceLink;
+        private ToolStripMenuItem _vsProjectAddAssemblyReference;
+        private ToolStripMenuItem _vsProjectRemoveAssemblyReference;
         private Button _executeButton;
         private Button _pauseButton;
         private Button _stopButton;
@@ -71,10 +79,65 @@ namespace runsourced
                 _traceDuplicateSource
             });
 
-            foreach (XElement xe in _config.GetElements("MenuCompile/CompileProjects"))
+            _vsProjectAddSource = zForm.CreateMenuItem("vs project add source", checkOnClick: true, @checked: false);
+            _vsProjectRemoveSource = zForm.CreateMenuItem("vs project remove source", checkOnClick: true, @checked: false);
+            _vsProjectAddSourceLink = zForm.CreateMenuItem("vs project add source link", checkOnClick: true, @checked: true);
+            _vsProjectRemoveSourceLink = zForm.CreateMenuItem("vs project remove source link", checkOnClick: true, @checked: true);
+            _vsProjectAddAssemblyReference = zForm.CreateMenuItem("vs project add assembly reference", checkOnClick: true, @checked: true);
+            _vsProjectRemoveAssemblyReference = zForm.CreateMenuItem("vs project remove assembly reference", checkOnClick: true, @checked: true);
+            _menuProject.DropDownItems.AddRange(new ToolStripItem[] {
+                zForm.CreateMenuItem("&Simulate update current vs project (Ctrl-P)", onClick: (sender, eventArgs) => Try(() => UpdateCurrentVSProject(simulate: true))),
+                zForm.CreateMenuItem("&Update current vs project (Shift-Ctrl-P)", onClick: (sender, eventArgs) => Try(() => UpdateCurrentVSProject())),
+            });
+
+            string projectsFile = _config.Get("RunSourceProjects");
+            if (projectsFile != null)
             {
-                string projectsFile = xe.zExplicitAttribValue("file");
-                _menuCompile.DropDownItems.Add(zForm.CreateMenuItem(xe.zExplicitAttribValue("value"), onClick: (sender, eventArgs) => Try(() => _CompileProjects(projectsFile))));
+                _menuProject.DropDownItems.Add(new ToolStripSeparator());
+                foreach (string projectFile in GetProjectsFiles(projectsFile))
+                {
+                    _menuProject.DropDownItems.Add(zForm.CreateMenuItem($"Simulate update vs project {zPath.GetFileName(projectFile)}",
+                        onClick: (sender, eventArgs) => Try(() => UpdateVSProject(projectFile, simulate: true))));
+                    _menuProject.DropDownItems.Add(zForm.CreateMenuItem($"Update vs project {zPath.GetFileName(projectFile)}",
+                        onClick: (sender, eventArgs) => Try(() => UpdateVSProject(projectFile))));
+                }
+            }
+
+            bool first = true;
+            foreach (string projectFile in _config.GetValues("Menu/MenuVSProject/Project"))
+            {
+                if (first)
+                    _menuProject.DropDownItems.Add(new ToolStripSeparator());
+                first = false;
+                _menuProject.DropDownItems.Add(zForm.CreateMenuItem($"Simulate update vs project {zPath.GetFileName(projectFile)}",
+                    onClick: (sender, eventArgs) => Try(() => UpdateVSProject(projectFile, simulate: true))));
+                _menuProject.DropDownItems.Add(zForm.CreateMenuItem($"Update vs project {zPath.GetFileName(projectFile)}",
+                    onClick: (sender, eventArgs) => Try(() => UpdateVSProject(projectFile))));
+            }
+
+            _menuProject.DropDownItems.AddRange(new ToolStripItem[] {
+                new ToolStripSeparator(),
+                _vsProjectAddSource,
+                _vsProjectRemoveSource,
+                _vsProjectAddSourceLink,
+                _vsProjectRemoveSourceLink,
+                _vsProjectAddAssemblyReference,
+                _vsProjectRemoveAssemblyReference
+            });
+
+            foreach (XElement xe in _config.GetElements("Menu/MenuCompile/CompileProjects"))
+            {
+                _menuCompile.DropDownItems.Add(zForm.CreateMenuItem(xe.zExplicitAttribValue("value"), onClick: (sender, eventArgs) => Try(() => _CompileProjects(xe.zExplicitAttribValue("file")))));
+            }
+        }
+
+        private IEnumerable<string> GetProjectsFiles(string projectsFile)
+        {
+            XmlConfig projects = new XmlConfig(projectsFile);
+            string projectsDirectory = zPath.GetDirectoryName(projectsFile);
+            foreach (string project in projects.GetValues("Project"))
+            {
+                yield return project.zRootPath(projectsDirectory);
             }
         }
 

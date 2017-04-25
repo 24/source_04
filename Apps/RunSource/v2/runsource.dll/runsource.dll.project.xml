@@ -2,6 +2,8 @@
 <AssemblyProject>
   <Root                             value = "..\..\..\.." />
 
+  <VSProject                        value = "runsource.dll.csproj" />
+
   <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\LanguageCSharp5Debug.project.xml" />
   <Target                           value = "library" /> <!-- exe (exe console default), library (dll), module (.netmodule), winexe (exe windows), winruntimeexe (windows runtime application), winruntimemetadata (windows runtime metadata) -->
   <Platform                         value = "X86" /> <!-- AnyCpu (default), X86, X64, Itanium, AnyCpu32BitPreferred (only CSharp5), Arm (only CSharp5) -->
@@ -62,17 +64,21 @@
   <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Compiler\RunSource_RunCode.cs" />
   <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Compiler\RunSourceInitEndMethods.cs" />-->
   <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Compiler\RunSourceInitEndMethods_v2.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Compiler\RunSourceVSProjectManager.cs" />
   <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Compiler\Win32ResourceCompiler.cs" />
 
   <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\NamedValues.cs" />
   <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\ParseNamedValues.cs" />
   <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\ZValue.cs" />
 
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\VSProject\VSProjectManager.cs" />
+
   <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\Xml\Xml.cs" />
   <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\Xml\XmlConfig.cs" />
 
   <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\CompressFile.cs" />
   <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\CompressOptions.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\Directory.cs" />
   <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\File.cs" />
   <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\FileNumber.cs" />
   <!--<Source                           value = "$Root$\Lib\pb\Source\pb\IO\FileOption.cs" />-->
@@ -90,6 +96,7 @@
 
   <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Text\Regex.cs" />
   <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Text\Split.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Text\String.cs" />
   <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Text\StringZones.cs" />
 
   <FrameworkAssembly                value = "mscorlib.dll" vsExclude = "true" />

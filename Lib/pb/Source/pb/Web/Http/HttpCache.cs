@@ -8,19 +8,19 @@ namespace pb.Web.Http
     public partial class HttpCacheManager
     {
         // _httpManager use : DefaultEncoding in GetEncoding() and in Http_v3
-        private HttpManager_v3 _httpManager = null;
+        private HttpManager_v5 _httpManager = null;
         private UrlCache _urlCache = null;
 
         //public HttpManager_v3 HttpManager { get { return _httpManager; } set { _httpManager = value; } }
         //public UrlCache UrlCache { get { return _urlCache; } set { _urlCache = value; } }
 
-        public HttpCacheManager(HttpManager_v3 httpManager, UrlCache urlCache)
+        public HttpCacheManager(HttpManager_v5 httpManager, UrlCache urlCache)
         {
             _httpManager = httpManager;
             _urlCache = urlCache;
         }
 
-        public async Task<HttpResult_v3<string>> LoadText(HttpRequest_v3 httpRequest)
+        public async Task<HttpResult_v5<string>> LoadText(HttpRequest_v5 httpRequest)
         {
             return await new HttpCache(this, httpRequest).LoadText();
         }
@@ -31,32 +31,36 @@ namespace pb.Web.Http
         public class HttpCache
         {
             private HttpCacheManager _httpCacheManager = null;
-            private HttpRequest_v3 _request = null;
+            private HttpRequest_v5 _request = null;
+            private bool _success = false;
             private bool _loadFromWeb = false;
             private bool _loadFromCache = false;
             private UrlCachePathResult _urlCachePath = null;
             private HttpMessageResult _httpMessageResult = null;
 
             //public HttpCacheManager HttpCacheManager { get { return _httpCacheManager; } set { _httpCacheManager = value; } }
-            public HttpCache(HttpCacheManager httpCacheManager, HttpRequest_v3 request)
+            public HttpCache(HttpCacheManager httpCacheManager, HttpRequest_v5 request)
             {
                 _httpCacheManager = httpCacheManager;
                 _request = request;
             }
 
-            public async Task<HttpResult_v3<string>> LoadText()
+            public async Task<HttpResult_v5<string>> LoadText()
             {
-                bool success = false;
+                //bool success = false;
                 string text = null;
-                if (await Load())
-                {
+                //if (await Load())
+                //{
+                    await Load();
                     text = await zfile.ReadAllTextAsync(_urlCachePath.Path, GetTextEncoding());
-                    success = true;
-                }
-                return new HttpResult_v3<string>(success, _httpMessageResult, _loadFromWeb, _loadFromCache) { Data = text };
+                    //success = true;
+                //}
+                
+                return new HttpResult_v5<string>(_success, _httpMessageResult.Response.StatusCode, _httpMessageResult, _loadFromWeb, _loadFromCache) { Data = text };
             }
 
-            private async Task<bool> Load()
+            //private async Task<bool> Load()
+            private async Task Load()
             {
                 _urlCachePath = _httpCacheManager._urlCache.GetUrlPathResult(_request, _request.CacheSubDirectory);
                 string cacheFile = _urlCachePath.Path;
@@ -67,20 +71,21 @@ namespace pb.Web.Http
                     //Http_v3 http2 = CreateHttp(httpRequest);
                     //http2.LoadToFile(urlPath);
                     //http2.SaveRequest(zpath.PathSetExtension(urlPath, ".request.json"));
-                    using (Http_v3 http = new Http_v3(_request, _httpCacheManager._httpManager))
+                    using (Http_v5 http = new Http_v5(_request, _httpCacheManager._httpManager))
                     {
                         zfile.CreateFileDirectory(cacheFile);
-                        HttpResult_v3 result = await http.LoadToFile(cacheFile);
-                        if (result.Success)
-                        {
+                        HttpResult_v5 result = await http.LoadToFile(cacheFile);
+                        //if (result.Success)
+                        //{
                             _httpMessageResult = http.GetHttpMessageResult();
                             _httpMessageResult.CacheFile = _urlCachePath.SubPath;
                             _httpMessageResult.zSave(zpath.PathSetExtension(cacheFile, ".request.json"), jsonIndent: true);
+                            _success = result.Success;
                             _loadFromWeb = true;
-                            return true;
-                        }
-                        else
-                            return false;
+                            //return true;
+                        //}
+                        //else
+                        //    return false;
                     }
                     //trace = true;
                 }
@@ -93,7 +98,8 @@ namespace pb.Web.Http
                     if (!zFile.Exists(requestFile))
                         throw new PBException($"request file not found \"{requestFile}\"");
                     _httpMessageResult = zMongo.ReadFileAs<HttpMessageResult>(requestFile);
-                    return true;
+                    _success = _httpMessageResult.Response.StatusCode == 200;
+                    //return true;
                 }
             }
 

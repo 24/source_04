@@ -97,6 +97,8 @@ namespace pb.Windows.Forms
                 //if (keyDefinition.Multiple)
                 //    throw new PBException("key {0} is already defined as multiple key", key.ToString());
                 keyDefinition.Action = action;
+                // $$pb modif le 24/04/2017
+                keyDefinition.SimpleKey = true;
             }
             else
                 _keys.Add((int)key, new KeyDefinition { SimpleKey = true, Action = action });
@@ -204,6 +206,7 @@ namespace pb.Windows.Forms
             //        ((int)e.KeyCode).zToHex(), e.KeyValue.zToHex(), (int)e.KeyCode == e.KeyValue ? "ok" : "NOT OK",
             //        ((int)e.KeyData).zToHex(), ((int)e.Modifiers).zToHex(), e.KeyData == (e.KeyCode | e.Modifiers) ? "ok" : "NOT OK", e.KeyCode.ToString(), e.KeyData.ToString());
 
+            //pb.Trace.WriteLine($"FormKeyboard : KeyValue {e.KeyValue} KeyData {e.KeyData} _minKeyValue {_minKeyValue} _maxKeyValue {_maxKeyValue}");
             bool foundFirstKey = false;
             int keyValue = e.KeyValue;
             if (keyValue >= _minKeyValue && keyValue <= _maxKeyValue)
@@ -212,6 +215,8 @@ namespace pb.Windows.Forms
                 KeyDefinition keyDefinition;
                 if (_keys.TryGetValue(keyData, out keyDefinition))
                 {
+                    //pb.Trace.WriteLine($"FormKeyboard : found KeyDefinition, FirstKey {keyDefinition.FirstKey} Multiple {keyDefinition.Multiple} SimpleKey {keyDefinition.SimpleKey}");
+
                     Action action;
                     if (keyDefinition.Multiple && _firstKey != Keys.None && keyDefinition.Actions.TryGetValue((int)_firstKey, out action))
                     {
@@ -239,6 +244,8 @@ namespace pb.Windows.Forms
                         keyDefinition.Action();
                     }
                 }
+                //else
+                //    pb.Trace.WriteLine("FormKeyboard : KeyDefinition not found");
             }
             if (!foundFirstKey && keyValue >= 32)
                 _firstKey = Keys.None;

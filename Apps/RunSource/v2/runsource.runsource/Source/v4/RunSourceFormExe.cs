@@ -27,6 +27,7 @@ namespace runsourced
         public RunSourceFormExe(IRunSource runSource, XmlConfig config, RemoteRunSource remoteRunSource, RunSourceRestartParameters runSourceParameters)
         {
             _runSource = runSource;
+            _remoteRunSource = remoteRunSource;
 
             TraceManager.Current.SetViewer(TraceWrited);
             remoteRunSource.GetTraceManager().SetViewer(TraceWrited);
@@ -80,6 +81,11 @@ namespace runsourced
             _formKeyboard.SetSimpleKey(Keys.Shift | Keys.Control | Keys.R, () => PostMessage(_hwnd, WM_CUSTOM_RESTART_RUNSOURCE, 0, 0));
             // shift-ctrl-U : UpdateRunSource (PostMessage)
             _formKeyboard.SetSimpleKey(Keys.Shift | Keys.Control | Keys.U, () => PostMessage(_hwnd, WM_CUSTOM_UPDATE_RUNSOURCE, 0, 0));
+
+            // ctrl-P : UpdateVSProject simulate (PostMessage)
+            _formKeyboard.SetSimpleKey(Keys.Control | Keys.P, () => PostMessage(_hwnd, WM_CUSTOM_UPDATE_VS_PROJECT_SIMULATE, 0, 0));
+            // shift-ctrl-P : UpdateVSProject (PostMessage)
+            _formKeyboard.SetSimpleKey(Keys.Shift | Keys.Control | Keys.P, () => PostMessage(_hwnd, WM_CUSTOM_UPDATE_VS_PROJECT, 0, 0));
         }
 
         private void RunSourceForm_Load(object sender, EventArgs e)

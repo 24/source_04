@@ -41,6 +41,9 @@
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\Compiler\IRunSource.cs">
       <Link>SourceLnk\Lib\pb\Compiler\IRunSource.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Compiler\IRunSourceVSProjectManager.cs">
+      <Link>SourceLnk\Lib\pb\Compiler\IRunSourceVSProjectManager.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\IO\FileOption.cs">
       <Link>SourceLnk\Lib\pb\IO\FileOption.cs</Link>
     </Compile>

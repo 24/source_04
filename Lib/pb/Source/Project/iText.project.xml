@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<AssemblyProject>
+  <Root                             value = "..\..\..\.." />
+
+  <!--<DebugInformation                 value = "true" />
+  <CompilerOptions                  value = "/define:DEBUG;TRACE" />
+	<Output                           value = "bin32\HttpRun\HttpRun.dll" />
+  <CopySourceFiles                  value = "true" />
+  <CopyOutput                       value = "$Root$\..\library\pib\HttpRun\new" />-->
+
+  <!--<IncludeProject                   value = "$Root$\Lib\pb\Source\Project\MongoDefaultSerializer.project.xml" />-->
+
+  <Using                            value = "pb" />
+  <Using                            value = "pb.Data" />
+  <Using                            value = "pb.Data.Pdf" />
+
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\PBException.cs" />
+
+  <!--<SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\Image.cs" />-->
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\Pdf\iText.cs" />
+
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\File.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\FileNumber.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\Path.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\zDirectory.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\zFile.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\zPath.cs" />
+
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Text\Regex.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Text\String.cs" />
+  
+  <FrameworkAssembly                value = "mscorlib.dll" vsExclude = "true" />
+  <FrameworkAssembly                value = "System.dll" />
+  <FrameworkAssembly                value = "System.Core.dll" />
+  <FrameworkAssembly                value = "System.Drawing.dll" />
+
+  <RunSourceAssembly                value = "runsource.irunsource.dll" vsExclude = "true" />
+  <RunSourceAssembly                value = "runsource.command.dll" vsExclude = "true" />
+
+  <Assembly                         value = "$Root$\Lib\LongPath\Pri.LongPath\bin\Debug\Pri.LongPath.dll" />
+  <Assembly                         value = "$Root$\..\library\iTextSharp\itextsharp-all-5.5.10\itextsharp-dll-core\itextsharp.dll" resolve = "true" resolveName = "itextsharp, Version=5.5.10.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca" />
+</AssemblyProject>

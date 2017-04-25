@@ -1,4 +1,5 @@
 // $$info.test.regex
+// $$info.VSProject
 
 //*************************************************************************************************************************
 //****                                                  anki.project.xml
@@ -9,6 +10,79 @@ RunSourceCommand.SetProjectFromSource();
 Trace.WriteLine("toto");
 
 RunSourceCommand.CompileProject("AnkiJS.project.xml");
+
+// scanned
+QuestionRun.CreateQuestionsManager(@"S1\UE1\UE1-01-acide aminé").SetParameters(new QuestionsParameters { PageRange = "14-26" });
+QuestionRun.CreateQuestionsManager(@"S1\UE1\UE1-01-acide aminé").GetParameters().zTraceJson();
+//QuestionRun.CreateQuestionsManager(@"S1\UE1\UE1-01-acide aminé").ExtractImagesFromPdf();
+await QuestionRun.CreateQuestionsManager(@"S1\UE1\UE1-01-acide aminé").Scan(simulate: true);
+await QuestionRun.CreateQuestionsManager(@"S1\UE1\UE1-01-acide aminé").Scan(imageScan: true);
+
+QuestionRun.CreateQuestionsManager(@"S1\UE1\UE1-02-lipides").SetParameters(new QuestionsParameters { PageRange = "18-42" });
+QuestionRun.CreateQuestionsManager(@"S1\UE1\UE1-02-lipides").GetParameters().zTraceJson();
+await QuestionRun.CreateQuestionsManager(@"S1\UE1\UE1-02-lipides").Scan(imageScan: true);
+
+QuestionRun.CreateQuestionsManager(@"S1\UE1\UE1-04-enzymologie").SetParameters(new QuestionsParameters { PageRange = "13-39" });
+QuestionRun.CreateQuestionsManager(@"S1\UE1\UE1-04-enzymologie").GetParameters().zTraceJson();
+await QuestionRun.CreateQuestionsManager(@"S1\UE1\UE1-04-enzymologie").Scan(imageScan: true);
+
+// S1\UE1\UE1-05-glucides pas de questions
+
+// scanned
+QuestionRun.CreateQuestionsManager(@"S1\UE1\UE1-07-bio-acides nucléiques").SetParameters(new QuestionsParameters { PageRange = "09-13" });
+QuestionRun.CreateQuestionsManager(@"S1\UE1\UE1-07-bio-acides nucléiques").GetParameters().zTraceJson();
+await QuestionRun.CreateQuestionsManager(@"S1\UE1\UE1-07-bio-acides nucléiques").Scan();
+
+// scanned
+QuestionRun.CreateQuestionsManager(@"S1\UE1\UE1-08-bio-réplication").SetParameters(new QuestionsParameters { PageRange = "07-11" });
+QuestionRun.CreateQuestionsManager(@"S1\UE1\UE1-08-bio-réplication").GetParameters().zTraceJson();
+await QuestionRun.CreateQuestionsManager(@"S1\UE1\UE1-08-bio-réplication").Scan();
+
+// scanned
+QuestionRun.CreateQuestionsManager(@"S1\UE1\UE1-09-bio-génome").SetParameters(new QuestionsParameters { PageRange = "12-17" });
+QuestionRun.CreateQuestionsManager(@"S1\UE1\UE1-09-bio-génome").GetParameters().zTraceJson();
+await QuestionRun.CreateQuestionsManager(@"S1\UE1\UE1-09-bio-génome").Scan();
+
+// scanned - UE1-10-bio-traduction-réparation
+QuestionRun.CreateQuestionsManager(@"S1\UE1\UE1-10-bio-traduction-réparation").SetParameters(new QuestionsParameters { PageRange = "09-19" });
+QuestionRun.CreateQuestionsManager(@"S1\UE1\UE1-10-bio-traduction-réparation").GetParameters().zTraceJson();
+await QuestionRun.CreateQuestionsManager(@"S1\UE1\UE1-10-bio-traduction-réparation").Scan();
+
+// UE1-11-glucides 2
+QuestionRun.CreateQuestionsManager(@"S1\UE1\UE1-11-glucides 2").SetParameters(new QuestionsParameters { PageRange = "06-31" });
+QuestionRun.CreateQuestionsManager(@"S1\UE1\UE1-11-glucides 2").GetParameters().zTraceJson();
+await QuestionRun.CreateQuestionsManager(@"S1\UE1\UE1-11-glucides 2").Scan();
+
+// scanned
+QuestionRun.CreateQuestionsManager(@"S1\UE1\UE1-13-lipides").SetParameters(new QuestionsParameters { PageRange = "09-12" });
+QuestionRun.CreateQuestionsManager(@"S1\UE1\UE1-13-lipides").GetParameters().zTraceJson();
+await QuestionRun.CreateQuestionsManager(@"S1\UE1\UE1-13-lipides").Scan();
+
+// scanned
+QuestionRun.CreateQuestionsManager(@"S1\UE1\UE1-14-glucides").SetParameters(new QuestionsParameters { PageRange = "10-14" });
+QuestionRun.CreateQuestionsManager(@"S1\UE1\UE1-14-glucides").GetParameters().zTraceJson();
+await QuestionRun.CreateQuestionsManager(@"S1\UE1\UE1-14-glucides").Scan();
+
+
+
+QuestionRun.CreateQuestionsManager(@"S2\UE5\UE5-01-anatomie").SetParameters(new QuestionsParameters { PageRange = "15-21", PageColumn = 2, PageRotate = PageRotate.Rotate270 });
+QuestionRun.CreateQuestionsManager(@"S2\UE5\UE5-01-anatomie").GetParameters().zTraceJson();
+//QuestionRun.CreateQuestionsManager(@"S2\UE5\UE5-01-anatomie").ExtractImagesFromPdf();
+await QuestionRun.CreateQuestionsManager(@"S2\UE5\UE5-01-anatomie").Scan(range: "15", simulate: true);
+await QuestionRun.CreateQuestionsManager(@"S2\UE5\UE5-01-anatomie").Scan(range: "15");
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -370,6 +444,7 @@ QuestionRun.Test_02();
 //*************************************************************************************************************************
 //****                                   VSProject
 //*************************************************************************************************************************
+// $$info.VSProject
 
 // VSProjectUpdateOptions.AddSource | VSProjectUpdateOptions.RemoveSource | VSProjectUpdateOptions.AddSourceLink | VSProjectUpdateOptions.RemoveSourceLink
 // VSProjectUpdateOptions.AddAssemblyReference | VSProjectUpdateOptions.RemoveAssemblyReference
@@ -381,6 +456,9 @@ RunSourceVSProjectCommand.UpdateVSProject(options: VSProjectUpdateOptions.AddSou
 RunSourceVSProjectCommand.UpdateVSProject(options: VSProjectUpdateOptions.AddSourceLink | VSProjectUpdateOptions.AddAssemblyReference);
 // simulate
 RunSourceVSProjectCommand.UpdateVSProject(options: VSProjectUpdateOptions.AddSourceLink | VSProjectUpdateOptions.RemoveSourceLink
+  | VSProjectUpdateOptions.AddAssemblyReference | VSProjectUpdateOptions.RemoveAssemblyReference | VSProjectUpdateOptions.Simulate);
+RunSourceVSProjectCommand.UpdateVSProject(new string[] { @"$Root$\Apps\tools\anki\anki.project.xml", @"$Root$\Apps\tools\anki\AnkiJS.project.xml" },
+  options: VSProjectUpdateOptions.AddSourceLink | VSProjectUpdateOptions.RemoveSourceLink
   | VSProjectUpdateOptions.AddAssemblyReference | VSProjectUpdateOptions.RemoveAssemblyReference | VSProjectUpdateOptions.Simulate);
 // save vs project
 RunSourceVSProjectCommand.UpdateVSProject(options: VSProjectUpdateOptions.AddSourceLink | VSProjectUpdateOptions.RemoveSourceLink
@@ -494,6 +572,12 @@ QuestionReader.Read(new string[] { @"c:\pib\drive\google\valentin\_test\test_que
 new System.Web.HtmlString("&amp;").ToHtmlString().zTrace();
 System.Web.HttpUtility.HtmlEncode("&").zTrace();
 
+
+
+//*************************************************************************************************************************
+//****                                   QuestionTest
+//*************************************************************************************************************************
+
 QuestionTest.Test_ColumnText_01(@"c:\pib\drive\google\valentin\UE5\UE5-01-anatomie\data\scan\test");
 QuestionTest.Test_ColumnText_01(@"c:\pib\drive\google\valentin\UE5\UE5-01-anatomie\data\scan\test", limit: 1);
 new ColumnTextManager(minSpaceBeforeColumn: 4).Test_GetColumnInfos(zFile.ReadAllLines(@"c:\pib\drive\google\valentin\UE5\UE5-01-anatomie\data\scan\test\UE5 - Fiche - Introduction à l'anatomie-page-015.txt")).zView();
@@ -510,6 +594,10 @@ new int[] { }.Min().zTrace();
 
 
 
+
+//*************************************************************************************************************************
+//****                                   Test_Image_01
+//*************************************************************************************************************************
 
 System.Drawing.Image img = System.Drawing.Image.FromFile(@"c:\pib\drive\google\valentin\UE5\UE5-01-anatomie\data\images\Document-page-015.jpg");
 Trace.WriteLine($"Type {img.GetType()} PixelFormat {img.PixelFormat} width {img.Width} height {img.Height}");  // Type System.Drawing.Bitmap PixelFormat Format24bppRgb width 1240 height 1754
@@ -564,7 +652,7 @@ Trace.WriteLine("toto");
 RunSourceCommand.SetProjectFromSource();
 RunSourceCommand.SetProject(@"$Root$\Lib\pb\Source\pb\Web\Http\_Test\Test_Http.project.xml");
 RunSourceCommand.SetProject(@"$Root$\Lib\pb\Source\pb\Web\Http\_Test\Test_HttpClient.project.xml");
-RunSourceCommand.SetProject(@"$Root$\Lib\pb\Source\pb\Web\Http\_Test\Test_HttpManager_v3.project.xml");
+RunSourceCommand.SetProject(@"$Root$\Lib\pb\Source\pb\Web\Http\_Test\Test_HttpManager_v5.project.xml");
 
 Test_HttpClient.Test_01("https://www.google.fr");
 Test_HttpClient.Test_HttpClient_01("https://www.google.fr");
@@ -594,8 +682,8 @@ Test_HttpClient.Test_LoadToFile_01("http://localhost:8080/test_ansi_bad_01.html"
 Test_HttpClient.Test_HttpLog("https://www.google.fr/");
 Test_HttpClient.Test_HttpLog("https://www.google.fr/", userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.0", accept: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
 
-Test_HttpManager_v3.Test_LoadText_01("https://www.google.fr/", @"c:\pib\_dl\_aaaaaaaa\cache");
-Test_HttpManager_v3.Test_LoadText_01("https://www.google.fr", @"c:\pib\_dl\_aaaaaaaa\cache");
+Test_HttpManager_v5.Test_LoadText_01("https://www.google.fr/", @"c:\pib\_dl\_aaaaaaaa\cache");
+Test_HttpManager_v5.Test_LoadText_01("https://www.google.fr", @"c:\pib\_dl\_aaaaaaaa\cache");
 Test_HttpClient.Test_LoadToFile_01("https://www.google.fr", @"c:\pib\_dl\_aaaaaaaa\cache\www.google.fr_01.html");
 Test_HttpClient.Test_Upload_02("http://localhost:8080/upload", "avatar", @"c:\pib\_dl\Document-page-015_01.jpg", "someParam", "someValue");
 
@@ -615,17 +703,17 @@ Test_HttpClient.Test_LoadText_02(HttpMethod.Post, "http://localhost:8080/post", 
 Test_HttpClient.Test_LoadText_02(HttpMethod.Post, "http://localhost:8080/post", Test_HttpClient.CreateMultipartFormDataContent("data").zAddStringContent("toto", "tata", "zozo", "zaza").zAddUploadFile("image", @"c:\pib\_dl\Document-page-015_01.jpg"));
 Test_HttpClient.Test_LoadText_02(HttpMethod.Post, "http://localhost:8080/post", Test_HttpClient.CreateMultipartFormDataContent("data").zAddStringContent("toto", "tata", "zozo", "zaza").zAddUploadFile("image1", @"c:\pib\_dl\Document-page-015_01.jpg").zAddUploadFile("image2", @"c:\pib\_dl\Document-page-015_02.jpg"));
 
-Test_HttpManager_v3.Test_LoadText_01(new HttpRequest_v3 { Url = "https://httpbin.org/get" }, @"c:\pib\_dl\_aaaaaaaa\cache");
-Test_HttpManager_v3.Test_LoadText_01(new HttpRequest_v3 { Method = HttpRequestMethod.Post, Url = "https://httpbin.org/post",
+Test_HttpManager_v5.Test_LoadText_01(new HttpRequest_v3 { Url = "https://httpbin.org/get" }, @"c:\pib\_dl\_aaaaaaaa\cache");
+Test_HttpManager_v5.Test_LoadText_01(new HttpRequest_v3 { Method = HttpRequestMethod.Post, Url = "https://httpbin.org/post",
   Content = new TextContent("toto,tata,zozo,zaza") }, @"c:\pib\_dl\_aaaaaaaa\cache");
-Test_HttpManager_v3.Test_LoadText_01(new HttpRequest_v3 { Method = HttpRequestMethod.Post, Url = "https://httpbin.org/post",
+Test_HttpManager_v5.Test_LoadText_01(new HttpRequest_v3 { Method = HttpRequestMethod.Post, Url = "https://httpbin.org/post",
   Content = new UrlEncodedContent("toto", "tata", "zozo", "zaza") }, @"c:\pib\_dl\_aaaaaaaa\cache");
-Test_HttpManager_v3.Test_LoadText_01(new HttpRequest_v3 { Method = HttpRequestMethod.Post, Url = "https://httpbin.org/post",
+Test_HttpManager_v5.Test_LoadText_01(new HttpRequest_v3 { Method = HttpRequestMethod.Post, Url = "https://httpbin.org/post",
   Content = new MultipartContents("data", new TextContent("tata") { Name = "toto" }, new TextContent("zaza") { Name = "zozo" }) }, @"c:\pib\_dl\_aaaaaaaa\cache");
-Test_HttpManager_v3.Test_LoadText_01(new HttpRequest_v3 { Method = HttpRequestMethod.Post, Url = "https://httpbin.org/post",
+Test_HttpManager_v5.Test_LoadText_01(new HttpRequest_v3 { Method = HttpRequestMethod.Post, Url = "https://httpbin.org/post",
   Content = new MultipartContents("data", new TextContent("tata") { Name = "toto" }, new TextContent("zaza") { Name = "zozo" },
   new FileContent(@"c:\pib\_dl\Document-page-015_01.jpg") { Name = "image1" }) }, @"c:\pib\_dl\_aaaaaaaa\cache");
-Test_HttpManager_v3.Test_LoadText_01(new HttpRequest_v3 { Method = HttpRequestMethod.Post, Url = "https://httpbin.org/post",
+Test_HttpManager_v5.Test_LoadText_01(new HttpRequest_v3 { Method = HttpRequestMethod.Post, Url = "https://httpbin.org/post",
   Content = new MultipartContents("data", new TextContent("tata") { Name = "toto" }, new TextContent("zaza") { Name = "zozo" },
   new FileContent(@"c:\pib\_dl\Document-page-015_01.jpg") { Name = "image1" }, new FileContent(@"c:\pib\_dl\Document-page-015_02.jpg") { Name = "image2" }) },
   @"c:\pib\_dl\_aaaaaaaa\cache");
@@ -696,3 +784,165 @@ Test_Async.Test_CatchException();    // exception is catched
 Test_Async.Test_Try_01();            // exception is catched
 Test_Async.Test_Try_02();            // exception is catched
 
+
+//*************************************************************************************************************************
+//****                                   Test_OcrWebService.project.xml
+//*************************************************************************************************************************
+
+Trace.WriteLine("toto");
+RunSourceCommand.SetProjectFromSource();
+RunSourceCommand.SetProject(@"$Root$\Lib\pb\Source\pb\Web\Data\Ocr\_Test\Test_OcrWebService.project.xml");
+
+// c:\pib\_dl\_aaaaaaaa\ocr_cache
+var response = await Test_OcrWebService.CreateOcrWebService().AccountInfo();
+response.zTraceJson();
+
+OcrRequest request = new OcrRequest { DocumentFile = @"c:\pib\_dl\Document-page-015_01.jpg", Language = "french,english", OutputFormat = "txt", GetText = true, GetWords = true };
+var response = await Test_OcrWebService.CreateOcrWebService().ProcessDocument(request);
+response.zTraceJson();
+
+Test_OcrWebService2.Test_AccountInformation();
+Test_OcrWebService2.Test_ProcessDocument(@"c:\pib\_dl\Document-page-015_01.jpg");
+
+Test_OcrWebService2.Test_Authorization();
+Test_OcrWebService.CreateOcrWebService().Test_Authorization();
+
+//*************************************************************************************************************************
+//****                                   Test_Ghostscript.project.xml
+//*************************************************************************************************************************
+
+Trace.WriteLine("toto");
+RunSourceCommand.SetProjectFromSource();
+RunSourceCommand.SetProject(@"$Root$\Lib\pb\Source\pb\Data\Pdf\_Test\Test_Ghostscript.project.xml");
+
+
+Test_Ghostscript.Test_PdfToImages(@"c:\pib\drive\google\valentin\S1\UE1\UE1-02-lipides\UE1-02-lipides.pdf", @"c:\pib\drive\google\valentin\S1\UE1\UE1-02-lipides\data\images");
+Test_Ghostscript.Test_PdfToImages(@"c:\pib\drive\google\valentin\S1\UE1\UE1-01-acide aminé\UE1-01-acide aminé.pdf", @"c:\pib\drive\google\valentin\S1\UE1\UE1-01-acide aminé\data\images");
+
+
+
+//*************************************************************************************************************************
+//****                                   Test_Text.project.xml
+//*************************************************************************************************************************
+
+Trace.WriteLine("toto");
+RunSourceCommand.SetProjectFromSource();
+RunSourceCommand.SetProject(@"$Root$\Lib\pb\Source\pb\Text\_Test\Test_Text.project.xml");
+
+Test_Regex.Test(@"(?<=^|,)\s*([0-9]+)(?:\s*-\s*([0-9]+))?\s*(?=,|$)", "1,3,5-12");
+Test_Regex.Test(@"(?<=^|,)\s*([0-9]+)(?:\s*-\s*([0-9]+))?\s*(?=,|$)", " 1 , 3 , 5 - 12 ");
+
+//*************************************************************************************************************************
+//****                                   Test_iText.project.xml
+//****                                   Test_iText7.project.xml
+//****                                   Test_PdfScript.project.xml
+//*************************************************************************************************************************
+
+Trace.WriteLine("toto");
+RunSourceCommand.SetProjectFromSource();
+RunSourceCommand.SetProject(@"$Root$\Lib\pb\Source\Project\_Test\Test_iText.project.xml");
+RunSourceCommand.SetProject(@"$Root$\Lib\pb\Source\Project\_Test\Test_iText7.project.xml");
+RunSourceCommand.SetProject(@"$Root$\Lib\pb\Source\Project\_Test\Test_PdfScript.project.xml");
+
+
+string file = @"c:\pib\drive\google\valentin\S2\UE3\UE3-01-Etat de la matiere et leur caracterisaion etat d'agregation\data\images\UE3 - Etat de la matiere et leur caracterisaion Etat d agregation-page-010.jpg";
+string file = @"c:\pib\drive\google\valentin\S1\UE1\UE1-01-acide aminé\data\images2\page-001.jpeg";
+string file = @"c:\pib\drive\google\valentin\S1\UE1\UE1-01-acide aminé\data\images2\01\page-001.jpeg";
+Image image = zimg.LoadImageFromFile(file);
+Trace.WriteLine($"width {image.Width} height {image.Height} PixelFormat {image.PixelFormat} x dpi {image.HorizontalResolution} y dpi {image.VerticalResolution}");
+
+//*************************************************************************************************************************
+//****                                   Test_iTextSharp.project.xml
+//*************************************************************************************************************************
+
+Trace.WriteLine("toto");
+RunSourceCommand.SetProjectFromSource();
+RunSourceCommand.SetProject(@"$Root$\Lib\pb\Source\pb\Data\Pdf\_Test\Test_iTextSharp.project.xml");
+
+Test_iTextSharp.Test_TraceObjects(@"c:\pib\drive\google\valentin\S2\UE3\UE3-01-Etat de la matiere et leur caracterisaion etat d'agregation\UE3-01-Etat de la matiere et leur caracterisaion etat d'agregation.pdf");
+Test_iTextSharp.Test_TraceInfos(@"c:\pib\drive\google\valentin\S2\UE3\UE3-01-Etat de la matiere et leur caracterisaion etat d'agregation\UE3-01-Etat de la matiere et leur caracterisaion etat d'agregation.pdf");
+Test_iTextSharp.Test_TraceImages(@"c:\pib\drive\google\valentin\S2\UE3\UE3-01-Etat de la matiere et leur caracterisaion etat d'agregation\UE3-01-Etat de la matiere et leur caracterisaion etat d'agregation.pdf");
+Test_iTextSharp.Test_ExtractImages(@"c:\pib\drive\google\valentin\S2\UE3\UE3-01-Etat de la matiere et leur caracterisaion etat d'agregation\UE3-01-Etat de la matiere et leur caracterisaion etat d'agregation.pdf", @"data\images2");
+
+Test_iTextSharp.Test_TraceImages(@"c:\pib\drive\google\valentin\S1\UE1\UE1-01-acide aminé\UE1-01-acide aminé.pdf");
+Test_iTextSharp.ExtractImagesFromPDF(@"c:\pib\drive\google\valentin\S1\UE1\UE1-01-acide aminé\UE1-01-acide aminé.pdf", @"c:\pib\drive\google\valentin\S1\UE1\UE1-01-acide aminé\data\images2");
+
+Test_iTextSharp.Test_ExtractImages_v2(@"c:\pib\drive\google\valentin\S1\UE1\UE1-01-acide aminé\UE1-01-acide aminé.pdf", @"data\images2");
+Test_iTextSharp.Test_ExtractImages_v2(@"c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\UE5-01-anatomie.pdf", @"data\images2");
+Test_iTextSharp.Test_ExtractImages_v2(@"c:\pib\drive\google\valentin\S2\UE5\UE5-02-app. locomoteur osteologie\UE5-02-app. locomoteur osteologie.pdf", @"data\images2");
+
+Test_iTextSharp.Test_ExtractImage(@"c:\pib\_dl\dev\test_pdf\UE5-01-anatomie.pdf", 7, "image-008.bin");
+
+
+//*************************************************************************************************************************
+//****                                   Test_iText7.project.xml
+//*************************************************************************************************************************
+
+Trace.WriteLine("toto");
+RunSourceCommand.SetProjectFromSource();
+RunSourceCommand.SetProject(@"$Root$\Lib\pb\Source\pb\Data\Pdf\_Test\Test_iText7.project.xml");
+
+Test_iText7.Test_01(@"c:\pib\_dl\dev\test_pdf\UE5-01-anatomie.pdf", "objects");
+Test_iText7.Test_TraceObjects(@"c:\pib\_dl\dev\test_pdf\UE5-01-anatomie.pdf");
+Test_iText7.Test_ExtractImage(@"c:\pib\_dl\dev\test_pdf\UE5-01-anatomie.pdf", 7, "image-008");
+Test_iText7.Test_ExtractImages(@"c:\pib\_dl\dev\test_pdf\UE5-01-anatomie.pdf", "UE5-01-anatomie");
+Test_iText7.Test_ExtractImages(@"c:\pib\_dl\dev\test_pdf\UE1-01-acide aminé.pdf", "UE1-01-acide aminé");
+
+//*************************************************************************************************************************
+//****                                   Test_Image.project.xml
+//*************************************************************************************************************************
+
+Trace.WriteLine("toto");
+RunSourceCommand.SetProjectFromSource();
+RunSourceCommand.SetProject(@"$Root$\Lib\pb\Source\pb\Data\_Test\Test_Image.project.xml");
+
+Test_Image_01.Test_01(@"c:\pib\_dl\test.png");
+Test_Image_01.Test_02(@"c:\pib\_dl\dev\test_image\test_02.bmp");
+// 319 x 312 - 361 x 364
+Test_Image_01.CopyBytes(@"c:\pib\_dl\dev\test_image\page-001.jpeg.bin", 2514, 317, 310, 363, 366, @"c:\pib\_dl\dev\test_image\page-001_01.bin");
+Test_Image_01.CreateBitmap(@"c:\pib\_dl\dev\test_image\page-001_01.bin", 47, 57, @"c:\pib\_dl\dev\test_image\page-001_01.bmp");
+Test_Image_01.CopyBytes(@"c:\pib\_dl\dev\test_image\page-001.jpeg.bin", 2514, 260, 260, 420, 420, @"c:\pib\_dl\dev\test_image\page-001_02.bin");
+Test_Image_01.CreateBitmap(@"c:\pib\_dl\dev\test_image\page-001_02.bin", 161, 161, @"c:\pib\_dl\dev\test_image\page-001_02.bmp");
+Test_Image_01.SaveBitmapData(@"c:\pib\_dl\dev\test_image\UE5-01-anatomie-000.png", @"c:\pib\_dl\dev\test_image\UE5-01-anatomie-000.bin");
+Test_Image_01.ConvertToGif(@"c:\pib\_dl\dev\test_image\UE5-01-anatomie-000.png", @"c:\pib\_dl\dev\test_image\UE5-01-anatomie-000.gif");
+Test_Image_01.BitmapInfo(@"c:\pib\_dl\dev\test_image\UE5-01-anatomie-000.png");
+Test_Image_01.BitmapInfo(@"c:\pib\_dl\dev\test_image\UE5-01-anatomie-000.gif");
+Test_Image_01.SaveBitmapData(@"c:\pib\_dl\dev\test_image\UE5-01-anatomie-000.gif", @"c:\pib\_dl\dev\test_image\UE5-01-anatomie-000.gif.bin");
+Test_Image_01.ReplaceData(@"c:\pib\_dl\dev\test_image\UE5-01-anatomie-000.gif.bin", @"c:\pib\_dl\dev\test_image\UE5-01-anatomie-000.gif_02.bin");
+Test_Image_01.CreateBitmap(@"c:\pib\_dl\dev\test_image\UE5-01-anatomie-000.gif_02.bin", 2514, 3474, @"c:\pib\_dl\dev\test_image\UE5-01-anatomie-000.gif_02.bmp");
+
+Test_Image_01.Test_03(@"c:\pib\_dl\dev\test_image\page-001.jpeg.bin", 2514, 317, 310, 363, 366, @"c:\pib\_dl\dev\test_image\page-001_01.bmp");
+
+Trace.WriteLine($@"{TimeSpan.FromMilliseconds(10129):hh\:mm\:ss\.fff}");
+Trace.WriteLine($@"{TimeSpan.FromMilliseconds(10000):hh\:mm\:ss}");
+Trace.WriteLine(@"{0:hh\:mm\:ss\:ff}", TimeSpan.FromMilliseconds(10127));
+
+
+//*************************************************************************************************************************
+//****                                                  RunSourceCommand.UpdateVSProject
+//*************************************************************************************************************************
+
+// simulate runsource.irunsource.project.xml
+RunSourceCommand.UpdateVSProject(@"$Root$\Apps\RunSource\v2\runsource.irunsource\runsource.irunsource.project.xml", options: VSProjectUpdateOptions.AddSourceLink | VSProjectUpdateOptions.RemoveSourceLink
+  | VSProjectUpdateOptions.AddAssemblyReference | VSProjectUpdateOptions.RemoveAssemblyReference | VSProjectUpdateOptions.Simulate);
+// simulate runsource.dll.project.xml
+RunSourceCommand.UpdateVSProject(@"$Root$\Apps\RunSource\v2\runsource.dll\runsource.dll.project.xml", options: VSProjectUpdateOptions.AddSourceLink | VSProjectUpdateOptions.RemoveSourceLink
+  | VSProjectUpdateOptions.AddAssemblyReference | VSProjectUpdateOptions.RemoveAssemblyReference | VSProjectUpdateOptions.Simulate);
+// simulate runsource.command.project.xml
+RunSourceCommand.UpdateVSProject(@"$Root$\Apps\RunSource\v2\runsource.command\runsource.command.project.xml", options: VSProjectUpdateOptions.AddSourceLink | VSProjectUpdateOptions.RemoveSourceLink
+  | VSProjectUpdateOptions.AddAssemblyReference | VSProjectUpdateOptions.RemoveAssemblyReference | VSProjectUpdateOptions.Simulate);
+// simulate runsource.runsource.project.xml
+RunSourceCommand.UpdateVSProject(@"$Root$\Apps\RunSource\v2\runsource.runsource\runsource.runsource.project.xml", options: VSProjectUpdateOptions.AddSourceLink | VSProjectUpdateOptions.RemoveSourceLink
+  | VSProjectUpdateOptions.AddAssemblyReference | VSProjectUpdateOptions.RemoveAssemblyReference | VSProjectUpdateOptions.Simulate);
+// simulate runsource.launch.project.xml
+RunSourceCommand.UpdateVSProject(@"$Root$\Apps\RunSource\v2\runsource.launch\runsource.launch.project.xml", options: VSProjectUpdateOptions.AddSourceLink | VSProjectUpdateOptions.RemoveSourceLink
+  | VSProjectUpdateOptions.AddAssemblyReference | VSProjectUpdateOptions.RemoveAssemblyReference | VSProjectUpdateOptions.Simulate);
+
+// simulate runsource.launch.project.xml
+RunSourceCommand.UpdateVSProject(@"$Root$\Apps\pbc\pbc.project.xml", options: VSProjectUpdateOptions.AddSourceLink | VSProjectUpdateOptions.RemoveSourceLink
+  | VSProjectUpdateOptions.AddAssemblyReference | VSProjectUpdateOptions.RemoveAssemblyReference | VSProjectUpdateOptions.Simulate);
+
+RunSourceCommand.UpdateVSProject(@"$Root$\Apps\tools\test_vs_project\anki.project.xml", options: VSProjectUpdateOptions.AddSourceLink | VSProjectUpdateOptions.RemoveSourceLink
+  | VSProjectUpdateOptions.AddAssemblyReference | VSProjectUpdateOptions.RemoveAssemblyReference | VSProjectUpdateOptions.Simulate);
+RunSourceCommand.UpdateVSProject(@"$Root$\Apps\tools\test_vs_project\anki.project.xml", options: VSProjectUpdateOptions.AddSourceLink | VSProjectUpdateOptions.RemoveSourceLink
+  | VSProjectUpdateOptions.AddAssemblyReference | VSProjectUpdateOptions.RemoveAssemblyReference);

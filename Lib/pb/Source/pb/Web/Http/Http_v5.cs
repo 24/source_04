@@ -1,18 +1,19 @@
 ﻿using pb.IO;
 using System;
 using System.IO;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace pb.Web.Http
 {
-    public class HttpRequest_v3 : IDisposable
+    public class HttpRequest_v5 : IDisposable
     {
         public string Url;
         public HttpRequestMethod Method = HttpRequestMethod.Get;
         public string Referer = null;
         public HttpContentValue Content = null;
         public bool ReloadFromWeb = false;
-        // used in Http_v3
+        // used in Http_v5
         public string CacheSubDirectory = null;
         //public UrlCachePathResult UrlCachePath = null;
 
@@ -23,15 +24,16 @@ namespace pb.Web.Http
         }
     }
 
-    public class Http_v3 : IDisposable
+    public class Http_v5 : IDisposable
     {
+        //pb.Web.Http.old.Http_v3
         // http request
-        private HttpRequest_v3 _request = null;
+        private HttpRequest_v5 _request = null;
         //private HttpRequestParameters _requestParameters = null;
         private System.Net.Http.HttpRequestMessage _httpRequest = null;
 
         // _httpManager use : HttpClient, TraceException, LoadRetryTimeout, _InitLoadFromWeb
-        private HttpManager_v3 _httpManager = null;
+        private HttpManager_v5 _httpManager = null;
         //private UrlCache _urlCache = null;
         //private int _loadRetryTimeout = 0; // timeout in seconds, 0 = no timeout, -1 = endless timeout
         //private HttpClient _httpClient = null;
@@ -52,7 +54,7 @@ namespace pb.Web.Http
         //public HttpResponseMessage HttpResponse { get { return _httpResponse; } }
 
         // HttpRequestParameters requestParameters = null
-        public Http_v3(HttpRequest_v3 request, HttpManager_v3 httpManager)
+        public Http_v5(HttpRequest_v5 request, HttpManager_v5 httpManager)
         {
             _request = request;
             _httpManager = httpManager;
@@ -81,7 +83,7 @@ namespace pb.Web.Http
             }
         }
 
-        public async Task<HttpResult_v3<string>> LoadText()
+        public async Task<HttpResult_v5<string>> LoadText()
         {
             //HttpResponseMessage response = await SendRequest();
             //return await response.Content.ReadAsStringAsync();
@@ -92,7 +94,8 @@ namespace pb.Web.Http
                 await SendRequest();
                 text = await _httpResponse.Content.ReadAsStringAsync();
                 _requestDuration = DateTime.Now - _sendRequestTime;
-                success = true;
+                if (_httpResponse.StatusCode == HttpStatusCode.OK)
+                    success = true;
             }
             catch (Exception ex)
             {
@@ -101,11 +104,11 @@ namespace pb.Web.Http
                 else
                     throw;
             }
-            return new HttpResult_v3<string>(success, GetHttpMessageResult, loadFromWeb: true) { Data = text };
+            return new HttpResult_v5<string>(success, (int)_httpResponse.StatusCode, GetHttpMessageResult, loadFromWeb: true) { Data = text };
         }
 
         // save http binary content response in a file (dont use character encoding, just save bytes)
-        public async Task<HttpResult_v3> LoadToFile(string file)
+        public async Task<HttpResult_v5> LoadToFile(string file)
         {
             bool success = false;
             try
@@ -114,7 +117,8 @@ namespace pb.Web.Http
                 using (FileStream fs = zFile.Open(file, FileMode.Create, FileAccess.Write, FileShare.Read))
                     await _httpResponse.Content.CopyToAsync(fs);
                 _requestDuration = DateTime.Now - _sendRequestTime;
-                success = true;
+                if (_httpResponse.StatusCode == HttpStatusCode.OK)
+                    success = true;
             }
             catch (Exception ex)
             {
@@ -123,7 +127,7 @@ namespace pb.Web.Http
                 else
                     throw;
             }
-            return new HttpResult_v3(success, GetHttpMessageResult, loadFromWeb: true);
+            return new HttpResult_v5(success, (int)_httpResponse.StatusCode, GetHttpMessageResult, loadFromWeb: true);
         }
 
         //public async Task SaveRequest(string file)

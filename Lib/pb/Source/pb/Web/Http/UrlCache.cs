@@ -18,7 +18,7 @@ namespace pb.Web.Http
         protected bool _indexedFile = false;
         protected bool _saveRequest = false;
         protected Func<HttpRequest, string> _getUrlSubDirectory = null;
-        protected Func<HttpRequest_v3, string> _getUrlSubDirectory_v2 = null;
+        protected Func<HttpRequest_v5, string> _getUrlSubDirectory_v2 = null;
 
         public UrlCache(string cacheDirectory)
         {
@@ -41,7 +41,7 @@ namespace pb.Web.Http
             return GetUrlPathResult(GetUrlSubPath(httpRequest), subDirectory);
         }
 
-        public UrlCachePathResult GetUrlPathResult(HttpRequest_v3 httpRequest, string subDirectory = null)
+        public UrlCachePathResult GetUrlPathResult(HttpRequest_v5 httpRequest, string subDirectory = null)
         {
             return GetUrlPathResult(GetUrlSubPath(httpRequest), subDirectory);
         }
@@ -77,7 +77,7 @@ namespace pb.Web.Http
             return file;
         }
 
-        public string GetUrlSubPath(HttpRequest_v3 httpRequest)
+        public string GetUrlSubPath(HttpRequest_v5 httpRequest)
         {
             //string file = zurl.UrlToFileName(httpRequest, _urlFileNameType);
             //string file = zurl.UrlToFileName(httpRequest.Url, _urlFileNameType, httpRequestContent: httpRequest.Content);

@@ -651,6 +651,27 @@ namespace pb.Text
             }
             throw new PBException("unknow html special code \"{0}\"", match.Value);
         }
+
+        private static Regex _range = new Regex(@"(?<=^|,)\s*([0-9]+)(?:\s*-\s*([0-9]+))?\s*(?=,|$)", RegexOptions.Compiled);
+        public static IEnumerable<int> EnumRange(string range)
+        {
+            // range : "1,3,5-12"
+            Match match = _range.Match(range);
+            while (match.Success)
+            {
+                int i1 = int.Parse(match.Groups[1].Value);
+                string s2 = match.Groups[2].Value;
+                if (s2 != "")
+                {
+                    int i2 = int.Parse(s2);
+                    for (int i = i1; i <= i2; i++)
+                        yield return i;
+                }
+                else
+                    yield return i1;
+                match = match.NextMatch();
+            }
+        }
     }
 
     public static partial class GlobalExtension

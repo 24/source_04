@@ -2,7 +2,7 @@
 
 namespace pb.Compiler
 {
-    public static class RunSourceCommand
+    public static partial class RunSourceCommand
     {
         public static int ProjectCompilerTraceLevel { get { return ProjectCompiler.TraceLevel; } set { ProjectCompiler.TraceLevel = value; } }
 

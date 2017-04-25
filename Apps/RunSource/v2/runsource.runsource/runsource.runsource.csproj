@@ -71,6 +71,9 @@
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\Compiler\RemoteRunSource.cs">
       <Link>SourceLnk\Lib\pb\Compiler\RemoteRunSource.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Compiler\RemoteRunSource_VSProject.cs">
+      <Link>SourceLnk\Lib\pb\Compiler\RemoteRunSource_VSProject.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\Data\Image.cs">
       <Link>SourceLnk\Lib\pb\Data\Image.cs</Link>
     </Compile>

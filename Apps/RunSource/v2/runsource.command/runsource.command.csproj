@@ -40,6 +40,9 @@
     <Compile Include="..\..\..\..\Lib\pb\Source\pb\Compiler\RunSourceCommand.cs">
       <Link>SourceLnk\Lib\pb\Compiler\RunSourceCommand.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\Lib\pb\Source\pb\Compiler\RunSourceCommand_VSProject.cs">
+      <Link>SourceLnk\Lib\pb\Compiler\RunSourceCommand_VSProject.cs</Link>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

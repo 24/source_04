@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <AssemblyProject>
   
-  <Root                             value = "..\..\..\..\..\..\.." />
+  <Root                             value = "..\..\..\..\..\..\..\.." />
 
   <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\LanguageCSharp5Debug.project.xml" />
 
   <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\Basic.project.xml" />
   <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\RunSourceExtension.project.xml" />
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\XmlConfig.project.xml" />
   <!--<IncludeProject                   value = "$Root$\Lib\pb\Source\Project\MongoExtension.project.xml" />-->
   <!--<IncludeProject                   value = "$Root$\Lib\pb\Source\Project\MongoDefaultSerializer.project.xml" />-->
   <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\HttpRun.project.xml" />
 
-  <NameSpace                        value = "pb.Web.Http.Test" />
+  <NameSpace                        value = "pb.Web.Data.Ocr.Test" />
 
   <!--<InitMethod                       value = "pb.Web.Test.Test_Run.Init" />
   <EndMethod                        value = "pb.Web.Test.Test_Run.End" />-->
@@ -33,7 +34,10 @@
   <Using                            value = "System.Net.Http" />
   
 
-  <Source                           value = "Test_HttpManager_v3.cs" />
+  <Source                           value = "Test_OcrWebService.cs" />
+  <Source                           value = "Test_OcrWebService2.cs" />
+
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\Ocr\OcrWebService.cs" />
 
   <!--
   <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\PBTraceListener.cs" />

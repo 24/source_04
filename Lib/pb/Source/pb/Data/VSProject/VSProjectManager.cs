@@ -115,62 +115,68 @@ namespace pb.Data.VSProject
         {
             if (_projectSourceItemGroup == null)
             {
-                Trace.WriteLine("  add source ItemGroup");
+                //Trace.WriteLine("  add source ItemGroup");
                 _projectSourceItemGroup = new XElement(_projectNamespace + "ItemGroup");
                 _projectDocument.Root.Add(_projectSourceItemGroup);
             }
-            Trace.WriteLine($"  add source \"{relativePath}\"");
+            //Trace.WriteLine($"  add source \"{relativePath}\"");
             _projectSourceItemGroup.Add(new XElement(_projectNamespace + "Compile", new XAttribute("Include", relativePath)));
             _projectModified = true;
         }
 
-        public void RemoveSource(string relativePath)
+        public bool RemoveSource(string relativePath)
         {
             bool removed = false;
             foreach (XElement compile in GetSourcesElements())
             {
                 if (compile.Element(_projectNamespace + "Link") == null && compile.Attribute("Include").Value == relativePath)
                 {
-                    Trace.WriteLine($"  remove source \"{relativePath}\"");
+                    //Trace.WriteLine($"  remove source \"{relativePath}\"");
+                    XElement parent = compile.Parent;
                     compile.Remove();
+                    RemoveIfEmpty(parent);
                     _projectModified = true;
                     removed = true;
                     break;
                 }
             }
-            if (!removed)
-                Trace.WriteLine($"  warning can't remove source, source not found \"{relativePath}\"");
+            //if (!removed)
+            //    Trace.WriteLine($"  warning can't remove source, source not found \"{relativePath}\"");
+            return removed;
         }
 
         public void AddSourceLink(string relativePath, string link)
         {
             if (_projectSourceItemGroup == null)
             {
-                Trace.WriteLine("  add source ItemGroup");
+                //Trace.WriteLine("  add source ItemGroup");
                 _projectSourceItemGroup = new XElement(_projectNamespace + "ItemGroup");
                 _projectDocument.Root.Add(_projectSourceItemGroup);
             }
-            Trace.WriteLine($"  add source link \"{relativePath}\"");
+            //Trace.WriteLine($"  add source link \"{relativePath}\"");
             _projectSourceItemGroup.Add(new XElement(_projectNamespace + "Compile", new XAttribute("Include", relativePath), new XElement(_projectNamespace + "Link", new XText(link))));
             _projectModified = true;
         }
 
-        public void RemoveSourceLink(string relativePath)
+        public bool RemoveSourceLink(string relativePath)
         {
             bool removed = false;
             foreach (XElement compile in GetSourcesElements())
             {
                 if (compile.Element(_projectNamespace + "Link") != null && compile.Attribute("Include").Value == relativePath)
                 {
-                    Trace.WriteLine($"  remove source link \"{relativePath}\"");
+                    //Trace.WriteLine($"  remove source link \"{relativePath}\"");
+                    XElement parent = compile.Parent;
                     compile.Remove();
+                    RemoveIfEmpty(parent);
                     _projectModified = true;
                     removed = true;
                     break;
                 }
             }
-            if (!removed)
-                Trace.WriteLine($"  warning can't remove source link, source link not found \"{relativePath}\"");
+            //if (!removed)
+            //    Trace.WriteLine($"  warning can't remove source link, source link not found \"{relativePath}\"");
+            return removed;
         }
 
         private IEnumerable<XElement> GetSourcesElements()
@@ -229,11 +235,11 @@ namespace pb.Data.VSProject
         {
             if (_projectReferenceItemGroup == null)
             {
-                Trace.WriteLine("  add reference ItemGroup");
+                //Trace.WriteLine("  add reference ItemGroup");
                 _projectReferenceItemGroup = new XElement(_projectNamespace + "ItemGroup");
                 _projectDocument.Root.Add(_projectReferenceItemGroup);
             }
-            Trace.WriteLine($"  add reference \"{name}\"");
+            //Trace.WriteLine($"  add reference \"{name}\"");
             XElement reference = new XElement(_projectNamespace + "Reference", new XAttribute("Include", name));
             if (relativePath != null)
                 reference.Add(new XElement(_projectNamespace + "HintPath", new XText(relativePath)));
@@ -241,22 +247,31 @@ namespace pb.Data.VSProject
             _projectModified = true;
         }
 
-        public void RemoveAssemblyReference(string name)
+        public bool RemoveAssemblyReference(string name)
         {
             bool removed = false;
             foreach (VSReference reference in GetReferences())
             {
                 if (reference.Name == name)
                 {
-                    Trace.WriteLine($"  remove reference \"{name}\"");
+                    //Trace.WriteLine($"  remove reference \"{name}\"");
+                    XElement parent = reference.Element.Parent;
                     reference.Element.Remove();
+                    RemoveIfEmpty(parent);
                     _projectModified = true;
                     removed = true;
                     break;
                 }
             }
-            if (!removed)
-                Trace.WriteLine($"  warning can't remove reference, reference not found \"{name}\"");
+            //if (!removed)
+            //    Trace.WriteLine($"  warning can't remove reference, reference not found \"{name}\"");
+            return removed;
+        }
+
+        private static void RemoveIfEmpty(XElement element)
+        {
+            if (!element.HasElements)
+                element.Remove();
         }
     }
 }

@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<AssemblyProject>
+  <Root                             value = "..\..\..\.." />
+
+  <!--<DebugInformation                 value = "true" />
+  <CompilerOptions                  value = "/define:DEBUG;TRACE" />
+	<Output                           value = "bin32\HttpRun\HttpRun.dll" />
+  <CopySourceFiles                  value = "true" />
+  <CopyOutput                       value = "$Root$\..\library\pib\HttpRun\new" />-->
+
+  <!--<IncludeProject                   value = "$Root$\Lib\pb\Source\Project\MongoDefaultSerializer.project.xml" />-->
+
+  <Using                            value = "pb" />
+  <Using                            value = "pb.Data" />
+  <Using                            value = "pb.Data.Pdf" />
+
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\PBException.cs" />
+  
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\Pdf\PdfScript.cs" />
+
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\zFile.cs" />
+
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Text\Regex.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Text\String.cs" />
+  
+  <FrameworkAssembly                value = "mscorlib.dll" vsExclude = "true" />
+  <FrameworkAssembly                value = "System.dll" />
+  <FrameworkAssembly                value = "System.Core.dll" />
+  <FrameworkAssembly                value = "System.Drawing.dll" />
+
+  <RunSourceAssembly                value = "runsource.irunsource.dll" vsExclude = "true" />
+  <RunSourceAssembly                value = "runsource.command.dll" vsExclude = "true" />
+
+  <Assembly                         value = "$Root$\Lib\LongPath\Pri.LongPath\bin\Debug\Pri.LongPath.dll" />
+  <Assembly                         value = "$Root$\..\library\Ghostscript\Ghostscript.NET.v.1.2.1\Ghostscript.NET.dll" resolve = "true" resolveName = "Ghostscript.NET, Version=1.2.1.0, Culture=neutral, PublicKeyToken=f85051de34525b59" />
+</AssemblyProject>

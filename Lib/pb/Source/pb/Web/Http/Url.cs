@@ -3,6 +3,8 @@ using System.Collections.Specialized;
 using System.Text.RegularExpressions;
 using System.Web;
 using pb.IO;
+using System.Collections.Generic;
+using System.Text;
 
 namespace pb.Web.Http
 {
@@ -208,7 +210,7 @@ namespace pb.Web.Http
             return file;
         }
 
-        public static string GetUrlFileType(string url)
+        public static string GetExtension(string url)
         {
             Uri uri = new Uri(url);
             return zPath.GetExtension(uri.Segments[uri.Segments.Length - 1]);
@@ -257,6 +259,21 @@ namespace pb.Web.Http
             else
                 uri = new Uri(url);
             return uri.AbsoluteUri;
+        }
+
+        public static string BuildQuery(IEnumerable<KeyValuePair<string, string>> values)
+        {
+            bool first = true;
+            StringBuilder sb = new StringBuilder();
+            foreach (KeyValuePair<string, string> value in values)
+            {
+                if (!first)
+                    sb.Append('&');
+                sb.Append($"{value.Key}={value.Value}");
+                first = false;
+            }
+            //return HttpUtility.UrlEncode(sb.ToString());
+            return sb.ToString();
         }
 
         public static NameValueCollection GetQueryValues(string url)

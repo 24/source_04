@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<AssemblyProject>
+  
+  <Root                             value = "..\..\..\..\..\..\.." />
+
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\LanguageCSharp5Debug.project.xml" />
+
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\Basic.project.xml" />
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\RunSourceExtension.project.xml" />
+  <!--<IncludeProject                   value = "$Root$\Lib\pb\Source\Project\MongoExtension.project.xml" />-->
+  <!--<IncludeProject                   value = "$Root$\Lib\pb\Source\Project\MongoDefaultSerializer.project.xml" />-->
+  <!--<IncludeProject                   value = "$Root$\Lib\pb\Source\Project\HttpRun.project.xml" />-->
+
+  <NameSpace                        value = "pb.Data.Pdf.Test" />
+
+  <!--<InitMethod                       value = "pb.Web.Test.Test_Run.Init" />
+  <EndMethod                        value = "pb.Web.Test.Test_Run.End" />-->
+  
+  <!--
+  <Using                            value = "System.IO" />
+  <Using                            value = "System.Linq" />
+  <Using                            value = "System.Xml.Linq" />
+  <Using                            value = "System.Xml.XPath" />
+  <Using                            value = "MongoDB.Bson" />
+  <Using                            value = "MongoDB.Driver" />
+  <Using                            value = "pb" />
+  <Using                            value = "pb.Data" />
+  <Using                            value = "pb.Data.Mongo" />
+  <Using                            value = "pb.Data.Xml" />
+  <Using                            value = "pb.Text" />
+  <Using                            value = "pb.Web" />
+  -->
+  <!--<Using                            value = "System.Net.Http" />-->
+  
+
+  <Source                           value = "Test_iTextSharp.cs" />
+
+  <!--<Source                           value = "$Root$\Lib\pb\Source\pb\IO\Directory.cs" />-->
+
+  <!--
+  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\PBTraceListener.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\_pb\TextSerializer.cs" />
+
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\IDocumentStore.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\NamedValues.cs" />
+
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\MongoBackup.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\MongoCollectionManager.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\MongoCommand.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\MongoCursorCache.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\MongoDocumentStore.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\MongoIdGenerator.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\MongoLog.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\WebDataMongoManagerBase.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\WebDataPageMongoManagerBase.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\WebHeaderDetailMongoManagerBase.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\WebImageMongo.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Mongo\WebImageMongoTools.cs" />
+
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Xml\XmlDescendant.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Data\Xml\XXElement.cs" />
+
+  <Source                           value = "$Root$\Lib\pb\Source\pb\IO\Backup.cs" />
+
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\DataPages.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebDataManager.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebDataPageManager.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebHeaderDetailManager.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebImageCacheManager.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebImageMongoCacheManager.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebLoadDataManager.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Data\WebLoadManager.cs" />
+  <Source                           value = "$Root$\Lib\pb\Source\pb\Web\Http\UrlCache.cs" />
+  -->
+
+  <!--<FrameworkAssembly                value = "System.ServiceModel.dll" />-->
+  <Assembly                         value = "$Root$\..\library\iTextSharp\itextsharp-all-5.5.10\itextsharp-dll-core\itextsharp.dll" resolve = "true" resolveName = "itextsharp, Version=5.5.10.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca" />
+
+</AssemblyProject>

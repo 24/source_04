@@ -58,10 +58,8 @@
       <HintPath>..\..\..\..\..\..\..\dev\NuGet\repository\System.Reflection.Metadata.1.2.0\lib\portable-net45+win8\System.Reflection.Metadata.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
@@ -170,9 +168,6 @@
     <Compile Include="..\..\Lib\pb\Source\pb\Text\Split.cs">
       <Link>SourceLnk\Lib\pb\Text\Split.cs</Link>
     </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\Text\String.cs">
-      <Link>SourceLnk\Lib\pb\Text\String.cs</Link>
-    </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\Text\StringZones.cs">
       <Link>SourceLnk\Lib\pb\Text\StringZones.cs</Link>
     </Compile>
@@ -181,9 +176,6 @@
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\_pb\Chrono.cs">
       <Link>SourceLnk\Lib\pb\_pb\Chrono.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Lib\pb\Source\pb\_pb\Convert.cs">
-      <Link>SourceLnk\Lib\pb\_pb\Convert.cs</Link>
     </Compile>
     <Compile Include="..\..\Lib\pb\Source\pb\_pb\Date.cs">
       <Link>SourceLnk\Lib\pb\_pb\Date.cs</Link>

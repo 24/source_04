@@ -50,11 +50,11 @@
 
   <SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\Application.cs" />
   <SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\Error.cs" />
-  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\ITrace.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\ITrace.cs" excludeVS = "true" />
   <SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\ParseAs.cs" />
   <SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\PBException.cs" />
-  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\Trace.cs" />
-  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\ITraceManager.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\Trace.cs" excludeVS = "true" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\ITraceManager.cs" excludeVS = "true" />
   <SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\TraceManager.cs" />
 
   <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\Mongo\zMongo.cs" />
@@ -62,9 +62,9 @@
   <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\Default\MongoSerializationManager.cs" />
 
   <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\Directory.cs" />
-  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\IWriteToFile.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\IWriteToFile.cs" excludeVS = "true" />
   <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\File.cs" />
-  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\FileOption.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\FileOption.cs" excludeVS = "true" />
   <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\FileNumber.cs" />
   <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\Path.cs" />
   <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\WriteToFile.cs" />

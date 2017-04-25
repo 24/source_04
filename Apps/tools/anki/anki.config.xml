@@ -2,7 +2,12 @@
 <configuration>
   <!--<CardDirectory                               value = "c:\pib\_dl\valentin" />-->
   <CardDirectory                               value = "c:\pib\drive\google\valentin" />
+  <LocalDirectory                              value = "c:\pib\drive\google\dev_data\exe\runsource" />
+  <DataDirectory                               value = "c:\pib\dev_data\exe\runsource" />
 
+  <OcrWebServiceConfig                         value = "$LocalDirectory$\ocr\config\ocrWebService.config.local.xml" />
+  <OcrWebServiceCacheDirectory                 value = "$DataDirectory$\ocr\cache" option = "IndexedFile" />
+  <!-- c:\pib\dropbox\pbeuz\Dropbox\dev_data\exe\runsource\download\config\download_config_local.xml -->
   <!-- 10 : UE3 - Thermoregulation - 2010 - QUESTION N°79 page 25 -->
   <MaxLinesPerQuestion                         value = "10" />
   <!-- 4: UE3 - Transports electriques et transmembranaires - 2008 - QUESTION N°107 - page 30 -->

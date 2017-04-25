@@ -25,6 +25,9 @@ namespace runsourced
         private const int WM_CUSTOM_UPDATE_RUNSOURCE = WM.WM_USER + 10;
         private const int WM_CUSTOM_ABORT_EXECUTION = WM.WM_USER + 11;
 
+        private const int WM_CUSTOM_UPDATE_VS_PROJECT_SIMULATE = WM.WM_USER + 12;
+        private const int WM_CUSTOM_UPDATE_VS_PROJECT = WM.WM_USER + 13;
+
         [DllImport("user32")]
         public static extern int PostMessage(HWND hwnd, int wMsg, int wParam, int lParam);
 
@@ -148,6 +151,12 @@ namespace runsourced
                     break;
                 case WM_CUSTOM_ABORT_EXECUTION:
                     AbortExecution();
+                    break;
+                case WM_CUSTOM_UPDATE_VS_PROJECT_SIMULATE:
+                    Try(() => UpdateCurrentVSProject(simulate: true));
+                    break;
+                case WM_CUSTOM_UPDATE_VS_PROJECT:
+                    Try(() => UpdateCurrentVSProject());
                     break;
             }
             base.WndProc(ref m);

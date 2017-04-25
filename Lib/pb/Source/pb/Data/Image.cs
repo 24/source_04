@@ -10,9 +10,13 @@ namespace pb.Data
     // Image :
     //   PixelFormat PixelFormat : Format24bppRgb
     //   ImageFormat RawFormat   : [ImageFormat: b96b3cae-0728-11d3-9d7b-0000f81ef32e]
+    //
+    // Loading an image from a stream without keeping the stream open http://stackoverflow.com/questions/3845456/loading-an-image-from-a-stream-without-keeping-the-stream-open
+    // Dépendances de constructeur bitmap et images https://support.microsoft.com/fr-fr/help/814675/bitmap-and-image-constructor-dependencies
+
     public static class zimg
     {
-        //public static Bitmap ReadBitmap(string sourceFile)
+        // bad bad bad bad bad bad bad bad
         public static Bitmap LoadBitmapFromFile(string file)
         {
             if (!zFile.Exists(file))
@@ -31,10 +35,24 @@ namespace pb.Data
                 else
                     throw;
             }
-            Bitmap bitmap = new Bitmap(image.Width, image.Height);
-            Graphics graphics = Graphics.FromImage(bitmap);
-            graphics.DrawImage(image, 0, 0);
+            //Bitmap bitmap = new Bitmap(image.Width, image.Height);
+            //Graphics graphics = Graphics.FromImage(bitmap);
+            //graphics.DrawImage(image, 0, 0);
+            //image.Dispose();
+            //return bitmap;
+            Bitmap bitmap = Clone(image);
             image.Dispose();
+            return bitmap;
+        }
+
+        // bad bad bad bad bad bad bad bad
+        public static Bitmap Clone(Image image)
+        {
+            Bitmap bitmap = new Bitmap(image.Width, image.Height);
+            using(Graphics graphics = Graphics.FromImage(bitmap))
+            {
+                graphics.DrawImage(image, 0, 0);
+            }
             return bitmap;
         }
 
@@ -65,6 +83,15 @@ namespace pb.Data
                     s.Close();
                 if (r != null)
                     r.Close();
+            }
+        }
+
+        public static void GetImageWidthHeight(string file, out int width, out int height)
+        {
+            using (Image image = Image.FromFile(file))
+            {
+                width = image.Width;
+                height = image.Height;
             }
         }
 

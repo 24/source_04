@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<AssemblyProject>
+  <Root                             value = "..\..\..\.." />
+
+  <!--<DebugInformation                 value = "true" />
+  <CompilerOptions                  value = "/define:DEBUG;TRACE" />
+	<Output                           value = "bin32\HttpRun\HttpRun.dll" />
+  <CopySourceFiles                  value = "true" />
+  <CopyOutput                       value = "$Root$\..\library\pib\HttpRun\new" />-->
+
+  <!--<IncludeProject                   value = "$Root$\Lib\pb\Source\Project\MongoDefaultSerializer.project.xml" />-->
+
+  <Using                            value = "pb" />
+  <Using                            value = "pb.Data" />
+  <Using                            value = "pb.Data.Pdf" />
+
+  <!--<SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\PBException.cs" />-->
+
+  <!--<SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\Image.cs" />-->
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\Pdf\iText7.cs" />
+
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\zFile.cs" />
+
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Text\String.cs" />
+
+  <!--<SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\File.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\FileNumber.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\Path.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\zDirectory.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\zPath.cs" />
+
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Text\Regex.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Text\String.cs" />
+  -->
+  
+  <FrameworkAssembly                value = "mscorlib.dll" vsExclude = "true" />
+  <!--<FrameworkAssembly                value = "System.dll" />
+  <FrameworkAssembly                value = "System.Core.dll" />
+  <FrameworkAssembly                value = "System.Drawing.dll" />-->
+
+  <!--
+  <RunSourceAssembly                value = "runsource.irunsource.dll" vsExclude = "true" />
+  <RunSourceAssembly                value = "runsource.command.dll" vsExclude = "true" />
+  -->
+
+  <Assembly                         value = "$Root$\Lib\LongPath\Pri.LongPath\bin\Debug\Pri.LongPath.dll" />
+  <Assembly                         value = "$Root$\..\library\iText\itext7.7.0.2.2\net40\itext.kernel.dll" resolve = "true" resolveName = "itext.kernel, Version=7.0.2.2, Culture=neutral, PublicKeyToken=8354ae6d2174ddca" />
+  <Assembly                         value = "$Root$\..\library\iText\itext7.7.0.2.2\net40\itext.io.dll" resolve = "true" resolveName = "itext.io, Version=7.0.2.2, Culture=neutral, PublicKeyToken=8354ae6d2174ddca" />
+  <Assembly                         value = "$Root$\..\library\iText\itext7.7.0.2.2\net40\itext.layout.dll" resolve = "true" resolveName = "itext.layout, Version=7.0.2.2, Culture=neutral, PublicKeyToken=8354ae6d2174ddca" />
+</AssemblyProject>

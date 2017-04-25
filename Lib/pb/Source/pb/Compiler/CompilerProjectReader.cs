@@ -140,6 +140,16 @@ namespace pb.Compiler
             return _rootDirectory;
         }
 
+        public string GetVSProject()
+        {
+            return GetFile("VSProject");
+        }
+
+        public IEnumerable<string> GetComplementaryProjects()
+        {
+            return _projectXmlElement.GetValues("ComplementaryProject").Select(project => GetPathFile(project));
+        }
+
         public CompilerLanguage GetLanguage()
         {
             XElement xe = _projectXmlElement.GetElement("Language");
@@ -320,6 +330,11 @@ namespace pb.Compiler
         {
             //return _projectXmlElement.GetElements("Source").Select(xe => CreateCompilerFile(xe));
             return _GetCompilerFiles("Source", recurse, withoutExtensionProject);
+        }
+
+        public IEnumerable<CompilerFile> GetVSSources(bool recurse = false, bool withoutExtensionProject = false)
+        {
+            return _GetCompilerFiles("VSSource", recurse, withoutExtensionProject);
         }
 
         public IEnumerable<CompilerFile> GetSourcesLinks(bool recurse = false, bool withoutExtensionProject = false)

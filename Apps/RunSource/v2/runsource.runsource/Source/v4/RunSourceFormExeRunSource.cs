@@ -13,6 +13,7 @@ namespace runsourced
     partial class RunSourceFormExe
     {
         private IRunSource _runSource = null;
+        private RemoteRunSource _remoteRunSource = null;
         public SetRestartRunsourceEvent SetRestartRunsource;
 
         private void InitRunSource()
@@ -432,6 +433,46 @@ namespace runsourced
             if (SetRestartRunsource != null)
                 SetRestartRunsource(new RunSourceRestartParameters { SourceFile = _runSource.SourceFile, SelectionStart = _source.SelectionStart, SelectionEnd = _source.SelectionEnd });
             this.Close();
+        }
+
+        private void UpdateCurrentVSProject(bool simulate = false)
+        {
+            if (_runSource.ProjectFile == null)
+            {
+                Trace.WriteLine("no project defined");
+                return;
+            }
+            UpdateVSProject(_runSource.ProjectFile, simulate);
+        }
+
+        private void UpdateVSProject(string runSourceProject, bool simulate = false)
+        {
+            //Trace.WriteLine($"UpdateVSProject() : simulate {simulate}");
+            //return;
+            DateTime start = DateTime.Now;
+            // _vsProjectAddSource _vsProjectRemoveSource _vsProjectAddSourceLink _vsProjectRemoveSourceLink _vsProjectAddAssemblyReference _vsProjectRemoveAssemblyReference
+            VSProjectUpdateOptions options = VSProjectUpdateOptions.BackupVSProject;
+            if (_vsProjectAddSource.Checked)
+                options |= VSProjectUpdateOptions.AddSource;
+            if (_vsProjectRemoveSource.Checked)
+                options |= VSProjectUpdateOptions.RemoveSource;
+            if (_vsProjectAddSourceLink.Checked)
+                options |= VSProjectUpdateOptions.AddSourceLink;
+            if (_vsProjectRemoveSourceLink.Checked)
+                options |= VSProjectUpdateOptions.RemoveSourceLink;
+            if (_vsProjectAddAssemblyReference.Checked)
+                options |= VSProjectUpdateOptions.AddAssemblyReference;
+            if (_vsProjectRemoveAssemblyReference.Checked)
+                options |= VSProjectUpdateOptions.RemoveAssemblyReference;
+            if (options == VSProjectUpdateOptions.BackupVSProject)
+            {
+                Trace.WriteLine("no operation selected");
+                return;
+            }
+            if (simulate)
+                options |= VSProjectUpdateOptions.Simulate;
+            _remoteRunSource.CreateRunSourceVSProjectManager().UpdateVSProject(runSourceProject, options);
+            Trace.WriteLine($@"Process completed {DateTime.Now - start:hh\:mm\:ss\.fff}");
         }
     }
 }

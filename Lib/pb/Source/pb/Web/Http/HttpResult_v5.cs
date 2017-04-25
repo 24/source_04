@@ -3,31 +3,33 @@ using System.Collections.Generic;
 
 namespace pb.Web.Http
 {
-    public class HttpResult_v3
+    public class HttpResult_v5
     {
         private bool _success = false;
+        private int _statusCode;
         private bool _loadFromWeb = false;
         private bool _loadFromCache = false;
         private HttpMessageResult _httpMessageResult = null;
-        //private Http_v3 _http = null;
         private Func<HttpMessageResult> _getHttpMessageResult = null;
 
-        //public HttpRequest_v3 HttpRequest = null;
         public bool Success { get { return _success; } }
+        public int StatusCode { get { return _statusCode; } }
         public bool LoadFromWeb { get { return _loadFromWeb; } }
         public bool LoadFromCache { get { return _loadFromCache; } }
 
-        public HttpResult_v3(bool success, HttpMessageResult httpMessageResult, bool loadFromWeb = false, bool loadFromCache = false)
+        public HttpResult_v5(bool success, int statusCode, HttpMessageResult httpMessageResult, bool loadFromWeb = false, bool loadFromCache = false)
         {
             _success = success;
+            _statusCode = statusCode;
             _httpMessageResult = httpMessageResult;
             _loadFromWeb = loadFromWeb;
             _loadFromCache = loadFromCache;
         }
 
-        public HttpResult_v3(bool success, Func<HttpMessageResult> getHttpMessageResult, bool loadFromWeb = false, bool loadFromCache = false)
+        public HttpResult_v5(bool success, int statusCode, Func<HttpMessageResult> getHttpMessageResult, bool loadFromWeb = false, bool loadFromCache = false)
         {
             _success = success;
+            _statusCode = statusCode;
             _getHttpMessageResult = getHttpMessageResult;
             _loadFromWeb = loadFromWeb;
             _loadFromCache = loadFromCache;
@@ -41,29 +43,28 @@ namespace pb.Web.Http
         }
     }
 
-    public class HttpResult_v3<T> : HttpResult_v3
+    public class HttpResult_v5<T> : HttpResult_v5
     {
         public T Data;
 
-        public HttpResult_v3(bool success, HttpMessageResult httpMessageResult, bool loadFromWeb = false, bool loadFromCache = false) : base(success, httpMessageResult, loadFromWeb, loadFromCache)
+        public HttpResult_v5(bool success, int statusCode, HttpMessageResult httpMessageResult, bool loadFromWeb = false, bool loadFromCache = false)
+            : base(success, statusCode, httpMessageResult, loadFromWeb, loadFromCache)
         {
         }
 
-        public HttpResult_v3(bool success, Func<HttpMessageResult> getHttpMessageResult, bool loadFromWeb = false, bool loadFromCache = false) : base(success, getHttpMessageResult, loadFromWeb, loadFromCache)
+        public HttpResult_v5(bool success, int statusCode, Func<HttpMessageResult> getHttpMessageResult, bool loadFromWeb = false, bool loadFromCache = false)
+            : base(success, statusCode, getHttpMessageResult, loadFromWeb, loadFromCache)
         {
         }
     }
 
-    // HttpLog_v3
     public class HttpMessageResult
     {
         public DateTime RequestTime;
         public TimeSpan RequestDuration;
-        //public string Encoding;
         public string CacheFile = null;      // sub-path of cache file
         public HttpRequestMessage Request;
         public HttpResponseMessage Response;
-        //public HttpRequestResult Values;
 
         public HttpMessageResult(System.Net.Http.HttpResponseMessage response, DateTime requestTime, TimeSpan requestDuration, string requestContent = null)
         {
@@ -71,11 +72,9 @@ namespace pb.Web.Http
             RequestDuration = requestDuration;
             Request = new HttpRequestMessage(response.RequestMessage, requestContent);
             Response = new HttpResponseMessage(response);
-            //Values = new HttpRequestResult();
         }
     }
 
-    // HttpRequestLog_v3
     public class HttpRequestMessage
     {
         public Uri Uri;
@@ -92,7 +91,6 @@ namespace pb.Web.Http
         }
     }
 
-    // HttpResponseLog_v3
     public class HttpResponseMessage
     {
         public int StatusCode;
@@ -112,13 +110,4 @@ namespace pb.Web.Http
             MediaType = response.Content.Headers.ContentType?.MediaType;
         }
     }
-
-    // HttpValuesLog_v3
-    //public class HttpRequestResult
-    //{
-    //    public DateTime RequestTime;
-    //    public TimeSpan RequestDuration;
-    //    public string Encoding;
-    //    public string CacheFile = null;      // sub-path of cache file
-    //}
 }

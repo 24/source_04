@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 
 namespace pb.Web.Http
@@ -136,6 +137,7 @@ namespace pb.Web.Http
         private FileStream _fs = null;
 
         public string File;
+        public string ContentType;
 
         public FileContent(string file)
         {
@@ -155,7 +157,10 @@ namespace pb.Web.Http
         public override HttpContent GetHttpContent()
         {
             _fs = zFile.Open(File, FileMode.Open, FileAccess.Read, FileShare.Read);
-            return new StreamContent(_fs);
+            StreamContent content = new StreamContent(_fs);
+            if (ContentType != null)
+                content.Headers.ContentType = MediaTypeHeaderValue.Parse(ContentType);
+            return content;
         }
 
         public override string ToString()

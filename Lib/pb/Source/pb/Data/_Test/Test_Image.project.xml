@@ -14,7 +14,8 @@
   <!--<InitMethod                                value = "pb.Web.Test.Test_Run.Init" />-->
   <!--<EndMethod                                 value = "pb.Web.Test.Test_Run.End" />-->
 
-  <!--<Using                                     value = "pb.Data.Mongo" />-->
+  <Using                                     value = "System.Drawing" />
+  <Using                                     value = "System.Drawing.Imaging" />
 
   <Source                           value = "Test_Image_01.cs" />
 

@@ -12278,3 +12278,232 @@ scan ok 11 pages - remainder 0 pages
 save scan to "c:\pib\drive\google\valentin\S1\UE1\UE1-10-bio-traduction-réparation\data\scan\scan"
 Load from web "http://www.ocrwebservice.com/uploads/_output/814f_f41ec793-dd70-467b-bc70-8c574a343a1b.txt" (Get)
 Process completed 00:02:54.953
+run multiple
+set log file to "C:\pib\drive\google\dev\.net\Apps\tools\anki\log\log.txt"
+set project "C:\pib\drive\google\dev\.net\Lib\pb\Source\pb\Data\_Test\Test_Image.project.xml"
+Process completed 00:00:00.010
+run multiple
+Process completed 00:00:00.000
+run multiple, call init
+Width 2514 Height 3474 PixelFormat Format32bppArgb HorizontalResolution 96 VerticalResolution 96
+Process completed 00:00:00.074
+run multiple
+Width 3307 Height 4676 PixelFormat Format8bppIndexed HorizontalResolution 400 VerticalResolution 400
+Process completed 00:00:00.087
+run multiple
+Width 2514 Height 3474 PixelFormat Format32bppArgb HorizontalResolution 96 VerticalResolution 96
+Process completed 00:00:00.237
+run multiple
+Process completed 00:00:00.000
+run multiple
+Process completed 00:00:00.277
+run multiple
+Width 2514 Height 1737 PixelFormat Format32bppArgb HorizontalResolution 95.9866 VerticalResolution 95.9866
+Process completed 00:00:00.030
+run multiple
+Process completed 00:00:00.241
+run multiple
+Width 2514 Height 1737 PixelFormat Format32bppArgb HorizontalResolution 95.9866 VerticalResolution 95.9866
+Process completed 00:00:00.030
+run multiple
+set project "C:\pib\drive\google\dev\.net\Apps\tools\anki\anki.project.xml"
+Process completed 00:00:00.092
+run multiple
+Process completed 00:00:00.000
+update visual studio project (simulate) "anki.csproj" from runsource project "anki.project.xml", "AnkiJS.project.xml" operations remove source link, assembly reference, add source, source link, assembly reference
+  nothing done
+Process completed 00:00:00.141
+update visual studio project (simulate) "anki.csproj" from runsource project "anki.project.xml", "AnkiJS.project.xml" operations remove source link, assembly reference, add source, source link, assembly reference
+  nothing done
+Process completed 00:00:00.072
+run multiple, call init
+Process completed 00:00:00.000
+run multiple, call init
+Process completed 00:00:00.000
+run multiple, call init
+Hidden CS8019 source "QuestionsManager.cs" line 9 col 1 "Unnecessary using directive."
+set log file to "C:\pib\drive\google\dev\.net\Apps\tools\anki\log\log.txt"
+scan images "c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\images" range "15"
+create image column "c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\images\page-015-01.png"
+create image column "c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\images\page-015-02.png"
+simulate scan image "c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\images\page-015-01.png" to "c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\scan\scan-page-015-01"
+simulate scan image "c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\images\page-015-02.png" to "c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\scan\scan-page-015-02"
+Process completed 00:00:01.002
+run multiple
+set log file to "C:\pib\drive\google\dev\.net\Apps\tools\anki\log\log.txt"
+scan images "c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\images" range "15"
+scan image "c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\images\page-015-01.png" to "c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\scan\scan-page-015-01"
+Load from web "http://www.ocrwebservice.com/restservices/processdocument?language=french,english&outputformat=txt" (Post)
+save scan to "c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\scan\scan-page-015-01"
+Load from web "http://www.ocrwebservice.com/uploads/_output/5098_ebd7ba2e-ea9a-4172-943a-de20dbd697e0.txt" (Get)
+scan ok 1 pages - remainder 24 pages
+scan image "c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\images\page-015-02.png" to "c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\scan\scan-page-015-02"
+Load from web "http://www.ocrwebservice.com/restservices/processdocument?language=french,english&outputformat=txt" (Post)
+save scan to "c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\scan\scan-page-015-02"
+Load from web "http://www.ocrwebservice.com/uploads/_output/18fc_33f31a48-ac66-491b-97b9-9e3e6ffb7734.txt" (Get)
+scan ok 1 pages - remainder 23 pages
+Process completed 00:00:19.116
+run multiple
+set log file to "C:\pib\drive\google\dev\.net\Apps\tools\anki\log\log.txt"
+Process completed 00:00:00.351
+run multiple
+set log file to "C:\pib\drive\google\dev\.net\Apps\tools\anki\log\log.txt"
+Process completed 00:00:00.318
+run multiple
+set log file to "C:\pib\drive\google\dev\.net\Apps\tools\anki\log\log.txt"
+scan images "c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\images" range "15"
+create image column "c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\images\page-015-01.png"
+create image column "c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\images\page-015-02.png"
+scan image "c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\images\page-015-01.png" to "c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\scan\scan-page-015-01"
+Load from web "http://www.ocrwebservice.com/restservices/processdocument?language=french,english&outputformat=txt" (Post)
+save scan to "c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\scan\scan-page-015-01"
+Load from web "http://www.ocrwebservice.com/uploads/_output/f14e_ffa54427-28c1-49cf-8c9a-04c1c6bd8980.txt" (Get)
+scan ok 1 pages - remainder 22 pages
+scan image "c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\images\page-015-02.png" to "c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\scan\scan-page-015-02"
+Load from web "http://www.ocrwebservice.com/restservices/processdocument?language=french,english&outputformat=txt" (Post)
+save scan to "c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\scan\scan-page-015-02"
+Load from web "http://www.ocrwebservice.com/uploads/_output/9e18_1e7e2e12-ce9c-4380-a85d-26e78173d547.txt" (Get)
+scan ok 1 pages - remainder 21 pages
+Process completed 00:00:14.811
+run multiple
+set log file to "C:\pib\drive\google\dev\.net\Apps\tools\anki\log\log.txt"
+save parameters to "c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\parameters.json"
+Process completed 00:00:00.065
+run multiple
+set log file to "C:\pib\drive\google\dev\.net\Apps\tools\anki\log\log.txt"
+scan images "c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\images" range "15"
+create image column "c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\images\page-015-01.png"
+create image column "c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\images\page-015-02.png"
+scan image "c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\images\page-015-01.png" to "c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\scan\scan-page-015-01"
+Load from web "http://www.ocrwebservice.com/restservices/processdocument?language=french,english&outputformat=txt" (Post)
+save scan to "c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\scan\scan-page-015-01"
+Load from web "http://www.ocrwebservice.com/uploads/_output/dd6d_1bd703a9-e7e4-449e-bf21-4918e209fd57.txt" (Get)
+scan ok 1 pages - remainder 20 pages
+scan image "c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\images\page-015-02.png" to "c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\scan\scan-page-015-02"
+Load from web "http://www.ocrwebservice.com/restservices/processdocument?language=french,english&outputformat=txt" (Post)
+save scan to "c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\scan\scan-page-015-02"
+Load from web "http://www.ocrwebservice.com/uploads/_output/0d30_c3d46d4a-38e4-4d11-b492-7624f6d2964c.txt" (Get)
+scan ok 1 pages - remainder 19 pages
+Process completed 00:00:14.093
+run multiple
+set log file to "C:\pib\drive\google\dev\.net\Apps\tools\anki\log\log.txt"
+scan images "c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\images" range "16-21"
+create image column "c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\images\page-016-01.png"
+create image column "c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\images\page-016-02.png"
+scan image "c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\images\page-016-01.png" to "c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\scan\scan-page-016-01"
+Load from web "http://www.ocrwebservice.com/restservices/processdocument?language=french,english&outputformat=txt" (Post)
+save scan to "c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\scan\scan-page-016-01"
+Load from web "http://www.ocrwebservice.com/uploads/_output/4b70_50f53b6a-24a4-4b82-b0cd-80ebf13c4174.txt" (Get)
+scan ok 1 pages - remainder 18 pages
+scan image "c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\images\page-016-02.png" to "c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\scan\scan-page-016-02"
+Load from web "http://www.ocrwebservice.com/restservices/processdocument?language=french,english&outputformat=txt" (Post)
+save scan to "c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\scan\scan-page-016-02"
+Load from web "http://www.ocrwebservice.com/uploads/_output/684f_41c4eb16-37e8-485d-b2a7-d2525c223a47.txt" (Get)
+scan ok 1 pages - remainder 17 pages
+create image column "c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\images\page-017-01.png"
+create image column "c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\images\page-017-02.png"
+scan image "c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\images\page-017-01.png" to "c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\scan\scan-page-017-01"
+Load from web "http://www.ocrwebservice.com/restservices/processdocument?language=french,english&outputformat=txt" (Post)
+save scan to "c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\scan\scan-page-017-01"
+Load from web "http://www.ocrwebservice.com/uploads/_output/5e90_e9e87c76-8bd5-4f38-90c1-96da1462d509.txt" (Get)
+scan ok 1 pages - remainder 16 pages
+scan image "c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\images\page-017-02.png" to "c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\scan\scan-page-017-02"
+Load from web "http://www.ocrwebservice.com/restservices/processdocument?language=french,english&outputformat=txt" (Post)
+save scan to "c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\scan\scan-page-017-02"
+Load from web "http://www.ocrwebservice.com/uploads/_output/62a0_0cda5b90-aa7d-4623-befd-d99f345ac157.txt" (Get)
+scan ok 1 pages - remainder 15 pages
+create image column "c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\images\page-018-01.png"
+create image column "c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\images\page-018-02.png"
+scan image "c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\images\page-018-01.png" to "c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\scan\scan-page-018-01"
+Load from web "http://www.ocrwebservice.com/restservices/processdocument?language=french,english&outputformat=txt" (Post)
+save scan to "c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\scan\scan-page-018-01"
+Load from web "http://www.ocrwebservice.com/uploads/_output/6d33_23b6cf7f-9063-4f46-8834-e72e41537a95.txt" (Get)
+scan ok 1 pages - remainder 14 pages
+scan image "c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\images\page-018-02.png" to "c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\scan\scan-page-018-02"
+Load from web "http://www.ocrwebservice.com/restservices/processdocument?language=french,english&outputformat=txt" (Post)
+save scan to "c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\scan\scan-page-018-02"
+Load from web "http://www.ocrwebservice.com/uploads/_output/ab63_24310f4a-d61d-4f09-b6f3-4dc70540494c.txt" (Get)
+scan ok 1 pages - remainder 13 pages
+create image column "c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\images\page-019-01.png"
+create image column "c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\images\page-019-02.png"
+scan image "c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\images\page-019-01.png" to "c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\scan\scan-page-019-01"
+Load from web "http://www.ocrwebservice.com/restservices/processdocument?language=french,english&outputformat=txt" (Post)
+save scan to "c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\scan\scan-page-019-01"
+Load from web "http://www.ocrwebservice.com/uploads/_output/8a7a_d1f9e152-d773-47c3-91d8-e706ec07aff0.txt" (Get)
+scan ok 1 pages - remainder 12 pages
+scan image "c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\images\page-019-02.png" to "c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\scan\scan-page-019-02"
+Load from web "http://www.ocrwebservice.com/restservices/processdocument?language=french,english&outputformat=txt" (Post)
+save scan to "c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\scan\scan-page-019-02"
+Load from web "http://www.ocrwebservice.com/uploads/_output/6858_49209bd5-ca7b-4d6b-baa9-6631acf9cf8f.txt" (Get)
+scan ok 1 pages - remainder 11 pages
+create image column "c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\images\page-020-01.png"
+create image column "c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\images\page-020-02.png"
+scan image "c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\images\page-020-01.png" to "c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\scan\scan-page-020-01"
+Load from web "http://www.ocrwebservice.com/restservices/processdocument?language=french,english&outputformat=txt" (Post)
+save scan to "c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\scan\scan-page-020-01"
+Load from web "http://www.ocrwebservice.com/uploads/_output/cd0f_29b002e4-a147-42fc-a36a-854b7fbc9a97.txt" (Get)
+scan ok 1 pages - remainder 10 pages
+scan image "c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\images\page-020-02.png" to "c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\scan\scan-page-020-02"
+Load from web "http://www.ocrwebservice.com/restservices/processdocument?language=french,english&outputformat=txt" (Post)
+save scan to "c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\scan\scan-page-020-02"
+Load from web "http://www.ocrwebservice.com/uploads/_output/45a3_4e6802c5-fe06-447a-aeb9-823c5995cb99.txt" (Get)
+scan ok 1 pages - remainder 9 pages
+create image column "c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\images\page-021-01.png"
+create image column "c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\images\page-021-02.png"
+scan image "c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\images\page-021-01.png" to "c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\scan\scan-page-021-01"
+Load from web "http://www.ocrwebservice.com/restservices/processdocument?language=french,english&outputformat=txt" (Post)
+save scan to "c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\scan\scan-page-021-01"
+Load from web "http://www.ocrwebservice.com/uploads/_output/1b51_6bd37a3e-11da-4db7-9734-c1f9e1978eb9.txt" (Get)
+scan ok 1 pages - remainder 8 pages
+scan image "c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\images\page-021-02.png" to "c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\scan\scan-page-021-02"
+Load from web "http://www.ocrwebservice.com/restservices/processdocument?language=french,english&outputformat=txt" (Post)
+save scan to "c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\scan\scan-page-021-02"
+Load from web "http://www.ocrwebservice.com/uploads/_output/8a7b_f522f862-79af-4d3f-a05c-8752a427a1f3.txt" (Get)
+scan ok 1 pages - remainder 7 pages
+Process completed 00:01:19.083
+run multiple
+set log file to "C:\pib\drive\google\dev\.net\Apps\tools\anki\log\log.txt"
+save parameters to "c:\pib\drive\google\valentin\S2\UE5\UE5-02-ostéologie\data\parameters.json"
+Process completed 00:00:00.080
+run multiple
+set log file to "C:\pib\drive\google\dev\.net\Apps\tools\anki\log\log.txt"
+extract images from pdf "c:\pib\drive\google\valentin\S2\UE5\UE5-02-ostéologie\UE5-02-ostéologie.pdf" range "15-20"
+save parameters to "c:\pib\drive\google\valentin\S2\UE5\UE5-02-ostéologie\data\parameters.json"
+scan images "c:\pib\drive\google\valentin\S2\UE5\UE5-02-ostéologie\data\images" range "15-17"
+create image column "c:\pib\drive\google\valentin\S2\UE5\UE5-02-ostéologie\data\images\page-015-01.png"
+create image column "c:\pib\drive\google\valentin\S2\UE5\UE5-02-ostéologie\data\images\page-015-02.png"
+scan image "c:\pib\drive\google\valentin\S2\UE5\UE5-02-ostéologie\data\images\page-015-01.png" to "c:\pib\drive\google\valentin\S2\UE5\UE5-02-ostéologie\data\scan\scan-page-015-01"
+Load from web "http://www.ocrwebservice.com/restservices/processdocument?language=french,english&outputformat=txt" (Post)
+save scan to "c:\pib\drive\google\valentin\S2\UE5\UE5-02-ostéologie\data\scan\scan-page-015-01"
+Load from web "http://www.ocrwebservice.com/uploads/_output/7b65_bce28ec0-fd99-4012-a7e2-d791e1bf7ca5.txt" (Get)
+scan ok 1 pages - remainder 6 pages
+scan image "c:\pib\drive\google\valentin\S2\UE5\UE5-02-ostéologie\data\images\page-015-02.png" to "c:\pib\drive\google\valentin\S2\UE5\UE5-02-ostéologie\data\scan\scan-page-015-02"
+Load from web "http://www.ocrwebservice.com/restservices/processdocument?language=french,english&outputformat=txt" (Post)
+save scan to "c:\pib\drive\google\valentin\S2\UE5\UE5-02-ostéologie\data\scan\scan-page-015-02"
+Load from web "http://www.ocrwebservice.com/uploads/_output/c54d_ec591ad7-2211-4ac0-966c-0461e3dcf1dc.txt" (Get)
+scan ok 1 pages - remainder 5 pages
+create image column "c:\pib\drive\google\valentin\S2\UE5\UE5-02-ostéologie\data\images\page-016-01.png"
+create image column "c:\pib\drive\google\valentin\S2\UE5\UE5-02-ostéologie\data\images\page-016-02.png"
+scan image "c:\pib\drive\google\valentin\S2\UE5\UE5-02-ostéologie\data\images\page-016-01.png" to "c:\pib\drive\google\valentin\S2\UE5\UE5-02-ostéologie\data\scan\scan-page-016-01"
+Load from web "http://www.ocrwebservice.com/restservices/processdocument?language=french,english&outputformat=txt" (Post)
+save scan to "c:\pib\drive\google\valentin\S2\UE5\UE5-02-ostéologie\data\scan\scan-page-016-01"
+Load from web "http://www.ocrwebservice.com/uploads/_output/9465_3b35c9a9-d36f-4af0-988c-6cfa645fda21.txt" (Get)
+scan ok 1 pages - remainder 4 pages
+scan image "c:\pib\drive\google\valentin\S2\UE5\UE5-02-ostéologie\data\images\page-016-02.png" to "c:\pib\drive\google\valentin\S2\UE5\UE5-02-ostéologie\data\scan\scan-page-016-02"
+Load from web "http://www.ocrwebservice.com/restservices/processdocument?language=french,english&outputformat=txt" (Post)
+save scan to "c:\pib\drive\google\valentin\S2\UE5\UE5-02-ostéologie\data\scan\scan-page-016-02"
+Load from web "http://www.ocrwebservice.com/uploads/_output/ab4e_8652ea37-579a-47a9-87b1-f925ce0e49d5.txt" (Get)
+scan ok 1 pages - remainder 3 pages
+create image column "c:\pib\drive\google\valentin\S2\UE5\UE5-02-ostéologie\data\images\page-017-01.png"
+create image column "c:\pib\drive\google\valentin\S2\UE5\UE5-02-ostéologie\data\images\page-017-02.png"
+scan image "c:\pib\drive\google\valentin\S2\UE5\UE5-02-ostéologie\data\images\page-017-01.png" to "c:\pib\drive\google\valentin\S2\UE5\UE5-02-ostéologie\data\scan\scan-page-017-01"
+Load from web "http://www.ocrwebservice.com/restservices/processdocument?language=french,english&outputformat=txt" (Post)
+save scan to "c:\pib\drive\google\valentin\S2\UE5\UE5-02-ostéologie\data\scan\scan-page-017-01"
+Load from web "http://www.ocrwebservice.com/uploads/_output/c413_59e39437-a9f0-4c18-bd11-4e1192402e07.txt" (Get)
+scan ok 1 pages - remainder 2 pages
+scan image "c:\pib\drive\google\valentin\S2\UE5\UE5-02-ostéologie\data\images\page-017-02.png" to "c:\pib\drive\google\valentin\S2\UE5\UE5-02-ostéologie\data\scan\scan-page-017-02"
+Load from web "http://www.ocrwebservice.com/restservices/processdocument?language=french,english&outputformat=txt" (Post)
+save scan to "c:\pib\drive\google\valentin\S2\UE5\UE5-02-ostéologie\data\scan\scan-page-017-02"
+Load from web "http://www.ocrwebservice.com/uploads/_output/519e_c354407c-1024-4574-9a6f-70081d46641d.txt" (Get)
+scan ok 1 pages - remainder 1 pages
+Process completed 00:00:42.162

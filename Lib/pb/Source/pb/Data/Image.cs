@@ -56,6 +56,7 @@ namespace pb.Data
             return bitmap;
         }
 
+        // bad bad bad bad bad bad bad bad
         public static Image LoadImageFromFile(string file)
         {
             //using (FileStream fs = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.Read))
@@ -129,6 +130,17 @@ namespace pb.Data
                 graphicsHandle.DrawImage(image, 0, 0, newWidth, newHeight);
             }
             return newImage;
+        }
+
+        public static Bitmap Crop(Image image, Rectangle cropArea)
+        {
+            // from http://www.codingdefined.com/2015/04/solved-bitmapclone-out-of-memory.html
+            Bitmap bmp = new Bitmap(cropArea.Width, cropArea.Height, image.PixelFormat);
+            using (Graphics graphics = Graphics.FromImage(bmp))
+            {
+                graphics.DrawImage(image, new Rectangle(0, 0, bmp.Width, bmp.Height), cropArea, GraphicsUnit.Pixel);
+            }
+            return bmp;
         }
 
         public static string GetMimeType(Image image)

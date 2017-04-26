@@ -65,11 +65,17 @@ await QuestionRun.CreateQuestionsManager(@"S1\UE1\UE1-14-glucides").Scan();
 
 
 
-QuestionRun.CreateQuestionsManager(@"S2\UE5\UE5-01-anatomie").SetParameters(new QuestionsParameters { PageRange = "15-21", PageColumn = 2, PageRotate = PageRotate.Rotate270 });
+// scanned
+QuestionRun.CreateQuestionsManager(@"S2\UE5\UE5-01-anatomie").SetParameters(new QuestionsParameters { PageRange = "15-21", PageColumn = 2, PageRotate = PageRotate.Rotate90, ImagesExtracted = true });
 QuestionRun.CreateQuestionsManager(@"S2\UE5\UE5-01-anatomie").GetParameters().zTraceJson();
 //QuestionRun.CreateQuestionsManager(@"S2\UE5\UE5-01-anatomie").ExtractImagesFromPdf();
 await QuestionRun.CreateQuestionsManager(@"S2\UE5\UE5-01-anatomie").Scan(range: "15", simulate: true);
 await QuestionRun.CreateQuestionsManager(@"S2\UE5\UE5-01-anatomie").Scan(range: "15");
+await QuestionRun.CreateQuestionsManager(@"S2\UE5\UE5-01-anatomie").Scan(range: "16-21");
+
+QuestionRun.CreateQuestionsManager(@"S2\UE5\UE5-02-ostéologie").SetParameters(new QuestionsParameters { PageRange = "15-20", PageColumn = 2, PageRotate = PageRotate.Rotate90 });
+QuestionRun.CreateQuestionsManager(@"S2\UE5\UE5-02-ostéologie").GetParameters().zTraceJson();
+await QuestionRun.CreateQuestionsManager(@"S2\UE5\UE5-02-ostéologie").Scan(range: "15-17");
 
 
 
@@ -596,55 +602,6 @@ new int[] { }.Min().zTrace();
 
 
 //*************************************************************************************************************************
-//****                                   Test_Image_01
-//*************************************************************************************************************************
-
-System.Drawing.Image img = System.Drawing.Image.FromFile(@"c:\pib\drive\google\valentin\UE5\UE5-01-anatomie\data\images\Document-page-015.jpg");
-Trace.WriteLine($"Type {img.GetType()} PixelFormat {img.PixelFormat} width {img.Width} height {img.Height}");  // Type System.Drawing.Bitmap PixelFormat Format24bppRgb width 1240 height 1754
-System.Drawing.Image img = System.Drawing.Image.FromFile(@"c:\pib\drive\google\valentin\UE5\UE5-01-anatomie\data\images\Document-page-015_01.jpg");
-Trace.WriteLine($"Type {img.GetType()} PixelFormat {img.PixelFormat} width {img.Width} height {img.Height}");  // Type System.Drawing.Bitmap PixelFormat Format24bppRgb width 1240 height 1754
-
-System.Drawing.Image img = zimg.LoadImageFromFile(@"c:\pib\drive\google\valentin\UE5\UE5-01-anatomie\data\images\Document-page-015.jpg");
-Trace.WriteLine($"Type {img.GetType()} PixelFormat {img.PixelFormat} width {img.Width} height {img.Height}");  // Type System.Drawing.Bitmap PixelFormat Format24bppRgb width 1240 height 1754
-
-System.Drawing.Image img = zimg.LoadBitmapFromFile(@"c:\pib\drive\google\valentin\UE5\UE5-01-anatomie\data\images\Document-page-015.jpg");
-Trace.WriteLine($"Type {img.GetType()} PixelFormat {img.PixelFormat} width {img.Width} height {img.Height}");  // Type System.Drawing.Bitmap PixelFormat Format24bppRgb width 1240 height 1754
-
-pb.Data.Test.Test_Image_01.Crop_v1((System.Drawing.Bitmap)zimg.LoadImageFromFile(@"c:\pib\drive\google\valentin\UE5\UE5-01-anatomie\data\images\Document-page-015.jpg"), 0, 0, 1240, 1754 / 2)
-  .Save(@"c:\pib\drive\google\valentin\UE5\UE5-01-anatomie\data\images\Document-page-015_01.jpg");
-pb.Data.Test.Test_Image_01.Crop_v1((System.Drawing.Bitmap)zimg.LoadImageFromFile(@"c:\pib\drive\google\valentin\UE5\UE5-01-anatomie\data\images\Document-page-015.jpg"), 10, 10, 10, 10)
-  .Save(@"c:\pib\drive\google\valentin\UE5\UE5-01-anatomie\data\images\Document-page-015_01.jpg");
-
-// from   : Type System.Drawing.Bitmap PixelFormat Format24bppRgb width 1240 height 1754
-//          Format24bppRgb  24 bits per pixel; 8 bits each are used for the red, green, and blue 
-//          Format32bppArgb 32 bits per pixel; 8 bits each are used for the alpha, red, green, and blue
-// result : Type System.Drawing.Bitmap PixelFormat Format32bppArgb width 1240 height 877
-Test_Image_01.Crop_v2((Bitmap)zimg.LoadImageFromFile(@"c:\pib\drive\google\valentin\UE5\UE5-01-anatomie\data\images\Document-page-015.jpg"),
-  new Rectangle(0, 0, 1240, 1754 / 2))
-  .Save(@"c:\pib\drive\google\valentin\UE5\UE5-01-anatomie\data\images\Document-page-015_01.jpg", ImageFormat.Jpeg);
-  
-var img = Test_Image_01.Crop_v2((Bitmap)zimg.LoadImageFromFile(@"c:\pib\drive\google\valentin\UE5\UE5-01-anatomie\data\images\Document-page-015.jpg"),
-  new Rectangle(0, 0, 1240, 1754 / 2));
-img.RotateFlip(RotateFlipType.Rotate90FlipNone);
-img.Save(@"c:\pib\drive\google\valentin\UE5\UE5-01-anatomie\data\images\Document-page-015_01.jpg", ImageFormat.Jpeg);
-var img = Test_Image_01.Crop_v2((Bitmap)zimg.LoadImageFromFile(@"c:\pib\drive\google\valentin\UE5\UE5-01-anatomie\data\images\Document-page-015.jpg"),
-  new Rectangle(0, 1754 / 2, 1240, 1754 / 2));
-img.RotateFlip(RotateFlipType.Rotate90FlipNone);
-img.Save(@"c:\pib\drive\google\valentin\UE5\UE5-01-anatomie\data\images\Document-page-015_02.jpg", ImageFormat.Jpeg);
-
-
-
-
-
-
-
-pb.Data.Test.Test_Image_01.Crop_v3((System.Drawing.Bitmap)zimg.LoadImageFromFile(@"c:\pib\drive\google\valentin\UE5\UE5-01-anatomie\data\images\Document-page-015.jpg"),
-  new System.Drawing.Rectangle(0, 0, 1500, 1754))
-  .Save(@"c:\pib\drive\google\valentin\UE5\UE5-01-anatomie\data\images\Document-page-015_test_02.jpg", ImageFormat.Jpeg);
-
-
-
-//*************************************************************************************************************************
 //****                                   Test_HttpClient
 //*************************************************************************************************************************
 
@@ -912,6 +869,88 @@ Test_Image_01.ReplaceData(@"c:\pib\_dl\dev\test_image\UE5-01-anatomie-000.gif.bi
 Test_Image_01.CreateBitmap(@"c:\pib\_dl\dev\test_image\UE5-01-anatomie-000.gif_02.bin", 2514, 3474, @"c:\pib\_dl\dev\test_image\UE5-01-anatomie-000.gif_02.bmp");
 
 Test_Image_01.Test_03(@"c:\pib\_dl\dev\test_image\page-001.jpeg.bin", 2514, 317, 310, 363, 366, @"c:\pib\_dl\dev\test_image\page-001_01.bmp");
+
+
+Image image = Image.FromFile(@"c:\pib\drive\google\valentin\S1\UE1\UE1-01-acide aminé\data\images\page-014.jpg");
+Image image = Image.FromFile(@"c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\images\page-015.png");
+Image image = Image.FromFile(@"c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\images\page-015_01.png");
+Image image = Image.FromFile(@"c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\images\page-015_02.png");
+Trace.WriteLine($"Width {image.Width} Height {image.Height} PixelFormat {image.PixelFormat} HorizontalResolution {image.HorizontalResolution} VerticalResolution {image.VerticalResolution}");
+
+Test_Image_01.Crop_v3(Image.FromFile(@"c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\images\page-015.png"), new Rectangle(0, 0, 2514, 3474 / 2))
+  .Save(@"c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\images\page-015_01.png", ImageFormat.Png);
+Test_Image_01.Crop_v3(Image.FromFile(@"c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\images\page-015.png"), new Rectangle(0, 3474 / 2, 2514, 3474 / 2))
+  .Save(@"c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\images\page-015_02.png", ImageFormat.Png);
+
+string inputFile = @"c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\images\page-015.png";
+//string outputFile = @"c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\images\page-015_01.png";
+string outputFile = @"c:\pib\drive\google\valentin\S2\UE5\UE5-01-anatomie\data\images\page-015_02.png";
+//Rectangle rectangle = new Rectangle(0, 0, 2514, 3474 / 2);
+Rectangle rectangle = new Rectangle(0, 3474 / 2, 2514, 3474 / 2);
+using (Image image = Image.FromFile(inputFile))
+{
+  Bitmap bitmap = zimg.Crop(image, rectangle);
+  bitmap.RotateFlip(RotateFlipType.Rotate90FlipNone);
+  bitmap.Save(outputFile, ImageFormat.Png);
+}
+
+
+//*************************************************************************************************************************
+//****                                   Test_Image_01
+//*************************************************************************************************************************
+
+System.Drawing.Image img = System.Drawing.Image.FromFile(@"c:\pib\drive\google\valentin\UE5\UE5-01-anatomie\data\images\Document-page-015.jpg");
+Trace.WriteLine($"Type {img.GetType()} PixelFormat {img.PixelFormat} width {img.Width} height {img.Height}");  // Type System.Drawing.Bitmap PixelFormat Format24bppRgb width 1240 height 1754
+System.Drawing.Image img = System.Drawing.Image.FromFile(@"c:\pib\drive\google\valentin\UE5\UE5-01-anatomie\data\images\Document-page-015_01.jpg");
+Trace.WriteLine($"Type {img.GetType()} PixelFormat {img.PixelFormat} width {img.Width} height {img.Height}");  // Type System.Drawing.Bitmap PixelFormat Format24bppRgb width 1240 height 1754
+
+System.Drawing.Image img = zimg.LoadImageFromFile(@"c:\pib\drive\google\valentin\UE5\UE5-01-anatomie\data\images\Document-page-015.jpg");
+Trace.WriteLine($"Type {img.GetType()} PixelFormat {img.PixelFormat} width {img.Width} height {img.Height}");  // Type System.Drawing.Bitmap PixelFormat Format24bppRgb width 1240 height 1754
+
+System.Drawing.Image img = zimg.LoadBitmapFromFile(@"c:\pib\drive\google\valentin\UE5\UE5-01-anatomie\data\images\Document-page-015.jpg");
+Trace.WriteLine($"Type {img.GetType()} PixelFormat {img.PixelFormat} width {img.Width} height {img.Height}");  // Type System.Drawing.Bitmap PixelFormat Format24bppRgb width 1240 height 1754
+
+pb.Data.Test.Test_Image_01.Crop_v1((System.Drawing.Bitmap)zimg.LoadImageFromFile(@"c:\pib\drive\google\valentin\UE5\UE5-01-anatomie\data\images\Document-page-015.jpg"), 0, 0, 1240, 1754 / 2)
+  .Save(@"c:\pib\drive\google\valentin\UE5\UE5-01-anatomie\data\images\Document-page-015_01.jpg");
+pb.Data.Test.Test_Image_01.Crop_v1((System.Drawing.Bitmap)zimg.LoadImageFromFile(@"c:\pib\drive\google\valentin\UE5\UE5-01-anatomie\data\images\Document-page-015.jpg"), 10, 10, 10, 10)
+  .Save(@"c:\pib\drive\google\valentin\UE5\UE5-01-anatomie\data\images\Document-page-015_01.jpg");
+
+// from   : Type System.Drawing.Bitmap PixelFormat Format24bppRgb width 1240 height 1754
+//          Format24bppRgb  24 bits per pixel; 8 bits each are used for the red, green, and blue 
+//          Format32bppArgb 32 bits per pixel; 8 bits each are used for the alpha, red, green, and blue
+// result : Type System.Drawing.Bitmap PixelFormat Format32bppArgb width 1240 height 877
+Test_Image_01.Crop_v2((Bitmap)zimg.LoadImageFromFile(@"c:\pib\drive\google\valentin\UE5\UE5-01-anatomie\data\images\Document-page-015.jpg"),
+  new Rectangle(0, 0, 1240, 1754 / 2))
+  .Save(@"c:\pib\drive\google\valentin\UE5\UE5-01-anatomie\data\images\Document-page-015_01.jpg", ImageFormat.Jpeg);
+  
+var img = Test_Image_01.Crop_v2((Bitmap)zimg.LoadImageFromFile(@"c:\pib\drive\google\valentin\UE5\UE5-01-anatomie\data\images\Document-page-015.jpg"),
+  new Rectangle(0, 0, 1240, 1754 / 2));
+img.RotateFlip(RotateFlipType.Rotate90FlipNone);
+img.Save(@"c:\pib\drive\google\valentin\UE5\UE5-01-anatomie\data\images\Document-page-015_01.jpg", ImageFormat.Jpeg);
+var img = Test_Image_01.Crop_v2((Bitmap)zimg.LoadImageFromFile(@"c:\pib\drive\google\valentin\UE5\UE5-01-anatomie\data\images\Document-page-015.jpg"),
+  new Rectangle(0, 1754 / 2, 1240, 1754 / 2));
+img.RotateFlip(RotateFlipType.Rotate90FlipNone);
+img.Save(@"c:\pib\drive\google\valentin\UE5\UE5-01-anatomie\data\images\Document-page-015_02.jpg", ImageFormat.Jpeg);
+
+pb.Data.Test.Test_Image_01.Crop_v3((System.Drawing.Bitmap)zimg.LoadImageFromFile(@"c:\pib\drive\google\valentin\UE5\UE5-01-anatomie\data\images\Document-page-015.jpg"),
+  new System.Drawing.Rectangle(0, 0, 1500, 1754))
+  .Save(@"c:\pib\drive\google\valentin\UE5\UE5-01-anatomie\data\images\Document-page-015_test_02.jpg", ImageFormat.Jpeg);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 Trace.WriteLine($@"{TimeSpan.FromMilliseconds(10129):hh\:mm\:ss\.fff}");
 Trace.WriteLine($@"{TimeSpan.FromMilliseconds(10000):hh\:mm\:ss}");

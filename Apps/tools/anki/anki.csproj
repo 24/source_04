@@ -43,7 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Source\AnkiWriter.cs" />
-    <Compile Include="Source\ColumnText.cs" />
+    <Compile Include="Source\_old\ColumnText.cs" />
     <Compile Include="Source\HtmlEncoder.cs" />
     <Compile Include="Source\HtmlEncoder_Level1.cs" />
     <Compile Include="Source\js\jsQuestions.cs" />
@@ -59,6 +59,7 @@
     <Compile Include="Source\ResponseReader.cs" />
     <None Include="Source\_Test\HttpEncoder.cs" />
     <None Include="Source\_Test\HttpUtility.cs" />
+    <Compile Include="Source\ScanManager.cs" />
     <Compile Include="Source\_Test\QuestionTest.cs" />
     <Compile Include="Source\Run.cs" />
     <None Include="anki.run.cs" />

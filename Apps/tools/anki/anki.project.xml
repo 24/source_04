@@ -24,7 +24,7 @@
   
   <NameSpace                        value = "anki" />
 
-  <Using                            value = "anki.Test" />
+  <!--<Using                            value = "anki.Test" />-->
   <!--<Using                            value = "pb.Text.Test" />-->
   <!--<Using                            value = "pb.Data.Test" />-->
   <Using                            value = "System.Drawing" />
@@ -33,11 +33,11 @@
   <!--<SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\Image.cs" />-->
   <!--<Source                           value = "$Root$\Lib\pb\Source\pb\Data\_Test\Test_Image_01.cs" />-->
 
-  <VSSource                         value = "Source\HtmlEncoder.cs" />
+  <!--<VSSource                         value = "Source\HtmlEncoder.cs" />
   <VSSource                         value = "Source\Program.cs" />
-  <VSSource                         value = "Properties\AssemblyInfo.cs" />
+  <VSSource                         value = "Properties\AssemblyInfo.cs" />-->
 
-  <Source                           value = "Source\_Test\QuestionTest.cs" />
+  <!--<Source                           value = "Source\_Test\QuestionTest.cs" />-->
   <Source                           value = "Source\AnkiWriter.cs" />
   <Source                           value = "Source\HtmlEncoder_Level1.cs" />
   <Source                           value = "Source\QuestionsManager.cs" />
@@ -50,7 +50,8 @@
   <Source                           value = "Source\ResponseReader.cs" />
   <Source                           value = "Source\ResponseReader.cs" />
   <Source                           value = "Source\Run.cs" />
-  <Source                           value = "Source\ColumnText.cs" />
+  <Source                           value = "Source\ScanManager.cs" />
+  <!--<Source                           value = "Source\ColumnText.cs" />-->
 
   <SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\ParseAs.cs" />
   <!--<SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\ITraceManager.cs" />-->

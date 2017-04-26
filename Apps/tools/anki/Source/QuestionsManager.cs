@@ -6,10 +6,10 @@ using pb.Data.Xml;
 using pb.IO;
 using pb.Linq;
 using pb.Text;
-using pb.Web.Data.Ocr;
 using pb.Web.Http;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -34,9 +34,15 @@ namespace anki
         public bool ImagesExtracted;
     }
 
+    public class ImageColumn
+    {
+        public string ImageFile;
+        public int Column;
+    }
+
     public class QuestionsManager
     {
-        private const int _timeout = 1200; // Timeout 1200" = 20 min
+        //private const int _timeout = 1200; // Timeout 1200" = 20 min
         private static string[] _imageExtensions = new string[] { ".jpg", ".png" };
         private string _baseDirectory = null;
         private string _directory = null;
@@ -83,46 +89,6 @@ namespace anki
                 return zMongo.ReadFileAs<QuestionsParameters>(file);
         }
 
-        //string range = null
-        public void ExtractImagesFromPdf()
-        {
-            QuestionsParameters parameters = GetParameters();
-            if (parameters == null)
-            {
-                Trace.WriteLine($"parameters are not defined");
-                return;
-            }
-            if (parameters.PageRange == null)
-            {
-                Trace.WriteLine($"page range is not defined");
-                return;
-            }
-            ExtractImagesFromPdf(parameters);
-        }
-
-        // string range
-        private void ExtractImagesFromPdf(QuestionsParameters parameters)
-        {
-            string pdfFile = GetPdfFile();
-            //if (range == null)
-            //    range = parameters.PageRange;
-            Trace.WriteLine($"extract images from pdf \"{pdfFile}\" range \"{parameters.PageRange}\"");
-            string directory = GetImagesDirectory();
-            zdir.CreateDirectory(directory);
-            //zfile.DeleteFiles(directory, "*.jpeg");
-            DeleteImageFiles(directory);
-            //iText.ExtractImages(pdfFile,
-            //    (image, page, imageIndex) => image.Save(zPath.Combine(directory, $"page-{page:000}{(imageIndex != 1 ? $"-{imageIndex:00}" : "")}.jpeg"), ImageFormat.Jpeg),
-            //    range: range);
-
-            foreach (PdfImage image in iText7.EnumImages(pdfFile, parameters.PageRange))
-            {
-                iText7.SaveImage(image.Image, zPath.Combine(directory, $"page-{image.PageNumber:000}{(image.ImageNumber != 1 ? $"-{image.ImageNumber:00}" : "")}"));
-            }
-            parameters.ImagesExtracted = true;
-            SetParameters(parameters);
-        }
-
         public async Task Scan(bool imageScan = false, string range = null, bool simulate = false)
         {
             QuestionsParameters parameters = GetParameters();
@@ -157,29 +123,30 @@ namespace anki
             if (range == null)
                 range = parameters.PageRange;
             Trace.WriteLine($"scan pdf \"{pdfFile}\" range \"{range}\"");
-            OcrWebService ocrWebService = CreateOcrWebService();
-            OcrRequest request = CreateOcrRequest();
-            request.DocumentFile = pdfFile;
-            request.PageRange = range;
+            //OcrWebService ocrWebService = CreateOcrWebService();
+            ScanManager scanManager = CreateScanManager();
+            //OcrRequest request = CreateOcrRequest();
+            //request.DocumentFile = pdfFile;
+            //request.PageRange = range;
             if (!simulate)
             {
-                OcrResult<OcrProcessDocumentResponse> response = await ocrWebService.ProcessDocument(request);
-                if (response.Success)
-                {
-                    Trace.WriteLine($"scan ok {response.Data.ProcessedPages} pages - remainder {response.Data.AvailablePages} pages");
-                    string directory = GetScanDirectory();
-                    zdir.CreateDirectory(directory);
-                    string scanFile = zPath.Combine(directory, "scan");
-                    Trace.WriteLine($"save scan to \"{scanFile}\"");
-                    await ocrWebService.DownloadResultDocuments(response.Data, scanFile);
-                }
-                else
-                    Trace.WriteLine($"scan error code {response.StatusCode}");
+                await scanManager.ScanPdf(pdfFile, range, zPath.Combine(GetScanDirectory(), "scan"));
+                //OcrResult<OcrProcessDocumentResponse> response = await ocrWebService.ProcessDocument(request);
+                //if (response.Success)
+                //{
+                //    Trace.WriteLine($"scan ok {response.Data.ProcessedPages} pages - remainder {response.Data.AvailablePages} pages");
+                //    string directory = GetScanDirectory();
+                //    zdir.CreateDirectory(directory);
+                //    string scanFile = zPath.Combine(directory, "scan");
+                //    Trace.WriteLine($"save scan to \"{scanFile}\"");
+                //    await ocrWebService.DownloadResultDocuments(response.Data, scanFile);
+                //}
+                //else
+                //    Trace.WriteLine($"scan error code {response.StatusCode}");
             }
             else
             {
-                Trace.WriteLine("OcrRequest :");
-                request.zTraceJson();
+                Trace.WriteLine($"simulate scan pdf \"{pdfFile}\" range \"{range}\"");
             }
         }
 
@@ -194,12 +161,11 @@ namespace anki
             if (range == null)
                 range = parameters.PageRange;
             Trace.WriteLine($"scan images \"{directory}\" range \"{range}\"");
-            OcrWebService ocrWebService = CreateOcrWebService();
-            OcrRequest request = CreateOcrRequest();
-            //QuestionsParameters parameters = GetParameters();
+            //OcrWebService ocrWebService = CreateOcrWebService();
+            ScanManager scanManager = CreateScanManager();
+            //OcrRequest request = CreateOcrRequest();
             foreach (int page in zstr.EnumRange(range))
             {
-                //string imageFile = zPath.Combine(directory, $"page-{page:000}.jpeg");
                 string imageBaseFile = zPath.Combine(directory, $"page-{page:000}");
                 string imageFile = FindImageFile(imageBaseFile);
                 if (!zFile.Exists(imageFile))
@@ -207,27 +173,139 @@ namespace anki
                     Trace.WriteLine($"image not found \"{imageBaseFile}\"");
                     return;
                 }
-                Trace.WriteLine($"scan image \"{imageFile}\"");
-                request.DocumentFile = imageFile;
-                request.Zone = GetScanZone(parameters, imageFile);
-                if (!simulate)
+                //request.DocumentFile = imageFile;
+                //request.Zone = GetScanZone(parameters, imageFile);
+                //if (!simulate)
+                //{
+                //    Trace.WriteLine($"scan image \"{imageFile}\"");
+                //    await scanManager.ScanImage(imageFile, zPath.Combine(GetScanDirectory(), $"scan-page-{page:000}"));
+                //    //OcrResult<OcrProcessDocumentResponse> response = await ocrWebService.ProcessDocument(request);
+                //    //if (response.Success)
+                //    //{
+                //    //    string scanDirectory = GetScanDirectory();
+                //    //    zdir.CreateDirectory(scanDirectory);
+                //    //    string scanFile = zPath.Combine(scanDirectory, $"scan-page-{page:000}");
+                //    //    Trace.WriteLine($"save scan to \"{scanFile}\"");
+                //    //    await ocrWebService.DownloadResultDocuments(response.Data, scanFile);
+                //    //}
+                //}
+                //else
+                //{
+                //    //Trace.WriteLine("OcrRequest :");
+                //    //request.zTraceJson();
+                //    Trace.WriteLine($"simulate scan image \"{imageFile}\"");
+                //}
+                foreach (ImageColumn imageColumn in ClipImageColumn(parameters, imageFile))
                 {
-                    OcrResult<OcrProcessDocumentResponse> response = await ocrWebService.ProcessDocument(request);
-                    if (response.Success)
+                    string scanFile = zPath.Combine(GetScanDirectory(), $"scan-page-{page:000}");
+                    if (imageColumn.Column != 0)
+                        scanFile += $"-{imageColumn.Column:00}";
+                    if (!simulate)
                     {
-                        string scanDirectory = GetScanDirectory();
-                        zdir.CreateDirectory(scanDirectory);
-                        string scanFile = zPath.Combine(scanDirectory, $"scan-page-{page:000}");
-                        Trace.WriteLine($"save scan to \"{scanFile}\"");
-                        await ocrWebService.DownloadResultDocuments(response.Data, scanFile);
+                        Trace.WriteLine($"scan image \"{imageColumn.ImageFile}\" to \"{scanFile}\"");
+                        await scanManager.ScanImage(imageColumn.ImageFile, scanFile);
                     }
-                }
-                else
-                {
-                    Trace.WriteLine("OcrRequest :");
-                    request.zTraceJson();
+                    else
+                        Trace.WriteLine($"simulate scan image \"{imageColumn.ImageFile}\" to \"{scanFile}\"");
                 }
             }
+        }
+
+        private IEnumerable<ImageColumn> ClipImageColumn(QuestionsParameters parameters, string imageFile)
+        {
+            if (parameters.PageColumn == 1)
+                yield return new ImageColumn { ImageFile = imageFile, Column = 0 };
+            else if (parameters.PageColumn == 2)
+            {
+                string imageColumnFile1 = GetImageColumnFile(imageFile, 1);
+                string imageColumnFile2 = GetImageColumnFile(imageFile, 2);
+                if (!zFile.Exists(imageColumnFile1) || !zFile.Exists(imageColumnFile2))
+                {
+                    using (Image image = Image.FromFile(imageFile))
+                    {
+                        int width = image.Width;
+                        int height = image.Height;
+                        Rectangle column1;
+                        Rectangle column2;
+                        RotateFlipType? rotate = null;
+                        if (parameters.PageRotate == PageRotate.NoRotate || parameters.PageRotate == PageRotate.Rotate180)
+                        {
+                            column1 = new Rectangle(0, 0, width / 2, height);
+                            column2 = new Rectangle(width / 2, 0, width - (width / 2), height);
+                            if (parameters.PageRotate == PageRotate.Rotate180)
+                                rotate = RotateFlipType.Rotate180FlipNone;
+                        }
+                        else // if (parameters.PageRotate == PageRotate.Rotate90 || parameters.PageRotate == PageRotate.Rotate270)
+                        {
+                            column1 = new Rectangle(0, height / 2, width, height - (height / 2));
+                            column2 = new Rectangle(0, 0, width, height / 2);
+                            if (parameters.PageRotate == PageRotate.Rotate90)
+                                rotate = RotateFlipType.Rotate90FlipNone;
+                            else
+                                rotate = RotateFlipType.Rotate270FlipNone;
+                        }
+
+                        Trace.WriteLine($"create image column \"{imageColumnFile1}\"");
+                        Bitmap bitmap = zimg.Crop(image, column1);
+                        if (rotate != null)
+                            bitmap.RotateFlip((RotateFlipType)rotate);
+                        bitmap.Save(imageColumnFile1, image.RawFormat);
+
+                        Trace.WriteLine($"create image column \"{imageColumnFile2}\"");
+                        bitmap = zimg.Crop(image, column2);
+                        if (rotate != null)
+                            bitmap.RotateFlip((RotateFlipType)rotate);
+                        bitmap.Save(imageColumnFile2, image.RawFormat);
+                    }
+                }
+                yield return new ImageColumn { ImageFile = imageColumnFile1, Column = 1 };
+                yield return new ImageColumn { ImageFile = imageColumnFile2, Column = 2 };
+            }
+            else
+                throw new PBException($"wrong page column {parameters.PageColumn}");
+        }
+
+        private static string GetImageColumnFile(string imageFile, int index)
+        {
+            return zPath.Combine(zPath.GetDirectoryName(imageFile), zPath.GetFileNameWithoutExtension(imageFile) + $"-{index:00}" + zPath.GetExtension(imageFile));
+        }
+
+        public void ExtractImagesFromPdf()
+        {
+            QuestionsParameters parameters = GetParameters();
+            if (parameters == null)
+            {
+                Trace.WriteLine($"parameters are not defined");
+                return;
+            }
+            if (parameters.PageRange == null)
+            {
+                Trace.WriteLine($"page range is not defined");
+                return;
+            }
+            ExtractImagesFromPdf(parameters);
+        }
+
+        private void ExtractImagesFromPdf(QuestionsParameters parameters)
+        {
+            string pdfFile = GetPdfFile();
+            //if (range == null)
+            //    range = parameters.PageRange;
+            Trace.WriteLine($"extract images from pdf \"{pdfFile}\" range \"{parameters.PageRange}\"");
+            string directory = GetImagesDirectory();
+            zdir.CreateDirectory(directory);
+            //zfile.DeleteFiles(directory, "*.jpeg");
+            DeleteImageFiles(directory);
+            //iText.ExtractImages(pdfFile,
+            //    (image, page, imageIndex) => image.Save(zPath.Combine(directory, $"page-{page:000}{(imageIndex != 1 ? $"-{imageIndex:00}" : "")}.jpeg"), ImageFormat.Jpeg),
+            //    range: range);
+
+            foreach (PdfImage image in iText7.EnumImages(pdfFile, parameters.PageRange))
+            {
+                iText7.SaveImage(image.Image, zPath.Combine(directory, $"page-{image.PageNumber:000}{(image.ImageNumber != 1 ? $"-{image.ImageNumber:00}" : "")}"));
+            }
+            parameters.ImagesExtracted = true;
+            SetParameters(parameters);
         }
 
         private static string FindImageFile(string file)
@@ -247,60 +325,79 @@ namespace anki
                 zfile.DeleteFiles(directory, "*" + extension);
         }
 
-        private static string GetScanZone(QuestionsParameters parameters, string imageFile)
-        {
-            // format: "top:left:height:width,...", example "zone=0:0:100:100,50:50:50:50"
-            if (parameters.PageColumn == 1)
-                return null;
-            else if (parameters.PageColumn == 2)
-            {
-                int width;
-                int height;
-                zimg.GetImageWidthHeight(imageFile, out width, out height);
-                string zone;
-                switch (parameters.PageRotate)
-                {
-                    case PageRotate.NoRotate:
-                    case PageRotate.Rotate180:
-                        int width2 = width / 2;
-                        zone = $"0:0:{width2}:{height},{width2}:0:{width - width2}:{height}";
-                        break;
-                    case PageRotate.Rotate90:
-                    case PageRotate.Rotate270:
-                        int height2 = height / 2;
-                        zone = $"0:0:{width}:{height2},0:{height2}:{width}:{height - height2}";
-                        break;
-                    default:
-                        throw new PBException($"unknow page rotation {parameters.PageRotate}");
-                }
-                return zone;
-            }
-            else
-                throw new PBException($"can't create scan zone for {parameters.PageColumn} columns");
-        }
+        //private static string GetScanZone(QuestionsParameters parameters, string imageFile)
+        //{
+        //    // format: "top:left:height:width,...", example "zone=0:0:100:100,50:50:50:50"
+        //    if (parameters.PageColumn == 1)
+        //        return null;
+        //    else if (parameters.PageColumn == 2)
+        //    {
+        //        int width;
+        //        int height;
+        //        zimg.GetImageWidthHeight(imageFile, out width, out height);
+        //        string zone;
+        //        switch (parameters.PageRotate)
+        //        {
+        //            case PageRotate.NoRotate:
+        //            case PageRotate.Rotate180:
+        //                int width2 = width / 2;
+        //                zone = $"0:0:{width2}:{height},{width2}:0:{width - width2}:{height}";
+        //                break;
+        //            case PageRotate.Rotate90:
+        //            case PageRotate.Rotate270:
+        //                int height2 = height / 2;
+        //                zone = $"0:0:{width}:{height2},0:{height2}:{width}:{height - height2}";
+        //                break;
+        //            default:
+        //                throw new PBException($"unknow page rotation {parameters.PageRotate}");
+        //        }
+        //        return zone;
+        //    }
+        //    else
+        //        throw new PBException($"can't create scan zone for {parameters.PageColumn} columns");
+        //}
 
-        private OcrRequest CreateOcrRequest()
-        {
-            return new OcrRequest { Language = "french,english", OutputFormat = "txt" };
-        }
+        //private OcrRequest CreateOcrRequest()
+        //{
+        //    return new OcrRequest { Language = "french,english", OutputFormat = "txt" };
+        //}
 
-        private OcrWebService CreateOcrWebService()
+        //private OcrWebService CreateOcrWebService()
+        //{
+        //    XmlConfig config = XmlConfig.CurrentConfig;
+        //    XmlConfig ocrWebServiceConfig = config.GetConfig("OcrWebServiceConfig");
+        //    OcrWebService ocrWebService = new OcrWebService(ocrWebServiceConfig.GetExplicit("UserName"), ocrWebServiceConfig.GetExplicit("LicenseCode"), _timeout);
+        //    //ocrWebService.UserName = ocrWebServiceConfig.GetExplicit("UserName");
+        //    //ocrWebService.LicenseCode = ocrWebServiceConfig.GetExplicit("LicenseCode");
+        //    string cacheDirectory = config.Get("OcrWebServiceCacheDirectory");
+        //    if (cacheDirectory != null)
+        //    {
+        //        UrlCache urlCache = new UrlCache(cacheDirectory);
+        //        urlCache.UrlFileNameType = UrlFileNameType.Host | UrlFileNameType.Path;
+        //        if (config.Get("OcrWebServiceCacheDirectory/@option")?.ToLower() == "indexedfile")
+        //            urlCache.IndexedFile = true;
+        //        ocrWebService.HttpManager.SetCacheManager(urlCache);
+        //    }
+        //    return ocrWebService;
+        //}
+
+        private ScanManager CreateScanManager()
         {
             XmlConfig config = XmlConfig.CurrentConfig;
             XmlConfig ocrWebServiceConfig = config.GetConfig("OcrWebServiceConfig");
-            OcrWebService ocrWebService = new OcrWebService(ocrWebServiceConfig.GetExplicit("UserName"), ocrWebServiceConfig.GetExplicit("LicenseCode"), _timeout);
-            //ocrWebService.UserName = ocrWebServiceConfig.GetExplicit("UserName");
-            //ocrWebService.LicenseCode = ocrWebServiceConfig.GetExplicit("LicenseCode");
+            UrlCache urlCache = null;
             string cacheDirectory = config.Get("OcrWebServiceCacheDirectory");
             if (cacheDirectory != null)
             {
-                UrlCache urlCache = new UrlCache(cacheDirectory);
+                urlCache = new UrlCache(cacheDirectory);
                 urlCache.UrlFileNameType = UrlFileNameType.Host | UrlFileNameType.Path;
                 if (config.Get("OcrWebServiceCacheDirectory/@option")?.ToLower() == "indexedfile")
                     urlCache.IndexedFile = true;
-                ocrWebService.HttpManager.SetCacheManager(urlCache);
             }
-            return ocrWebService;
+            ScanManager scanManager = new ScanManager(ocrWebServiceConfig.GetExplicit("UserName"), ocrWebServiceConfig.GetExplicit("LicenseCode"), urlCache);
+            scanManager.Language = "french,english";
+            scanManager.OutputFormat = "txt";
+            return scanManager;
         }
 
         public void CreateAnkiFileFromScanFiles()
@@ -866,7 +963,6 @@ namespace anki
         {
             return zPath.Combine(_directory, @"data\images");
         }
-
 
         private string GetScanDirectory()
         {

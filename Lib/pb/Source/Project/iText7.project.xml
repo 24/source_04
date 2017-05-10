@@ -14,13 +14,14 @@
   <Using                            value = "pb.Data" />
   <Using                            value = "pb.Data.Pdf" />
 
-  <!--<SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\PBException.cs" />-->
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\_pb\PBException.cs" />
 
   <!--<SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\Image.cs" />-->
   <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\Pdf\iText7.cs" />
 
   <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\zFile.cs" />
 
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Text\Regex.cs" />
   <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Text\String.cs" />
 
   <!--<SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\File.cs" />
@@ -29,7 +30,6 @@
   <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\zDirectory.cs" />
   <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\zPath.cs" />
 
-  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Text\Regex.cs" />
   <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Text\String.cs" />
   -->
   
@@ -42,6 +42,7 @@
   <RunSourceAssembly                value = "runsource.irunsource.dll" vsExclude = "true" />
   <RunSourceAssembly                value = "runsource.command.dll" vsExclude = "true" />
   -->
+  <FrameworkAssembly                value = "System.dll" />
 
   <Assembly                         value = "$Root$\Lib\LongPath\Pri.LongPath\bin\Debug\Pri.LongPath.dll" />
   <Assembly                         value = "$Root$\..\library\iText\itext7.7.0.2.2\net40\itext.kernel.dll" resolve = "true" resolveName = "itext.kernel, Version=7.0.2.2, Culture=neutral, PublicKeyToken=8354ae6d2174ddca" />

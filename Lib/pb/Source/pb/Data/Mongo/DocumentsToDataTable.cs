@@ -18,7 +18,7 @@ namespace pb.Data.Mongo
     //    }
     //}
 
-    public class BsonDocumentsToDataTable
+    public class DocumentsToDataTable
     {
         private IEnumerable<BsonDocument> _documents;
         private DataTable _dt;
@@ -26,17 +26,17 @@ namespace pb.Data.Mongo
 
         public static DataTable ToDataTable(IEnumerable<BsonDocument> documents)
         {
-            BsonDocumentsToDataTable documentsToDataTable = new BsonDocumentsToDataTable(documents);
+            DocumentsToDataTable documentsToDataTable = new DocumentsToDataTable(documents);
             return documentsToDataTable.ToDataTable();
         }
 
         public static DataTable ToDataTable(BsonDocument document)
         {
-            BsonDocumentsToDataTable documentsToDataTable = new BsonDocumentsToDataTable(new BsonDocument[] { document });
+            DocumentsToDataTable documentsToDataTable = new DocumentsToDataTable(new BsonDocument[] { document });
             return documentsToDataTable.ToDataTable();
         }
 
-        public BsonDocumentsToDataTable(IEnumerable<BsonDocument> documents)
+        public DocumentsToDataTable(IEnumerable<BsonDocument> documents)
         {
             _documents = documents;
         }
@@ -56,7 +56,7 @@ namespace pb.Data.Mongo
         }
     }
 
-    public class BsonDocumentsToDataTable_v2
+    public class DocumentsToDataTable_v2
     {
         // generate a DataTable from a list of BsonDocument
         // each document and nested document fill one row in DataTable with values in column
@@ -73,7 +73,7 @@ namespace pb.Data.Mongo
         public static DataTable ToDataTable(IEnumerable<BsonValue> values, DataTable dt = null)
         {
             //BsonDocumentsToDataTable_v2 documentsToDataTable = new BsonDocumentsToDataTable_v2(documents);
-            BsonDocumentsToDataTable_v2 documentsToDataTable = new BsonDocumentsToDataTable_v2(values);
+            DocumentsToDataTable_v2 documentsToDataTable = new DocumentsToDataTable_v2(values);
             if (dt == null)
                 dt = new DataTable();
             documentsToDataTable._dt = dt;
@@ -85,7 +85,7 @@ namespace pb.Data.Mongo
         public static DataTable ToDataTable(BsonValue value, DataTable dt = null)
         {
             //BsonDocumentsToDataTable_v2 documentsToDataTable = new BsonDocumentsToDataTable_v2(new BsonDocument[] { document });
-            BsonDocumentsToDataTable_v2 documentsToDataTable = new BsonDocumentsToDataTable_v2(new BsonValue[] { value });
+            DocumentsToDataTable_v2 documentsToDataTable = new DocumentsToDataTable_v2(new BsonValue[] { value });
             if (dt == null)
                 dt = new DataTable();
             documentsToDataTable._dt = dt;
@@ -94,7 +94,7 @@ namespace pb.Data.Mongo
         }
 
         //public BsonDocumentsToDataTable_v2(IEnumerable<BsonDocument> documents)
-        private BsonDocumentsToDataTable_v2(IEnumerable<BsonValue> values)
+        private DocumentsToDataTable_v2(IEnumerable<BsonValue> values)
         {
             //_documents = documents;
             _values = values;
@@ -221,11 +221,11 @@ namespace pb.Data.Mongo
 
         private class BsonArrayToDataTable
         {
-            private BsonDocumentsToDataTable_v2 _parent;
+            private DocumentsToDataTable_v2 _parent;
             private string _name;
             private Stack<IEnumerator<BsonValue>> _arrayStack = new Stack<IEnumerator<BsonValue>>();
 
-            public BsonArrayToDataTable(BsonDocumentsToDataTable_v2 parent, string name, BsonArray array)
+            public BsonArrayToDataTable(DocumentsToDataTable_v2 parent, string name, BsonArray array)
             {
                 _parent = parent;
                 _name = name;
@@ -262,7 +262,7 @@ namespace pb.Data.Mongo
 
     }
 
-    public class BsonDocumentsToDataTable_v1
+    public class DocumentsToDataTable_v1
     {
         private IEnumerable<BsonDocument> _documents;
         private DataTable _dt;
@@ -270,11 +270,11 @@ namespace pb.Data.Mongo
 
         public static DataTable ToDataTable(IEnumerable<BsonDocument> documents)
         {
-            BsonDocumentsToDataTable_v1 documentsToDataTable = new BsonDocumentsToDataTable_v1(documents);
+            DocumentsToDataTable_v1 documentsToDataTable = new DocumentsToDataTable_v1(documents);
             return documentsToDataTable.ToDataTable();
         }
 
-        public BsonDocumentsToDataTable_v1(IEnumerable<BsonDocument> documents)
+        public DocumentsToDataTable_v1(IEnumerable<BsonDocument> documents)
         {
             _documents = documents;
         }
@@ -386,7 +386,7 @@ namespace pb.Data.Mongo
 
         public static DataTable zToDataTable2(this IEnumerable<BsonValue> values, DataTable dt = null)
         {
-            return BsonDocumentsToDataTable_v2.ToDataTable(values, dt);
+            return DocumentsToDataTable_v2.ToDataTable(values, dt);
         }
 
         //public static DataTable zToDataTable2(this BsonDocument document)
@@ -396,12 +396,12 @@ namespace pb.Data.Mongo
 
         public static DataTable zToDataTable2(this BsonValue value, DataTable dt = null)
         {
-            return BsonDocumentsToDataTable_v2.ToDataTable(value, dt);
+            return DocumentsToDataTable_v2.ToDataTable(value, dt);
         }
 
         public static DataTable zToDataTable2_old(this IEnumerable<BsonDocument> documents)
         {
-            return BsonDocumentsToDataTable_v1.ToDataTable(documents);
+            return DocumentsToDataTable_v1.ToDataTable(documents);
         }
     }
 }

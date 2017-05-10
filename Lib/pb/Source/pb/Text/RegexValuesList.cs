@@ -67,16 +67,24 @@ namespace pb.Text
 
         public NamedValues<ZValue> GetValues()
         {
-            if (_matchValues == null)
-                throw new PBException("can't get values, no match found");
-            return _matchValues.GetValues();
+            // $$pb modif le 28/04/2017
+            //if (_matchValues == null)
+            //    throw new PBException("can't get values, no match found");
+            if (_matchValues != null)
+                return _matchValues.GetValues();
+            else
+                return new NamedValues<ZValue>();
         }
 
         public NamedValues<RegexValue<ZValue>> GetRegexValues()
         {
-            if (_matchValues == null)
-                throw new PBException("can't get values, no match found");
-            return _matchValues.GetRegexValues();
+            // $$pb modif le 04/05/2017
+            //if (_matchValues == null)
+            //    throw new PBException("can't get values, no match found");
+            if (_matchValues != null)
+                return _matchValues.GetRegexValues();
+            else
+                return new NamedValues<RegexValue<ZValue>>();
         }
 
         public NamedValues<ZValue> GetAllValues()
@@ -123,6 +131,7 @@ namespace pb.Text
 
     public class RegexValuesList : Dictionary<string, RegexValues>
     {
+        private static bool _trace = false;
         private int _lastKeyNumber = 0;
 
         public RegexValuesList()
@@ -179,8 +188,12 @@ namespace pb.Text
 
         public MatchValues FindNext(string text, int startat, bool contiguous = false)
         {
+            if (_trace)
+                Trace.WriteLine($"RegexValuesList.FindNext() : text \"{text}\" start at {startat} contiguous {contiguous}");
             foreach (RegexValues rv in this.Values)
             {
+                if (_trace)
+                    Trace.WriteLine($"RegexValuesList.FindNext() : pattern \"{rv.Pattern}\"");
                 MatchValues matchValues = rv.Match(text, startat);
                 if (matchValues.Success)
                 {

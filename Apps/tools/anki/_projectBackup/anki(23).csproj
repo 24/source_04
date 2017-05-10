@@ -43,10 +43,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Source\AnkiWriter.cs" />
-    <Compile Include="Source\QuestionData.cs" />
-    <Compile Include="Source\QuestionReader_v2.cs" />
-    <Compile Include="Source\QuestionResponse_v2.cs" />
-    <Compile Include="Source\QuestionsManager_Scan.cs" />
     <Compile Include="Source\_old\ColumnText.cs" />
     <Compile Include="Source\HtmlEncoder.cs" />
     <Compile Include="Source\HtmlEncoder_Level1.cs" />
@@ -61,8 +57,6 @@
     <Compile Include="Source\QuestionsManager.cs" />
     <Compile Include="Source\QuestionType.cs" />
     <Compile Include="Source\ResponseReader.cs" />
-    <Compile Include="Source\_TestUnit\TestUnit.cs" />
-    <Compile Include="Source\_Test\Test_ColumnText.cs" />
     <None Include="Source\_Test\HttpEncoder.cs" />
     <None Include="Source\_Test\HttpUtility.cs" />
     <Compile Include="Source\ScanManager.cs" />
@@ -388,23 +382,5 @@
     <Reference Include="itext.layout">
       <HintPath>..\..\..\..\library\iText\itext7.7.0.2.2\net40\itext.layout.dll</HintPath>
     </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="..\..\..\Lib\pb\Source\pb\Data\Text\TextDataReader.cs">
-      <Link>SourceLnk\Lib\pb\Data\Text\TextDataReader.cs</Link>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="..\..\..\Lib\pb\Source\pb\Text\StringCompare.cs">
-      <Link>SourceLnk\Lib\pb\Text\StringCompare.cs</Link>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="..\..\..\Lib\pb\Source\pb\Data\Mongo\DocumentComparator.cs">
-      <Link>SourceLnk\Lib\pb\Data\Mongo\DocumentComparator.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Lib\pb\Source\pb\Data\Mongo\EnumerateElements.cs">
-      <Link>SourceLnk\Lib\pb\Data\Mongo\EnumerateElements.cs</Link>
-    </Compile>
   </ItemGroup>
 </Project>

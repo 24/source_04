@@ -35,7 +35,7 @@
   
   <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\DataTable.cs" />
   <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\FieldList.cs" />
-  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\Mongo\BsonDocumentsToDataTable.cs" />
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\Mongo\DocumentsToDataTable.cs" />
   <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\Mongo\MongoDataTableExtension.cs" />
 
   <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\Xml\Xml.cs" />

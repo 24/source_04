@@ -330,6 +330,15 @@ namespace pb.IO
             return zFile.ReadAllLines(file, encoding);
         }
 
+        public static IEnumerable<string> FilesReadLines(IEnumerable<string> files)
+        {
+            foreach (string file in files)
+            {
+                foreach (string line in zFile.ReadLines(file))
+                    yield return line;
+            }
+        }
+
         //public static void WriteFile(string sPath, string s)
         //{
         //    WriteFile(sPath, s, false);

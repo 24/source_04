@@ -143,6 +143,28 @@ namespace pb.Data
             return bmp;
         }
 
+        public static Bitmap JoinRight(Image image1, Image image2)
+        {
+            Bitmap bitmap = new Bitmap(image1.Width + image2.Width, Math.Max(image1.Height, image2.Height), image1.PixelFormat);
+            using (Graphics graphics = Graphics.FromImage(bitmap))
+            {
+                graphics.DrawImage(image1, new Rectangle(0, 0, image1.Width, image1.Height), new Rectangle(0, 0, image1.Width, image1.Height), GraphicsUnit.Pixel);
+                graphics.DrawImage(image2, new Rectangle(image1.Width, 0, image2.Width, image2.Height), new Rectangle(0, 0, image2.Width, image2.Height), GraphicsUnit.Pixel);
+            }
+            return bitmap;
+        }
+
+        public static Bitmap JoinBottom(Image image1, Image image2)
+        {
+            Bitmap bitmap = new Bitmap(Math.Max(image1.Width, image2.Width), image1.Height + image2.Height, image1.PixelFormat);
+            using (Graphics graphics = Graphics.FromImage(bitmap))
+            {
+                graphics.DrawImage(image1, new Rectangle(0, 0, image1.Width, image1.Height), new Rectangle(0, 0, image1.Width, image1.Height), GraphicsUnit.Pixel);
+                graphics.DrawImage(image2, new Rectangle(0, image1.Height, image2.Width, image2.Height), new Rectangle(0, 0, image2.Width, image2.Height), GraphicsUnit.Pixel);
+            }
+            return bitmap;
+        }
+
         public static string GetMimeType(Image image)
         {
             var guid = image.RawFormat.Guid;

@@ -14,9 +14,11 @@
   <!--<IncludeProject                   value = "$Root$\Lib\pb\Source\Project\iText.project.xml" />-->
   <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\iText7.project.xml" />
   <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\HttpRun.project.xml" />
+  <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\DocumentComparator.project.xml" />
   <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\RunSourceExtension.project.xml" extension = "true" />
   <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\MongoExtension.project.xml" extension = "true" />
   <IncludeProject                   value = "$Root$\Lib\pb\Source\Project\MongoDefaultSerializer.project.xml" extension = "true" />
+  
   <!--<IncludeProject                   value = "$Root$\Lib\pb\Source\Project\VSProject.project.xml" extension = "true" />-->
 
   <InitMethod                       value = "anki.Run.InitAlways" run = "always" />      <!-- [{namespace}.{type}.]{method name}[, {assembly name}] default type {namespace}._RunCode -->
@@ -24,7 +26,8 @@
   
   <NameSpace                        value = "anki" />
 
-  <!--<Using                            value = "anki.Test" />-->
+  <Using                            value = "anki.Test" />
+  <Using                            value = "anki.TestUnit" />
   <!--<Using                            value = "pb.Text.Test" />-->
   <!--<Using                            value = "pb.Data.Test" />-->
   <Using                            value = "System.Drawing" />
@@ -37,11 +40,16 @@
   <VSSource                         value = "Source\Program.cs" />
   <VSSource                         value = "Properties\AssemblyInfo.cs" />-->
 
-  <!--<Source                           value = "Source\_Test\QuestionTest.cs" />-->
+  <Source                           value = "Source\_Test\QuestionTest.cs" />
+  <Source                           value = "Source\_TestUnit\TestUnit.cs" />
   <Source                           value = "Source\AnkiWriter.cs" />
   <Source                           value = "Source\HtmlEncoder_Level1.cs" />
+  <Source                           value = "Source\QuestionData.cs" />
   <Source                           value = "Source\QuestionsManager.cs" />
+  <Source                           value = "Source\QuestionsManager_Scan.cs" />
   <Source                           value = "Source\QuestionReader.cs" />
+  <Source                           value = "Source\QuestionReader_v2.cs" />
+  <Source                           value = "Source\QuestionResponse_v2.cs" />
   <Source                           value = "Source\QuestionResponseHtml.cs" />
   <Source                           value = "Source\QuestionResponses.cs" />
   <Source                           value = "Source\QuestionResponses_LoadSave.cs" />
@@ -61,6 +69,8 @@
   <!--<SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\Mongo\Serializers\Default\MongoSerializationManager.cs" />-->
 
   <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\Image.cs" />
+
+  <SourceLink                       value = "$Root$\Lib\pb\Source\pb\Data\Text\TextDataReader.cs" />
 
   <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\Directory.cs" />
   <SourceLink                       value = "$Root$\Lib\pb\Source\pb\IO\File.cs" />

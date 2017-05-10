@@ -14,6 +14,8 @@ namespace anki
         public int Year;
         public int QuestionNumber;
         public string Responses;
+        public string SourceFile;
+        public int SourceLine;
 
         public string GetFormatedResponse()
         {
@@ -47,6 +49,7 @@ namespace anki
         private int _maxEmptyLine = 5;
 
         private string _file = null;
+        private string _sourceFile = null;
         private string _filename = null;
         private RegexValuesList _regexList = null;
 
@@ -55,7 +58,7 @@ namespace anki
         private List<ResponseQuestion> _responseQuestions = null;
         private string _category = null;
 
-        private class ResponseYear
+        public class ResponseYear
         {
             public int Year;
             public int StartPosition;
@@ -71,7 +74,7 @@ namespace anki
             }
         }
 
-        private class ResponseQuestion
+        public class ResponseQuestion
         {
             public int Year;
             public int QuestionNumber;
@@ -79,6 +82,9 @@ namespace anki
             public int StartPosition;
             public int Length;
             public int Position;
+            public string SourceFile;
+            public string SourceFilename;
+            public int SourceLineNumber;
 
             public ResponseQuestion(int questionNumber, int startPosition, int length)
             {
@@ -132,7 +138,7 @@ namespace anki
                             {
                                 case "category":
                                     if (!_manageCategory)
-                                        throw new PBException($"");
+                                        throw new PBException($"manage category is not activated");
                                     if (_trace)
                                         Trace.WriteLine($"new category \"{namedValue.Value.Value}\"");
                                     _category = (string)namedValue.Value.Value;
@@ -253,7 +259,7 @@ namespace anki
             {
                 SaveQuestion(responseQuestion);
             }
-            responseQuestion = new ResponseQuestion(int.Parse((string)value), index, length);
+            responseQuestion = new ResponseQuestion(int.Parse((string)value), index, length) { SourceFile = _sourceFile, SourceLineNumber = _lineNumber };
             responseQuestion.Year = GetYear(responseQuestion.Position);
             return responseQuestion;
         }
@@ -285,10 +291,11 @@ namespace anki
             if (_trace)
                 Trace.WriteLine($"set response \"{value}\" question {responseQuestion.QuestionNumber} index {index} length {length}");
             responseQuestion.FoundResponse = true;
-            return new Response { Category = _category, Year = responseQuestion.Year, QuestionNumber = responseQuestion.QuestionNumber, Responses = (string)value };
+            return new Response { Category = _category, Year = responseQuestion.Year, QuestionNumber = responseQuestion.QuestionNumber, Responses = (string)value,
+                SourceFile = responseQuestion.SourceFile, SourceLine = responseQuestion.SourceLineNumber };
         }
 
-    private IEnumerable<string> GetQuestionWithoutResponse()
+        private IEnumerable<string> GetQuestionWithoutResponse()
         {
             foreach (ResponseQuestion responseQuestion in _responseQuestions)
             {
@@ -331,9 +338,21 @@ namespace anki
             return startPosition + (length - 1) / 2;
         }
 
-        public static IEnumerable<Response> Read(string file, RegexValuesList regexList)
+        private static string GetSubPath(string file, string baseDirectory)
         {
-            return new ResponseReader { _file = file, _regexList = regexList }._Read();
+            if (baseDirectory != null && file.StartsWith(baseDirectory))
+            {
+                int l = baseDirectory.Length;
+                if (file[l] == '\\')
+                    l++;
+                file = file.Substring(l);
+            }
+            return file;
+        }
+
+        public static IEnumerable<Response> Read(string file, RegexValuesList regexList, string baseDirectory = null)
+        {
+            return new ResponseReader { _file = file, _sourceFile = GetSubPath(file, baseDirectory), _regexList = regexList }._Read();
         }
     }
 }

@@ -11,7 +11,8 @@ namespace anki
         //public int? Year;
         public int Year;
         public QuestionType Type;
-        public int Number;
+        //public int Number;
+        public int QuestionNumber;
         public string QuestionText;
         public string[] Choices;
         public string SourceFile;
@@ -112,16 +113,16 @@ namespace anki
         }
 
         //private class AssociationQuestionTmp
-        private class QuestionBaseTmp
+        public class QuestionBaseTmp
         {
             public QuestionType Type;
             public string QuestionText;
             public int QuestionLineCount;
             public List<string> Choices = new List<string>();
-            public int ResponseLineCount;
+            public int ChoiceLineCount;
         }
 
-        private class QuestionTmp : QuestionBaseTmp
+        public class QuestionTmp : QuestionBaseTmp
         {
             public int Year;
             //public QuestionType Type;
@@ -134,7 +135,7 @@ namespace anki
             public int SourceLine;
         }
 
-        private class QuestionAssociationTmp : QuestionBaseTmp
+        public class QuestionAssociationTmp : QuestionBaseTmp
         {
             public bool Complete;
         }
@@ -144,11 +145,12 @@ namespace anki
 
         private string _file = null;
         private string _filename = null;
+        private string _baseDirectory = null;
 
         private bool _manageAssociationQuestion = true;
         //private int _maxLinesPerQuestion = 7;
         private int _maxLinesPerQuestion = -1;
-        private int _maxLinesPerResponse = -1;
+        private int _maxLinesPerChoice = -1;
         private int _maxEmptyLine = 5;
         private bool _traceUnknowHeaderValue = false;
         private bool _traceUnknowEndOfPageValue = false;
@@ -170,17 +172,20 @@ namespace anki
         //private static bool _newVersion2 = true;   // autorise une question de type association a ne pas avoir de question que des réponse, ex UE3 - Regulation du bilan hydro-sodé page 16 questions 44, 45, 46 - 2013
 
         public int MaxLinesPerQuestion { get { return _maxLinesPerQuestion; } set { _maxLinesPerQuestion = value; } }
-        public int MaxLinesPerResponse { get { return _maxLinesPerResponse; } set { _maxLinesPerResponse = value; } }
+        public int MaxLinesPerChoice { get { return _maxLinesPerChoice; } set { _maxLinesPerChoice = value; } }
         public RegexValuesList RegexList { get { return _regexList; } set { _regexList = value; } }
+        public bool TraceUnknowValue { get { return _traceUnknowValue; } set { _traceUnknowValue = value; } }
 
         public IEnumerable<Question> Read(IEnumerable<string> files, string baseDirectory = null)
         {
-            Trace.WriteLine("read questions files");
+            //Trace.WriteLine("read questions files");
 
             if (_maxLinesPerQuestion == -1)
                 throw new PBException("undefined MaxLinesPerQuestion");
-            if (_maxLinesPerResponse == -1)
+            if (_maxLinesPerChoice == -1)
                 throw new PBException("undefined MaxLinesPerResponse");
+
+            _baseDirectory = baseDirectory;
 
             foreach (string file in files)
             {
@@ -255,15 +260,16 @@ namespace anki
                                 newQuestion = true;
                                 if (_year == null)
                                     throw new PBFileException($"unknow year, line {_lineNumber} file \"{_filename}\"", _file, _lineNumber);
-                                string sourceFile = _file;
-                                if (baseDirectory != null && sourceFile.StartsWith(baseDirectory))
-                                {
-                                    int l = baseDirectory.Length;
-                                    if (sourceFile[l] == '\\')
-                                        l++;
-                                    sourceFile = sourceFile.Substring(l);
-                                }
-                                question = new QuestionTmp { Year = (int)_year, Type = _questionType, Number = ((QuestionValueQuestionNumber)value).QuestionNumber, QuestionLineCount = 0, SourceFile = sourceFile, SourceLine = _lineNumber };
+                                //string sourceFile = _file;
+                                //if (baseDirectory != null && sourceFile.StartsWith(baseDirectory))
+                                //{
+                                //    int l = baseDirectory.Length;
+                                //    if (sourceFile[l] == '\\')
+                                //        l++;
+                                //    sourceFile = sourceFile.Substring(l);
+                                //}
+                                question = new QuestionTmp { Year = (int)_year, Type = _questionType, Number = ((QuestionValueQuestionNumber)value).QuestionNumber,
+                                    QuestionLineCount = 0, SourceFile = GetSubPath(_file), SourceLine = _lineNumber };
                                 if (_associationQuestion != null)
                                     _associationQuestion.Complete = true;
                                 break;
@@ -274,7 +280,7 @@ namespace anki
                                 AddResponse((QuestionValueResponse)value);
                                 break;
                             case QuestionValueType.None:
-                                TraceUnknowValue(line2);
+                                _TraceUnknowValue(line2);
                                 break;
                             default:
                                 throw new PBFileException($"wrong value \"{line2}\" line {_lineNumber} file \"{_filename}\"", _file, _lineNumber);
@@ -315,7 +321,7 @@ namespace anki
                                 AddResponse(line2);
                                 break;
                             case QuestionValueType.None:
-                                TraceUnknowValue(line2);
+                                _TraceUnknowValue(line2);
                                 break;
                             default:
                                 if (_lastValueType == QuestionValueType.QuestionType && _questionType == QuestionType.Association && _manageAssociationQuestion)
@@ -326,7 +332,7 @@ namespace anki
                                 //else if (_year != null)
                                 //    throw new PBFileException($"wrong value \"{line2}\" line {_lineNumber} file \"{_filename}\"", _file, _lineNumber);
                                 else
-                                    TraceUnknowValue(line2);
+                                    _TraceUnknowValue(line2);
                                 break;
                         }
                     }
@@ -337,7 +343,7 @@ namespace anki
             }
         }
 
-        private void TraceUnknowValue(string line)
+        private void _TraceUnknowValue(string line)
         {
             string label = null;
             if (_year == null)
@@ -365,7 +371,7 @@ namespace anki
         private Question GetQuestion()
         {
             //Question question = new Question { Year = _question.Year, Type = _question.Type, Number = _question.Number, QuestionText = _question.QuestionText, Responses = _question.Responses.ToArray() };
-            Question question = new Question { Year = _question.Year, Type = _question.Type, Number = _question.Number, SourceFile = _question.SourceFile, SourceLine = _question.SourceLine };
+            Question question = new Question { Year = _question.Year, Type = _question.Type, QuestionNumber = _question.Number, SourceFile = _question.SourceFile, SourceLine = _question.SourceLine };
             if (_associationQuestion != null)
             {
                 //if (!_newVersion)
@@ -383,7 +389,7 @@ namespace anki
             }
             //Trace.WriteLine($"{question.Year} - question {question.Number} - choices count {question.Choices.Length}");
             if (question.Choices.Length == 0)
-                throw new PBFileException($"question without choice - {question.Year} - question {question.Number} - line {question.SourceLine} file \"{_filename}\"", _file, question.SourceLine);
+                throw new PBFileException($"question without choice - {question.Year} - question {question.QuestionNumber} - line {question.SourceLine} file \"{_filename}\"", _file, question.SourceLine);
             _question = null;
             return question;
         }
@@ -442,7 +448,7 @@ namespace anki
             if (response.ResponseCode != (char)('A' + question.Choices.Count))
                 throw new PBFileException($"wrong response code \"{response.ResponseCode}\" line {_lineNumber} file \"{_filename}\"", _file, _lineNumber);
             question.Choices.Add(response.Response);
-            question.ResponseLineCount = 1;
+            question.ChoiceLineCount = 1;
         }
 
         private void AddResponse(string response)
@@ -460,11 +466,11 @@ namespace anki
                 throw new PBFileException($"unknow question, line {_lineNumber} file \"{_filename}\"", _file, _lineNumber);
 
             //if (question.ResponseLineCount > 1)
-            if (question.ResponseLineCount > _maxLinesPerResponse - 1)
-                throw new PBFileException($"to many lines ({question.ResponseLineCount}) for response \"{response}\" line {_lineNumber} file \"{_filename}\"", _file, _lineNumber);
+            if (question.ChoiceLineCount > _maxLinesPerChoice - 1)
+                throw new PBFileException($"to many lines ({question.ChoiceLineCount}) for response \"{response}\" line {_lineNumber} file \"{_filename}\"", _file, _lineNumber);
             int i = question.Choices.Count - 1;
             question.Choices[i] += " " + response;
-            question.ResponseLineCount++;
+            question.ChoiceLineCount++;
         }
 
         private QuestionValue GetQuestionValue(NamedValues<ZValue> namedValues)
@@ -521,7 +527,9 @@ namespace anki
             {
                 //case "response":
                 case "choice":
-                    ((QuestionValueResponse)questionValue).Response = (string)value;
+                    // $$pb modif le 03/05/2017
+                    //((QuestionValueResponse)questionValue).Response = (string)value;
+                    ((QuestionValueResponse)questionValue).Response = ((string)value).Trim();
                     break;
                 default:
                     throw new PBFileException($"unknow value \"{name}\" = {value} line {_lineNumber} file \"{_filename}\"", _file, _lineNumber);
@@ -536,6 +544,7 @@ namespace anki
                 case "simples":
                 case "qcs":
                     return QuestionType.Simple;
+                case "multiple":
                 case "multiples":
                 case "qcm":
                     return QuestionType.Multiples;
@@ -546,6 +555,18 @@ namespace anki
                 default:
                     throw new PBFileException($"unknow question type \"{questionType}\" line {_lineNumber} file \"{_filename}\"", _file, _lineNumber);
             }
+        }
+
+        private string GetSubPath(string file)
+        {
+            if (_baseDirectory != null && file.StartsWith(_baseDirectory))
+            {
+                int l = _baseDirectory.Length;
+                if (file[l] == '\\')
+                    l++;
+                file = file.Substring(l);
+            }
+            return file;
         }
 
         //public static IEnumerable<Question> Read(string file, RegexValuesList regexList, string baseDirectory = null)

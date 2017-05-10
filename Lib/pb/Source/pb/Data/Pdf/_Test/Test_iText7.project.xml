@@ -75,6 +75,7 @@
 
   <!--<FrameworkAssembly                value = "System.ServiceModel.dll" />-->
   <!--<Assembly                         value = "$Root$\..\library\iTextSharp\itextsharp-all-5.5.10\itextsharp-dll-core\itextsharp.dll" resolve = "true" resolveName = "itextsharp, Version=5.5.10.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca" />-->
+  <FrameworkAssembly                value = "System.dll" />
 
   <Assembly                         value = "$Root$\..\library\iText\itext7.7.0.2.2\net40\itext.kernel.dll" resolve = "true" resolveName = "itext.kernel, Version=7.0.2.2, Culture=neutral, PublicKeyToken=8354ae6d2174ddca" />
   <Assembly                         value = "$Root$\..\library\iText\itext7.7.0.2.2\net40\itext.io.dll" resolve = "true" resolveName = "itext.io, Version=7.0.2.2, Culture=neutral, PublicKeyToken=8354ae6d2174ddca" />

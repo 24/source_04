@@ -11,7 +11,7 @@
   <!-- 10 : UE3 - Thermoregulation - 2010 - QUESTION N°79 page 25 -->
   <MaxLinesPerQuestion                         value = "10" />
   <!-- 4: UE3 - Transports electriques et transmembranaires - 2008 - QUESTION N°107 - page 30 -->
-  <MaxLinesPerResponse                         value = "4" />
+  <MaxLinesPerChoice                           value = "4" />
   
   <QuestionInfos>
     <!--<QuestionInfo regex="^question\s+n\s*°\s*([0-9]+)(?:\s*:)?$" options="IgnoreCase" values="questionNumber" />-->
@@ -25,14 +25,21 @@
     <QuestionInfo regex="^([A-F])\s?[\.)\-]\s*(.*)$" options="IgnoreCase" values="characterChoiceCode, choice" />
     <QuestionInfo regex="^([1-6])\s?[\.)\-]\s*(.*)$" options="IgnoreCase" values="numericChoiceCode, choice" />-->
   
-    <QuestionInfo regex="^\s*([0-9]{4})$" options="IgnoreCase" values="year" />
-    <QuestionInfo regex="^\s*questions?\s+[aà]\s+complements?\s+(simples?|multiples)$" options="IgnoreCase" values="questionType" />
-    <QuestionInfo regex="^\s*questions?\s+de\s+type\s+(association)$" options="IgnoreCase" values="questionType" />
+    <QuestionInfo regex="^\s*([0-9]{4})\s*$" options="IgnoreCase" values="year" />
+    <QuestionInfo regex="^\s*questions?\s+[aà]\s+complements?\s+(simples?|multiples?)\s*$" options="IgnoreCase" values="questionType" />
+    <QuestionInfo regex="^\s*questions?\s+de\s+type\s+(association)\s*$" options="IgnoreCase" values="questionType" />
     <QuestionInfo regex="^\s*(qcs|qcm|qta)$" options="IgnoreCase" values="questionType" />
-    <QuestionInfo regex="^\s*QUESTION\s+(?:N\s*°?\s*)?([0-9]+)(?:\s*:)?$" values="questionNumber" />
+    <QuestionInfo regex="^\s*QUESTION\s+(?:N\s*°?\s*)?([0-9]+)(?:\s*:)?\s*$" values="questionNumber" />
+    <!-- ^\s* -->
     <QuestionInfo regex="^\s+([A-F])\s?[\.)\-]\s*(.*)$" options="IgnoreCase" values="characterChoiceCode, choice" />
-    <QuestionInfo regex="^\s+([1-6])\s?[\.)\-]\s*(.*)$" options="IgnoreCase" values="numericChoiceCode, choice" />
-</QuestionInfos>
+    <!-- ^\s* -->
+    <!-- ^\s* - suppression \- -->
+    <!-- \- problem in S2\UE8\UE8-10-Pathologie moleculaire et genome stabilité et evolution du genome - wrong response code "E" line 46 file "scan-page-009_02.txt -->
+    <QuestionInfo regex="^\s+([1-6])\s?[\.)]\s*(.*)$" options="IgnoreCase" values="numericChoiceCode, choice" />
+
+    <QuestionInfo regex="^\s*correction\s*$" options="IgnoreCase" values="responses" />
+    
+  </QuestionInfos>
   
   <ResponseInfos>
     <!--
@@ -59,7 +66,39 @@
     
   </ResponseInfos>
 
-  <QuestionHtml>
+  <QuestionInfos_v2>
+    <QuestionInfo regex="^\s*([0-9]{4})\s*$" options="IgnoreCase" values="questionYear" />
+    <QuestionInfo regex="^\s*questions?\s+[aà]\s+complements?\s+(simples?|multiples?)\s*$" options="IgnoreCase" values="questionType" />
+    <QuestionInfo regex="^\s*questions?\s+de\s+type\s+(association)\s*$" options="IgnoreCase" values="questionType" />
+    <QuestionInfo regex="^\s*(qcs|qcm|qta)$" options="IgnoreCase" values="questionType" />
+    <QuestionInfo regex="^\s*QUESTION\s+(?:N\s*°?\s*)?([0-9]+)(?:\s*:)?\s*$" values="questionNumber" />
+    <!-- ^\s* - problem in : S2\UE6\UE6-10-Apercu de la pharmacodynamie - line 19 file scan-page-012_02.txt -->
+    <QuestionInfo regex="^\s+([A-F])\s?[\.)\-]\s*(.*)$" options="IgnoreCase" values="questionCharacterChoiceCode, questionChoice" />
+    <!-- ^\s* - suppression \- -->
+    <!-- \- problem in S2\UE8\UE8-10-Pathologie moleculaire et genome stabilité et evolution du genome - wrong response code "E" line 46 file "scan-page-009_02.txt -->
+    <QuestionInfo regex="^\s+([1-6])\s?[\.)]\s*(.*)$" options="IgnoreCase" values="questionNumericChoiceCode, questionChoice" />
+    <!-- correction - ANNALES CLASSEES CORRIGEES -->
+    <QuestionInfo regex="^\s*(?:correction|annales?\s+classees?\s+corrigees?)\s*$" options="IgnoreCase" values="responses" />
+    <QuestionInfo regex="^\s*([0-9]{1,2}|[0-9]\s[0-9])\s?/\s?([0-9]{1,2}|[0-9]\s[0-9])\s*$" options="IgnoreCase" values="pageNumber, totalPage" />
+    <QuestionInfo regex="^\s*([0-9]{1,2})\s*$" options="IgnoreCase" values="pageNumber" />
+  </QuestionInfos_v2>
+
+  <ResponseInfos_v2>
+    <!-- QUESTIONS A COMPLEMENTS SIMPLES - QUESTIONS A COMPLEMENTS MULTIPLES - QUESTIONS DE TYPE ASSOCIATION - ANNEES PRECEDENTES (AVANT LA REFORME) -->
+    <ResponseInfo regex="^\s*(questions\s+a\s+complements?\s+(?:simples?|multiples)|questions\s+de\s+type\s+association|annees\s+precedentes\s+\(avant\s+la\s+reforme\))\s*$" options="IgnoreCase" values="responseCategory" />
+    <ResponseInfo regex="\s*((?:20|19)[0-9]{2})(?=(?:\s|$))" options="IgnoreCase" values="responseYear" />
+    <ResponseInfo regex="\s*q\s*°?\s*([0-9]{1,3})\s*:" options="IgnoreCase" values="questionNumber" />
+    <!-- (?=(?:\s|$)) -->
+    <!-- ([a-e]{1,4}) => ([a-e]{1,5}) -->
+    <!--<ResponseInfo regex="\s*([a-f]{1,6})(?=(?:\s|$))" options="IgnoreCase" values="responseCharacterResponseCodes" />-->
+    <ResponseInfo regex="\s*([A-F]{1,6})(?=(?:\s|$))" values="responseCharacterResponseCodes" />
+    <ResponseInfo regex="\s*([1-6]{1,6})(?=(?:\s|$))" values="responseNumericResponseCodes" />
+    <!--<ResponseInfo regex="^\s*(correction|[0-9\s]{1,3}/\s*[0-9\s]{1,3}|[0-9]{1,2})(?=(?:\s|$))" options="IgnoreCase" values="no_value" />-->
+    <ResponseInfo regex="^\s*([0-9]{1,2})/([0-9]{1,2}|[0-9]\s[0-9])\s*$" options="IgnoreCase" values="pageNumber, pageTotal" />
+    <ResponseInfo regex="^\s*([0-9]{1,2})\s*$" options="IgnoreCase" values="pageNumber" />
+  </ResponseInfos_v2>
+
+  <!--<QuestionHtml>
     <Header>
       <![CDATA[
 <!DOCTYPE html>
@@ -77,9 +116,73 @@
 </html>
       ]]>
     </Footer>
-  </QuestionHtml>
+  </QuestionHtml>-->
 
-      <CardGames                                   name = "UE3" >
+
+  <QuestionDirectories>
+    <QuestionDirectory                         value = "$CardDirectory$\S2\UE3\UE3-01-Etat de la matiere et leur caracterisaion etat d'agregation" />
+    <QuestionDirectory                         value = "$CardDirectory$\S2\UE3\UE3-02-Etat de la matiere et leur caracterisation" />
+    <QuestionDirectory                         value = "$CardDirectory$\S2\UE3\UE3-03-Etat de la matiere et leur caracterisation proprietes colligatives" />
+    <QuestionDirectory                         value = "$CardDirectory$\S2\UE3\UE3-04-Gaz eau et solutions aqueuses" />
+    <QuestionDirectory                         value = "$CardDirectory$\S2\UE3\UE3-05-Propriete colligative et transports membranaires" />
+    <QuestionDirectory                         value = "$CardDirectory$\S2\UE3\UE3-06-Transports electriques et transmembranaires" />
+    <QuestionDirectory                         value = "$CardDirectory$\S2\UE3\UE3-07-Activité électrique cardiaque" />
+    <QuestionDirectory                         value = "$CardDirectory$\S2\UE3\UE3-08-Potentiel membranaire de repos potentiel local potentiel d'action" />
+    <QuestionDirectory                         value = "$CardDirectory$\S2\UE3\UE3-09-Regulations des espaces hydriques" />
+    <QuestionDirectory                         value = "$CardDirectory$\S2\UE3\UE3-10-Regulation du bilan hydro-sodé" />
+    <QuestionDirectory                         value = "$CardDirectory$\S2\UE3\UE3-11-Equilibre acido-basique" />
+    <QuestionDirectory                         value = "$CardDirectory$\S2\UE3\UE3-12-Regulation acido-basique" />
+    <QuestionDirectory                         value = "$CardDirectory$\S2\UE3\UE3-13-pH et equilibre acido-basique" />
+    <QuestionDirectory                         value = "$CardDirectory$\S2\UE3\UE3-14-Thermoregulation" />
+
+    <QuestionDirectory                         value = "$CardDirectory$\S2\UE6\UE6-01-Histoire du medicament" />
+    <QuestionDirectory                         value = "$CardDirectory$\S2\UE6\UE6-02-Statut des medicaments et autres produits de santé 1" />
+    <QuestionDirectory                         value = "$CardDirectory$\S2\UE6\UE6-02-Statut des medicaments et autres produits de santé 2" />
+    <QuestionDirectory                         value = "$CardDirectory$\S2\UE6\UE6-03-Description des medicaments" />
+    <QuestionDirectory                         value = "$CardDirectory$\S2\UE6\UE6-04-Developpement des medicaments" />
+    <QuestionDirectory                         value = "$CardDirectory$\S2\UE6\UE6-05-Production des medicaments" />
+    <QuestionDirectory                         value = "$CardDirectory$\S2\UE6\UE6-06-Cibles mecanismes d'action 1" />
+    <QuestionDirectory                         value = "$CardDirectory$\S2\UE6\UE6-06-Cibles mécanismes d'action 2" />
+    <QuestionDirectory                         value = "$CardDirectory$\S2\UE6\UE6-07-Les aspects socioeconomiques du medicament 1" />
+    <QuestionDirectory                         value = "$CardDirectory$\S2\UE6\UE6-07-Les aspects socioeconomiques du medicament 2" />
+    <QuestionDirectory                         value = "$CardDirectory$\S2\UE6\UE6-08-Evaluation des medicaments et agrement pour leur commercialisation 1" />
+    <QuestionDirectory                         value = "$CardDirectory$\S2\UE6\UE6-09-Regle de prescription l'ordonnance" />
+    <QuestionDirectory                         value = "$CardDirectory$\S2\UE6\UE6-10-Apercu de la pharmacodynamie" />
+    <QuestionDirectory                         value = "$CardDirectory$\S2\UE6\UE6-11-Apercu de la pharmacocinetique" />
+    <QuestionDirectory                         value = "$CardDirectory$\S2\UE6\UE6-12-Rapport benefice risque decision therapeutique et effets indesirables" />
+
+    <QuestionDirectory                         value = "$CardDirectory$\S2\UE8\UE8-01-Le vieillissement cellulaire" />
+    <QuestionDirectory                         value = "$CardDirectory$\S2\UE8\UE8-02-Les cellules souches" />
+    <QuestionDirectory                         value = "$CardDirectory$\S2\UE8\UE8-03-Modes de transmission et maladies genetiques" />
+    <QuestionDirectory                         value = "$CardDirectory$\S2\UE8\UE8-04-Principales anomalies chromosomiques" />
+    <QuestionDirectory                         value = "$CardDirectory$\S2\UE8\UE8-05-Indication du diagnostic prenatal chromosomique" />
+    <QuestionDirectory                         value = "$CardDirectory$\S2\UE8\UE8-06-Information consentement et secret medical" />
+    <QuestionDirectory                         value = "$CardDirectory$\S2\UE8\UE8-07-Communication cellulaire" />
+    <QuestionDirectory                         value = "$CardDirectory$\S2\UE8\UE8-08-Pathologie moleculaires et genome techniques pour la recherche de mutations" />
+    <QuestionDirectory                         value = "$CardDirectory$\S2\UE8\UE8-09-Pathologies moleculaires et genome techniques d'etude du genome" />
+    <QuestionDirectory                         value = "$CardDirectory$\S2\UE8\UE8-10-Pathologie moleculaire et genome stabilité et evolution du genome" />
+    <QuestionDirectory                         value = "$CardDirectory$\S2\UE8\UE8-11-Pathologie moleculaire et genome mutations" />
+    <QuestionDirectory                         value = "$CardDirectory$\S2\UE8\UE8-12-Ethique medecine legale leglislation 1" />
+    <QuestionDirectory                         value = "$CardDirectory$\S2\UE8\UE8-13-Ethique medecine legale leglislation 2" />
+    <QuestionDirectory                         value = "$CardDirectory$\S2\UE8\UE8-14-La relation soignant-soigné" />
+    <QuestionDirectory                         value = "$CardDirectory$\S2\UE8\UE8-15-Ethique medecine et santé des humains" />
+    <QuestionDirectory                         value = "$CardDirectory$\S2\UE8\UE8-16-Pathologie moleculaire et genome les hemoglobinopathies" />
+
+    <QuestionDirectory                         value = "$CardDirectory$\S2\UE8-med\UE8-med-01-muscle strié" />
+    <QuestionDirectory                         value = "$CardDirectory$\S2\UE8-med\UE8-med-02-muscle lisse" />
+    <QuestionDirectory                         value = "$CardDirectory$\S2\UE8-med\UE8-med-03-physio cardiovasculaire" />
+    <QuestionDirectory                         value = "$CardDirectory$\S2\UE8-med\UE8-med-04-regulation PA" />
+    <QuestionDirectory                         value = "$CardDirectory$\S2\UE8-med\UE8-med-05-transport O2" />
+    <QuestionDirectory                         value = "$CardDirectory$\S2\UE8-med\UE8-med-06-sensibilité" />
+    <QuestionDirectory                         value = "$CardDirectory$\S2\UE8-med\UE8-med-07-motricité" />
+    <QuestionDirectory                         value = "$CardDirectory$\S2\UE8-med\UE8-med-08-transport O2 et CO2" />
+    <QuestionDirectory                         value = "$CardDirectory$\S2\UE8-med\UE8-med-09-équilibration" />
+    <QuestionDirectory                         value = "$CardDirectory$\S2\UE8-med\UE8-med-10-physio endocrinienne" />
+  </QuestionDirectories>
+
+
+
+  <CardGames                                   name = "UE3" >
     <CardGame                                  name = "UE3 - Activité électrique cardiaque" >
       <Directory                               value = "$CardDirectory$\UE3\UE3 - Activité électrique cardiaque" />
       <AnkiFile                                value = "UE3 - Activité électrique cardiaque.anki.txt" />

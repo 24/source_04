@@ -1,4 +1,6 @@
 ﻿using iText.Kernel.Pdf;
+using iText.Kernel.Pdf.Canvas.Parser;
+using iText.Kernel.Pdf.Canvas.Parser.Listener;
 using iText.Kernel.Pdf.Xobject;
 using pb.IO;
 using System.Text;
@@ -11,6 +13,20 @@ namespace pb.Data.Pdf.Test
 {
     public static class Test_iText7
     {
+        public static void Test_ExtractText(string file, int page)
+        {
+            // from Why is the text I extract from an English PDF page garbled? http://developers.itextpdf.com/fr/node/3049
+            Trace.WriteLine($"extract text from \"{file}\"");
+            using (PdfReader pdfReader = new PdfReader(file))
+            using (PdfDocument pdfDocument = new PdfDocument(pdfReader))
+            {
+                //for (int i = 1; i <= pdfDocument.GetNumberOfPages(); i++)
+                Trace.WriteLine($"page {page} :");
+                string text = PdfTextExtractor.GetTextFromPage(pdfDocument.GetPage(page), new LocationTextExtractionStrategy());
+                Trace.WriteLine(text);
+            }
+        }
+
         public static void Test_TraceObjects(string file)
         {
             Trace.WriteLine($"objects from pdf \"{file}\"");
